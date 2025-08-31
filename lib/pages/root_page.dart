@@ -14,12 +14,15 @@ class RootPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-      routes: const [HomeRoute()],
+      routes: const [HomeRoute(), OrderRoute()],
       builder: (context, child) {
         return Scaffold(
           body: child,
           bottomNavigationBar: BottomNavigationBar(
-            items: [BottomNavigationBarItem(icon: Icon(Icons.home))],
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "ciao"),
+            ],
           ),
         );
       },

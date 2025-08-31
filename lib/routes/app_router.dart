@@ -9,7 +9,10 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       initial: true,
       page: RootRoute.page,
-      children: [AutoRoute(page: HomeRoute.page, fullscreenDialog: true)],
+      children: [
+        AutoRoute(page: HomeRoute.page, initial: true),
+        AutoRoute(page: OrderRoute.page, fullscreenDialog: true),
+      ],
     ),
   ];
 }
