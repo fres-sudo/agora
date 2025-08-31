@@ -1,3 +1,4 @@
+import 'package:agora/di/dependency_injector.dart';
 import 'package:agora/routes/app_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -28,16 +29,18 @@ class App extends StatelessWidget {
         colorScheme: const ShadBlueColorScheme.light(),
       ),
       appBuilder: (context) {
-        return MaterialApp.router(
-          theme: Theme.of(context),
-          title: "agora",
-          debugShowCheckedModeBanner: false,
-          routerDelegate: AutoRouterDelegate(
-            appRouter,
-            navigatorObservers: () => [AutoRouteObserver()],
+        return DependencyInjector(
+          child: MaterialApp.router(
+            theme: Theme.of(context),
+            title: "agora",
+            debugShowCheckedModeBanner: false,
+            routerDelegate: AutoRouterDelegate(
+              appRouter,
+              navigatorObservers: () => [AutoRouteObserver()],
+            ),
+            routeInformationParser: appRouter.defaultRouteParser(),
+            builder: (context, child) => ShadAppBuilder(child: child!),
           ),
-          routeInformationParser: appRouter.defaultRouteParser(),
-          builder: (context, child) => ShadAppBuilder(child: child!),
         );
       },
     );

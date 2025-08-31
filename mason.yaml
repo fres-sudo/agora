@@ -1,3 +1,4 @@
 bricks:
   pine_bloc: ^0.6.1
   pine_cubit: ^0.6.1
+  pine: ^0.2.0

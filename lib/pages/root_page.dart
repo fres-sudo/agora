@@ -1,6 +1,7 @@
 import 'package:agora/routes/app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 @RoutePage()
 class RootPage extends StatelessWidget implements AutoRouteWrapper {
@@ -20,7 +21,10 @@ class RootPage extends StatelessWidget implements AutoRouteWrapper {
           body: child,
           bottomNavigationBar: BottomNavigationBar(
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+              BottomNavigationBarItem(
+                icon: Icon(LucideIcons.house),
+                label: "home",
+              ),
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "ciao"),
             ],
           ),
