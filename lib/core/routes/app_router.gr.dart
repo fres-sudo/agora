@@ -10,8 +10,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:agora/auth/pages/auth_shell_page.dart' as _i1;
-import 'package:agora/home/pages/home_page.dart' as _i2;
-import 'package:agora/home/pages/protected_shell_page.dart' as _i3;
+import 'package:agora/pos/pages/pos_page.dart' as _i2;
+import 'package:agora/pos/pages/protected_shell_page.dart' as _i3;
 import 'package:auto_route/auto_route.dart' as _i4;
 
 /// generated route for
@@ -31,17 +31,17 @@ class AuthShellRoute extends _i4.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.HomePage]
-class HomeRoute extends _i4.PageRouteInfo<void> {
-  const HomeRoute({List<_i4.PageRouteInfo>? children})
-    : super(HomeRoute.name, initialChildren: children);
+/// [_i2.PosPage]
+class PosRoute extends _i4.PageRouteInfo<void> {
+  const PosRoute({List<_i4.PageRouteInfo>? children})
+    : super(PosRoute.name, initialChildren: children);
 
-  static const String name = 'HomeRoute';
+  static const String name = 'PosRoute';
 
   static _i4.PageInfo page = _i4.PageInfo(
     name,
     builder: (data) {
-      return const _i2.HomePage();
+      return const _i2.PosPage();
     },
   );
 }
