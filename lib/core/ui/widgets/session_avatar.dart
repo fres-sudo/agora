@@ -33,13 +33,13 @@ class SessionAvatar extends StatelessWidget {
     final iconPerson = Icon(Icons.person, size: size.toIconSizePx);
     return BlocBuilder<SessionCubit, SessionState>(
       builder: (context, state) => switch (state) {
-        Authenticated(:final user) =>
-          user.image != null
-              ? CircleAvatar(
-                  backgroundImage: NetworkImage(user.image),
-                  radius: size.toRadius,
-                )
-              : iconPerson,
+        // Authenticated(:final user) =>
+        //   user.image != null
+        //       ? CircleAvatar(
+        //           backgroundImage: NetworkImage(user.image),
+        //           radius: size.toRadius,
+        //         )
+        //       : iconPerson,
         _ => iconPerson,
       },
     );

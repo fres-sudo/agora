@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:agora/core/ui/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,18 +57,7 @@ class _AgoraAppState extends State<AgoraApp> {
             title: "SupaFlutter",
             debugShowCheckedModeBanner: false,
             themeMode: themeMode,
-            theme: ThemeData.light(useMaterial3: true).copyWith(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.blue,
-                brightness: Brightness.light,
-              ),
-            ),
-            darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.blue,
-                brightness: Brightness.dark,
-              ),
-            ),
+            theme: AppTheme.lightTheme,
             routerDelegate: _router?.delegate(),
             routeInformationParser: _router?.defaultRouteParser(),
             locale: TranslationProvider.of(context).flutterLocale,
