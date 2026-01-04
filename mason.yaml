@@ -1,4 +1,61 @@
 bricks:
-  pine_bloc: ^0.6.1
-  pine_cubit: ^0.6.1
-  pine: ^0.2.0
+  denki_pine:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_pine
+      ref: main
+  denki_dto:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_dto
+      ref: main
+  denki_service:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_service
+      ref: main
+  denki_dto_mapper:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_dto_mapper
+      ref: main
+  denki_model:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_model
+      ref: main
+  denki_repo:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_repo
+      ref: main
+  denki_cubit:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_cubit
+      ref: main
+  denki_bloc:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_bloc
+      ref: main
+  denki_page:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_page
+      ref: main
+  denki_retrofit:
+    git:
+      url: "https://github.com/denkilab-works/denki_bricks.git"
+      path: denki_retrofit
+      ref: main
+  denki_request:
+    git:
+      url: "https://github.com/fres-sudo/denki_bricks.git"
+      path: denki_request
+      ref: main
+  denki_response:
+    git:
+      url: "https://github.com/fres-sudo/denki_bricks.git"
+      path: denki_response
+      ref: main
