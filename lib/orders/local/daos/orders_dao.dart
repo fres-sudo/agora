@@ -82,16 +82,22 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
 
   /// Watches orders within a date range.
   Stream<List<OrderEntity>> watchOrdersByDateRange({
-    required DateTime startDate,
-    required DateTime endDate,
+    DateTime? startDate,
+    DateTime? endDate,
   }) {
     return (select(ordersTable)
-          ..where(
-            (t) =>
-                t.deletedAt.isNull() &
-                t.createdAt.isBiggerOrEqualValue(startDate) &
-                t.createdAt.isSmallerOrEqualValue(endDate),
-          )
+          ..where((t) {
+            var condition = t.deletedAt.isNull();
+            if (startDate != null) {
+              condition =
+                  condition & t.createdAt.isBiggerOrEqualValue(startDate);
+            }
+            if (endDate != null) {
+              condition =
+                  condition & t.createdAt.isSmallerOrEqualValue(endDate);
+            }
+            return condition;
+          })
           ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
         .watch();
   }

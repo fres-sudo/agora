@@ -14,4 +14,12 @@ abstract class OrderLineItem with _$OrderLineItem {
   }) = _OrderLineItem;
 
   const OrderLineItem._();
+
+  static OrderLineItem fake() => OrderLineItem(
+    productId: 1,
+    productName: 'Product Name',
+    quantity: 1,
+    unitPriceCents: 100,
+    selectedModifiers: [],
+  );
 }
