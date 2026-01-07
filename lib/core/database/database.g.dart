@@ -78,6 +78,33 @@ class $CategoriesTableTable extends CategoriesTable
         type: DriftSqlType.int,
         requiredDuringInsert: true,
       ).withConverter<Color>($CategoriesTableTable.$convertercolor);
+  static const VerificationMeta _isEnabledMeta = const VerificationMeta(
+    'isEnabled',
+  );
+  @override
+  late final GeneratedColumn<bool> isEnabled = GeneratedColumn<bool>(
+    'is_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _iconCodePointMeta = const VerificationMeta(
+    'iconCodePoint',
+  );
+  @override
+  late final GeneratedColumn<int> iconCodePoint = GeneratedColumn<int>(
+    'icon_code_point',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -86,6 +113,8 @@ class $CategoriesTableTable extends CategoriesTable
     deletedAt,
     name,
     color,
+    isEnabled,
+    iconCodePoint,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -128,6 +157,21 @@ class $CategoriesTableTable extends CategoriesTable
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('is_enabled')) {
+      context.handle(
+        _isEnabledMeta,
+        isEnabled.isAcceptableOrUnknown(data['is_enabled']!, _isEnabledMeta),
+      );
+    }
+    if (data.containsKey('icon_code_point')) {
+      context.handle(
+        _iconCodePointMeta,
+        iconCodePoint.isAcceptableOrUnknown(
+          data['icon_code_point']!,
+          _iconCodePointMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -163,6 +207,14 @@ class $CategoriesTableTable extends CategoriesTable
           data['${effectivePrefix}color'],
         )!,
       ),
+      isEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_enabled'],
+      )!,
+      iconCodePoint: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}icon_code_point'],
+      )!,
     );
   }
 
@@ -181,6 +233,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
   final DateTime? deletedAt;
   final String name;
   final Color color;
+  final bool isEnabled;
+  final int iconCodePoint;
   const CategoryEntity({
     required this.id,
     required this.createdAt,
@@ -188,6 +242,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
     this.deletedAt,
     required this.name,
     required this.color,
+    required this.isEnabled,
+    required this.iconCodePoint,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -206,6 +262,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
         $CategoriesTableTable.$convertercolor.toSql(color),
       );
     }
+    map['is_enabled'] = Variable<bool>(isEnabled);
+    map['icon_code_point'] = Variable<int>(iconCodePoint);
     return map;
   }
 
@@ -221,6 +279,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
           : Value(deletedAt),
       name: Value(name),
       color: Value(color),
+      isEnabled: Value(isEnabled),
+      iconCodePoint: Value(iconCodePoint),
     );
   }
 
@@ -236,6 +296,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       name: serializer.fromJson<String>(json['name']),
       color: serializer.fromJson<Color>(json['color']),
+      isEnabled: serializer.fromJson<bool>(json['isEnabled']),
+      iconCodePoint: serializer.fromJson<int>(json['iconCodePoint']),
     );
   }
   @override
@@ -248,6 +310,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'name': serializer.toJson<String>(name),
       'color': serializer.toJson<Color>(color),
+      'isEnabled': serializer.toJson<bool>(isEnabled),
+      'iconCodePoint': serializer.toJson<int>(iconCodePoint),
     };
   }
 
@@ -258,6 +322,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
     Value<DateTime?> deletedAt = const Value.absent(),
     String? name,
     Color? color,
+    bool? isEnabled,
+    int? iconCodePoint,
   }) => CategoryEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -265,6 +331,8 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
     name: name ?? this.name,
     color: color ?? this.color,
+    isEnabled: isEnabled ?? this.isEnabled,
+    iconCodePoint: iconCodePoint ?? this.iconCodePoint,
   );
   CategoryEntity copyWithCompanion(CategoriesTableCompanion data) {
     return CategoryEntity(
@@ -274,6 +342,10 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       name: data.name.present ? data.name.value : this.name,
       color: data.color.present ? data.color.value : this.color,
+      isEnabled: data.isEnabled.present ? data.isEnabled.value : this.isEnabled,
+      iconCodePoint: data.iconCodePoint.present
+          ? data.iconCodePoint.value
+          : this.iconCodePoint,
     );
   }
 
@@ -285,14 +357,24 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('name: $name, ')
-          ..write('color: $color')
+          ..write('color: $color, ')
+          ..write('isEnabled: $isEnabled, ')
+          ..write('iconCodePoint: $iconCodePoint')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, createdAt, updatedAt, deletedAt, name, color);
+  int get hashCode => Object.hash(
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    name,
+    color,
+    isEnabled,
+    iconCodePoint,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -302,7 +384,9 @@ class CategoryEntity extends DataClass implements Insertable<CategoryEntity> {
           other.updatedAt == this.updatedAt &&
           other.deletedAt == this.deletedAt &&
           other.name == this.name &&
-          other.color == this.color);
+          other.color == this.color &&
+          other.isEnabled == this.isEnabled &&
+          other.iconCodePoint == this.iconCodePoint);
 }
 
 class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
@@ -312,6 +396,8 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
   final Value<DateTime?> deletedAt;
   final Value<String> name;
   final Value<Color> color;
+  final Value<bool> isEnabled;
+  final Value<int> iconCodePoint;
   const CategoriesTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -319,6 +405,8 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
     this.deletedAt = const Value.absent(),
     this.name = const Value.absent(),
     this.color = const Value.absent(),
+    this.isEnabled = const Value.absent(),
+    this.iconCodePoint = const Value.absent(),
   });
   CategoriesTableCompanion.insert({
     this.id = const Value.absent(),
@@ -327,6 +415,8 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
     this.deletedAt = const Value.absent(),
     required String name,
     required Color color,
+    this.isEnabled = const Value.absent(),
+    this.iconCodePoint = const Value.absent(),
   }) : name = Value(name),
        color = Value(color);
   static Insertable<CategoryEntity> custom({
@@ -336,6 +426,8 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
     Expression<DateTime>? deletedAt,
     Expression<String>? name,
     Expression<int>? color,
+    Expression<bool>? isEnabled,
+    Expression<int>? iconCodePoint,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -344,6 +436,8 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
       if (deletedAt != null) 'deleted_at': deletedAt,
       if (name != null) 'name': name,
       if (color != null) 'color': color,
+      if (isEnabled != null) 'is_enabled': isEnabled,
+      if (iconCodePoint != null) 'icon_code_point': iconCodePoint,
     });
   }
 
@@ -354,6 +448,8 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
     Value<DateTime?>? deletedAt,
     Value<String>? name,
     Value<Color>? color,
+    Value<bool>? isEnabled,
+    Value<int>? iconCodePoint,
   }) {
     return CategoriesTableCompanion(
       id: id ?? this.id,
@@ -362,6 +458,8 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
       deletedAt: deletedAt ?? this.deletedAt,
       name: name ?? this.name,
       color: color ?? this.color,
+      isEnabled: isEnabled ?? this.isEnabled,
+      iconCodePoint: iconCodePoint ?? this.iconCodePoint,
     );
   }
 
@@ -388,6 +486,12 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
         $CategoriesTableTable.$convertercolor.toSql(color.value),
       );
     }
+    if (isEnabled.present) {
+      map['is_enabled'] = Variable<bool>(isEnabled.value);
+    }
+    if (iconCodePoint.present) {
+      map['icon_code_point'] = Variable<int>(iconCodePoint.value);
+    }
     return map;
   }
 
@@ -399,7 +503,9 @@ class CategoriesTableCompanion extends UpdateCompanion<CategoryEntity> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('name: $name, ')
-          ..write('color: $color')
+          ..write('color: $color, ')
+          ..write('isEnabled: $isEnabled, ')
+          ..write('iconCodePoint: $iconCodePoint')
           ..write(')'))
         .toString();
   }
@@ -476,7 +582,19 @@ class $ProductsTableTable extends ProductsTable
     aliasedName,
     false,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(''),
+  );
+  static const VerificationMeta _imageUrlMeta = const VerificationMeta(
+    'imageUrl',
+  );
+  @override
+  late final GeneratedColumn<String> imageUrl = GeneratedColumn<String>(
+    'image_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
   );
   static const VerificationMeta _trackStockMeta = const VerificationMeta(
     'trackStock',
@@ -513,6 +631,9 @@ class $ProductsTableTable extends ProductsTable
     true,
     type: DriftSqlType.int,
     requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES categories_table (id)',
+    ),
   );
   static const VerificationMeta _priceMeta = const VerificationMeta('price');
   @override
@@ -534,6 +655,28 @@ class $ProductsTableTable extends ProductsTable
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _taxPercentMeta = const VerificationMeta(
+    'taxPercent',
+  );
+  @override
+  late final GeneratedColumn<int> taxPercent = GeneratedColumn<int>(
+    'tax_percent',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('draft'),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -542,11 +685,14 @@ class $ProductsTableTable extends ProductsTable
     deletedAt,
     name,
     description,
+    imageUrl,
     trackStock,
     sku,
     categoryId,
     price,
     cost,
+    taxPercent,
+    status,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -597,8 +743,12 @@ class $ProductsTableTable extends ProductsTable
           _descriptionMeta,
         ),
       );
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('image_url')) {
+      context.handle(
+        _imageUrlMeta,
+        imageUrl.isAcceptableOrUnknown(data['image_url']!, _imageUrlMeta),
+      );
     }
     if (data.containsKey('track_stock')) {
       context.handle(
@@ -628,6 +778,18 @@ class $ProductsTableTable extends ProductsTable
       context.handle(
         _costMeta,
         cost.isAcceptableOrUnknown(data['cost']!, _costMeta),
+      );
+    }
+    if (data.containsKey('tax_percent')) {
+      context.handle(
+        _taxPercentMeta,
+        taxPercent.isAcceptableOrUnknown(data['tax_percent']!, _taxPercentMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
       );
     }
     return context;
@@ -663,6 +825,10 @@ class $ProductsTableTable extends ProductsTable
         DriftSqlType.string,
         data['${effectivePrefix}description'],
       )!,
+      imageUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}image_url'],
+      ),
       trackStock: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}track_stock'],
@@ -683,6 +849,14 @@ class $ProductsTableTable extends ProductsTable
         DriftSqlType.int,
         data['${effectivePrefix}cost'],
       )!,
+      taxPercent: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tax_percent'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
     );
   }
 
@@ -699,11 +873,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
   final DateTime? deletedAt;
   final String name;
   final String description;
+  final String? imageUrl;
   final bool trackStock;
   final String? sku;
   final int? categoryId;
   final int price;
   final int cost;
+  final int taxPercent;
+  final String status;
   const ProductEntity({
     required this.id,
     required this.createdAt,
@@ -711,11 +888,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     this.deletedAt,
     required this.name,
     required this.description,
+    this.imageUrl,
     required this.trackStock,
     this.sku,
     this.categoryId,
     required this.price,
     required this.cost,
+    required this.taxPercent,
+    required this.status,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -730,6 +910,9 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     }
     map['name'] = Variable<String>(name);
     map['description'] = Variable<String>(description);
+    if (!nullToAbsent || imageUrl != null) {
+      map['image_url'] = Variable<String>(imageUrl);
+    }
     map['track_stock'] = Variable<bool>(trackStock);
     if (!nullToAbsent || sku != null) {
       map['sku'] = Variable<String>(sku);
@@ -739,6 +922,8 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     }
     map['price'] = Variable<int>(price);
     map['cost'] = Variable<int>(cost);
+    map['tax_percent'] = Variable<int>(taxPercent);
+    map['status'] = Variable<String>(status);
     return map;
   }
 
@@ -754,6 +939,9 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           : Value(deletedAt),
       name: Value(name),
       description: Value(description),
+      imageUrl: imageUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(imageUrl),
       trackStock: Value(trackStock),
       sku: sku == null && nullToAbsent ? const Value.absent() : Value(sku),
       categoryId: categoryId == null && nullToAbsent
@@ -761,6 +949,8 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           : Value(categoryId),
       price: Value(price),
       cost: Value(cost),
+      taxPercent: Value(taxPercent),
+      status: Value(status),
     );
   }
 
@@ -776,11 +966,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String>(json['description']),
+      imageUrl: serializer.fromJson<String?>(json['imageUrl']),
       trackStock: serializer.fromJson<bool>(json['trackStock']),
       sku: serializer.fromJson<String?>(json['sku']),
       categoryId: serializer.fromJson<int?>(json['categoryId']),
       price: serializer.fromJson<int>(json['price']),
       cost: serializer.fromJson<int>(json['cost']),
+      taxPercent: serializer.fromJson<int>(json['taxPercent']),
+      status: serializer.fromJson<String>(json['status']),
     );
   }
   @override
@@ -793,11 +986,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String>(description),
+      'imageUrl': serializer.toJson<String?>(imageUrl),
       'trackStock': serializer.toJson<bool>(trackStock),
       'sku': serializer.toJson<String?>(sku),
       'categoryId': serializer.toJson<int?>(categoryId),
       'price': serializer.toJson<int>(price),
       'cost': serializer.toJson<int>(cost),
+      'taxPercent': serializer.toJson<int>(taxPercent),
+      'status': serializer.toJson<String>(status),
     };
   }
 
@@ -808,11 +1004,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     Value<DateTime?> deletedAt = const Value.absent(),
     String? name,
     String? description,
+    Value<String?> imageUrl = const Value.absent(),
     bool? trackStock,
     Value<String?> sku = const Value.absent(),
     Value<int?> categoryId = const Value.absent(),
     int? price,
     int? cost,
+    int? taxPercent,
+    String? status,
   }) => ProductEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -820,11 +1019,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
     name: name ?? this.name,
     description: description ?? this.description,
+    imageUrl: imageUrl.present ? imageUrl.value : this.imageUrl,
     trackStock: trackStock ?? this.trackStock,
     sku: sku.present ? sku.value : this.sku,
     categoryId: categoryId.present ? categoryId.value : this.categoryId,
     price: price ?? this.price,
     cost: cost ?? this.cost,
+    taxPercent: taxPercent ?? this.taxPercent,
+    status: status ?? this.status,
   );
   ProductEntity copyWithCompanion(ProductsTableCompanion data) {
     return ProductEntity(
@@ -836,6 +1038,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
       description: data.description.present
           ? data.description.value
           : this.description,
+      imageUrl: data.imageUrl.present ? data.imageUrl.value : this.imageUrl,
       trackStock: data.trackStock.present
           ? data.trackStock.value
           : this.trackStock,
@@ -845,6 +1048,10 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           : this.categoryId,
       price: data.price.present ? data.price.value : this.price,
       cost: data.cost.present ? data.cost.value : this.cost,
+      taxPercent: data.taxPercent.present
+          ? data.taxPercent.value
+          : this.taxPercent,
+      status: data.status.present ? data.status.value : this.status,
     );
   }
 
@@ -857,11 +1064,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           ..write('deletedAt: $deletedAt, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
+          ..write('imageUrl: $imageUrl, ')
           ..write('trackStock: $trackStock, ')
           ..write('sku: $sku, ')
           ..write('categoryId: $categoryId, ')
           ..write('price: $price, ')
-          ..write('cost: $cost')
+          ..write('cost: $cost, ')
+          ..write('taxPercent: $taxPercent, ')
+          ..write('status: $status')
           ..write(')'))
         .toString();
   }
@@ -874,11 +1084,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     deletedAt,
     name,
     description,
+    imageUrl,
     trackStock,
     sku,
     categoryId,
     price,
     cost,
+    taxPercent,
+    status,
   );
   @override
   bool operator ==(Object other) =>
@@ -890,11 +1103,14 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           other.deletedAt == this.deletedAt &&
           other.name == this.name &&
           other.description == this.description &&
+          other.imageUrl == this.imageUrl &&
           other.trackStock == this.trackStock &&
           other.sku == this.sku &&
           other.categoryId == this.categoryId &&
           other.price == this.price &&
-          other.cost == this.cost);
+          other.cost == this.cost &&
+          other.taxPercent == this.taxPercent &&
+          other.status == this.status);
 }
 
 class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
@@ -904,11 +1120,14 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
   final Value<DateTime?> deletedAt;
   final Value<String> name;
   final Value<String> description;
+  final Value<String?> imageUrl;
   final Value<bool> trackStock;
   final Value<String?> sku;
   final Value<int?> categoryId;
   final Value<int> price;
   final Value<int> cost;
+  final Value<int> taxPercent;
+  final Value<String> status;
   const ProductsTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -916,11 +1135,14 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     this.deletedAt = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
+    this.imageUrl = const Value.absent(),
     this.trackStock = const Value.absent(),
     this.sku = const Value.absent(),
     this.categoryId = const Value.absent(),
     this.price = const Value.absent(),
     this.cost = const Value.absent(),
+    this.taxPercent = const Value.absent(),
+    this.status = const Value.absent(),
   });
   ProductsTableCompanion.insert({
     this.id = const Value.absent(),
@@ -928,14 +1150,16 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
     required String name,
-    required String description,
+    this.description = const Value.absent(),
+    this.imageUrl = const Value.absent(),
     this.trackStock = const Value.absent(),
     this.sku = const Value.absent(),
     this.categoryId = const Value.absent(),
     this.price = const Value.absent(),
     this.cost = const Value.absent(),
-  }) : name = Value(name),
-       description = Value(description);
+    this.taxPercent = const Value.absent(),
+    this.status = const Value.absent(),
+  }) : name = Value(name);
   static Insertable<ProductEntity> custom({
     Expression<int>? id,
     Expression<DateTime>? createdAt,
@@ -943,11 +1167,14 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     Expression<DateTime>? deletedAt,
     Expression<String>? name,
     Expression<String>? description,
+    Expression<String>? imageUrl,
     Expression<bool>? trackStock,
     Expression<String>? sku,
     Expression<int>? categoryId,
     Expression<int>? price,
     Expression<int>? cost,
+    Expression<int>? taxPercent,
+    Expression<String>? status,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -956,11 +1183,14 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
       if (deletedAt != null) 'deleted_at': deletedAt,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
+      if (imageUrl != null) 'image_url': imageUrl,
       if (trackStock != null) 'track_stock': trackStock,
       if (sku != null) 'sku': sku,
       if (categoryId != null) 'category_id': categoryId,
       if (price != null) 'price': price,
       if (cost != null) 'cost': cost,
+      if (taxPercent != null) 'tax_percent': taxPercent,
+      if (status != null) 'status': status,
     });
   }
 
@@ -971,11 +1201,14 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     Value<DateTime?>? deletedAt,
     Value<String>? name,
     Value<String>? description,
+    Value<String?>? imageUrl,
     Value<bool>? trackStock,
     Value<String?>? sku,
     Value<int?>? categoryId,
     Value<int>? price,
     Value<int>? cost,
+    Value<int>? taxPercent,
+    Value<String>? status,
   }) {
     return ProductsTableCompanion(
       id: id ?? this.id,
@@ -984,11 +1217,14 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
       deletedAt: deletedAt ?? this.deletedAt,
       name: name ?? this.name,
       description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
       trackStock: trackStock ?? this.trackStock,
       sku: sku ?? this.sku,
       categoryId: categoryId ?? this.categoryId,
       price: price ?? this.price,
       cost: cost ?? this.cost,
+      taxPercent: taxPercent ?? this.taxPercent,
+      status: status ?? this.status,
     );
   }
 
@@ -1013,6 +1249,9 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
+    if (imageUrl.present) {
+      map['image_url'] = Variable<String>(imageUrl.value);
+    }
     if (trackStock.present) {
       map['track_stock'] = Variable<bool>(trackStock.value);
     }
@@ -1028,6 +1267,12 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     if (cost.present) {
       map['cost'] = Variable<int>(cost.value);
     }
+    if (taxPercent.present) {
+      map['tax_percent'] = Variable<int>(taxPercent.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
     return map;
   }
 
@@ -1040,11 +1285,14 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
           ..write('deletedAt: $deletedAt, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
+          ..write('imageUrl: $imageUrl, ')
           ..write('trackStock: $trackStock, ')
           ..write('sku: $sku, ')
           ..write('categoryId: $categoryId, ')
           ..write('price: $price, ')
-          ..write('cost: $cost')
+          ..write('cost: $cost, ')
+          ..write('taxPercent: $taxPercent, ')
+          ..write('status: $status')
           ..write(')'))
         .toString();
   }
@@ -6208,6 +6456,8 @@ typedef $$CategoriesTableTableCreateCompanionBuilder =
       Value<DateTime?> deletedAt,
       required String name,
       required Color color,
+      Value<bool> isEnabled,
+      Value<int> iconCodePoint,
     });
 typedef $$CategoriesTableTableUpdateCompanionBuilder =
     CategoriesTableCompanion Function({
@@ -6217,7 +6467,40 @@ typedef $$CategoriesTableTableUpdateCompanionBuilder =
       Value<DateTime?> deletedAt,
       Value<String> name,
       Value<Color> color,
+      Value<bool> isEnabled,
+      Value<int> iconCodePoint,
     });
+
+final class $$CategoriesTableTableReferences
+    extends
+        BaseReferences<_$AgoraDatabase, $CategoriesTableTable, CategoryEntity> {
+  $$CategoriesTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$ProductsTableTable, List<ProductEntity>>
+  _productsTableRefsTable(_$AgoraDatabase db) => MultiTypedResultKey.fromTable(
+    db.productsTable,
+    aliasName: $_aliasNameGenerator(
+      db.categoriesTable.id,
+      db.productsTable.categoryId,
+    ),
+  );
+
+  $$ProductsTableTableProcessedTableManager get productsTableRefs {
+    final manager = $$ProductsTableTableTableManager(
+      $_db,
+      $_db.productsTable,
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_productsTableRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$CategoriesTableTableFilterComposer
     extends Composer<_$AgoraDatabase, $CategoriesTableTable> {
@@ -6258,6 +6541,41 @@ class $$CategoriesTableTableFilterComposer
         column: $table.color,
         builder: (column) => ColumnWithTypeConverterFilters(column),
       );
+
+  ColumnFilters<bool> get isEnabled => $composableBuilder(
+    column: $table.isEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get iconCodePoint => $composableBuilder(
+    column: $table.iconCodePoint,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> productsTableRefs(
+    Expression<bool> Function($$ProductsTableTableFilterComposer f) f,
+  ) {
+    final $$ProductsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.productsTable,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CategoriesTableTableOrderingComposer
@@ -6298,6 +6616,16 @@ class $$CategoriesTableTableOrderingComposer
     column: $table.color,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<bool> get isEnabled => $composableBuilder(
+    column: $table.isEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get iconCodePoint => $composableBuilder(
+    column: $table.iconCodePoint,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$CategoriesTableTableAnnotationComposer
@@ -6326,6 +6654,39 @@ class $$CategoriesTableTableAnnotationComposer
 
   GeneratedColumnWithTypeConverter<Color, int> get color =>
       $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<bool> get isEnabled =>
+      $composableBuilder(column: $table.isEnabled, builder: (column) => column);
+
+  GeneratedColumn<int> get iconCodePoint => $composableBuilder(
+    column: $table.iconCodePoint,
+    builder: (column) => column,
+  );
+
+  Expression<T> productsTableRefs<T extends Object>(
+    Expression<T> Function($$ProductsTableTableAnnotationComposer a) f,
+  ) {
+    final $$ProductsTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.productsTable,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductsTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CategoriesTableTableTableManager
@@ -6339,16 +6700,9 @@ class $$CategoriesTableTableTableManager
           $$CategoriesTableTableAnnotationComposer,
           $$CategoriesTableTableCreateCompanionBuilder,
           $$CategoriesTableTableUpdateCompanionBuilder,
-          (
-            CategoryEntity,
-            BaseReferences<
-              _$AgoraDatabase,
-              $CategoriesTableTable,
-              CategoryEntity
-            >,
-          ),
+          (CategoryEntity, $$CategoriesTableTableReferences),
           CategoryEntity,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool productsTableRefs})
         > {
   $$CategoriesTableTableTableManager(
     _$AgoraDatabase db,
@@ -6371,6 +6725,8 @@ class $$CategoriesTableTableTableManager
                 Value<DateTime?> deletedAt = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<Color> color = const Value.absent(),
+                Value<bool> isEnabled = const Value.absent(),
+                Value<int> iconCodePoint = const Value.absent(),
               }) => CategoriesTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -6378,6 +6734,8 @@ class $$CategoriesTableTableTableManager
                 deletedAt: deletedAt,
                 name: name,
                 color: color,
+                isEnabled: isEnabled,
+                iconCodePoint: iconCodePoint,
               ),
           createCompanionCallback:
               ({
@@ -6387,6 +6745,8 @@ class $$CategoriesTableTableTableManager
                 Value<DateTime?> deletedAt = const Value.absent(),
                 required String name,
                 required Color color,
+                Value<bool> isEnabled = const Value.absent(),
+                Value<int> iconCodePoint = const Value.absent(),
               }) => CategoriesTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -6394,11 +6754,49 @@ class $$CategoriesTableTableTableManager
                 deletedAt: deletedAt,
                 name: name,
                 color: color,
+                isEnabled: isEnabled,
+                iconCodePoint: iconCodePoint,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CategoriesTableTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({productsTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (productsTableRefs) db.productsTable,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (productsTableRefs)
+                    await $_getPrefetchedData<
+                      CategoryEntity,
+                      $CategoriesTableTable,
+                      ProductEntity
+                    >(
+                      currentTable: table,
+                      referencedTable: $$CategoriesTableTableReferences
+                          ._productsTableRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$CategoriesTableTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).productsTableRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.categoryId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -6413,12 +6811,9 @@ typedef $$CategoriesTableTableProcessedTableManager =
       $$CategoriesTableTableAnnotationComposer,
       $$CategoriesTableTableCreateCompanionBuilder,
       $$CategoriesTableTableUpdateCompanionBuilder,
-      (
-        CategoryEntity,
-        BaseReferences<_$AgoraDatabase, $CategoriesTableTable, CategoryEntity>,
-      ),
+      (CategoryEntity, $$CategoriesTableTableReferences),
       CategoryEntity,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool productsTableRefs})
     >;
 typedef $$ProductsTableTableCreateCompanionBuilder =
     ProductsTableCompanion Function({
@@ -6427,12 +6822,15 @@ typedef $$ProductsTableTableCreateCompanionBuilder =
       Value<DateTime?> updatedAt,
       Value<DateTime?> deletedAt,
       required String name,
-      required String description,
+      Value<String> description,
+      Value<String?> imageUrl,
       Value<bool> trackStock,
       Value<String?> sku,
       Value<int?> categoryId,
       Value<int> price,
       Value<int> cost,
+      Value<int> taxPercent,
+      Value<String> status,
     });
 typedef $$ProductsTableTableUpdateCompanionBuilder =
     ProductsTableCompanion Function({
@@ -6442,11 +6840,14 @@ typedef $$ProductsTableTableUpdateCompanionBuilder =
       Value<DateTime?> deletedAt,
       Value<String> name,
       Value<String> description,
+      Value<String?> imageUrl,
       Value<bool> trackStock,
       Value<String?> sku,
       Value<int?> categoryId,
       Value<int> price,
       Value<int> cost,
+      Value<int> taxPercent,
+      Value<String> status,
     });
 
 final class $$ProductsTableTableReferences
@@ -6457,6 +6858,28 @@ final class $$ProductsTableTableReferences
     super.$_table,
     super.$_typedResult,
   );
+
+  static $CategoriesTableTable _categoryIdTable(_$AgoraDatabase db) =>
+      db.categoriesTable.createAlias(
+        $_aliasNameGenerator(
+          db.productsTable.categoryId,
+          db.categoriesTable.id,
+        ),
+      );
+
+  $$CategoriesTableTableProcessedTableManager? get categoryId {
+    final $_column = $_itemColumn<int>('category_id');
+    if ($_column == null) return null;
+    final manager = $$CategoriesTableTableTableManager(
+      $_db,
+      $_db.categoriesTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static MultiTypedResultKey<
     $ProductModifierLinksTableTable,
@@ -6598,6 +7021,11 @@ class $$ProductsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get imageUrl => $composableBuilder(
+    column: $table.imageUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<bool> get trackStock => $composableBuilder(
     column: $table.trackStock,
     builder: (column) => ColumnFilters(column),
@@ -6605,11 +7033,6 @@ class $$ProductsTableTableFilterComposer
 
   ColumnFilters<String> get sku => $composableBuilder(
     column: $table.sku,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get categoryId => $composableBuilder(
-    column: $table.categoryId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -6622,6 +7045,39 @@ class $$ProductsTableTableFilterComposer
     column: $table.cost,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<int> get taxPercent => $composableBuilder(
+    column: $table.taxPercent,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CategoriesTableTableFilterComposer get categoryId {
+    final $$CategoriesTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categoriesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableTableFilterComposer(
+            $db: $db,
+            $table: $db.categoriesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<bool> productModifierLinksTableRefs(
     Expression<bool> Function($$ProductModifierLinksTableTableFilterComposer f)
@@ -6765,6 +7221,11 @@ class $$ProductsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get imageUrl => $composableBuilder(
+    column: $table.imageUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get trackStock => $composableBuilder(
     column: $table.trackStock,
     builder: (column) => ColumnOrderings(column),
@@ -6772,11 +7233,6 @@ class $$ProductsTableTableOrderingComposer
 
   ColumnOrderings<String> get sku => $composableBuilder(
     column: $table.sku,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get categoryId => $composableBuilder(
-    column: $table.categoryId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -6789,6 +7245,39 @@ class $$ProductsTableTableOrderingComposer
     column: $table.cost,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get taxPercent => $composableBuilder(
+    column: $table.taxPercent,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CategoriesTableTableOrderingComposer get categoryId {
+    final $$CategoriesTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categoriesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.categoriesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ProductsTableTableAnnotationComposer
@@ -6820,6 +7309,9 @@ class $$ProductsTableTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get imageUrl =>
+      $composableBuilder(column: $table.imageUrl, builder: (column) => column);
+
   GeneratedColumn<bool> get trackStock => $composableBuilder(
     column: $table.trackStock,
     builder: (column) => column,
@@ -6828,16 +7320,42 @@ class $$ProductsTableTableAnnotationComposer
   GeneratedColumn<String> get sku =>
       $composableBuilder(column: $table.sku, builder: (column) => column);
 
-  GeneratedColumn<int> get categoryId => $composableBuilder(
-    column: $table.categoryId,
-    builder: (column) => column,
-  );
-
   GeneratedColumn<int> get price =>
       $composableBuilder(column: $table.price, builder: (column) => column);
 
   GeneratedColumn<int> get cost =>
       $composableBuilder(column: $table.cost, builder: (column) => column);
+
+  GeneratedColumn<int> get taxPercent => $composableBuilder(
+    column: $table.taxPercent,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  $$CategoriesTableTableAnnotationComposer get categoryId {
+    final $$CategoriesTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.categoriesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoriesTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.categoriesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<T> productModifierLinksTableRefs<T extends Object>(
     Expression<T> Function($$ProductModifierLinksTableTableAnnotationComposer a)
@@ -6957,6 +7475,7 @@ class $$ProductsTableTableTableManager
           (ProductEntity, $$ProductsTableTableReferences),
           ProductEntity,
           PrefetchHooks Function({
+            bool categoryId,
             bool productModifierLinksTableRefs,
             bool stocksTableRefs,
             bool stockMovementsTableRefs,
@@ -6984,11 +7503,14 @@ class $$ProductsTableTableTableManager
                 Value<DateTime?> deletedAt = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> description = const Value.absent(),
+                Value<String?> imageUrl = const Value.absent(),
                 Value<bool> trackStock = const Value.absent(),
                 Value<String?> sku = const Value.absent(),
                 Value<int?> categoryId = const Value.absent(),
                 Value<int> price = const Value.absent(),
                 Value<int> cost = const Value.absent(),
+                Value<int> taxPercent = const Value.absent(),
+                Value<String> status = const Value.absent(),
               }) => ProductsTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -6996,11 +7518,14 @@ class $$ProductsTableTableTableManager
                 deletedAt: deletedAt,
                 name: name,
                 description: description,
+                imageUrl: imageUrl,
                 trackStock: trackStock,
                 sku: sku,
                 categoryId: categoryId,
                 price: price,
                 cost: cost,
+                taxPercent: taxPercent,
+                status: status,
               ),
           createCompanionCallback:
               ({
@@ -7009,12 +7534,15 @@ class $$ProductsTableTableTableManager
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
                 required String name,
-                required String description,
+                Value<String> description = const Value.absent(),
+                Value<String?> imageUrl = const Value.absent(),
                 Value<bool> trackStock = const Value.absent(),
                 Value<String?> sku = const Value.absent(),
                 Value<int?> categoryId = const Value.absent(),
                 Value<int> price = const Value.absent(),
                 Value<int> cost = const Value.absent(),
+                Value<int> taxPercent = const Value.absent(),
+                Value<String> status = const Value.absent(),
               }) => ProductsTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -7022,11 +7550,14 @@ class $$ProductsTableTableTableManager
                 deletedAt: deletedAt,
                 name: name,
                 description: description,
+                imageUrl: imageUrl,
                 trackStock: trackStock,
                 sku: sku,
                 categoryId: categoryId,
                 price: price,
                 cost: cost,
+                taxPercent: taxPercent,
+                status: status,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -7038,6 +7569,7 @@ class $$ProductsTableTableTableManager
               .toList(),
           prefetchHooksCallback:
               ({
+                categoryId = false,
                 productModifierLinksTableRefs = false,
                 stocksTableRefs = false,
                 stockMovementsTableRefs = false,
@@ -7052,7 +7584,40 @@ class $$ProductsTableTableTableManager
                     if (stockMovementsTableRefs) db.stockMovementsTable,
                     if (orderItemsTableRefs) db.orderItemsTable,
                   ],
-                  addJoins: null,
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (categoryId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.categoryId,
+                                    referencedTable:
+                                        $$ProductsTableTableReferences
+                                            ._categoryIdTable(db),
+                                    referencedColumn:
+                                        $$ProductsTableTableReferences
+                                            ._categoryIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (productModifierLinksTableRefs)
@@ -7160,6 +7725,7 @@ typedef $$ProductsTableTableProcessedTableManager =
       (ProductEntity, $$ProductsTableTableReferences),
       ProductEntity,
       PrefetchHooks Function({
+        bool categoryId,
         bool productModifierLinksTableRefs,
         bool stocksTableRefs,
         bool stockMovementsTableRefs,

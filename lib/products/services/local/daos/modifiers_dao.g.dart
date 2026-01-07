@@ -7,6 +7,7 @@ mixin _$ModifiersDaoMixin on DatabaseAccessor<AgoraDatabase> {
   $ModifiersTableTable get modifiersTable => attachedDatabase.modifiersTable;
   $ModifierOptionsTableTable get modifierOptionsTable =>
       attachedDatabase.modifierOptionsTable;
+  $CategoriesTableTable get categoriesTable => attachedDatabase.categoriesTable;
   $ProductsTableTable get productsTable => attachedDatabase.productsTable;
   $ProductModifierLinksTableTable get productModifierLinksTable =>
       attachedDatabase.productModifierLinksTable;

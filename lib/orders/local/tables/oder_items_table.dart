@@ -24,7 +24,6 @@ class OrderItemsTable extends Table with TableMixin {
 // Tracks specific choices made for a line item (e.g., "No Sugar")
 @DataClassName("OrderItemModifierEntity")
 class OrderItemModifiers extends Table with TableMixin {
-  IntColumn get id => integer().autoIncrement()();
   IntColumn get orderItemId =>
       integer().references(OrderItemsTable, #id, onDelete: KeyAction.cascade)();
 
