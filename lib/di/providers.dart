@@ -26,4 +26,39 @@ final List<SingleChildWidget> _providers = [
     },
   ),
   Provider<ConfigService>(create: (context) => ConfigServiceImpl()),
+
+  // Database
+  Provider<AgoraDatabase>(
+    create: (_) => AgoraDatabase(driftDatabase(name: K.dbName)),
+    dispose: (_, db) => db.close(),
+  ),
+
+  // DAOs
+  ProxyProvider<AgoraDatabase, ProductsDao>(
+    update: (context, db, _) => db.productsDao,
+  ),
+  ProxyProvider<AgoraDatabase, CategoriesDao>(
+    update: (context, db, _) => db.categoriesDao,
+  ),
+  ProxyProvider<AgoraDatabase, ModifiersDao>(
+    update: (context, db, _) => db.modifiersDao,
+  ),
+  ProxyProvider<AgoraDatabase, StocksDao>(
+    update: (context, db, _) => db.stocksDao,
+  ),
+  ProxyProvider<AgoraDatabase, StockMovementsDao>(
+    update: (context, db, _) => db.stockMovementsDao,
+  ),
+  ProxyProvider<AgoraDatabase, OrdersDao>(
+    update: (context, db, _) => db.ordersDao,
+  ),
+  ProxyProvider<AgoraDatabase, OrderItemsDao>(
+    update: (context, db, _) => db.orderItemsDao,
+  ),
+  ProxyProvider<AgoraDatabase, DiscountsDao>(
+    update: (context, db, _) => db.discountsDao,
+  ),
+  ProxyProvider<AgoraDatabase, AppSettingsDao>(
+    update: (context, db, _) => db.appSettingsDao,
+  ),
 ];
