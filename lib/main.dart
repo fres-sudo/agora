@@ -11,6 +11,10 @@ import 'package:agora/core/i18n/strings.g.dart';
 import 'package:agora/core/services/persistence/persistence_service.dart';
 import 'package:agora/core/routes/app_router.dart';
 import 'package:agora/di/dependency_injector.dart';
+import 'package:agora/core/database/seeder/data_seeder.dart';
+import 'package:agora/core/database/database.dart';
+import 'package:drift_flutter/drift_flutter.dart';
+import 'package:agora/core/misc/constants.dart';
 
 void main() async {
   await runZonedGuarded(
@@ -21,6 +25,11 @@ void main() async {
       LocaleSettings.useDeviceLocale();
 
       PersistenceServiceImpl.instance = await SharedPreferences.getInstance();
+
+      // Seed database if necessary
+      final db = AgoraDatabase(driftDatabase(name: K.dbName));
+      await DataSeeder(db).seed();
+      await db.close();
 
       FlutterNativeSplash.remove();
       runApp(TranslationProvider(child: AgoraApp()));
