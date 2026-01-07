@@ -68,6 +68,15 @@ extension ResultX<T> on Result<T> {
         Error<T>(error: final err) => error(err),
       };
 
+  R fold<R>({
+    required R Function(T value) success,
+    required R Function(Exception error) error,
+  }) =>
+      switch (this) {
+        Ok<T>(:final value) => success(value),
+        Error<T>(error: final err) => error(err),
+      };
+
   bool get isSuccess => this is Ok<T>;
   bool get isError => this is Error<T>;
 }
