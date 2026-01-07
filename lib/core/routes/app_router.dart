@@ -13,7 +13,12 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       initial: true,
       page: ProtectedShellRoute.page,
-      children: [AutoRoute(page: PosRoute.page)],
+      children: [
+        AutoRoute(page: PosRoute.page),
+        AutoRoute(page: ReportRoute.page),
+        AutoRoute(page: SettingsRoute.page),
+        AutoRoute(page: ProductsRoute.page),
+      ],
     ),
   ];
 }
