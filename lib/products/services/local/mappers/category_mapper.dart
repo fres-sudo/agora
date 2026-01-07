@@ -4,13 +4,16 @@ import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 
 /// Extension on [CategoryEntity] for converting to domain models.
-extension CategoryEntityMapper on CategoryEntity {
+extension CategoryEntityMrpper on CategoryEntity {
   /// Converts a [CategoryEntity] to a [Category] domain model.
   Category toModel() {
+    final icon = IconData(iconCodePoint, fontFamily: 'MaterialIcons');
     return Category(
       id: id,
       name: name,
       color: color,
+      isEnabled: isEnabled,
+      icon: icon,
     );
   }
 }
@@ -22,6 +25,8 @@ extension CategoryModelMapper on Category {
     return CategoriesTableCompanion.insert(
       name: name,
       color: color ?? Colors.blue,
+      isEnabled: Value(isEnabled),
+      iconCodePoint: Value(icon?.codePoint ?? Icons.abc.codePoint),
     );
   }
 
@@ -30,6 +35,8 @@ extension CategoryModelMapper on Category {
     return CategoriesTableCompanion(
       name: Value(name),
       color: Value(color ?? Colors.blue),
+      isEnabled: Value(isEnabled),
+      iconCodePoint: Value(icon?.codePoint ?? Icons.abc.codePoint),
     );
   }
 }

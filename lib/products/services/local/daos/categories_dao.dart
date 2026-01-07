@@ -42,9 +42,9 @@ class CategoriesDao extends DatabaseAccessor<AgoraDatabase>
 
   /// Gets a single category by ID (Future-based).
   Future<CategoryEntity?> getCategoryById(int id) {
-    return (select(categoriesTable)
-          ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
-        .getSingleOrNull();
+    return (select(
+      categoriesTable,
+    )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).getSingleOrNull();
   }
 
   /// Gets the total count of active categories.
