@@ -1,8 +1,136 @@
 {
   "hello": "Hello $name",
   "save": "Save",
+  "cancel": "Cancel",
+  "back": "Back",
+  "next": "Next",
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete",
   "login": {
     "success": "Logged in successfully",
     "fail": "Logged in failed"
+  },
+  "report": {
+    "title": "Report",
+    "download": "Download",
+    "last_6_month": "Last 6 Month",
+    "total_order": "Total Order",
+    "total_revenue": "Total Revenue",
+    "total_customer": "Total Customer",
+    "new_customer": "New Customer",
+    "sales_overview": "Sales Overview",
+    "sales": "Sales",
+    "top_10_product": "Top 10 Product",
+    "product_status": {
+      "title": "Product Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "draft": "Draft",
+      "total": "Total Product"
+    },
+    "stock_status": {
+      "title": "Stock Status",
+      "in_stock": "In Stock",
+      "low_stock": "Low Stock",
+      "out_of_stock": "Out of Stock",
+      "total": "Total Item"
+    },
+    "recent_order": {
+      "title": "Recent Order",
+      "show_all": "Show All",
+      "id": "ID",
+      "status": "STATUS",
+      "order_date": "ORDER DATE",
+      "customer": "CUSTOMER",
+      "order_type": "ORDER TYPE",
+      "qty": "QTY",
+      "total": "TOTAL"
+    }
+  },
+  "pos": {
+    "all_menu": "All Menu",
+    "search_product": "Search Product...",
+    "order_details": "Order Details",
+    "dine_in": "Dine In",
+    "take_away": "Take Away",
+    "no_product_found": "No Product Found",
+    "no_product_description": "Product from your store will show here. Tap button below to add your product now",
+    "add_product": "Add Product",
+    "no_order": "No Order",
+    "no_order_description": "Tap the product to add into order",
+    "clear_all_order": "Clear All Order",
+    "subtotal": "Subtotal",
+    "tax": "Tax",
+    "voucher": "Voucher",
+    "total": "Total",
+    "process_transaction": "Process Transaction",
+    "customer": "Customer",
+    "tables": "Tables",
+    "discount": "Discount",
+    "save_bill": "Save Bill"
+  },
+  "products": {
+    "title": "Product",
+    "add_product": "Add Product",
+    "edit_product": "Edit Product",
+    "search_hint": "Search product name...",
+    "columns": {
+      "id": "ID",
+      "product_name": "Product Name",
+      "category": "Category",
+      "stock": "Stock",
+      "price": "Price",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "draft": "Draft"
+    },
+    "form": {
+      "steps": {
+        "product_info": "Product Info",
+        "product_info_desc": "Define the details of your product",
+        "pricing": "Pricing",
+        "pricing_desc": "Set the price and tax",
+        "variants_modifiers": "Variants & Modifiers",
+        "variants_modifiers_desc": "Set variations and add customizable options",
+        "ingredients": "Ingredients",
+        "ingredients_desc": "Define ingredients and manage stock"
+      },
+      "product_name": "Product Name",
+      "category": "Category",
+      "select_category": "Select Category",
+      "description": "Description",
+      "description_hint": "Enter product description...",
+      "sku": "SKU",
+      "sku_hint": "Enter SKU or barcode...",
+      "price": "Price",
+      "tax": "Tax",
+      "qty": "Qty",
+      "unlimited_availability": "Unlimited Availability",
+      "unlimited_availability_desc": "Enable this setting to keep product stock unaffected by ingredients usage",
+      "search_ingredient": "Search ingredient...",
+      "availability_based_on_ingredients": "Availability based on ingredients",
+      "search_ingredient_hint": "Search the ingredient and select to view the availability"
+    },
+    "actions": {
+      "save_as_draft": "Save as Draft"
+    },
+    "messages": {
+      "product_added": "Product Added",
+      "product_added_desc": "New product has been successfully added",
+      "product_updated": "Product Updated",
+      "product_updated_desc": "Product has been successfully updated",
+      "product_deleted": "Product Deleted",
+      "product_deleted_desc": "Product has been successfully deleted",
+      "delete_confirm_title": "Delete Product?",
+      "delete_confirm_message": "Are you sure you want to delete this product? This action cannot be undone."
+    },
+    "empty": {
+      "title": "No Products Found",
+      "subtitle": "Add a product to get started"
+    }
   }
 }
