@@ -56,9 +56,9 @@ abstract class Repository {
 }
 
 extension RepositoryStream<T> on Stream<T> {
-  Stream<T> safeCode(Talker logger) =>
+  Stream<T> safeCode(Talker? logger) =>
       handleError((Object error, StackTrace stack) async {
-        logger.error('[Repository] Stream error: ', error, stack);
+        logger?.error('[Repository] Stream error: ', error, stack);
         // await Sentry.captureException(error, stackTrace: stack);
       });
 }
