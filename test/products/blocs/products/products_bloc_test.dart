@@ -15,23 +15,6 @@ import 'products_bloc_test.mocks.dart';
 
 @GenerateMocks([ProductsRepository, CategoriesRepository])
 void main() {
-  late MockProductsRepository mockProductsRepository;
-  late MockCategoriesRepository mockCategoriesRepository;
-  late ProductsBloc productsBloc;
-
-  setUp(() {
-    mockProductsRepository = MockProductsRepository();
-    mockCategoriesRepository = MockCategoriesRepository();
-    productsBloc = ProductsBloc(
-      productsRepository: mockProductsRepository,
-      categoriesRepository: mockCategoriesRepository,
-    );
-  });
-
-  tearDown(() {
-    productsBloc.close();
-  });
-
   final category = Category(id: 1, name: 'Category 1', isEnabled: true, color: Color(0xFF0000));
   final product = Product(
     id: 1,
@@ -44,6 +27,27 @@ void main() {
     stockQuantity: 10,
     status: ProductStatus.active,
   );
+
+  late MockProductsRepository mockProductsRepository;
+  late MockCategoriesRepository mockCategoriesRepository;
+  late ProductsBloc productsBloc;
+
+  setUp(() {
+    provideDummy<Result<Product>>(Result.ok(product));
+    provideDummy<Result<Category>>(Result.ok(category));
+    mockProductsRepository = MockProductsRepository();
+    mockCategoriesRepository = MockCategoriesRepository();
+    productsBloc = ProductsBloc(
+      productsRepository: mockProductsRepository,
+      categoriesRepository: mockCategoriesRepository,
+    );
+  });
+
+  tearDown(() {
+    productsBloc.close();
+  });
+
+
 
   group('ProductsBloc', () {
     test('initial state is ProductsState.initial', () {

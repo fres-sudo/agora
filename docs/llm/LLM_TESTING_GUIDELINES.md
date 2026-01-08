@@ -8,7 +8,7 @@ This document provides rules and guidelines for LLMs to generate tests for this 
 2.  **Mocking**: Use `mockito` heavily.
     -   Generate mocks using `@GenerateMocks` annotation.
     -   Store generated mocks in a separate file (e.g., `filename.mocks.dart`) if the file is large, or rely on `build_runner`.
-    -   Run `fvm flutter pub run build_runner build --delete-conflicting-outputs` to generate mocks.
+    -   Run `fvm dart run build_runner build --delete-conflicting-outputs` to generate mocks.
 3.  **Directory Structure**: Mirror the `lib` structure within `test`.
     -   `lib/feature/repositories/` -> `test/feature/repositories/`
     -   `lib/feature/blocs/my_bloc/` -> `test/feature/blocs/my_bloc/`

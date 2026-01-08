@@ -13,18 +13,6 @@ import 'product_form_cubit_test.mocks.dart';
 
 @GenerateMocks([ProductsRepository])
 void main() {
-  late MockProductsRepository mockProductsRepository;
-  late ProductFormCubit productFormCubit;
-
-  setUp(() {
-    mockProductsRepository = MockProductsRepository();
-    productFormCubit = ProductFormCubit(productsRepository: mockProductsRepository);
-  });
-
-  tearDown(() {
-    productFormCubit.close();
-  });
-
   final product = Product(
     id: 1,
     name: 'Product 1',
@@ -36,6 +24,21 @@ void main() {
     stockQuantity: 10,
     status: ProductStatus.active,
   );
+
+  late MockProductsRepository mockProductsRepository;
+  late ProductFormCubit productFormCubit;
+
+  setUp(() {
+    provideDummy<Result<Product>>(Result.ok(product));
+    mockProductsRepository = MockProductsRepository();
+    productFormCubit = ProductFormCubit(productsRepository: mockProductsRepository);
+  });
+
+  tearDown(() {
+    productFormCubit.close();
+  });
+
+
 
   group('ProductFormCubit', () {
     test('initial state is ProductFormState.initial', () {

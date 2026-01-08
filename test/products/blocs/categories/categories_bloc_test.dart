@@ -12,10 +12,18 @@ import 'categories_bloc_test.mocks.dart';
 
 @GenerateMocks([CategoriesRepository])
 void main() {
+  const category = Category(
+    id: 1,
+    name: 'Category 1',
+    isEnabled: true,
+    color: Color(0xFF0000),
+  );
+
   late MockCategoriesRepository mockCategoriesRepository;
   late CategoriesBloc categoriesBloc;
 
   setUp(() {
+    provideDummy<Result<Category>>(const Result.ok(category));
     mockCategoriesRepository = MockCategoriesRepository();
     categoriesBloc = CategoriesBloc(
       categoriesRepository: mockCategoriesRepository,
@@ -26,12 +34,7 @@ void main() {
     categoriesBloc.close();
   });
 
-  const category = Category(
-    id: 1,
-    name: 'Category 1',
-    isEnabled: true,
-    color: Color(0xFF0000),
-  );
+
 
   group('CategoriesBloc', () {
     test('initial state is CategoriesState.initial', () {
