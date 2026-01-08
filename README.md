@@ -94,7 +94,7 @@
 ### Prerequisites
 
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) 3.10.0 or higher
-- [FVM](https://fvm.app/) (recommended for version management)
+- [FVM](https://fvm.app/) (Required)
 - Android Studio / Xcode for mobile development
 
 ### Installation
@@ -105,26 +105,26 @@ git clone https://github.com/yourusername/agora.git
 cd agora
 
 # Install dependencies
-flutter pub get
+fvm flutter pub get
 
 # Generate code (Freezed, Drift, AutoRoute, etc.)
-flutter pub run build_runner build --delete-conflicting-outputs
+fvm flutter pub run build_runner build --delete-conflicting-outputs
 
 # Run the app
-flutter run
+fvm flutter run
 ```
 
 ### Configuration
 
 ```bash
 # Generate translations
-flutter pub run slang
+fvm flutter pub run slang
 
 # Generate assets
-flutter pub run flutter_gen
+fvm flutter pub run flutter_gen
 
 # Generate launcher icons
-flutter pub run flutter_launcher_icons
+fvm flutter pub run flutter_launcher_icons
 ```
 
 ---
@@ -189,27 +189,19 @@ lib/
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, your help makes Agora better for everyone.
+We welcome contributions from the community! Please read our [Contribution Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before getting started.
 
-### How to Contribute
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Development Setup
+### Quick Commands
 
 ```bash
 # Run tests
-flutter test
+fvm flutter test
 
 # Analyze code
-flutter analyze
+fvm flutter analyze
 
 # Format code
-dart format lib/
+fvm flutter format .
 ```
 
 ---
@@ -245,7 +237,7 @@ With the requirement that:
 
 - 🐛 **Bug Reports**: [Open an issue](https://github.com/yourusername/agora/issues)
 - 💡 **Feature Requests**: [Start a discussion](https://github.com/yourusername/agora/discussions)
-- 📧 **Contact**: your.email@example.com
+- 📧 **Contact**: me@fres.space
 
 ---
 
