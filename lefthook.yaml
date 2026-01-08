@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.dart"
+      run: fvm flutter format --set-exit-if-changed .
+    analyze:
+      glob: "*.dart"
+      run: fvm flutter analyze
+
+pre-push:
+  parallel: true
+  commands:
+    test:
+      glob: "*.dart"
+      run: fvm flutter test
