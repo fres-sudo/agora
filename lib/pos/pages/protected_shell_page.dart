@@ -49,7 +49,12 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     return SessionListener(
       child: AutoTabsRouter(
         homeIndex: 0,
-        routes: const [PosRoute(), ReportRoute(), SettingsRoute()],
+        routes: const [
+          PosRoute(),
+          ProductsRoute(),
+          ReportRoute(),
+          SettingsRoute(),
+        ],
         builder: (context, child) {
           final tabsRouter = AutoTabsRouter.of(context);
           // Find the index in _menuItems that matches the current active tab's route

@@ -15,15 +15,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 @RoutePage()
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-
     return BlocBuilder<ProductsBloc, ProductsState>(
       builder: (context, state) {
         return state.map(
@@ -54,6 +51,13 @@ class _ProductsView extends StatelessWidget {
     // However, looking at ProductsBloc, it exposes filtered products.
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(t.products.title),
+        leading: IconButton(
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          icon: const Icon(Icons.menu),
+        ),
+      ),
       body: DataTableView<Product>(
         items: state.products,
         config: DataTableConfig(
@@ -63,18 +67,9 @@ class _ProductsView extends StatelessWidget {
           emptyStateTitle: t.products.empty.title,
           emptyStateSubtitle: t.products.empty.subtitle,
           sortOptions: [
-            SortOption(
-              id: 'name',
-              label: t.products.columns.product_name,
-            ),
-            SortOption(
-              id: 'price',
-              label: t.products.columns.price,
-            ),
-            SortOption(
-              id: 'stock',
-              label: t.products.columns.stock,
-            ),
+            SortOption(id: 'name', label: t.products.columns.product_name),
+            SortOption(id: 'price', label: t.products.columns.price),
+            SortOption(id: 'stock', label: t.products.columns.stock),
           ],
         ),
         columns: [
@@ -215,8 +210,8 @@ class _ProductsView extends StatelessWidget {
 
               if (confirmed && context.mounted) {
                 context.read<ProductsBloc>().add(
-                      ProductsEvent.deleted(product.id),
-                    );
+                  ProductsEvent.deleted(product.id),
+                );
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
