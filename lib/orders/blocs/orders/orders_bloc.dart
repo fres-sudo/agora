@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:agora/core/misc/result.dart';
+import 'package:agora/inventory/repositories/inventory_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,9 +15,12 @@ part 'orders_state.dart';
 
 /// BLoC for managing the orders list with filtering and real-time updates.
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
-  OrdersBloc({required OrdersRepository ordersRepository})
-    : _ordersRepository = ordersRepository,
-      super(const OrdersState.initial()) {
+  OrdersBloc({
+    required OrdersRepository ordersRepository,
+    required InventoryRepository inventoryRepository,
+  }) : _ordersRepository = ordersRepository,
+       _inventoryRepository = inventoryRepository,
+       super(const OrdersState.initial()) {
     on<_Started>(_onStarted);
     on<_FilterChanged>(_onFilterChanged);
     on<_Refresh>(_onRefresh);
@@ -24,6 +28,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   }
 
   final OrdersRepository _ordersRepository;
+  final InventoryRepository _inventoryRepository;
   StreamSubscription<List<Order>>? _subscription;
 
   // Current filter state
@@ -37,13 +42,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
   Future<void> _onStarted(_Started event, Emitter<OrdersState> emit) async {
     emit(const OrdersState.loading());
+    await _subscription?.cancel();
     _subscribeToOrders();
   }
 
-  Future<void> _onFilterChanged(
-    _FilterChanged event,
-    Emitter<OrdersState> emit,
-  ) async {
+  Future<void> _onFilterChanged(_FilterChanged event, Emitter<OrdersState> emit) async {
     _statusFilter = event.status;
     _startDate = event.startDate;
     _endDate = event.endDate;
@@ -59,21 +62,75 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   }
 
   Future<void> _onDeleted(_Deleted event, Emitter<OrdersState> emit) async {
-    final result = await _ordersRepository.deleteOrder(event.id);
+    final orderResult = await _ordersRepository.getOrderById(event.id);
 
-    result.when(
-      success: (_) {
-        // Stream will automatically update the list
-      },
-      error: (error) {
+    switch (orderResult) {
+      case Ok<Order?>(:final value):
+        final order = value;
+        if (order == null) {
+          emit(
+            OrdersState.error(
+              message: 'Order not found',
+              previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
+            ),
+          );
+          return;
+        }
+
+        if (order.status == OrderStatus.completed) {
+          final restoredQuantities = <int, int>{};
+          for (final item in order.items) {
+            final productId = item.productId;
+            if (productId == null) continue;
+            restoredQuantities.update(
+              productId,
+              (value) => value + item.quantity,
+              ifAbsent: () => item.quantity,
+            );
+          }
+
+          for (final entry in restoredQuantities.entries) {
+            final restoreResult = await _inventoryRepository.restoreForVoidedOrder(
+              productId: entry.key,
+              quantity: entry.value,
+              orderId: order.id ?? event.id,
+            );
+
+            if (restoreResult.isError) {
+              emit(
+                OrdersState.error(
+                  message: 'Failed to restore inventory for order #${order.id ?? event.id}',
+                  previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
+                ),
+              );
+              return;
+            }
+          }
+        }
+
+        final deleteResult = await _ordersRepository.deleteOrder(event.id);
+
+        deleteResult.when(
+          success: (_) {
+            // Stream will automatically update the list.
+          },
+          error: (error) {
+            emit(
+              OrdersState.error(
+                message: 'Failed to delete order: ${error.toString()}',
+                previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
+              ),
+            );
+          },
+        );
+      case Error<Order?>(:final error):
         emit(
           OrdersState.error(
-            message: 'Failed to delete order: ${error.toString()}',
+            message: 'Failed to load order: ${error.toString()}',
             previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
           ),
         );
-      },
-    );
+    }
   }
 
   // ============================================================
@@ -87,10 +144,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     if (_statusFilter != null) {
       stream = _ordersRepository.watchOrdersByStatus(_statusFilter!);
     } else if (_startDate != null || _endDate != null) {
-      stream = _ordersRepository.watchOrdersByDateRange(
-        startDate: _startDate,
-        endDate: _endDate,
-      );
+      stream = _ordersRepository.watchOrdersByDateRange(startDate: _startDate, endDate: _endDate);
     } else {
       stream = _ordersRepository.watchAllOrders();
     }
@@ -115,9 +169,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           emit(
             OrdersState.error(
               message: error.toString(),
-              previousState: state is OrdersLoaded
-                  ? state as OrdersLoaded
-                  : null,
+              previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
             ),
           );
         }

@@ -18,30 +18,14 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
   bool _isClockedIn = false;
 
   static const _menuItems = [
-    MenuDrawerItemData(
-      icon: Icons.home_outlined,
-      label: 'Point of Sale',
-      route: PosRoute(),
-    ),
-    MenuDrawerItemData(icon: Icons.inventory_2_outlined, label: 'Order'),
+    MenuDrawerItemData(icon: Icons.home_outlined, label: 'Point of Sale', route: PosRoute()),
+    MenuDrawerItemData(icon: Icons.inventory_2_outlined, label: 'Order', route: OrdersRoute()),
     MenuDrawerItemData(icon: Icons.people_outline, label: 'Customer'),
     MenuDrawerItemData(icon: Icons.table_restaurant_outlined, label: 'Tables'),
-    MenuDrawerItemData(
-      icon: Icons.grid_view_outlined,
-      label: 'Product',
-      route: ProductsRoute(),
-    ),
-    MenuDrawerItemData(
-      icon: Icons.bar_chart_outlined,
-      label: 'Report',
-      route: ReportRoute(),
-    ),
+    MenuDrawerItemData(icon: Icons.grid_view_outlined, label: 'Product', route: ProductsRoute()),
+    MenuDrawerItemData(icon: Icons.bar_chart_outlined, label: 'Report', route: ReportRoute()),
     MenuDrawerItemData(icon: Icons.warehouse_outlined, label: 'Inventory'),
-    MenuDrawerItemData(
-      icon: Icons.settings_outlined,
-      label: 'Setting',
-      route: SettingsRoute(),
-    ),
+    MenuDrawerItemData(icon: Icons.settings_outlined, label: 'Setting', route: SettingsRoute()),
   ];
 
   @override
@@ -49,12 +33,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     return SessionListener(
       child: AutoTabsRouter(
         homeIndex: 0,
-        routes: const [
-          PosRoute(),
-          ProductsRoute(),
-          ReportRoute(),
-          SettingsRoute(),
-        ],
+        routes: const [PosRoute(), OrdersRoute(), ProductsRoute(), ReportRoute(), SettingsRoute()],
         builder: (context, child) {
           final tabsRouter = AutoTabsRouter.of(context);
           // Find the index in _menuItems that matches the current active tab's route

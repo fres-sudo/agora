@@ -35,15 +35,11 @@ class _PosPageState extends State<PosPage> {
   }
 
   void _onProductTap(Product product) {
-    context.read<ActiveOrderBloc>().add(
-      ActiveOrderEvent.itemAdded(product: product),
-    );
+    context.read<ActiveOrderBloc>().add(ActiveOrderEvent.itemAdded(product: product));
   }
 
   void _onCategorySelected(int? categoryId) {
-    context.read<ProductsBloc>().add(
-      ProductsEvent.categoryFilterChanged(categoryId),
-    );
+    context.read<ProductsBloc>().add(ProductsEvent.categoryFilterChanged(categoryId));
   }
 
   void _onSearch(String query) {
@@ -59,9 +55,7 @@ class _PosPageState extends State<PosPage> {
   }
 
   void _onItemRemoved(int productId) {
-    context.read<ActiveOrderBloc>().add(
-      ActiveOrderEvent.itemRemoved(productId),
-    );
+    context.read<ActiveOrderBloc>().add(ActiveOrderEvent.itemRemoved(productId));
   }
 
   /// Build cart quantities map from order items
@@ -72,8 +66,7 @@ class _PosPageState extends State<PosPage> {
 
     for (final item in order.items) {
       if (item.productId != null) {
-        quantities[item.productId!] =
-            (quantities[item.productId!] ?? 0) + item.quantity;
+        quantities[item.productId!] = (quantities[item.productId!] ?? 0) + item.quantity;
       }
     }
     return quantities;
@@ -83,33 +76,64 @@ class _PosPageState extends State<PosPage> {
   Widget build(BuildContext context) {
     final isTabletOrLarger = context.isTabletOrLarger;
 
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      drawer: isTabletOrLarger ? null : _buildMobileDrawer(context),
-      endDrawer: isTabletOrLarger ? null : _buildOrderDrawer(context),
-      body: isTabletOrLarger
-          ? _TabletLayout(
-              orderType: _orderType,
-              onOrderTypeChanged: (type) => setState(() => _orderType = type),
-              onProductTap: _onProductTap,
-              onCategorySelected: _onCategorySelected,
-              onSearch: _onSearch,
-              onClearOrder: _onClearOrder,
-              onProcessTransaction: _onProcessTransaction,
-              onItemRemoved: _onItemRemoved,
-              buildCartQuantities: _buildCartQuantities,
-            )
-          : _MobileLayout(
-              orderType: _orderType,
-              onOrderTypeChanged: (type) => setState(() => _orderType = type),
-              onProductTap: _onProductTap,
-              onCategorySelected: _onCategorySelected,
-              onSearch: _onSearch,
-              onClearOrder: _onClearOrder,
-              onProcessTransaction: _onProcessTransaction,
-              onItemRemoved: _onItemRemoved,
-              buildCartQuantities: _buildCartQuantities,
-            ),
+    return BlocListener<ActiveOrderBloc, ActiveOrderState>(
+      listenWhen: (_, current) => current.maybeMap(submitted: (_) => true, orElse: () => false),
+      listener: (context, state) {
+        state.maybeMap(
+          submitted: (submittedState) {
+            ScaffoldMessenger.of(context)
+              ..clearSnackBars()
+              ..showSnackBar(
+                SnackBar(
+                  content: Row(
+                    children: [
+                      const Icon(Icons.check_circle, color: Colors.white),
+                      const SizedBox(width: Sizes.sm),
+                      Text(
+                        submittedState.order.id != null
+                            ? 'Order #${submittedState.order.id} placed successfully'
+                            : 'Order placed successfully',
+                      ),
+                    ],
+                  ),
+                  backgroundColor: AppColors.success700,
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+
+            context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.cleared());
+          },
+          orElse: () {},
+        );
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(context),
+        drawer: isTabletOrLarger ? null : _buildMobileDrawer(context),
+        endDrawer: isTabletOrLarger ? null : _buildOrderDrawer(context),
+        body: isTabletOrLarger
+            ? _TabletLayout(
+                orderType: _orderType,
+                onOrderTypeChanged: (type) => setState(() => _orderType = type),
+                onProductTap: _onProductTap,
+                onCategorySelected: _onCategorySelected,
+                onSearch: _onSearch,
+                onClearOrder: _onClearOrder,
+                onProcessTransaction: _onProcessTransaction,
+                onItemRemoved: _onItemRemoved,
+                buildCartQuantities: _buildCartQuantities,
+              )
+            : _MobileLayout(
+                orderType: _orderType,
+                onOrderTypeChanged: (type) => setState(() => _orderType = type),
+                onProductTap: _onProductTap,
+                onCategorySelected: _onCategorySelected,
+                onSearch: _onSearch,
+                onClearOrder: _onClearOrder,
+                onProcessTransaction: _onProcessTransaction,
+                onItemRemoved: _onItemRemoved,
+                buildCartQuantities: _buildCartQuantities,
+              ),
+      ),
     );
   }
 
@@ -123,10 +147,7 @@ class _PosPageState extends State<PosPage> {
       ),
       title: Row(
         spacing: Sizes.sm,
-        children: [
-          Assets.brand.logo.image(width: 32, height: 32),
-          const Text('agora'),
-        ],
+        children: [Assets.brand.logo.image(width: 32, height: 32), const Text('agora')],
       ),
       actions: context.isTabletOrLarger
           ? null
@@ -151,10 +172,7 @@ class _PosPageState extends State<PosPage> {
                               color: AppColors.primary500,
                               shape: BoxShape.circle,
                             ),
-                            constraints: const BoxConstraints(
-                              minWidth: 16,
-                              minHeight: 16,
-                            ),
+                            constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
                             child: Text(
                               '${state.itemCount}',
                               style: const TextStyle(
@@ -177,9 +195,7 @@ class _PosPageState extends State<PosPage> {
   Widget _buildMobileDrawer(BuildContext context) {
     return BlocBuilder<ProductsBloc, ProductsState>(
       builder: (context, state) {
-        final selectedCategoryId = state is ProductsLoaded
-            ? state.selectedCategoryId
-            : null;
+        final selectedCategoryId = state is ProductsLoaded ? state.selectedCategoryId : null;
 
         return Drawer(
           child: SafeArea(
@@ -251,9 +267,7 @@ class _TabletLayout extends StatelessWidget {
           width: 120,
           child: BlocBuilder<ProductsBloc, ProductsState>(
             builder: (context, state) {
-              final selectedCategoryId = state is ProductsLoaded
-                  ? state.selectedCategoryId
-                  : null;
+              final selectedCategoryId = state is ProductsLoaded ? state.selectedCategoryId : null;
 
               return PosCategoryList(
                 categories: state.categories,
@@ -285,8 +299,7 @@ class _TabletLayout extends StatelessWidget {
                           emptyDescription:
                               'Product from your store will show here. Tap button below to add your product now',
                           emptyActionLabel: 'Add Product',
-                          onEmptyAction: () =>
-                              ProductFormWrapper.showCreate(context),
+                          onEmptyAction: () => ProductFormWrapper.showCreate(context),
                         );
                       },
                     );
@@ -358,9 +371,7 @@ class _MobileLayout extends StatelessWidget {
           height: 60,
           child: BlocBuilder<ProductsBloc, ProductsState>(
             builder: (context, state) {
-              final selectedCategoryId = state is ProductsLoaded
-                  ? state.selectedCategoryId
-                  : null;
+              final selectedCategoryId = state is ProductsLoaded ? state.selectedCategoryId : null;
 
               return _HorizontalCategoryList(
                 categories: state.categories,
@@ -445,11 +456,7 @@ class _CategoryChip extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  const _CategoryChip({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
+  const _CategoryChip({required this.label, required this.isSelected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -460,9 +467,7 @@ class _CategoryChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary500 : Colors.white,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? AppColors.primary500 : AppColors.neutral300,
-          ),
+          border: Border.all(color: isSelected ? AppColors.primary500 : AppColors.neutral300),
         ),
         child: Center(
           child: Text(

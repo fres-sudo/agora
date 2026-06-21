@@ -6,8 +6,7 @@ import 'package:drift/drift.dart';
 part 'order_items_dao.g.dart';
 
 @DriftAccessor(tables: [OrderItemsTable, OrderItemModifiers, OrdersTable])
-class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
-    with _$OrderItemsDaoMixin {
+class OrderItemsDao extends DatabaseAccessor<AgoraDatabase> with _$OrderItemsDaoMixin {
   OrderItemsDao(super.db);
 
   // ============================================================
@@ -42,10 +41,7 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
     final count = orderItemsTable.id.count();
     final query = selectOnly(orderItemsTable)
       ..addColumns([count])
-      ..where(
-        orderItemsTable.orderId.equals(orderId) &
-            orderItemsTable.deletedAt.isNull(),
-      );
+      ..where(orderItemsTable.orderId.equals(orderId) & orderItemsTable.deletedAt.isNull());
     final result = await query.getSingle();
     return result.read(count) ?? 0;
   }
@@ -55,10 +51,7 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
     final sum = orderItemsTable.quantity.sum();
     final query = selectOnly(orderItemsTable)
       ..addColumns([sum])
-      ..where(
-        orderItemsTable.orderId.equals(orderId) &
-            orderItemsTable.deletedAt.isNull(),
-      );
+      ..where(orderItemsTable.orderId.equals(orderId) & orderItemsTable.deletedAt.isNull());
     final result = await query.getSingle();
     return result.read(sum) ?? 0;
   }
@@ -68,7 +61,7 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
   // ============================================================
 
   /// Inserts a new order item and returns the new ID.
-  Future<int> insertOrderItem(OrderItemEntity companion) {
+  Future<int> insertOrderItem(Insertable<OrderItemEntity> companion) {
     return into(orderItemsTable).insert(companion);
   }
 
@@ -83,10 +76,7 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
   Future<bool> updateOrderItemQuantity(int id, int quantity) {
     return (update(orderItemsTable)..where((t) => t.id.equals(id)))
         .write(
-          OrderItemsTableCompanion(
-            quantity: Value(quantity),
-            updatedAt: Value(DateTime.now()),
-          ),
+          OrderItemsTableCompanion(quantity: Value(quantity), updatedAt: Value(DateTime.now())),
         )
         .then((rows) => rows > 0);
   }
@@ -109,9 +99,7 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
 
   /// Permanently deletes all items for an order.
   Future<int> hardDeleteItemsByOrderId(int orderId) {
-    return (delete(
-      orderItemsTable,
-    )..where((t) => t.orderId.equals(orderId))).go();
+    return (delete(orderItemsTable)..where((t) => t.orderId.equals(orderId))).go();
   }
 
   // ============================================================
@@ -119,9 +107,7 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
   // ============================================================
 
   /// Watches all modifiers for a specific order item.
-  Stream<List<OrderItemModifierEntity>> watchModifiersByOrderItemId(
-    int orderItemId,
-  ) {
+  Stream<List<OrderItemModifierEntity>> watchModifiersByOrderItemId(int orderItemId) {
     return (select(orderItemModifiers)
           ..where((t) => t.orderItemId.equals(orderItemId))
           ..orderBy([(t) => OrderingTerm.asc(t.modifierName)]))
@@ -129,9 +115,7 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
   }
 
   /// Gets all modifiers for a specific order item (Future-based).
-  Future<List<OrderItemModifierEntity>> getModifiersByOrderItemId(
-    int orderItemId,
-  ) {
+  Future<List<OrderItemModifierEntity>> getModifiersByOrderItemId(int orderItemId) {
     return (select(orderItemModifiers)
           ..where((t) => t.orderItemId.equals(orderItemId))
           ..orderBy([(t) => OrderingTerm.asc(t.modifierName)]))
@@ -185,8 +169,6 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
 
   /// Deletes all modifiers for an order item.
   Future<int> deleteModifiersByOrderItemId(int orderItemId) {
-    return (delete(
-      orderItemModifiers,
-    )..where((t) => t.orderItemId.equals(orderItemId))).go();
+    return (delete(orderItemModifiers)..where((t) => t.orderItemId.equals(orderItemId))).go();
   }
 }

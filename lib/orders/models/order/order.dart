@@ -1,4 +1,4 @@
-import 'package:agora/orders/models/order_line_item/order_line_item.dart';
+laimport 'package:agora/orders/models/order_line_item/order_line_item.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'order.freezed.dart';

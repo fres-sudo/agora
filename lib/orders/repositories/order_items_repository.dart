@@ -4,6 +4,7 @@ import 'package:agora/core/misc/result.dart';
 import 'package:agora/orders/local/daos/order_items_dao.dart';
 import 'package:agora/orders/models/order_line_item/order_line_item.dart';
 import 'package:agora/orders/models/selected_modifiers/selected_modifiers.dart';
+import 'package:drift/drift.dart';
 import 'package:talker/talker.dart';
 
 /// Repository interface for order item operations.
@@ -37,10 +38,7 @@ abstract interface class OrderItemsRepository {
 
   /// Adds an item to an order.
   /// Returns the added [OrderLineItem] for optimistic updates.
-  Future<Result<OrderLineItem>> addItemToOrder({
-    required int orderId,
-    required OrderLineItem item,
-  });
+  Future<Result<OrderLineItem>> addItemToOrder({required int orderId, required OrderLineItem item});
 
   /// Updates an item's quantity.
   /// Returns the updated [OrderLineItem] for optimistic updates.
@@ -66,13 +64,10 @@ abstract interface class OrderItemsRepository {
 }
 
 /// Implementation of [OrderItemsRepository] using Drift DAOs.
-class OrderItemsRepositoryImpl extends Repository
-    implements OrderItemsRepository {
-  OrderItemsRepositoryImpl({
-    required OrderItemsDao orderItemsDao,
-    Talker? logger,
-  }) : _orderItemsDao = orderItemsDao,
-       super(logger);
+class OrderItemsRepositoryImpl extends Repository implements OrderItemsRepository {
+  OrderItemsRepositoryImpl({required OrderItemsDao orderItemsDao, Talker? logger})
+    : _orderItemsDao = orderItemsDao,
+      super(logger);
 
   final OrderItemsDao _orderItemsDao;
 
@@ -81,9 +76,7 @@ class OrderItemsRepositoryImpl extends Repository
   // ============================================================
 
   Future<OrderLineItem> _entityToModel(OrderItemEntity entity) async {
-    final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(
-      entity.id,
-    );
+    final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(entity.id);
     return OrderLineItem(
       productId: entity.productId,
       productName: entity.productName,
@@ -98,6 +91,18 @@ class OrderItemsRepositoryImpl extends Repository
             ),
           )
           .toList(),
+    );
+  }
+
+  OrderItemsTableCompanion _itemToInsertCompanion(int orderId, OrderLineItem item) {
+    return OrderItemsTableCompanion.insert(
+      orderId: orderId,
+      productId: Value(item.productId),
+      productName: item.productName,
+      unitPrice: item.unitPriceCents,
+      costPrice: 0, // Cost price not tracked in OrderLineItem model
+      quantity: Value(item.quantity),
+      discountAmount: Value(0), // Discount applied at order level
     );
   }
 
@@ -135,16 +140,12 @@ class OrderItemsRepositoryImpl extends Repository
       });
 
   @override
-  Future<Result<int>> getItemsCount(int orderId) => safe(
-    'getItemsCount($orderId)',
-    () => _orderItemsDao.getItemsCountByOrderId(orderId),
-  );
+  Future<Result<int>> getItemsCount(int orderId) =>
+      safe('getItemsCount($orderId)', () => _orderItemsDao.getItemsCountByOrderId(orderId));
 
   @override
-  Future<Result<int>> getTotalQuantity(int orderId) => safe(
-    'getTotalQuantity($orderId)',
-    () => _orderItemsDao.getTotalQuantityByOrderId(orderId),
-  );
+  Future<Result<int>> getTotalQuantity(int orderId) =>
+      safe('getTotalQuantity($orderId)', () => _orderItemsDao.getTotalQuantityByOrderId(orderId));
 
   // ============================================================
   // WRITE OPERATIONS - Optimistic Update Support
@@ -156,21 +157,7 @@ class OrderItemsRepositoryImpl extends Repository
     required OrderLineItem item,
   }) => safe('addItemToOrder($orderId)', () async {
     // Insert item
-    final itemId = await _orderItemsDao.insertOrderItem(
-      OrderItemEntity(
-        id: 0,
-        orderId: orderId,
-        productId: item.productId,
-        productName: item.productName,
-        quantity: item.quantity,
-        unitPrice: item.unitPriceCents,
-        costPrice: 0, // Cost price not tracked in OrderLineItem model
-        discountAmount: 0, // Discount applied at order level
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        deletedAt: null,
-      ),
-    );
+    final itemId = await _orderItemsDao.insertOrderItem(_itemToInsertCompanion(orderId, item));
 
     // Insert modifiers
     for (final modifier in item.selectedModifiers) {
@@ -198,14 +185,13 @@ class OrderItemsRepositoryImpl extends Repository
   });
 
   @override
-  Future<Result<int>> removeItem(int itemId) =>
-      safe('removeItem($itemId)', () async {
-        // Delete modifiers first
-        await _orderItemsDao.deleteModifiersByOrderItemId(itemId);
-        // Soft delete item
-        await _orderItemsDao.softDeleteOrderItem(itemId);
-        return itemId;
-      });
+  Future<Result<int>> removeItem(int itemId) => safe('removeItem($itemId)', () async {
+    // Delete modifiers first
+    await _orderItemsDao.deleteModifiersByOrderItemId(itemId);
+    // Soft delete item
+    await _orderItemsDao.softDeleteOrderItem(itemId);
+    return itemId;
+  });
 
   @override
   Future<Result<SelectedModifiers>> addModifierToItem({

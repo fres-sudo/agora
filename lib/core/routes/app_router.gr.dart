@@ -15,6 +15,7 @@ import 'package:agora/pos/pages/protected_shell_page.dart' as _i4;
 import 'package:agora/products/pages/products_page.dart' as _i3;
 import 'package:agora/reports/pages/report_page.dart' as _i5;
 import 'package:agora/settings/pages/settings_page.dart' as _i6;
+import 'package:agora/orders/pages/orders_page.dart' as _i8;
 import 'package:auto_route/auto_route.dart' as _i7;
 
 /// generated route for
@@ -45,6 +46,22 @@ class PosRoute extends _i7.PageRouteInfo<void> {
     name,
     builder: (data) {
       return const _i2.PosPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i8.OrdersPage]
+class OrdersRoute extends _i7.PageRouteInfo<void> {
+  const OrdersRoute({List<_i7.PageRouteInfo>? children})
+    : super(OrdersRoute.name, initialChildren: children);
+
+  static const String name = 'OrdersRoute';
+
+  static _i7.PageInfo page = _i7.PageInfo(
+    name,
+    builder: (data) {
+      return const _i8.OrdersPage();
     },
   );
 }

@@ -1,0 +1,104 @@
+{
+	"generated_at": "2026-05-26T00:00:00Z",
+	"features": [
+		{
+			"name": "auth",
+			"pages": ["lib/auth/pages/auth_shell_page.dart"],
+			"daos": [],
+			"repositories": ["lib/auth/repositories/auth_repository.dart"],
+			"blocs": [],
+			"cubits": ["lib/auth/cubits/session/session_cubit.dart"],
+			"notes": "Session cubit, session listener widget available in core UI"
+		},
+		{
+			"name": "products",
+			"pages": ["lib/products/pages/products_page.dart"],
+			"daos": [
+				"lib/products/services/local/daos/products_dao.dart",
+				"lib/products/services/local/daos/categories_dao.dart",
+				"lib/products/services/local/daos/modifiers_dao.dart"
+			],
+			"repositories": [
+				"lib/products/repositories/products_repository.dart",
+				"lib/products/repositories/categories_repository.dart",
+				"lib/products/repositories/modifiers_repository.dart"
+			],
+			"blocs": [
+				"lib/products/blocs/products/products_bloc.dart",
+				"lib/products/blocs/categories/categories_bloc.dart",
+				"lib/products/blocs/modifiers/modifiers_bloc.dart"
+			],
+			"cubits": [
+				"lib/products/blocs/product_form/product_form_cubit.dart",
+				"lib/products/blocs/product_detail/product_detail_cubit.dart"
+			]
+		},
+		{
+			"name": "orders",
+			"pages": [],
+			"daos": [
+				"lib/orders/local/daos/orders_dao.dart",
+				"lib/orders/local/daos/order_items_dao.dart"
+			],
+			"repositories": [
+				"lib/orders/repositories/orders_repository.dart",
+				"lib/orders/repositories/order_items_repository.dart"
+			],
+			"blocs": [
+				"lib/orders/blocs/orders/orders_bloc.dart",
+				"lib/orders/blocs/active_order/active_order_bloc.dart"
+			],
+			"cubits": ["lib/orders/blocs/order_detail/order_detail_cubit.dart"]
+		},
+		{
+			"name": "inventory",
+			"pages": [],
+			"daos": [
+				"lib/inventory/services/local/daos/stocks_dao.dart",
+				"lib/inventory/services/local/daos/stock_movements_dao.dart"
+			],
+			"repositories": ["lib/inventory/repositories/inventory_repository.dart"],
+			"blocs": ["lib/inventory/blocs/inventory/inventory_bloc.dart"],
+			"cubits": [
+				"lib/inventory/blocs/stock_adjustment/stock_adjustment_cubit.dart"
+			]
+		},
+		{
+			"name": "discounts",
+			"pages": [],
+			"daos": ["lib/discounts/services/local/daos/discounts_dao.dart"],
+			"repositories": ["lib/discounts/repositories/discounts_repository.dart"],
+			"blocs": ["lib/discounts/blocs/discounts/discounts_bloc.dart"],
+			"cubits": [
+				"lib/discounts/blocs/discount_validation/discount_validation_cubit.dart"
+			]
+		},
+		{
+			"name": "settings",
+			"pages": ["lib/settings/pages/settings_page.dart"],
+			"daos": ["lib/settings/services/local/daos/app_settings_dao.dart"],
+			"repositories": ["lib/settings/repositories/settings_repository.dart"],
+			"blocs": [],
+			"cubits": ["lib/settings/blocs/settings/settings_cubit.dart"]
+		},
+		{
+			"name": "pos",
+			"pages": [
+				"lib/pos/pages/pos_page.dart",
+				"lib/pos/pages/protected_shell_page.dart"
+			],
+			"daos": [],
+			"repositories": [],
+			"blocs": [],
+			"cubits": []
+		},
+		{
+			"name": "reports",
+			"pages": ["lib/reports/pages/report_page.dart"],
+			"daos": [],
+			"repositories": [],
+			"blocs": [],
+			"cubits": []
+		}
+	]
+}

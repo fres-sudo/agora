@@ -41,12 +41,10 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
               condition = condition & t.status.equals(status);
             }
             if (startDate != null) {
-              condition =
-                  condition & t.createdAt.isBiggerOrEqualValue(startDate);
+              condition = condition & t.createdAt.isBiggerOrEqualValue(startDate);
             }
             if (endDate != null) {
-              condition =
-                  condition & t.createdAt.isSmallerOrEqualValue(endDate);
+              condition = condition & t.createdAt.isSmallerOrEqualValue(endDate);
             }
             if (paymentMethod != null) {
               condition = condition & t.paymentMethod.equals(paymentMethod);
@@ -60,9 +58,9 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
 
   /// Watches a single order by ID.
   Stream<OrderEntity?> watchOrderById(int id) {
-    return (select(ordersTable)
-          ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
-        .watchSingleOrNull();
+    return (select(
+      ordersTable,
+    )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).watchSingleOrNull();
   }
 
   /// Gets a single order by ID (Future-based).
@@ -81,20 +79,15 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
   }
 
   /// Watches orders within a date range.
-  Stream<List<OrderEntity>> watchOrdersByDateRange({
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
+  Stream<List<OrderEntity>> watchOrdersByDateRange({DateTime? startDate, DateTime? endDate}) {
     return (select(ordersTable)
           ..where((t) {
             var condition = t.deletedAt.isNull();
             if (startDate != null) {
-              condition =
-                  condition & t.createdAt.isBiggerOrEqualValue(startDate);
+              condition = condition & t.createdAt.isBiggerOrEqualValue(startDate);
             }
             if (endDate != null) {
-              condition =
-                  condition & t.createdAt.isSmallerOrEqualValue(endDate);
+              condition = condition & t.createdAt.isSmallerOrEqualValue(endDate);
             }
             return condition;
           })
@@ -113,11 +106,7 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
   }
 
   /// Gets the total count of orders with optional filters.
-  Future<int> getOrdersCount({
-    int? status,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) async {
+  Future<int> getOrdersCount({int? status, DateTime? startDate, DateTime? endDate}) async {
     final count = ordersTable.id.count();
     final query = selectOnly(ordersTable)..addColumns([count]);
 
@@ -126,12 +115,10 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
       condition = condition & ordersTable.status.equals(status);
     }
     if (startDate != null) {
-      condition =
-          condition & ordersTable.createdAt.isBiggerOrEqualValue(startDate);
+      condition = condition & ordersTable.createdAt.isBiggerOrEqualValue(startDate);
     }
     if (endDate != null) {
-      condition =
-          condition & ordersTable.createdAt.isSmallerOrEqualValue(endDate);
+      condition = condition & ordersTable.createdAt.isSmallerOrEqualValue(endDate);
     }
     query.where(condition);
 
@@ -144,10 +131,7 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
   // ============================================================
 
   /// Gets total revenue for completed orders in a date range.
-  Future<int> getTotalRevenue({
-    required DateTime startDate,
-    required DateTime endDate,
-  }) async {
+  Future<int> getTotalRevenue({required DateTime startDate, required DateTime endDate}) async {
     final sum = ordersTable.grandTotal.sum();
     final query = selectOnly(ordersTable)
       ..addColumns([sum])
@@ -162,10 +146,7 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
   }
 
   /// Gets total discounts applied in a date range.
-  Future<int> getTotalDiscounts({
-    required DateTime startDate,
-    required DateTime endDate,
-  }) async {
+  Future<int> getTotalDiscounts({required DateTime startDate, required DateTime endDate}) async {
     final sum = ordersTable.discountTotal.sum();
     final query = selectOnly(ordersTable)
       ..addColumns([sum])
@@ -184,7 +165,7 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
   // ============================================================
 
   /// Inserts a new order and returns the new ID.
-  Future<int> insertOrder(OrderEntity companion) {
+  Future<int> insertOrder(Insertable<OrderEntity> companion) {
     return into(ordersTable).insert(companion);
   }
 
@@ -198,12 +179,7 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
   /// Updates only the order status.
   Future<bool> updateOrderStatus(int id, int status) {
     return (update(ordersTable)..where((t) => t.id.equals(id)))
-        .write(
-          OrdersTableCompanion(
-            status: Value(status),
-            updatedAt: Value(DateTime.now()),
-          ),
-        )
+        .write(OrdersTableCompanion(status: Value(status), updatedAt: Value(DateTime.now())))
         .then((rows) => rows > 0);
   }
 

@@ -6,6 +6,7 @@ import 'package:agora/orders/local/daos/orders_dao.dart';
 import 'package:agora/orders/models/order/order.dart';
 import 'package:agora/orders/models/order_line_item/order_line_item.dart';
 import 'package:agora/orders/models/selected_modifiers/selected_modifiers.dart';
+import 'package:drift/drift.dart';
 import 'package:talker/talker.dart';
 
 /// Repository interface for order operations.
@@ -30,10 +31,7 @@ abstract interface class OrdersRepository {
   Stream<Order?> watchOrderById(int id);
 
   /// Watches orders within a date range.
-  Stream<List<Order>> watchOrdersByDateRange({
-    DateTime? startDate,
-    DateTime? endDate,
-  });
+  Stream<List<Order>> watchOrdersByDateRange({DateTime? startDate, DateTime? endDate});
 
   // ============================================================
   // READ OPERATIONS - Future-based with Result
@@ -43,27 +41,17 @@ abstract interface class OrdersRepository {
   Future<Result<Order?>> getOrderById(int id);
 
   /// Gets the total count of orders.
-  Future<Result<int>> getOrdersCount({
-    OrderStatus? status,
-    DateTime? startDate,
-    DateTime? endDate,
-  });
+  Future<Result<int>> getOrdersCount({OrderStatus? status, DateTime? startDate, DateTime? endDate});
 
   // ============================================================
   // REPORTING
   // ============================================================
 
   /// Gets total revenue for completed orders in a date range.
-  Future<Result<int>> getTotalRevenue({
-    required DateTime startDate,
-    required DateTime endDate,
-  });
+  Future<Result<int>> getTotalRevenue({required DateTime startDate, required DateTime endDate});
 
   /// Gets total discounts applied in a date range.
-  Future<Result<int>> getTotalDiscounts({
-    required DateTime startDate,
-    required DateTime endDate,
-  });
+  Future<Result<int>> getTotalDiscounts({required DateTime startDate, required DateTime endDate});
 
   // ============================================================
   // WRITE OPERATIONS - Returns entity for optimistic updates
@@ -114,9 +102,7 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
     final items = <OrderLineItem>[];
 
     for (final itemEntity in itemEntities) {
-      final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(
-        itemEntity.id,
-      );
+      final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(itemEntity.id);
       items.add(
         OrderLineItem(
           productId: itemEntity.productId,
@@ -162,6 +148,30 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       paymentMethod: null,
       updatedAt: DateTime.now(),
       deletedAt: null,
+    );
+  }
+
+  OrdersTableCompanion _modelToInsertCompanion(Order order) {
+    return OrdersTableCompanion.insert(
+      createdAt: Value(order.createdAt),
+      status: Value(order.status.value),
+      subtotal: order.subtotalCents,
+      discountTotal: Value(order.discountCents),
+      taxTotal: Value(order.taxCents),
+      grandTotal: order.grandTotalCents,
+      note: Value(order.note),
+    );
+  }
+
+  OrderItemsTableCompanion _itemToInsertCompanion(int orderId, OrderLineItem item) {
+    return OrderItemsTableCompanion.insert(
+      orderId: orderId,
+      productId: Value(item.productId),
+      productName: item.productName,
+      unitPrice: item.unitPriceCents,
+      costPrice: 0, // Cost price not tracked in OrderLineItem model
+      quantity: Value(item.quantity),
+      discountAmount: Value(0), // Discount applied at order level
     );
   }
 
@@ -223,10 +233,7 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
   }
 
   @override
-  Stream<List<Order>> watchOrdersByDateRange({
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
+  Stream<List<Order>> watchOrdersByDateRange({DateTime? startDate, DateTime? endDate}) {
     return _ordersDao
         .watchOrdersByDateRange(startDate: startDate, endDate: endDate)
         .asyncMap((entities) async {
@@ -244,12 +251,11 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
   // ============================================================
 
   @override
-  Future<Result<Order?>> getOrderById(int id) =>
-      safe('getOrderById($id)', () async {
-        final entity = await _ordersDao.getOrderById(id);
-        if (entity == null) return null;
-        return _entityToModel(entity);
-      });
+  Future<Result<Order?>> getOrderById(int id) => safe('getOrderById($id)', () async {
+    final entity = await _ordersDao.getOrderById(id);
+    if (entity == null) return null;
+    return _entityToModel(entity);
+  });
 
   @override
   Future<Result<int>> getOrdersCount({
@@ -258,11 +264,7 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
     DateTime? endDate,
   }) => safe(
     'getOrdersCount',
-    () => _ordersDao.getOrdersCount(
-      status: status?.value,
-      startDate: startDate,
-      endDate: endDate,
-    ),
+    () => _ordersDao.getOrdersCount(status: status?.value, startDate: startDate, endDate: endDate),
   );
 
   // ============================================================
@@ -270,83 +272,62 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
   // ============================================================
 
   @override
-  Future<Result<int>> getTotalRevenue({
-    required DateTime startDate,
-    required DateTime endDate,
-  }) => safe(
-    'getTotalRevenue',
-    () => _ordersDao.getTotalRevenue(startDate: startDate, endDate: endDate),
-  );
+  Future<Result<int>> getTotalRevenue({required DateTime startDate, required DateTime endDate}) =>
+      safe(
+        'getTotalRevenue',
+        () => _ordersDao.getTotalRevenue(startDate: startDate, endDate: endDate),
+      );
 
   @override
-  Future<Result<int>> getTotalDiscounts({
-    required DateTime startDate,
-    required DateTime endDate,
-  }) => safe(
-    'getTotalDiscounts',
-    () => _ordersDao.getTotalDiscounts(startDate: startDate, endDate: endDate),
-  );
+  Future<Result<int>> getTotalDiscounts({required DateTime startDate, required DateTime endDate}) =>
+      safe(
+        'getTotalDiscounts',
+        () => _ordersDao.getTotalDiscounts(startDate: startDate, endDate: endDate),
+      );
 
   // ============================================================
   // WRITE OPERATIONS - Optimistic Update Support
   // ============================================================
 
   @override
-  Future<Result<Order>> createOrder(Order order) =>
-      safe('createOrder', () async {
-        // Insert order
-        final orderId = await _ordersDao.insertOrder(_modelToEntity(order));
+  Future<Result<Order>> createOrder(Order order) => safe('createOrder', () async {
+    // Insert order
+    final orderId = await _ordersDao.insertOrder(_modelToInsertCompanion(order));
 
-        // Insert items and their modifiers
-        for (final item in order.items) {
-          final itemId = await _orderItemsDao.insertOrderItem(
-            OrderItemEntity(
-              id: 0,
-              orderId: orderId,
-              productId: item.productId,
-              productName: item.productName,
-              quantity: item.quantity,
-              unitPrice: item.unitPriceCents,
-              costPrice: 0, // Cost price not tracked in OrderLineItem model
-              discountAmount: 0, // Discount applied at order level
-              createdAt: DateTime.now(),
-              updatedAt: DateTime.now(),
-              deletedAt: null,
-            ),
-          );
+    // Insert items and their modifiers
+    for (final item in order.items) {
+      final itemId = await _orderItemsDao.insertOrderItem(_itemToInsertCompanion(orderId, item));
 
-          // Insert modifiers for this item
-          for (final modifier in item.selectedModifiers) {
-            await _orderItemsDao.addModifierToOrderItem(
-              orderItemId: itemId,
-              modifierName: modifier.groupName,
-              optionName: modifier.optionName,
-              priceChange: modifier.priceChangeCents,
-            );
-          }
-        }
+      // Insert modifiers for this item
+      for (final modifier in item.selectedModifiers) {
+        await _orderItemsDao.addModifierToOrderItem(
+          orderItemId: itemId,
+          modifierName: modifier.groupName,
+          optionName: modifier.optionName,
+          priceChange: modifier.priceChangeCents,
+        );
+      }
+    }
 
-        // Return the created order with its new ID
-        return order.copyWith(id: orderId);
-      });
+    // Return the created order with its new ID
+    return order.copyWith(id: orderId);
+  });
 
   @override
-  Future<Result<Order>> updateOrder(Order order) =>
-      safe('updateOrder(${order.id})', () async {
-        if (order.id == null) {
-          throw Exception('Cannot update an order without an ID');
-        }
-        await _ordersDao.updateOrder(order.id!, _modelToEntity(order));
-        return order;
-      });
+  Future<Result<Order>> updateOrder(Order order) => safe('updateOrder(${order.id})', () async {
+    if (order.id == null) {
+      throw Exception('Cannot update an order without an ID');
+    }
+    await _ordersDao.updateOrder(order.id!, _modelToEntity(order));
+    return order;
+  });
 
   @override
-  Future<Result<Order>> completeOrder(int id) =>
-      safe('completeOrder($id)', () async {
-        await _ordersDao.completeOrder(id);
-        final order = await getOrderById(id);
-        return order.unwrap()!;
-      });
+  Future<Result<Order>> completeOrder(int id) => safe('completeOrder($id)', () async {
+    await _ordersDao.completeOrder(id);
+    final order = await getOrderById(id);
+    return order.unwrap()!;
+  });
 
   @override
   Future<Result<Order>> voidOrder(int id) => safe('voidOrder($id)', () async {

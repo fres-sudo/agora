@@ -45,6 +45,9 @@ class DataTableView<T> extends StatefulWidget {
     required this.config,
     this.controller,
     this.isLoading = false,
+    this.showAddButton = true,
+    this.showEditAction = true,
+    this.showDeleteAction = true,
     this.onSearch,
     this.onSort,
     this.onFilter,
@@ -69,6 +72,15 @@ class DataTableView<T> extends StatefulWidget {
 
   /// Whether to show the loading skeleton state.
   final bool isLoading;
+
+  /// Whether to show the add button in the header.
+  final bool showAddButton;
+
+  /// Whether to show the edit action in the row menu.
+  final bool showEditAction;
+
+  /// Whether to show the delete action in the row menu.
+  final bool showDeleteAction;
 
   /// Callback when search query changes.
   final ValueChanged<String>? onSearch;
@@ -108,9 +120,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     if (widget.controller != null) {
       _controller = widget.controller!;
     } else {
-      _controller = DataTableController<T>(
-        rowsPerPage: widget.config.defaultRowsPerPage,
-      );
+      _controller = DataTableController<T>(rowsPerPage: widget.config.defaultRowsPerPage);
       _ownsController = true;
     }
     _controller.addListener(_onControllerChanged);
@@ -128,9 +138,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       if (widget.controller != null) {
         _controller = widget.controller!;
       } else {
-        _controller = DataTableController<T>(
-          rowsPerPage: widget.config.defaultRowsPerPage,
-        );
+        _controller = DataTableController<T>(rowsPerPage: widget.config.defaultRowsPerPage);
         _ownsController = true;
       }
       _controller.addListener(_onControllerChanged);
@@ -201,23 +209,21 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
               widget.onSort?.call(_controller.currentSort!);
             },
             onFilter: widget.onFilter,
-            onAdd: widget.onAdd,
+            onAdd: widget.showAddButton ? widget.onAdd : null,
           ),
           // Divider
           const Divider(height: 1, color: AppColors.neutral200),
           // Content
           Expanded(
             child: widget.isLoading
-                ? DataTableLoadingState(
-                    columnCount: widget.columns.length,
-                  )
+                ? DataTableLoadingState(columnCount: widget.columns.length)
                 : widget.items.isEmpty
-                    ? DataTableEmptyState(
-                        title: widget.config.emptyStateTitle,
-                        subtitle: widget.config.emptyStateSubtitle,
-                        icon: widget.config.emptyStateIcon,
-                      )
-                    : _buildTable(),
+                ? DataTableEmptyState(
+                    title: widget.config.emptyStateTitle,
+                    subtitle: widget.config.emptyStateSubtitle,
+                    icon: widget.config.emptyStateIcon,
+                  )
+                : _buildTable(),
           ),
           // Pagination (only show if there are items)
           if (!widget.isLoading && widget.items.isNotEmpty) ...[
@@ -254,29 +260,18 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
 
   Widget _buildColumnHeaders() {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.lg,
-        vertical: Sizes.md,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
       decoration: const BoxDecoration(
         color: AppColors.neutral50,
-        border: Border(
-          bottom: BorderSide(color: AppColors.neutral200),
-        ),
+        border: Border(bottom: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [
           ...widget.columns.map((column) {
             if (column.width != null) {
-              return SizedBox(
-                width: column.width,
-                child: _buildHeaderCell(column),
-              );
+              return SizedBox(width: column.width, child: _buildHeaderCell(column));
             }
-            return Expanded(
-              flex: column.flex,
-              child: _buildHeaderCell(column),
-            );
+            return Expanded(flex: column.flex, child: _buildHeaderCell(column));
           }),
           // Actions column placeholder
           const SizedBox(width: 48),
@@ -291,10 +286,10 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       child: Text(
         column.label.toUpperCase(),
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.neutral500,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.5,
-            ),
+          color: AppColors.neutral500,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
       ),
     );
   }
@@ -303,14 +298,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     return InkWell(
       onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.lg,
-          vertical: Sizes.md,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
         decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: AppColors.neutral200),
-          ),
+          border: Border(bottom: BorderSide(color: AppColors.neutral200)),
         ),
         child: Row(
           children: [
@@ -318,65 +308,50 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
               if (column.width != null) {
                 return SizedBox(
                   width: column.width,
-                  child: Align(
-                    alignment: column.alignment,
-                    child: column.cellBuilder(item),
-                  ),
+                  child: Align(alignment: column.alignment, child: column.cellBuilder(item)),
                 );
               }
               return Expanded(
                 flex: column.flex,
-                child: Align(
-                  alignment: column.alignment,
-                  child: column.cellBuilder(item),
-                ),
+                child: Align(alignment: column.alignment, child: column.cellBuilder(item)),
               );
             }),
-            // Row actions menu
-            SizedBox(
-              width: 48,
-              child: PopupMenuButton<DataTableRowAction>(
-                onSelected: (action) => widget.onRowAction?.call(item, action),
-                icon: const Icon(
-                  Icons.more_vert,
-                  color: AppColors.neutral500,
-                  size: 20,
-                ),
-                padding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                ),
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: DataTableRowAction.edit,
-                    child: Row(
-                      children: [
-                        Icon(Icons.edit_outlined, size: 18),
-                        SizedBox(width: Sizes.sm),
-                        Text('Edit'),
-                      ],
-                    ),
+            if (widget.showEditAction || widget.showDeleteAction)
+              SizedBox(
+                width: 48,
+                child: PopupMenuButton<DataTableRowAction>(
+                  onSelected: (action) => widget.onRowAction?.call(item, action),
+                  icon: const Icon(Icons.more_vert, color: AppColors.neutral500, size: 20),
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(Sizes.borderRadius),
                   ),
-                  const PopupMenuItem(
-                    value: DataTableRowAction.delete,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.delete_outline,
-                          size: 18,
-                          color: AppColors.error500,
+                  itemBuilder: (context) => [
+                    if (widget.showEditAction)
+                      const PopupMenuItem(
+                        value: DataTableRowAction.edit,
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit_outlined, size: 18),
+                            SizedBox(width: Sizes.sm),
+                            Text('Edit'),
+                          ],
                         ),
-                        SizedBox(width: Sizes.sm),
-                        Text(
-                          'Delete',
-                          style: TextStyle(color: AppColors.error500),
+                      ),
+                    if (widget.showDeleteAction)
+                      const PopupMenuItem(
+                        value: DataTableRowAction.delete,
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete_outline, size: 18, color: AppColors.error500),
+                            SizedBox(width: Sizes.sm),
+                            Text('Delete', style: TextStyle(color: AppColors.error500)),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
+                      ),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
