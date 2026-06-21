@@ -10,23 +10,23 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:agora/auth/pages/auth_shell_page.dart' as _i1;
-import 'package:agora/pos/pages/pos_page.dart' as _i2;
-import 'package:agora/pos/pages/protected_shell_page.dart' as _i4;
-import 'package:agora/products/pages/products_page.dart' as _i3;
-import 'package:agora/reports/pages/report_page.dart' as _i5;
-import 'package:agora/settings/pages/settings_page.dart' as _i6;
-import 'package:agora/orders/pages/orders_page.dart' as _i8;
-import 'package:auto_route/auto_route.dart' as _i7;
+import 'package:agora/orders/pages/orders_page.dart' as _i2;
+import 'package:agora/pos/pages/pos_page.dart' as _i3;
+import 'package:agora/pos/pages/protected_shell_page.dart' as _i5;
+import 'package:agora/products/pages/products_page.dart' as _i4;
+import 'package:agora/reports/pages/report_page.dart' as _i6;
+import 'package:agora/settings/pages/settings_page.dart' as _i7;
+import 'package:auto_route/auto_route.dart' as _i8;
 
 /// generated route for
 /// [_i1.AuthShellPage]
-class AuthShellRoute extends _i7.PageRouteInfo<void> {
-  const AuthShellRoute({List<_i7.PageRouteInfo>? children})
+class AuthShellRoute extends _i8.PageRouteInfo<void> {
+  const AuthShellRoute({List<_i8.PageRouteInfo>? children})
     : super(AuthShellRoute.name, initialChildren: children);
 
   static const String name = 'AuthShellRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       return const _i1.AuthShellPage();
@@ -35,97 +35,97 @@ class AuthShellRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.PosPage]
-class PosRoute extends _i7.PageRouteInfo<void> {
-  const PosRoute({List<_i7.PageRouteInfo>? children})
-    : super(PosRoute.name, initialChildren: children);
-
-  static const String name = 'PosRoute';
-
-  static _i7.PageInfo page = _i7.PageInfo(
-    name,
-    builder: (data) {
-      return const _i2.PosPage();
-    },
-  );
-}
-
-/// generated route for
-/// [_i8.OrdersPage]
-class OrdersRoute extends _i7.PageRouteInfo<void> {
-  const OrdersRoute({List<_i7.PageRouteInfo>? children})
+/// [_i2.OrdersPage]
+class OrdersRoute extends _i8.PageRouteInfo<void> {
+  const OrdersRoute({List<_i8.PageRouteInfo>? children})
     : super(OrdersRoute.name, initialChildren: children);
 
   static const String name = 'OrdersRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i8.OrdersPage();
+      return const _i2.OrdersPage();
     },
   );
 }
 
 /// generated route for
-/// [_i3.ProductsPage]
-class ProductsRoute extends _i7.PageRouteInfo<void> {
-  const ProductsRoute({List<_i7.PageRouteInfo>? children})
+/// [_i3.PosPage]
+class PosRoute extends _i8.PageRouteInfo<void> {
+  const PosRoute({List<_i8.PageRouteInfo>? children})
+    : super(PosRoute.name, initialChildren: children);
+
+  static const String name = 'PosRoute';
+
+  static _i8.PageInfo page = _i8.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.PosPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i4.ProductsPage]
+class ProductsRoute extends _i8.PageRouteInfo<void> {
+  const ProductsRoute({List<_i8.PageRouteInfo>? children})
     : super(ProductsRoute.name, initialChildren: children);
 
   static const String name = 'ProductsRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i3.ProductsPage();
+      return const _i4.ProductsPage();
     },
   );
 }
 
 /// generated route for
-/// [_i4.ProtectedShellPage]
-class ProtectedShellRoute extends _i7.PageRouteInfo<void> {
-  const ProtectedShellRoute({List<_i7.PageRouteInfo>? children})
+/// [_i5.ProtectedShellPage]
+class ProtectedShellRoute extends _i8.PageRouteInfo<void> {
+  const ProtectedShellRoute({List<_i8.PageRouteInfo>? children})
     : super(ProtectedShellRoute.name, initialChildren: children);
 
   static const String name = 'ProtectedShellRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i4.ProtectedShellPage();
+      return const _i5.ProtectedShellPage();
     },
   );
 }
 
 /// generated route for
-/// [_i5.ReportPage]
-class ReportRoute extends _i7.PageRouteInfo<void> {
-  const ReportRoute({List<_i7.PageRouteInfo>? children})
+/// [_i6.ReportPage]
+class ReportRoute extends _i8.PageRouteInfo<void> {
+  const ReportRoute({List<_i8.PageRouteInfo>? children})
     : super(ReportRoute.name, initialChildren: children);
 
   static const String name = 'ReportRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i5.ReportPage();
+      return const _i6.ReportPage();
     },
   );
 }
 
 /// generated route for
-/// [_i6.SettingsPage]
-class SettingsRoute extends _i7.PageRouteInfo<void> {
-  const SettingsRoute({List<_i7.PageRouteInfo>? children})
+/// [_i7.SettingsPage]
+class SettingsRoute extends _i8.PageRouteInfo<void> {
+  const SettingsRoute({List<_i8.PageRouteInfo>? children})
     : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i6.SettingsPage();
+      return const _i7.SettingsPage();
     },
   );
 }
