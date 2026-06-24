@@ -9,8 +9,17 @@ part 'inventory_bloc.freezed.dart';
 part 'inventory_event.dart';
 part 'inventory_state.dart';
 
+sealed class InventoryEffect {
+  const InventoryEffect();
+}
+
+final class InventoryShowError extends InventoryEffect {
+  const InventoryShowError(this.message);
+  final String message;
+}
+
 /// BLoC for managing stock levels with real-time updates.
-class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
+class InventoryBloc extends EffectBloc<InventoryEvent, InventoryState, InventoryEffect> {
   InventoryBloc({
     required InventoryRepository inventoryRepository,
   })  : _inventoryRepository = inventoryRepository,

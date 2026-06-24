@@ -11,8 +11,17 @@ part 'categories_bloc.freezed.dart';
 part 'categories_event.dart';
 part 'categories_state.dart';
 
+sealed class CategoriesEffect {
+  const CategoriesEffect();
+}
+
+final class CategoriesShowError extends CategoriesEffect {
+  const CategoriesShowError(this.message);
+  final String message;
+}
+
 /// BLoC for managing categories with real-time updates.
-class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
+class CategoriesBloc extends EffectBloc<CategoriesEvent, CategoriesState, CategoriesEffect> {
   CategoriesBloc({required CategoriesRepository categoriesRepository})
     : _categoriesRepository = categoriesRepository,
       super(const CategoriesState.initial()) {
@@ -53,14 +62,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          CategoriesState.error(
-            message: 'Failed to create category: ${error.toString()}',
-            previousState: state is CategoriesLoaded
-                ? state as CategoriesLoaded
-                : null,
-          ),
-        );
+        emitEffect(CategoriesShowError('Failed to create category: ${error.toString()}'));
       },
     );
   }
@@ -73,14 +75,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          CategoriesState.error(
-            message: 'Failed to update category: ${error.toString()}',
-            previousState: state is CategoriesLoaded
-                ? state as CategoriesLoaded
-                : null,
-          ),
-        );
+        emitEffect(CategoriesShowError('Failed to update category: ${error.toString()}'));
       },
     );
   }
@@ -93,14 +88,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          CategoriesState.error(
-            message: 'Failed to delete category: ${error.toString()}',
-            previousState: state is CategoriesLoaded
-                ? state as CategoriesLoaded
-                : null,
-          ),
-        );
+        emitEffect(CategoriesShowError('Failed to delete category: ${error.toString()}'));
       },
     );
   }

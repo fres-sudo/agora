@@ -13,11 +13,20 @@ part 'products_bloc.freezed.dart';
 part 'products_event.dart';
 part 'products_state.dart';
 
+sealed class ProductsEffect {
+  const ProductsEffect();
+}
+
+final class ProductsShowError extends ProductsEffect {
+  const ProductsShowError(this.message);
+  final String message;
+}
+
 /// BLoC for managing the products list with real-time updates.
 ///
 /// Uses streams from the repository for reactive data binding.
 /// Products are automatically updated when the underlying database changes.
-class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
+class ProductsBloc extends EffectBloc<ProductsEvent, ProductsState, ProductsEffect> {
   ProductsBloc({
     required ProductsRepository productsRepository,
     required CategoriesRepository categoriesRepository,
@@ -96,14 +105,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         // Stream will automatically update the list
       },
       error: (error) {
-        emit(
-          ProductsState.error(
-            message: 'Failed to delete product: ${error.toString()}',
-            previousState: state is ProductsLoaded
-                ? state as ProductsLoaded
-                : null,
-          ),
-        );
+        emitEffect(ProductsShowError('Failed to delete product: ${error.toString()}'));
       },
     );
   }

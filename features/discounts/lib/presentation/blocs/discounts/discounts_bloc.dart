@@ -11,8 +11,17 @@ part 'discounts_bloc.freezed.dart';
 part 'discounts_event.dart';
 part 'discounts_state.dart';
 
+sealed class DiscountsEffect {
+  const DiscountsEffect();
+}
+
+final class DiscountsShowError extends DiscountsEffect {
+  const DiscountsShowError(this.message);
+  final String message;
+}
+
 /// BLoC for managing discounts with real-time updates.
-class DiscountsBloc extends Bloc<DiscountsEvent, DiscountsState> {
+class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, DiscountsEffect> {
   DiscountsBloc({
     required DiscountsRepository discountsRepository,
   })  : _discountsRepository = discountsRepository,
@@ -54,11 +63,7 @@ class DiscountsBloc extends Bloc<DiscountsEvent, DiscountsState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(DiscountsState.error(
-          message: 'Failed to create discount: ${error.toString()}',
-          previousState:
-              state is DiscountsLoaded ? state as DiscountsLoaded : null,
-        ));
+        emitEffect(DiscountsShowError('Failed to create discount: ${error.toString()}'));
       },
     );
   }
@@ -74,11 +79,7 @@ class DiscountsBloc extends Bloc<DiscountsEvent, DiscountsState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(DiscountsState.error(
-          message: 'Failed to update discount: ${error.toString()}',
-          previousState:
-              state is DiscountsLoaded ? state as DiscountsLoaded : null,
-        ));
+        emitEffect(DiscountsShowError('Failed to update discount: ${error.toString()}'));
       },
     );
   }
@@ -96,11 +97,7 @@ class DiscountsBloc extends Bloc<DiscountsEvent, DiscountsState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(DiscountsState.error(
-          message: 'Failed to toggle discount: ${error.toString()}',
-          previousState:
-              state is DiscountsLoaded ? state as DiscountsLoaded : null,
-        ));
+        emitEffect(DiscountsShowError('Failed to toggle discount: ${error.toString()}'));
       },
     );
   }
@@ -116,11 +113,7 @@ class DiscountsBloc extends Bloc<DiscountsEvent, DiscountsState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(DiscountsState.error(
-          message: 'Failed to delete discount: ${error.toString()}',
-          previousState:
-              state is DiscountsLoaded ? state as DiscountsLoaded : null,
-        ));
+        emitEffect(DiscountsShowError('Failed to delete discount: ${error.toString()}'));
       },
     );
   }

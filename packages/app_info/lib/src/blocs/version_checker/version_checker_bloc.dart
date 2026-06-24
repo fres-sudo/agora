@@ -1,8 +1,7 @@
 import 'dart:async';
 
+import 'package:bloc_exports/bloc_exports.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../repositories/version_checker_repository.dart';
 
 part 'version_checker_bloc.freezed.dart';
@@ -10,8 +9,16 @@ part 'version_checker_event.dart';
 part 'version_checker_state.dart';
 part 'version_checker_state_utils.dart';
 
+sealed class VersionCheckerEffect {
+  const VersionCheckerEffect();
+}
+
+final class VersionCheckerErrorEffect extends VersionCheckerEffect {
+  const VersionCheckerErrorEffect();
+}
+
 class VersionCheckerBloc
-    extends Bloc<VersionCheckerEvent, VersionCheckerState> {
+    extends EffectBloc<VersionCheckerEvent, VersionCheckerState, VersionCheckerEffect> {
   VersionCheckerBloc({required this.versionCheckerRepository})
     : super(const VersionCheckerState.gettingAppInfo()) {
     on<GetAppInfoVersionCheckerEvent>(_onGetAppInfo);
@@ -38,6 +45,7 @@ class VersionCheckerBloc
         ),
       );
     } catch (_) {
+      emitEffect(const VersionCheckerErrorEffect());
       emit(const VersionCheckerState.errorGettingAppInfo());
     }
   }

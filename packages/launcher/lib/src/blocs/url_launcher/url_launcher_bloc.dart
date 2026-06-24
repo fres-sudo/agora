@@ -1,8 +1,7 @@
 import 'dart:async';
 
+import 'package:bloc_exports/bloc_exports.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:utils/utils.dart';
 import '../../repositories/url_launcher_repository.dart';
 
@@ -11,7 +10,21 @@ part 'url_launcher_event.dart';
 part 'url_launcher_state.dart';
 part 'url_launcher_state_utils.dart';
 
-class UrlLauncherBloc extends Bloc<UrlLauncherEvent, UrlLauncherState> {
+sealed class UrlLauncherEffect {
+  const UrlLauncherEffect();
+}
+
+final class UrlLaunched extends UrlLauncherEffect {
+  const UrlLaunched(this.uri);
+  final Uri uri;
+}
+
+final class UrlLaunchError extends UrlLauncherEffect {
+  const UrlLaunchError(this.uri);
+  final Uri uri;
+}
+
+class UrlLauncherBloc extends EffectBloc<UrlLauncherEvent, UrlLauncherState, UrlLauncherEffect> {
   UrlLauncherBloc({required this.urlLauncherRepository})
     : super(const UrlLauncherState.checking()) {
     on<ExecuteUrlLauncherEvent>(_onExecute);
@@ -37,14 +50,18 @@ class UrlLauncherBloc extends Bloc<UrlLauncherEvent, UrlLauncherState> {
         );
 
         if (launched.unwrap()) {
+          emitEffect(UrlLaunched(event.uri));
           emit(const UrlLauncherState.launched());
         } else {
+          emitEffect(UrlLaunchError(event.uri));
           emit(const UrlLauncherState.error());
         }
       } else {
+        emitEffect(UrlLaunchError(event.uri));
         emit(const UrlLauncherState.error());
       }
     } catch (_) {
+      emitEffect(UrlLaunchError(event.uri));
       emit(const UrlLauncherState.error());
     }
   }

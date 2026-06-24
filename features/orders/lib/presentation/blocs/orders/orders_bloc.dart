@@ -12,8 +12,17 @@ part 'orders_bloc.freezed.dart';
 part 'orders_event.dart';
 part 'orders_state.dart';
 
+sealed class OrdersEffect {
+  const OrdersEffect();
+}
+
+final class OrdersShowError extends OrdersEffect {
+  const OrdersShowError(this.message);
+  final String message;
+}
+
 /// BLoC for managing the orders list with filtering and real-time updates.
-class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
+class OrdersBloc extends EffectBloc<OrdersEvent, OrdersState, OrdersEffect> {
   OrdersBloc({
     required OrdersRepository ordersRepository,
     required InventoryRepository inventoryRepository,
@@ -67,12 +76,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       case Ok<Order?>(:final value):
         final order = value;
         if (order == null) {
-          emit(
-            OrdersState.error(
-              message: 'Order not found',
-              previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
-            ),
-          );
+          emitEffect(const OrdersShowError('Order not found'));
           return;
         }
 
@@ -96,12 +100,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
             );
 
             if (restoreResult.isError) {
-              emit(
-                OrdersState.error(
-                  message: 'Failed to restore inventory for order #${order.id ?? event.id}',
-                  previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
-                ),
-              );
+              emitEffect(OrdersShowError('Failed to restore inventory for order #${order.id ?? event.id}'));
               return;
             }
           }
@@ -114,21 +113,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
             // Stream will automatically update the list.
           },
           error: (error) {
-            emit(
-              OrdersState.error(
-                message: 'Failed to delete order: ${error.toString()}',
-                previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
-              ),
-            );
+            emitEffect(OrdersShowError('Failed to delete order: ${error.toString()}'));
           },
         );
       case Error<Order?>(:final error):
-        emit(
-          OrdersState.error(
-            message: 'Failed to load order: ${error.toString()}',
-            previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
-          ),
-        );
+        emitEffect(OrdersShowError('Failed to load order: ${error.toString()}'));
     }
   }
 

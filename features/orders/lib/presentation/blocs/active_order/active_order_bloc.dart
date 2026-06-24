@@ -16,13 +16,27 @@ part 'active_order_bloc.freezed.dart';
 part 'active_order_event.dart';
 part 'active_order_state.dart';
 
+sealed class ActiveOrderEffect {
+  const ActiveOrderEffect();
+}
+
+final class ActiveOrderSubmitted extends ActiveOrderEffect {
+  const ActiveOrderSubmitted(this.order);
+  final Order order;
+}
+
+final class ActiveOrderShowError extends ActiveOrderEffect {
+  const ActiveOrderShowError(this.message);
+  final String message;
+}
+
 /// BLoC for managing the current cart/order being built.
 ///
 /// Uses optimistic updates for immediate UI feedback:
 /// - Cart state updates immediately on item add/remove
-/// - If the async DB operation fails, error state includes the previous cart
-/// - On success, the UI is already in the correct state
-class ActiveOrderBloc extends Bloc<ActiveOrderEvent, ActiveOrderState> {
+/// - If the async operation fails, an effect is emitted for UI notification
+/// - On success, orderSubmitted effect triggers navigation
+class ActiveOrderBloc extends EffectBloc<ActiveOrderEvent, ActiveOrderState, ActiveOrderEffect> {
   ActiveOrderBloc({required OrdersRepository ordersRepository})
     : _ordersRepository = ordersRepository,
       super(const ActiveOrderState.empty()) {
@@ -147,9 +161,7 @@ class ActiveOrderBloc extends Bloc<ActiveOrderEvent, ActiveOrderState> {
     Emitter<ActiveOrderState> emit,
   ) async {
     if (_items.isEmpty) {
-      emit(
-        const ActiveOrderState.error(message: 'Cannot submit an empty order'),
-      );
+      emitEffect(const ActiveOrderShowError('Cannot submit an empty order'));
       return;
     }
 
@@ -160,19 +172,18 @@ class ActiveOrderBloc extends Bloc<ActiveOrderEvent, ActiveOrderState> {
 
     result.when(
       success: (submittedOrder) {
-        emit(ActiveOrderState.submitted(order: submittedOrder));
-        // Clear the cart
+        emitEffect(ActiveOrderSubmitted(submittedOrder));
         _items = [];
         _appliedDiscount = null;
         _note = '';
+        emit(const ActiveOrderState.empty());
       },
       error: (error) {
-        emit(
-          ActiveOrderState.error(
-            message: 'Failed to submit order: ${error.toString()}',
-            order: currentOrder,
-          ),
-        );
+        emitEffect(ActiveOrderShowError('Failed to submit order: ${error.toString()}'));
+        emit(ActiveOrderState.building(
+          order: currentOrder,
+          appliedDiscount: _appliedDiscount,
+        ));
       },
     );
   }

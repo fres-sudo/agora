@@ -11,8 +11,17 @@ part 'modifiers_bloc.freezed.dart';
 part 'modifiers_event.dart';
 part 'modifiers_state.dart';
 
+sealed class ModifiersEffect {
+  const ModifiersEffect();
+}
+
+final class ModifiersShowError extends ModifiersEffect {
+  const ModifiersShowError(this.message);
+  final String message;
+}
+
 /// BLoC for managing modifier groups with real-time updates.
-class ModifiersBloc extends Bloc<ModifiersEvent, ModifiersState> {
+class ModifiersBloc extends EffectBloc<ModifiersEvent, ModifiersState, ModifiersEffect> {
   ModifiersBloc({required ModifiersRepository modifiersRepository})
     : _modifiersRepository = modifiersRepository,
       super(const ModifiersState.initial()) {
@@ -69,14 +78,7 @@ class ModifiersBloc extends Bloc<ModifiersEvent, ModifiersState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          ModifiersState.error(
-            message: 'Failed to create modifier: ${error.toString()}',
-            previousState: state is ModifiersLoaded
-                ? state as ModifiersLoaded
-                : null,
-          ),
-        );
+        emitEffect(ModifiersShowError('Failed to create modifier: ${error.toString()}'));
       },
     );
   }
@@ -91,14 +93,7 @@ class ModifiersBloc extends Bloc<ModifiersEvent, ModifiersState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          ModifiersState.error(
-            message: 'Failed to update modifier: ${error.toString()}',
-            previousState: state is ModifiersLoaded
-                ? state as ModifiersLoaded
-                : null,
-          ),
-        );
+        emitEffect(ModifiersShowError('Failed to update modifier: ${error.toString()}'));
       },
     );
   }
@@ -111,14 +106,7 @@ class ModifiersBloc extends Bloc<ModifiersEvent, ModifiersState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          ModifiersState.error(
-            message: 'Failed to delete modifier: ${error.toString()}',
-            previousState: state is ModifiersLoaded
-                ? state as ModifiersLoaded
-                : null,
-          ),
-        );
+        emitEffect(ModifiersShowError('Failed to delete modifier: ${error.toString()}'));
       },
     );
   }
@@ -137,14 +125,7 @@ class ModifiersBloc extends Bloc<ModifiersEvent, ModifiersState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          ModifiersState.error(
-            message: 'Failed to link modifier: ${error.toString()}',
-            previousState: state is ModifiersLoaded
-                ? state as ModifiersLoaded
-                : null,
-          ),
-        );
+        emitEffect(ModifiersShowError('Failed to link modifier: ${error.toString()}'));
       },
     );
   }
@@ -163,14 +144,7 @@ class ModifiersBloc extends Bloc<ModifiersEvent, ModifiersState> {
         // Stream will update automatically
       },
       error: (error) {
-        emit(
-          ModifiersState.error(
-            message: 'Failed to unlink modifier: ${error.toString()}',
-            previousState: state is ModifiersLoaded
-                ? state as ModifiersLoaded
-                : null,
-          ),
-        );
+        emitEffect(ModifiersShowError('Failed to unlink modifier: ${error.toString()}'));
       },
     );
   }
