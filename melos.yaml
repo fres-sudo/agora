@@ -1,0 +1,108 @@
+name: agora_workspace
+
+packages:
+  - apps/**
+  - features/**
+  - packages/**
+
+command:
+  bootstrap:
+    # Link all local packages together and run pub get.
+    usePubspecOverrides: true
+
+  version:
+    # Keep changelogs per package.
+    workspaceChangelog: false
+
+scripts:
+  # ---------------------------------------------------------------------------
+  # Code generation
+  # ---------------------------------------------------------------------------
+  build:
+    description: Run build_runner in all packages (one at a time to avoid conflicts)
+    run: flutter pub run build_runner build --delete-conflicting-outputs
+    exec:
+      concurrency: 1
+    packageFilters:
+      flutter: true
+
+  build:watch:
+    description: Watch mode code generation (run per-package, not workspace-wide)
+    run: flutter pub run build_runner watch --delete-conflicting-outputs
+    exec:
+      concurrency: 1
+    packageFilters:
+      flutter: true
+
+  # ---------------------------------------------------------------------------
+  # Testing
+  # ---------------------------------------------------------------------------
+  test:
+    description: Run all tests across packages
+    run: flutter test --coverage
+    exec:
+      concurrency: 4
+      failFast: false
+    packageFilters:
+      flutter: true
+      dirExists: test
+
+  test:features:
+    description: Run tests in feature packages only
+    run: flutter test
+    exec:
+      concurrency: 4
+    packageFilters:
+      flutter: true
+      scope: "feature_*"
+
+  test:packages:
+    description: Run tests in shared packages only
+    run: flutter test
+    exec:
+      concurrency: 4
+    packageFilters:
+      dirExists: test
+      ignore:
+        - "feature_*"
+        - "agora_app"
+
+  # ---------------------------------------------------------------------------
+  # Quality
+  # ---------------------------------------------------------------------------
+  lint:
+    description: Run dart analyze in all packages
+    run: dart analyze . --fatal-infos
+    exec:
+      concurrency: 6
+
+  format:
+    description: Format all Dart files
+    run: dart format lib test --set-exit-if-changed
+    exec:
+      concurrency: 6
+
+  # ---------------------------------------------------------------------------
+  # Maintenance
+  # ---------------------------------------------------------------------------
+  clean:
+    description: flutter clean in all packages
+    run: flutter clean
+    exec:
+      concurrency: 6
+    packageFilters:
+      flutter: true
+
+  upgrade:
+    description: flutter pub upgrade in all packages
+    run: flutter pub upgrade
+    exec:
+      concurrency: 1
+    packageFilters:
+      flutter: true
+
+  deps:
+    description: Print dependency graph
+    run: dart pub deps
+    exec:
+      concurrency: 6

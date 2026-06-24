@@ -1,0 +1,20 @@
+name: ui_kit
+description: Shared UI widgets for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.2.3
+  skeletonizer: ^2.1.2
+  theme:
+    path: ../theme
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

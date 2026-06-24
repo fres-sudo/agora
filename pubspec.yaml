@@ -1,74 +1,57 @@
-name: agora
-description: "A new Flutter project."
-publish_to: "none"
-
-version: 1.0.0+1
+name: agora_workspace
+publish_to: none
 
 environment:
-  sdk: '>=3.10.0 <4.0.0'
+  sdk: '>=3.5.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+workspace:
+  - apps/agora
+  - features/auth
+  - features/discounts
+  - features/inventory
+  - features/orders
+  - features/pos
+  - features/products
+  - features/reports
+  - features/settings
+  - packages/app_info
+  - packages/bloc
+  - packages/database
+  - packages/errors
+  - packages/i18n
+  - packages/launcher
+  - packages/logger
+  - packages/observer
+  - packages/remote_config
+  - packages/result
+  - packages/sync_engine
+  - packages/theme
+  - packages/ui_kit
+  - packages/utils
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
-  bloc: ^9.0.0
-  json_annotation: ^4.9.0
-  provider: ^6.1.5+1
-  drift: ^2.30.0
-  drift_flutter: ^0.2.8
-  path_provider: ^2.1.5
-  auto_route: ^11.1.0
-  skeletonizer: ^2.1.2
-  pine: ^1.0.4
-  image_picker: ^1.2.0
-  flutter_native_splash: ^2.4.6
-  google_fonts: ^6.3.1
-  mason: ^0.1.1
-  flutter_bloc: ^9.1.1
-  flutter_secure_storage: ^10.0.0
-  freezed_annotation: ^3.1.0
-  shared_preferences: ^2.5.2
-  talker: ^5.1.9
-  talker_dio_logger: ^5.1.9
-  url_launcher: ^6.3.2
-  package_info_plus: ^9.0.0
-  flutter_svg: ^2.2.3
-  dio: ^5.9.0
-  slang: ^4.10.1
-  slang_flutter: ^4.10.0
-  fl_chart: ^1.1.1
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  melos: ^7.4.0
+  # Linting
   flutter_lints: ^6.0.0
+  lints: ^6.0.0
+  # Code generation
   build_runner: ^2.4.7
-  bloc_test: ^10.0.0
-  http_mock_adapter: ^0.6.1
-  mockito: ^5.5.0
-  json_serializable: ^6.11.1
-  retrofit_generator: ^10.1.2
-  auto_route_generator: ^10.2.6
-  slang_build_runner: ^4.10.0
-  flutter_launcher_icons: ^0.14.4
-  drift_dev: ^2.30.0
-  flutter_gen_runner:
-  data_fixture_dart: ^3.0.0
+  build: ^3.0.0
   freezed: ^3.2.3
-
-flutter_gen:
-  output: lib/core/gen/
-
-  integrations:
-    image: true
-    flutter_svg: true
-
-flutter:
-  uses-material-design: true
-
-  assets:
-    - assets/brand/
-    - assets/icons/
+  json_serializable: ^6.11.1
+  auto_route_generator: ^10.2.6
+  drift_dev: ^2.30.0
+  slang_build_runner: ^4.10.0
+  flutter_gen_runner:
+  # Testing
+  bloc_test: ^10.0.0
+  mockito: ^5.5.0
+  data_fixture_dart: ^3.0.0
+  test: ^1.24.0

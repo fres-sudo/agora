@@ -1,0 +1,18 @@
+name: database
+description: Drift SQLite database, table definitions and seeder for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  drift: ^2.30.0
+  drift_flutter: ^0.2.8
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

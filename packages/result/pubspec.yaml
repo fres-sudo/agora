@@ -1,0 +1,10 @@
+name: result
+description: Result<T> pattern and Repository base class for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  talker: ^5.1.9

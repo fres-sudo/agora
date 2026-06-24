@@ -1,0 +1,28 @@
+name: feature_reports
+description: Sales reports and analytics feature
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  auto_route: ^11.1.0
+  bloc_exports:
+    path: ../../packages/bloc
+  feature_orders:
+    path: ../orders
+  feature_products:
+    path: ../products
+  fl_chart: ^1.1.1
+  flutter:
+    sdk: flutter
+  i18n:
+    path: ../../packages/i18n
+  ui_kit:
+    path: ../../packages/ui_kit
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

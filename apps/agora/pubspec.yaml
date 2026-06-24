@@ -1,0 +1,95 @@
+name: agora
+description: Agora POS — Flutter application entry point
+publish_to: none
+resolution: workspace
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Shared packages
+  app_info:
+    path: ../../packages/app_info
+  bloc_exports:
+    path: ../../packages/bloc
+  database:
+    path: ../../packages/database
+  errors:
+    path: ../../packages/errors
+  i18n:
+    path: ../../packages/i18n
+  launcher:
+    path: ../../packages/launcher
+  logger:
+    path: ../../packages/logger
+  observer:
+    path: ../../packages/observer
+  remote_config:
+    path: ../../packages/remote_config
+  result:
+    path: ../../packages/result
+  theme:
+    path: ../../packages/theme
+  ui_kit:
+    path: ../../packages/ui_kit
+  utils:
+    path: ../../packages/utils
+
+  # Feature packages
+  feature_auth:
+    path: ../../features/auth
+  feature_discounts:
+    path: ../../features/discounts
+  feature_inventory:
+    path: ../../features/inventory
+  feature_orders:
+    path: ../../features/orders
+  feature_pos:
+    path: ../../features/pos
+  feature_products:
+    path: ../../features/products
+  feature_reports:
+    path: ../../features/reports
+  feature_settings:
+    path: ../../features/settings
+
+  # Pub packages
+  auto_route: ^11.1.0
+  bloc: ^9.0.0
+  cupertino_icons: ^1.0.8
+  dio: ^5.9.0
+  drift_flutter: ^0.2.8
+  flutter_bloc: ^9.1.1
+  flutter_native_splash: ^2.4.6
+  flutter_secure_storage: ^10.0.0
+  freezed_annotation: ^3.1.0
+  pine: ^1.0.4
+  provider: ^6.1.5+1
+  shared_preferences: ^2.5.2
+  talker: ^5.1.9
+  talker_dio_logger: ^5.1.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.14.4
+
+flutter_gen:
+  output: lib/gen/
+
+  integrations:
+    image: true
+    flutter_svg: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/brand/
+    - assets/icons/

@@ -1,0 +1,7 @@
+name: errors
+description: Shared exception types for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'

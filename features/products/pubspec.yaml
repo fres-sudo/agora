@@ -1,0 +1,35 @@
+name: feature_products
+description: Product catalog, categories and modifiers feature
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  auto_route: ^11.1.0
+  bloc_exports:
+    path: ../../packages/bloc
+  database:
+    path: ../../packages/database
+  drift: ^2.30.0
+  errors:
+    path: ../../packages/errors
+  feature_inventory:
+    path: ../inventory
+  flutter:
+    sdk: flutter
+  i18n:
+    path: ../../packages/i18n
+  image_picker: ^1.2.0
+  logger:
+    path: ../../packages/logger
+  result:
+    path: ../../packages/result
+  ui_kit:
+    path: ../../packages/ui_kit
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

@@ -2,8 +2,8 @@
 
 ## Commands
 
-- One-off: `flutter pub run build_runner build --delete-conflicting-outputs`
-- For continuous generation in dev: `flutter pub run build_runner watch`
+- One-off: `fvm flutter pub run build_runner build --delete-conflicting-outputs`
+- For continuous generation in dev: `fvm flutter pub run build_runner watch`
 
 ## Generators used in this repo
 

@@ -1,0 +1,26 @@
+name: sync_engine
+description: Offline-first sync primitives for Agora — outbox queue, connectivity monitor, managed WebSocket.
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  connectivity_plus: ^6.1.4
+  database:
+    path: ../database
+  drift: ^2.30.0
+  flutter:
+    sdk: flutter
+  logger:
+    path: ../logger
+  result:
+    path: ../result
+  talker: ^5.1.9
+  web_socket_channel: ^3.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

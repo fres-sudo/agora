@@ -1,0 +1,29 @@
+name: feature_pos
+description: Point of sale screen feature
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  auto_route: ^11.1.0
+  bloc_exports:
+    path: ../../packages/bloc
+  feature_discounts:
+    path: ../discounts
+  feature_orders:
+    path: ../orders
+  feature_products:
+    path: ../products
+  flutter:
+    sdk: flutter
+  i18n:
+    path: ../../packages/i18n
+  ui_kit:
+    path: ../../packages/ui_kit
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

@@ -1,0 +1,25 @@
+name: feature_auth
+description: Authentication and session management feature
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  auto_route: ^11.1.0
+  bloc_exports:
+    path: ../../packages/bloc
+  errors:
+    path: ../../packages/errors
+  flutter:
+    sdk: flutter
+  logger:
+    path: ../../packages/logger
+  result:
+    path: ../../packages/result
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
