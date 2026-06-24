@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:drift/drift.dart';
 import 'package:feature_orders/data/sources/local/daos/orders_dao.dart';
 import 'package:feature_orders/data/sources/local/daos/order_items_dao.dart';
 import 'package:feature_orders/domain/models/order.dart';

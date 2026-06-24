@@ -31,11 +31,11 @@ extension StringExtension on String {
   }
 
   String toShortMonth() {
-    List<String> parts = split(' ');
+    final List<String> parts = split(' ');
     if (parts.isEmpty) return this;
 
-    String month = parts[0];
-    String shortMonth = month.length >= 3 ? month.substring(0, 3) : month;
+    final String month = parts[0];
+    final String shortMonth = month.length >= 3 ? month.substring(0, 3) : month;
 
     parts[0] = shortMonth;
     return parts.join(' ');

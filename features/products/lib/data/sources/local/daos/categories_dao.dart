@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:database/database.dart';
 import 'package:drift/drift.dart';
 
 part 'categories_dao.g.dart';

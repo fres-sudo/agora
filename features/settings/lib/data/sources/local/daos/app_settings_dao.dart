@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:database/database.dart';
 import 'package:drift/drift.dart';
 
 part 'app_settings_dao.g.dart';
@@ -130,7 +129,7 @@ class AppSettingsDao extends DatabaseAccessor<AgoraDatabase>
   /// Updates an existing setting by key.
   Future<bool> updateSetting(String key, AppSettingsTableCompanion companion) {
     return (update(appSettingsTable)..where((t) => t.key.equals(key)))
-        .write(companion.copyWith(updatedAt: Value(DateTime.now())))
+        .write(companion)
         .then((rows) => rows > 0);
   }
 
@@ -149,7 +148,6 @@ class AppSettingsDao extends DatabaseAccessor<AgoraDatabase>
     } else {
       await insertSetting(
         AppSettingsTableCompanion.insert(
-          id: 0, // FIXME: This is a temporary solution
           key: key,
           value: value,
           type: Value(type),

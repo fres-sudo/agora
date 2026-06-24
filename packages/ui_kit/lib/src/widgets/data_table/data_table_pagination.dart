@@ -109,7 +109,7 @@ class DataTablePagination extends StatelessWidget {
 
       // Calculate visible range around current page
       int start = (currentPage - 1).clamp(1, totalPages - 4);
-      int end = (start + 2).clamp(2, totalPages - 2);
+      final int end = (start + 2).clamp(2, totalPages - 2);
 
       // Adjust start if end is at the limit
       if (end == totalPages - 2) {

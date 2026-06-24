@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:feature_settings/feature_settings.dart';
+import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 
 /// Store settings section for configuring store information.
 class StoreSettingSection extends StatelessWidget {

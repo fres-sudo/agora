@@ -1,10 +1,5 @@
 import 'package:result/result.dart';
-import 'package:result/result.dart';
 import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/data/sources/local/daos/products_dao.dart';
-import 'package:feature_products/domain/mappers/product_mapper.dart';
-import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
-import 'package:talker/talker.dart';
 
 /// Repository interface for product operations.
 ///

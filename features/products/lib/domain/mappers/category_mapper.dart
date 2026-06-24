@@ -1,6 +1,5 @@
 import 'package:database/database.dart';
 import 'package:feature_products/domain/models/category.dart';
-import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 
 /// Extension on [CategoryEntity] for converting to domain models.

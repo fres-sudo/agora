@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
 
 class SummaryCard extends StatelessWidget {
   final String title;

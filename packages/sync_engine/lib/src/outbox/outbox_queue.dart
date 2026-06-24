@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:database/database.dart';
-import 'package:drift/drift.dart';
 
 import '../model/outbox_entry.dart';
 import 'outbox_dao.dart';

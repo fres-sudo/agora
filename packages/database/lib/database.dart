@@ -12,3 +12,4 @@ export 'src/tables/products_table.dart';
 export 'src/tables/settings_table.dart';
 export 'src/tables/stock_movements_table.dart';
 export 'src/tables/stocks_table.dart';
+export 'package:drift/drift.dart' show Value;

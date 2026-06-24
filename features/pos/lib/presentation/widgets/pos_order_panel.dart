@@ -1,10 +1,6 @@
 import 'package:theme/theme.dart';
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
 import 'package:flutter/material.dart';
 
 /// The right panel of the POS view displaying order details.

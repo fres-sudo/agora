@@ -19,16 +19,16 @@ class ProductsFeature {
   static List<SingleChildWidget> get providers => [
     // DAOs
     ProxyProvider<AgoraDatabase, ProductsDao>(
-      update: (_, db, __) => ProductsDao(db),
+      update: (_, db, _) =>ProductsDao(db),
     ),
     ProxyProvider<AgoraDatabase, CategoriesDao>(
-      update: (_, db, __) => CategoriesDao(db),
+      update: (_, db, _) =>CategoriesDao(db),
     ),
     ProxyProvider<AgoraDatabase, ModifiersDao>(
-      update: (_, db, __) => ModifiersDao(db),
+      update: (_, db, _) =>ModifiersDao(db),
     ),
     ProxyProvider<AgoraDatabase, StocksDao>(
-      update: (_, db, __) => StocksDao(db),
+      update: (_, db, _) =>StocksDao(db),
     ),
     // Repositories
     RepositoryProvider<ProductsRepository>(

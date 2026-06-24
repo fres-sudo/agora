@@ -10,38 +10,19 @@ environment:
   flutter: '>=3.38.5'
 
 dependencies:
-  flutter:
-    sdk: flutter
-
-  # Shared packages
   app_info:
     path: ../../packages/app_info
+  auto_route: ^11.1.0
+  bloc: ^9.0.0
   bloc_exports:
     path: ../../packages/bloc
+  cupertino_icons: ^1.0.8
   database:
     path: ../../packages/database
+  dio: ^5.9.0
+  drift_flutter: ^0.2.8
   errors:
     path: ../../packages/errors
-  i18n:
-    path: ../../packages/i18n
-  launcher:
-    path: ../../packages/launcher
-  logger:
-    path: ../../packages/logger
-  observer:
-    path: ../../packages/observer
-  remote_config:
-    path: ../../packages/remote_config
-  result:
-    path: ../../packages/result
-  theme:
-    path: ../../packages/theme
-  ui_kit:
-    path: ../../packages/ui_kit
-  utils:
-    path: ../../packages/utils
-
-  # Feature packages
   feature_auth:
     path: ../../features/auth
   feature_discounts:
@@ -58,27 +39,40 @@ dependencies:
     path: ../../features/reports
   feature_settings:
     path: ../../features/settings
-
-  # Pub packages
-  auto_route: ^11.1.0
-  bloc: ^9.0.0
-  cupertino_icons: ^1.0.8
-  dio: ^5.9.0
-  drift_flutter: ^0.2.8
+  flutter:
+    sdk: flutter
   flutter_bloc: ^9.1.1
   flutter_native_splash: ^2.4.6
   flutter_secure_storage: ^10.0.0
   freezed_annotation: ^3.1.0
+  i18n:
+    path: ../../packages/i18n
+  launcher:
+    path: ../../packages/launcher
+  logger:
+    path: ../../packages/logger
+  observer:
+    path: ../../packages/observer
   pine: ^1.0.4
   provider: ^6.1.5+1
+  remote_config:
+    path: ../../packages/remote_config
+  result:
+    path: ../../packages/result
   shared_preferences: ^2.5.2
   talker: ^5.1.9
   talker_dio_logger: ^5.1.9
+  theme:
+    path: ../../packages/theme
+  ui_kit:
+    path: ../../packages/ui_kit
+  utils:
+    path: ../../packages/utils
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.14.4
 
 flutter_gen:
   output: lib/gen/

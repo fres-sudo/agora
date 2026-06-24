@@ -1,6 +1,5 @@
 import 'package:i18n/i18n.dart';
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
 import 'package:feature_products/domain/models/product_status.dart';
 import 'package:flutter/material.dart';
 

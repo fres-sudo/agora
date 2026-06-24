@@ -1,7 +1,6 @@
 import 'package:database/database.dart';
 import 'package:feature_products/domain/models/product.dart';
 import 'package:feature_products/domain/models/product_status.dart';
-import 'package:drift/drift.dart';
 
 /// Extension on [ProductEntity] for converting to domain models.
 extension ProductEntityMapper on ProductEntity {

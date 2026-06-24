@@ -2,8 +2,8 @@ name: agora_workspace
 publish_to: none
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
-  flutter: '>=3.38.5'
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.38.5"
 
 workspace:
   - apps/agora
@@ -196,7 +196,6 @@ dev_dependencies:
     sdk: flutter
   melos: ^7.4.0
   # Linting
-  flutter_lints: ^6.0.0
   lints: ^6.0.0
   # Code generation
   build_runner: ^2.4.7
@@ -206,6 +205,7 @@ dev_dependencies:
   auto_route_generator: ^10.2.6
   drift_dev: ^2.30.0
   slang_build_runner: ^4.10.0
+  flutter_lints: ^6.0.0
   flutter_gen_runner:
   # Testing
   bloc_test: ^10.0.0

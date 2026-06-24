@@ -15,18 +15,18 @@ class VersionCheckerRepositoryImpl extends Repository
   @override
   Future<String> get currentVersion => safe(
     'currentVersion',
-    () async => await versionCheckerService.currentVersion,
+    () => versionCheckerService.currentVersion,
   ).unwrapAsync();
 
   @override
   Future<String> get currentBuild => safe(
     'currentBuild',
-    () async => await versionCheckerService.currentBuild,
+    () => versionCheckerService.currentBuild,
   ).unwrapAsync();
 
   @override
   Future<String> get currentPlatform => safe(
     'currentPlatform',
-    () async => await versionCheckerService.currentPlatform,
+    () => versionCheckerService.currentPlatform,
   ).unwrapAsync();
 }

@@ -22,6 +22,7 @@ dependencies:
     path: ../../packages/logger
   result:
     path: ../../packages/result
+  talker: ^5.1.9
   ui_kit:
     path: ../../packages/ui_kit
 

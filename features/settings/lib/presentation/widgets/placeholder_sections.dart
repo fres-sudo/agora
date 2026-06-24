@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:feature_settings/feature_settings.dart';
+import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 
 /// Placeholder sections for future implementation.
 ///

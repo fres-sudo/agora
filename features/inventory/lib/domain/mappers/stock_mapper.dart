@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:drift/drift.dart';
 
 /// Extension on [StockEntity] for converting to useful types.
 extension StockEntityMapper on StockEntity {

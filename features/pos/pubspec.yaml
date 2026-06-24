@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
   i18n:
     path: ../../packages/i18n
+  theme: ^0.0.0
   ui_kit:
     path: ../../packages/ui_kit
 

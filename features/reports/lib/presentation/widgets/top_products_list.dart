@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
 import 'package:i18n/i18n.dart';
 
 class TopProductsList extends StatelessWidget {

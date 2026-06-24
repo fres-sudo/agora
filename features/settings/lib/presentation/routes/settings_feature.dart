@@ -10,7 +10,7 @@ class SettingsFeature {
   static List<SingleChildWidget> get providers => [
     // DAO
     ProxyProvider<AgoraDatabase, AppSettingsDao>(
-      update: (_, db, __) => AppSettingsDao(db),
+      update: (_, db, _) => AppSettingsDao(db),
     ),
     // Repository
     RepositoryProvider<SettingsRepository>(

@@ -8,6 +8,7 @@ environment:
   flutter: '>=3.38.5'
 
 dependencies:
+  auto_route: ^11.1.0
   flutter:
     sdk: flutter
   flutter_svg: ^2.2.3

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
 import 'package:feature_products/domain/models/category.dart';
 
 /// A list item widget for displaying and editing a category.

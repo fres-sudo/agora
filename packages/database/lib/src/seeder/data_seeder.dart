@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 
 class DataSeeder {
@@ -295,9 +294,7 @@ class DataSeeder {
           );
 
       // Order 2: Pending
-      final order2Id = await db
-          .into(db.ordersTable)
-          .insert(
+      await db.into(db.ordersTable).insert(
             OrdersTableCompanion(
               status: const Value(0), // Pending
               subtotal: const Value(3400),

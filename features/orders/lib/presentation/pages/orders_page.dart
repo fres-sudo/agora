@@ -302,7 +302,7 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DropdownButtonFormField<OrderStatus?>(
-          value: _status,
+          initialValue: _status,
           decoration: const InputDecoration(
             labelText: 'Order status',
             border: OutlineInputBorder(),

@@ -1,4 +1,3 @@
-import 'package:database/database.dart';
 import 'package:feature_products/data/sources/local/daos/categories_dao.dart';
 import 'package:feature_products/domain/mappers/category_mapper.dart';
 import 'package:feature_products/domain/models/category.dart';

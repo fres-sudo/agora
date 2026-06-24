@@ -1,11 +1,6 @@
 // assets.gen.dart is app-level; logo path inlined below
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
 import 'package:feature_orders/presentation/blocs/active_order/active_order_bloc.dart';
-import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
 import 'package:feature_products/domain/models/product.dart';

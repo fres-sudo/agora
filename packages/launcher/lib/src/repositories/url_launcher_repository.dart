@@ -18,7 +18,7 @@ class UrlLauncherRepositoryImpl extends Repository
   @override
   Future<Result<bool>> canLaunchUrl(Uri uri) => safe(
     'canLaunchUrl',
-    () async => await urlLauncherService.canLaunchUrl(uri),
+    () => urlLauncherService.canLaunchUrl(uri),
   );
 
   @override
@@ -27,6 +27,6 @@ class UrlLauncherRepositoryImpl extends Repository
     LaunchMode mode = LaunchMode.platformDefault,
   }) => safe(
     'launchUrl',
-    () async => await urlLauncherService.launchUrl(uri, mode: mode),
+    () => urlLauncherService.launchUrl(uri, mode: mode),
   );
 }

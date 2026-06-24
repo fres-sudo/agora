@@ -1,12 +1,11 @@
-import 'package:feature_settings/feature_settings.dart';
+import 'package:feature_settings/presentation/widgets/category_form/category_form_wrapper.dart';
+import 'package:feature_settings/presentation/widgets/category_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:theme/theme.dart';
 import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/categories/categories_bloc.dart';
 import 'package:feature_products/domain/models/category.dart';
-import 'package:feature_settings/feature_settings.dart';
 
 /// Category settings section for managing product categories.
 class CategorySection extends StatefulWidget {
@@ -72,9 +71,7 @@ class _CategorySectionState extends State<CategorySection> {
               children: [
                 Text(
                   'Category',
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 FilledButton.icon(
                   onPressed: _onAddCategory,
@@ -90,10 +87,8 @@ class _CategorySectionState extends State<CategorySection> {
             child: BlocBuilder<CategoriesBloc, CategoriesState>(
               builder: (context, state) {
                 return state.map(
-                  initial: (_) =>
-                      const Center(child: CircularProgressIndicator()),
-                  loading: (_) =>
-                      const Center(child: CircularProgressIndicator()),
+                  initial: (_) => const Center(child: CircularProgressIndicator()),
+                  loading: (_) => const Center(child: CircularProgressIndicator()),
                   loaded: (loaded) => _buildCategoryList(loaded.categories),
                   error: (error) => _buildErrorState(theme, error.message),
                 );
@@ -135,16 +130,12 @@ class _CategorySectionState extends State<CategorySection> {
           const SizedBox(height: Sizes.md),
           Text(
             'No categories yet',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
           ),
           const SizedBox(height: Sizes.sm),
           Text(
             'Add a category to get started',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
           ),
         ],
       ),
@@ -160,17 +151,10 @@ class _CategorySectionState extends State<CategorySection> {
           const SizedBox(height: Sizes.md),
           Text('Failed to load categories', style: theme.textTheme.titleMedium),
           const SizedBox(height: Sizes.sm),
-          Text(
-            message,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppColors.neutral500,
-            ),
-          ),
+          Text(message, style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral500)),
           const SizedBox(height: Sizes.lg),
           FilledButton(
-            onPressed: () => context.read<CategoriesBloc>().add(
-              const CategoriesEvent.started(),
-            ),
+            onPressed: () => context.read<CategoriesBloc>().add(const CategoriesEvent.started()),
             child: const Text('Retry'),
           ),
         ],

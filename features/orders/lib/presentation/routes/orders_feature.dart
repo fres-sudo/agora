@@ -15,10 +15,10 @@ class OrdersFeature {
   static List<SingleChildWidget> get providers => [
     // DAOs
     ProxyProvider<AgoraDatabase, OrdersDao>(
-      update: (_, db, __) => OrdersDao(db),
+      update: (_, db, _) =>OrdersDao(db),
     ),
     ProxyProvider<AgoraDatabase, OrderItemsDao>(
-      update: (_, db, __) => OrderItemsDao(db),
+      update: (_, db, _) =>OrderItemsDao(db),
     ),
     // Repositories
     RepositoryProvider<OrdersRepository>(

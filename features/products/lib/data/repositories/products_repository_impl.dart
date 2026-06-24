@@ -1,4 +1,3 @@
-import 'package:database/database.dart';
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:feature_products/data/sources/local/daos/products_dao.dart';
 import 'package:feature_products/domain/mappers/product_mapper.dart';

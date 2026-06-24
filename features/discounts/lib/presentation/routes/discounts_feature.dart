@@ -10,7 +10,7 @@ class DiscountsFeature {
   static List<SingleChildWidget> get providers => [
     // DAO
     ProxyProvider<AgoraDatabase, DiscountsDao>(
-      update: (_, db, __) => DiscountsDao(db),
+      update: (_, db, _) => DiscountsDao(db),
     ),
     // Repository
     RepositoryProvider<DiscountsRepository>(

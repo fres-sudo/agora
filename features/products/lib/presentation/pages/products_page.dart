@@ -1,9 +1,5 @@
 import 'package:i18n/i18n.dart';
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
-import 'package:ui_kit/ui_kit.dart';
-import 'package:ui_kit/ui_kit.dart';
-import 'package:ui_kit/ui_kit.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
 import 'package:feature_products/domain/models/category.dart';

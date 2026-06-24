@@ -1,6 +1,6 @@
 import 'package:theme/theme.dart';
 import 'package:feature_products/domain/models/category.dart';
-import 'package:feature_settings/feature_settings.dart';
+import 'package:feature_settings/presentation/widgets/category_form/category_form.dart';
 import 'package:flutter/material.dart';
 
 class CategoryFormWrapper {

@@ -1,5 +1,4 @@
 import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/domain/models/product.dart';
 import 'package:flutter/material.dart';
 

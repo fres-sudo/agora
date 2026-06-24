@@ -22,6 +22,7 @@ dependencies:
     path: ../../packages/logger
   result:
     path: ../../packages/result
+  talker: ^5.1.9
 
 dev_dependencies:
   flutter_test:

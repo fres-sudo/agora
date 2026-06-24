@@ -1,5 +1,4 @@
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
 import 'package:flutter/material.dart';
 
 /// A table cell widget displaying product image, name, and description.

@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:drift/drift.dart';
 import 'package:feature_discounts/data/sources/local/daos/discounts_dao.dart';
 import 'package:feature_discounts/domain/models/discount.dart';
 import 'package:feature_discounts/domain/repositories/discounts_repository.dart';

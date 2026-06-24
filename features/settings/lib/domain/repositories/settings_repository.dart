@@ -1,8 +1,4 @@
-import 'package:database/database.dart';
 import 'package:result/result.dart';
-import 'package:result/result.dart';
-import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
-import 'package:talker/talker.dart';
 
 /// An app setting record.
 typedef AppSetting = ({String key, String value, String type});

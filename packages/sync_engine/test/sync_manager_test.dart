@@ -108,9 +108,8 @@ void main() {
     test('calls handler and marks entry done on success', () async {
       final entry = makeEntry(id: 1, entityType: 'order');
 
-      when(
-        mockQueue.pendingEntries(),
-      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => []);
+      var pendingCallCount1 = 0;
+      when(mockQueue.pendingEntries()).thenAnswer((_) async => pendingCallCount1++ == 0 ? [entry] : []);
       when(mockQueue.markInflight(1)).thenAnswer((_) async {});
       when(mockQueue.markDone(1)).thenAnswer((_) async {});
 
@@ -130,9 +129,7 @@ void main() {
     test('marks entry failed when handler throws', () async {
       final entry = makeEntry(id: 2, entityType: 'order');
 
-      when(
-        mockQueue.pendingEntries(),
-      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => [entry]);
+      when(mockQueue.pendingEntries()).thenAnswer((_) async => [entry]);
       when(mockQueue.markInflight(2)).thenAnswer((_) async {});
       when(mockQueue.markFailed(any, any, any)).thenAnswer((_) async {});
 
@@ -151,9 +148,8 @@ void main() {
     test('marks entry failed when no handler registered', () async {
       final entry = makeEntry(id: 3, entityType: 'unknown_entity');
 
-      when(
-        mockQueue.pendingEntries(),
-      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => []);
+      var pendingCallCount3 = 0;
+      when(mockQueue.pendingEntries()).thenAnswer((_) async => pendingCallCount3++ == 0 ? [entry] : []);
       when(mockQueue.markFailed(any, any, any)).thenAnswer((_) async {});
 
       await manager.start();
@@ -166,9 +162,8 @@ void main() {
       final entry = makeEntry(id: 4, entityType: 'order');
       final statuses = <SyncStatus>[];
 
-      when(
-        mockQueue.pendingEntries(),
-      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => []);
+      var pendingCallCount4 = 0;
+      when(mockQueue.pendingEntries()).thenAnswer((_) async => pendingCallCount4++ == 0 ? [entry] : []);
       when(mockQueue.markInflight(4)).thenAnswer((_) async {});
       when(mockQueue.markDone(4)).thenAnswer((_) async {});
 
@@ -201,9 +196,7 @@ void main() {
         createdAt: DateTime(2025),
       );
 
-      when(mockQueue.pendingEntries())
-          .thenAnswer((_) async => [exhaustedEntry])
-          .thenAnswer((_) async => [exhaustedEntry]);
+      when(mockQueue.pendingEntries()).thenAnswer((_) async => [exhaustedEntry]);
       when(mockQueue.markInflight(5)).thenAnswer((_) async {});
       when(mockQueue.markFailed(any, any, any)).thenAnswer((_) async {});
 
