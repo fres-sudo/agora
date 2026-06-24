@@ -3,4 +3,7 @@
 part of 'stocks_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$StocksDaoMixin on DatabaseAccessor<AgoraDatabase> {}
+mixin _$StocksDaoMixin on DatabaseAccessor<AgoraDatabase> {
+  $StocksTableTable get stocksTable => attachedDatabase.stocksTable;
+  $ProductsTableTable get productsTable => attachedDatabase.productsTable;
+}

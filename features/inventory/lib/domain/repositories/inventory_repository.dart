@@ -1,9 +1,4 @@
-import 'package:database/database.dart';
 import 'package:result/result.dart';
-import 'package:result/result.dart';
-import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.dart';
-import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
-import 'package:talker/talker.dart';
 
 /// A stock record with product ID and quantity.
 typedef Stock = ({int productId, int quantity});

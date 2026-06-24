@@ -4144,6 +4144,53 @@ class $OrderItemsTableTable extends OrderItemsTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $OrderItemsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _orderIdMeta = const VerificationMeta(
     'orderId',
   );
@@ -4231,6 +4278,10 @@ class $OrderItemsTableTable extends OrderItemsTable
   );
   @override
   List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
     orderId,
     productId,
     productName,
@@ -4251,6 +4302,27 @@ class $OrderItemsTableTable extends OrderItemsTable
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
     if (data.containsKey('order_id')) {
       context.handle(
         _orderIdMeta,
@@ -4311,11 +4383,27 @@ class $OrderItemsTableTable extends OrderItemsTable
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   OrderItemEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return OrderItemEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
       orderId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}order_id'],
@@ -4354,6 +4442,10 @@ class $OrderItemsTableTable extends OrderItemsTable
 }
 
 class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
+  final int id;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
   final int orderId;
   final int? productId;
   final String productName;
@@ -4362,6 +4454,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   final int quantity;
   final int discountAmount;
   const OrderItemEntity({
+    required this.id,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
     required this.orderId,
     this.productId,
     required this.productName,
@@ -4373,6 +4469,14 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
     map['order_id'] = Variable<int>(orderId);
     if (!nullToAbsent || productId != null) {
       map['product_id'] = Variable<int>(productId);
@@ -4387,6 +4491,14 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
 
   OrderItemsTableCompanion toCompanion(bool nullToAbsent) {
     return OrderItemsTableCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
       orderId: Value(orderId),
       productId: productId == null && nullToAbsent
           ? const Value.absent()
@@ -4405,6 +4517,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return OrderItemEntity(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       orderId: serializer.fromJson<int>(json['orderId']),
       productId: serializer.fromJson<int?>(json['productId']),
       productName: serializer.fromJson<String>(json['productName']),
@@ -4418,6 +4534,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'orderId': serializer.toJson<int>(orderId),
       'productId': serializer.toJson<int?>(productId),
       'productName': serializer.toJson<String>(productName),
@@ -4429,6 +4549,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   }
 
   OrderItemEntity copyWith({
+    int? id,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
     int? orderId,
     Value<int?> productId = const Value.absent(),
     String? productName,
@@ -4437,6 +4561,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     int? quantity,
     int? discountAmount,
   }) => OrderItemEntity(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
     orderId: orderId ?? this.orderId,
     productId: productId.present ? productId.value : this.productId,
     productName: productName ?? this.productName,
@@ -4447,6 +4575,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   );
   OrderItemEntity copyWithCompanion(OrderItemsTableCompanion data) {
     return OrderItemEntity(
+      id: data.id.present ? data.id.value : this.id,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       orderId: data.orderId.present ? data.orderId.value : this.orderId,
       productId: data.productId.present ? data.productId.value : this.productId,
       productName: data.productName.present
@@ -4464,6 +4596,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   @override
   String toString() {
     return (StringBuffer('OrderItemEntity(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('orderId: $orderId, ')
           ..write('productId: $productId, ')
           ..write('productName: $productName, ')
@@ -4477,6 +4613,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
 
   @override
   int get hashCode => Object.hash(
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
     orderId,
     productId,
     productName,
@@ -4489,6 +4629,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is OrderItemEntity &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
           other.orderId == this.orderId &&
           other.productId == this.productId &&
           other.productName == this.productName &&
@@ -4499,6 +4643,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
 }
 
 class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
+  final Value<int> id;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<DateTime?> deletedAt;
   final Value<int> orderId;
   final Value<int?> productId;
   final Value<String> productName;
@@ -4506,8 +4654,11 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
   final Value<int> costPrice;
   final Value<int> quantity;
   final Value<int> discountAmount;
-  final Value<int> rowid;
   const OrderItemsTableCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.orderId = const Value.absent(),
     this.productId = const Value.absent(),
     this.productName = const Value.absent(),
@@ -4515,9 +4666,12 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     this.costPrice = const Value.absent(),
     this.quantity = const Value.absent(),
     this.discountAmount = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   OrderItemsTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     required int orderId,
     this.productId = const Value.absent(),
     required String productName,
@@ -4525,12 +4679,15 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     required int costPrice,
     this.quantity = const Value.absent(),
     this.discountAmount = const Value.absent(),
-    this.rowid = const Value.absent(),
   }) : orderId = Value(orderId),
        productName = Value(productName),
        unitPrice = Value(unitPrice),
        costPrice = Value(costPrice);
   static Insertable<OrderItemEntity> custom({
+    Expression<int>? id,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
     Expression<int>? orderId,
     Expression<int>? productId,
     Expression<String>? productName,
@@ -4538,9 +4695,12 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     Expression<int>? costPrice,
     Expression<int>? quantity,
     Expression<int>? discountAmount,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (orderId != null) 'order_id': orderId,
       if (productId != null) 'product_id': productId,
       if (productName != null) 'product_name': productName,
@@ -4548,11 +4708,14 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
       if (costPrice != null) 'cost_price': costPrice,
       if (quantity != null) 'quantity': quantity,
       if (discountAmount != null) 'discount_amount': discountAmount,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   OrderItemsTableCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<DateTime?>? deletedAt,
     Value<int>? orderId,
     Value<int?>? productId,
     Value<String>? productName,
@@ -4560,9 +4723,12 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     Value<int>? costPrice,
     Value<int>? quantity,
     Value<int>? discountAmount,
-    Value<int>? rowid,
   }) {
     return OrderItemsTableCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       orderId: orderId ?? this.orderId,
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
@@ -4570,13 +4736,24 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
       costPrice: costPrice ?? this.costPrice,
       quantity: quantity ?? this.quantity,
       discountAmount: discountAmount ?? this.discountAmount,
-      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
     if (orderId.present) {
       map['order_id'] = Variable<int>(orderId.value);
     }
@@ -4598,23 +4775,23 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     if (discountAmount.present) {
       map['discount_amount'] = Variable<int>(discountAmount.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('OrderItemsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('orderId: $orderId, ')
           ..write('productId: $productId, ')
           ..write('productName: $productName, ')
           ..write('unitPrice: $unitPrice, ')
           ..write('costPrice: $costPrice, ')
           ..write('quantity: $quantity, ')
-          ..write('discountAmount: $discountAmount, ')
-          ..write('rowid: $rowid')
+          ..write('discountAmount: $discountAmount')
           ..write(')'))
         .toString();
   }
@@ -4626,6 +4803,53 @@ class $OrderItemModifiersTable extends OrderItemModifiers
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $OrderItemModifiersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _orderItemIdMeta = const VerificationMeta(
     'orderItemId',
   );
@@ -4636,6 +4860,9 @@ class $OrderItemModifiersTable extends OrderItemModifiers
     false,
     type: DriftSqlType.int,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES order_items_table (id) ON DELETE CASCADE',
+    ),
   );
   static const VerificationMeta _modifierNameMeta = const VerificationMeta(
     'modifierName',
@@ -4672,6 +4899,10 @@ class $OrderItemModifiersTable extends OrderItemModifiers
   );
   @override
   List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
     orderItemId,
     modifierName,
     optionName,
@@ -4689,6 +4920,27 @@ class $OrderItemModifiersTable extends OrderItemModifiers
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
     if (data.containsKey('order_item_id')) {
       context.handle(
         _orderItemIdMeta,
@@ -4734,7 +4986,7 @@ class $OrderItemModifiersTable extends OrderItemModifiers
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   OrderItemModifierEntity map(
     Map<String, dynamic> data, {
@@ -4742,6 +4994,22 @@ class $OrderItemModifiersTable extends OrderItemModifiers
   }) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return OrderItemModifierEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
       orderItemId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}order_item_id'],
@@ -4769,11 +5037,19 @@ class $OrderItemModifiersTable extends OrderItemModifiers
 
 class OrderItemModifierEntity extends DataClass
     implements Insertable<OrderItemModifierEntity> {
+  final int id;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
   final int orderItemId;
   final String modifierName;
   final String optionName;
   final int priceChange;
   const OrderItemModifierEntity({
+    required this.id,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
     required this.orderItemId,
     required this.modifierName,
     required this.optionName,
@@ -4782,6 +5058,14 @@ class OrderItemModifierEntity extends DataClass
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
     map['order_item_id'] = Variable<int>(orderItemId);
     map['modifier_name'] = Variable<String>(modifierName);
     map['option_name'] = Variable<String>(optionName);
@@ -4791,6 +5075,14 @@ class OrderItemModifierEntity extends DataClass
 
   OrderItemModifiersCompanion toCompanion(bool nullToAbsent) {
     return OrderItemModifiersCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
       orderItemId: Value(orderItemId),
       modifierName: Value(modifierName),
       optionName: Value(optionName),
@@ -4804,6 +5096,10 @@ class OrderItemModifierEntity extends DataClass
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return OrderItemModifierEntity(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       orderItemId: serializer.fromJson<int>(json['orderItemId']),
       modifierName: serializer.fromJson<String>(json['modifierName']),
       optionName: serializer.fromJson<String>(json['optionName']),
@@ -4814,6 +5110,10 @@ class OrderItemModifierEntity extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'orderItemId': serializer.toJson<int>(orderItemId),
       'modifierName': serializer.toJson<String>(modifierName),
       'optionName': serializer.toJson<String>(optionName),
@@ -4822,11 +5122,19 @@ class OrderItemModifierEntity extends DataClass
   }
 
   OrderItemModifierEntity copyWith({
+    int? id,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
     int? orderItemId,
     String? modifierName,
     String? optionName,
     int? priceChange,
   }) => OrderItemModifierEntity(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
     orderItemId: orderItemId ?? this.orderItemId,
     modifierName: modifierName ?? this.modifierName,
     optionName: optionName ?? this.optionName,
@@ -4834,6 +5142,10 @@ class OrderItemModifierEntity extends DataClass
   );
   OrderItemModifierEntity copyWithCompanion(OrderItemModifiersCompanion data) {
     return OrderItemModifierEntity(
+      id: data.id.present ? data.id.value : this.id,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       orderItemId: data.orderItemId.present
           ? data.orderItemId.value
           : this.orderItemId,
@@ -4852,6 +5164,10 @@ class OrderItemModifierEntity extends DataClass
   @override
   String toString() {
     return (StringBuffer('OrderItemModifierEntity(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('orderItemId: $orderItemId, ')
           ..write('modifierName: $modifierName, ')
           ..write('optionName: $optionName, ')
@@ -4861,12 +5177,24 @@ class OrderItemModifierEntity extends DataClass
   }
 
   @override
-  int get hashCode =>
-      Object.hash(orderItemId, modifierName, optionName, priceChange);
+  int get hashCode => Object.hash(
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    orderItemId,
+    modifierName,
+    optionName,
+    priceChange,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is OrderItemModifierEntity &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
           other.orderItemId == this.orderItemId &&
           other.modifierName == this.modifierName &&
           other.optionName == this.optionName &&
@@ -4875,63 +5203,96 @@ class OrderItemModifierEntity extends DataClass
 
 class OrderItemModifiersCompanion
     extends UpdateCompanion<OrderItemModifierEntity> {
+  final Value<int> id;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<DateTime?> deletedAt;
   final Value<int> orderItemId;
   final Value<String> modifierName;
   final Value<String> optionName;
   final Value<int> priceChange;
-  final Value<int> rowid;
   const OrderItemModifiersCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.orderItemId = const Value.absent(),
     this.modifierName = const Value.absent(),
     this.optionName = const Value.absent(),
     this.priceChange = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   OrderItemModifiersCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     required int orderItemId,
     required String modifierName,
     required String optionName,
     required int priceChange,
-    this.rowid = const Value.absent(),
   }) : orderItemId = Value(orderItemId),
        modifierName = Value(modifierName),
        optionName = Value(optionName),
        priceChange = Value(priceChange);
   static Insertable<OrderItemModifierEntity> custom({
+    Expression<int>? id,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
     Expression<int>? orderItemId,
     Expression<String>? modifierName,
     Expression<String>? optionName,
     Expression<int>? priceChange,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (orderItemId != null) 'order_item_id': orderItemId,
       if (modifierName != null) 'modifier_name': modifierName,
       if (optionName != null) 'option_name': optionName,
       if (priceChange != null) 'price_change': priceChange,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   OrderItemModifiersCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<DateTime?>? deletedAt,
     Value<int>? orderItemId,
     Value<String>? modifierName,
     Value<String>? optionName,
     Value<int>? priceChange,
-    Value<int>? rowid,
   }) {
     return OrderItemModifiersCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
       orderItemId: orderItemId ?? this.orderItemId,
       modifierName: modifierName ?? this.modifierName,
       optionName: optionName ?? this.optionName,
       priceChange: priceChange ?? this.priceChange,
-      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
     if (orderItemId.present) {
       map['order_item_id'] = Variable<int>(orderItemId.value);
     }
@@ -4944,20 +5305,20 @@ class OrderItemModifiersCompanion
     if (priceChange.present) {
       map['price_change'] = Variable<int>(priceChange.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('OrderItemModifiersCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('orderItemId: $orderItemId, ')
           ..write('modifierName: $modifierName, ')
           ..write('optionName: $optionName, ')
-          ..write('priceChange: $priceChange, ')
-          ..write('rowid: $rowid')
+          ..write('priceChange: $priceChange')
           ..write(')'))
         .toString();
   }
@@ -5816,6 +6177,671 @@ class AppSettingsTableCompanion extends UpdateCompanion<AppSettingEntity> {
   }
 }
 
+class $OutboxTableTable extends OutboxTable
+    with TableInfo<$OutboxTableTable, OutboxEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $OutboxTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _operationTypeMeta = const VerificationMeta(
+    'operationType',
+  );
+  @override
+  late final GeneratedColumn<String> operationType = GeneratedColumn<String>(
+    'operation_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
+    'entityType',
+  );
+  @override
+  late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
+    'entity_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityLocalIdMeta = const VerificationMeta(
+    'entityLocalId',
+  );
+  @override
+  late final GeneratedColumn<String> entityLocalId = GeneratedColumn<String>(
+    'entity_local_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _remoteIdMeta = const VerificationMeta(
+    'remoteId',
+  );
+  @override
+  late final GeneratedColumn<String> remoteId = GeneratedColumn<String>(
+    'remote_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _payloadMeta = const VerificationMeta(
+    'payload',
+  );
+  @override
+  late final GeneratedColumn<String> payload = GeneratedColumn<String>(
+    'payload',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('pending'),
+  );
+  static const VerificationMeta _retryCountMeta = const VerificationMeta(
+    'retryCount',
+  );
+  @override
+  late final GeneratedColumn<int> retryCount = GeneratedColumn<int>(
+    'retry_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _failedReasonMeta = const VerificationMeta(
+    'failedReason',
+  );
+  @override
+  late final GeneratedColumn<String> failedReason = GeneratedColumn<String>(
+    'failed_reason',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _processedAtMeta = const VerificationMeta(
+    'processedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> processedAt = GeneratedColumn<DateTime>(
+    'processed_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    operationType,
+    entityType,
+    entityLocalId,
+    remoteId,
+    payload,
+    status,
+    retryCount,
+    failedReason,
+    createdAt,
+    processedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'outbox_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<OutboxEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('operation_type')) {
+      context.handle(
+        _operationTypeMeta,
+        operationType.isAcceptableOrUnknown(
+          data['operation_type']!,
+          _operationTypeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_operationTypeMeta);
+    }
+    if (data.containsKey('entity_type')) {
+      context.handle(
+        _entityTypeMeta,
+        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_entityTypeMeta);
+    }
+    if (data.containsKey('entity_local_id')) {
+      context.handle(
+        _entityLocalIdMeta,
+        entityLocalId.isAcceptableOrUnknown(
+          data['entity_local_id']!,
+          _entityLocalIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_entityLocalIdMeta);
+    }
+    if (data.containsKey('remote_id')) {
+      context.handle(
+        _remoteIdMeta,
+        remoteId.isAcceptableOrUnknown(data['remote_id']!, _remoteIdMeta),
+      );
+    }
+    if (data.containsKey('payload')) {
+      context.handle(
+        _payloadMeta,
+        payload.isAcceptableOrUnknown(data['payload']!, _payloadMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('retry_count')) {
+      context.handle(
+        _retryCountMeta,
+        retryCount.isAcceptableOrUnknown(data['retry_count']!, _retryCountMeta),
+      );
+    }
+    if (data.containsKey('failed_reason')) {
+      context.handle(
+        _failedReasonMeta,
+        failedReason.isAcceptableOrUnknown(
+          data['failed_reason']!,
+          _failedReasonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('processed_at')) {
+      context.handle(
+        _processedAtMeta,
+        processedAt.isAcceptableOrUnknown(
+          data['processed_at']!,
+          _processedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  OutboxEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return OutboxEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      operationType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}operation_type'],
+      )!,
+      entityType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_type'],
+      )!,
+      entityLocalId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_local_id'],
+      )!,
+      remoteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}remote_id'],
+      ),
+      payload: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      retryCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}retry_count'],
+      )!,
+      failedReason: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}failed_reason'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      processedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}processed_at'],
+      ),
+    );
+  }
+
+  @override
+  $OutboxTableTable createAlias(String alias) {
+    return $OutboxTableTable(attachedDatabase, alias);
+  }
+}
+
+class OutboxEntity extends DataClass implements Insertable<OutboxEntity> {
+  final int id;
+  final String operationType;
+  final String entityType;
+  final String entityLocalId;
+  final String? remoteId;
+  final String payload;
+  final String status;
+  final int retryCount;
+  final String? failedReason;
+  final DateTime createdAt;
+  final DateTime? processedAt;
+  const OutboxEntity({
+    required this.id,
+    required this.operationType,
+    required this.entityType,
+    required this.entityLocalId,
+    this.remoteId,
+    required this.payload,
+    required this.status,
+    required this.retryCount,
+    this.failedReason,
+    required this.createdAt,
+    this.processedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['operation_type'] = Variable<String>(operationType);
+    map['entity_type'] = Variable<String>(entityType);
+    map['entity_local_id'] = Variable<String>(entityLocalId);
+    if (!nullToAbsent || remoteId != null) {
+      map['remote_id'] = Variable<String>(remoteId);
+    }
+    map['payload'] = Variable<String>(payload);
+    map['status'] = Variable<String>(status);
+    map['retry_count'] = Variable<int>(retryCount);
+    if (!nullToAbsent || failedReason != null) {
+      map['failed_reason'] = Variable<String>(failedReason);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || processedAt != null) {
+      map['processed_at'] = Variable<DateTime>(processedAt);
+    }
+    return map;
+  }
+
+  OutboxTableCompanion toCompanion(bool nullToAbsent) {
+    return OutboxTableCompanion(
+      id: Value(id),
+      operationType: Value(operationType),
+      entityType: Value(entityType),
+      entityLocalId: Value(entityLocalId),
+      remoteId: remoteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(remoteId),
+      payload: Value(payload),
+      status: Value(status),
+      retryCount: Value(retryCount),
+      failedReason: failedReason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(failedReason),
+      createdAt: Value(createdAt),
+      processedAt: processedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(processedAt),
+    );
+  }
+
+  factory OutboxEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return OutboxEntity(
+      id: serializer.fromJson<int>(json['id']),
+      operationType: serializer.fromJson<String>(json['operationType']),
+      entityType: serializer.fromJson<String>(json['entityType']),
+      entityLocalId: serializer.fromJson<String>(json['entityLocalId']),
+      remoteId: serializer.fromJson<String?>(json['remoteId']),
+      payload: serializer.fromJson<String>(json['payload']),
+      status: serializer.fromJson<String>(json['status']),
+      retryCount: serializer.fromJson<int>(json['retryCount']),
+      failedReason: serializer.fromJson<String?>(json['failedReason']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      processedAt: serializer.fromJson<DateTime?>(json['processedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'operationType': serializer.toJson<String>(operationType),
+      'entityType': serializer.toJson<String>(entityType),
+      'entityLocalId': serializer.toJson<String>(entityLocalId),
+      'remoteId': serializer.toJson<String?>(remoteId),
+      'payload': serializer.toJson<String>(payload),
+      'status': serializer.toJson<String>(status),
+      'retryCount': serializer.toJson<int>(retryCount),
+      'failedReason': serializer.toJson<String?>(failedReason),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'processedAt': serializer.toJson<DateTime?>(processedAt),
+    };
+  }
+
+  OutboxEntity copyWith({
+    int? id,
+    String? operationType,
+    String? entityType,
+    String? entityLocalId,
+    Value<String?> remoteId = const Value.absent(),
+    String? payload,
+    String? status,
+    int? retryCount,
+    Value<String?> failedReason = const Value.absent(),
+    DateTime? createdAt,
+    Value<DateTime?> processedAt = const Value.absent(),
+  }) => OutboxEntity(
+    id: id ?? this.id,
+    operationType: operationType ?? this.operationType,
+    entityType: entityType ?? this.entityType,
+    entityLocalId: entityLocalId ?? this.entityLocalId,
+    remoteId: remoteId.present ? remoteId.value : this.remoteId,
+    payload: payload ?? this.payload,
+    status: status ?? this.status,
+    retryCount: retryCount ?? this.retryCount,
+    failedReason: failedReason.present ? failedReason.value : this.failedReason,
+    createdAt: createdAt ?? this.createdAt,
+    processedAt: processedAt.present ? processedAt.value : this.processedAt,
+  );
+  OutboxEntity copyWithCompanion(OutboxTableCompanion data) {
+    return OutboxEntity(
+      id: data.id.present ? data.id.value : this.id,
+      operationType: data.operationType.present
+          ? data.operationType.value
+          : this.operationType,
+      entityType: data.entityType.present
+          ? data.entityType.value
+          : this.entityType,
+      entityLocalId: data.entityLocalId.present
+          ? data.entityLocalId.value
+          : this.entityLocalId,
+      remoteId: data.remoteId.present ? data.remoteId.value : this.remoteId,
+      payload: data.payload.present ? data.payload.value : this.payload,
+      status: data.status.present ? data.status.value : this.status,
+      retryCount: data.retryCount.present
+          ? data.retryCount.value
+          : this.retryCount,
+      failedReason: data.failedReason.present
+          ? data.failedReason.value
+          : this.failedReason,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      processedAt: data.processedAt.present
+          ? data.processedAt.value
+          : this.processedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OutboxEntity(')
+          ..write('id: $id, ')
+          ..write('operationType: $operationType, ')
+          ..write('entityType: $entityType, ')
+          ..write('entityLocalId: $entityLocalId, ')
+          ..write('remoteId: $remoteId, ')
+          ..write('payload: $payload, ')
+          ..write('status: $status, ')
+          ..write('retryCount: $retryCount, ')
+          ..write('failedReason: $failedReason, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('processedAt: $processedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    operationType,
+    entityType,
+    entityLocalId,
+    remoteId,
+    payload,
+    status,
+    retryCount,
+    failedReason,
+    createdAt,
+    processedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is OutboxEntity &&
+          other.id == this.id &&
+          other.operationType == this.operationType &&
+          other.entityType == this.entityType &&
+          other.entityLocalId == this.entityLocalId &&
+          other.remoteId == this.remoteId &&
+          other.payload == this.payload &&
+          other.status == this.status &&
+          other.retryCount == this.retryCount &&
+          other.failedReason == this.failedReason &&
+          other.createdAt == this.createdAt &&
+          other.processedAt == this.processedAt);
+}
+
+class OutboxTableCompanion extends UpdateCompanion<OutboxEntity> {
+  final Value<int> id;
+  final Value<String> operationType;
+  final Value<String> entityType;
+  final Value<String> entityLocalId;
+  final Value<String?> remoteId;
+  final Value<String> payload;
+  final Value<String> status;
+  final Value<int> retryCount;
+  final Value<String?> failedReason;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> processedAt;
+  const OutboxTableCompanion({
+    this.id = const Value.absent(),
+    this.operationType = const Value.absent(),
+    this.entityType = const Value.absent(),
+    this.entityLocalId = const Value.absent(),
+    this.remoteId = const Value.absent(),
+    this.payload = const Value.absent(),
+    this.status = const Value.absent(),
+    this.retryCount = const Value.absent(),
+    this.failedReason = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.processedAt = const Value.absent(),
+  });
+  OutboxTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String operationType,
+    required String entityType,
+    required String entityLocalId,
+    this.remoteId = const Value.absent(),
+    required String payload,
+    this.status = const Value.absent(),
+    this.retryCount = const Value.absent(),
+    this.failedReason = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.processedAt = const Value.absent(),
+  }) : operationType = Value(operationType),
+       entityType = Value(entityType),
+       entityLocalId = Value(entityLocalId),
+       payload = Value(payload);
+  static Insertable<OutboxEntity> custom({
+    Expression<int>? id,
+    Expression<String>? operationType,
+    Expression<String>? entityType,
+    Expression<String>? entityLocalId,
+    Expression<String>? remoteId,
+    Expression<String>? payload,
+    Expression<String>? status,
+    Expression<int>? retryCount,
+    Expression<String>? failedReason,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? processedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (operationType != null) 'operation_type': operationType,
+      if (entityType != null) 'entity_type': entityType,
+      if (entityLocalId != null) 'entity_local_id': entityLocalId,
+      if (remoteId != null) 'remote_id': remoteId,
+      if (payload != null) 'payload': payload,
+      if (status != null) 'status': status,
+      if (retryCount != null) 'retry_count': retryCount,
+      if (failedReason != null) 'failed_reason': failedReason,
+      if (createdAt != null) 'created_at': createdAt,
+      if (processedAt != null) 'processed_at': processedAt,
+    });
+  }
+
+  OutboxTableCompanion copyWith({
+    Value<int>? id,
+    Value<String>? operationType,
+    Value<String>? entityType,
+    Value<String>? entityLocalId,
+    Value<String?>? remoteId,
+    Value<String>? payload,
+    Value<String>? status,
+    Value<int>? retryCount,
+    Value<String?>? failedReason,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? processedAt,
+  }) {
+    return OutboxTableCompanion(
+      id: id ?? this.id,
+      operationType: operationType ?? this.operationType,
+      entityType: entityType ?? this.entityType,
+      entityLocalId: entityLocalId ?? this.entityLocalId,
+      remoteId: remoteId ?? this.remoteId,
+      payload: payload ?? this.payload,
+      status: status ?? this.status,
+      retryCount: retryCount ?? this.retryCount,
+      failedReason: failedReason ?? this.failedReason,
+      createdAt: createdAt ?? this.createdAt,
+      processedAt: processedAt ?? this.processedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (operationType.present) {
+      map['operation_type'] = Variable<String>(operationType.value);
+    }
+    if (entityType.present) {
+      map['entity_type'] = Variable<String>(entityType.value);
+    }
+    if (entityLocalId.present) {
+      map['entity_local_id'] = Variable<String>(entityLocalId.value);
+    }
+    if (remoteId.present) {
+      map['remote_id'] = Variable<String>(remoteId.value);
+    }
+    if (payload.present) {
+      map['payload'] = Variable<String>(payload.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (retryCount.present) {
+      map['retry_count'] = Variable<int>(retryCount.value);
+    }
+    if (failedReason.present) {
+      map['failed_reason'] = Variable<String>(failedReason.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (processedAt.present) {
+      map['processed_at'] = Variable<DateTime>(processedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OutboxTableCompanion(')
+          ..write('id: $id, ')
+          ..write('operationType: $operationType, ')
+          ..write('entityType: $entityType, ')
+          ..write('entityLocalId: $entityLocalId, ')
+          ..write('remoteId: $remoteId, ')
+          ..write('payload: $payload, ')
+          ..write('status: $status, ')
+          ..write('retryCount: $retryCount, ')
+          ..write('failedReason: $failedReason, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('processedAt: $processedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AgoraDatabase extends GeneratedDatabase {
   _$AgoraDatabase(QueryExecutor e) : super(e);
   $AgoraDatabaseManager get managers => $AgoraDatabaseManager(this);
@@ -5841,6 +6867,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
   late final $AppSettingsTableTable appSettingsTable = $AppSettingsTableTable(
     this,
   );
+  late final $OutboxTableTable outboxTable = $OutboxTableTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5858,6 +6885,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     orderItemModifiers,
     discountsTable,
     appSettingsTable,
+    outboxTable,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -5867,6 +6895,13 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('order_items_table', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'order_items_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('order_item_modifiers', kind: UpdateKind.delete)],
     ),
   ]);
 }
@@ -9587,6 +10622,10 @@ typedef $$OrdersTableTableProcessedTableManager =
     >;
 typedef $$OrderItemsTableTableCreateCompanionBuilder =
     OrderItemsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
       required int orderId,
       Value<int?> productId,
       required String productName,
@@ -9594,10 +10633,13 @@ typedef $$OrderItemsTableTableCreateCompanionBuilder =
       required int costPrice,
       Value<int> quantity,
       Value<int> discountAmount,
-      Value<int> rowid,
     });
 typedef $$OrderItemsTableTableUpdateCompanionBuilder =
     OrderItemsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
       Value<int> orderId,
       Value<int?> productId,
       Value<String> productName,
@@ -9605,7 +10647,6 @@ typedef $$OrderItemsTableTableUpdateCompanionBuilder =
       Value<int> costPrice,
       Value<int> quantity,
       Value<int> discountAmount,
-      Value<int> rowid,
     });
 
 final class $$OrderItemsTableTableReferences
@@ -9658,6 +10699,33 @@ final class $$OrderItemsTableTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<
+    $OrderItemModifiersTable,
+    List<OrderItemModifierEntity>
+  >
+  _orderItemModifiersRefsTable(_$AgoraDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.orderItemModifiers,
+        aliasName: $_aliasNameGenerator(
+          db.orderItemsTable.id,
+          db.orderItemModifiers.orderItemId,
+        ),
+      );
+
+  $$OrderItemModifiersTableProcessedTableManager get orderItemModifiersRefs {
+    final manager = $$OrderItemModifiersTableTableManager(
+      $_db,
+      $_db.orderItemModifiers,
+    ).filter((f) => f.orderItemId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _orderItemModifiersRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$OrderItemsTableTableFilterComposer
@@ -9669,6 +10737,26 @@ class $$OrderItemsTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<String> get productName => $composableBuilder(
     column: $table.productName,
     builder: (column) => ColumnFilters(column),
@@ -9739,6 +10827,31 @@ class $$OrderItemsTableTableFilterComposer
     );
     return composer;
   }
+
+  Expression<bool> orderItemModifiersRefs(
+    Expression<bool> Function($$OrderItemModifiersTableFilterComposer f) f,
+  ) {
+    final $$OrderItemModifiersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.orderItemModifiers,
+      getReferencedColumn: (t) => t.orderItemId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderItemModifiersTableFilterComposer(
+            $db: $db,
+            $table: $db.orderItemModifiers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$OrderItemsTableTableOrderingComposer
@@ -9750,6 +10863,26 @@ class $$OrderItemsTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get productName => $composableBuilder(
     column: $table.productName,
     builder: (column) => ColumnOrderings(column),
@@ -9831,6 +10964,18 @@ class $$OrderItemsTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
   GeneratedColumn<String> get productName => $composableBuilder(
     column: $table.productName,
     builder: (column) => column,
@@ -9895,6 +11040,32 @@ class $$OrderItemsTableTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> orderItemModifiersRefs<T extends Object>(
+    Expression<T> Function($$OrderItemModifiersTableAnnotationComposer a) f,
+  ) {
+    final $$OrderItemModifiersTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.orderItemModifiers,
+          getReferencedColumn: (t) => t.orderItemId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$OrderItemModifiersTableAnnotationComposer(
+                $db: $db,
+                $table: $db.orderItemModifiers,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$OrderItemsTableTableTableManager
@@ -9910,7 +11081,11 @@ class $$OrderItemsTableTableTableManager
           $$OrderItemsTableTableUpdateCompanionBuilder,
           (OrderItemEntity, $$OrderItemsTableTableReferences),
           OrderItemEntity,
-          PrefetchHooks Function({bool orderId, bool productId})
+          PrefetchHooks Function({
+            bool orderId,
+            bool productId,
+            bool orderItemModifiersRefs,
+          })
         > {
   $$OrderItemsTableTableTableManager(
     _$AgoraDatabase db,
@@ -9927,6 +11102,10 @@ class $$OrderItemsTableTableTableManager
               $$OrderItemsTableTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
                 Value<int> orderId = const Value.absent(),
                 Value<int?> productId = const Value.absent(),
                 Value<String> productName = const Value.absent(),
@@ -9934,8 +11113,11 @@ class $$OrderItemsTableTableTableManager
                 Value<int> costPrice = const Value.absent(),
                 Value<int> quantity = const Value.absent(),
                 Value<int> discountAmount = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => OrderItemsTableCompanion(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 orderId: orderId,
                 productId: productId,
                 productName: productName,
@@ -9943,10 +11125,13 @@ class $$OrderItemsTableTableTableManager
                 costPrice: costPrice,
                 quantity: quantity,
                 discountAmount: discountAmount,
-                rowid: rowid,
               ),
           createCompanionCallback:
               ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
                 required int orderId,
                 Value<int?> productId = const Value.absent(),
                 required String productName,
@@ -9954,8 +11139,11 @@ class $$OrderItemsTableTableTableManager
                 required int costPrice,
                 Value<int> quantity = const Value.absent(),
                 Value<int> discountAmount = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => OrderItemsTableCompanion.insert(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 orderId: orderId,
                 productId: productId,
                 productName: productName,
@@ -9963,7 +11151,6 @@ class $$OrderItemsTableTableTableManager
                 costPrice: costPrice,
                 quantity: quantity,
                 discountAmount: discountAmount,
-                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -9973,64 +11160,93 @@ class $$OrderItemsTableTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({orderId = false, productId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (orderId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.orderId,
-                                referencedTable:
-                                    $$OrderItemsTableTableReferences
-                                        ._orderIdTable(db),
-                                referencedColumn:
-                                    $$OrderItemsTableTableReferences
-                                        ._orderIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
-                    if (productId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.productId,
-                                referencedTable:
-                                    $$OrderItemsTableTableReferences
-                                        ._productIdTable(db),
-                                referencedColumn:
-                                    $$OrderItemsTableTableReferences
-                                        ._productIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({
+                orderId = false,
+                productId = false,
+                orderItemModifiersRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (orderItemModifiersRefs) db.orderItemModifiers,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (orderId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.orderId,
+                                    referencedTable:
+                                        $$OrderItemsTableTableReferences
+                                            ._orderIdTable(db),
+                                    referencedColumn:
+                                        $$OrderItemsTableTableReferences
+                                            ._orderIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (productId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.productId,
+                                    referencedTable:
+                                        $$OrderItemsTableTableReferences
+                                            ._productIdTable(db),
+                                    referencedColumn:
+                                        $$OrderItemsTableTableReferences
+                                            ._productIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (orderItemModifiersRefs)
+                        await $_getPrefetchedData<
+                          OrderItemEntity,
+                          $OrderItemsTableTable,
+                          OrderItemModifierEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$OrderItemsTableTableReferences
+                              ._orderItemModifiersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$OrderItemsTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).orderItemModifiersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.orderItemId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -10047,24 +11263,70 @@ typedef $$OrderItemsTableTableProcessedTableManager =
       $$OrderItemsTableTableUpdateCompanionBuilder,
       (OrderItemEntity, $$OrderItemsTableTableReferences),
       OrderItemEntity,
-      PrefetchHooks Function({bool orderId, bool productId})
+      PrefetchHooks Function({
+        bool orderId,
+        bool productId,
+        bool orderItemModifiersRefs,
+      })
     >;
 typedef $$OrderItemModifiersTableCreateCompanionBuilder =
     OrderItemModifiersCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
       required int orderItemId,
       required String modifierName,
       required String optionName,
       required int priceChange,
-      Value<int> rowid,
     });
 typedef $$OrderItemModifiersTableUpdateCompanionBuilder =
     OrderItemModifiersCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
       Value<int> orderItemId,
       Value<String> modifierName,
       Value<String> optionName,
       Value<int> priceChange,
-      Value<int> rowid,
     });
+
+final class $$OrderItemModifiersTableReferences
+    extends
+        BaseReferences<
+          _$AgoraDatabase,
+          $OrderItemModifiersTable,
+          OrderItemModifierEntity
+        > {
+  $$OrderItemModifiersTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $OrderItemsTableTable _orderItemIdTable(_$AgoraDatabase db) =>
+      db.orderItemsTable.createAlias(
+        $_aliasNameGenerator(
+          db.orderItemModifiers.orderItemId,
+          db.orderItemsTable.id,
+        ),
+      );
+
+  $$OrderItemsTableTableProcessedTableManager get orderItemId {
+    final $_column = $_itemColumn<int>('order_item_id')!;
+
+    final manager = $$OrderItemsTableTableTableManager(
+      $_db,
+      $_db.orderItemsTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_orderItemIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
 
 class $$OrderItemModifiersTableFilterComposer
     extends Composer<_$AgoraDatabase, $OrderItemModifiersTable> {
@@ -10075,8 +11337,23 @@ class $$OrderItemModifiersTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get orderItemId => $composableBuilder(
-    column: $table.orderItemId,
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -10094,6 +11371,29 @@ class $$OrderItemModifiersTableFilterComposer
     column: $table.priceChange,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$OrderItemsTableTableFilterComposer get orderItemId {
+    final $$OrderItemsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderItemId,
+      referencedTable: $db.orderItemsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderItemsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.orderItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$OrderItemModifiersTableOrderingComposer
@@ -10105,8 +11405,23 @@ class $$OrderItemModifiersTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get orderItemId => $composableBuilder(
-    column: $table.orderItemId,
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -10124,6 +11439,29 @@ class $$OrderItemModifiersTableOrderingComposer
     column: $table.priceChange,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$OrderItemsTableTableOrderingComposer get orderItemId {
+    final $$OrderItemsTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderItemId,
+      referencedTable: $db.orderItemsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderItemsTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.orderItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$OrderItemModifiersTableAnnotationComposer
@@ -10135,10 +11473,17 @@ class $$OrderItemModifiersTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get orderItemId => $composableBuilder(
-    column: $table.orderItemId,
-    builder: (column) => column,
-  );
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   GeneratedColumn<String> get modifierName => $composableBuilder(
     column: $table.modifierName,
@@ -10154,6 +11499,29 @@ class $$OrderItemModifiersTableAnnotationComposer
     column: $table.priceChange,
     builder: (column) => column,
   );
+
+  $$OrderItemsTableTableAnnotationComposer get orderItemId {
+    final $$OrderItemsTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.orderItemId,
+      referencedTable: $db.orderItemsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderItemsTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.orderItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$OrderItemModifiersTableTableManager
@@ -10167,16 +11535,9 @@ class $$OrderItemModifiersTableTableManager
           $$OrderItemModifiersTableAnnotationComposer,
           $$OrderItemModifiersTableCreateCompanionBuilder,
           $$OrderItemModifiersTableUpdateCompanionBuilder,
-          (
-            OrderItemModifierEntity,
-            BaseReferences<
-              _$AgoraDatabase,
-              $OrderItemModifiersTable,
-              OrderItemModifierEntity
-            >,
-          ),
+          (OrderItemModifierEntity, $$OrderItemModifiersTableReferences),
           OrderItemModifierEntity,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool orderItemId})
         > {
   $$OrderItemModifiersTableTableManager(
     _$AgoraDatabase db,
@@ -10196,36 +11557,95 @@ class $$OrderItemModifiersTableTableManager
               ),
           updateCompanionCallback:
               ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
                 Value<int> orderItemId = const Value.absent(),
                 Value<String> modifierName = const Value.absent(),
                 Value<String> optionName = const Value.absent(),
                 Value<int> priceChange = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => OrderItemModifiersCompanion(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 orderItemId: orderItemId,
                 modifierName: modifierName,
                 optionName: optionName,
                 priceChange: priceChange,
-                rowid: rowid,
               ),
           createCompanionCallback:
               ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
                 required int orderItemId,
                 required String modifierName,
                 required String optionName,
                 required int priceChange,
-                Value<int> rowid = const Value.absent(),
               }) => OrderItemModifiersCompanion.insert(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
                 orderItemId: orderItemId,
                 modifierName: modifierName,
                 optionName: optionName,
                 priceChange: priceChange,
-                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$OrderItemModifiersTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({orderItemId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (orderItemId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.orderItemId,
+                                referencedTable:
+                                    $$OrderItemModifiersTableReferences
+                                        ._orderItemIdTable(db),
+                                referencedColumn:
+                                    $$OrderItemModifiersTableReferences
+                                        ._orderItemIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -10240,16 +11660,9 @@ typedef $$OrderItemModifiersTableProcessedTableManager =
       $$OrderItemModifiersTableAnnotationComposer,
       $$OrderItemModifiersTableCreateCompanionBuilder,
       $$OrderItemModifiersTableUpdateCompanionBuilder,
-      (
-        OrderItemModifierEntity,
-        BaseReferences<
-          _$AgoraDatabase,
-          $OrderItemModifiersTable,
-          OrderItemModifierEntity
-        >,
-      ),
+      (OrderItemModifierEntity, $$OrderItemModifiersTableReferences),
       OrderItemModifierEntity,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool orderItemId})
     >;
 typedef $$DiscountsTableTableCreateCompanionBuilder =
     DiscountsTableCompanion Function({
@@ -10724,6 +12137,326 @@ typedef $$AppSettingsTableTableProcessedTableManager =
       AppSettingEntity,
       PrefetchHooks Function()
     >;
+typedef $$OutboxTableTableCreateCompanionBuilder =
+    OutboxTableCompanion Function({
+      Value<int> id,
+      required String operationType,
+      required String entityType,
+      required String entityLocalId,
+      Value<String?> remoteId,
+      required String payload,
+      Value<String> status,
+      Value<int> retryCount,
+      Value<String?> failedReason,
+      Value<DateTime> createdAt,
+      Value<DateTime?> processedAt,
+    });
+typedef $$OutboxTableTableUpdateCompanionBuilder =
+    OutboxTableCompanion Function({
+      Value<int> id,
+      Value<String> operationType,
+      Value<String> entityType,
+      Value<String> entityLocalId,
+      Value<String?> remoteId,
+      Value<String> payload,
+      Value<String> status,
+      Value<int> retryCount,
+      Value<String?> failedReason,
+      Value<DateTime> createdAt,
+      Value<DateTime?> processedAt,
+    });
+
+class $$OutboxTableTableFilterComposer
+    extends Composer<_$AgoraDatabase, $OutboxTableTable> {
+  $$OutboxTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get operationType => $composableBuilder(
+    column: $table.operationType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get entityLocalId => $composableBuilder(
+    column: $table.entityLocalId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get remoteId => $composableBuilder(
+    column: $table.remoteId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get retryCount => $composableBuilder(
+    column: $table.retryCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get failedReason => $composableBuilder(
+    column: $table.failedReason,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get processedAt => $composableBuilder(
+    column: $table.processedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$OutboxTableTableOrderingComposer
+    extends Composer<_$AgoraDatabase, $OutboxTableTable> {
+  $$OutboxTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get operationType => $composableBuilder(
+    column: $table.operationType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get entityLocalId => $composableBuilder(
+    column: $table.entityLocalId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get remoteId => $composableBuilder(
+    column: $table.remoteId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payload => $composableBuilder(
+    column: $table.payload,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get retryCount => $composableBuilder(
+    column: $table.retryCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get failedReason => $composableBuilder(
+    column: $table.failedReason,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get processedAt => $composableBuilder(
+    column: $table.processedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$OutboxTableTableAnnotationComposer
+    extends Composer<_$AgoraDatabase, $OutboxTableTable> {
+  $$OutboxTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get operationType => $composableBuilder(
+    column: $table.operationType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get entityLocalId => $composableBuilder(
+    column: $table.entityLocalId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get remoteId =>
+      $composableBuilder(column: $table.remoteId, builder: (column) => column);
+
+  GeneratedColumn<String> get payload =>
+      $composableBuilder(column: $table.payload, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get retryCount => $composableBuilder(
+    column: $table.retryCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get failedReason => $composableBuilder(
+    column: $table.failedReason,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get processedAt => $composableBuilder(
+    column: $table.processedAt,
+    builder: (column) => column,
+  );
+}
+
+class $$OutboxTableTableTableManager
+    extends
+        RootTableManager<
+          _$AgoraDatabase,
+          $OutboxTableTable,
+          OutboxEntity,
+          $$OutboxTableTableFilterComposer,
+          $$OutboxTableTableOrderingComposer,
+          $$OutboxTableTableAnnotationComposer,
+          $$OutboxTableTableCreateCompanionBuilder,
+          $$OutboxTableTableUpdateCompanionBuilder,
+          (
+            OutboxEntity,
+            BaseReferences<_$AgoraDatabase, $OutboxTableTable, OutboxEntity>,
+          ),
+          OutboxEntity,
+          PrefetchHooks Function()
+        > {
+  $$OutboxTableTableTableManager(_$AgoraDatabase db, $OutboxTableTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$OutboxTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$OutboxTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$OutboxTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> operationType = const Value.absent(),
+                Value<String> entityType = const Value.absent(),
+                Value<String> entityLocalId = const Value.absent(),
+                Value<String?> remoteId = const Value.absent(),
+                Value<String> payload = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int> retryCount = const Value.absent(),
+                Value<String?> failedReason = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> processedAt = const Value.absent(),
+              }) => OutboxTableCompanion(
+                id: id,
+                operationType: operationType,
+                entityType: entityType,
+                entityLocalId: entityLocalId,
+                remoteId: remoteId,
+                payload: payload,
+                status: status,
+                retryCount: retryCount,
+                failedReason: failedReason,
+                createdAt: createdAt,
+                processedAt: processedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String operationType,
+                required String entityType,
+                required String entityLocalId,
+                Value<String?> remoteId = const Value.absent(),
+                required String payload,
+                Value<String> status = const Value.absent(),
+                Value<int> retryCount = const Value.absent(),
+                Value<String?> failedReason = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> processedAt = const Value.absent(),
+              }) => OutboxTableCompanion.insert(
+                id: id,
+                operationType: operationType,
+                entityType: entityType,
+                entityLocalId: entityLocalId,
+                remoteId: remoteId,
+                payload: payload,
+                status: status,
+                retryCount: retryCount,
+                failedReason: failedReason,
+                createdAt: createdAt,
+                processedAt: processedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$OutboxTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AgoraDatabase,
+      $OutboxTableTable,
+      OutboxEntity,
+      $$OutboxTableTableFilterComposer,
+      $$OutboxTableTableOrderingComposer,
+      $$OutboxTableTableAnnotationComposer,
+      $$OutboxTableTableCreateCompanionBuilder,
+      $$OutboxTableTableUpdateCompanionBuilder,
+      (
+        OutboxEntity,
+        BaseReferences<_$AgoraDatabase, $OutboxTableTable, OutboxEntity>,
+      ),
+      OutboxEntity,
+      PrefetchHooks Function()
+    >;
 
 class $AgoraDatabaseManager {
   final _$AgoraDatabase _db;
@@ -10755,4 +12488,6 @@ class $AgoraDatabaseManager {
       $$DiscountsTableTableTableManager(_db, _db.discountsTable);
   $$AppSettingsTableTableTableManager get appSettingsTable =>
       $$AppSettingsTableTableTableManager(_db, _db.appSettingsTable);
+  $$OutboxTableTableTableManager get outboxTable =>
+      $$OutboxTableTableTableManager(_db, _db.outboxTable);
 }
