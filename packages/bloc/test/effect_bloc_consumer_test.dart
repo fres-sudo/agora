@@ -92,7 +92,9 @@ void main() {
       expect(states, [1]);
     });
 
-    testWidgets('onEffect receives effects emitted by the bloc', (tester) async {
+    testWidgets('onEffect receives effects emitted by the bloc', (
+      tester,
+    ) async {
       final bloc = _ConsumerBloc();
       addTearDown(() => _tearDown(tester, bloc));
       final effects = <String>[];
@@ -210,7 +212,9 @@ void main() {
       expect(states, [2]);
     });
 
-    testWidgets('direct emitEffect (before add) is delivered via onEffect', (tester) async {
+    testWidgets('direct emitEffect (before add) is delivered via onEffect', (
+      tester,
+    ) async {
       final bloc = _ConsumerBloc();
       addTearDown(() => _tearDown(tester, bloc));
 

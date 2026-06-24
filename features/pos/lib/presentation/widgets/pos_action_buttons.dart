@@ -78,11 +78,7 @@ class _ActionButton extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
 
-  const _ActionButton({
-    required this.icon,
-    required this.label,
-    this.onTap,
-  });
+  const _ActionButton({required this.icon, required this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +109,9 @@ class _ActionButton extends StatelessWidget {
               Text(
                 label,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color:
-                      isEnabled ? AppColors.neutral600 : AppColors.neutral400,
+                  color: isEnabled
+                      ? AppColors.neutral600
+                      : AppColors.neutral400,
                 ),
               ),
             ],

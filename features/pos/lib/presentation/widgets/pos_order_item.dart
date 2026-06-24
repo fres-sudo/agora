@@ -45,10 +45,7 @@ class PosOrderItem extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 16),
         color: AppColors.error400,
-        child: const Icon(
-          Icons.delete_outline,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.delete_outline, color: Colors.white),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),

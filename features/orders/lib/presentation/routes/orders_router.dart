@@ -6,7 +6,5 @@ part 'orders_router.gr.dart';
 @AutoRouterConfig()
 class OrdersRouter extends RootStackRouter {
   @override
-  List<AutoRoute> get routes => [
-    AutoRoute(page: OrdersRoute.page),
-  ];
+  List<AutoRoute> get routes => [AutoRoute(page: OrdersRoute.page)];
 }

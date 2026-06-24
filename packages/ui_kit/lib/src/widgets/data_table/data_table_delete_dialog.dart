@@ -41,7 +41,9 @@ class DataTableDeleteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.md)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.md),
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),
         child: Padding(
@@ -53,8 +55,15 @@ class DataTableDeleteDialog extends StatelessWidget {
               Container(
                 width: 56,
                 height: 56,
-                decoration: BoxDecoration(color: AppColors.error100, shape: BoxShape.circle),
-                child: const Icon(Icons.close_rounded, color: AppColors.error500, size: 32),
+                decoration: BoxDecoration(
+                  color: AppColors.error100,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.close_rounded,
+                  color: AppColors.error500,
+                  size: 32,
+                ),
               ),
               const SizedBox(height: Sizes.lg),
               // Title

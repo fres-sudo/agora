@@ -6,7 +6,5 @@ part 'settings_router.gr.dart';
 @AutoRouterConfig()
 class SettingsRouter extends RootStackRouter {
   @override
-  List<AutoRoute> get routes => [
-    AutoRoute(page: SettingsRoute.page),
-  ];
+  List<AutoRoute> get routes => [AutoRoute(page: SettingsRoute.page)];
 }

@@ -24,10 +24,10 @@ class DiscountsState with _$DiscountsState {
 
   /// Returns discounts if loaded.
   List<Discount> get discounts => maybeMap(
-        loaded: (s) => s.discounts,
-        error: (s) => s.previousState?.discounts ?? [],
-        orElse: () => [],
-      );
+    loaded: (s) => s.discounts,
+    error: (s) => s.previousState?.discounts ?? [],
+    orElse: () => [],
+  );
 
   /// Returns count of active discounts.
   int get activeCount => discounts.where((d) => d.isActive).length;

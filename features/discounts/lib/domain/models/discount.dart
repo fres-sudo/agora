@@ -24,7 +24,8 @@ abstract class Discount with _$Discount {
     @Default(0) int usageCount,
   }) = _Discount;
 
-  factory Discount.fromJson(Map<String, dynamic> json) => _$DiscountFromJson(json);
+  factory Discount.fromJson(Map<String, dynamic> json) =>
+      _$DiscountFromJson(json);
 
   const Discount._();
 
@@ -33,7 +34,8 @@ abstract class Discount with _$Discount {
 
   bool get isValid {
     if (!isActive) return false;
-    if (validUntil != null && validUntil!.isBefore(DateTime.now())) return false;
+    if (validUntil != null && validUntil!.isBefore(DateTime.now()))
+      return false;
     if (usageLimit != null && usageCount >= usageLimit!) return false;
     return true;
   }

@@ -10,10 +10,9 @@ part 'discount_validation_state.dart';
 
 /// Cubit for validating discount codes during checkout.
 class DiscountValidationCubit extends Cubit<DiscountValidationState> {
-  DiscountValidationCubit({
-    required DiscountsRepository discountsRepository,
-  })  : _discountsRepository = discountsRepository,
-        super(const DiscountValidationState.initial());
+  DiscountValidationCubit({required DiscountsRepository discountsRepository})
+    : _discountsRepository = discountsRepository,
+      super(const DiscountValidationState.initial());
 
   final DiscountsRepository _discountsRepository;
 
@@ -24,9 +23,11 @@ class DiscountValidationCubit extends Cubit<DiscountValidationState> {
   /// Validate a discount code.
   Future<void> validate(String code) async {
     if (code.trim().isEmpty) {
-      emit(const DiscountValidationState.invalid(
-        reason: 'Please enter a discount code',
-      ));
+      emit(
+        const DiscountValidationState.invalid(
+          reason: 'Please enter a discount code',
+        ),
+      );
       return;
     }
 
@@ -39,32 +40,42 @@ class DiscountValidationCubit extends Cubit<DiscountValidationState> {
         if (discount != null) {
           // Check if discount is still valid
           if (!discount.isActive) {
-            emit(const DiscountValidationState.invalid(
-              reason: 'This discount is no longer active',
-            ));
+            emit(
+              const DiscountValidationState.invalid(
+                reason: 'This discount is no longer active',
+              ),
+            );
           } else if (discount.validUntil != null &&
               discount.validUntil!.isBefore(DateTime.now())) {
-            emit(const DiscountValidationState.invalid(
-              reason: 'This discount has expired',
-            ));
+            emit(
+              const DiscountValidationState.invalid(
+                reason: 'This discount has expired',
+              ),
+            );
           } else if (discount.usageLimit != null &&
               discount.usageCount >= discount.usageLimit!) {
-            emit(const DiscountValidationState.invalid(
-              reason: 'This discount has reached its usage limit',
-            ));
+            emit(
+              const DiscountValidationState.invalid(
+                reason: 'This discount has reached its usage limit',
+              ),
+            );
           } else {
             emit(DiscountValidationState.valid(discount: discount));
           }
         } else {
-          emit(const DiscountValidationState.invalid(
-            reason: 'Invalid discount code',
-          ));
+          emit(
+            const DiscountValidationState.invalid(
+              reason: 'Invalid discount code',
+            ),
+          );
         }
       },
       error: (error) {
-        emit(DiscountValidationState.error(
-          message: 'Failed to validate code: ${error.toString()}',
-        ));
+        emit(
+          DiscountValidationState.error(
+            message: 'Failed to validate code: ${error.toString()}',
+          ),
+        );
       },
     );
   }

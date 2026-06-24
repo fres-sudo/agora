@@ -21,8 +21,7 @@ class SettingsFeature {
     ),
     // BLoC
     BlocProvider<SettingsCubit>(
-      create: (ctx) =>
-          SettingsCubit(settingsRepository: ctx.read())..load(),
+      create: (ctx) => SettingsCubit(settingsRepository: ctx.read())..load(),
     ),
   ];
 }

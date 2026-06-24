@@ -9,20 +9,20 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:agora/auth/pages/auth_shell_page.dart' as _i1;
-import 'package:agora/orders/pages/orders_page.dart' as _i2;
-import 'package:agora/pos/pages/pos_page.dart' as _i3;
-import 'package:agora/pos/pages/protected_shell_page.dart' as _i5;
-import 'package:agora/products/pages/products_page.dart' as _i4;
-import 'package:agora/reports/pages/report_page.dart' as _i6;
-import 'package:agora/settings/pages/settings_page.dart' as _i7;
+import 'package:agora_workspace/auth/pages/auth_shell_page.dart' as _i1;
+import 'package:agora_workspace/orders/pages/orders_page.dart' as _i2;
+import 'package:agora_workspace/pos/pages/pos_page.dart' as _i3;
+import 'package:agora_workspace/pos/pages/protected_shell_page.dart' as _i5;
+import 'package:agora_workspace/products/pages/products_page.dart' as _i4;
+import 'package:agora_workspace/reports/pages/report_page.dart' as _i6;
+import 'package:agora_workspace/settings/pages/settings_page.dart' as _i7;
 import 'package:auto_route/auto_route.dart' as _i8;
 
 /// generated route for
 /// [_i1.AuthShellPage]
 class AuthShellRoute extends _i8.PageRouteInfo<void> {
   const AuthShellRoute({List<_i8.PageRouteInfo>? children})
-    : super(AuthShellRoute.name, initialChildren: children);
+      : super(AuthShellRoute.name, initialChildren: children);
 
   static const String name = 'AuthShellRoute';
 
@@ -38,7 +38,7 @@ class AuthShellRoute extends _i8.PageRouteInfo<void> {
 /// [_i2.OrdersPage]
 class OrdersRoute extends _i8.PageRouteInfo<void> {
   const OrdersRoute({List<_i8.PageRouteInfo>? children})
-    : super(OrdersRoute.name, initialChildren: children);
+      : super(OrdersRoute.name, initialChildren: children);
 
   static const String name = 'OrdersRoute';
 
@@ -54,7 +54,7 @@ class OrdersRoute extends _i8.PageRouteInfo<void> {
 /// [_i3.PosPage]
 class PosRoute extends _i8.PageRouteInfo<void> {
   const PosRoute({List<_i8.PageRouteInfo>? children})
-    : super(PosRoute.name, initialChildren: children);
+      : super(PosRoute.name, initialChildren: children);
 
   static const String name = 'PosRoute';
 
@@ -70,7 +70,7 @@ class PosRoute extends _i8.PageRouteInfo<void> {
 /// [_i4.ProductsPage]
 class ProductsRoute extends _i8.PageRouteInfo<void> {
   const ProductsRoute({List<_i8.PageRouteInfo>? children})
-    : super(ProductsRoute.name, initialChildren: children);
+      : super(ProductsRoute.name, initialChildren: children);
 
   static const String name = 'ProductsRoute';
 
@@ -86,7 +86,7 @@ class ProductsRoute extends _i8.PageRouteInfo<void> {
 /// [_i5.ProtectedShellPage]
 class ProtectedShellRoute extends _i8.PageRouteInfo<void> {
   const ProtectedShellRoute({List<_i8.PageRouteInfo>? children})
-    : super(ProtectedShellRoute.name, initialChildren: children);
+      : super(ProtectedShellRoute.name, initialChildren: children);
 
   static const String name = 'ProtectedShellRoute';
 
@@ -102,7 +102,7 @@ class ProtectedShellRoute extends _i8.PageRouteInfo<void> {
 /// [_i6.ReportPage]
 class ReportRoute extends _i8.PageRouteInfo<void> {
   const ReportRoute({List<_i8.PageRouteInfo>? children})
-    : super(ReportRoute.name, initialChildren: children);
+      : super(ReportRoute.name, initialChildren: children);
 
   static const String name = 'ReportRoute';
 
@@ -118,7 +118,7 @@ class ReportRoute extends _i8.PageRouteInfo<void> {
 /// [_i7.SettingsPage]
 class SettingsRoute extends _i8.PageRouteInfo<void> {
   const SettingsRoute({List<_i8.PageRouteInfo>? children})
-    : super(SettingsRoute.name, initialChildren: children);
+      : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 

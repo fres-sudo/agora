@@ -3,6 +3,4 @@
 part of 'discounts_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$DiscountsDaoMixin on DatabaseAccessor<AgoraDatabase> {
-  $DiscountsTableTable get discountsTable => attachedDatabase.discountsTable;
-}
+mixin _$DiscountsDaoMixin on DatabaseAccessor<dynamic /* = invalid*/ > {}

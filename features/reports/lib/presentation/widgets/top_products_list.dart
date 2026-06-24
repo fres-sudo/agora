@@ -6,10 +6,7 @@ import 'package:i18n/i18n.dart';
 class TopProductsList extends StatelessWidget {
   final List<TopProductData> products;
 
-  const TopProductsList({
-    super.key,
-    required this.products,
-  });
+  const TopProductsList({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -31,36 +28,39 @@ class TopProductsList extends StatelessWidget {
               Text(
                 t.report.top_10_product,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.neutral900,
-                      fontSize: isCompact ? 16 : null,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.neutral900,
+                  fontSize: isCompact ? 16 : null,
+                ),
               ),
               SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
               // Table header
               Padding(
                 padding: EdgeInsets.symmetric(
-                    vertical: isCompact ? Sizes.xs : Sizes.sm),
+                  vertical: isCompact ? Sizes.xs : Sizes.sm,
+                ),
                 child: Row(
                   children: [
-                    SizedBox(width: isVeryCompact ? 50 : 80), // For Rank and Image
+                    SizedBox(
+                      width: isVeryCompact ? 50 : 80,
+                    ), // For Rank and Image
                     Expanded(
                       child: Text(
                         'PRODUCT',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: AppColors.neutral500,
-                              fontWeight: FontWeight.w600,
-                              fontSize: isCompact ? 10 : null,
-                            ),
+                          color: AppColors.neutral500,
+                          fontWeight: FontWeight.w600,
+                          fontSize: isCompact ? 10 : null,
+                        ),
                       ),
                     ),
                     Text(
                       'SALES',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.neutral500,
-                            fontWeight: FontWeight.w600,
-                            fontSize: isCompact ? 10 : null,
-                          ),
+                        color: AppColors.neutral500,
+                        fontWeight: FontWeight.w600,
+                        fontSize: isCompact ? 10 : null,
+                      ),
                     ),
                   ],
                 ),
@@ -69,10 +69,8 @@ class TopProductsList extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                   itemCount: products.length,
-                  separatorBuilder: (context, index) => const Divider(
-                    color: AppColors.neutral200,
-                    height: 1,
-                  ),
+                  separatorBuilder: (context, index) =>
+                      const Divider(color: AppColors.neutral200, height: 1),
                   itemBuilder: (context, index) {
                     final product = products[index];
                     return Padding(
@@ -191,9 +189,5 @@ class TopProductData {
   final int sales;
   final String? imageUrl;
 
-  TopProductData({
-    required this.name,
-    required this.sales,
-    this.imageUrl,
-  });
+  TopProductData({required this.name, required this.sales, this.imageUrl});
 }

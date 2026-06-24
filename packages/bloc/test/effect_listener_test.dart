@@ -31,7 +31,9 @@ void main() {
   group('EffectListener', () {
     // H2: the mount-guard (`if (!mounted) return`) inside _onEffect prevents
     // the callback from firing after the widget is removed from the tree.
-    testWidgets('mount-guard (H2): onEffect not called after widget unmounted', (tester) async {
+    testWidgets('mount-guard (H2): onEffect not called after widget unmounted', (
+      tester,
+    ) async {
       // Arrange
       final bloc = _TestBloc();
       addTearDown(() => _tearDownBloc(tester, bloc));
@@ -69,34 +71,35 @@ void main() {
       expect(received, ['pre-unmount']);
     });
 
-    testWidgets('dispose cancels subscription: no crash after widget removed and effect emitted', (
-      tester,
-    ) async {
-      // Arrange
-      final bloc = _TestBloc();
-      addTearDown(() => _tearDownBloc(tester, bloc));
+    testWidgets(
+      'dispose cancels subscription: no crash after widget removed and effect emitted',
+      (tester) async {
+        // Arrange
+        final bloc = _TestBloc();
+        addTearDown(() => _tearDownBloc(tester, bloc));
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: bloc,
-          child: EffectListener<_TestBloc, String>(
-            onEffect: (_, effect) {},
-            child: const SizedBox.shrink(),
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: bloc,
+            child: EffectListener<_TestBloc, String>(
+              onEffect: (_, effect) {},
+              child: const SizedBox.shrink(),
+            ),
           ),
-        ),
-        wrapWithScaffold: false,
-      );
+          wrapWithScaffold: false,
+        );
 
-      // Act: remove the widget (triggers dispose + subscription cancel).
-      await tester.pumpWidget(const SizedBox.shrink());
+        // Act: remove the widget (triggers dispose + subscription cancel).
+        await tester.pumpWidget(const SizedBox.shrink());
 
-      // Assert: emitting after dispose does not throw.
-      expect(() {
-        bloc.emitEffect('after-dispose');
-      }, returnsNormally);
+        // Assert: emitting after dispose does not throw.
+        expect(() {
+          bloc.emitEffect('after-dispose');
+        }, returnsNormally);
 
-      await tester.pump();
-    });
+        await tester.pump();
+      },
+    );
 
     testWidgets('filter suppresses non-matching effects', (tester) async {
       // Arrange
@@ -121,7 +124,8 @@ void main() {
       bloc.emitEffect('fail');
       bloc.emitEffect('pass');
       await tester.pump();
-      await tester.pump(); // drain residual microtasks from the second stream event
+      await tester
+          .pump(); // drain residual microtasks from the second stream event
 
       // Assert: only 'pass' was delivered.
       expect(received, ['pass']);

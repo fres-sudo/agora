@@ -51,10 +51,7 @@ class _PosSearchBarState extends State<PosSearchBar> {
       decoration: InputDecoration(
         hintText: widget.hintText ?? 'Search Product...',
         hintStyle: TextStyle(color: AppColors.neutral400),
-        prefixIcon: Icon(
-          Icons.search,
-          color: AppColors.neutral400,
-        ),
+        prefixIcon: Icon(Icons.search, color: AppColors.neutral400),
         filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(

@@ -78,5 +78,3 @@ abstract class AppColors {
   static const Color info400 = Color(0xff4AA6FC);
   static const Color info500 = Color(0xff1D90FB);
 }
-
-

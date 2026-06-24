@@ -42,7 +42,9 @@ class DataTableHeader extends StatelessWidget {
           // Title
           Text(
             title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const Spacer(),
           // Search field
@@ -79,7 +81,11 @@ class DataTableHeader extends StatelessWidget {
           const SizedBox(width: Sizes.sm),
           // Sort button
           if (sortOptions.isNotEmpty) ...[
-            _SortButton(sortOptions: sortOptions, currentSort: currentSort, onSort: onSort),
+            _SortButton(
+              sortOptions: sortOptions,
+              currentSort: currentSort,
+              onSort: onSort,
+            ),
             const SizedBox(width: Sizes.sm),
           ],
           // Filter button
@@ -94,7 +100,10 @@ class DataTableHeader extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.neutral700,
               side: const BorderSide(color: AppColors.neutral300),
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: Sizes.sm),
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.md,
+                vertical: Sizes.sm,
+              ),
             ),
           ),
           const SizedBox(width: Sizes.sm),
@@ -106,7 +115,10 @@ class DataTableHeader extends StatelessWidget {
             style: FilledButton.styleFrom(
               backgroundColor: AppColors.primary500,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: Sizes.sm),
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.md,
+                vertical: Sizes.sm,
+              ),
             ),
           ),
         ],
@@ -127,7 +139,9 @@ class _SortButton extends StatelessWidget {
     return PopupMenuButton<SortOption>(
       onSelected: onSort,
       offset: const Offset(0, 40),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.borderRadius)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.borderRadius),
+      ),
       itemBuilder: (context) => sortOptions.map((option) {
         final isSelected = currentSort?.id == option.id;
         return PopupMenuItem<SortOption>(
@@ -163,7 +177,10 @@ class _SortButton extends StatelessWidget {
           foregroundColor: AppColors.neutral700,
           disabledForegroundColor: AppColors.neutral700,
           side: const BorderSide(color: AppColors.neutral300),
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: Sizes.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.md,
+            vertical: Sizes.sm,
+          ),
         ),
       ),
     );

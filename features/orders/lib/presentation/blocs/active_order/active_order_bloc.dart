@@ -36,7 +36,8 @@ final class ActiveOrderShowError extends ActiveOrderEffect {
 /// - Cart state updates immediately on item add/remove
 /// - If the async operation fails, an effect is emitted for UI notification
 /// - On success, orderSubmitted effect triggers navigation
-class ActiveOrderBloc extends EffectBloc<ActiveOrderEvent, ActiveOrderState, ActiveOrderEffect> {
+class ActiveOrderBloc
+    extends EffectBloc<ActiveOrderEvent, ActiveOrderState, ActiveOrderEffect> {
   ActiveOrderBloc({required OrdersRepository ordersRepository})
     : _ordersRepository = ordersRepository,
       super(const ActiveOrderState.empty()) {
@@ -179,11 +180,15 @@ class ActiveOrderBloc extends EffectBloc<ActiveOrderEvent, ActiveOrderState, Act
         emit(const ActiveOrderState.empty());
       },
       error: (error) {
-        emitEffect(ActiveOrderShowError('Failed to submit order: ${error.toString()}'));
-        emit(ActiveOrderState.building(
-          order: currentOrder,
-          appliedDiscount: _appliedDiscount,
-        ));
+        emitEffect(
+          ActiveOrderShowError('Failed to submit order: ${error.toString()}'),
+        );
+        emit(
+          ActiveOrderState.building(
+            order: currentOrder,
+            appliedDiscount: _appliedDiscount,
+          ),
+        );
       },
     );
   }

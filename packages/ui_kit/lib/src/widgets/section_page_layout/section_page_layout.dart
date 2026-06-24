@@ -120,14 +120,20 @@ class _SectionPageLayoutState extends State<SectionPageLayout> {
       return const SizedBox.shrink();
     }
 
-    final selectedIndex = widget.selectedIndex.clamp(0, widget.items.length - 1);
+    final selectedIndex = widget.selectedIndex.clamp(
+      0,
+      widget.items.length - 1,
+    );
     final selectedItem = widget.items[selectedIndex];
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
       switchInCurve: Curves.easeOut,
       switchOutCurve: Curves.easeIn,
-      child: KeyedSubtree(key: ValueKey(selectedIndex), child: selectedItem.child),
+      child: KeyedSubtree(
+        key: ValueKey(selectedIndex),
+        child: selectedItem.child,
+      ),
     );
   }
 }

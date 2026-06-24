@@ -10,10 +10,7 @@ class CategoryFormWrapper {
     return _show(context, initialCategory: null);
   }
 
-  static Future<Category?> showEdit(
-    BuildContext context,
-    Category category,
-  ) {
+  static Future<Category?> showEdit(BuildContext context, Category category) {
     return _show(context, initialCategory: category);
   }
 
@@ -30,9 +27,7 @@ class CategoryFormWrapper {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         ),
-        builder: (context) => CategoryForm(
-          initialCategory: initialCategory,
-        ),
+        builder: (context) => CategoryForm(initialCategory: initialCategory),
       );
     } else {
       return showDialog<Category?>(
@@ -42,13 +37,8 @@ class CategoryFormWrapper {
             borderRadius: BorderRadius.circular(16),
           ),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: 500,
-              maxHeight: 700,
-            ),
-            child: CategoryForm(
-              initialCategory: initialCategory,
-            ),
+            constraints: const BoxConstraints(maxWidth: 500, maxHeight: 700),
+            child: CategoryForm(initialCategory: initialCategory),
           ),
         ),
       );

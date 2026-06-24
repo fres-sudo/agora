@@ -7,7 +7,11 @@ part of 'remote_config.dart';
 // **************************************************************************
 
 _RemoteConfig _$RemoteConfigFromJson(Map<String, dynamic> json) =>
-    _RemoteConfig(appVersion: json['appVersion'] as String);
+    _RemoteConfig(
+      appVersion: json['appVersion'] as String,
+    );
 
 Map<String, dynamic> _$RemoteConfigToJson(_RemoteConfig instance) =>
-    <String, dynamic>{'appVersion': instance.appVersion};
+    <String, dynamic>{
+      'appVersion': instance.appVersion,
+    };

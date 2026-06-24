@@ -7,7 +7,11 @@ part of 'status_response.dart';
 // **************************************************************************
 
 _StatusResponse _$StatusResponseFromJson(Map<String, dynamic> json) =>
-    _StatusResponse(status: json['status'] as bool);
+    _StatusResponse(
+      status: json['status'] as bool,
+    );
 
 Map<String, dynamic> _$StatusResponseToJson(_StatusResponse instance) =>
-    <String, dynamic>{'status': instance.status};
+    <String, dynamic>{
+      'status': instance.status,
+    };

@@ -46,7 +46,9 @@ class SectionSidebar extends StatelessWidget {
       width: isCollapsed ? collapsedWidth : expandedWidth,
       decoration: BoxDecoration(
         color: AppColors.neutral100,
-        border: Border(right: BorderSide(color: AppColors.neutral200, width: 1)),
+        border: Border(
+          right: BorderSide(color: AppColors.neutral200, width: 1),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +59,10 @@ class SectionSidebar extends StatelessWidget {
           // Navigation items
           Expanded(
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 8 : 12, vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: isCollapsed ? 8 : 12,
+                vertical: 8,
+              ),
               itemCount: items.length,
               separatorBuilder: (_, _) => const SizedBox(height: 4),
               itemBuilder: (context, index) {
@@ -79,7 +84,12 @@ class SectionSidebar extends StatelessWidget {
 
   Widget _buildCollapseButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(isCollapsed ? 8 : 12, 16, isCollapsed ? 8 : 12, 0),
+      padding: EdgeInsets.fromLTRB(
+        isCollapsed ? 8 : 12,
+        16,
+        isCollapsed ? 8 : 12,
+        0,
+      ),
       child: Align(
         alignment: isCollapsed ? Alignment.center : Alignment.centerRight,
         child: IconButton(

@@ -21,7 +21,8 @@ final class CategoriesShowError extends CategoriesEffect {
 }
 
 /// BLoC for managing categories with real-time updates.
-class CategoriesBloc extends EffectBloc<CategoriesEvent, CategoriesState, CategoriesEffect> {
+class CategoriesBloc
+    extends EffectBloc<CategoriesEvent, CategoriesState, CategoriesEffect> {
   CategoriesBloc({required CategoriesRepository categoriesRepository})
     : _categoriesRepository = categoriesRepository,
       super(const CategoriesState.initial()) {
@@ -62,7 +63,9 @@ class CategoriesBloc extends EffectBloc<CategoriesEvent, CategoriesState, Catego
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(CategoriesShowError('Failed to create category: ${error.toString()}'));
+        emitEffect(
+          CategoriesShowError('Failed to create category: ${error.toString()}'),
+        );
       },
     );
   }
@@ -75,7 +78,9 @@ class CategoriesBloc extends EffectBloc<CategoriesEvent, CategoriesState, Catego
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(CategoriesShowError('Failed to update category: ${error.toString()}'));
+        emitEffect(
+          CategoriesShowError('Failed to update category: ${error.toString()}'),
+        );
       },
     );
   }
@@ -88,7 +93,9 @@ class CategoriesBloc extends EffectBloc<CategoriesEvent, CategoriesState, Catego
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(CategoriesShowError('Failed to delete category: ${error.toString()}'));
+        emitEffect(
+          CategoriesShowError('Failed to delete category: ${error.toString()}'),
+        );
       },
     );
   }

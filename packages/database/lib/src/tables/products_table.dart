@@ -1,8 +1,6 @@
 import '../database_mixin.dart';
 import 'categories_table.dart';
 
-
-
 import 'package:drift/drift.dart';
 
 @DataClassName("ProductEntity")

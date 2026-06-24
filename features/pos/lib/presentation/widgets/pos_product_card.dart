@@ -159,9 +159,9 @@ class _QuantityBadge extends StatelessWidget {
       child: Text(
         '$quantity',
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -78,8 +78,8 @@ class ProductFormActions extends StatelessWidget {
                 onPressed: isSubmitting
                     ? null
                     : isLastStep
-                        ? () => cubit.submit()
-                        : cubit.nextStep,
+                    ? () => cubit.submit()
+                    : cubit.nextStep,
                 style: FilledButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   padding: const EdgeInsets.symmetric(
@@ -99,8 +99,7 @@ class ProductFormActions extends StatelessWidget {
                     : Text(
                         isLastStep
                             ? (state.maybeMap(
-                                editing: (s) =>
-                                    s.isEditing ? t.save : t.add,
+                                editing: (s) => s.isEditing ? t.save : t.add,
                                 orElse: () => t.add,
                               ))
                             : t.next,

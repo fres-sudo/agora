@@ -73,4 +73,3 @@ abstract interface class SettingsRepository {
   /// Deletes all settings matching a prefix.
   Future<Result<int>> deleteSettingsByPrefix(String prefix);
 }
-

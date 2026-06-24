@@ -29,15 +29,15 @@ class ProductsState with _$ProductsState {
 
   /// Returns the products list if loaded, otherwise empty.
   List<Product> get products => maybeMap(
-        loaded: (s) => s.products,
-        error: (s) => s.previousState?.products ?? [],
-        orElse: () => [],
-      );
+    loaded: (s) => s.products,
+    error: (s) => s.previousState?.products ?? [],
+    orElse: () => [],
+  );
 
   /// Returns the categories list if loaded, otherwise empty.
   List<Category> get categories => maybeMap(
-        loaded: (s) => s.categories,
-        error: (s) => s.previousState?.categories ?? [],
-        orElse: () => [],
-      );
+    loaded: (s) => s.categories,
+    error: (s) => s.previousState?.categories ?? [],
+    orElse: () => [],
+  );
 }

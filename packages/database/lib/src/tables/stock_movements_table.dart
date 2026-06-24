@@ -1,7 +1,6 @@
 import '../database_mixin.dart';
 import 'products_table.dart';
 
-
 import 'package:drift/drift.dart';
 
 @DataClassName("StockMovementEntity")

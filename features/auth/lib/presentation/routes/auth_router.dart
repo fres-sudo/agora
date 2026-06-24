@@ -6,7 +6,5 @@ part 'auth_router.gr.dart';
 @AutoRouterConfig()
 class AuthRouter extends RootStackRouter {
   @override
-  List<AutoRoute> get routes => [
-    AutoRoute(page: AuthShellRoute.page),
-  ];
+  List<AutoRoute> get routes => [AutoRoute(page: AuthShellRoute.page)];
 }

@@ -24,9 +24,9 @@ sealed class Result<T> {
   ///
   /// This is useful in places where failing-fast is desired (e.g. tests).
   T unwrap() => switch (this) {
-        Ok<T>(:final value) => value,
-        Error<T>(:final error) => throw error,
-      };
+    Ok<T>(:final value) => value,
+    Error<T>(:final error) => throw error,
+  };
 }
 
 /// Subclass of Result for values
@@ -53,29 +53,27 @@ final class Error<T> extends Result<T> {
 
 extension ResultFutureX<T> on Future<Result<T>> {
   Future<T> unwrapAsync() async => switch (await this) {
-        Ok<T>(:final value) => value,
-        Error<T>(:final error) => throw error,
-      };
+    Ok<T>(:final value) => value,
+    Error<T>(:final error) => throw error,
+  };
 }
 
 extension ResultX<T> on Result<T> {
   void when({
     required void Function(T value) success,
     required void Function(Exception error) error,
-  }) =>
-      switch (this) {
-        Ok<T>(:final value) => success(value),
-        Error<T>(error: final err) => error(err),
-      };
+  }) => switch (this) {
+    Ok<T>(:final value) => success(value),
+    Error<T>(error: final err) => error(err),
+  };
 
   R fold<R>({
     required R Function(T value) success,
     required R Function(Exception error) error,
-  }) =>
-      switch (this) {
-        Ok<T>(:final value) => success(value),
-        Error<T>(error: final err) => error(err),
-      };
+  }) => switch (this) {
+    Ok<T>(:final value) => success(value),
+    Error<T>(error: final err) => error(err),
+  };
 
   bool get isSuccess => this is Ok<T>;
   bool get isError => this is Error<T>;

@@ -29,10 +29,10 @@ class OrderDetailState with _$OrderDetailState {
 
   /// Returns true if the state has an order.
   bool get hasOrder => maybeMap(
-        loaded: (_) => true,
-        completing: (_) => true,
-        voiding: (_) => true,
-        error: (s) => s.order != null,
-        orElse: () => false,
-      );
+    loaded: (_) => true,
+    completing: (_) => true,
+    voiding: (_) => true,
+    error: (s) => s.order != null,
+    orElse: () => false,
+  );
 }

@@ -43,10 +43,11 @@ class SummaryCard extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(isNarrow ? Sizes.xs : Sizes.sm),
                     decoration: BoxDecoration(
-                      color: (isPositive
-                              ? AppColors.primary500
-                              : AppColors.error500)
-                          .withValues(alpha: 0.1),
+                      color:
+                          (isPositive
+                                  ? AppColors.primary500
+                                  : AppColors.error500)
+                              .withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: SizedBox(
@@ -60,10 +61,10 @@ class SummaryCard extends StatelessWidget {
                     child: Text(
                       title,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppColors.neutral700,
-                            fontWeight: FontWeight.w500,
-                            fontSize: isNarrow ? 12 : null,
-                          ),
+                        color: AppColors.neutral700,
+                        fontWeight: FontWeight.w500,
+                        fontSize: isNarrow ? 12 : null,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -80,9 +81,7 @@ class SummaryCard extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: Text(
                             value,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
+                            style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.neutral900,
@@ -102,9 +101,7 @@ class SummaryCard extends StatelessWidget {
                             fit: BoxFit.scaleDown,
                             child: Text(
                               value,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
+                              style: Theme.of(context).textTheme.headlineMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.neutral900,

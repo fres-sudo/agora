@@ -38,10 +38,7 @@ class StoreSettingSection extends StatelessWidget {
 }
 
 class _FormField extends StatelessWidget {
-  const _FormField({
-    required this.label,
-    this.maxLines = 1,
-  });
+  const _FormField({required this.label, this.maxLines = 1});
 
   final String label;
   final int maxLines;
@@ -53,18 +50,16 @@ class _FormField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w500,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
         TextFormField(
           maxLines: maxLines,
           decoration: InputDecoration(
             hintText: 'Enter $label',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           ),
         ),
       ],

@@ -79,10 +79,7 @@ class _ProductFormDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(Sizes.md),
       ),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 600,
-          maxHeight: 700,
-        ),
+        constraints: const BoxConstraints(maxWidth: 600, maxHeight: 700),
         child: const ProductFormContent(),
       ),
     );

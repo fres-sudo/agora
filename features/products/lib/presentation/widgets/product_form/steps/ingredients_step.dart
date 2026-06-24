@@ -227,10 +227,7 @@ class _IngredientListItem extends StatelessWidget {
                 color: AppColors.neutral200,
                 borderRadius: BorderRadius.circular(Sizes.xs),
               ),
-              child: Text(
-                name,
-                style: theme.textTheme.bodyMedium,
-              ),
+              child: Text(name, style: theme.textTheme.bodyMedium),
             ),
           ),
           const SizedBox(width: Sizes.md),
@@ -243,7 +240,9 @@ class _IngredientListItem extends StatelessWidget {
                 final parsed = double.tryParse(value) ?? 0;
                 onQuantityChanged(parsed);
               },
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: InputDecoration(
                 prefixText: '${t.products.form.qty} ',
                 border: OutlineInputBorder(
@@ -285,11 +284,7 @@ class _EmptyIngredientsState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.info_outline,
-            size: 32,
-            color: AppColors.neutral400,
-          ),
+          Icon(Icons.info_outline, size: 32, color: AppColors.neutral400),
           const SizedBox(height: Sizes.md),
           Text(
             t.products.form.search_ingredient_hint,

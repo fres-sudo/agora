@@ -5,6 +5,7 @@ import 'package:feature_products/domain/models/category.dart';
 import 'package:feature_products/domain/repositories/categories_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
+
 class CategoriesRepositoryImpl extends Repository
     implements CategoriesRepository {
   CategoriesRepositoryImpl({

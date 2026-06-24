@@ -20,11 +20,7 @@ class SortOption {
     this.direction = SortDirection.ascending,
   });
 
-  SortOption copyWith({
-    String? id,
-    String? label,
-    SortDirection? direction,
-  }) {
+  SortOption copyWith({String? id, String? label, SortDirection? direction}) {
     return SortOption(
       id: id ?? this.id,
       label: label ?? this.label,
@@ -44,9 +40,7 @@ class SortOption {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SortOption &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is SortOption && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

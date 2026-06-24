@@ -31,7 +31,10 @@ abstract interface class OrdersRepository {
   Stream<Order?> watchOrderById(int id);
 
   /// Watches orders within a date range.
-  Stream<List<Order>> watchOrdersByDateRange({DateTime? startDate, DateTime? endDate});
+  Stream<List<Order>> watchOrdersByDateRange({
+    DateTime? startDate,
+    DateTime? endDate,
+  });
 
   // ============================================================
   // READ OPERATIONS - Future-based with Result
@@ -41,17 +44,27 @@ abstract interface class OrdersRepository {
   Future<Result<Order?>> getOrderById(int id);
 
   /// Gets the total count of orders.
-  Future<Result<int>> getOrdersCount({OrderStatus? status, DateTime? startDate, DateTime? endDate});
+  Future<Result<int>> getOrdersCount({
+    OrderStatus? status,
+    DateTime? startDate,
+    DateTime? endDate,
+  });
 
   // ============================================================
   // REPORTING
   // ============================================================
 
   /// Gets total revenue for completed orders in a date range.
-  Future<Result<int>> getTotalRevenue({required DateTime startDate, required DateTime endDate});
+  Future<Result<int>> getTotalRevenue({
+    required DateTime startDate,
+    required DateTime endDate,
+  });
 
   /// Gets total discounts applied in a date range.
-  Future<Result<int>> getTotalDiscounts({required DateTime startDate, required DateTime endDate});
+  Future<Result<int>> getTotalDiscounts({
+    required DateTime startDate,
+    required DateTime endDate,
+  });
 
   // ============================================================
   // WRITE OPERATIONS - Returns entity for optimistic updates
@@ -79,4 +92,3 @@ abstract interface class OrdersRepository {
 
   Stream<List<Order>> watchOrdersByStatus(OrderStatus orderStatus);
 }
-

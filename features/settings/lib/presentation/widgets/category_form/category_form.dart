@@ -3,10 +3,7 @@ import 'package:feature_products/domain/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryForm extends StatefulWidget {
-  const CategoryForm({
-    super.key,
-    this.initialCategory,
-  });
+  const CategoryForm({super.key, this.initialCategory});
 
   final Category? initialCategory;
 
@@ -157,7 +154,9 @@ class _CategoryFormState extends State<CategoryForm> {
                         label: Icon(
                           icon,
                           size: 20,
-                          color: isSelected ? Colors.white : theme.iconTheme.color,
+                          color: isSelected
+                              ? Colors.white
+                              : theme.iconTheme.color,
                         ),
                         selected: isSelected,
                         onSelected: (selected) {
@@ -234,10 +233,7 @@ class _CategoryFormState extends State<CategoryForm> {
                 child: const Text('Cancel'),
               ),
               const SizedBox(width: 16),
-              FilledButton(
-                onPressed: _onSave,
-                child: const Text('Save'),
-              ),
+              FilledButton(onPressed: _onSave, child: const Text('Save')),
             ],
           ),
         ),

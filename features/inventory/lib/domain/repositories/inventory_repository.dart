@@ -94,4 +94,3 @@ abstract interface class InventoryRepository {
     required int orderId,
   });
 }
-

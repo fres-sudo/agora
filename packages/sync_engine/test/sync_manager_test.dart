@@ -37,8 +37,7 @@ void main() {
     when(mockConnectivity.currentStatus).thenAnswer((_) async => true);
     when(mockConnectivity.isOnline).thenAnswer((_) => Stream<bool>.empty());
     when(mockQueue.pendingEntries()).thenAnswer((_) async => []);
-    when(mockWebSocket.messages)
-        .thenAnswer((_) => Stream<SyncMessage>.empty());
+    when(mockWebSocket.messages).thenAnswer((_) => Stream<SyncMessage>.empty());
     when(mockWebSocket.disconnect()).thenAnswer((_) async {});
 
     manager = SyncManager(
@@ -86,8 +85,9 @@ void main() {
         authToken: 'jwt-token',
       );
 
-      verify(mockWebSocket.connect('wss://api.agora.io/ws', 'jwt-token'))
-          .called(1);
+      verify(
+        mockWebSocket.connect('wss://api.agora.io/ws', 'jwt-token'),
+      ).called(1);
     });
 
     test('skips WebSocket connection when offline', () async {
@@ -108,9 +108,9 @@ void main() {
     test('calls handler and marks entry done on success', () async {
       final entry = makeEntry(id: 1, entityType: 'order');
 
-      when(mockQueue.pendingEntries())
-          .thenAnswer((_) async => [entry])
-          .thenAnswer((_) async => []);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => []);
       when(mockQueue.markInflight(1)).thenAnswer((_) async {});
       when(mockQueue.markDone(1)).thenAnswer((_) async {});
 
@@ -130,9 +130,9 @@ void main() {
     test('marks entry failed when handler throws', () async {
       final entry = makeEntry(id: 2, entityType: 'order');
 
-      when(mockQueue.pendingEntries())
-          .thenAnswer((_) async => [entry])
-          .thenAnswer((_) async => [entry]);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => [entry]);
       when(mockQueue.markInflight(2)).thenAnswer((_) async {});
       when(mockQueue.markFailed(any, any, any)).thenAnswer((_) async {});
 
@@ -151,9 +151,9 @@ void main() {
     test('marks entry failed when no handler registered', () async {
       final entry = makeEntry(id: 3, entityType: 'unknown_entity');
 
-      when(mockQueue.pendingEntries())
-          .thenAnswer((_) async => [entry])
-          .thenAnswer((_) async => []);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => []);
       when(mockQueue.markFailed(any, any, any)).thenAnswer((_) async {});
 
       await manager.start();
@@ -166,9 +166,9 @@ void main() {
       final entry = makeEntry(id: 4, entityType: 'order');
       final statuses = <SyncStatus>[];
 
-      when(mockQueue.pendingEntries())
-          .thenAnswer((_) async => [entry])
-          .thenAnswer((_) async => []);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => [entry]).thenAnswer((_) async => []);
       when(mockQueue.markInflight(4)).thenAnswer((_) async {});
       when(mockQueue.markDone(4)).thenAnswer((_) async {});
 
@@ -260,31 +260,35 @@ void main() {
   // ------------------------------------------------------------------ connectivity
 
   group('connectivity changes', () {
-    test('emits SyncPaused and disconnects WebSocket when going offline',
-        () async {
-      final onlineController = StreamController<bool>();
-      when(mockConnectivity.isOnline)
-          .thenAnswer((_) => onlineController.stream);
+    test(
+      'emits SyncPaused and disconnects WebSocket when going offline',
+      () async {
+        final onlineController = StreamController<bool>();
+        when(
+          mockConnectivity.isOnline,
+        ).thenAnswer((_) => onlineController.stream);
 
-      final statuses = <SyncStatus>[];
-      manager.status.listen(statuses.add);
+        final statuses = <SyncStatus>[];
+        manager.status.listen(statuses.add);
 
-      await manager.start();
-      onlineController.add(false);
-      await Future<void>.delayed(Duration.zero);
+        await manager.start();
+        onlineController.add(false);
+        await Future<void>.delayed(Duration.zero);
 
-      expect(statuses, contains(isA<SyncPaused>()));
-      verify(mockWebSocket.disconnect()).called(greaterThanOrEqualTo(1));
+        expect(statuses, contains(isA<SyncPaused>()));
+        verify(mockWebSocket.disconnect()).called(greaterThanOrEqualTo(1));
 
-      await onlineController.close();
-    });
+        await onlineController.close();
+      },
+    );
 
     test('resumes drain when coming back online after offline start', () async {
       when(mockConnectivity.currentStatus).thenAnswer((_) async => false);
 
       final onlineController = StreamController<bool>();
-      when(mockConnectivity.isOnline)
-          .thenAnswer((_) => onlineController.stream);
+      when(
+        mockConnectivity.isOnline,
+      ).thenAnswer((_) => onlineController.stream);
 
       await manager.start();
       verifyNever(mockQueue.pendingEntries());

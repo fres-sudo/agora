@@ -10,9 +10,8 @@ sealed class InventoryEvent with _$InventoryEvent {
       _ThresholdChanged;
 
   /// Toggle low stock filter.
-  const factory InventoryEvent.filterChanged({
-    required bool lowStockOnly,
-  }) = _FilterChanged;
+  const factory InventoryEvent.filterChanged({required bool lowStockOnly}) =
+      _FilterChanged;
 
   /// Refresh inventory data.
   const factory InventoryEvent.refresh() = _Refresh;

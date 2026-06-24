@@ -21,7 +21,6 @@ sealed class DiscountsEvent with _$DiscountsEvent {
   const factory DiscountsEvent.deleted(int id) = _Deleted;
 
   /// Change filter to show active only.
-  const factory DiscountsEvent.filterChanged({
-    required bool activeOnly,
-  }) = _FilterChanged;
+  const factory DiscountsEvent.filterChanged({required bool activeOnly}) =
+      _FilterChanged;
 }

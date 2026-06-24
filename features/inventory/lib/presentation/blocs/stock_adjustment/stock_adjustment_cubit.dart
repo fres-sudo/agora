@@ -14,10 +14,9 @@ part 'stock_adjustment_state.dart';
 /// - If the async DB operation fails, error state includes the previous quantity
 /// - On success, the UI is already in the correct state
 class StockAdjustmentCubit extends Cubit<StockAdjustmentState> {
-  StockAdjustmentCubit({
-    required InventoryRepository inventoryRepository,
-  })  : _inventoryRepository = inventoryRepository,
-        super(const StockAdjustmentState.initial());
+  StockAdjustmentCubit({required InventoryRepository inventoryRepository})
+    : _inventoryRepository = inventoryRepository,
+      super(const StockAdjustmentState.initial());
 
   final InventoryRepository _inventoryRepository;
 
@@ -32,7 +31,9 @@ class StockAdjustmentCubit extends Cubit<StockAdjustmentState> {
     String? reason,
   }) async {
     // Get current stock for optimistic update
-    final currentResult = await _inventoryRepository.getStockByProductId(productId);
+    final currentResult = await _inventoryRepository.getStockByProductId(
+      productId,
+    );
     final currentQty = currentResult.fold(
       success: (stock) => stock?.quantity ?? 0,
       error: (_) => 0,
@@ -41,11 +42,13 @@ class StockAdjustmentCubit extends Cubit<StockAdjustmentState> {
     final newQty = currentQty + delta;
 
     // Optimistic update
-    emit(StockAdjustmentState.adjusting(
-      productId: productId,
-      previousQuantity: currentQty,
-      newQuantity: newQty,
-    ));
+    emit(
+      StockAdjustmentState.adjusting(
+        productId: productId,
+        previousQuantity: currentQty,
+        newQuantity: newQty,
+      ),
+    );
 
     final result = await _inventoryRepository.adjustStock(
       productId: productId,
@@ -55,17 +58,21 @@ class StockAdjustmentCubit extends Cubit<StockAdjustmentState> {
 
     result.when(
       success: (stock) {
-        emit(StockAdjustmentState.adjusted(
-          productId: productId,
-          quantity: stock.quantity,
-        ));
+        emit(
+          StockAdjustmentState.adjusted(
+            productId: productId,
+            quantity: stock.quantity,
+          ),
+        );
       },
       error: (error) {
-        emit(StockAdjustmentState.error(
-          message: 'Failed to adjust stock: ${error.toString()}',
-          productId: productId,
-          previousQuantity: currentQty,
-        ));
+        emit(
+          StockAdjustmentState.error(
+            message: 'Failed to adjust stock: ${error.toString()}',
+            productId: productId,
+            previousQuantity: currentQty,
+          ),
+        );
       },
     );
   }
@@ -77,18 +84,22 @@ class StockAdjustmentCubit extends Cubit<StockAdjustmentState> {
     String? reason,
   }) async {
     // Get current stock for rollback on failure
-    final currentResult = await _inventoryRepository.getStockByProductId(productId);
+    final currentResult = await _inventoryRepository.getStockByProductId(
+      productId,
+    );
     final currentQty = currentResult.fold(
       success: (stock) => stock?.quantity ?? 0,
       error: (_) => 0,
     );
 
     // Optimistic update
-    emit(StockAdjustmentState.adjusting(
-      productId: productId,
-      previousQuantity: currentQty,
-      newQuantity: quantity,
-    ));
+    emit(
+      StockAdjustmentState.adjusting(
+        productId: productId,
+        previousQuantity: currentQty,
+        newQuantity: quantity,
+      ),
+    );
 
     final result = await _inventoryRepository.setStock(
       productId: productId,
@@ -98,17 +109,21 @@ class StockAdjustmentCubit extends Cubit<StockAdjustmentState> {
 
     result.when(
       success: (stock) {
-        emit(StockAdjustmentState.adjusted(
-          productId: productId,
-          quantity: stock.quantity,
-        ));
+        emit(
+          StockAdjustmentState.adjusted(
+            productId: productId,
+            quantity: stock.quantity,
+          ),
+        );
       },
       error: (error) {
-        emit(StockAdjustmentState.error(
-          message: 'Failed to set stock: ${error.toString()}',
-          productId: productId,
-          previousQuantity: currentQty,
-        ));
+        emit(
+          StockAdjustmentState.error(
+            message: 'Failed to set stock: ${error.toString()}',
+            productId: productId,
+            previousQuantity: currentQty,
+          ),
+        );
       },
     );
   }

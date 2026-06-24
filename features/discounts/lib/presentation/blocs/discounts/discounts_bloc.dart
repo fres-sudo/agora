@@ -21,11 +21,11 @@ final class DiscountsShowError extends DiscountsEffect {
 }
 
 /// BLoC for managing discounts with real-time updates.
-class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, DiscountsEffect> {
-  DiscountsBloc({
-    required DiscountsRepository discountsRepository,
-  })  : _discountsRepository = discountsRepository,
-        super(const DiscountsState.initial()) {
+class DiscountsBloc
+    extends EffectBloc<DiscountsEvent, DiscountsState, DiscountsEffect> {
+  DiscountsBloc({required DiscountsRepository discountsRepository})
+    : _discountsRepository = discountsRepository,
+      super(const DiscountsState.initial()) {
     on<_Started>(_onStarted);
     on<_Created>(_onCreated);
     on<_Updated>(_onUpdated);
@@ -44,18 +44,12 @@ class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, Discounts
   // EVENT HANDLERS
   // ============================================================
 
-  Future<void> _onStarted(
-    _Started event,
-    Emitter<DiscountsState> emit,
-  ) async {
+  Future<void> _onStarted(_Started event, Emitter<DiscountsState> emit) async {
     emit(const DiscountsState.loading());
     _subscribeToDiscounts();
   }
 
-  Future<void> _onCreated(
-    _Created event,
-    Emitter<DiscountsState> emit,
-  ) async {
+  Future<void> _onCreated(_Created event, Emitter<DiscountsState> emit) async {
     final result = await _discountsRepository.createDiscount(event.discount);
 
     result.when(
@@ -63,15 +57,14 @@ class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, Discounts
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(DiscountsShowError('Failed to create discount: ${error.toString()}'));
+        emitEffect(
+          DiscountsShowError('Failed to create discount: ${error.toString()}'),
+        );
       },
     );
   }
 
-  Future<void> _onUpdated(
-    _Updated event,
-    Emitter<DiscountsState> emit,
-  ) async {
+  Future<void> _onUpdated(_Updated event, Emitter<DiscountsState> emit) async {
     final result = await _discountsRepository.updateDiscount(event.discount);
 
     result.when(
@@ -79,15 +72,14 @@ class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, Discounts
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(DiscountsShowError('Failed to update discount: ${error.toString()}'));
+        emitEffect(
+          DiscountsShowError('Failed to update discount: ${error.toString()}'),
+        );
       },
     );
   }
 
-  Future<void> _onToggled(
-    _Toggled event,
-    Emitter<DiscountsState> emit,
-  ) async {
+  Future<void> _onToggled(_Toggled event, Emitter<DiscountsState> emit) async {
     final result = event.isActive
         ? await _discountsRepository.activateDiscount(event.id)
         : await _discountsRepository.deactivateDiscount(event.id);
@@ -97,15 +89,14 @@ class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, Discounts
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(DiscountsShowError('Failed to toggle discount: ${error.toString()}'));
+        emitEffect(
+          DiscountsShowError('Failed to toggle discount: ${error.toString()}'),
+        );
       },
     );
   }
 
-  Future<void> _onDeleted(
-    _Deleted event,
-    Emitter<DiscountsState> emit,
-  ) async {
+  Future<void> _onDeleted(_Deleted event, Emitter<DiscountsState> emit) async {
     final result = await _discountsRepository.deleteDiscount(event.id);
 
     result.when(
@@ -113,7 +104,9 @@ class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, Discounts
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(DiscountsShowError('Failed to delete discount: ${error.toString()}'));
+        emitEffect(
+          DiscountsShowError('Failed to delete discount: ${error.toString()}'),
+        );
       },
     );
   }
@@ -140,20 +133,25 @@ class DiscountsBloc extends EffectBloc<DiscountsEvent, DiscountsState, Discounts
       (discounts) {
         if (!isClosed) {
           // ignore: invalid_use_of_visible_for_testing_member
-          emit(DiscountsState.loaded(
-            discounts: discounts,
-            showActiveOnly: _showActiveOnly,
-          ));
+          emit(
+            DiscountsState.loaded(
+              discounts: discounts,
+              showActiveOnly: _showActiveOnly,
+            ),
+          );
         }
       },
       onError: (error) {
         if (!isClosed) {
           // ignore: invalid_use_of_visible_for_testing_member
-          emit(DiscountsState.error(
-            message: error.toString(),
-            previousState:
-                state is DiscountsLoaded ? state as DiscountsLoaded : null,
-          ));
+          emit(
+            DiscountsState.error(
+              message: error.toString(),
+              previousState: state is DiscountsLoaded
+                  ? state as DiscountsLoaded
+                  : null,
+            ),
+          );
         }
       },
     );

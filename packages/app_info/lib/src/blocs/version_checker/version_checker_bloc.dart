@@ -18,7 +18,12 @@ final class VersionCheckerErrorEffect extends VersionCheckerEffect {
 }
 
 class VersionCheckerBloc
-    extends EffectBloc<VersionCheckerEvent, VersionCheckerState, VersionCheckerEffect> {
+    extends
+        EffectBloc<
+          VersionCheckerEvent,
+          VersionCheckerState,
+          VersionCheckerEffect
+        > {
   VersionCheckerBloc({required this.versionCheckerRepository})
     : super(const VersionCheckerState.gettingAppInfo()) {
     on<GetAppInfoVersionCheckerEvent>(_onGetAppInfo);

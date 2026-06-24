@@ -11,9 +11,8 @@ class CategoriesState with _$CategoriesState {
   const factory CategoriesState.loading() = _Loading;
 
   /// Loaded with categories.
-  const factory CategoriesState.loaded({
-    required List<Category> categories,
-  }) = CategoriesLoaded;
+  const factory CategoriesState.loaded({required List<Category> categories}) =
+      CategoriesLoaded;
 
   /// Error state.
   const factory CategoriesState.error({
@@ -23,8 +22,8 @@ class CategoriesState with _$CategoriesState {
 
   /// Returns the categories list if loaded.
   List<Category> get categories => maybeMap(
-        loaded: (s) => s.categories,
-        error: (s) => s.previousState?.categories ?? [],
-        orElse: () => [],
-      );
+    loaded: (s) => s.categories,
+    error: (s) => s.previousState?.categories ?? [],
+    orElse: () => [],
+  );
 }

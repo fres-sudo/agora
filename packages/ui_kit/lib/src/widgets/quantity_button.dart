@@ -45,7 +45,9 @@ class QuantityButton extends StatelessWidget {
             ),
             _CircularButton(
               icon: Icons.add,
-              onPressed: (max == null || quantity < max!) ? () => onChanged(quantity + 1) : null,
+              onPressed: (max == null || quantity < max!)
+                  ? () => onChanged(quantity + 1)
+                  : null,
               enabled: max == null || quantity < max!,
             ),
           ],
@@ -89,7 +91,9 @@ class _CircularButton extends StatelessWidget {
         child: Icon(
           icon,
           size: 18,
-          color: enabled ? colorScheme.onSurface : colorScheme.onSurface.withValues(alpha: 0.3),
+          color: enabled
+              ? colorScheme.onSurface
+              : colorScheme.onSurface.withValues(alpha: 0.3),
         ),
       ),
     );

@@ -6,7 +6,5 @@ part 'pos_router.gr.dart';
 @AutoRouterConfig()
 class PosRouter extends RootStackRouter {
   @override
-  List<AutoRoute> get routes => [
-    AutoRoute(page: PosRoute.page),
-  ];
+  List<AutoRoute> get routes => [AutoRoute(page: PosRoute.page)];
 }

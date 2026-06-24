@@ -49,4 +49,3 @@ abstract interface class CategoriesRepository {
   /// Restores a soft-deleted category.
   Future<Result<bool>> restoreCategory(int id);
 }
-

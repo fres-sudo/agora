@@ -29,8 +29,9 @@ class ThemeCubit extends Cubit<ThemeState> {
   FutureOr<void> toggle(Brightness brightness) async {
     try {
       emit(const ThemeState.setting());
-      final newMode =
-          brightness == Brightness.light ? ThemeMode.dark : ThemeMode.light;
+      final newMode = brightness == Brightness.light
+          ? ThemeMode.dark
+          : ThemeMode.light;
       await persistenceService.saveString(SPKeys.theme, newMode.name);
       emit(ThemeState.setted(newMode));
     } catch (_) {

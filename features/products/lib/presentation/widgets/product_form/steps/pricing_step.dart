@@ -101,9 +101,7 @@ class _PricingStepState extends State<PricingStep> {
             controller: _taxController,
             onChanged: _onTaxChanged,
             keyboardType: TextInputType.number,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: InputDecoration(
               prefixText: '% ',
               hintText: '0',

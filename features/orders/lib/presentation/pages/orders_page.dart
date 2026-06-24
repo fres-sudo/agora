@@ -40,12 +40,16 @@ class _OrdersPageState extends State<OrdersPage> {
     final theme = Theme.of(context);
 
     return BlocConsumer<OrdersBloc, OrdersState>(
-      listenWhen: (previous, current) => current.maybeMap(error: (_) => true, orElse: () => false),
+      listenWhen: (previous, current) =>
+          current.maybeMap(error: (_) => true, orElse: () => false),
       listener: (context, state) {
         state.maybeMap(
           error: (error) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(error.message), backgroundColor: AppColors.error500),
+              SnackBar(
+                content: Text(error.message),
+                backgroundColor: AppColors.error500,
+              ),
             );
           },
           orElse: () {},
@@ -100,7 +104,9 @@ class _OrdersPageState extends State<OrdersPage> {
                     width: 160,
                     cellBuilder: (order) => Text(
                       _formatDateTime(context, order.createdAt),
-                      style: theme.textTheme.bodySmall?.copyWith(color: AppColors.neutral500),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.neutral500,
+                      ),
                     ),
                   ),
                   DataTableColumn(
@@ -116,7 +122,9 @@ class _OrdersPageState extends State<OrdersPage> {
                     alignment: Alignment.centerRight,
                     cellBuilder: (order) => Text(
                       order.items.length.toString(),
-                      style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   DataTableColumn(
@@ -126,7 +134,9 @@ class _OrdersPageState extends State<OrdersPage> {
                     alignment: Alignment.centerRight,
                     cellBuilder: (order) => Text(
                       _formatCurrency(order.grandTotalCents),
-                      style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   DataTableColumn(
@@ -137,13 +147,16 @@ class _OrdersPageState extends State<OrdersPage> {
                       order.note?.isNotEmpty == true ? order.note! : '—',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral700),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: AppColors.neutral700,
+                      ),
                     ),
                   ),
                 ],
                 onSearch: (query) => _tableController.searchQuery = query,
                 onFilter: () => _showFilterDialog(context, state),
-                onAdd: () => context.read<OrdersBloc>().add(const OrdersEvent.refresh()),
+                onAdd: () =>
+                    context.read<OrdersBloc>().add(const OrdersEvent.refresh()),
                 onRowAction: (order, action) async {
                   switch (action) {
                     case DataTableRowAction.edit:
@@ -158,7 +171,9 @@ class _OrdersPageState extends State<OrdersPage> {
                       );
 
                       if (confirmed && context.mounted) {
-                        context.read<OrdersBloc>().add(OrdersEvent.deleted(order.id ?? 0));
+                        context.read<OrdersBloc>().add(
+                          OrdersEvent.deleted(order.id ?? 0),
+                        );
                       }
                       break;
                   }
@@ -189,15 +204,24 @@ class _OrdersPageState extends State<OrdersPage> {
     }).toList();
   }
 
-  Future<void> _showFilterDialog(BuildContext context, OrdersState state) async {
+  Future<void> _showFilterDialog(
+    BuildContext context,
+    OrdersState state,
+  ) async {
     OrderStatus? selectedStatus = state.maybeMap(
       loaded: (loaded) => loaded.statusFilter,
       orElse: () => null,
     );
     DateTimeRange? selectedRange;
 
-    final startDate = state.maybeMap(loaded: (loaded) => loaded.startDate, orElse: () => null);
-    final endDate = state.maybeMap(loaded: (loaded) => loaded.endDate, orElse: () => null);
+    final startDate = state.maybeMap(
+      loaded: (loaded) => loaded.startDate,
+      orElse: () => null,
+    );
+    final endDate = state.maybeMap(
+      loaded: (loaded) => loaded.endDate,
+      orElse: () => null,
+    );
 
     if (startDate != null || endDate != null) {
       selectedRange = DateTimeRange(
@@ -237,7 +261,9 @@ class _OrdersPageState extends State<OrdersPage> {
   String _formatDateTime(BuildContext context, DateTime dateTime) {
     final localizations = MaterialLocalizations.of(context);
     final date = localizations.formatMediumDate(dateTime);
-    final time = localizations.formatTimeOfDay(TimeOfDay.fromDateTime(dateTime));
+    final time = localizations.formatTimeOfDay(
+      TimeOfDay.fromDateTime(dateTime),
+    );
     return '$date\n$time';
   }
 }
@@ -256,7 +282,8 @@ class _OrderFilterDialogContent extends StatefulWidget {
   final ValueChanged<DateTimeRange?> onRangeChanged;
 
   @override
-  State<_OrderFilterDialogContent> createState() => _OrderFilterDialogContentState();
+  State<_OrderFilterDialogContent> createState() =>
+      _OrderFilterDialogContentState();
 }
 
 class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
@@ -282,10 +309,22 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
             border: OutlineInputBorder(),
           ),
           items: const [
-            DropdownMenuItem<OrderStatus?>(value: null, child: Text('Any status')),
-            DropdownMenuItem<OrderStatus?>(value: OrderStatus.pending, child: Text('Pending')),
-            DropdownMenuItem<OrderStatus?>(value: OrderStatus.completed, child: Text('Completed')),
-            DropdownMenuItem<OrderStatus?>(value: OrderStatus.voided, child: Text('Voided')),
+            DropdownMenuItem<OrderStatus?>(
+              value: null,
+              child: Text('Any status'),
+            ),
+            DropdownMenuItem<OrderStatus?>(
+              value: OrderStatus.pending,
+              child: Text('Pending'),
+            ),
+            DropdownMenuItem<OrderStatus?>(
+              value: OrderStatus.completed,
+              child: Text('Completed'),
+            ),
+            DropdownMenuItem<OrderStatus?>(
+              value: OrderStatus.voided,
+              child: Text('Voided'),
+            ),
           ],
           onChanged: (value) {
             setState(() => _status = value);
@@ -350,7 +389,11 @@ class _StatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600),
+        style: TextStyle(
+          color: color,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

@@ -92,7 +92,10 @@ class PosOrderPanel extends StatelessWidget {
           // Order type selector
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: PosOrderTypeSelector(selected: orderType, onChanged: onOrderTypeChanged),
+            child: PosOrderTypeSelector(
+              selected: orderType,
+              onChanged: onOrderTypeChanged,
+            ),
           ),
           const SizedBox(height: 8),
           // Order items list or empty state
@@ -130,10 +133,14 @@ class PosOrderPanel extends StatelessWidget {
                   child: FilledButton(
                     onPressed: _hasItems ? onProcessTransaction : null,
                     style: FilledButton.styleFrom(
-                      backgroundColor: _hasItems ? AppColors.primary500 : AppColors.neutral300,
+                      backgroundColor: _hasItems
+                          ? AppColors.primary500
+                          : AppColors.neutral300,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     child: Text(
                       'Process Transaction',
@@ -198,11 +205,15 @@ class _OrderItemsList extends StatelessWidget {
                 foregroundColor: AppColors.neutral600,
                 side: BorderSide(color: AppColors.neutral300),
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
               child: Text(
                 'Clear All Order',
-                style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral600),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.neutral600,
+                ),
               ),
             ),
           ),

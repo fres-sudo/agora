@@ -1,6 +1,7 @@
 // CRITICAL: We copy the product name and cost at the time of sale.
 import 'package:drift/drift.dart';
 
+import '../database_mixin.dart';
 import 'orders_table.dart';
 import 'products_table.dart';
 

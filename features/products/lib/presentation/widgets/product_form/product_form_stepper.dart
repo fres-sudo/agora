@@ -51,17 +51,15 @@ class ProductFormStepper extends StatelessWidget {
                     isCompleted: i < currentIndex,
                     isCurrent: i == currentIndex,
                     onTap: i < currentIndex
-                        ? () => context
-                            .read<ProductFormCubit>()
-                            .goToStep(ProductFormStep.values[i])
+                        ? () => context.read<ProductFormCubit>().goToStep(
+                            ProductFormStep.values[i],
+                          )
                         : null,
                   ),
                 ),
                 if (i < steps.length - 1)
                   Expanded(
-                    child: _StepConnector(
-                      isCompleted: i < currentIndex,
-                    ),
+                    child: _StepConnector(isCompleted: i < currentIndex),
                   ),
               ],
             ],
@@ -120,15 +118,15 @@ class _StepIndicator extends StatelessWidget {
               child: isCompleted
                   ? const Icon(Icons.check, color: Colors.white, size: 18)
                   : isCurrent
-                      ? Container(
-                          width: 8,
-                          height: 8,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                        )
-                      : null,
+                  ? Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                    )
+                  : null,
             ),
           ),
           const SizedBox(height: Sizes.sm),

@@ -4,6 +4,7 @@ import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.da
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
+
 class InventoryRepositoryImpl extends Repository
     implements InventoryRepository {
   InventoryRepositoryImpl({

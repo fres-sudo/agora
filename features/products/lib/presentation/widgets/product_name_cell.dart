@@ -32,7 +32,8 @@ class ProductNameCell extends StatelessWidget {
                 ? DecorationImage(
                     image: NetworkImage(imageUrl!),
                     fit: BoxFit.cover,
-                    onError: (exception, stackTrace) {}, // Fallback handled by color
+                    onError:
+                        (exception, stackTrace) {}, // Fallback handled by color
                   )
                 : null,
           ),

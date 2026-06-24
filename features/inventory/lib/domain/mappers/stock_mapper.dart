@@ -21,8 +21,6 @@ extension StockCompanionFactory on int {
 
   /// Creates a [StocksTableCompanion] for updating stock quantity.
   StocksTableCompanion toStockUpdateCompanion({required int quantity}) {
-    return StocksTableCompanion(
-      quantity: Value(quantity),
-    );
+    return StocksTableCompanion(quantity: Value(quantity));
   }
 }

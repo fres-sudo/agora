@@ -26,11 +26,18 @@ class DataTableEmptyState extends StatelessWidget {
             Container(
               width: 80,
               height: 80,
-              decoration: BoxDecoration(color: AppColors.neutral200, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                color: AppColors.neutral200,
+                shape: BoxShape.circle,
+              ),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Icon(Icons.description_outlined, size: 36, color: AppColors.neutral400),
+                  Icon(
+                    Icons.description_outlined,
+                    size: 36,
+                    color: AppColors.neutral400,
+                  ),
                   Positioned(
                     right: 14,
                     bottom: 14,
@@ -39,7 +46,10 @@ class DataTableEmptyState extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.neutral200,
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.neutral200, width: 2),
+                        border: Border.all(
+                          color: AppColors.neutral200,
+                          width: 2,
+                        ),
                       ),
                       child: Icon(
                         Icons.help_outline_rounded,
@@ -55,13 +65,17 @@ class DataTableEmptyState extends StatelessWidget {
             // Title
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: Sizes.xs),
             // Subtitle
             Text(
               subtitle,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
               textAlign: TextAlign.center,
             ),
           ],

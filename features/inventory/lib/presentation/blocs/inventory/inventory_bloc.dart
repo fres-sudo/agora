@@ -19,11 +19,11 @@ final class InventoryShowError extends InventoryEffect {
 }
 
 /// BLoC for managing stock levels with real-time updates.
-class InventoryBloc extends EffectBloc<InventoryEvent, InventoryState, InventoryEffect> {
-  InventoryBloc({
-    required InventoryRepository inventoryRepository,
-  })  : _inventoryRepository = inventoryRepository,
-        super(const InventoryState.initial()) {
+class InventoryBloc
+    extends EffectBloc<InventoryEvent, InventoryState, InventoryEffect> {
+  InventoryBloc({required InventoryRepository inventoryRepository})
+    : _inventoryRepository = inventoryRepository,
+      super(const InventoryState.initial()) {
     on<_Started>(_onStarted);
     on<_ThresholdChanged>(_onThresholdChanged);
     on<_FilterChanged>(_onFilterChanged);
@@ -59,26 +59,30 @@ class InventoryBloc extends EffectBloc<InventoryEvent, InventoryState, Inventory
       onError: (error) {
         if (!isClosed) {
           // ignore: invalid_use_of_visible_for_testing_member
-          emit(InventoryState.error(
-            message: error.toString(),
-            previousState:
-                state is InventoryLoaded ? state as InventoryLoaded : null,
-          ));
+          emit(
+            InventoryState.error(
+              message: error.toString(),
+              previousState: state is InventoryLoaded
+                  ? state as InventoryLoaded
+                  : null,
+            ),
+          );
         }
       },
     );
 
     // Subscribe to low stocks
-    _lowStocksSubscription =
-        _inventoryRepository.watchLowStocks(_lowStockThreshold).listen(
-      (stocks) {
-        _lowStocks = stocks;
-        _emitLoaded();
-      },
-      onError: (_) {
-        // Non-fatal, low stock count will just be 0
-      },
-    );
+    _lowStocksSubscription = _inventoryRepository
+        .watchLowStocks(_lowStockThreshold)
+        .listen(
+          (stocks) {
+            _lowStocks = stocks;
+            _emitLoaded();
+          },
+          onError: (_) {
+            // Non-fatal, low stock count will just be 0
+          },
+        );
   }
 
   Future<void> _onThresholdChanged(
@@ -89,13 +93,12 @@ class InventoryBloc extends EffectBloc<InventoryEvent, InventoryState, Inventory
 
     // Resubscribe to low stocks with new threshold
     await _lowStocksSubscription?.cancel();
-    _lowStocksSubscription =
-        _inventoryRepository.watchLowStocks(_lowStockThreshold).listen(
-      (stocks) {
-        _lowStocks = stocks;
-        _emitLoaded();
-      },
-    );
+    _lowStocksSubscription = _inventoryRepository
+        .watchLowStocks(_lowStockThreshold)
+        .listen((stocks) {
+          _lowStocks = stocks;
+          _emitLoaded();
+        });
 
     _emitLoaded();
   }
@@ -122,12 +125,14 @@ class InventoryBloc extends EffectBloc<InventoryEvent, InventoryState, Inventory
     final displayStocks = _showLowStockOnly ? _lowStocks : _allStocks;
 
     // ignore: invalid_use_of_visible_for_testing_member
-    emit(InventoryState.loaded(
-      stocks: displayStocks,
-      lowStockCount: _lowStocks.length,
-      threshold: _lowStockThreshold,
-      showLowStockOnly: _showLowStockOnly,
-    ));
+    emit(
+      InventoryState.loaded(
+        stocks: displayStocks,
+        lowStockCount: _lowStocks.length,
+        threshold: _lowStockThreshold,
+        showLowStockOnly: _showLowStockOnly,
+      ),
+    );
   }
 
   @override

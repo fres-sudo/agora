@@ -13,7 +13,8 @@ Agora is structured as a **Melos-managed Dart monorepo** with three top-level sc
 The guiding principle is **feature isolation**: each feature package contains everything it needs (data, domain, presentation) and communicates outward only through its domain interfaces. The app shell assembles them. Packages provide the building blocks but own no business logic.
 
 For the full product scope, apps inventory, and build phases see [ECOSYSTEM.md](./ECOSYSTEM.md).  
-For the backend architecture and technology decisions see [BACKEND.md](./BACKEND.md).
+For the backend architecture and technology decisions see [BACKEND.md](./BACKEND.md).  
+For the AI integration strategy and feature specifications see [AI_INTEGRATION.md](./AI_INTEGRATION.md).
 
 ---
 

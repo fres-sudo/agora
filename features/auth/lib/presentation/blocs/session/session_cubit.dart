@@ -10,7 +10,8 @@ part 'session_state_utils.dart';
 part 'session_cubit.freezed.dart';
 
 class SessionCubit extends Cubit<SessionState> {
-  SessionCubit(AuthRepository authRepository) : super(const SessionState.initial());
+  SessionCubit(AuthRepository authRepository)
+    : super(const SessionState.initial());
 
   // final AuthRepository _authRepository;
   // late final StreamSubscription<AppUser?> _authSubscription;

@@ -27,10 +27,8 @@ class AppProviders extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => DependencyInjectorHelper(
-    providers: _providers,
-    child: child,
-  );
+  Widget build(BuildContext context) =>
+      DependencyInjectorHelper(providers: _providers, child: child);
 }
 
 final List<SingleChildWidget> _providers = [
@@ -61,9 +59,8 @@ final List<SingleChildWidget> _providers = [
   Provider<ConfigService>(create: (_) => ConfigServiceImpl()),
   Provider<VersionCheckerService>(create: (_) => VersionCheckerServiceImpl()),
   Provider<UrlLauncherService>(
-    create: (ctx) => UrlLauncherServiceImpl(
-      launchModeMapper: ctx.read<LaunchModeMapper>(),
-    ),
+    create: (ctx) =>
+        UrlLauncherServiceImpl(launchModeMapper: ctx.read<LaunchModeMapper>()),
   ),
 
   // Database (shared by all features via ProxyProvider)
@@ -115,7 +112,7 @@ final List<SingleChildWidget> _providers = [
   // Feature providers (each feature registers its own DAOs, repos and BLoCs)
   // -------------------------------------------------------------------------
   ...AuthFeature.providers,
-  ...InventoryFeature.providers,   // must be before Products (StocksDao)
+  ...InventoryFeature.providers, // must be before Products (StocksDao)
   ...ProductsFeature.providers,
   ...OrdersFeature.providers,
   ...DiscountsFeature.providers,

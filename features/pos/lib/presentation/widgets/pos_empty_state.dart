@@ -53,11 +53,7 @@ class PosEmptyState extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Icon(
-                    icon,
-                    size: iconSize,
-                    color: AppColors.neutral400,
-                  ),
+                  Icon(icon, size: iconSize, color: AppColors.neutral400),
                   // Question mark badge
                   Positioned(
                     right: iconSize * 0.15,

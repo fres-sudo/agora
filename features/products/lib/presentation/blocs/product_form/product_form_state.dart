@@ -1,12 +1,7 @@
 part of 'product_form_cubit.dart';
 
 /// The different steps in the product form wizard.
-enum ProductFormStep {
-  productInfo,
-  pricing,
-  variantsModifiers,
-  ingredients,
-}
+enum ProductFormStep { productInfo, pricing, variantsModifiers, ingredients }
 
 @freezed
 class ProductFormState with _$ProductFormState {
@@ -51,20 +46,20 @@ class ProductFormState with _$ProductFormState {
 
   /// Returns true if on the first step.
   bool get isFirstStep => maybeMap(
-        editing: (s) => s.currentStep == ProductFormStep.productInfo,
-        orElse: () => true,
-      );
+    editing: (s) => s.currentStep == ProductFormStep.productInfo,
+    orElse: () => true,
+  );
 
   /// Returns true if on the last step.
   bool get isLastStep => maybeMap(
-        editing: (s) => s.currentStep == ProductFormStep.ingredients,
-        orElse: () => false,
-      );
+    editing: (s) => s.currentStep == ProductFormStep.ingredients,
+    orElse: () => false,
+  );
 
   /// Returns the current step index (0-3).
   int get currentStepIndex => maybeMap(
-        editing: (s) => s.currentStep.index,
-        error: (s) => s.currentStep.index,
-        orElse: () => 0,
-      );
+    editing: (s) => s.currentStep.index,
+    error: (s) => s.currentStep.index,
+    orElse: () => 0,
+  );
 }

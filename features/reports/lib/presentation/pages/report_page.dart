@@ -59,7 +59,10 @@ class ReportPage extends StatelessWidget {
 
                 // Sales Overview & Top Products - Stack on narrow screens
                 _buildSalesAndProductsSection(
-                    context, isMobile, isTabletPortrait),
+                  context,
+                  isMobile,
+                  isTabletPortrait,
+                ),
                 const SizedBox(height: Sizes.xl),
 
                 // Status Donut Charts - Stack on mobile
@@ -201,7 +204,10 @@ class ReportPage extends StatelessWidget {
   }
 
   Widget _buildSalesAndProductsSection(
-      BuildContext context, bool isMobile, bool isTabletPortrait) {
+    BuildContext context,
+    bool isMobile,
+    bool isTabletPortrait,
+  ) {
     final salesChart = SizedBox(
       height: isMobile ? 300 : 400,
       child: const SalesOverviewChart(),

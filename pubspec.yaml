@@ -30,6 +30,163 @@ workspace:
   - packages/ui_kit
   - packages/utils
 
+melos:
+  sdkPath: .fvm/flutter_sdk
+
+  command:
+    bootstrap:
+      usePubspecOverrides: true
+    version:
+      workspaceChangelog: false
+
+  scripts:
+    # -------------------------------------------------------------------------
+    # Code generation
+    # -------------------------------------------------------------------------
+    build:
+      description: Run build_runner in all packages (one at a time to avoid conflicts)
+      run: dart run build_runner build --delete-conflicting-outputs
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+
+    build:watch:
+      description: Watch mode code generation (run per-package, not workspace-wide)
+      run: dart run build_runner watch --delete-conflicting-outputs
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+
+    build:features:
+      description: Run build_runner in feature packages only
+      run: dart run build_runner build --delete-conflicting-outputs
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+        scope: "feature_*"
+
+    build:packages:
+      description: Run build_runner in shared packages only
+      run: dart run build_runner build --delete-conflicting-outputs
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+        ignore:
+          - "feature_*"
+          - "agora"
+
+    # -------------------------------------------------------------------------
+    # Testing
+    # -------------------------------------------------------------------------
+    test:
+      description: Run all tests across packages
+      run: flutter test --coverage
+      exec:
+        concurrency: 4
+        failFast: false
+      packageFilters:
+        flutter: true
+        dirExists: test
+
+    test:features:
+      description: Run tests in feature packages only
+      run: flutter test
+      exec:
+        concurrency: 4
+      packageFilters:
+        flutter: true
+        dirExists: test
+        scope: "feature_*"
+
+    test:packages:
+      description: Run tests in shared packages only
+      run: flutter test
+      exec:
+        concurrency: 4
+      packageFilters:
+        dirExists: test
+        ignore:
+          - "feature_*"
+          - "agora"
+
+    # -------------------------------------------------------------------------
+    # Quality
+    # -------------------------------------------------------------------------
+    lint:
+      description: Run dart analyze in all packages
+      run: dart analyze . --fatal-infos
+      exec:
+        concurrency: 6
+
+    format:
+      description: Check formatting of all Dart files (fails if changes needed — use format:fix to apply)
+      run: dart format lib test --set-exit-if-changed
+      exec:
+        concurrency: 6
+
+    format:fix:
+      description: Format all Dart files and apply changes in place
+      run: dart format lib test
+      exec:
+        concurrency: 6
+
+    fix:
+      description: Apply dart fix suggestions across all packages
+      run: dart fix --apply
+      exec:
+        concurrency: 1
+
+    # Composite quality gates — steps run sequentially
+    check:
+      description: Fast quality gate — format check + lint (no tests)
+      steps:
+        - format
+        - lint
+
+    ci:
+      description: Full CI quality gate — format + lint + test
+      steps:
+        - format
+        - lint
+        - test
+
+    # -------------------------------------------------------------------------
+    # Maintenance
+    # -------------------------------------------------------------------------
+    clean:
+      description: flutter clean in all packages
+      run: flutter clean
+      exec:
+        concurrency: 6
+      packageFilters:
+        flutter: true
+
+    upgrade:
+      description: flutter pub upgrade in all packages
+      run: flutter pub upgrade
+      exec:
+        concurrency: 1
+      packageFilters:
+        flutter: true
+
+    outdated:
+      description: Check for outdated dependencies across all packages
+      run: flutter pub outdated
+      exec:
+        concurrency: 4
+      packageFilters:
+        flutter: true
+
+    deps:
+      description: Print dependency graph
+      run: dart pub deps
+      exec:
+        concurrency: 6
+
 dependencies:
   flutter:
     sdk: flutter

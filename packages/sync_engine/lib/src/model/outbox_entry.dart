@@ -4,11 +4,11 @@ enum OutboxOperation {
   delete;
 
   static OutboxOperation fromString(String value) => switch (value) {
-        'create' => OutboxOperation.create,
-        'update' => OutboxOperation.update,
-        'delete' => OutboxOperation.delete,
-        _ => throw ArgumentError('Unknown OutboxOperation: $value'),
-      };
+    'create' => OutboxOperation.create,
+    'update' => OutboxOperation.update,
+    'delete' => OutboxOperation.delete,
+    _ => throw ArgumentError('Unknown OutboxOperation: $value'),
+  };
 }
 
 enum OutboxEntryStatus {
@@ -17,11 +17,11 @@ enum OutboxEntryStatus {
   failed;
 
   static OutboxEntryStatus fromString(String value) => switch (value) {
-        'pending' => OutboxEntryStatus.pending,
-        'inflight' => OutboxEntryStatus.inflight,
-        'failed' => OutboxEntryStatus.failed,
-        _ => throw ArgumentError('Unknown OutboxEntryStatus: $value'),
-      };
+    'pending' => OutboxEntryStatus.pending,
+    'inflight' => OutboxEntryStatus.inflight,
+    'failed' => OutboxEntryStatus.failed,
+    _ => throw ArgumentError('Unknown OutboxEntryStatus: $value'),
+  };
 }
 
 class OutboxEntry {

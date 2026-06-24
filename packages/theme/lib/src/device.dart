@@ -36,7 +36,8 @@ extension ScreenSizeX on BuildContext {
   bool get isTablet => screenSize() == ScreenSize.tablet;
 
   /// True if the device screen size is a tablet or desktop.
-  bool get isTabletOrLarger => screenSize() == ScreenSize.tablet || screenSize() == ScreenSize.desktop;
+  bool get isTabletOrLarger =>
+      screenSize() == ScreenSize.tablet || screenSize() == ScreenSize.desktop;
 
   /// {@macro BreakPoint.isDesktop}
   bool get isDesktop => screenSize() == ScreenSize.desktop;
@@ -150,11 +151,13 @@ class Sizes {
 /// Workaround to securely asses the underlying Operating System in which the flutter app is executing
 // See https://github.com/flutter/flutter/issues/50845
 class Device {
-  static final isMobileDevice = !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+  static final isMobileDevice =
+      !kIsWeb && (Platform.isIOS || Platform.isAndroid);
   static final isAndroid = !kIsWeb && Platform.isAndroid;
   static final isIOS = !kIsWeb && Platform.isIOS;
 
-  static final isDesktopDevice = !kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux);
+  static final isDesktopDevice =
+      !kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux);
   static final isLinux = !kIsWeb && Platform.isLinux;
   static final isMacOS = !kIsWeb && Platform.isMacOS;
   static final isWindows = !kIsWeb && Platform.isWindows;

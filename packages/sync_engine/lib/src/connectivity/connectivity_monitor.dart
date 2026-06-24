@@ -15,8 +15,8 @@ class ConnectivityMonitorImpl implements ConnectivityMonitor {
 
   @override
   Stream<bool> get isOnline => _connectivity.onConnectivityChanged.map(
-        (results) => results.any((r) => r != ConnectivityResult.none),
-      );
+    (results) => results.any((r) => r != ConnectivityResult.none),
+  );
 
   @override
   Future<bool> get currentStatus async {

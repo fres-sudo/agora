@@ -4,7 +4,11 @@ import 'package:theme/theme.dart';
 
 /// Loading state widget that shows skeleton placeholders for the data table.
 class DataTableLoadingState extends StatelessWidget {
-  const DataTableLoadingState({super.key, this.rowCount = 8, this.columnCount = 6});
+  const DataTableLoadingState({
+    super.key,
+    this.rowCount = 8,
+    this.columnCount = 6,
+  });
 
   final int rowCount;
   final int columnCount;
@@ -17,7 +21,10 @@ class DataTableLoadingState extends StatelessWidget {
         children: [
           // Column headers
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.lg,
+              vertical: Sizes.md,
+            ),
             decoration: BoxDecoration(
               color: AppColors.neutral100,
               border: Border(bottom: BorderSide(color: AppColors.neutral200)),
@@ -45,7 +52,10 @@ class DataTableLoadingState extends StatelessWidget {
           ...List.generate(
             rowCount,
             (rowIndex) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.lg,
+                vertical: Sizes.md,
+              ),
               decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: AppColors.neutral200)),
               ),

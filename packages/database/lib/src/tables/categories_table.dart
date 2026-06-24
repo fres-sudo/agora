@@ -1,7 +1,6 @@
 import '../color_converter.dart';
 import '../database_mixin.dart';
 
-
 import 'package:drift/drift.dart';
 
 @DataClassName("CategoryEntity")

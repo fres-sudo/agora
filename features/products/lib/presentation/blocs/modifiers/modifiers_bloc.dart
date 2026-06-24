@@ -21,7 +21,8 @@ final class ModifiersShowError extends ModifiersEffect {
 }
 
 /// BLoC for managing modifier groups with real-time updates.
-class ModifiersBloc extends EffectBloc<ModifiersEvent, ModifiersState, ModifiersEffect> {
+class ModifiersBloc
+    extends EffectBloc<ModifiersEvent, ModifiersState, ModifiersEffect> {
   ModifiersBloc({required ModifiersRepository modifiersRepository})
     : _modifiersRepository = modifiersRepository,
       super(const ModifiersState.initial()) {
@@ -78,7 +79,9 @@ class ModifiersBloc extends EffectBloc<ModifiersEvent, ModifiersState, Modifiers
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(ModifiersShowError('Failed to create modifier: ${error.toString()}'));
+        emitEffect(
+          ModifiersShowError('Failed to create modifier: ${error.toString()}'),
+        );
       },
     );
   }
@@ -93,7 +96,9 @@ class ModifiersBloc extends EffectBloc<ModifiersEvent, ModifiersState, Modifiers
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(ModifiersShowError('Failed to update modifier: ${error.toString()}'));
+        emitEffect(
+          ModifiersShowError('Failed to update modifier: ${error.toString()}'),
+        );
       },
     );
   }
@@ -106,7 +111,9 @@ class ModifiersBloc extends EffectBloc<ModifiersEvent, ModifiersState, Modifiers
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(ModifiersShowError('Failed to delete modifier: ${error.toString()}'));
+        emitEffect(
+          ModifiersShowError('Failed to delete modifier: ${error.toString()}'),
+        );
       },
     );
   }
@@ -125,7 +132,9 @@ class ModifiersBloc extends EffectBloc<ModifiersEvent, ModifiersState, Modifiers
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(ModifiersShowError('Failed to link modifier: ${error.toString()}'));
+        emitEffect(
+          ModifiersShowError('Failed to link modifier: ${error.toString()}'),
+        );
       },
     );
   }
@@ -144,7 +153,9 @@ class ModifiersBloc extends EffectBloc<ModifiersEvent, ModifiersState, Modifiers
         // Stream will update automatically
       },
       error: (error) {
-        emitEffect(ModifiersShowError('Failed to unlink modifier: ${error.toString()}'));
+        emitEffect(
+          ModifiersShowError('Failed to unlink modifier: ${error.toString()}'),
+        );
       },
     );
   }

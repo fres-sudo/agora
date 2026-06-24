@@ -1,4 +1,10 @@
+# NOTE: melos 7+ reads configuration from pubspec.yaml (under the `melos:` key),
+# not from this file. This file is kept only for reference. The canonical
+# config lives in pubspec.yaml.
+
 name: agora_workspace
+
+sdkPath: .fvm/flutter_sdk
 
 packages:
   - apps/**
@@ -20,7 +26,7 @@ scripts:
   # ---------------------------------------------------------------------------
   build:
     description: Run build_runner in all packages (one at a time to avoid conflicts)
-    run: flutter pub run build_runner build --delete-conflicting-outputs
+    run: dart run build_runner build --delete-conflicting-outputs
     exec:
       concurrency: 1
     packageFilters:
@@ -28,11 +34,31 @@ scripts:
 
   build:watch:
     description: Watch mode code generation (run per-package, not workspace-wide)
-    run: flutter pub run build_runner watch --delete-conflicting-outputs
+    run: dart run build_runner watch --delete-conflicting-outputs
     exec:
       concurrency: 1
     packageFilters:
       flutter: true
+
+  build:features:
+    description: Run build_runner in feature packages only
+    run: dart run build_runner build --delete-conflicting-outputs
+    exec:
+      concurrency: 1
+    packageFilters:
+      flutter: true
+      scope: "feature_*"
+
+  build:packages:
+    description: Run build_runner in shared packages only
+    run: dart run build_runner build --delete-conflicting-outputs
+    exec:
+      concurrency: 1
+    packageFilters:
+      flutter: true
+      ignore:
+        - "feature_*"
+        - "agora"
 
   # ---------------------------------------------------------------------------
   # Testing
@@ -54,6 +80,7 @@ scripts:
       concurrency: 4
     packageFilters:
       flutter: true
+      dirExists: test
       scope: "feature_*"
 
   test:packages:
@@ -65,7 +92,7 @@ scripts:
       dirExists: test
       ignore:
         - "feature_*"
-        - "agora_app"
+        - "agora"
 
   # ---------------------------------------------------------------------------
   # Quality
@@ -77,10 +104,36 @@ scripts:
       concurrency: 6
 
   format:
-    description: Format all Dart files
+    description: Check formatting of all Dart files (fails if changes needed — use format:fix to apply)
     run: dart format lib test --set-exit-if-changed
     exec:
       concurrency: 6
+
+  format:fix:
+    description: Format all Dart files and apply changes in place
+    run: dart format lib test
+    exec:
+      concurrency: 6
+
+  fix:
+    description: Apply dart fix suggestions across all packages
+    run: dart fix --apply
+    exec:
+      concurrency: 1
+
+  # Composite quality gates — run sequentially via steps
+  check:
+    description: Fast quality gate — format check + lint (no tests)
+    steps:
+      - format
+      - lint
+
+  ci:
+    description: Full CI quality gate — format + lint + test
+    steps:
+      - format
+      - lint
+      - test
 
   # ---------------------------------------------------------------------------
   # Maintenance
@@ -98,6 +151,14 @@ scripts:
     run: flutter pub upgrade
     exec:
       concurrency: 1
+    packageFilters:
+      flutter: true
+
+  outdated:
+    description: Check for outdated dependencies across all packages
+    run: flutter pub outdated
+    exec:
+      concurrency: 4
     packageFilters:
       flutter: true
 

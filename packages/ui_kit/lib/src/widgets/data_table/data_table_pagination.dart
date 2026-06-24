@@ -25,7 +25,10 @@ class DataTablePagination extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.lg,
+        vertical: Sizes.md,
+      ),
       child: Row(
         children: [
           // Rows per page
@@ -34,7 +37,9 @@ class DataTablePagination extends StatelessWidget {
             children: [
               Text(
                 'Rows per page',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.neutral500),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: AppColors.neutral500),
               ),
               const SizedBox(width: Sizes.sm),
               DropdownButton<int>(
@@ -47,7 +52,10 @@ class DataTablePagination extends StatelessWidget {
                 underline: const SizedBox.shrink(),
                 isDense: true,
                 items: rowsPerPageOptions
-                    .map((count) => DropdownMenuItem(value: count, child: Text('$count')))
+                    .map(
+                      (count) =>
+                          DropdownMenuItem(value: count, child: Text('$count')),
+                    )
                     .toList(),
               ),
             ],
@@ -59,7 +67,9 @@ class DataTablePagination extends StatelessWidget {
             children: [
               // Previous button
               IconButton(
-                onPressed: currentPage > 0 ? () => onPageChanged?.call(currentPage - 1) : null,
+                onPressed: currentPage > 0
+                    ? () => onPageChanged?.call(currentPage - 1)
+                    : null,
                 icon: const Icon(Icons.chevron_left),
                 iconSize: 20,
                 padding: EdgeInsets.zero,

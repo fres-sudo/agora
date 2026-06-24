@@ -5,8 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'effect_bloc.dart';
 
-class EffectListener<B extends EffectBloc<dynamic, dynamic, E>, E> extends StatefulWidget {
-  const EffectListener({super.key, required this.onEffect, required this.child, this.filter});
+class EffectListener<B extends EffectBloc<dynamic, dynamic, E>, E>
+    extends StatefulWidget {
+  const EffectListener({
+    super.key,
+    required this.onEffect,
+    required this.child,
+    this.filter,
+  });
 
   final void Function(BuildContext context, E effect) onEffect;
   final bool Function(E effect)? filter;

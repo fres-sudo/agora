@@ -128,4 +128,3 @@ class CategoryListItem extends StatelessWidget {
     return luminance > 0.5 ? AppColors.neutral800 : Colors.white;
   }
 }
-

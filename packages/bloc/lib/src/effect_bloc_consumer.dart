@@ -6,7 +6,8 @@ import 'effect_bloc.dart';
 
 /// Combines [BlocConsumer] with [EffectListener] so that state changes and
 /// side-effects can both be handled from a single widget.
-class EffectBlocConsumer<B extends EffectBloc<dynamic, S, E>, S, E> extends StatelessWidget {
+class EffectBlocConsumer<B extends EffectBloc<dynamic, S, E>, S, E>
+    extends StatelessWidget {
   const EffectBlocConsumer({
     super.key,
     required this.builder,

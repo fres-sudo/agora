@@ -23,8 +23,8 @@ class ModifiersState with _$ModifiersState {
 
   /// Returns the modifiers list if loaded.
   List<ModifierGroup> get modifiers => maybeMap(
-        loaded: (s) => s.modifiers,
-        error: (s) => s.previousState?.modifiers ?? [],
-        orElse: () => [],
-      );
+    loaded: (s) => s.modifiers,
+    error: (s) => s.previousState?.modifiers ?? [],
+    orElse: () => [],
+  );
 }

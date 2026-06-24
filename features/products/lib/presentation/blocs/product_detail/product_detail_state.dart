@@ -40,11 +40,11 @@ class ProductDetailState with _$ProductDetailState {
 
   /// Returns true if the state has a product.
   bool get hasProduct => maybeMap(
-        loaded: (_) => true,
-        saving: (_) => true,
-        saved: (_) => true,
-        deleting: (_) => true,
-        error: (s) => s.product != null,
-        orElse: () => false,
-      );
+    loaded: (_) => true,
+    saving: (_) => true,
+    saved: (_) => true,
+    deleting: (_) => true,
+    error: (s) => s.product != null,
+    orElse: () => false,
+  );
 }

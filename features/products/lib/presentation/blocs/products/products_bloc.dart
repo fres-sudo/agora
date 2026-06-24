@@ -26,7 +26,8 @@ final class ProductsShowError extends ProductsEffect {
 ///
 /// Uses streams from the repository for reactive data binding.
 /// Products are automatically updated when the underlying database changes.
-class ProductsBloc extends EffectBloc<ProductsEvent, ProductsState, ProductsEffect> {
+class ProductsBloc
+    extends EffectBloc<ProductsEvent, ProductsState, ProductsEffect> {
   ProductsBloc({
     required ProductsRepository productsRepository,
     required CategoriesRepository categoriesRepository,
@@ -105,7 +106,9 @@ class ProductsBloc extends EffectBloc<ProductsEvent, ProductsState, ProductsEffe
         // Stream will automatically update the list
       },
       error: (error) {
-        emitEffect(ProductsShowError('Failed to delete product: ${error.toString()}'));
+        emitEffect(
+          ProductsShowError('Failed to delete product: ${error.toString()}'),
+        );
       },
     );
   }

@@ -6,7 +6,5 @@ part 'reports_router.gr.dart';
 @AutoRouterConfig()
 class ReportsRouter extends RootStackRouter {
   @override
-  List<AutoRoute> get routes => [
-    AutoRoute(page: ReportRoute.page),
-  ];
+  List<AutoRoute> get routes => [AutoRoute(page: ReportRoute.page)];
 }

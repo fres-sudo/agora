@@ -3,7 +3,6 @@ import 'products_table.dart';
 // Modifiers (Groups)
 // Example: "Size", "Milk Type", "Toppings"
 
-
 import 'package:drift/drift.dart';
 
 @DataClassName("ModifierEntity")

@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:drift/drift.dart';
 
+import 'color_converter.dart';
 import 'tables/categories_table.dart';
 import 'tables/discounts_table.dart';
 import 'tables/modifiers_table.dart';

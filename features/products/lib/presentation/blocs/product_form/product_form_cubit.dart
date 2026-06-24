@@ -11,10 +11,9 @@ part 'product_form_state.dart';
 
 /// Cubit for managing the multi-step product form.
 class ProductFormCubit extends Cubit<ProductFormState> {
-  ProductFormCubit({
-    required ProductsRepository productsRepository,
-  })  : _productsRepository = productsRepository,
-        super(const ProductFormState.initial());
+  ProductFormCubit({required ProductsRepository productsRepository})
+    : _productsRepository = productsRepository,
+      super(const ProductFormState.initial());
 
   final ProductsRepository _productsRepository;
 
@@ -24,30 +23,34 @@ class ProductFormCubit extends Cubit<ProductFormState> {
 
   /// Initialize form for creating a new product.
   void initCreate() {
-    emit(ProductFormState.editing(
-      formData: const ProductFormData(),
-      isEditing: false,
-    ));
+    emit(
+      ProductFormState.editing(
+        formData: const ProductFormData(),
+        isEditing: false,
+      ),
+    );
   }
 
   /// Initialize form for editing an existing product.
   void initEdit(Product product) {
-    emit(ProductFormState.editing(
-      formData: ProductFormData(
-        id: product.id,
-        name: product.name,
-        description: product.description ?? '',
-        sku: product.sku ?? '',
-        imageUrl: product.imageUrl,
-        categoryId: product.categoryId,
-        priceCents: product.priceCents,
-        costCents: product.costCents,
-        taxPercent: product.taxPercent,
-        stockQuantity: product.stockQuantity,
-        status: product.status,
+    emit(
+      ProductFormState.editing(
+        formData: ProductFormData(
+          id: product.id,
+          name: product.name,
+          description: product.description ?? '',
+          sku: product.sku ?? '',
+          imageUrl: product.imageUrl,
+          categoryId: product.categoryId,
+          priceCents: product.priceCents,
+          costCents: product.costCents,
+          taxPercent: product.taxPercent,
+          stockQuantity: product.stockQuantity,
+          status: product.status,
+        ),
+        isEditing: true,
       ),
-      isEditing: true,
-    ));
+    );
   }
 
   // ============================================================
@@ -61,17 +64,17 @@ class ProductFormCubit extends Cubit<ProductFormState> {
     if (currentState.isLastStep) return;
 
     // Validate current step
-    final errors = _validateStep(currentState.currentStep, currentState.formData);
+    final errors = _validateStep(
+      currentState.currentStep,
+      currentState.formData,
+    );
     if (errors.isNotEmpty) {
       emit(currentState.copyWith(errors: errors));
       return;
     }
 
     final nextStep = ProductFormStep.values[currentState.currentStep.index + 1];
-    emit(currentState.copyWith(
-      currentStep: nextStep,
-      errors: {},
-    ));
+    emit(currentState.copyWith(currentStep: nextStep, errors: {}));
   }
 
   /// Move to the previous step.
@@ -81,10 +84,7 @@ class ProductFormCubit extends Cubit<ProductFormState> {
     if (currentState.isFirstStep) return;
 
     final prevStep = ProductFormStep.values[currentState.currentStep.index - 1];
-    emit(currentState.copyWith(
-      currentStep: prevStep,
-      errors: {},
-    ));
+    emit(currentState.copyWith(currentStep: prevStep, errors: {}));
   }
 
   /// Jump to a specific step.
@@ -92,10 +92,7 @@ class ProductFormCubit extends Cubit<ProductFormState> {
     final currentState = state;
     if (currentState is! ProductFormEditing) return;
 
-    emit(currentState.copyWith(
-      currentStep: step,
-      errors: {},
-    ));
+    emit(currentState.copyWith(currentStep: step, errors: {}));
   }
 
   // ============================================================
@@ -107,10 +104,12 @@ class ProductFormCubit extends Cubit<ProductFormState> {
     final currentState = state;
     if (currentState is! ProductFormEditing) return;
 
-    emit(currentState.copyWith(
-      formData: update(currentState.formData),
-      errors: {},
-    ));
+    emit(
+      currentState.copyWith(
+        formData: update(currentState.formData),
+        errors: {},
+      ),
+    );
   }
 
   /// Update product name.
@@ -206,22 +205,23 @@ class ProductFormCubit extends Cubit<ProductFormState> {
 
     // Final validation
     if (!formData.isValid) {
-      emit(currentState.copyWith(
-        errors: {'name': 'Product name is required'},
-        currentStep: ProductFormStep.productInfo,
-      ));
+      emit(
+        currentState.copyWith(
+          errors: {'name': 'Product name is required'},
+          currentStep: ProductFormStep.productInfo,
+        ),
+      );
       return;
     }
 
-    emit(ProductFormState.submitting(
-      formData: formData,
-      asDraft: asDraft,
-    ));
+    emit(ProductFormState.submitting(formData: formData, asDraft: asDraft));
 
     final product = Product(
       id: formData.id,
       name: formData.name.trim(),
-      description: formData.description.isEmpty ? null : formData.description.trim(),
+      description: formData.description.isEmpty
+          ? null
+          : formData.description.trim(),
       sku: formData.sku.isEmpty ? null : formData.sku.trim(),
       imageUrl: formData.imageUrl,
       categoryId: formData.categoryId ?? 0,
@@ -239,17 +239,18 @@ class ProductFormCubit extends Cubit<ProductFormState> {
 
     result.when(
       success: (savedProduct) {
-        emit(ProductFormState.success(
-          productId: savedProduct.id,
-          isNew: isNew,
-        ));
+        emit(
+          ProductFormState.success(productId: savedProduct.id, isNew: isNew),
+        );
       },
       error: (error) {
-        emit(ProductFormState.error(
-          message: error.toString(),
-          formData: formData,
-          currentStep: currentState.currentStep,
-        ));
+        emit(
+          ProductFormState.error(
+            message: error.toString(),
+            formData: formData,
+            currentStep: currentState.currentStep,
+          ),
+        );
       },
     );
   }
@@ -261,7 +262,10 @@ class ProductFormCubit extends Cubit<ProductFormState> {
   // VALIDATION
   // ============================================================
 
-  Map<String, String> _validateStep(ProductFormStep step, ProductFormData data) {
+  Map<String, String> _validateStep(
+    ProductFormStep step,
+    ProductFormData data,
+  ) {
     final errors = <String, String>{};
 
     switch (step) {

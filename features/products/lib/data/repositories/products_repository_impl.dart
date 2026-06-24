@@ -6,6 +6,7 @@ import 'package:feature_products/domain/models/product.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
+
 class ProductsRepositoryImpl extends Repository implements ProductsRepository {
   ProductsRepositoryImpl({
     required ProductsDao productsDao,

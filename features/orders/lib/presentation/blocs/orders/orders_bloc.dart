@@ -54,7 +54,10 @@ class OrdersBloc extends EffectBloc<OrdersEvent, OrdersState, OrdersEffect> {
     _subscribeToOrders();
   }
 
-  Future<void> _onFilterChanged(_FilterChanged event, Emitter<OrdersState> emit) async {
+  Future<void> _onFilterChanged(
+    _FilterChanged event,
+    Emitter<OrdersState> emit,
+  ) async {
     _statusFilter = event.status;
     _startDate = event.startDate;
     _endDate = event.endDate;
@@ -93,14 +96,19 @@ class OrdersBloc extends EffectBloc<OrdersEvent, OrdersState, OrdersEffect> {
           }
 
           for (final entry in restoredQuantities.entries) {
-            final restoreResult = await _inventoryRepository.restoreForVoidedOrder(
-              productId: entry.key,
-              quantity: entry.value,
-              orderId: order.id ?? event.id,
-            );
+            final restoreResult = await _inventoryRepository
+                .restoreForVoidedOrder(
+                  productId: entry.key,
+                  quantity: entry.value,
+                  orderId: order.id ?? event.id,
+                );
 
             if (restoreResult.isError) {
-              emitEffect(OrdersShowError('Failed to restore inventory for order #${order.id ?? event.id}'));
+              emitEffect(
+                OrdersShowError(
+                  'Failed to restore inventory for order #${order.id ?? event.id}',
+                ),
+              );
               return;
             }
           }
@@ -113,11 +121,15 @@ class OrdersBloc extends EffectBloc<OrdersEvent, OrdersState, OrdersEffect> {
             // Stream will automatically update the list.
           },
           error: (error) {
-            emitEffect(OrdersShowError('Failed to delete order: ${error.toString()}'));
+            emitEffect(
+              OrdersShowError('Failed to delete order: ${error.toString()}'),
+            );
           },
         );
       case Error<Order?>(:final error):
-        emitEffect(OrdersShowError('Failed to load order: ${error.toString()}'));
+        emitEffect(
+          OrdersShowError('Failed to load order: ${error.toString()}'),
+        );
     }
   }
 
@@ -132,7 +144,10 @@ class OrdersBloc extends EffectBloc<OrdersEvent, OrdersState, OrdersEffect> {
     if (_statusFilter != null) {
       stream = _ordersRepository.watchOrdersByStatus(_statusFilter!);
     } else if (_startDate != null || _endDate != null) {
-      stream = _ordersRepository.watchOrdersByDateRange(startDate: _startDate, endDate: _endDate);
+      stream = _ordersRepository.watchOrdersByDateRange(
+        startDate: _startDate,
+        endDate: _endDate,
+      );
     } else {
       stream = _ordersRepository.watchAllOrders();
     }
@@ -157,7 +172,9 @@ class OrdersBloc extends EffectBloc<OrdersEvent, OrdersState, OrdersEffect> {
           emit(
             OrdersState.error(
               message: error.toString(),
-              previousState: state is OrdersLoaded ? state as OrdersLoaded : null,
+              previousState: state is OrdersLoaded
+                  ? state as OrdersLoaded
+                  : null,
             ),
           );
         }

@@ -3,7 +3,11 @@ import 'package:theme/theme.dart';
 
 /// Data class for section sidebar/tab bar items.
 class SectionSidebarItemData {
-  const SectionSidebarItemData({required this.icon, required this.label, required this.child});
+  const SectionSidebarItemData({
+    required this.icon,
+    required this.label,
+    required this.child,
+  });
 
   /// The icon displayed for this item.
   final IconData icon;
@@ -56,11 +60,16 @@ class SectionSidebarItem extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
-          padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 12 : 16, vertical: 14),
+          padding: EdgeInsets.symmetric(
+            horizontal: isCollapsed ? 12 : 16,
+            vertical: 14,
+          ),
           decoration: BoxDecoration(
             color: isSelected ? Colors.white : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
-            border: isSelected ? Border.all(color: AppColors.neutral200, width: 1) : null,
+            border: isSelected
+                ? Border.all(color: AppColors.neutral200, width: 1)
+                : null,
           ),
           child: Row(
             mainAxisSize: isCollapsed ? MainAxisSize.min : MainAxisSize.max,
@@ -77,7 +86,11 @@ class SectionSidebarItem extends StatelessWidget {
                 ),
               ),
               // Icon
-              Icon(icon, size: 22, color: isSelected ? AppColors.neutral800 : AppColors.neutral500),
+              Icon(
+                icon,
+                size: 22,
+                color: isSelected ? AppColors.neutral800 : AppColors.neutral500,
+              ),
               // Label (hidden when collapsed)
               if (!isCollapsed) ...[
                 const SizedBox(width: 12),
@@ -85,8 +98,12 @@ class SectionSidebarItem extends StatelessWidget {
                   child: Text(
                     label,
                     style: theme.textTheme.bodyLarge?.copyWith(
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                      color: isSelected ? AppColors.neutral800 : AppColors.neutral600,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w500,
+                      color: isSelected
+                          ? AppColors.neutral800
+                          : AppColors.neutral600,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

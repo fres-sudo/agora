@@ -108,10 +108,13 @@ class ConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final effectiveConfirmColor =
-        confirmButtonColor ?? (isDestructive ? AppColors.error500 : theme.primaryColor);
+        confirmButtonColor ??
+        (isDestructive ? AppColors.error500 : theme.primaryColor);
 
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Sizes.md)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Sizes.md),
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 380),
         child: Padding(
@@ -123,7 +126,10 @@ class ConfirmationDialog extends StatelessWidget {
               Container(
                 width: 56,
                 height: 56,
-                decoration: BoxDecoration(color: iconBackgroundColor, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: iconBackgroundColor,
+                  shape: BoxShape.circle,
+                ),
                 child: Icon(icon, color: iconColor, size: 32),
               ),
               const SizedBox(height: Sizes.lg),
@@ -131,7 +137,9 @@ class ConfirmationDialog extends StatelessWidget {
               // Title
               Text(
                 title,
-                style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: Sizes.sm),
@@ -139,7 +147,9 @@ class ConfirmationDialog extends StatelessWidget {
               // Message
               Text(
                 message,
-                style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: AppColors.neutral500,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: Sizes.xl),

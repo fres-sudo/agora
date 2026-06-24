@@ -26,15 +26,15 @@ class OrdersState with _$OrdersState {
 
   /// Returns the orders list if loaded.
   List<Order> get orders => maybeMap(
-        loaded: (s) => s.orders,
-        error: (s) => s.previousState?.orders ?? [],
-        orElse: () => [],
-      );
+    loaded: (s) => s.orders,
+    error: (s) => s.previousState?.orders ?? [],
+    orElse: () => [],
+  );
 
   /// Returns true if a filter is active.
   bool get hasFilter => maybeMap(
-        loaded: (s) =>
-            s.statusFilter != null || s.startDate != null || s.endDate != null,
-        orElse: () => false,
-      );
+    loaded: (s) =>
+        s.statusFilter != null || s.startDate != null || s.endDate != null,
+    orElse: () => false,
+  );
 }

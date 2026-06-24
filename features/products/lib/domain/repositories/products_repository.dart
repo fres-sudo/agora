@@ -56,4 +56,3 @@ abstract interface class ProductsRepository {
   /// Restores a soft-deleted product.
   Future<Result<bool>> restoreProduct(int id);
 }
-

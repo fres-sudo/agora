@@ -34,10 +34,10 @@ class SyncManager {
     required ConnectivityMonitor connectivity,
     required SyncWebSocket webSocket,
     required Talker logger,
-  })  : _queue = outboxQueue,
-        _connectivity = connectivity,
-        _webSocket = webSocket,
-        _logger = logger;
+  }) : _queue = outboxQueue,
+       _connectivity = connectivity,
+       _webSocket = webSocket,
+       _logger = logger;
 
   final OutboxQueue _queue;
   final ConnectivityMonitor _connectivity;

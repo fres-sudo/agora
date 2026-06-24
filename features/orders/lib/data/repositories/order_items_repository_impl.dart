@@ -4,10 +4,14 @@ import 'package:feature_orders/domain/models/order_line_item.dart';
 import 'package:feature_orders/domain/repositories/order_items_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
-class OrderItemsRepositoryImpl extends Repository implements OrderItemsRepository {
-  OrderItemsRepositoryImpl({required OrderItemsDao orderItemsDao, Talker? logger})
-    : _orderItemsDao = orderItemsDao,
-      super(logger);
+
+class OrderItemsRepositoryImpl extends Repository
+    implements OrderItemsRepository {
+  OrderItemsRepositoryImpl({
+    required OrderItemsDao orderItemsDao,
+    Talker? logger,
+  }) : _orderItemsDao = orderItemsDao,
+       super(logger);
 
   final OrderItemsDao _orderItemsDao;
 
@@ -16,7 +20,9 @@ class OrderItemsRepositoryImpl extends Repository implements OrderItemsRepositor
   // ============================================================
 
   Future<OrderLineItem> _entityToModel(OrderItemEntity entity) async {
-    final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(entity.id);
+    final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(
+      entity.id,
+    );
     return OrderLineItem(
       productId: entity.productId,
       productName: entity.productName,
@@ -34,7 +40,10 @@ class OrderItemsRepositoryImpl extends Repository implements OrderItemsRepositor
     );
   }
 
-  OrderItemsTableCompanion _itemToInsertCompanion(int orderId, OrderLineItem item) {
+  OrderItemsTableCompanion _itemToInsertCompanion(
+    int orderId,
+    OrderLineItem item,
+  ) {
     return OrderItemsTableCompanion.insert(
       orderId: orderId,
       productId: Value(item.productId),
@@ -80,12 +89,16 @@ class OrderItemsRepositoryImpl extends Repository implements OrderItemsRepositor
       });
 
   @override
-  Future<Result<int>> getItemsCount(int orderId) =>
-      safe('getItemsCount($orderId)', () => _orderItemsDao.getItemsCountByOrderId(orderId));
+  Future<Result<int>> getItemsCount(int orderId) => safe(
+    'getItemsCount($orderId)',
+    () => _orderItemsDao.getItemsCountByOrderId(orderId),
+  );
 
   @override
-  Future<Result<int>> getTotalQuantity(int orderId) =>
-      safe('getTotalQuantity($orderId)', () => _orderItemsDao.getTotalQuantityByOrderId(orderId));
+  Future<Result<int>> getTotalQuantity(int orderId) => safe(
+    'getTotalQuantity($orderId)',
+    () => _orderItemsDao.getTotalQuantityByOrderId(orderId),
+  );
 
   // ============================================================
   // WRITE OPERATIONS - Optimistic Update Support
@@ -97,7 +110,9 @@ class OrderItemsRepositoryImpl extends Repository implements OrderItemsRepositor
     required OrderLineItem item,
   }) => safe('addItemToOrder($orderId)', () async {
     // Insert item
-    final itemId = await _orderItemsDao.insertOrderItem(_itemToInsertCompanion(orderId, item));
+    final itemId = await _orderItemsDao.insertOrderItem(
+      _itemToInsertCompanion(orderId, item),
+    );
 
     // Insert modifiers
     for (final modifier in item.selectedModifiers) {
@@ -125,13 +140,14 @@ class OrderItemsRepositoryImpl extends Repository implements OrderItemsRepositor
   });
 
   @override
-  Future<Result<int>> removeItem(int itemId) => safe('removeItem($itemId)', () async {
-    // Delete modifiers first
-    await _orderItemsDao.deleteModifiersByOrderItemId(itemId);
-    // Soft delete item
-    await _orderItemsDao.softDeleteOrderItem(itemId);
-    return itemId;
-  });
+  Future<Result<int>> removeItem(int itemId) =>
+      safe('removeItem($itemId)', () async {
+        // Delete modifiers first
+        await _orderItemsDao.deleteModifiersByOrderItemId(itemId);
+        // Soft delete item
+        await _orderItemsDao.softDeleteOrderItem(itemId);
+        return itemId;
+      });
 
   @override
   Future<Result<SelectedModifiers>> addModifierToItem({

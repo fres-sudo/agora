@@ -86,7 +86,10 @@ class MenuDrawerUserTile extends StatelessWidget {
     return Container(
       width: 40,
       height: 40,
-      decoration: BoxDecoration(color: AppColors.neutral200, shape: BoxShape.circle),
+      decoration: BoxDecoration(
+        color: AppColors.neutral200,
+        shape: BoxShape.circle,
+      ),
       child: const Icon(Icons.person, color: AppColors.neutral500, size: 24),
     );
   }

@@ -2,8 +2,8 @@ import 'package:pine/pine.dart';
 
 abstract class EnumMapper<R, E> extends Mapper<R?, E?> {
   EnumMapper(this.fromValues)
-      // Invert map: swap keys/values for reverse mapping
-      : toValues = fromValues.map((key, value) => MapEntry(value, key));
+    // Invert map: swap keys/values for reverse mapping
+    : toValues = fromValues.map((key, value) => MapEntry(value, key));
   final Map<R, E> fromValues;
   final Map<E, R> toValues;
 

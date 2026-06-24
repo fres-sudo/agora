@@ -1,13 +1,12 @@
 import 'package:i18n/i18n.dart';
 import 'package:theme/theme.dart';
-import 'package:theme/theme.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_stepper.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_actions.dart';
-import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
-import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
-import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
-import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
+import 'package:feature_products/presentation/widgets/product_form/steps/ingredients_step.dart';
+import 'package:feature_products/presentation/widgets/product_form/steps/pricing_step.dart';
+import 'package:feature_products/presentation/widgets/product_form/steps/product_info_step.dart';
+import 'package:feature_products/presentation/widgets/product_form/steps/variants_modifiers_step.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
@@ -91,9 +90,7 @@ class ProductFormContent extends StatelessWidget {
             // Stepper
             const ProductFormStepper(),
             // Content
-            Expanded(
-              child: _buildStepContent(state),
-            ),
+            Expanded(child: _buildStepContent(state)),
             // Actions
             const Divider(height: 1),
             const ProductFormActions(),

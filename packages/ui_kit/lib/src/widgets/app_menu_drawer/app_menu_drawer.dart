@@ -96,7 +96,11 @@ class AppMenuDrawer extends StatelessWidget {
           const Spacer(),
           IconButton(
             onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close, color: AppColors.neutral600, size: 24),
+            icon: const Icon(
+              Icons.close,
+              color: AppColors.neutral600,
+              size: 24,
+            ),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
           ),
@@ -139,7 +143,12 @@ class AppMenuDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Logout button
-          MenuDrawerItem(icon: Icons.logout, label: 'Logout', isSelected: false, onTap: onLogout),
+          MenuDrawerItem(
+            icon: Icons.logout,
+            label: 'Logout',
+            isSelected: false,
+            onTap: onLogout,
+          ),
           const SizedBox(height: 16),
           // User tile
           if (userName != null)
@@ -159,7 +168,11 @@ class AppMenuDrawer extends StatelessWidget {
 
 /// Data class for menu drawer items
 class MenuDrawerItemData {
-  const MenuDrawerItemData({required this.icon, required this.label, this.route});
+  const MenuDrawerItemData({
+    required this.icon,
+    required this.label,
+    this.route,
+  });
 
   final IconData icon;
   final String label;

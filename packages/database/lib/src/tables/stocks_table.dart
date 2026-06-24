@@ -2,7 +2,6 @@ import '../database_mixin.dart';
 import 'products_table.dart';
 // Tracks current inventory level.
 
-
 import 'package:drift/drift.dart';
 
 @DataClassName("StockEntity")

@@ -5,6 +5,7 @@ import 'package:feature_products/domain/models/modifier_option.dart';
 import 'package:feature_products/domain/repositories/modifiers_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
+
 class ModifiersRepositoryImpl extends Repository
     implements ModifiersRepository {
   ModifiersRepositoryImpl({required ModifiersDao modifiersDao, Talker? logger})

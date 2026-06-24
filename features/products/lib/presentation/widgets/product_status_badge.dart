@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 
 /// A badge displaying the status of a product (Active, Inactive, Draft).
 class ProductStatusBadge extends StatelessWidget {
-  const ProductStatusBadge({
-    required this.status,
-    super.key,
-  });
+  const ProductStatusBadge({required this.status, super.key});
 
   final ProductStatus status;
 
@@ -41,10 +38,7 @@ class ProductStatusBadge extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.sm,
-        vertical: 4,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: 4),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(Sizes.xs),

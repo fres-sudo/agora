@@ -66,9 +66,8 @@ class VariantsModifiersStep extends StatelessWidget {
                         }).toList(),
                       );
                     },
-                    loading: (_) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    loading: (_) =>
+                        const Center(child: CircularProgressIndicator()),
                     orElse: () => _EmptyModifiersState(),
                   );
                 },
@@ -148,11 +147,7 @@ class _EmptyModifiersState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(
-            Icons.tune_outlined,
-            size: 48,
-            color: AppColors.neutral400,
-          ),
+          Icon(Icons.tune_outlined, size: 48, color: AppColors.neutral400),
           const SizedBox(height: Sizes.md),
           Text(
             'No modifiers available',

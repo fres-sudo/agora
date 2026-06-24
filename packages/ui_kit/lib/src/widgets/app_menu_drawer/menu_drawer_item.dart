@@ -31,7 +31,11 @@ class MenuDrawerItem extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(icon, size: 22, color: isSelected ? Colors.white : AppColors.neutral600),
+              Icon(
+                icon,
+                size: 22,
+                color: isSelected ? Colors.white : AppColors.neutral600,
+              ),
               const SizedBox(width: 14),
               Text(
                 label,

@@ -3,7 +3,6 @@
 // This library exports all the components needed to build data table views
 // with search, sort, filter, pagination, and various states.
 
-
 export 'data_table_column.dart';
 export 'data_table_config.dart';
 export 'data_table_controller.dart';

@@ -112,9 +112,7 @@ class _SummaryRow extends StatelessWidget {
         ),
         Text(
           value,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: valueColor,
-          ),
+          style: theme.textTheme.bodyMedium?.copyWith(color: valueColor),
         ),
       ],
     );

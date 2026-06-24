@@ -113,7 +113,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     if (widget.controller != null) {
       _controller = widget.controller!;
     } else {
-      _controller = DataTableController<T>(rowsPerPage: widget.config.defaultRowsPerPage);
+      _controller = DataTableController<T>(
+        rowsPerPage: widget.config.defaultRowsPerPage,
+      );
       _ownsController = true;
     }
     _controller.addListener(_onControllerChanged);
@@ -131,7 +133,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       if (widget.controller != null) {
         _controller = widget.controller!;
       } else {
-        _controller = DataTableController<T>(rowsPerPage: widget.config.defaultRowsPerPage);
+        _controller = DataTableController<T>(
+          rowsPerPage: widget.config.defaultRowsPerPage,
+        );
         _ownsController = true;
       }
       _controller.addListener(_onControllerChanged);
@@ -244,7 +248,8 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
         Expanded(
           child: ListView.builder(
             itemCount: _paginatedItems.length,
-            itemBuilder: (context, index) => _buildDataRow(_paginatedItems[index]),
+            itemBuilder: (context, index) =>
+                _buildDataRow(_paginatedItems[index]),
           ),
         ),
       ],
@@ -253,7 +258,10 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
 
   Widget _buildColumnHeaders() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.lg,
+        vertical: Sizes.md,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.neutral50,
         border: Border(bottom: BorderSide(color: AppColors.neutral200)),
@@ -262,7 +270,10 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
         children: [
           ...widget.columns.map((column) {
             if (column.width != null) {
-              return SizedBox(width: column.width, child: _buildHeaderCell(column));
+              return SizedBox(
+                width: column.width,
+                child: _buildHeaderCell(column),
+              );
             }
             return Expanded(flex: column.flex, child: _buildHeaderCell(column));
           }),
@@ -291,7 +302,10 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     return InkWell(
       onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Sizes.lg,
+          vertical: Sizes.md,
+        ),
         decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: AppColors.neutral200)),
         ),
@@ -301,20 +315,31 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
               if (column.width != null) {
                 return SizedBox(
                   width: column.width,
-                  child: Align(alignment: column.alignment, child: column.cellBuilder(item)),
+                  child: Align(
+                    alignment: column.alignment,
+                    child: column.cellBuilder(item),
+                  ),
                 );
               }
               return Expanded(
                 flex: column.flex,
-                child: Align(alignment: column.alignment, child: column.cellBuilder(item)),
+                child: Align(
+                  alignment: column.alignment,
+                  child: column.cellBuilder(item),
+                ),
               );
             }),
             if (widget.showEditAction || widget.showDeleteAction)
               SizedBox(
                 width: 48,
                 child: PopupMenuButton<DataTableRowAction>(
-                  onSelected: (action) => widget.onRowAction?.call(item, action),
-                  icon: const Icon(Icons.more_vert, color: AppColors.neutral500, size: 20),
+                  onSelected: (action) =>
+                      widget.onRowAction?.call(item, action),
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: AppColors.neutral500,
+                    size: 20,
+                  ),
                   padding: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(Sizes.borderRadius),
@@ -336,9 +361,16 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                         value: DataTableRowAction.delete,
                         child: Row(
                           children: [
-                            Icon(Icons.delete_outline, size: 18, color: AppColors.error500),
+                            Icon(
+                              Icons.delete_outline,
+                              size: 18,
+                              color: AppColors.error500,
+                            ),
                             SizedBox(width: Sizes.sm),
-                            Text('Delete', style: TextStyle(color: AppColors.error500)),
+                            Text(
+                              'Delete',
+                              style: TextStyle(color: AppColors.error500),
+                            ),
                           ],
                         ),
                       ),

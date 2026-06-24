@@ -26,10 +26,10 @@ class SalesOverviewChart extends StatelessWidget {
               Text(
                 t.report.sales_overview,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.neutral900,
-                      fontSize: isCompact ? 16 : null,
-                    ),
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.neutral900,
+                  fontSize: isCompact ? 16 : null,
+                ),
               ),
               SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
               Expanded(

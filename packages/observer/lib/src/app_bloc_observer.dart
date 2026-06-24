@@ -20,7 +20,11 @@ class AppBlocObserver extends BlocObserver {
 
   @override
   void onError(BlocBase<dynamic> bloc, Object error, StackTrace stackTrace) {
-    talker.error('[BlocObserver] onError -- ${bloc.runtimeType}', error, stackTrace);
+    talker.error(
+      '[BlocObserver] onError -- ${bloc.runtimeType}',
+      error,
+      stackTrace,
+    );
     super.onError(bloc, error, stackTrace);
   }
 

@@ -39,11 +39,7 @@ class _CategorySectionState extends State<CategorySection> {
 
   void _onToggleCategory(Category category, bool isEnabled) {
     final bloc = context.read<CategoriesBloc>();
-    bloc.add(
-      CategoriesEvent.updated(
-        category.copyWith(isEnabled: isEnabled),
-      ),
-    );
+    bloc.add(CategoriesEvent.updated(category.copyWith(isEnabled: isEnabled)));
   }
 
   Future<void> _onDeleteCategory(Category category) async {
@@ -94,12 +90,10 @@ class _CategorySectionState extends State<CategorySection> {
             child: BlocBuilder<CategoriesBloc, CategoriesState>(
               builder: (context, state) {
                 return state.map(
-                  initial: (_) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  loading: (_) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  initial: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                  loading: (_) =>
+                      const Center(child: CircularProgressIndicator()),
                   loaded: (loaded) => _buildCategoryList(loaded.categories),
                   error: (error) => _buildErrorState(theme, error.message),
                 );
@@ -137,24 +131,20 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.category_outlined,
-            size: 64,
-            color: AppColors.neutral300,
-          ),
+          Icon(Icons.category_outlined, size: 64, color: AppColors.neutral300),
           const SizedBox(height: Sizes.md),
           Text(
             'No categories yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.neutral500,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
           ),
           const SizedBox(height: Sizes.sm),
           Text(
             'Add a category to get started',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.neutral400,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
           ),
         ],
       ),
@@ -166,16 +156,9 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
-            size: 48,
-            color: AppColors.error500,
-          ),
+          Icon(Icons.error_outline, size: 48, color: AppColors.error500),
           const SizedBox(height: Sizes.md),
-          Text(
-            'Failed to load categories',
-            style: theme.textTheme.titleMedium,
-          ),
+          Text('Failed to load categories', style: theme.textTheme.titleMedium),
           const SizedBox(height: Sizes.sm),
           Text(
             message,
@@ -185,9 +168,9 @@ class _CategorySectionState extends State<CategorySection> {
           ),
           const SizedBox(height: Sizes.lg),
           FilledButton(
-            onPressed: () => context
-                .read<CategoriesBloc>()
-                .add(const CategoriesEvent.started()),
+            onPressed: () => context.read<CategoriesBloc>().add(
+              const CategoriesEvent.started(),
+            ),
             child: const Text('Retry'),
           ),
         ],

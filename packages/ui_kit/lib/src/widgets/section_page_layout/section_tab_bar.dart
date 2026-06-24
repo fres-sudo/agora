@@ -47,7 +47,9 @@ class SectionTabBar extends StatelessWidget {
           child: items.length <= 5
               ? Row(
                   children: List.generate(items.length, (index) {
-                    return Expanded(child: _buildTabItem(context, theme, index));
+                    return Expanded(
+                      child: _buildTabItem(context, theme, index),
+                    );
                   }),
                 )
               : ListView.builder(
@@ -55,7 +57,10 @@ class SectionTabBar extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   itemCount: items.length,
                   itemBuilder: (context, index) {
-                    return SizedBox(width: 80, child: _buildTabItem(context, theme, index));
+                    return SizedBox(
+                      width: 80,
+                      child: _buildTabItem(context, theme, index),
+                    );
                   },
                 ),
         ),

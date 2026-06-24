@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:database/database.dart';
 import 'package:drift/drift.dart';
 
 part 'discounts_dao.g.dart';
@@ -53,9 +52,9 @@ class DiscountsDao extends DatabaseAccessor<AgoraDatabase>
 
   /// Gets a single discount by ID (Future-based).
   Future<DiscountsTableData?> getDiscountById(int id) {
-    return (select(discountsTable)
-          ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
-        .getSingleOrNull();
+    return (select(
+      discountsTable,
+    )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).getSingleOrNull();
   }
 
   /// Gets a discount by voucher code.
@@ -73,7 +72,8 @@ class DiscountsDao extends DatabaseAccessor<AgoraDatabase>
             (t) =>
                 t.deletedAt.isNull() &
                 t.isActive.equals(true) &
-                (t.validUntil.isNull() | t.validUntil.isBiggerOrEqualValue(now)),
+                (t.validUntil.isNull() |
+                    t.validUntil.isBiggerOrEqualValue(now)),
           )
           ..orderBy([(t) => OrderingTerm.asc(t.name)]))
         .watch();
@@ -87,7 +87,8 @@ class DiscountsDao extends DatabaseAccessor<AgoraDatabase>
             (t) =>
                 t.deletedAt.isNull() &
                 t.isActive.equals(true) &
-                (t.validUntil.isNull() | t.validUntil.isBiggerOrEqualValue(now)),
+                (t.validUntil.isNull() |
+                    t.validUntil.isBiggerOrEqualValue(now)),
           )
           ..orderBy([(t) => OrderingTerm.asc(t.name)]))
         .get();
@@ -96,14 +97,13 @@ class DiscountsDao extends DatabaseAccessor<AgoraDatabase>
   /// Validates if a discount code is valid and active.
   Future<DiscountsTableData?> validateDiscountCode(String code) async {
     final now = DateTime.now();
-    return (select(discountsTable)
-          ..where(
-            (t) =>
-                t.code.equals(code) &
-                t.deletedAt.isNull() &
-                t.isActive.equals(true) &
-                (t.validUntil.isNull() | t.validUntil.isBiggerOrEqualValue(now)),
-          ))
+    return (select(discountsTable)..where(
+          (t) =>
+              t.code.equals(code) &
+              t.deletedAt.isNull() &
+              t.isActive.equals(true) &
+              (t.validUntil.isNull() | t.validUntil.isBiggerOrEqualValue(now)),
+        ))
         .getSingleOrNull();
   }
 

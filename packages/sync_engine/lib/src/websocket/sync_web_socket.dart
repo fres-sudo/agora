@@ -84,9 +84,7 @@ class SyncWebSocket {
     _statusController.add(WebSocketConnectionStatus.connecting);
 
     try {
-      final uri = Uri.parse(url).replace(
-        queryParameters: {'token': token},
-      );
+      final uri = Uri.parse(url).replace(queryParameters: {'token': token});
       _channel = WebSocketChannel.connect(uri);
       await _channel!.ready;
 

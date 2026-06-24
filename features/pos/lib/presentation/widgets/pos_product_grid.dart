@@ -55,7 +55,9 @@ class PosProductGrid extends StatelessWidget {
         // Calculate number of columns based on available width
         // Aim for cards around 150-180px wide
         final minCardWidth = 150.0;
-        final crossAxisCount = (constraints.maxWidth / minCardWidth).floor().clamp(2, 6);
+        final crossAxisCount = (constraints.maxWidth / minCardWidth)
+            .floor()
+            .clamp(2, 6);
 
         return GridView.builder(
           padding: const EdgeInsets.all(16),

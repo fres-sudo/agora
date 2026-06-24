@@ -38,7 +38,10 @@ abstract interface class OrderItemsRepository {
 
   /// Adds an item to an order.
   /// Returns the added [OrderLineItem] for optimistic updates.
-  Future<Result<OrderLineItem>> addItemToOrder({required int orderId, required OrderLineItem item});
+  Future<Result<OrderLineItem>> addItemToOrder({
+    required int orderId,
+    required OrderLineItem item,
+  });
 
   /// Updates an item's quantity.
   /// Returns the updated [OrderLineItem] for optimistic updates.
@@ -62,4 +65,3 @@ abstract interface class OrderItemsRepository {
   /// Removes a modifier from an order item.
   Future<Result<int>> removeModifierFromItem(int modifierId);
 }
-

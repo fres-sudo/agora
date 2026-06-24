@@ -11,26 +11,21 @@ class DiscountValidationState with _$DiscountValidationState {
   const factory DiscountValidationState.validating() = _Validating;
 
   /// Valid discount found.
-  const factory DiscountValidationState.valid({
-    required Discount discount,
-  }) = DiscountValidationValid;
+  const factory DiscountValidationState.valid({required Discount discount}) =
+      DiscountValidationValid;
 
   /// Invalid code or discount.
-  const factory DiscountValidationState.invalid({
-    required String reason,
-  }) = _Invalid;
+  const factory DiscountValidationState.invalid({required String reason}) =
+      _Invalid;
 
   /// Error during validation.
-  const factory DiscountValidationState.error({
-    required String message,
-  }) = _Error;
+  const factory DiscountValidationState.error({required String message}) =
+      _Error;
 
   /// Returns true if a valid discount is available.
   bool get hasValidDiscount => this is DiscountValidationValid;
 
   /// Returns the valid discount if available.
-  Discount? get discount => maybeMap(
-        valid: (s) => s.discount,
-        orElse: () => null,
-      );
+  Discount? get discount =>
+      maybeMap(valid: (s) => s.discount, orElse: () => null);
 }

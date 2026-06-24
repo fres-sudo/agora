@@ -24,7 +24,8 @@ final class UrlLaunchError extends UrlLauncherEffect {
   final Uri uri;
 }
 
-class UrlLauncherBloc extends EffectBloc<UrlLauncherEvent, UrlLauncherState, UrlLauncherEffect> {
+class UrlLauncherBloc
+    extends EffectBloc<UrlLauncherEvent, UrlLauncherState, UrlLauncherEffect> {
   UrlLauncherBloc({required this.urlLauncherRepository})
     : super(const UrlLauncherState.checking()) {
     on<ExecuteUrlLauncherEvent>(_onExecute);
