@@ -5,5 +5,6 @@ export 'src/outbox/outbox_dao.dart';
 export 'src/outbox/outbox_queue.dart';
 export 'src/sync_handler.dart';
 export 'src/sync_manager.dart';
+export 'src/syncable_repository.dart';
 export 'src/websocket/sync_message.dart';
 export 'src/websocket/sync_web_socket.dart';

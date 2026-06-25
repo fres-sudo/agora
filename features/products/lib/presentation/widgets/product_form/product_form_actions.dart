@@ -1,5 +1,6 @@
 import 'package:i18n/i18n.dart';
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
@@ -30,10 +31,11 @@ class ProductFormActions extends StatelessWidget {
           child: Row(
             children: [
               // Cancel
-              OutlinedButton(
+              AppButton.outline(
                 onPressed: isSubmitting
                     ? null
                     : () => Navigator.of(context).pop(false),
+                label: t.cancel,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.neutral700,
                   side: const BorderSide(color: AppColors.neutral300),
@@ -42,12 +44,12 @@ class ProductFormActions extends StatelessWidget {
                     vertical: Sizes.md,
                   ),
                 ),
-                child: Text(t.cancel),
               ),
               const SizedBox(width: Sizes.sm),
               // Save as Draft
-              OutlinedButton(
+              AppButton.outline(
                 onPressed: isSubmitting ? null : cubit.saveAsDraft,
+                label: t.products.actions.save_as_draft,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.neutral700,
                   side: const BorderSide(color: AppColors.neutral300),
@@ -56,55 +58,32 @@ class ProductFormActions extends StatelessWidget {
                     vertical: Sizes.md,
                   ),
                 ),
-                child: Text(t.products.actions.save_as_draft),
               ),
               const Spacer(),
               // Back (chevron)
               if (!isFirstStep) ...[
-                IconButton(
+                AppIconButton.outline(
                   onPressed: isSubmitting ? null : cubit.previousStep,
                   icon: const Icon(Icons.chevron_left_rounded),
-                  style: IconButton.styleFrom(
-                    foregroundColor: AppColors.neutral700,
-                    side: const BorderSide(color: AppColors.neutral300),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                    ),
-                  ),
                 ),
                 const SizedBox(width: Sizes.xs),
               ],
               // Next / Add / Save
-              FilledButton(
-                onPressed: isSubmitting
-                    ? null
-                    : isLastStep
-                    ? () => cubit.submit()
-                    : cubit.nextStep,
+              AppButton.primary(
+                onPressed: isLastStep ? () => cubit.submit() : cubit.nextStep,
+                isLoading: isSubmitting,
+                label: isLastStep
+                    ? state.maybeMap(
+                        editing: (s) => s.isEditing ? t.save : t.add,
+                        orElse: () => t.add,
+                      )
+                    : t.next,
                 style: FilledButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.xl,
                     vertical: Sizes.md,
                   ),
                 ),
-                child: isSubmitting
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(
-                        isLastStep
-                            ? (state.maybeMap(
-                                editing: (s) => s.isEditing ? t.save : t.add,
-                                orElse: () => t.add,
-                              ))
-                            : t.next,
-                      ),
               ),
             ],
           ),

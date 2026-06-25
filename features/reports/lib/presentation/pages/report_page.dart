@@ -26,7 +26,7 @@ class ReportPage extends StatelessWidget {
       appBar: AppBar(
         leading: context.isTabletOrLarger
             ? null
-            : IconButton(
+            : AppIconButton.ghost(
                 onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                 icon: const Icon(Icons.menu_rounded),
               ),
@@ -108,10 +108,10 @@ class ReportPage extends StatelessWidget {
   }
 
   Widget _buildDownloadButton(BuildContext context) {
-    return OutlinedButton.icon(
+    return AppButton.outline(
       onPressed: () {},
-      icon: const Icon(Icons.download_outlined, size: 20),
-      label: Text(t.report.download),
+      label: t.report.download,
+      leadingIcon: const Icon(Icons.download_outlined, size: 20),
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.neutral700,
         side: const BorderSide(color: AppColors.neutral200),

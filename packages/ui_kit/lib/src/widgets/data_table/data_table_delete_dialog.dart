@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
+import '../app_button.dart';
 
 /// Delete confirmation dialog for the data table.
 ///
@@ -88,25 +89,25 @@ class DataTableDeleteDialog extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton(
+                    child: AppButton.outline(
                       onPressed: () => Navigator.of(context).pop(false),
+                      label: cancelButtonLabel,
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.neutral700,
                         side: const BorderSide(color: AppColors.neutral300),
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
-                      child: Text(cancelButtonLabel),
                     ),
                   ),
                   const SizedBox(width: Sizes.md),
                   Expanded(
-                    child: FilledButton(
+                    child: AppButton.primary(
                       onPressed: () => Navigator.of(context).pop(true),
+                      label: deleteButtonLabel,
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.error500,
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
-                      child: Text(deleteButtonLabel),
                     ),
                   ),
                 ],

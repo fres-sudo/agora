@@ -73,10 +73,10 @@ class _CategorySectionState extends State<CategorySection> {
                   'Category',
                   style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                FilledButton.icon(
+                AppButton.primary(
                   onPressed: _onAddCategory,
-                  icon: const Icon(Icons.add, size: 20),
-                  label: const Text('Add Category'),
+                  label: 'Add Category',
+                  leadingIcon: const Icon(Icons.add, size: 20),
                 ),
               ],
             ),
@@ -153,9 +153,9 @@ class _CategorySectionState extends State<CategorySection> {
           const SizedBox(height: Sizes.sm),
           Text(message, style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral500)),
           const SizedBox(height: Sizes.lg),
-          FilledButton(
+          AppButton.primary(
             onPressed: () => context.read<CategoriesBloc>().add(const CategoriesEvent.started()),
-            child: const Text('Retry'),
+            label: 'Retry',
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A reusable empty state widget for the POS system.
@@ -103,18 +104,10 @@ class PosEmptyState extends StatelessWidget {
             // Action button
             if (actionLabel != null && onAction != null) ...[
               const SizedBox(height: 16),
-              FilledButton.icon(
+              AppButton.primary(
                 onPressed: onAction,
-                icon: const Icon(Icons.add),
-                label: Text(actionLabel!),
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary500,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                ),
+                label: actionLabel!,
+                leadingIcon: const Icon(Icons.add),
               ),
             ],
           ],

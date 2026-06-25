@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
+import '../app_icon_button.dart';
 
 import 'menu_drawer_item.dart';
 import 'menu_drawer_user_tile.dart';
@@ -94,15 +95,13 @@ class AppMenuDrawer extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          IconButton(
+          AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
-              Icons.close,
-              color: AppColors.neutral600,
-              size: 24,
+            icon: const Icon(Icons.close, color: AppColors.neutral600, size: 24),
+            style: IconButton.styleFrom(
+              padding: EdgeInsets.zero,
+              minimumSize: const Size(40, 40),
             ),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
           ),
         ],
       ),

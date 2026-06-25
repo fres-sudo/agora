@@ -155,11 +155,13 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                         ),
                   ),
                   const Spacer(),
-                  IconButton(
+                  AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.close, color: AppColors.neutral400),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+                    style: IconButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(40, 40),
+                    ),
                   ),
                 ],
               ),

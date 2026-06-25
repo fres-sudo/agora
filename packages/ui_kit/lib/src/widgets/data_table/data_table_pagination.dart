@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
+import '../app_icon_button.dart';
 
 /// Pagination widget for the data table.
 ///
@@ -66,26 +67,30 @@ class DataTablePagination extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Previous button
-              IconButton(
+              AppIconButton.ghost(
                 onPressed: currentPage > 0
                     ? () => onPageChanged?.call(currentPage - 1)
                     : null,
                 icon: const Icon(Icons.chevron_left),
-                iconSize: 20,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                style: IconButton.styleFrom(
+                  iconSize: 20,
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(32, 32),
+                ),
               ),
               // Page numbers
               ..._buildPageNumbers(context),
               // Next button
-              IconButton(
+              AppIconButton.ghost(
                 onPressed: currentPage < totalPages - 1
                     ? () => onPageChanged?.call(currentPage + 1)
                     : null,
                 icon: const Icon(Icons.chevron_right),
-                iconSize: 20,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                style: IconButton.styleFrom(
+                  iconSize: 20,
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(32, 32),
+                ),
               ),
             ],
           ),

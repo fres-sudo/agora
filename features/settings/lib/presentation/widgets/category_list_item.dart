@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/category.dart';
 
 /// A list item widget for displaying and editing a category.
@@ -105,12 +106,9 @@ class CategoryListItem extends StatelessWidget {
             const SizedBox(width: Sizes.lg),
 
             // Delete Button
-            IconButton(
+            AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(
-                Icons.delete_outline,
-                color: AppColors.neutral500,
-              ),
+              icon: const Icon(Icons.delete_outline, color: AppColors.neutral500),
               tooltip: 'Delete category',
             ),
           ],

@@ -51,7 +51,7 @@ class _ProductsView extends StatelessWidget {
         title: Text(t.products.title),
         leading: context.isTabletOrLarger
             ? null
-            : IconButton(
+            : AppIconButton.ghost(
                 onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                 icon: const Icon(Icons.menu_rounded),
               ),

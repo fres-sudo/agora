@@ -1,4 +1,5 @@
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:flutter/material.dart';
@@ -124,26 +125,18 @@ class PosOrderPanel extends StatelessWidget {
                   grandTotalCents: currentOrder?.grandTotalCents ?? 0,
                 ),
                 const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: _hasItems ? onProcessTransaction : null,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: _hasItems
-                          ? AppColors.primary500
-                          : AppColors.neutral300,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: Text(
-                      'Process Transaction',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                AppButton.primary(
+                  onPressed: _hasItems ? onProcessTransaction : null,
+                  label: 'Process Transaction',
+                  fullWidth: true,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: _hasItems
+                        ? AppColors.primary500
+                        : AppColors.neutral300,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                 ),
@@ -169,8 +162,6 @@ class _OrderItemsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: [
         Expanded(
@@ -194,21 +185,16 @@ class _OrderItemsList extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
+            child: AppButton.outline(
               onPressed: onClearAll,
+              label: 'Clear All Order',
+              fullWidth: true,
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.neutral600,
-                side: BorderSide(color: AppColors.neutral300),
+                side: const BorderSide(color: AppColors.neutral300),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Text(
-                'Clear All Order',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.neutral600,
                 ),
               ),
             ),

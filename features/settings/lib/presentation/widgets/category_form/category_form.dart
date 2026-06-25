@@ -1,4 +1,5 @@
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/category.dart';
 import 'package:flutter/material.dart';
 
@@ -228,12 +229,12 @@ class _CategoryFormState extends State<CategoryForm> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
+              AppButton.ghost(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
+                label: 'Cancel',
               ),
               const SizedBox(width: 16),
-              FilledButton(onPressed: _onSave, child: const Text('Save')),
+              AppButton.primary(onPressed: _onSave, label: 'Save'),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 class StatusDonutChart extends StatelessWidget {
   final String title;
@@ -60,18 +61,16 @@ class StatusDonutChart extends StatelessWidget {
                     ),
                   ),
                   if (onShowAll != null)
-                    TextButton(
+                    AppButton.ghost(
                       onPressed: onShowAll,
+                      label: 'Show All',
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.symmetric(
                           horizontal: isCompact ? Sizes.xs : Sizes.sm,
                         ),
                         minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: Text(
-                        'Show All',
-                        style: TextStyle(fontSize: isCompact ? 12 : 14),
+                        textStyle: TextStyle(fontSize: isCompact ? 12 : 14),
                       ),
                     ),
                 ],

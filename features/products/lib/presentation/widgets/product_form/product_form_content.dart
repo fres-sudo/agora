@@ -1,5 +1,6 @@
 import 'package:i18n/i18n.dart';
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_stepper.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_actions.dart';
@@ -124,7 +125,7 @@ class _ProductFormHeader extends StatelessWidget {
               style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
-          IconButton(
+          AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(false),
             icon: const Icon(Icons.close),
             style: IconButton.styleFrom(foregroundColor: AppColors.neutral500),

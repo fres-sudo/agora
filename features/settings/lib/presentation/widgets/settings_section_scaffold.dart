@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// A scaffold widget for settings sections.
 ///
@@ -44,9 +45,9 @@ class SettingsSectionScaffold extends StatelessWidget {
                   ),
                 ),
                 actionButton ??
-                    FilledButton(
+                    AppButton.primary(
                       onPressed: () {},
-                      child: const Text('Save Changes'),
+                      label: 'Save Changes',
                     ),
               ],
             ),

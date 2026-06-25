@@ -1,5 +1,6 @@
 import 'package:i18n/i18n.dart';
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
 import 'package:flutter/material.dart';
@@ -256,10 +257,9 @@ class _IngredientListItem extends StatelessWidget {
           ),
           const SizedBox(width: Sizes.sm),
           // Remove
-          IconButton(
+          AppIconButton.ghost(
             onPressed: onRemove,
-            icon: const Icon(Icons.delete_outline),
-            color: AppColors.neutral500,
+            icon: const Icon(Icons.delete_outline, color: AppColors.neutral500),
           ),
         ],
       ),

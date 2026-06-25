@@ -60,7 +60,7 @@ class _OrdersPageState extends State<OrdersPage> {
             title: const Text('Orders'),
             leading: context.isTabletOrLarger
                 ? null
-                : IconButton(
+                : AppIconButton.ghost(
                     onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                     icon: const Icon(Icons.menu_rounded),
                   ),
@@ -339,7 +339,7 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
           },
         ),
         const SizedBox(height: Sizes.lg),
-        OutlinedButton.icon(
+        AppButton.outline(
           onPressed: () async {
             final picked = await showDateRangePicker(
               context: context,
@@ -352,22 +352,19 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
               widget.onRangeChanged(picked);
             }
           },
-          icon: const Icon(Icons.date_range_outlined),
-          label: Text(
-            _range == null
-                ? 'Pick date range'
-                : 'From ${MaterialLocalizations.of(context).formatShortDate(_range!.start)} to ${MaterialLocalizations.of(context).formatShortDate(_range!.end)}',
-            overflow: TextOverflow.ellipsis,
-          ),
+          label: _range == null
+              ? 'Pick date range'
+              : 'From ${MaterialLocalizations.of(context).formatShortDate(_range!.start)} to ${MaterialLocalizations.of(context).formatShortDate(_range!.end)}',
+          leadingIcon: const Icon(Icons.date_range_outlined),
         ),
         if (_range != null) ...[
           const SizedBox(height: Sizes.sm),
-          TextButton(
+          AppButton.ghost(
             onPressed: () {
               setState(() => _range = null);
               widget.onRangeChanged(null);
             },
-            child: const Text('Clear date range'),
+            label: 'Clear date range',
           ),
         ],
       ],

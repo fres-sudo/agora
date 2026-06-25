@@ -23,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         leading: context.isTabletOrLarger
             ? null
-            : IconButton(
+            : AppIconButton.ghost(
                 onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                 icon: const Icon(Icons.menu_rounded),
               ),

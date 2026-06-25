@@ -150,7 +150,7 @@ class _PosPageState extends State<PosPage> {
     return AppBar(
       leading: isTablet
           ? null
-          : IconButton(
+          : AppIconButton.ghost(
               onPressed: scope?.openSidebar,
               icon: const Icon(Icons.menu_rounded),
             ),
@@ -172,7 +172,7 @@ class _PosPageState extends State<PosPage> {
             builder: (context, state) {
               return Stack(
                 children: [
-                  IconButton(
+                  AppIconButton.ghost(
                     onPressed: () => Scaffold.of(context).openEndDrawer(),
                     icon: const Icon(Icons.shopping_cart_outlined),
                   ),

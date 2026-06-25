@@ -89,14 +89,14 @@ class DataTableHeader extends StatelessWidget {
             const SizedBox(width: Sizes.sm),
           ],
           // Filter button
-          OutlinedButton.icon(
+          AppButton.outline(
             onPressed: onFilter,
-            icon: Badge(
+            label: 'Filter',
+            leadingIcon: Badge(
               isLabelVisible: hasActiveFilters,
               smallSize: 8,
               child: const Icon(Icons.filter_list_rounded, size: 18),
             ),
-            label: const Text('Filter'),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.neutral700,
               side: const BorderSide(color: AppColors.neutral300),
@@ -108,10 +108,10 @@ class DataTableHeader extends StatelessWidget {
           ),
           const SizedBox(width: Sizes.sm),
           // Add button
-          FilledButton.icon(
+          AppButton.primary(
             onPressed: onAdd,
-            icon: const Icon(Icons.add, size: 18),
-            label: Text(addButtonLabel),
+            label: addButtonLabel,
+            leadingIcon: const Icon(Icons.add, size: 18),
             style: FilledButton.styleFrom(
               backgroundColor: AppColors.primary500,
               foregroundColor: Colors.white,
@@ -169,10 +169,10 @@ class _SortButton extends StatelessWidget {
           ),
         );
       }).toList(),
-      child: OutlinedButton.icon(
+      child: AppButton.outline(
         onPressed: null, // Handled by PopupMenuButton
-        icon: const Icon(Icons.sort_rounded, size: 18),
-        label: const Text('Sort'),
+        label: 'Sort',
+        leadingIcon: const Icon(Icons.sort_rounded, size: 18),
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.neutral700,
           disabledForegroundColor: AppColors.neutral700,

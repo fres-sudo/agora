@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
+import '../app_icon_button.dart';
 
 import 'section_sidebar_item.dart';
 
@@ -92,25 +93,25 @@ class SectionSidebar extends StatelessWidget {
       ),
       child: Align(
         alignment: isCollapsed ? Alignment.center : Alignment.centerRight,
-        child: IconButton(
+        child: AppIconButton.ghost(
           onPressed: () => onCollapsedChanged?.call(!isCollapsed),
           icon: AnimatedRotation(
             duration: const Duration(milliseconds: 200),
             turns: isCollapsed ? 0.5 : 0,
             child: const Icon(Icons.chevron_left_rounded),
           ),
+          tooltip: isCollapsed ? 'Expand sidebar' : 'Collapse sidebar',
           style: IconButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: AppColors.neutral600,
+            iconSize: 20,
+            minimumSize: const Size(36, 36),
+            padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: AppColors.neutral200),
+              side: const BorderSide(color: AppColors.neutral200),
             ),
           ),
-          iconSize: 20,
-          constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
-          padding: EdgeInsets.zero,
-          tooltip: isCollapsed ? 'Expand sidebar' : 'Collapse sidebar',
         ),
       ),
     );
