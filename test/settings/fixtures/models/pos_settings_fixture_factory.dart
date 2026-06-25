@@ -1,4 +1,4 @@
-import 'package:agora/settings/models/pos_settings/pos_settings.dart';
+import 'package:feature_settings/feature_settings.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 
 extension PosSettingsFixture on PosSettings {

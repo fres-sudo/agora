@@ -1,4 +1,4 @@
-import 'package:agora/products/models/category/category.dart';
+import 'package:feature_products/feature_products.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 
 extension CategoryFixture on Category {

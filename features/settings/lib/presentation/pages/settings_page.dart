@@ -3,6 +3,7 @@ import 'package:feature_settings/presentation/widgets/category_section.dart';
 import 'package:feature_settings/presentation/widgets/placeholder_sections.dart';
 import 'package:feature_settings/presentation/widgets/store_setting_section.dart';
 import 'package:flutter/material.dart';
+import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -20,11 +21,21 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: const Icon(Icons.menu),
-        ),
-        title: Text('Settings'),
+        leading: context.isTabletOrLarger
+            ? null
+            : IconButton(
+                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
+                icon: const Icon(Icons.menu_rounded),
+              ),
+        title: const Text('Settings'),
+        actions: context.isTabletOrLarger
+            ? const [
+                AppShellOperatorChip(),
+                SizedBox(width: 8),
+                AppShellUserMenu(),
+                SizedBox(width: 12),
+              ]
+            : null,
       ),
       body: SectionPageLayout(
         items: [

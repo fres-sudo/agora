@@ -1,9 +1,8 @@
-import 'package:agora/core/database/database.dart';
-import 'package:agora/inventory/services/local/daos/stocks_dao.dart';
-import 'package:agora/products/models/product/product.dart';
-import 'package:agora/products/models/product/product_status.dart';
-import 'package:agora/products/repositories/products_repository.dart';
-import 'package:agora/products/services/local/daos/products_dao.dart';
+import 'package:database/database.dart';
+import 'package:feature_inventory/feature_inventory.dart';
+import 'package:feature_products/data/repositories/products_repository_impl.dart';
+import 'package:feature_products/data/sources/local/daos/products_dao.dart';
+import 'package:feature_products/feature_products.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

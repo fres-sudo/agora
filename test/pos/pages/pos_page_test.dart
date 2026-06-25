@@ -1,9 +1,7 @@
 
-import 'package:agora/orders/blocs/active_order/active_order_bloc.dart';
-import 'package:agora/pos/pages/pos_page.dart';
-import 'package:agora/products/blocs/products/products_bloc.dart';
-import 'package:agora/products/models/product/product.dart';
-import 'package:agora/products/models/product/product_status.dart';
+import 'package:feature_orders/feature_orders.dart';
+import 'package:feature_pos/feature_pos.dart';
+import 'package:feature_products/feature_products.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

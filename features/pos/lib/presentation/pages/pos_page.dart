@@ -1,5 +1,6 @@
 // assets.gen.dart is app-level; logo path inlined below
 import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/presentation/blocs/active_order/active_order_bloc.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
@@ -143,13 +144,16 @@ class _PosPageState extends State<PosPage> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
+    final isTablet = context.isTabletOrLarger;
+    final scope = AppShellScope.maybeOf(context);
+
     return AppBar(
-      leading: IconButton(
-        onPressed: () {
-          Scaffold.of(context).openDrawer();
-        },
-        icon: const Icon(Icons.menu_rounded),
-      ),
+      leading: isTablet
+          ? null
+          : IconButton(
+              onPressed: scope?.openSidebar,
+              icon: const Icon(Icons.menu_rounded),
+            ),
       title: Row(
         spacing: Sizes.sm,
         children: [
@@ -157,49 +161,51 @@ class _PosPageState extends State<PosPage> {
           const Text('agora'),
         ],
       ),
-      actions: context.isTabletOrLarger
-          ? null
-          : [
-              BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
-                builder: (context, state) {
-                  return Stack(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Scaffold.of(context).openEndDrawer();
-                        },
-                        icon: const Icon(Icons.shopping_cart_outlined),
-                      ),
-                      if (state.itemCount > 0)
-                        Positioned(
-                          right: 8,
-                          top: 8,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: const BoxDecoration(
-                              color: AppColors.primary500,
-                              shape: BoxShape.circle,
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 16,
-                              minHeight: 16,
-                            ),
-                            child: Text(
-                              '${state.itemCount}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+      actions: [
+        if (isTablet) ...[
+          const AppShellOperatorChip(),
+          const SizedBox(width: 8),
+          const AppShellUserMenu(),
+          const SizedBox(width: 12),
+        ] else
+          BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  IconButton(
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                  ),
+                  if (state.itemCount > 0)
+                    Positioned(
+                      right: 8,
+                      top: 8,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: AppColors.primary500,
+                          shape: BoxShape.circle,
                         ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          '${state.itemCount}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+      ],
     );
   }
 

@@ -1,111 +1,40 @@
-import 'package:theme/theme.dart';
-import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:feature_products/domain/models/product.dart';
+import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
+import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
+import 'package:flutter/material.dart';
+import 'package:ui_kit/ui_kit.dart';
 
-/// Shows the product form as a dialog (tablet) or bottom sheet (mobile).
+/// Shows the product form as a right side sheet (tablet/desktop) or bottom sheet (mobile).
 class ProductFormWrapper {
   const ProductFormWrapper._();
 
-  /// Shows the create product form.
-  static Future<bool> showCreate(BuildContext context) {
-    return _show(context, product: null);
-  }
+  static Future<bool> showCreate(BuildContext context) => _show(context);
 
-  /// Shows the edit product form.
-  static Future<bool> showEdit(BuildContext context, Product product) {
-    return _show(context, product: product);
-  }
+  static Future<bool> showEdit(BuildContext context, Product product) =>
+      _show(context, product: product);
 
   static Future<bool> _show(BuildContext context, {Product? product}) async {
     final productsRepo = context.read<ProductsRepository>();
     final isEditing = product != null;
 
-    if (context.isMobile) {
-      // Show as bottom sheet on mobile
-      final result = await showModalBottomSheet<bool>(
-        context: context,
-        isScrollControlled: true,
-        useSafeArea: true,
-        backgroundColor: Colors.transparent,
-        builder: (context) => BlocProvider(
-          create: (_) {
-            final cubit = ProductFormCubit(productsRepository: productsRepo);
-            if (isEditing) {
-              cubit.initEdit(product);
-            } else {
-              cubit.initCreate();
-            }
-            return cubit;
-          },
-          child: const _ProductFormBottomSheet(),
-        ),
-      );
-      return result ?? false;
-    } else {
-      // Show as dialog on tablet/desktop
-      final result = await showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => BlocProvider(
-          create: (_) {
-            final cubit = ProductFormCubit(productsRepository: productsRepo);
-            if (isEditing) {
-              cubit.initEdit(product);
-            } else {
-              cubit.initCreate();
-            }
-            return cubit;
-          },
-          child: const _ProductFormDialog(),
-        ),
-      );
-      return result ?? false;
-    }
-  }
-}
-
-/// Dialog wrapper for tablet/desktop.
-class _ProductFormDialog extends StatelessWidget {
-  const _ProductFormDialog();
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Sizes.md),
-      ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600, maxHeight: 700),
+    final result = await AdaptiveSheet.show<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx, _) => BlocProvider(
+        create: (_) {
+          final cubit = ProductFormCubit(productsRepository: productsRepo);
+          if (isEditing) {
+            cubit.initEdit(product);
+          } else {
+            cubit.initCreate();
+          }
+          return cubit;
+        },
         child: const ProductFormContent(),
       ),
     );
-  }
-}
-
-/// Bottom sheet wrapper for mobile.
-class _ProductFormBottomSheet extends StatelessWidget {
-  const _ProductFormBottomSheet();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(Sizes.lg),
-        ),
-      ),
-      child: DraggableScrollableSheet(
-        initialChildSize: 0.9,
-        minChildSize: 0.5,
-        maxChildSize: 0.95,
-        expand: false,
-        builder: (context, scrollController) => const ProductFormContent(),
-      ),
-    );
+    return result ?? false;
   }
 }

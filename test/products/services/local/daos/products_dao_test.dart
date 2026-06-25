@@ -1,7 +1,6 @@
-import 'package:agora/core/database/database.dart';
-import 'package:agora/products/services/local/daos/products_dao.dart';
-import 'package:drift/drift.dart' hide isNotNull, isNull;
+import 'package:database/database.dart';
 import 'package:drift/native.dart';
+import 'package:feature_products/data/sources/local/daos/products_dao.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -10,7 +9,7 @@ void main() {
 
   setUp(() {
     db = AgoraDatabase(NativeDatabase.memory());
-    productsDao = db.productsDao;
+    productsDao = ProductsDao(db);
   });
 
   tearDown(() async {

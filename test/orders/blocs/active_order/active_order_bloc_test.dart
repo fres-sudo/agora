@@ -1,11 +1,7 @@
 
-import 'package:agora/core/misc/result.dart';
-import 'package:agora/orders/blocs/active_order/active_order_bloc.dart';
-import 'package:agora/orders/models/order/order.dart';
-import 'package:agora/orders/repositories/orders_repository.dart';
-import 'package:agora/products/models/modifier_option/modifier_option.dart';
-import 'package:agora/products/models/product/product.dart';
-import 'package:agora/products/models/product/product_status.dart';
+import 'package:feature_orders/feature_orders.dart';
+import 'package:feature_products/feature_products.dart';
+import 'package:result/result.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

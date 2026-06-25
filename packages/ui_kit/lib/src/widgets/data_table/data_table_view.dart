@@ -140,8 +140,6 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       }
       _controller.addListener(_onControllerChanged);
     }
-    // Update total items count
-    _controller.totalItems = widget.items.length;
   }
 
   @override

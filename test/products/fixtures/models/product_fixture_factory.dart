@@ -1,4 +1,4 @@
-import 'package:agora/products/models/product/product.dart';
+import 'package:feature_products/feature_products.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 
 extension ProductFixture on Product {

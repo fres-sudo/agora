@@ -58,12 +58,20 @@ class _OrdersPageState extends State<OrdersPage> {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Orders'),
-            leading: Builder(
-              builder: (context) => IconButton(
-                onPressed: () => Scaffold.of(context).openDrawer(),
-                icon: const Icon(Icons.menu),
-              ),
-            ),
+            leading: context.isTabletOrLarger
+                ? null
+                : IconButton(
+                    onPressed: AppShellScope.maybeOf(context)?.openSidebar,
+                    icon: const Icon(Icons.menu_rounded),
+                  ),
+            actions: context.isTabletOrLarger
+                ? const [
+                    AppShellOperatorChip(),
+                    SizedBox(width: 8),
+                    AppShellUserMenu(),
+                    SizedBox(width: 12),
+                  ]
+                : null,
           ),
           body: AnimatedBuilder(
             animation: _tableController,

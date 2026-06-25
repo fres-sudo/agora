@@ -1,10 +1,5 @@
-import 'package:agora/core/misc/result.dart';
-import 'package:agora/products/blocs/product_detail/product_detail_cubit.dart';
-import 'package:agora/products/models/modifier_group/modifier_group.dart';
-import 'package:agora/products/models/product/product.dart';
-import 'package:agora/products/models/product/product_status.dart';
-import 'package:agora/products/repositories/modifiers_repository.dart';
-import 'package:agora/products/repositories/products_repository.dart';
+import 'package:feature_products/feature_products.dart';
+import 'package:result/result.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -12,7 +7,6 @@ import 'package:mockito/mockito.dart';
 
 import 'product_detail_cubit_test.mocks.dart';
 
-import 'package:agora/products/models/category/category.dart';
 
 @GenerateMocks([ProductsRepository, ModifiersRepository])
 void main() {

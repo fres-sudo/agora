@@ -1,4 +1,4 @@
-import 'package:agora/products/models/modifier_option/modifier_option.dart';
+import 'package:feature_products/feature_products.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 
 extension ModifierOptionFixture on ModifierOption {

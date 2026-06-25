@@ -1,5 +1,4 @@
-import 'package:agora/inventory/blocs/inventory/inventory_bloc.dart';
-import 'package:agora/inventory/repositories/inventory_repository.dart';
+import 'package:feature_inventory/feature_inventory.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

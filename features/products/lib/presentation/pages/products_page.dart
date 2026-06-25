@@ -49,10 +49,20 @@ class _ProductsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.products.title),
-        leading: IconButton(
-          onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: const Icon(Icons.menu),
-        ),
+        leading: context.isTabletOrLarger
+            ? null
+            : IconButton(
+                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
+                icon: const Icon(Icons.menu_rounded),
+              ),
+        actions: context.isTabletOrLarger
+            ? const [
+                AppShellOperatorChip(),
+                SizedBox(width: 8),
+                AppShellUserMenu(),
+                SizedBox(width: 12),
+              ]
+            : null,
       ),
       body: DataTableView<Product>(
         items: state.products,

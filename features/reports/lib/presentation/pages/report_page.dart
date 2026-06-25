@@ -24,17 +24,23 @@ class ReportPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-          icon: const Icon(Icons.menu_rounded),
-        ),
+        leading: context.isTabletOrLarger
+            ? null
+            : IconButton(
+                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
+                icon: const Icon(Icons.menu_rounded),
+              ),
         title: Text(t.report.title),
         actions: [
           _buildPeriodDropdown(context),
           const SizedBox(width: Sizes.md),
           _buildDownloadButton(context),
+          if (context.isTabletOrLarger) ...[
+            const SizedBox(width: Sizes.md),
+            const AppShellOperatorChip(),
+            const SizedBox(width: 8),
+            const AppShellUserMenu(),
+          ],
           const SizedBox(width: Sizes.lg),
         ],
       ),

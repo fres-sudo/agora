@@ -1,4 +1,4 @@
-import 'package:agora/orders/models/order_line_item/order_line_item.dart';
+import 'package:feature_orders/feature_orders.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 import 'selected_modifiers_fixture_factory.dart';
 

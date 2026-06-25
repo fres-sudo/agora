@@ -1,4 +1,4 @@
-import 'package:agora/products/models/modifier_group/modifier_group.dart';
+import 'package:feature_products/feature_products.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 
 extension ModifierGroupFixture on ModifierGroup {

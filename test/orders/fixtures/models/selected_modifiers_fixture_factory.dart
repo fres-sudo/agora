@@ -1,4 +1,4 @@
-import 'package:agora/orders/models/selected_modifiers/selected_modifiers.dart';
+import 'package:feature_orders/feature_orders.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 
 extension SelectedModifiersFixture on SelectedModifiers {

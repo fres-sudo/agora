@@ -1,7 +1,5 @@
-import 'package:agora/core/misc/result.dart';
-import 'package:agora/products/blocs/modifiers/modifiers_bloc.dart';
-import 'package:agora/products/models/modifier_group/modifier_group.dart';
-import 'package:agora/products/repositories/modifiers_repository.dart';
+import 'package:feature_products/feature_products.dart';
+import 'package:result/result.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -99,7 +97,7 @@ void main() {
             productId: 1,
             modifierId: 1,
           ),
-        ).thenAnswer((_) async => const Result.ok(1));
+        ).thenAnswer((_) async => const Result.ok(null));
       },
       build: () => modifiersBloc,
       act: (bloc) => bloc.add(
@@ -123,7 +121,7 @@ void main() {
             productId: 1,
             modifierId: 1,
           ),
-        ).thenAnswer((_) async => const Result.ok(true));
+        ).thenAnswer((_) async => const Result.ok(null));
       },
       build: () => modifiersBloc,
       act: (bloc) => bloc.add(

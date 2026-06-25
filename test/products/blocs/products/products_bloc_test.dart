@@ -1,11 +1,6 @@
 import 'dart:ui';
-import 'package:agora/core/misc/result.dart';
-import 'package:agora/products/blocs/products/products_bloc.dart';
-import 'package:agora/products/models/category/category.dart';
-import 'package:agora/products/models/product/product.dart';
-import 'package:agora/products/models/product/product_status.dart';
-import 'package:agora/products/repositories/categories_repository.dart';
-import 'package:agora/products/repositories/products_repository.dart';
+import 'package:feature_products/feature_products.dart';
+import 'package:result/result.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -15,7 +10,7 @@ import 'products_bloc_test.mocks.dart';
 
 @GenerateMocks([ProductsRepository, CategoriesRepository])
 void main() {
-  final category = Category(id: 1, name: 'Category 1', isEnabled: true, color: Color(0xFF0000));
+  final category = Category(id: 1, name: 'Category 1', isEnabled: true, color: Color(0xFFFF0000));
   final product = Product(
     id: 1,
     name: 'Product 1',

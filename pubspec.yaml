@@ -190,6 +190,23 @@ melos:
 dependencies:
   flutter:
     sdk: flutter
+  database:
+    path: packages/database
+  feature_inventory:
+    path: features/inventory
+  feature_orders:
+    path: features/orders
+  feature_pos:
+    path: features/pos
+  feature_products:
+    path: features/products
+  feature_settings:
+    path: features/settings
+  result:
+    path: packages/result
+  drift: ^2.30.0
+  flutter_bloc: ^9.1.1
+  mocktail: ^1.0.4
 
 dev_dependencies:
   flutter_test:

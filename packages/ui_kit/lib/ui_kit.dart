@@ -1,3 +1,5 @@
+export 'src/widgets/adaptive_sheet.dart';
+export 'src/widgets/app_shell/app_shell_module.dart';
 export 'src/widgets/app_menu_drawer/app_menu_drawer.dart';
 export 'src/widgets/app_menu_drawer/menu_drawer_item.dart';
 export 'src/widgets/app_menu_drawer/menu_drawer_user_tile.dart';

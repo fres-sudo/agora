@@ -1,48 +1,109 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
+# ============================================================
+# OS / Editor
+# ============================================================
 .DS_Store
-.atom/
-.build/
-.buildlog/
+Thumbs.db
+*.swp
+*.swo
 .history
 .svn/
-.swiftpm/
+.atom/
+.buildlog/
 migrate_working_dir/
 
-# IntelliJ related
+# IntelliJ / Android Studio
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# VS Code (keep settings.json if desired; launch configs are per-developer)
+.vscode/launch.json
+.vscode/*.code-workspace
 
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# DevTools
+devtools_options.yaml
+
+# ============================================================
+# Flutter / Dart / Pub
+# ============================================================
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
 
-# Symbolication related
+# Build output — covers root and every sub-package in the monorepo
+**/build/
+
+# Dart doc
+**/doc/api/
+
+# iOS last build id (per-machine artifact)
+**/ios/Flutter/.last_build_id
+
+# Symbolication / obfuscation maps
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Test coverage
+coverage/
+**/coverage/
+lcov.info
+**/lcov.info
 
-# FVM Version Cache
-.fvm/
+# ============================================================
+# Android
+# ============================================================
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+**/android/app/google-services.json
+
+# ============================================================
+# iOS / macOS
+# ============================================================
+**/ios/Pods/
+**/ios/Flutter/Flutter.framework/
+**/ios/Flutter/Flutter.podspec
+**/ios/.symlinks/
+**/macos/Pods/
+**/macos/.symlinks/
+**/ios/Runner/GoogleService-Info.plist
+
+# ============================================================
+# FVM (Flutter Version Management)
+# ============================================================
+# Cache the SDK but keep the config file (.fvmrc) committed
+.fvm/flutter_sdk
+.fvm/versions/
+
+# ============================================================
+# Melos
+# ============================================================
+# Melos writes pubspec_overrides.yaml for local path resolution
+**/pubspec_overrides.yaml
+
+# ============================================================
+# Backend (Bun / Node.js)
+# ============================================================
+backend/node_modules/
+node_modules/
+*.env
+*.env.local
+*.env.*.local
+.env.development
+.env.production
+backend/dist/
+backend/.turbo/
+
+# ============================================================
+# Secrets / credentials
+# ============================================================
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
