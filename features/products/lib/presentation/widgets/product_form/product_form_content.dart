@@ -39,17 +39,13 @@ class ProductFormContent extends StatelessWidget {
                             s.isNew
                                 ? t.products.messages.product_added
                                 : t.products.messages.product_updated,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              color: Colors.white,
-                            ),
+                            style: theme.textTheme.titleSmall?.copyWith(color: Colors.white),
                           ),
                           Text(
                             s.isNew
                                 ? t.products.messages.product_added_desc
                                 : t.products.messages.product_updated_desc,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: Colors.white70,
-                            ),
+                            style: theme.textTheme.bodySmall?.copyWith(color: Colors.white70),
                           ),
                         ],
                       ),
@@ -62,37 +58,25 @@ class ProductFormContent extends StatelessWidget {
             );
           },
           error: (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(e.message),
-                backgroundColor: AppColors.error500,
-              ),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(e.message), backgroundColor: AppColors.error500));
           },
         );
       },
       builder: (context, state) {
-        final isEditing = state.maybeMap(
-          editing: (s) => s.isEditing,
-          orElse: () => false,
-        );
+        final isEditing = state.maybeMap(editing: (s) => s.isEditing, orElse: () => false);
 
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Header
-            _ProductFormHeader(
-              title: isEditing
-                  ? t.products.edit_product
-                  : t.products.add_product,
-            ),
-            const Divider(height: 1),
+            _ProductFormHeader(title: isEditing ? t.products.edit_product : t.products.add_product),
             // Stepper
             const ProductFormStepper(),
             // Content
             Expanded(child: _buildStepContent(state)),
             // Actions
-            const Divider(height: 1),
             const ProductFormActions(),
           ],
         );
@@ -131,17 +115,19 @@ class _ProductFormHeader extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.all(Sizes.lg),
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.sm),
       child: Row(
         children: [
           Expanded(
             child: Text(
               title,
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
+          ),
+          IconButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            icon: const Icon(Icons.close),
+            style: IconButton.styleFrom(foregroundColor: AppColors.neutral500),
           ),
         ],
       ),

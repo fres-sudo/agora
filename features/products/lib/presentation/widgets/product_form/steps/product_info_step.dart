@@ -47,49 +47,53 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
     final t = Translations.of(context);
     final cubit = context.read<ProductFormCubit>();
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(Sizes.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Product Name
-          _FormLabel(label: t.products.form.product_name, required: true),
-          const SizedBox(height: Sizes.sm),
-          TextField(
-            controller: _nameController,
-            onChanged: cubit.updateName,
-            decoration: InputDecoration(
-              hintText: t.products.form.product_name,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Sizes.sm),
+    return BlocBuilder<ProductFormCubit, ProductFormState>(
+      builder: (context, formState) {
+        final errors = formState.maybeMap(
+          editing: (s) => s.errors,
+          orElse: () => const <String, String>{},
+        );
+        final selectedCategoryId = formState.maybeMap(
+          editing: (s) => s.formData.categoryId,
+          orElse: () => null,
+        );
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(Sizes.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Product Name
+              _FormLabel(label: t.products.form.product_name, required: true),
+              const SizedBox(height: Sizes.sm),
+              TextField(
+                controller: _nameController,
+                onChanged: cubit.updateName,
+                decoration: InputDecoration(
+                  hintText: t.products.form.product_name,
+                  errorText: errors['name'],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Sizes.sm),
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: Sizes.lg),
+              const SizedBox(height: Sizes.lg),
 
-          // Category
-          _FormLabel(label: t.products.form.category, required: true),
-          const SizedBox(height: Sizes.sm),
-          BlocBuilder<ProductFormCubit, ProductFormState>(
-            builder: (context, state) {
-              final selectedCategoryId = state.maybeMap(
-                editing: (s) => s.formData.categoryId,
-                orElse: () => null,
-              );
-
-              return BlocBuilder<CategoriesBloc, CategoriesState>(
+              // Category
+              _FormLabel(label: t.products.form.category, required: true),
+              const SizedBox(height: Sizes.sm),
+              BlocBuilder<CategoriesBloc, CategoriesState>(
                 builder: (context, categoriesState) {
-                  final categories = categoriesState.categories;
-
                   return DropdownButtonFormField<int>(
                     initialValue: selectedCategoryId,
                     decoration: InputDecoration(
                       hintText: t.products.form.select_category,
+                      errorText: errors['category'],
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(Sizes.sm),
                       ),
                     ),
-                    items: categories.map((category) {
+                    items: categoriesState.categories.map((category) {
                       return DropdownMenuItem(
                         value: category.id,
                         child: Text(category.name),
@@ -98,42 +102,44 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                     onChanged: (value) => cubit.updateCategory(value),
                   );
                 },
-              );
-            },
-          ),
-          const SizedBox(height: Sizes.lg),
-
-          // Description
-          _FormLabel(label: t.products.form.description),
-          const SizedBox(height: Sizes.sm),
-          TextField(
-            controller: _descriptionController,
-            onChanged: cubit.updateDescription,
-            maxLines: 3,
-            decoration: InputDecoration(
-              hintText: t.products.form.description_hint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Sizes.sm),
               ),
-            ),
-          ),
-          const SizedBox(height: Sizes.lg),
+              const SizedBox(height: Sizes.lg),
 
-          // SKU
-          _FormLabel(label: t.products.form.sku),
-          const SizedBox(height: Sizes.sm),
-          TextField(
-            controller: _skuController,
-            onChanged: cubit.updateSku,
-            decoration: InputDecoration(
-              hintText: t.products.form.sku_hint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Sizes.sm),
+              // Description
+              _FormLabel(label: t.products.form.description),
+              const SizedBox(height: Sizes.sm),
+              TextField(
+                controller: _descriptionController,
+                onChanged: cubit.updateDescription,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: t.products.form.description_hint,
+                  errorText: errors['description'],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Sizes.sm),
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(height: Sizes.lg),
+
+              // SKU
+              _FormLabel(label: t.products.form.sku),
+              const SizedBox(height: Sizes.sm),
+              TextField(
+                controller: _skuController,
+                onChanged: cubit.updateSku,
+                decoration: InputDecoration(
+                  hintText: t.products.form.sku_hint,
+                  errorText: errors['sku'],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Sizes.sm),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

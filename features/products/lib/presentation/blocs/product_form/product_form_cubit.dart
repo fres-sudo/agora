@@ -3,6 +3,7 @@ import 'package:feature_products/domain/models/product.dart';
 import 'package:feature_products/domain/models/product_form_data.dart';
 import 'package:feature_products/domain/models/product_status.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:feature_products/presentation/utils/form_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
@@ -99,65 +100,51 @@ class ProductFormCubit extends Cubit<ProductFormState> {
   // FORM UPDATES
   // ============================================================
 
-  /// Update the form data.
-  void updateFormData(ProductFormData Function(ProductFormData) update) {
+  /// Update the form data, optionally clearing a single field's error.
+  ///
+  /// Pass [clearError] with the field key to dismiss its error as the user edits.
+  /// Errors for other fields are preserved until the next step validation.
+  void updateFormData(
+    ProductFormData Function(ProductFormData) update, {
+    String? clearError,
+  }) {
     final currentState = state;
     if (currentState is! ProductFormEditing) return;
 
-    emit(
-      currentState.copyWith(
-        formData: update(currentState.formData),
-        errors: {},
-      ),
-    );
+    final errors = clearError != null
+        ? (Map<String, String>.from(currentState.errors)..remove(clearError))
+        : currentState.errors;
+
+    emit(currentState.copyWith(formData: update(currentState.formData), errors: errors));
   }
 
-  /// Update product name.
-  void updateName(String name) {
-    updateFormData((data) => data.copyWith(name: name));
-  }
+  void updateName(String name) =>
+      updateFormData((d) => d.copyWith(name: name), clearError: 'name');
 
-  /// Update product description.
-  void updateDescription(String description) {
-    updateFormData((data) => data.copyWith(description: description));
-  }
+  void updateDescription(String description) =>
+      updateFormData((d) => d.copyWith(description: description), clearError: 'description');
 
-  /// Update product SKU.
-  void updateSku(String sku) {
-    updateFormData((data) => data.copyWith(sku: sku));
-  }
+  void updateSku(String sku) =>
+      updateFormData((d) => d.copyWith(sku: sku), clearError: 'sku');
 
-  /// Update product category.
-  void updateCategory(int? categoryId) {
-    updateFormData((data) => data.copyWith(categoryId: categoryId));
-  }
+  void updateCategory(int? categoryId) =>
+      updateFormData((d) => d.copyWith(categoryId: categoryId), clearError: 'category');
 
-  /// Update product price (in cents).
-  void updatePrice(int priceCents) {
-    updateFormData((data) => data.copyWith(priceCents: priceCents));
-  }
+  void updatePrice(int priceCents) =>
+      updateFormData((d) => d.copyWith(priceCents: priceCents), clearError: 'price');
 
-  /// Update product cost (in cents).
-  void updateCost(int costCents) {
-    updateFormData((data) => data.copyWith(costCents: costCents));
-  }
+  void updateCost(int costCents) =>
+      updateFormData((d) => d.copyWith(costCents: costCents), clearError: 'cost');
 
-  /// Update tax percent.
-  void updateTaxPercent(int taxPercent) {
-    updateFormData((data) => data.copyWith(taxPercent: taxPercent));
-  }
+  void updateTaxPercent(int taxPercent) =>
+      updateFormData((d) => d.copyWith(taxPercent: taxPercent), clearError: 'tax');
 
-  /// Update product image URL.
-  void updateImageUrl(String? imageUrl) {
-    updateFormData((data) => data.copyWith(imageUrl: imageUrl));
-  }
+  void updateImageUrl(String? imageUrl) =>
+      updateFormData((d) => d.copyWith(imageUrl: imageUrl));
 
-  /// Update unlimited availability.
-  void updateUnlimitedAvailability(bool value) {
-    updateFormData((data) => data.copyWith(unlimitedAvailability: value));
-  }
+  void updateUnlimitedAvailability(bool value) =>
+      updateFormData((d) => d.copyWith(unlimitedAvailability: value));
 
-  /// Toggle a modifier selection.
   void toggleModifier(int modifierId) {
     updateFormData((data) {
       final modifiers = List<int>.from(data.selectedModifierIds);
@@ -170,7 +157,6 @@ class ProductFormCubit extends Cubit<ProductFormState> {
     });
   }
 
-  /// Add or update an ingredient.
   void updateIngredient(int productId, double quantity) {
     updateFormData((data) {
       final ingredients = Map<int, double>.from(data.ingredients);
@@ -183,7 +169,6 @@ class ProductFormCubit extends Cubit<ProductFormState> {
     });
   }
 
-  /// Remove an ingredient.
   void removeIngredient(int productId) {
     updateFormData((data) {
       final ingredients = Map<int, double>.from(data.ingredients);
@@ -268,25 +253,24 @@ class ProductFormCubit extends Cubit<ProductFormState> {
   ) {
     final errors = <String, String>{};
 
+    void check(String key, String? error) {
+      if (error != null) errors[key] = error;
+    }
+
     switch (step) {
       case ProductFormStep.productInfo:
-        if (data.name.trim().isEmpty) {
-          errors['name'] = 'Product name is required';
-        }
-        if (data.categoryId == null) {
-          errors['category'] = 'Please select a category';
-        }
+        check('name', FormValidators.validateName(data.name));
+        check('category', FormValidators.validateCategory(data.categoryId));
+        check('description', FormValidators.validateDescription(data.description));
+        check('sku', FormValidators.validateSku(data.sku));
         break;
       case ProductFormStep.pricing:
-        if (data.priceCents <= 0) {
-          errors['price'] = 'Price must be greater than 0';
-        }
+        check('price', FormValidators.validatePrice(data.priceCents));
+        check('tax', FormValidators.validateTax(data.taxPercent));
         break;
       case ProductFormStep.variantsModifiers:
-        // No required fields
         break;
       case ProductFormStep.ingredients:
-        // No required fields
         break;
     }
 

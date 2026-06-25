@@ -59,58 +59,69 @@ class _PricingStepState extends State<PricingStep> {
     final theme = Theme.of(context);
     final t = Translations.of(context);
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(Sizes.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Section Title
-          Text(
-            t.products.form.steps.pricing,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: Sizes.lg),
+    return BlocBuilder<ProductFormCubit, ProductFormState>(
+      builder: (context, formState) {
+        final errors = formState.maybeMap(
+          editing: (s) => s.errors,
+          orElse: () => const <String, String>{},
+        );
 
-          // Price
-          _FormLabel(label: t.products.form.price, required: true),
-          const SizedBox(height: Sizes.sm),
-          TextField(
-            controller: _priceController,
-            onChanged: _onPriceChanged,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(Sizes.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Section Title
+              Text(
+                t.products.form.steps.pricing,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: Sizes.lg),
+
+              // Price
+              _FormLabel(label: t.products.form.price, required: true),
+              const SizedBox(height: Sizes.sm),
+              TextField(
+                controller: _priceController,
+                onChanged: _onPriceChanged,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                ],
+                decoration: InputDecoration(
+                  prefixText: '\$ ',
+                  hintText: '0.00',
+                  errorText: errors['price'],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Sizes.sm),
+                  ),
+                ),
+              ),
+              const SizedBox(height: Sizes.lg),
+
+              // Tax
+              _FormLabel(label: t.products.form.tax),
+              const SizedBox(height: Sizes.sm),
+              TextField(
+                controller: _taxController,
+                onChanged: _onTaxChanged,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  prefixText: '% ',
+                  hintText: '0',
+                  errorText: errors['tax'],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(Sizes.sm),
+                  ),
+                ),
+              ),
             ],
-            decoration: InputDecoration(
-              prefixText: '\$ ',
-              hintText: '0.00',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Sizes.sm),
-              ),
-            ),
           ),
-          const SizedBox(height: Sizes.lg),
-
-          // Tax
-          _FormLabel(label: t.products.form.tax),
-          const SizedBox(height: Sizes.sm),
-          TextField(
-            controller: _taxController,
-            onChanged: _onTaxChanged,
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: InputDecoration(
-              prefixText: '% ',
-              hintText: '0',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Sizes.sm),
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

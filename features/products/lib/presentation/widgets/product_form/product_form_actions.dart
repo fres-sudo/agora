@@ -23,7 +23,10 @@ class ProductFormActions extends StatelessWidget {
         );
 
         return Padding(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.lg,
+            vertical: Sizes.md,
+          ),
           child: Row(
             children: [
               // Cancel
@@ -56,21 +59,20 @@ class ProductFormActions extends StatelessWidget {
                 child: Text(t.products.actions.save_as_draft),
               ),
               const Spacer(),
-              // Back
+              // Back (chevron)
               if (!isFirstStep) ...[
-                OutlinedButton(
+                IconButton(
                   onPressed: isSubmitting ? null : cubit.previousStep,
-                  style: OutlinedButton.styleFrom(
+                  icon: const Icon(Icons.chevron_left_rounded),
+                  style: IconButton.styleFrom(
                     foregroundColor: AppColors.neutral700,
                     side: const BorderSide(color: AppColors.neutral300),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.lg,
-                      vertical: Sizes.md,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(Sizes.borderRadius),
                     ),
                   ),
-                  child: Text(t.back),
                 ),
-                const SizedBox(width: Sizes.sm),
+                const SizedBox(width: Sizes.xs),
               ],
               // Next / Add / Save
               FilledButton(
