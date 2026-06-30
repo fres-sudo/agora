@@ -76,29 +76,31 @@ void main() {
       expect(repo.tier, SubscriptionTier.paidPro);
     });
 
-    test('overrideTier persists and clearOverride reverts to default', () async {
-      final persistence = _FakePersistence();
-      final repo = FeatureFlagsRepositoryImpl(
-        persistenceService: persistence,
-        config: _configWithTier('paidBasic'),
-      );
+    test(
+      'overrideTier persists and clearOverride reverts to default',
+      () async {
+        final persistence = _FakePersistence();
+        final repo = FeatureFlagsRepositoryImpl(
+          persistenceService: persistence,
+          config: _configWithTier('paidBasic'),
+        );
 
-      await repo.overrideTier(SubscriptionTier.paidPro);
-      expect(repo.tier, SubscriptionTier.paidPro);
-      expect(persistence.getString(SPKeys.subscriptionTier), 'paidPro');
+        await repo.overrideTier(SubscriptionTier.paidPro);
+        expect(repo.tier, SubscriptionTier.paidPro);
+        expect(persistence.getString(SPKeys.subscriptionTier), 'paidPro');
 
-      await repo.clearOverride();
-      expect(repo.tier, SubscriptionTier.paidBasic); // back to config default
-      expect(persistence.getString(SPKeys.subscriptionTier), isNull);
-    });
+        await repo.clearOverride();
+        expect(repo.tier, SubscriptionTier.paidBasic); // back to config default
+        expect(persistence.getString(SPKeys.subscriptionTier), isNull);
+      },
+    );
   });
 
   group('FeatureFlagsCubit', () {
-    FeatureFlagsRepository buildRepo(String tier) =>
-        FeatureFlagsRepositoryImpl(
-          persistenceService: _FakePersistence(),
-          config: _configWithTier(tier),
-        );
+    FeatureFlagsRepository buildRepo(String tier) => FeatureFlagsRepositoryImpl(
+      persistenceService: _FakePersistence(),
+      config: _configWithTier(tier),
+    );
 
     test('initial state reflects the repository flags', () {
       final cubit = FeatureFlagsCubit(repository: buildRepo('free'));

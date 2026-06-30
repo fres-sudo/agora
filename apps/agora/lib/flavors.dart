@@ -1,8 +1,4 @@
-enum Flavor {
-  dev,
-  staging,
-  prod,
-}
+enum Flavor { dev, staging, prod }
 
 class F {
   static late final Flavor appFlavor;
@@ -19,5 +15,4 @@ class F {
         return 'Agora POS';
     }
   }
-
 }
