@@ -16,6 +16,8 @@ dependencies:
   bloc: ^9.0.0
   bloc_exports:
     path: ../../packages/bloc
+  config:
+    path: ../../packages/config
   cupertino_icons: ^1.0.8
   database:
     path: ../../packages/database
@@ -27,6 +29,8 @@ dependencies:
     path: ../../features/auth
   feature_discounts:
     path: ../../features/discounts
+  feature_flags:
+    path: ../../packages/feature_flags
   feature_inventory:
     path: ../../features/inventory
   feature_orders:
@@ -70,6 +74,7 @@ dependencies:
     path: ../../packages/utils
 
 dev_dependencies:
+  flutter_flavorizr: ^2.5.0
   flutter_launcher_icons: ^0.14.4
   flutter_test:
     sdk: flutter

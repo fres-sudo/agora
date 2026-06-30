@@ -1,13 +1,25 @@
 import 'package:agora/app/app_providers.dart';
 import 'package:agora/app/app_router.dart';
-import 'package:i18n/i18n.dart';
+import 'package:config/config.dart';
+import 'package:database/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:i18n/i18n.dart';
+import 'package:talker/talker.dart';
 import 'package:theme/theme.dart';
 import 'package:utils/utils.dart';
 
 class AgoraApp extends StatefulWidget {
-  const AgoraApp({super.key});
+  const AgoraApp({
+    required this.config,
+    required this.database,
+    required this.talker,
+    super.key,
+  });
+
+  final AppConfig config;
+  final AgoraDatabase database;
+  final Talker talker;
 
   @override
   State<AgoraApp> createState() => _AgoraAppState();
@@ -19,6 +31,9 @@ class _AgoraAppState extends State<AgoraApp> {
   @override
   Widget build(BuildContext context) {
     return AppProviders(
+      config: widget.config,
+      database: widget.database,
+      talker: widget.talker,
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           _router ??= AppRouter(
@@ -30,7 +45,7 @@ class _AgoraAppState extends State<AgoraApp> {
           };
 
           return MaterialApp.router(
-            title: 'Agora',
+            title: widget.config.appName,
             debugShowCheckedModeBanner: false,
             themeMode: themeMode,
             theme: AppTheme.lightTheme,
@@ -38,9 +53,23 @@ class _AgoraAppState extends State<AgoraApp> {
             routeInformationParser: _router?.defaultRouteParser(),
             locale: TranslationProvider.of(context).flutterLocale,
             supportedLocales: AppLocaleUtils.supportedLocales,
+            builder: _flavorBanner,
           );
         },
       ),
+    );
+  }
+
+  /// Wraps the app in a corner banner for non-production flavors so it is
+  /// always obvious which environment a build is pointing at.
+  Widget _flavorBanner(BuildContext context, Widget? child) {
+    final content = child ?? const SizedBox.shrink();
+    if (!widget.config.flavor.isNonProduction) return content;
+    return Banner(
+      message: widget.config.flavor.name.toUpperCase(),
+      location: BannerLocation.topStart,
+      color: widget.config.flavor.isStaging ? Colors.deepOrange : Colors.blue,
+      child: content,
     );
   }
 }

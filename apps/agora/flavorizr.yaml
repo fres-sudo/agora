@@ -1,0 +1,43 @@
+# flutter_flavorizr configuration for the Agora POS app.
+#
+# Run from `apps/agora` with a RESTRICTED processor set so the existing
+# hand-written entrypoints (lib/main.dart, lib/app/app.dart) are NOT
+# overwritten by the `flutter:app` / `flutter:pages` / `flutter:main`
+# processors. See docs/ENVIRONMENTS.md for the exact command.
+#
+#   fvm flutter pub run flutter_flavorizr \
+#     -p android:androidManifest,android:flavorizrGradle,android:buildGradle,android:dummyAssets,android:icons,flutter:flavors,ios:podfile,ios:xcconfig,ios:buildTargets,ios:schema,ios:dummyAssets,ios:icons,ios:plist,ios:launchScreen,ide:config
+#
+# Flavor  -> native build (applicationId / bundleId / app name / icon)
+# Tier    -> runtime entitlement (free vs paid), owned by packages/feature_flags
+#            and supplied via --dart-define-from-file=config/<env>.json
+ide: vscode
+
+app:
+  android:
+    flavorDimensions: "env"
+
+flavors:
+  dev:
+    app:
+      name: "Agora Dev"
+    android:
+      applicationId: "space.fres.agora.dev"
+    ios:
+      bundleId: "space.fres.agora.dev"
+
+  staging:
+    app:
+      name: "Agora Staging"
+    android:
+      applicationId: "space.fres.agora.stg"
+    ios:
+      bundleId: "space.fres.agora.stg"
+
+  prod:
+    app:
+      name: "Agora POS"
+    android:
+      applicationId: "space.fres.agora"
+    ios:
+      bundleId: "space.fres.agora"

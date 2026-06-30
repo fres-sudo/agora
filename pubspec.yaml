@@ -17,8 +17,10 @@ workspace:
   - features/settings
   - packages/app_info
   - packages/bloc
+  - packages/config
   - packages/database
   - packages/errors
+  - packages/feature_flags
   - packages/i18n
   - packages/launcher
   - packages/logger
@@ -78,6 +80,25 @@ melos:
         ignore:
           - "feature_*"
           - "agora"
+
+    # -------------------------------------------------------------------------
+    # Run the app (flavor + env via --dart-define-from-file)
+    # -------------------------------------------------------------------------
+    run:local:
+      description: Run Agora fully offline (free tier, no backend)
+      run: cd apps/agora && fvm flutter run --flavor dev --dart-define-from-file=../../config/local.json
+
+    run:dev:
+      description: Run Agora against a dev backend (hybrid, all features)
+      run: cd apps/agora && fvm flutter run --flavor dev --dart-define-from-file=../../config/dev.json
+
+    run:staging:
+      description: Run Agora against the staging backend (hybrid)
+      run: cd apps/agora && fvm flutter run --flavor staging --dart-define-from-file=../../config/staging.json
+
+    run:prod:
+      description: Run Agora against the production backend
+      run: cd apps/agora && fvm flutter run --flavor prod --dart-define-from-file=../../config/prod.json
 
     # -------------------------------------------------------------------------
     # Testing

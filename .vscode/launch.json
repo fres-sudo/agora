@@ -1,0 +1,77 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Agora — Local (free, offline)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/agora/lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file=${workspaceFolder}/config/local.json"
+      ]
+    },
+    {
+      "name": "Agora — Dev (hybrid)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/agora/lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file=${workspaceFolder}/config/dev.json"
+      ]
+    },
+    {
+      "name": "Agora — Staging (hybrid)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/agora/lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "staging",
+        "--dart-define-from-file=${workspaceFolder}/config/staging.json"
+      ]
+    },
+    {
+      "name": "Agora — Prod",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/agora/lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "prod",
+        "--dart-define-from-file=${workspaceFolder}/config/prod.json"
+      ]
+    },
+    {
+      "name": "Agora — Prod (release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/agora/lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "prod",
+        "--dart-define-from-file=${workspaceFolder}/config/prod.json"
+      ]
+    },
+    {
+      "name": "Agora — Dev (profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "apps/agora/lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file=${workspaceFolder}/config/dev.json"
+      ]
+    }
+  ]
+}

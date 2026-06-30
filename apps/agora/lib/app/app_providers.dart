@@ -1,9 +1,10 @@
 import 'package:app_info/app_info.dart';
+import 'package:config/config.dart';
 import 'package:database/database.dart';
 import 'package:dio/dio.dart';
-import 'package:drift_flutter/drift_flutter.dart';
 import 'package:feature_auth/presentation/routes/auth_feature.dart';
 import 'package:feature_discounts/presentation/routes/discounts_feature.dart';
+import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_inventory/presentation/routes/inventory_feature.dart';
 import 'package:feature_orders/presentation/routes/orders_feature.dart';
 import 'package:feature_products/presentation/routes/products_feature.dart';
@@ -23,29 +24,58 @@ import 'package:theme/theme.dart';
 import 'package:utils/utils.dart';
 
 class AppProviders extends StatelessWidget {
-  const AppProviders({required this.child, super.key});
+  const AppProviders({
+    required this.config,
+    required this.database,
+    required this.talker,
+    required this.child,
+    super.key,
+  });
+
+  final AppConfig config;
+  final AgoraDatabase database;
+  final Talker talker;
   final Widget child;
 
   @override
-  Widget build(BuildContext context) =>
-      DependencyInjectorHelper(providers: _providers, child: child);
+  Widget build(BuildContext context) => DependencyInjectorHelper(
+    providers: _buildProviders(
+      config: config,
+      database: database,
+      talker: talker,
+    ),
+    child: child,
+  );
 }
 
-final List<SingleChildWidget> _providers = [
-  // -------------------------------------------------------------------------
+List<SingleChildWidget> _buildProviders({
+  required AppConfig config,
+  required AgoraDatabase database,
+  required Talker talker,
+}) => [
+  // ---------------------------------------------------------------------------
+  // Configuration (single source of truth for env-driven values)
+  // ---------------------------------------------------------------------------
+  Provider<AppConfig>.value(value: config),
+
+  // ---------------------------------------------------------------------------
   // Core infrastructure
-  // -------------------------------------------------------------------------
-  Provider<Talker>(create: (_) => Talker()),
+  // ---------------------------------------------------------------------------
+  Provider<Talker>.value(value: talker),
   Provider<LaunchModeMapper>(create: (_) => LaunchModeMapper()),
-  Provider<PersistenceService>(create: (_) => PersistenceServiceImpl()),
+  Provider<PersistenceService>(create: (_) => const PersistenceServiceImpl()),
   Provider<FlutterSecureStorage>(create: (_) => const FlutterSecureStorage()),
   Provider<Dio>(
     create: (ctx) {
-      final talker = ctx.read<Talker>();
-      final dio = Dio(BaseOptions(contentType: 'application/json'));
+      final dio = Dio(
+        BaseOptions(
+          contentType: 'application/json',
+          baseUrl: config.apiBaseUrl,
+        ),
+      );
       dio.interceptors.add(
         TalkerDioLogger(
-          talker: talker,
+          talker: ctx.read<Talker>(),
           settings: const TalkerDioLoggerSettings(
             printRequestHeaders: true,
             printResponseHeaders: true,
@@ -63,15 +93,19 @@ final List<SingleChildWidget> _providers = [
         UrlLauncherServiceImpl(launchModeMapper: ctx.read<LaunchModeMapper>()),
   ),
 
-  // Database (shared by all features via ProxyProvider)
-  Provider<AgoraDatabase>(
-    create: (_) => AgoraDatabase(driftDatabase(name: K.dbName)),
-    dispose: (_, db) => db.close(),
-  ),
+  // Database — the single, app-owned instance created in main() and disposed
+  // here when the provider tree is torn down.
+  Provider<AgoraDatabase>.value(value: database),
 
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // App-level repositories + BLoCs
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
+  RepositoryProvider<FeatureFlagsRepository>(
+    create: (ctx) => FeatureFlagsRepositoryImpl(
+      persistenceService: ctx.read<PersistenceService>(),
+      config: config,
+    ),
+  ),
   RepositoryProvider<ConfigRepository>(
     create: (ctx) => ConfigRepositoryImpl(
       logger: ctx.read<Talker>(),
@@ -89,6 +123,10 @@ final List<SingleChildWidget> _providers = [
     ),
   ),
 
+  BlocProvider<FeatureFlagsCubit>(
+    create: (ctx) =>
+        FeatureFlagsCubit(repository: ctx.read<FeatureFlagsRepository>()),
+  ),
   BlocProvider<ThemeCubit>(
     create: (ctx) =>
         ThemeCubit(persistenceService: ctx.read<PersistenceService>())..load(),
@@ -108,9 +146,9 @@ final List<SingleChildWidget> _providers = [
     ),
   ),
 
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Feature providers (each feature registers its own DAOs, repos and BLoCs)
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   ...AuthFeature.providers,
   ...InventoryFeature.providers, // must be before Products (StocksDao)
   ...ProductsFeature.providers,

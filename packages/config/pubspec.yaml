@@ -1,0 +1,16 @@
+name: config
+description: Compile-time application configuration (flavor, environment, bootstrap mode) for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

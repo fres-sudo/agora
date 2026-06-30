@@ -1,0 +1,10 @@
+{
+  "FLAVOR": "dev",
+  "APP_NAME": "Agora Dev",
+  "API_BASE_URL": "http://localhost:3000",
+  "WS_BASE_URL": "ws://localhost:3000/ws",
+  "BOOTSTRAP_MODE": "hybrid",
+  "TIER": "paidPro",
+  "ENABLE_LOGGING": true,
+  "ENABLE_INSPECTOR": true
+}

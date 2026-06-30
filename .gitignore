@@ -17,8 +17,7 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# VS Code (keep settings.json if desired; launch configs are per-developer)
-.vscode/launch.json
+# VS Code (launch.json is committed — it provides the shared flavor/env run configs)
 .vscode/*.code-workspace
 
 # DevTools
@@ -78,8 +77,6 @@ lcov.info
 # FVM (Flutter Version Management)
 # ============================================================
 # Cache the SDK but keep the config file (.fvmrc) committed
-.fvm/flutter_sdk
-.fvm/versions/
 
 # ============================================================
 # Melos
@@ -101,9 +98,19 @@ backend/dist/
 backend/.turbo/
 
 # ============================================================
+# Flutter env config (config/*.json consumed via --dart-define-from-file)
+# Real env files are per-developer/secret; only the *.example are committed.
+# ============================================================
+config/*.json
+!config/*.json.example
+
+# ============================================================
 # Secrets / credentials
 # ============================================================
 *.keystore
 *.jks
 google-services.json
 GoogleService-Info.plist
+
+# FVM Version Cache
+.fvm/

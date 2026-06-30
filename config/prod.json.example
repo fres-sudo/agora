@@ -1,0 +1,10 @@
+{
+  "FLAVOR": "prod",
+  "APP_NAME": "Agora POS",
+  "API_BASE_URL": "https://api.agora.fres.space",
+  "WS_BASE_URL": "wss://api.agora.fres.space/ws",
+  "BOOTSTRAP_MODE": "hybrid",
+  "TIER": "free",
+  "ENABLE_LOGGING": false,
+  "ENABLE_INSPECTOR": false
+}
