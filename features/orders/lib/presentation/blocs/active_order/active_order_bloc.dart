@@ -7,6 +7,7 @@ import 'package:result/result.dart';
 import 'package:feature_discounts/domain/models/discount.dart';
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_orders/domain/models/order_line_item.dart';
+import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_orders/domain/models/selected_modifiers.dart';
 import 'package:feature_orders/domain/repositories/orders_repository.dart';
 import 'package:feature_products/domain/models/modifier_option.dart';
@@ -45,6 +46,7 @@ class ActiveOrderBloc
     on<_ItemAdded>(_onItemAdded);
     on<_ItemRemoved>(_onItemRemoved);
     on<_ItemQuantityChanged>(_onItemQuantityChanged);
+    on<_OrderTypeChanged>(_onOrderTypeChanged);
     on<_DiscountApplied>(_onDiscountApplied);
     on<_DiscountRemoved>(_onDiscountRemoved);
     on<_NoteUpdated>(_onNoteUpdated);
@@ -58,6 +60,7 @@ class ActiveOrderBloc
   List<OrderLineItem> _items = [];
   Discount? _appliedDiscount;
   String _note = '';
+  OrderType _orderType = OrderType.dineIn;
 
   // ============================================================
   // EVENT HANDLERS
@@ -70,6 +73,7 @@ class ActiveOrderBloc
     _items = [];
     _appliedDiscount = null;
     _note = '';
+    _orderType = OrderType.dineIn;
     emit(const ActiveOrderState.empty());
   }
 
@@ -131,6 +135,19 @@ class ActiveOrderBloc
     }).toList();
 
     _emitBuilding(emit);
+  }
+
+  Future<void> _onOrderTypeChanged(
+    _OrderTypeChanged event,
+    Emitter<ActiveOrderState> emit,
+  ) async {
+    _orderType = event.orderType;
+    // Reflect the change in the building state without forcing a non-empty cart.
+    if (_items.isEmpty) {
+      emit(const ActiveOrderState.empty());
+    } else {
+      _emitBuilding(emit);
+    }
   }
 
   Future<void> _onDiscountApplied(
@@ -246,6 +263,7 @@ class ActiveOrderBloc
       id: 0, // Will be assigned by DB
       createdAt: DateTime.now(),
       status: OrderStatus.pending,
+      orderType: _orderType,
       items: _items,
       note: _note.isEmpty ? null : _note,
       subtotalCents: subtotal,

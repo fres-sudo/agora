@@ -17,6 +17,7 @@ export 'src/widgets/data_table/data_table_header.dart';
 export 'src/widgets/data_table/data_table_loading_state.dart';
 export 'src/widgets/data_table/data_table_pagination.dart';
 export 'src/widgets/data_table/data_table_view.dart';
+export 'src/widgets/money_keypad.dart';
 export 'src/widgets/quantity_button.dart';
 export 'src/widgets/section_page_layout/section_page_layout.dart';
 export 'src/widgets/section_page_layout/section_sidebar.dart';

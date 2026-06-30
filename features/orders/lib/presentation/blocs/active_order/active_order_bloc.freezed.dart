@@ -55,14 +55,15 @@ extension ActiveOrderEventPatterns on ActiveOrderEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _ItemAdded value)?  itemAdded,TResult Function( _ItemRemoved value)?  itemRemoved,TResult Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult Function( _DiscountApplied value)?  discountApplied,TResult Function( _DiscountRemoved value)?  discountRemoved,TResult Function( _NoteUpdated value)?  noteUpdated,TResult Function( _Submitted value)?  submitted,TResult Function( _Cleared value)?  cleared,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _ItemAdded value)?  itemAdded,TResult Function( _ItemRemoved value)?  itemRemoved,TResult Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult Function( _OrderTypeChanged value)?  orderTypeChanged,TResult Function( _DiscountApplied value)?  discountApplied,TResult Function( _DiscountRemoved value)?  discountRemoved,TResult Function( _NoteUpdated value)?  noteUpdated,TResult Function( _Submitted value)?  submitted,TResult Function( _Cleared value)?  cleared,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _ItemAdded() when itemAdded != null:
 return itemAdded(_that);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that);case _ItemQuantityChanged() when itemQuantityChanged != null:
-return itemQuantityChanged(_that);case _DiscountApplied() when discountApplied != null:
+return itemQuantityChanged(_that);case _OrderTypeChanged() when orderTypeChanged != null:
+return orderTypeChanged(_that);case _DiscountApplied() when discountApplied != null:
 return discountApplied(_that);case _DiscountRemoved() when discountRemoved != null:
 return discountRemoved(_that);case _NoteUpdated() when noteUpdated != null:
 return noteUpdated(_that);case _Submitted() when submitted != null:
@@ -85,14 +86,15 @@ return cleared(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _ItemAdded value)  itemAdded,required TResult Function( _ItemRemoved value)  itemRemoved,required TResult Function( _ItemQuantityChanged value)  itemQuantityChanged,required TResult Function( _DiscountApplied value)  discountApplied,required TResult Function( _DiscountRemoved value)  discountRemoved,required TResult Function( _NoteUpdated value)  noteUpdated,required TResult Function( _Submitted value)  submitted,required TResult Function( _Cleared value)  cleared,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _ItemAdded value)  itemAdded,required TResult Function( _ItemRemoved value)  itemRemoved,required TResult Function( _ItemQuantityChanged value)  itemQuantityChanged,required TResult Function( _OrderTypeChanged value)  orderTypeChanged,required TResult Function( _DiscountApplied value)  discountApplied,required TResult Function( _DiscountRemoved value)  discountRemoved,required TResult Function( _NoteUpdated value)  noteUpdated,required TResult Function( _Submitted value)  submitted,required TResult Function( _Cleared value)  cleared,}){
 final _that = this;
 switch (_that) {
 case _Started():
 return started(_that);case _ItemAdded():
 return itemAdded(_that);case _ItemRemoved():
 return itemRemoved(_that);case _ItemQuantityChanged():
-return itemQuantityChanged(_that);case _DiscountApplied():
+return itemQuantityChanged(_that);case _OrderTypeChanged():
+return orderTypeChanged(_that);case _DiscountApplied():
 return discountApplied(_that);case _DiscountRemoved():
 return discountRemoved(_that);case _NoteUpdated():
 return noteUpdated(_that);case _Submitted():
@@ -111,14 +113,15 @@ return cleared(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _ItemAdded value)?  itemAdded,TResult? Function( _ItemRemoved value)?  itemRemoved,TResult? Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult? Function( _DiscountApplied value)?  discountApplied,TResult? Function( _DiscountRemoved value)?  discountRemoved,TResult? Function( _NoteUpdated value)?  noteUpdated,TResult? Function( _Submitted value)?  submitted,TResult? Function( _Cleared value)?  cleared,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _ItemAdded value)?  itemAdded,TResult? Function( _ItemRemoved value)?  itemRemoved,TResult? Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult? Function( _OrderTypeChanged value)?  orderTypeChanged,TResult? Function( _DiscountApplied value)?  discountApplied,TResult? Function( _DiscountRemoved value)?  discountRemoved,TResult? Function( _NoteUpdated value)?  noteUpdated,TResult? Function( _Submitted value)?  submitted,TResult? Function( _Cleared value)?  cleared,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _ItemAdded() when itemAdded != null:
 return itemAdded(_that);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that);case _ItemQuantityChanged() when itemQuantityChanged != null:
-return itemQuantityChanged(_that);case _DiscountApplied() when discountApplied != null:
+return itemQuantityChanged(_that);case _OrderTypeChanged() when orderTypeChanged != null:
+return orderTypeChanged(_that);case _DiscountApplied() when discountApplied != null:
 return discountApplied(_that);case _DiscountRemoved() when discountRemoved != null:
 return discountRemoved(_that);case _NoteUpdated() when noteUpdated != null:
 return noteUpdated(_that);case _Submitted() when submitted != null:
@@ -140,13 +143,14 @@ return cleared(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( Product product,  int quantity,  List<ModifierOption> modifiers)?  itemAdded,TResult Function( int productId)?  itemRemoved,TResult Function( int productId,  int quantity)?  itemQuantityChanged,TResult Function( Discount discount)?  discountApplied,TResult Function()?  discountRemoved,TResult Function( String note)?  noteUpdated,TResult Function()?  submitted,TResult Function()?  cleared,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( Product product,  int quantity,  List<ModifierOption> modifiers)?  itemAdded,TResult Function( int productId)?  itemRemoved,TResult Function( int productId,  int quantity)?  itemQuantityChanged,TResult Function( OrderType orderType)?  orderTypeChanged,TResult Function( Discount discount)?  discountApplied,TResult Function()?  discountRemoved,TResult Function( String note)?  noteUpdated,TResult Function()?  submitted,TResult Function()?  cleared,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _ItemAdded() when itemAdded != null:
 return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that.productId);case _ItemQuantityChanged() when itemQuantityChanged != null:
-return itemQuantityChanged(_that.productId,_that.quantity);case _DiscountApplied() when discountApplied != null:
+return itemQuantityChanged(_that.productId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
+return orderTypeChanged(_that.orderType);case _DiscountApplied() when discountApplied != null:
 return discountApplied(_that.discount);case _DiscountRemoved() when discountRemoved != null:
 return discountRemoved();case _NoteUpdated() when noteUpdated != null:
 return noteUpdated(_that.note);case _Submitted() when submitted != null:
@@ -169,13 +173,14 @@ return cleared();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( Product product,  int quantity,  List<ModifierOption> modifiers)  itemAdded,required TResult Function( int productId)  itemRemoved,required TResult Function( int productId,  int quantity)  itemQuantityChanged,required TResult Function( Discount discount)  discountApplied,required TResult Function()  discountRemoved,required TResult Function( String note)  noteUpdated,required TResult Function()  submitted,required TResult Function()  cleared,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( Product product,  int quantity,  List<ModifierOption> modifiers)  itemAdded,required TResult Function( int productId)  itemRemoved,required TResult Function( int productId,  int quantity)  itemQuantityChanged,required TResult Function( OrderType orderType)  orderTypeChanged,required TResult Function( Discount discount)  discountApplied,required TResult Function()  discountRemoved,required TResult Function( String note)  noteUpdated,required TResult Function()  submitted,required TResult Function()  cleared,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _ItemAdded():
 return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved():
 return itemRemoved(_that.productId);case _ItemQuantityChanged():
-return itemQuantityChanged(_that.productId,_that.quantity);case _DiscountApplied():
+return itemQuantityChanged(_that.productId,_that.quantity);case _OrderTypeChanged():
+return orderTypeChanged(_that.orderType);case _DiscountApplied():
 return discountApplied(_that.discount);case _DiscountRemoved():
 return discountRemoved();case _NoteUpdated():
 return noteUpdated(_that.note);case _Submitted():
@@ -194,13 +199,14 @@ return cleared();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( Product product,  int quantity,  List<ModifierOption> modifiers)?  itemAdded,TResult? Function( int productId)?  itemRemoved,TResult? Function( int productId,  int quantity)?  itemQuantityChanged,TResult? Function( Discount discount)?  discountApplied,TResult? Function()?  discountRemoved,TResult? Function( String note)?  noteUpdated,TResult? Function()?  submitted,TResult? Function()?  cleared,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( Product product,  int quantity,  List<ModifierOption> modifiers)?  itemAdded,TResult? Function( int productId)?  itemRemoved,TResult? Function( int productId,  int quantity)?  itemQuantityChanged,TResult? Function( OrderType orderType)?  orderTypeChanged,TResult? Function( Discount discount)?  discountApplied,TResult? Function()?  discountRemoved,TResult? Function( String note)?  noteUpdated,TResult? Function()?  submitted,TResult? Function()?  cleared,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _ItemAdded() when itemAdded != null:
 return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that.productId);case _ItemQuantityChanged() when itemQuantityChanged != null:
-return itemQuantityChanged(_that.productId,_that.quantity);case _DiscountApplied() when discountApplied != null:
+return itemQuantityChanged(_that.productId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
+return orderTypeChanged(_that.orderType);case _DiscountApplied() when discountApplied != null:
 return discountApplied(_that.discount);case _DiscountRemoved() when discountRemoved != null:
 return discountRemoved();case _NoteUpdated() when noteUpdated != null:
 return noteUpdated(_that.note);case _Submitted() when submitted != null:
@@ -467,6 +473,72 @@ as int,
 /// @nodoc
 
 
+class _OrderTypeChanged implements ActiveOrderEvent {
+  const _OrderTypeChanged(this.orderType);
+  
+
+ final  OrderType orderType;
+
+/// Create a copy of ActiveOrderEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OrderTypeChangedCopyWith<_OrderTypeChanged> get copyWith => __$OrderTypeChangedCopyWithImpl<_OrderTypeChanged>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderTypeChanged&&(identical(other.orderType, orderType) || other.orderType == orderType));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,orderType);
+
+@override
+String toString() {
+  return 'ActiveOrderEvent.orderTypeChanged(orderType: $orderType)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OrderTypeChangedCopyWith<$Res> implements $ActiveOrderEventCopyWith<$Res> {
+  factory _$OrderTypeChangedCopyWith(_OrderTypeChanged value, $Res Function(_OrderTypeChanged) _then) = __$OrderTypeChangedCopyWithImpl;
+@useResult
+$Res call({
+ OrderType orderType
+});
+
+
+
+
+}
+/// @nodoc
+class __$OrderTypeChangedCopyWithImpl<$Res>
+    implements _$OrderTypeChangedCopyWith<$Res> {
+  __$OrderTypeChangedCopyWithImpl(this._self, this._then);
+
+  final _OrderTypeChanged _self;
+  final $Res Function(_OrderTypeChanged) _then;
+
+/// Create a copy of ActiveOrderEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? orderType = null,}) {
+  return _then(_OrderTypeChanged(
+null == orderType ? _self.orderType : orderType // ignore: cast_nullable_to_non_nullable
+as OrderType,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
 class _DiscountApplied implements ActiveOrderEvent {
   const _DiscountApplied(this.discount);
   
@@ -483,12 +555,12 @@ _$DiscountAppliedCopyWith<_DiscountApplied> get copyWith => __$DiscountAppliedCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DiscountApplied&&const DeepCollectionEquality().equals(other.discount, discount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DiscountApplied&&(identical(other.discount, discount) || other.discount == discount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(discount));
+int get hashCode => Object.hash(runtimeType,discount);
 
 @override
 String toString() {
@@ -507,7 +579,7 @@ $Res call({
 });
 
 
-
+$DiscountCopyWith<$Res> get discount;
 
 }
 /// @nodoc
@@ -520,14 +592,23 @@ class __$DiscountAppliedCopyWithImpl<$Res>
 
 /// Create a copy of ActiveOrderEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? discount = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? discount = null,}) {
   return _then(_DiscountApplied(
-freezed == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
+null == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
 as Discount,
   ));
 }
 
-
+/// Create a copy of ActiveOrderEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DiscountCopyWith<$Res> get discount {
+  
+  return $DiscountCopyWith<$Res>(_self.discount, (value) {
+    return _then(_self.copyWith(discount: value));
+  });
+}
 }
 
 /// @nodoc
@@ -928,12 +1009,12 @@ $ActiveOrderBuildingCopyWith<ActiveOrderBuilding> get copyWith => _$ActiveOrderB
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActiveOrderBuilding&&(identical(other.order, order) || other.order == order)&&const DeepCollectionEquality().equals(other.appliedDiscount, appliedDiscount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActiveOrderBuilding&&(identical(other.order, order) || other.order == order)&&(identical(other.appliedDiscount, appliedDiscount) || other.appliedDiscount == appliedDiscount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,order,const DeepCollectionEquality().hash(appliedDiscount));
+int get hashCode => Object.hash(runtimeType,order,appliedDiscount);
 
 @override
 String toString() {
@@ -952,7 +1033,7 @@ $Res call({
 });
 
 
-$OrderCopyWith<$Res> get order;
+$OrderCopyWith<$Res> get order;$DiscountCopyWith<$Res>? get appliedDiscount;
 
 }
 /// @nodoc
@@ -981,6 +1062,18 @@ $OrderCopyWith<$Res> get order {
   
   return $OrderCopyWith<$Res>(_self.order, (value) {
     return _then(_self.copyWith(order: value));
+  });
+}/// Create a copy of ActiveOrderState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DiscountCopyWith<$Res>? get appliedDiscount {
+    if (_self.appliedDiscount == null) {
+    return null;
+  }
+
+  return $DiscountCopyWith<$Res>(_self.appliedDiscount!, (value) {
+    return _then(_self.copyWith(appliedDiscount: value));
   });
 }
 }

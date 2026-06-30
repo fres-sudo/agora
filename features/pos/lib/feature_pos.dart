@@ -1,6 +1,9 @@
 export 'presentation/pages/pos_page.dart';
 export 'presentation/routes/pos_feature.dart';
 export 'presentation/routes/pos_router.dart';
+export 'presentation/widgets/checkout/change_due_display.dart';
+export 'presentation/widgets/checkout/checkout_sheet.dart';
+export 'presentation/widgets/checkout/payment_method_selector.dart';
 export 'presentation/widgets/menu_category.dart';
 export 'presentation/widgets/pos_action_buttons.dart';
 export 'presentation/widgets/pos_category_list.dart';

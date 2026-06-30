@@ -1,9 +1,12 @@
 export 'domain/models/order.dart';
 export 'domain/models/order_line_item.dart';
+export 'domain/models/order_type.dart';
+export 'domain/models/payment_method.dart';
 export 'domain/models/selected_modifiers.dart';
 export 'domain/repositories/order_items_repository.dart';
 export 'domain/repositories/orders_repository.dart';
 export 'presentation/blocs/active_order/active_order_bloc.dart';
+export 'presentation/blocs/checkout/checkout_cubit.dart';
 export 'presentation/blocs/order_detail/order_detail_cubit.dart';
 export 'presentation/blocs/orders/orders_bloc.dart';
 export 'presentation/pages/orders_page.dart';

@@ -21,6 +21,10 @@ sealed class ActiveOrderEvent with _$ActiveOrderEvent {
     required int quantity,
   }) = _ItemQuantityChanged;
 
+  /// Change the order type (dine in / take away).
+  const factory ActiveOrderEvent.orderTypeChanged(OrderType orderType) =
+      _OrderTypeChanged;
+
   /// Apply a discount to the order.
   const factory ActiveOrderEvent.discountApplied(Discount discount) =
       _DiscountApplied;

@@ -17,6 +17,7 @@ mixin _$Product {
  int get id; String get name; String? get description; String? get sku; String? get imageUrl; int get categoryId; int get priceCents;// Keep as int for math
  int get costCents; int get taxPercent;// Tax as percentage (e.g., 10 = 10%)
  int get stockQuantity;// Merged from Stock table
+ bool get trackStock;// Whether sales decrement stock
  ProductStatus get status; List<ModifierGroup> get modifierGroups;
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
@@ -28,16 +29,16 @@ $ProductCopyWith<Product> get copyWith => _$ProductCopyWithImpl<Product>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Product&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.modifierGroups, modifierGroups));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Product&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.trackStock, trackStock) || other.trackStock == trackStock)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.modifierGroups, modifierGroups));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,status,const DeepCollectionEquality().hash(modifierGroups));
+int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,trackStock,status,const DeepCollectionEquality().hash(modifierGroups));
 
 @override
 String toString() {
-  return 'Product(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, status: $status, modifierGroups: $modifierGroups)';
+  return 'Product(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, trackStock: $trackStock, status: $status, modifierGroups: $modifierGroups)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $ProductCopyWith<$Res>  {
   factory $ProductCopyWith(Product value, $Res Function(Product) _then) = _$ProductCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String? description, String? sku, String? imageUrl, int categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, ProductStatus status, List<ModifierGroup> modifierGroups
+ int id, String name, String? description, String? sku, String? imageUrl, int categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, bool trackStock, ProductStatus status, List<ModifierGroup> modifierGroups
 });
 
 
@@ -65,7 +66,7 @@ class _$ProductCopyWithImpl<$Res>
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? sku = freezed,Object? imageUrl = freezed,Object? categoryId = null,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? status = null,Object? modifierGroups = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? sku = freezed,Object? imageUrl = freezed,Object? categoryId = null,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? trackStock = null,Object? status = null,Object? modifierGroups = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -77,7 +78,8 @@ as int,priceCents: null == priceCents ? _self.priceCents : priceCents // ignore:
 as int,costCents: null == costCents ? _self.costCents : costCents // ignore: cast_nullable_to_non_nullable
 as int,taxPercent: null == taxPercent ? _self.taxPercent : taxPercent // ignore: cast_nullable_to_non_nullable
 as int,stockQuantity: null == stockQuantity ? _self.stockQuantity : stockQuantity // ignore: cast_nullable_to_non_nullable
-as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as int,trackStock: null == trackStock ? _self.trackStock : trackStock // ignore: cast_nullable_to_non_nullable
+as bool,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ProductStatus,modifierGroups: null == modifierGroups ? _self.modifierGroups : modifierGroups // ignore: cast_nullable_to_non_nullable
 as List<ModifierGroup>,
   ));
@@ -164,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  String? sku,  String? imageUrl,  int categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<ModifierGroup> modifierGroups)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  String? sku,  String? imageUrl,  int categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  bool trackStock,  ProductStatus status,  List<ModifierGroup> modifierGroups)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Product() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.modifierGroups);case _:
+return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.trackStock,_that.status,_that.modifierGroups);case _:
   return orElse();
 
 }
@@ -185,10 +187,10 @@ return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  String? sku,  String? imageUrl,  int categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<ModifierGroup> modifierGroups)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  String? sku,  String? imageUrl,  int categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  bool trackStock,  ProductStatus status,  List<ModifierGroup> modifierGroups)  $default,) {final _that = this;
 switch (_that) {
 case _Product():
-return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.modifierGroups);case _:
+return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.trackStock,_that.status,_that.modifierGroups);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +207,10 @@ return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String? description,  String? sku,  String? imageUrl,  int categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<ModifierGroup> modifierGroups)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String? description,  String? sku,  String? imageUrl,  int categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  bool trackStock,  ProductStatus status,  List<ModifierGroup> modifierGroups)?  $default,) {final _that = this;
 switch (_that) {
 case _Product() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.modifierGroups);case _:
+return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.trackStock,_that.status,_that.modifierGroups);case _:
   return null;
 
 }
@@ -220,7 +222,7 @@ return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_
 
 
 class _Product extends Product {
-  const _Product({required this.id, required this.name, this.description, this.sku, this.imageUrl, required this.categoryId, required this.priceCents, required this.costCents, this.taxPercent = 0, required this.stockQuantity, this.status = ProductStatus.draft, final  List<ModifierGroup> modifierGroups = const []}): _modifierGroups = modifierGroups,super._();
+  const _Product({required this.id, required this.name, this.description, this.sku, this.imageUrl, required this.categoryId, required this.priceCents, required this.costCents, this.taxPercent = 0, required this.stockQuantity, this.trackStock = true, this.status = ProductStatus.draft, final  List<ModifierGroup> modifierGroups = const []}): _modifierGroups = modifierGroups,super._();
   
 
 @override final  int id;
@@ -236,6 +238,8 @@ class _Product extends Product {
 // Tax as percentage (e.g., 10 = 10%)
 @override final  int stockQuantity;
 // Merged from Stock table
+@override@JsonKey() final  bool trackStock;
+// Whether sales decrement stock
 @override@JsonKey() final  ProductStatus status;
  final  List<ModifierGroup> _modifierGroups;
 @override@JsonKey() List<ModifierGroup> get modifierGroups {
@@ -255,16 +259,16 @@ _$ProductCopyWith<_Product> get copyWith => __$ProductCopyWithImpl<_Product>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Product&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._modifierGroups, _modifierGroups));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Product&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.trackStock, trackStock) || other.trackStock == trackStock)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._modifierGroups, _modifierGroups));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,status,const DeepCollectionEquality().hash(_modifierGroups));
+int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,trackStock,status,const DeepCollectionEquality().hash(_modifierGroups));
 
 @override
 String toString() {
-  return 'Product(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, status: $status, modifierGroups: $modifierGroups)';
+  return 'Product(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, trackStock: $trackStock, status: $status, modifierGroups: $modifierGroups)';
 }
 
 
@@ -275,7 +279,7 @@ abstract mixin class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
   factory _$ProductCopyWith(_Product value, $Res Function(_Product) _then) = __$ProductCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String? description, String? sku, String? imageUrl, int categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, ProductStatus status, List<ModifierGroup> modifierGroups
+ int id, String name, String? description, String? sku, String? imageUrl, int categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, bool trackStock, ProductStatus status, List<ModifierGroup> modifierGroups
 });
 
 
@@ -292,7 +296,7 @@ class __$ProductCopyWithImpl<$Res>
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? sku = freezed,Object? imageUrl = freezed,Object? categoryId = null,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? status = null,Object? modifierGroups = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? sku = freezed,Object? imageUrl = freezed,Object? categoryId = null,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? trackStock = null,Object? status = null,Object? modifierGroups = null,}) {
   return _then(_Product(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -304,7 +308,8 @@ as int,priceCents: null == priceCents ? _self.priceCents : priceCents // ignore:
 as int,costCents: null == costCents ? _self.costCents : costCents // ignore: cast_nullable_to_non_nullable
 as int,taxPercent: null == taxPercent ? _self.taxPercent : taxPercent // ignore: cast_nullable_to_non_nullable
 as int,stockQuantity: null == stockQuantity ? _self.stockQuantity : stockQuantity // ignore: cast_nullable_to_non_nullable
-as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as int,trackStock: null == trackStock ? _self.trackStock : trackStock // ignore: cast_nullable_to_non_nullable
+as bool,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ProductStatus,modifierGroups: null == modifierGroups ? _self._modifierGroups : modifierGroups // ignore: cast_nullable_to_non_nullable
 as List<ModifierGroup>,
   ));

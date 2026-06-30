@@ -3551,6 +3551,18 @@ class $OrdersTableTable extends OrdersTable
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _orderTypeMeta = const VerificationMeta(
+    'orderType',
+  );
+  @override
+  late final GeneratedColumn<int> orderType = GeneratedColumn<int>(
+    'order_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   static const VerificationMeta _subtotalMeta = const VerificationMeta(
     'subtotal',
   );
@@ -3624,6 +3636,7 @@ class $OrdersTableTable extends OrdersTable
     updatedAt,
     deletedAt,
     status,
+    orderType,
     subtotal,
     discountTotal,
     taxTotal,
@@ -3668,6 +3681,12 @@ class $OrdersTableTable extends OrdersTable
       context.handle(
         _statusMeta,
         status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('order_type')) {
+      context.handle(
+        _orderTypeMeta,
+        orderType.isAcceptableOrUnknown(data['order_type']!, _orderTypeMeta),
       );
     }
     if (data.containsKey('subtotal')) {
@@ -3745,6 +3764,10 @@ class $OrdersTableTable extends OrdersTable
         DriftSqlType.int,
         data['${effectivePrefix}status'],
       )!,
+      orderType: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}order_type'],
+      )!,
       subtotal: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}subtotal'],
@@ -3784,6 +3807,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
   final DateTime? updatedAt;
   final DateTime? deletedAt;
   final int status;
+  final int orderType;
   final int subtotal;
   final int discountTotal;
   final int taxTotal;
@@ -3796,6 +3820,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     this.updatedAt,
     this.deletedAt,
     required this.status,
+    required this.orderType,
     required this.subtotal,
     required this.discountTotal,
     required this.taxTotal,
@@ -3815,6 +3840,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       map['deleted_at'] = Variable<DateTime>(deletedAt);
     }
     map['status'] = Variable<int>(status);
+    map['order_type'] = Variable<int>(orderType);
     map['subtotal'] = Variable<int>(subtotal);
     map['discount_total'] = Variable<int>(discountTotal);
     map['tax_total'] = Variable<int>(taxTotal);
@@ -3839,6 +3865,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           ? const Value.absent()
           : Value(deletedAt),
       status: Value(status),
+      orderType: Value(orderType),
       subtotal: Value(subtotal),
       discountTotal: Value(discountTotal),
       taxTotal: Value(taxTotal),
@@ -3861,6 +3888,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       status: serializer.fromJson<int>(json['status']),
+      orderType: serializer.fromJson<int>(json['orderType']),
       subtotal: serializer.fromJson<int>(json['subtotal']),
       discountTotal: serializer.fromJson<int>(json['discountTotal']),
       taxTotal: serializer.fromJson<int>(json['taxTotal']),
@@ -3878,6 +3906,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'status': serializer.toJson<int>(status),
+      'orderType': serializer.toJson<int>(orderType),
       'subtotal': serializer.toJson<int>(subtotal),
       'discountTotal': serializer.toJson<int>(discountTotal),
       'taxTotal': serializer.toJson<int>(taxTotal),
@@ -3893,6 +3922,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     Value<DateTime?> updatedAt = const Value.absent(),
     Value<DateTime?> deletedAt = const Value.absent(),
     int? status,
+    int? orderType,
     int? subtotal,
     int? discountTotal,
     int? taxTotal,
@@ -3905,6 +3935,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
     status: status ?? this.status,
+    orderType: orderType ?? this.orderType,
     subtotal: subtotal ?? this.subtotal,
     discountTotal: discountTotal ?? this.discountTotal,
     taxTotal: taxTotal ?? this.taxTotal,
@@ -3921,6 +3952,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       status: data.status.present ? data.status.value : this.status,
+      orderType: data.orderType.present ? data.orderType.value : this.orderType,
       subtotal: data.subtotal.present ? data.subtotal.value : this.subtotal,
       discountTotal: data.discountTotal.present
           ? data.discountTotal.value
@@ -3944,6 +3976,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('status: $status, ')
+          ..write('orderType: $orderType, ')
           ..write('subtotal: $subtotal, ')
           ..write('discountTotal: $discountTotal, ')
           ..write('taxTotal: $taxTotal, ')
@@ -3961,6 +3994,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     updatedAt,
     deletedAt,
     status,
+    orderType,
     subtotal,
     discountTotal,
     taxTotal,
@@ -3977,6 +4011,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           other.updatedAt == this.updatedAt &&
           other.deletedAt == this.deletedAt &&
           other.status == this.status &&
+          other.orderType == this.orderType &&
           other.subtotal == this.subtotal &&
           other.discountTotal == this.discountTotal &&
           other.taxTotal == this.taxTotal &&
@@ -3991,6 +4026,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
   final Value<DateTime?> updatedAt;
   final Value<DateTime?> deletedAt;
   final Value<int> status;
+  final Value<int> orderType;
   final Value<int> subtotal;
   final Value<int> discountTotal;
   final Value<int> taxTotal;
@@ -4003,6 +4039,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
     this.status = const Value.absent(),
+    this.orderType = const Value.absent(),
     this.subtotal = const Value.absent(),
     this.discountTotal = const Value.absent(),
     this.taxTotal = const Value.absent(),
@@ -4016,6 +4053,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
     this.status = const Value.absent(),
+    this.orderType = const Value.absent(),
     required int subtotal,
     this.discountTotal = const Value.absent(),
     this.taxTotal = const Value.absent(),
@@ -4030,6 +4068,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? deletedAt,
     Expression<int>? status,
+    Expression<int>? orderType,
     Expression<int>? subtotal,
     Expression<int>? discountTotal,
     Expression<int>? taxTotal,
@@ -4043,6 +4082,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
       if (status != null) 'status': status,
+      if (orderType != null) 'order_type': orderType,
       if (subtotal != null) 'subtotal': subtotal,
       if (discountTotal != null) 'discount_total': discountTotal,
       if (taxTotal != null) 'tax_total': taxTotal,
@@ -4058,6 +4098,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Value<DateTime?>? updatedAt,
     Value<DateTime?>? deletedAt,
     Value<int>? status,
+    Value<int>? orderType,
     Value<int>? subtotal,
     Value<int>? discountTotal,
     Value<int>? taxTotal,
@@ -4071,6 +4112,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
       status: status ?? this.status,
+      orderType: orderType ?? this.orderType,
       subtotal: subtotal ?? this.subtotal,
       discountTotal: discountTotal ?? this.discountTotal,
       taxTotal: taxTotal ?? this.taxTotal,
@@ -4097,6 +4139,9 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     }
     if (status.present) {
       map['status'] = Variable<int>(status.value);
+    }
+    if (orderType.present) {
+      map['order_type'] = Variable<int>(orderType.value);
     }
     if (subtotal.present) {
       map['subtotal'] = Variable<int>(subtotal.value);
@@ -4127,6 +4172,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('status: $status, ')
+          ..write('orderType: $orderType, ')
           ..write('subtotal: $subtotal, ')
           ..write('discountTotal: $discountTotal, ')
           ..write('taxTotal: $taxTotal, ')
@@ -10204,6 +10250,7 @@ typedef $$OrdersTableTableCreateCompanionBuilder =
       Value<DateTime?> updatedAt,
       Value<DateTime?> deletedAt,
       Value<int> status,
+      Value<int> orderType,
       required int subtotal,
       Value<int> discountTotal,
       Value<int> taxTotal,
@@ -10218,6 +10265,7 @@ typedef $$OrdersTableTableUpdateCompanionBuilder =
       Value<DateTime?> updatedAt,
       Value<DateTime?> deletedAt,
       Value<int> status,
+      Value<int> orderType,
       Value<int> subtotal,
       Value<int> discountTotal,
       Value<int> taxTotal,
@@ -10286,6 +10334,11 @@ class $$OrdersTableTableFilterComposer
 
   ColumnFilters<int> get status => $composableBuilder(
     column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get orderType => $composableBuilder(
+    column: $table.orderType,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -10379,6 +10432,11 @@ class $$OrdersTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get orderType => $composableBuilder(
+    column: $table.orderType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get subtotal => $composableBuilder(
     column: $table.subtotal,
     builder: (column) => ColumnOrderings(column),
@@ -10433,6 +10491,9 @@ class $$OrdersTableTableAnnotationComposer
 
   GeneratedColumn<int> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<int> get orderType =>
+      $composableBuilder(column: $table.orderType, builder: (column) => column);
 
   GeneratedColumn<int> get subtotal =>
       $composableBuilder(column: $table.subtotal, builder: (column) => column);
@@ -10517,6 +10578,7 @@ class $$OrdersTableTableTableManager
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
                 Value<int> status = const Value.absent(),
+                Value<int> orderType = const Value.absent(),
                 Value<int> subtotal = const Value.absent(),
                 Value<int> discountTotal = const Value.absent(),
                 Value<int> taxTotal = const Value.absent(),
@@ -10529,6 +10591,7 @@ class $$OrdersTableTableTableManager
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
                 status: status,
+                orderType: orderType,
                 subtotal: subtotal,
                 discountTotal: discountTotal,
                 taxTotal: taxTotal,
@@ -10543,6 +10606,7 @@ class $$OrdersTableTableTableManager
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
                 Value<int> status = const Value.absent(),
+                Value<int> orderType = const Value.absent(),
                 required int subtotal,
                 Value<int> discountTotal = const Value.absent(),
                 Value<int> taxTotal = const Value.absent(),
@@ -10555,6 +10619,7 @@ class $$OrdersTableTableTableManager
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
                 status: status,
+                orderType: orderType,
                 subtotal: subtotal,
                 discountTotal: discountTotal,
                 taxTotal: taxTotal,

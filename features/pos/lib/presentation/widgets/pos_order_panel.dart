@@ -1,6 +1,7 @@
 import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/domain/models/order.dart';
+import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:flutter/material.dart';
 

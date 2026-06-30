@@ -7,6 +7,9 @@ class OrdersTable extends Table with TableMixin {
   // Status: 0=Pending, 1=Completed, 2=Voided/Refunded
   IntColumn get status => integer().withDefault(const Constant(0))();
 
+  // Order type: 0=Dine In, 1=Take Away
+  IntColumn get orderType => integer().withDefault(const Constant(0))();
+
   IntColumn get subtotal => integer()();
   IntColumn get discountTotal => integer().withDefault(const Constant(0))();
   IntColumn get taxTotal => integer().withDefault(const Constant(0))();

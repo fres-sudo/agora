@@ -159,12 +159,10 @@ void main() {
 
     group('Submission', () {
       blocTest<ActiveOrderBloc, ActiveOrderState>(
-        'emits error when Submitted is added but cart is empty',
+        'emits no state (only an error effect) when Submitted with empty cart',
         build: () => bloc,
         act: (bloc) => bloc.add(const ActiveOrderEvent.submitted()),
-        expect: () => [
-          const ActiveOrderState.error(message: 'Cannot submit an empty order'),
-        ],
+        expect: () => const <ActiveOrderState>[],
       );
 
       blocTest<ActiveOrderBloc, ActiveOrderState>(
@@ -193,12 +191,12 @@ void main() {
         },
         skip: 1, // Skip item added
         verify: (bloc) {
-             verify(mockOrdersRepository.createOrder(any)).called(1);
+          verify(mockOrdersRepository.createOrder(any)).called(1);
         },
       );
 
-       blocTest<ActiveOrderBloc, ActiveOrderState>(
-        'emits [submitting, error] when Submitted fails',
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'emits [submitting, building] when Submitted fails (recovery state)',
         setUp: () {
           when(mockOrdersRepository.createOrder(any)).thenAnswer(
             (_) async => Result.error(Exception('Failed')),
@@ -217,13 +215,13 @@ void main() {
             true,
           ),
           isA<ActiveOrderState>().having(
-            (s) => s.maybeMap(error: (_) => true, orElse: () => false),
-            'is error',
+            (s) => s.maybeMap(building: (_) => true, orElse: () => false),
+            'is building (cart preserved for recovery)',
             true,
           ),
         ],
-         verify: (bloc) {
-             verify(mockOrdersRepository.createOrder(any)).called(1);
+        verify: (bloc) {
+          verify(mockOrdersRepository.createOrder(any)).called(1);
         },
       );
     });

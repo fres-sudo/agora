@@ -1,10 +1,11 @@
+import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:theme/theme.dart';
 import 'package:flutter/material.dart';
 
-/// Order type for the POS system.
-enum OrderType { dineIn, takeAway }
-
 /// A tab-style selector for choosing order type (Dine In / Take Away).
+///
+/// Uses the shared [OrderType] from `feature_orders` so the selection can be
+/// persisted on the order (the enum is no longer POS-private).
 class PosOrderTypeSelector extends StatelessWidget {
   /// Currently selected order type.
   final OrderType selected;

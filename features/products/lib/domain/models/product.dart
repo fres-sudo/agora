@@ -17,6 +17,7 @@ abstract class Product with _$Product {
     required int costCents,
     @Default(0) int taxPercent, // Tax as percentage (e.g., 10 = 10%)
     required int stockQuantity, // Merged from Stock table
+    @Default(true) bool trackStock, // Whether sales decrement stock
     @Default(ProductStatus.draft) ProductStatus status,
     @Default([]) List<ModifierGroup> modifierGroups,
   }) = _Product;
