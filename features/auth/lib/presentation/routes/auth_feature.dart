@@ -1,11 +1,27 @@
+import 'package:database/database.dart';
 import 'package:feature_auth/data/repositories/auth_repository_impl.dart';
+import 'package:feature_auth/data/sources/local/daos/auth_dao.dart';
 import 'package:feature_auth/domain/repositories/auth_repository.dart';
 import 'package:feature_auth/presentation/blocs/session/session_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:talker/talker.dart';
 
 class AuthFeature {
   static List<SingleChildWidget> get providers => [
-    RepositoryProvider<AuthRepository>(create: (_) => AuthRepositoryImpl()),
+    // DAO
+    ProxyProvider<AgoraDatabase, AuthDao>(
+      update: (_, db, _) => AuthDao(db),
+    ),
+    // Repository
+    RepositoryProvider<AuthRepository>(
+      create: (ctx) => AuthRepositoryImpl(
+        authDao: ctx.read<AuthDao>(),
+        secureStorage: ctx.read<FlutterSecureStorage>(),
+        logger: ctx.read<Talker>(),
+      ),
+    ),
+    // Session cubit — initialized at startup by the app shell
     BlocProvider<SessionCubit>(
       create: (ctx) => SessionCubit(ctx.read<AuthRepository>()),
     ),

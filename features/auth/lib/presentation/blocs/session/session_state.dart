@@ -1,8 +1,12 @@
 part of 'session_cubit.dart';
 
 @freezed
-class SessionState with _$SessionState {
+abstract class SessionState with _$SessionState {
   const factory SessionState.initial() = _Initial;
-  const factory SessionState.authenticated() = Authenticated;
+  const factory SessionState.loading() = _Loading;
+  const factory SessionState.authenticated({
+    required SessionEmployee employee,
+  }) = Authenticated;
   const factory SessionState.unauthenticated() = Unauthenticated;
+  const factory SessionState.error(String message) = SessionError;
 }

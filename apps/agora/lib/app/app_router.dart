@@ -6,6 +6,7 @@ import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
 import 'package:feature_reports/feature_reports.dart';
 import 'package:feature_settings/feature_settings.dart';
+import 'package:feature_workforce/workforce.dart';
 import 'package:utils/utils.dart';
 
 @AutoRouterConfig()
@@ -16,7 +17,11 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: AuthShellRoute.page),
+    // Auth shell — PIN login lives here as an initial child
+    AutoRoute(page: AuthShellRoute.page, children: [
+      AutoRoute(page: PinLoginRoute.page, initial: true),
+    ]),
+    // Protected shell — main app content
     AutoRoute(
       initial: true,
       page: ProtectedShellRoute.page,
@@ -26,6 +31,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ReportRoute.page),
         AutoRoute(page: SettingsRoute.page),
         AutoRoute(page: ProductsRoute.page),
+        AutoRoute(page: EmployeesRoute.page),
+        AutoRoute(page: ClockRecordsRoute.page),
       ],
     ),
   ];

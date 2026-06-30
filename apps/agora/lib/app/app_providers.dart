@@ -9,6 +9,7 @@ import 'package:feature_inventory/presentation/routes/inventory_feature.dart';
 import 'package:feature_orders/presentation/routes/orders_feature.dart';
 import 'package:feature_products/presentation/routes/products_feature.dart';
 import 'package:feature_settings/presentation/routes/settings_feature.dart';
+import 'package:feature_workforce/presentation/routes/workforce_feature.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -158,6 +159,7 @@ List<SingleChildWidget> _buildProviders({
   // Feature providers (each feature registers its own DAOs, repos and BLoCs)
   // ---------------------------------------------------------------------------
   ...AuthFeature.providers,
+  ...WorkforceFeature.providers,
   ...InventoryFeature.providers, // must be before Products (StocksDao)
   ...ProductsFeature.providers,
   ...OrdersFeature.providers,

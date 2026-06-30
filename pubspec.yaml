@@ -15,6 +15,7 @@ workspace:
   - features/products
   - features/reports
   - features/settings
+  - features/workforce
   - packages/app_info
   - packages/bloc
   - packages/config

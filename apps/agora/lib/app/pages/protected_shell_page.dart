@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:agora/app/widgets/session_listener.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
 import 'package:feature_reports/feature_reports.dart';
 import 'package:feature_settings/feature_settings.dart';
+import 'package:feature_workforce/workforce.dart';
 import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
@@ -19,7 +21,6 @@ class ProtectedShellPage extends StatefulWidget {
 
 class _ProtectedShellPageState extends State<ProtectedShellPage> {
   int _selectedIndex = 0;
-  bool _isClockedIn = false;
   bool _isSidebarCollapsed = false;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,59 +34,87 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     AppShellNavItem(icon: Icons.bar_chart_outlined, label: 'Reports'),
     AppShellNavItem(icon: Icons.warehouse_outlined, label: 'Inventory', isEnabled: false),
     AppShellNavItem(icon: Icons.settings_outlined, label: 'Settings'),
+    AppShellNavItem(icon: Icons.badge_outlined, label: 'Staff'),
   ];
 
-  // Maps sidebar indices to AutoRoute routes (only enabled, routed items)
-  static const _routedIndices = {
-    0: PosRoute(),
-    1: OrdersRoute(),
-    4: ProductsRoute(),
-    5: ReportRoute(),
-    7: SettingsRoute(),
+  static final _routedIndices = <int, PageRouteInfo>{
+    0: const PosRoute(),
+    1: const OrdersRoute(),
+    4: const ProductsRoute(),
+    5: const ReportRoute(),
+    7: const SettingsRoute(),
+    8: const EmployeesRoute(),
   };
 
   @override
+  void initState() {
+    super.initState();
+    // Check clock-in status for the logged-in employee.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final employee = context.read<SessionCubit>().currentEmployee;
+      if (employee != null) {
+        context.read<ClockInCubit>().checkStatus(employee.id);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SessionListener(
-      child: AutoTabsRouter(
-        homeIndex: 0,
-        routes: const [
-          PosRoute(),
-          OrdersRoute(),
-          ProductsRoute(),
-          ReportRoute(),
-          SettingsRoute(),
-        ],
-        builder: (context, child) {
-          final tabsRouter = AutoTabsRouter.of(context);
+    final session = context.watch<SessionCubit>().state;
+    final employee = session is Authenticated ? session.employee : null;
 
-          // Keep selected index in sync with the active route
-          final currentRouteName = tabsRouter.current.name;
-          final activeIndex = _routedIndices.entries
-              .firstWhere(
-                (e) => e.value.routeName == currentRouteName,
-                orElse: () => MapEntry(_selectedIndex, _routedIndices[_selectedIndex] ?? const PosRoute()),
-              )
-              .key;
+    return BlocBuilder<ClockInCubit, ClockInState>(
+      builder: (context, clockState) {
+        final isClockedIn = clockState is _ClockedIn;
 
-          return AppShellScope(
-            userName: 'Brian Susanto',
-            userSubtitle: 'JS002T',
-            isClockedIn: _isClockedIn,
-            onClockInTap: () => setState(() => _isClockedIn = !_isClockedIn),
-            onLogout: () {
-              // TODO: Implement logout
-            },
-            currentOperator: 'Main Counter',
-            onOperatorSwitchTap: () {
-              // TODO: Implement operator switch
-            },
-            openSidebar: () => _scaffoldKey.currentState?.openDrawer(),
-            child: _buildLayout(context, child, tabsRouter, activeIndex),
-          );
-        },
-      ),
+        return AutoTabsRouter(
+          homeIndex: 0,
+          routes: [
+            const PosRoute(),
+            const OrdersRoute(),
+            const ProductsRoute(),
+            const ReportRoute(),
+            const SettingsRoute(),
+            const EmployeesRoute(),
+          ],
+          builder: (context, child) {
+            final tabsRouter = AutoTabsRouter.of(context);
+            final currentRouteName = tabsRouter.current.name;
+            final activeIndex = _routedIndices.entries
+                .firstWhere(
+                  (e) => e.value.routeName == currentRouteName,
+                  orElse: () => MapEntry(
+                    _selectedIndex,
+                    _routedIndices[_selectedIndex] ?? const PosRoute(),
+                  ),
+                )
+                .key;
+
+            return AppShellScope(
+              userName: employee?.name ?? 'Guest',
+              userSubtitle: employee?.role ?? '',
+              isClockedIn: isClockedIn,
+              onClockInTap: () => _onClockInTap(employee?.id),
+              onLogout: () => context.read<SessionCubit>().signOut(),
+              currentOperator: 'Main Counter',
+              onOperatorSwitchTap: () {},
+              openSidebar: () => _scaffoldKey.currentState?.openDrawer(),
+              child: _buildLayout(context, child, tabsRouter, activeIndex),
+            );
+          },
+        );
+      },
     );
+  }
+
+  Future<void> _onClockInTap(int? employeeId) async {
+    if (employeeId == null) return;
+    final cubit = context.read<ClockInCubit>();
+    if (cubit.isClockedIn) {
+      await cubit.clockOut(employeeId);
+    } else {
+      await cubit.clockIn(employeeId);
+    }
   }
 
   Widget _buildLayout(
@@ -110,11 +139,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                 final route = _routedIndices[index];
                 if (route != null) tabsRouter.navigate(route);
               },
-              logo: Image.asset(
-                'assets/brand/logo.png',
-                width: 26,
-                height: 26,
-              ),
+              logo: Image.asset('assets/brand/logo.png', width: 26, height: 26),
             ),
             Expanded(child: child),
           ],
@@ -150,9 +175,9 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                   Text(
                     'agora',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
                   const Spacer(),
                   AppIconButton.ghost(

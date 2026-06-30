@@ -1,0 +1,151 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:bloc_exports/bloc_exports.dart';
+import 'package:feature_workforce/domain/models/clock_record.dart';
+import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
+
+@RoutePage()
+class ClockRecordsPage extends StatelessWidget {
+  const ClockRecordsPage({super.key, this.employeeId});
+
+  final int? employeeId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Clock Records'),
+        leading: context.isTabletOrLarger
+            ? null
+            : AppIconButton.ghost(
+                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
+                icon: const Icon(Icons.menu_rounded),
+              ),
+        actions: context.isTabletOrLarger
+            ? const [
+                AppShellOperatorChip(),
+                SizedBox(width: 8),
+                AppShellUserMenu(),
+                SizedBox(width: 12),
+              ]
+            : null,
+      ),
+      body: StreamBuilder<List<ClockRecord>>(
+        stream: context
+            .read<WorkforceRepository>()
+            .watchClockRecords(employeeId: employeeId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          final records = snapshot.data ?? [];
+          if (records.isEmpty) {
+            return const _EmptyState();
+          }
+          return _RecordsList(records: records);
+        },
+      ),
+    );
+  }
+}
+
+class _RecordsList extends StatelessWidget {
+  const _RecordsList({required this.records});
+  final List<ClockRecord> records;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      itemCount: records.length,
+      separatorBuilder: (_, __) => const Divider(height: 1),
+      itemBuilder: (context, index) => _RecordTile(record: records[index]),
+    );
+  }
+}
+
+class _RecordTile extends StatelessWidget {
+  const _RecordTile({required this.record});
+  final ClockRecord record;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final timeIn = _formatTime(record.clockedInAt);
+    final timeOut =
+        record.clockedOutAt != null ? _formatTime(record.clockedOutAt!) : null;
+
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: record.isActive
+            ? Colors.green.withOpacity(0.12)
+            : AppColors.neutral100,
+        child: Icon(
+          record.isActive ? Icons.login : Icons.logout,
+          color: record.isActive ? Colors.green.shade700 : AppColors.neutral400,
+          size: 20,
+        ),
+      ),
+      title: Text(record.employeeName, style: theme.textTheme.bodyLarge),
+      subtitle: Text(
+        '$timeIn${timeOut != null ? ' → $timeOut' : ''}',
+        style: theme.textTheme.bodySmall,
+      ),
+      trailing: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: record.isActive
+              ? Colors.green.withOpacity(0.12)
+              : AppColors.neutral100,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          record.formattedDuration,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: record.isActive
+                ? Colors.green.shade700
+                : AppColors.neutral600,
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _formatTime(DateTime dt) {
+    final h = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
+    final m = dt.minute.toString().padLeft(2, '0');
+    final period = dt.hour < 12 ? 'AM' : 'PM';
+    final day =
+        '${dt.month}/${dt.day}/${dt.year.toString().substring(2)}';
+    return '$day $h:$m $period';
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.access_time_outlined, size: 64, color: AppColors.neutral300),
+          const SizedBox(height: 16),
+          Text(
+            'No clock records yet',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: AppColors.neutral500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

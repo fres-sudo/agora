@@ -55,13 +55,15 @@ extension SessionStatePatterns on SessionState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( Authenticated value)?  authenticated,TResult Function( Unauthenticated value)?  unauthenticated,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( Authenticated value)?  authenticated,TResult Function( Unauthenticated value)?  unauthenticated,TResult Function( SessionError value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial(_that);case Authenticated() when authenticated != null:
+return initial(_that);case _Loading() when loading != null:
+return loading(_that);case Authenticated() when authenticated != null:
 return authenticated(_that);case Unauthenticated() when unauthenticated != null:
-return unauthenticated(_that);case _:
+return unauthenticated(_that);case SessionError() when error != null:
+return error(_that);case _:
   return orElse();
 
 }
@@ -79,13 +81,15 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( Authenticated value)  authenticated,required TResult Function( Unauthenticated value)  unauthenticated,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( Authenticated value)  authenticated,required TResult Function( Unauthenticated value)  unauthenticated,required TResult Function( SessionError value)  error,}){
 final _that = this;
 switch (_that) {
 case _Initial():
-return initial(_that);case Authenticated():
+return initial(_that);case _Loading():
+return loading(_that);case Authenticated():
 return authenticated(_that);case Unauthenticated():
-return unauthenticated(_that);case _:
+return unauthenticated(_that);case SessionError():
+return error(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +106,15 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( Authenticated value)?  authenticated,TResult? Function( Unauthenticated value)?  unauthenticated,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( Authenticated value)?  authenticated,TResult? Function( Unauthenticated value)?  unauthenticated,TResult? Function( SessionError value)?  error,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial(_that);case Authenticated() when authenticated != null:
+return initial(_that);case _Loading() when loading != null:
+return loading(_that);case Authenticated() when authenticated != null:
 return authenticated(_that);case Unauthenticated() when unauthenticated != null:
-return unauthenticated(_that);case _:
+return unauthenticated(_that);case SessionError() when error != null:
+return error(_that);case _:
   return null;
 
 }
@@ -125,12 +131,14 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  authenticated,TResult Function()?  unauthenticated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( SessionEmployee employee)?  authenticated,TResult Function()?  unauthenticated,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial();case Authenticated() when authenticated != null:
-return authenticated();case Unauthenticated() when unauthenticated != null:
-return unauthenticated();case _:
+return initial();case _Loading() when loading != null:
+return loading();case Authenticated() when authenticated != null:
+return authenticated(_that.employee);case Unauthenticated() when unauthenticated != null:
+return unauthenticated();case SessionError() when error != null:
+return error(_that.message);case _:
   return orElse();
 
 }
@@ -148,12 +156,14 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  authenticated,required TResult Function()  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( SessionEmployee employee)  authenticated,required TResult Function()  unauthenticated,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
-return initial();case Authenticated():
-return authenticated();case Unauthenticated():
-return unauthenticated();case _:
+return initial();case _Loading():
+return loading();case Authenticated():
+return authenticated(_that.employee);case Unauthenticated():
+return unauthenticated();case SessionError():
+return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +180,14 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  authenticated,TResult? Function()?  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( SessionEmployee employee)?  authenticated,TResult? Function()?  unauthenticated,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
-return initial();case Authenticated() when authenticated != null:
-return authenticated();case Unauthenticated() when unauthenticated != null:
-return unauthenticated();case _:
+return initial();case _Loading() when loading != null:
+return loading();case Authenticated() when authenticated != null:
+return authenticated(_that.employee);case Unauthenticated() when unauthenticated != null:
+return unauthenticated();case SessionError() when error != null:
+return error(_that.message);case _:
   return null;
 
 }
@@ -218,8 +230,8 @@ String toString() {
 /// @nodoc
 
 
-class Authenticated implements SessionState {
-  const Authenticated();
+class _Loading implements SessionState {
+  const _Loading();
   
 
 
@@ -229,7 +241,7 @@ class Authenticated implements SessionState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Authenticated);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Loading);
 }
 
 
@@ -238,7 +250,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'SessionState.authenticated()';
+  return 'SessionState.loading()';
 }
 
 
@@ -246,6 +258,81 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class Authenticated implements SessionState {
+  const Authenticated({required this.employee});
+  
+
+ final  SessionEmployee employee;
+
+/// Create a copy of SessionState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AuthenticatedCopyWith<Authenticated> get copyWith => _$AuthenticatedCopyWithImpl<Authenticated>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Authenticated&&(identical(other.employee, employee) || other.employee == employee));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,employee);
+
+@override
+String toString() {
+  return 'SessionState.authenticated(employee: $employee)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AuthenticatedCopyWith<$Res> implements $SessionStateCopyWith<$Res> {
+  factory $AuthenticatedCopyWith(Authenticated value, $Res Function(Authenticated) _then) = _$AuthenticatedCopyWithImpl;
+@useResult
+$Res call({
+ SessionEmployee employee
+});
+
+
+$SessionEmployeeCopyWith<$Res> get employee;
+
+}
+/// @nodoc
+class _$AuthenticatedCopyWithImpl<$Res>
+    implements $AuthenticatedCopyWith<$Res> {
+  _$AuthenticatedCopyWithImpl(this._self, this._then);
+
+  final Authenticated _self;
+  final $Res Function(Authenticated) _then;
+
+/// Create a copy of SessionState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? employee = null,}) {
+  return _then(Authenticated(
+employee: null == employee ? _self.employee : employee // ignore: cast_nullable_to_non_nullable
+as SessionEmployee,
+  ));
+}
+
+/// Create a copy of SessionState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SessionEmployeeCopyWith<$Res> get employee {
+  
+  return $SessionEmployeeCopyWith<$Res>(_self.employee, (value) {
+    return _then(_self.copyWith(employee: value));
+  });
+}
+}
 
 /// @nodoc
 
@@ -278,5 +365,71 @@ String toString() {
 
 
 
+
+/// @nodoc
+
+
+class SessionError implements SessionState {
+  const SessionError(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of SessionState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SessionErrorCopyWith<SessionError> get copyWith => _$SessionErrorCopyWithImpl<SessionError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionError&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'SessionState.error(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SessionErrorCopyWith<$Res> implements $SessionStateCopyWith<$Res> {
+  factory $SessionErrorCopyWith(SessionError value, $Res Function(SessionError) _then) = _$SessionErrorCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$SessionErrorCopyWithImpl<$Res>
+    implements $SessionErrorCopyWith<$Res> {
+  _$SessionErrorCopyWithImpl(this._self, this._then);
+
+  final SessionError _self;
+  final $Res Function(SessionError) _then;
+
+/// Create a copy of SessionState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(SessionError(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
 
 // dart format on

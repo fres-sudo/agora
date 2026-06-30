@@ -25,3 +25,19 @@ class AuthShellRoute extends PageRouteInfo<void> {
     },
   );
 }
+
+/// generated route for
+/// [PinLoginPage]
+class PinLoginRoute extends PageRouteInfo<void> {
+  const PinLoginRoute({List<PageRouteInfo>? children})
+    : super(PinLoginRoute.name, initialChildren: children);
+
+  static const String name = 'PinLoginRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PinLoginPage();
+    },
+  );
+}
