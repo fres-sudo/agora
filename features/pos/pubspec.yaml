@@ -17,10 +17,14 @@ dependencies:
     path: ../orders
   feature_products:
     path: ../products
+  feature_settings:
+    path: ../settings
   flutter:
     sdk: flutter
   i18n:
     path: ../../packages/i18n
+  printing:
+    path: ../../packages/printing
   theme: ^0.0.0
   ui_kit:
     path: ../../packages/ui_kit

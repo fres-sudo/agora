@@ -18,6 +18,15 @@ class AppSettingsDao extends DatabaseAccessor<AgoraDatabase>
   static const String keyBusinessName = 'business_name';
   static const String keyBusinessAddress = 'business_address';
 
+  // Selected receipt printer (persisted so it survives restart).
+  static const String keyPrinterId = 'printer_id';
+  static const String keyPrinterName = 'printer_name';
+  static const String keyPrinterType = 'printer_type';
+
+  // Receipt content options.
+  static const String keyReceiptShowLogo = 'receipt_show_logo';
+  static const String keyReceiptShowTax = 'receipt_show_tax';
+
   // Setting types
   static const String typeString = 'string';
   static const String typeInt = 'int';

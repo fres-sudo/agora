@@ -1,5 +1,8 @@
 part of 'checkout_cubit.dart';
 
+/// Status of the receipt print attempt within a successful checkout.
+enum PrintStatus { idle, printing, printed, failed }
+
 @freezed
 class CheckoutState with _$CheckoutState {
   const CheckoutState._();
@@ -21,11 +24,14 @@ class CheckoutState with _$CheckoutState {
     @Default(0) int tenderedCents,
   }) = _Processing;
 
-  /// The sale completed successfully.
+  /// The sale completed successfully. Carries the rendered [receipt] for the
+  /// preview/print stage and the current [printStatus].
   const factory CheckoutState.success({
     required Order order,
     required PaymentMethod method,
     @Default(0) int tenderedCents,
+    Receipt? receipt,
+    @Default(PrintStatus.idle) PrintStatus printStatus,
   }) = CheckoutSuccess;
 
   /// The checkout failed; [order]/[method] preserved so the operator can retry.

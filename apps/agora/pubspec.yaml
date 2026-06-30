@@ -58,6 +58,8 @@ dependencies:
   observer:
     path: ../../packages/observer
   pine: ^1.0.4
+  printing:
+    path: ../../packages/printing
   provider: ^6.1.5+1
   remote_config:
     path: ../../packages/remote_config

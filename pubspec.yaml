@@ -25,6 +25,7 @@ workspace:
   - packages/launcher
   - packages/logger
   - packages/observer
+  - packages/printing
   - packages/remote_config
   - packages/result
   - packages/sync_engine

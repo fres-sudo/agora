@@ -1,3 +1,4 @@
+export 'domain/mappers/order_receipt_mapper.dart';
 export 'domain/models/order.dart';
 export 'domain/models/order_line_item.dart';
 export 'domain/models/order_type.dart';
@@ -12,3 +13,4 @@ export 'presentation/blocs/orders/orders_bloc.dart';
 export 'presentation/pages/orders_page.dart';
 export 'presentation/routes/orders_feature.dart';
 export 'presentation/routes/orders_router.dart';
+export 'presentation/utils/receipt_config_builder.dart';

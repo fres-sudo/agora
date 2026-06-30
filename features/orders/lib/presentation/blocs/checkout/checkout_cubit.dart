@@ -4,11 +4,13 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:flutter/material.dart';
 
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:feature_orders/domain/mappers/order_receipt_mapper.dart';
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_orders/domain/models/payment_method.dart';
 import 'package:feature_orders/domain/repositories/orders_repository.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
 import 'package:logger/logger.dart';
+import 'package:printing/printing.dart';
 import 'package:result/result.dart';
 
 part 'checkout_cubit.freezed.dart';
@@ -16,11 +18,12 @@ part 'checkout_state.dart';
 
 /// Orchestrates the checkout / payment finalisation of a built cart.
 ///
-/// Responsibilities (the Phase 1 critical path):
+/// Responsibilities:
 /// 1. Capture the payment method and (for cash) the tendered amount.
 /// 2. Persist the order as **completed** with its payment method
 ///    (complete-on-payment model — see P1-2/P1-3).
 /// 3. Decrement stock for tracked products and record stock movements (P1-4).
+/// 4. Build the receipt and print it on demand (P2-3).
 ///
 /// The cart itself is owned by `ActiveOrderBloc`; this cubit receives the
 /// already-built [Order] via [start] and drives it to a finished sale. On
@@ -30,20 +33,34 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     required OrdersRepository ordersRepository,
     required InventoryRepository inventoryRepository,
     required ProductsRepository productsRepository,
+    required PrinterService printerService,
     Talker? logger,
   }) : _ordersRepository = ordersRepository,
        _inventoryRepository = inventoryRepository,
        _productsRepository = productsRepository,
+       _printerService = printerService,
        _logger = logger,
        super(const CheckoutState.initial());
 
   final OrdersRepository _ordersRepository;
   final InventoryRepository _inventoryRepository;
   final ProductsRepository _productsRepository;
+  final PrinterService _printerService;
   final Talker? _logger;
 
+  static const ReceiptRenderer _renderer = ReceiptRenderer();
+
+  ReceiptConfig _receiptConfig = const ReceiptConfig();
+
   /// Begin checkout for [order]. Defaults to cash with no tender entered.
-  void start(Order order, {PaymentMethod method = PaymentMethod.cash}) {
+  /// [receiptConfig] (store/receipt settings) is used to build the receipt once
+  /// the sale completes.
+  void start(
+    Order order, {
+    PaymentMethod method = PaymentMethod.cash,
+    ReceiptConfig receiptConfig = const ReceiptConfig(),
+  }) {
+    _receiptConfig = receiptConfig;
     emit(CheckoutState.selecting(order: order, method: method));
   }
 
@@ -99,11 +116,21 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         // 2. Decrement stock for tracked products (best-effort; a stock
         //    failure must not lose the recorded sale).
         await _decrementStock(value);
+
+        // 3. Build the receipt for the preview/print stage.
+        final changeDue = current.changeDueCents;
+        final receipt = value.toReceipt(
+          _receiptConfig,
+          tenderedCents: method.requiresTender ? tenderedCents : null,
+          changeCents: method.requiresTender ? changeDue : null,
+        );
+
         emit(
           CheckoutState.success(
             order: value,
             method: method,
             tenderedCents: tenderedCents,
+            receipt: receipt,
           ),
         );
       case Error<Order>(:final error):
@@ -116,6 +143,40 @@ class CheckoutCubit extends Cubit<CheckoutState> {
             tenderedCents: tenderedCents,
           ),
         );
+    }
+  }
+
+  /// Renders the success receipt and sends it to the connected printer.
+  ///
+  /// Updates the success state's [PrintStatus] so the UI can reflect progress.
+  /// Printing failures never undo the sale — the order is already recorded.
+  Future<void> printReceipt() async {
+    final current = state;
+    if (current is! CheckoutSuccess) return;
+    final receipt = current.receipt;
+    if (receipt == null) return;
+
+    emit(current.copyWith(printStatus: PrintStatus.printing));
+
+    try {
+      final bytes = await _renderer.toEscPos(receipt);
+      final result = await _printerService.printBytes(bytes);
+      // Only mutate if still on the same success state.
+      if (state is! CheckoutSuccess) return;
+      emit(
+        (state as CheckoutSuccess).copyWith(
+          printStatus: result.isSuccess
+              ? PrintStatus.printed
+              : PrintStatus.failed,
+        ),
+      );
+    } catch (error, stack) {
+      _logger?.handle(error, stack, '[Checkout] printReceipt failed');
+      if (state is CheckoutSuccess) {
+        emit(
+          (state as CheckoutSuccess).copyWith(printStatus: PrintStatus.failed),
+        );
+      }
     }
   }
 

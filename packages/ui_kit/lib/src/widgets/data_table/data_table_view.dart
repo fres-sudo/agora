@@ -3,7 +3,7 @@ import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Row action types for the data table.
-enum DataTableRowAction { edit, delete }
+enum DataTableRowAction { edit, reprint, delete }
 
 /// A reusable data table view component for POS applications.
 ///
@@ -40,6 +40,7 @@ class DataTableView<T> extends StatefulWidget {
     this.isLoading = false,
     this.showAddButton = true,
     this.showEditAction = true,
+    this.showReprintAction = false,
     this.showDeleteAction = true,
     this.onSearch,
     this.onSort,
@@ -71,6 +72,9 @@ class DataTableView<T> extends StatefulWidget {
 
   /// Whether to show the edit action in the row menu.
   final bool showEditAction;
+
+  /// Whether to show the reprint action in the row menu.
+  final bool showReprintAction;
 
   /// Whether to show the delete action in the row menu.
   final bool showDeleteAction;
@@ -327,7 +331,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                 ),
               );
             }),
-            if (widget.showEditAction || widget.showDeleteAction)
+            if (widget.showEditAction ||
+                widget.showReprintAction ||
+                widget.showDeleteAction)
               SizedBox(
                 width: 48,
                 child: PopupMenuButton<DataTableRowAction>(
@@ -351,6 +357,17 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                             Icon(Icons.edit_outlined, size: 18),
                             SizedBox(width: Sizes.sm),
                             Text('Edit'),
+                          ],
+                        ),
+                      ),
+                    if (widget.showReprintAction)
+                      const PopupMenuItem(
+                        value: DataTableRowAction.reprint,
+                        child: Row(
+                          children: [
+                            Icon(Icons.print_outlined, size: 18),
+                            SizedBox(width: Sizes.sm),
+                            Text('Reprint'),
                           ],
                         ),
                       ),

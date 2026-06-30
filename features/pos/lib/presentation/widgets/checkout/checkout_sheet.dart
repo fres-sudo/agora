@@ -1,6 +1,7 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:flutter/material.dart';
+import 'package:printing/printing.dart';
 import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
@@ -8,12 +9,13 @@ import 'package:utils/utils.dart';
 import 'package:feature_pos/presentation/widgets/checkout/change_due_display.dart';
 import 'package:feature_pos/presentation/widgets/checkout/payment_method_selector.dart';
 
-/// The checkout / payment sheet (P1-5).
+/// The checkout / payment sheet (P1-5, P2-3).
 ///
 /// Presents an order summary, a payment-method selector and — for cash — a
 /// money keypad with live change calculation. On confirmation it drives the
 /// [CheckoutCubit] to persist the completed order and decrement stock, then
-/// pops returning the finished [Order] so the caller can clear the cart.
+/// shows a receipt preview (Print / Done) before popping and returning the
+/// finished [Order] so the caller can clear the cart.
 class CheckoutSheet extends StatelessWidget {
   const CheckoutSheet({super.key, this.scrollController});
 
@@ -21,8 +23,15 @@ class CheckoutSheet extends StatelessWidget {
 
   /// Opens the checkout sheet for [order]. Resolves with the completed [Order]
   /// when the sale succeeds, or `null` if the operator dismissed it.
-  static Future<Order?> show(BuildContext context, Order order) {
-    final cubit = context.read<CheckoutCubit>()..start(order);
+  ///
+  /// [receiptConfig] (store/receipt settings) drives the receipt preview/print.
+  static Future<Order?> show(
+    BuildContext context,
+    Order order, {
+    ReceiptConfig receiptConfig = const ReceiptConfig(),
+  }) {
+    final cubit = context.read<CheckoutCubit>()
+      ..start(order, receiptConfig: receiptConfig);
 
     return AdaptiveSheet.show<Order>(
       context: context,
@@ -39,13 +48,7 @@ class CheckoutSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CheckoutCubit, CheckoutState>(
-      listenWhen: (previous, current) => current is CheckoutSuccess,
-      listener: (context, state) {
-        if (state is CheckoutSuccess) {
-          Navigator.of(context).pop(state.order);
-        }
-      },
+    return BlocBuilder<CheckoutCubit, CheckoutState>(
       builder: (context, state) {
         return Material(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -58,7 +61,9 @@ class CheckoutSheet extends StatelessWidget {
               padding: const EdgeInsets.all(Sizes.lg),
               child: SingleChildScrollView(
                 controller: scrollController,
-                child: _CheckoutBody(state: state),
+                child: state is CheckoutSuccess
+                    ? _ReceiptStage(state: state)
+                    : _CheckoutBody(state: state),
               ),
             ),
           ),
@@ -144,6 +149,129 @@ class _CheckoutBody extends StatelessWidget {
           onPressed: isProcessing ? null : () => Navigator.of(context).pop(),
         ),
       ],
+    );
+  }
+}
+
+/// Post-payment stage: receipt preview with Print / Done actions (P2-3).
+class _ReceiptStage extends StatelessWidget {
+  const _ReceiptStage({required this.state});
+
+  final CheckoutSuccess state;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cubit = context.read<CheckoutCubit>();
+    final receipt = state.receipt;
+    final printing = state.printStatus == PrintStatus.printing;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Center(
+          child: Container(
+            width: 40,
+            height: 4,
+            margin: const EdgeInsets.only(bottom: Sizes.md),
+            decoration: BoxDecoration(
+              color: AppColors.neutral300,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.check_circle, color: AppColors.success700),
+            const SizedBox(width: Sizes.sm),
+            Text(
+              'Payment complete',
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: Sizes.lg),
+
+        // Receipt preview.
+        if (receipt != null)
+          Center(child: ReceiptPreview(receipt: receipt, width: 300)),
+        const SizedBox(height: Sizes.lg),
+
+        if (state.printStatus == PrintStatus.printed)
+          const _PrintStatusBanner(
+            icon: Icons.check_circle_outline,
+            color: AppColors.success700,
+            message: 'Receipt printed',
+          ),
+        if (state.printStatus == PrintStatus.failed)
+          const _PrintStatusBanner(
+            icon: Icons.error_outline,
+            color: AppColors.error500,
+            message: 'Print failed — the sale is still recorded',
+          ),
+        if (state.printStatus != PrintStatus.idle)
+          const SizedBox(height: Sizes.sm),
+
+        // Print / reprint.
+        AppButton.primary(
+          label: state.printStatus == PrintStatus.printed
+              ? 'Print Again'
+              : 'Print Receipt',
+          fullWidth: true,
+          isLoading: printing,
+          leadingIcon: const Icon(Icons.print, size: 20),
+          onPressed: printing ? null : cubit.printReceipt,
+        ),
+        const SizedBox(height: Sizes.sm),
+        AppButton.outline(
+          label: 'Done',
+          fullWidth: true,
+          onPressed: printing
+              ? null
+              : () => Navigator.of(context).pop(state.order),
+        ),
+      ],
+    );
+  }
+}
+
+class _PrintStatusBanner extends StatelessWidget {
+  const _PrintStatusBanner({
+    required this.icon,
+    required this.color,
+    required this.message,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(Sizes.sm),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(Sizes.sm),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 18),
+          const SizedBox(width: Sizes.sm),
+          Expanded(
+            child: Text(
+              message,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: color),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

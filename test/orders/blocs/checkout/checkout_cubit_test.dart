@@ -5,15 +5,19 @@ import 'package:feature_products/feature_products.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:printing/printing.dart';
 import 'package:result/result.dart';
 
 import 'checkout_cubit_test.mocks.dart';
 
 @GenerateMocks([OrdersRepository, InventoryRepository, ProductsRepository])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockOrdersRepository ordersRepository;
   late MockInventoryRepository inventoryRepository;
   late MockProductsRepository productsRepository;
+  late FakePrinterService printerService;
 
   // A cart-shaped order (status pending, id null/0) ready for checkout.
   Order buildCart({
@@ -44,20 +48,21 @@ void main() {
   }
 
   Product product({required int id, bool trackStock = true}) => Product(
-    id: id,
-    name: 'P$id',
-    categoryId: 1,
-    priceCents: 500,
-    costCents: 200,
-    stockQuantity: 100,
-    trackStock: trackStock,
-  );
+        id: id,
+        name: 'P$id',
+        categoryId: 1,
+        priceCents: 500,
+        costCents: 200,
+        stockQuantity: 100,
+        trackStock: trackStock,
+      );
 
   CheckoutCubit buildCubit() => CheckoutCubit(
-    ordersRepository: ordersRepository,
-    inventoryRepository: inventoryRepository,
-    productsRepository: productsRepository,
-  );
+        ordersRepository: ordersRepository,
+        inventoryRepository: inventoryRepository,
+        productsRepository: productsRepository,
+        printerService: printerService,
+      );
 
   setUpAll(() {
     provideDummy<Result<Order>>(Result.error(Exception('dummy')));
@@ -70,11 +75,15 @@ void main() {
     ordersRepository = MockOrdersRepository();
     inventoryRepository = MockInventoryRepository();
     productsRepository = MockProductsRepository();
+    printerService = FakePrinterService();
   });
+
+  tearDown(() => printerService.dispose());
 
   // Helper: a completed order as returned by createOrder.
   Order completedFrom(Order cart, {int id = 42, String? method = 'Cash'}) =>
-      cart.copyWith(id: id, status: OrderStatus.completed, paymentMethod: method);
+      cart.copyWith(
+          id: id, status: OrderStatus.completed, paymentMethod: method);
 
   group('CheckoutCubit', () {
     test('initial state is initial', () {
@@ -106,7 +115,8 @@ void main() {
       },
     );
 
-    test('cash: canConfirm only when tendered covers total; change computed', () {
+    test('cash: canConfirm only when tendered covers total; change computed',
+        () {
       final cubit = buildCubit()..start(buildCart(grandTotalCents: 1000));
 
       cubit.setTendered(500);
@@ -274,6 +284,85 @@ void main() {
       },
       verify: (cubit) => expect(cubit.state, isA<CheckoutSuccess>()),
     );
+
+    group('receipt printing (P2-3)', () {
+      void stubSuccessfulSale() {
+        when(ordersRepository.createOrder(any)).thenAnswer((invocation) async {
+          final order = invocation.positionalArguments.first as Order;
+          return Result.ok(order.copyWith(id: 42));
+        });
+        when(productsRepository.getProductById(any))
+            .thenAnswer((_) async => Result.ok(product(id: 1)));
+        when(
+          inventoryRepository.decrementForOrder(
+            productId: anyNamed('productId'),
+            quantity: anyNamed('quantity'),
+            orderId: anyNamed('orderId'),
+          ),
+        ).thenAnswer((_) async => Result.ok((productId: 1, quantity: 98)));
+      }
+
+      test('success state carries a rendered receipt for the preview',
+          () async {
+        stubSuccessfulSale();
+        final cubit = buildCubit();
+        cubit.start(
+          buildCart(grandTotalCents: 1000),
+          receiptConfig: const ReceiptConfig(storeName: 'Sagra'),
+        );
+        cubit.setTendered(1500);
+        await cubit.confirm();
+
+        final state = cubit.state as CheckoutSuccess;
+        expect(state.receipt, isNotNull);
+        expect(state.receipt!.storeName, 'Sagra');
+        expect(state.receipt!.orderNumber, '42');
+        // Cash change is captured on the receipt.
+        expect(state.receipt!.changeCents, 500);
+        expect(state.printStatus, PrintStatus.idle);
+        await cubit.close();
+      });
+
+      test('printReceipt sends bytes and marks status printed', () async {
+        stubSuccessfulSale();
+        final cubit = buildCubit();
+        cubit.start(buildCart(grandTotalCents: 1000));
+        cubit.setTendered(1000);
+        await cubit.confirm();
+
+        await cubit.printReceipt();
+
+        expect(printerService.printedJobs, hasLength(1));
+        expect(printerService.printedJobs.single, isNotEmpty);
+        expect(
+            (cubit.state as CheckoutSuccess).printStatus, PrintStatus.printed);
+        await cubit.close();
+      });
+
+      test('printReceipt marks status failed when the printer errors',
+          () async {
+        stubSuccessfulSale();
+        printerService.failPrint = true;
+        final cubit = buildCubit();
+        cubit.start(buildCart(grandTotalCents: 1000));
+        cubit.setTendered(1000);
+        await cubit.confirm();
+
+        await cubit.printReceipt();
+
+        expect(
+            (cubit.state as CheckoutSuccess).printStatus, PrintStatus.failed);
+        await cubit.close();
+      });
+
+      test('printReceipt is a no-op when not in success state', () async {
+        final cubit = buildCubit();
+        await cubit.printReceipt();
+        expect(cubit.state, isA<CheckoutState>());
+        expect(printerService.printedJobs, isEmpty);
+        await cubit.close();
+      });
+    });
   });
 
   // Keep the completedFrom helper referenced to avoid unused warnings if the

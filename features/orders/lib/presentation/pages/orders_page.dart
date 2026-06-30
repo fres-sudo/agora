@@ -2,9 +2,14 @@ import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
 import 'package:feature_orders/domain/models/order.dart';
+import 'package:feature_orders/domain/mappers/order_receipt_mapper.dart';
+import 'package:feature_orders/presentation/utils/receipt_config_builder.dart';
+import 'package:feature_settings/feature_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:printing/printing.dart';
+import 'package:result/result.dart';
 
 @RoutePage()
 class OrdersPage extends StatefulWidget {
@@ -32,6 +37,33 @@ class _OrdersPageState extends State<OrdersPage> {
   void dispose() {
     _tableController.dispose();
     super.dispose();
+  }
+
+  /// Re-renders [order] and sends it to the configured printer (P2-3).
+  Future<void> _reprint(Order order) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final printer = context.read<PrinterService>();
+    final config = buildReceiptConfig(context.read<SettingsCubit>());
+    final receipt = order.toReceipt(config);
+
+    void toast(String message) {
+      messenger
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+        );
+    }
+
+    try {
+      final bytes = await const ReceiptRenderer().toEscPos(receipt);
+      final result = await printer.printBytes(bytes);
+      result.when(
+        success: (_) => toast('Receipt #${order.id ?? '-'} sent to printer'),
+        error: (_) => toast('Reprint failed — check the printer connection'),
+      );
+    } catch (_) {
+      toast('Reprint failed — check the printer connection');
+    }
   }
 
   @override
@@ -91,6 +123,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
                 showAddButton: false,
                 showEditAction: false,
+                showReprintAction: true,
                 showDeleteAction: true,
                 columns: [
                   DataTableColumn(
@@ -167,6 +200,9 @@ class _OrdersPageState extends State<OrdersPage> {
                 onRowAction: (order, action) async {
                   switch (action) {
                     case DataTableRowAction.edit:
+                      break;
+                    case DataTableRowAction.reprint:
+                      await _reprint(order);
                       break;
                     case DataTableRowAction.delete:
                       final confirmed = await DataTableDeleteDialog.show(

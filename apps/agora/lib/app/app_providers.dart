@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:launcher/launcher.dart';
 import 'package:pine/pine.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:remote_config/remote_config.dart';
@@ -91,6 +92,13 @@ List<SingleChildWidget> _buildProviders({
   Provider<UrlLauncherService>(
     create: (ctx) =>
         UrlLauncherServiceImpl(launchModeMapper: ctx.read<LaunchModeMapper>()),
+  ),
+
+  // Thermal printer transport (the concrete impl is the only thing that touches
+  // the third-party printer libs; features depend on the PrinterService API).
+  Provider<PrinterService>(
+    create: (ctx) => ThermalPrinterServiceImpl(logger: ctx.read<Talker>()),
+    dispose: (_, service) => service.dispose(),
   ),
 
   // Database — the single, app-owned instance created in main() and disposed

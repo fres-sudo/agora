@@ -207,6 +207,9 @@ class _ProductsView extends StatelessWidget {
             case DataTableRowAction.edit:
               await ProductFormWrapper.showEdit(context, product);
               break;
+            case DataTableRowAction.reprint:
+              // Not applicable to products (reprint is order-only).
+              break;
             case DataTableRowAction.delete:
               final confirmed = await ConfirmationDialog.showDelete(
                 context: context,

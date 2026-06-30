@@ -131,13 +131,13 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( Order order,  PaymentMethod method,  int tenderedCents)?  selecting,TResult Function( Order order,  PaymentMethod method,  int tenderedCents)?  processing,TResult Function( Order order,  PaymentMethod method,  int tenderedCents)?  success,TResult Function( String message,  Order order,  PaymentMethod method,  int tenderedCents)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( Order order,  PaymentMethod method,  int tenderedCents)?  selecting,TResult Function( Order order,  PaymentMethod method,  int tenderedCents)?  processing,TResult Function( Order order,  PaymentMethod method,  int tenderedCents,  Receipt? receipt,  PrintStatus printStatus)?  success,TResult Function( String message,  Order order,  PaymentMethod method,  int tenderedCents)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case CheckoutSelecting() when selecting != null:
 return selecting(_that.order,_that.method,_that.tenderedCents);case _Processing() when processing != null:
 return processing(_that.order,_that.method,_that.tenderedCents);case CheckoutSuccess() when success != null:
-return success(_that.order,_that.method,_that.tenderedCents);case _Failure() when failure != null:
+return success(_that.order,_that.method,_that.tenderedCents,_that.receipt,_that.printStatus);case _Failure() when failure != null:
 return failure(_that.message,_that.order,_that.method,_that.tenderedCents);case _:
   return orElse();
 
@@ -156,13 +156,13 @@ return failure(_that.message,_that.order,_that.method,_that.tenderedCents);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( Order order,  PaymentMethod method,  int tenderedCents)  selecting,required TResult Function( Order order,  PaymentMethod method,  int tenderedCents)  processing,required TResult Function( Order order,  PaymentMethod method,  int tenderedCents)  success,required TResult Function( String message,  Order order,  PaymentMethod method,  int tenderedCents)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( Order order,  PaymentMethod method,  int tenderedCents)  selecting,required TResult Function( Order order,  PaymentMethod method,  int tenderedCents)  processing,required TResult Function( Order order,  PaymentMethod method,  int tenderedCents,  Receipt? receipt,  PrintStatus printStatus)  success,required TResult Function( String message,  Order order,  PaymentMethod method,  int tenderedCents)  failure,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case CheckoutSelecting():
 return selecting(_that.order,_that.method,_that.tenderedCents);case _Processing():
 return processing(_that.order,_that.method,_that.tenderedCents);case CheckoutSuccess():
-return success(_that.order,_that.method,_that.tenderedCents);case _Failure():
+return success(_that.order,_that.method,_that.tenderedCents,_that.receipt,_that.printStatus);case _Failure():
 return failure(_that.message,_that.order,_that.method,_that.tenderedCents);case _:
   throw StateError('Unexpected subclass');
 
@@ -180,13 +180,13 @@ return failure(_that.message,_that.order,_that.method,_that.tenderedCents);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( Order order,  PaymentMethod method,  int tenderedCents)?  selecting,TResult? Function( Order order,  PaymentMethod method,  int tenderedCents)?  processing,TResult? Function( Order order,  PaymentMethod method,  int tenderedCents)?  success,TResult? Function( String message,  Order order,  PaymentMethod method,  int tenderedCents)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( Order order,  PaymentMethod method,  int tenderedCents)?  selecting,TResult? Function( Order order,  PaymentMethod method,  int tenderedCents)?  processing,TResult? Function( Order order,  PaymentMethod method,  int tenderedCents,  Receipt? receipt,  PrintStatus printStatus)?  success,TResult? Function( String message,  Order order,  PaymentMethod method,  int tenderedCents)?  failure,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case CheckoutSelecting() when selecting != null:
 return selecting(_that.order,_that.method,_that.tenderedCents);case _Processing() when processing != null:
 return processing(_that.order,_that.method,_that.tenderedCents);case CheckoutSuccess() when success != null:
-return success(_that.order,_that.method,_that.tenderedCents);case _Failure() when failure != null:
+return success(_that.order,_that.method,_that.tenderedCents,_that.receipt,_that.printStatus);case _Failure() when failure != null:
 return failure(_that.message,_that.order,_that.method,_that.tenderedCents);case _:
   return null;
 
@@ -389,12 +389,14 @@ $OrderCopyWith<$Res> get order {
 
 
 class CheckoutSuccess extends CheckoutState {
-  const CheckoutSuccess({required this.order, required this.method, this.tenderedCents = 0}): super._();
+  const CheckoutSuccess({required this.order, required this.method, this.tenderedCents = 0, this.receipt, this.printStatus = PrintStatus.idle}): super._();
   
 
  final  Order order;
  final  PaymentMethod method;
 @JsonKey() final  int tenderedCents;
+ final  Receipt? receipt;
+@JsonKey() final  PrintStatus printStatus;
 
 /// Create a copy of CheckoutState
 /// with the given fields replaced by the non-null parameter values.
@@ -406,16 +408,16 @@ $CheckoutSuccessCopyWith<CheckoutSuccess> get copyWith => _$CheckoutSuccessCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CheckoutSuccess&&(identical(other.order, order) || other.order == order)&&(identical(other.method, method) || other.method == method)&&(identical(other.tenderedCents, tenderedCents) || other.tenderedCents == tenderedCents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CheckoutSuccess&&(identical(other.order, order) || other.order == order)&&(identical(other.method, method) || other.method == method)&&(identical(other.tenderedCents, tenderedCents) || other.tenderedCents == tenderedCents)&&(identical(other.receipt, receipt) || other.receipt == receipt)&&(identical(other.printStatus, printStatus) || other.printStatus == printStatus));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,order,method,tenderedCents);
+int get hashCode => Object.hash(runtimeType,order,method,tenderedCents,receipt,printStatus);
 
 @override
 String toString() {
-  return 'CheckoutState.success(order: $order, method: $method, tenderedCents: $tenderedCents)';
+  return 'CheckoutState.success(order: $order, method: $method, tenderedCents: $tenderedCents, receipt: $receipt, printStatus: $printStatus)';
 }
 
 
@@ -426,7 +428,7 @@ abstract mixin class $CheckoutSuccessCopyWith<$Res> implements $CheckoutStateCop
   factory $CheckoutSuccessCopyWith(CheckoutSuccess value, $Res Function(CheckoutSuccess) _then) = _$CheckoutSuccessCopyWithImpl;
 @useResult
 $Res call({
- Order order, PaymentMethod method, int tenderedCents
+ Order order, PaymentMethod method, int tenderedCents, Receipt? receipt, PrintStatus printStatus
 });
 
 
@@ -443,12 +445,14 @@ class _$CheckoutSuccessCopyWithImpl<$Res>
 
 /// Create a copy of CheckoutState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? order = null,Object? method = null,Object? tenderedCents = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? order = null,Object? method = null,Object? tenderedCents = null,Object? receipt = freezed,Object? printStatus = null,}) {
   return _then(CheckoutSuccess(
 order: null == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as Order,method: null == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
 as PaymentMethod,tenderedCents: null == tenderedCents ? _self.tenderedCents : tenderedCents // ignore: cast_nullable_to_non_nullable
-as int,
+as int,receipt: freezed == receipt ? _self.receipt : receipt // ignore: cast_nullable_to_non_nullable
+as Receipt?,printStatus: null == printStatus ? _self.printStatus : printStatus // ignore: cast_nullable_to_non_nullable
+as PrintStatus,
   ));
 }
 

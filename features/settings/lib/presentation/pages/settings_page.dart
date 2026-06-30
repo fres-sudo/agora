@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:feature_settings/presentation/widgets/category_section.dart';
 import 'package:feature_settings/presentation/widgets/placeholder_sections.dart';
+import 'package:feature_settings/presentation/widgets/printer_section.dart';
+import 'package:feature_settings/presentation/widgets/receipt_option_section.dart';
 import 'package:feature_settings/presentation/widgets/store_setting_section.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';

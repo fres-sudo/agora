@@ -57,29 +57,3 @@ class DiscountVoucherSection extends StatelessWidget {
     );
   }
 }
-
-/// Receipt option settings section.
-class ReceiptOptionSection extends StatelessWidget {
-  const ReceiptOptionSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SettingsSectionScaffold(
-      title: 'Receipt Option',
-      child: Center(child: Text('Receipt option settings coming soon...')),
-    );
-  }
-}
-
-/// Printer settings section.
-class PrinterSection extends StatelessWidget {
-  const PrinterSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SettingsSectionScaffold(
-      title: 'Printer',
-      child: Center(child: Text('Printer settings coming soon...')),
-    );
-  }
-}

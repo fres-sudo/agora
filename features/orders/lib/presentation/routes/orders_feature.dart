@@ -11,6 +11,7 @@ import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:printing/printing.dart';
 import 'package:talker/talker.dart';
 
 class OrdersFeature {
@@ -51,6 +52,7 @@ class OrdersFeature {
         ordersRepository: ctx.read(),
         inventoryRepository: ctx.read<InventoryRepository>(),
         productsRepository: ctx.read<ProductsRepository>(),
+        printerService: ctx.read<PrinterService>(),
         logger: ctx.read<Talker>(),
       ),
     ),

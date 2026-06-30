@@ -24,6 +24,8 @@ dependencies:
     path: ../../packages/i18n
   logger:
     path: ../../packages/logger
+  printing:
+    path: ../../packages/printing
   result:
     path: ../../packages/result
   talker: ^5.1.9
