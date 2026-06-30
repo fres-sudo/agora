@@ -3,6 +3,7 @@ import 'package:feature_orders/data/sources/local/daos/orders_dao.dart';
 import 'package:feature_orders/data/sources/local/daos/order_items_dao.dart';
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_orders/domain/models/order_line_item.dart';
+import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_orders/domain/models/selected_modifiers.dart';
 import 'package:feature_orders/domain/repositories/orders_repository.dart';
 import 'package:result/result.dart';
@@ -55,8 +56,10 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       id: entity.id,
       createdAt: entity.createdAt,
       status: OrderStatus.values.firstWhere((s) => s.value == entity.status),
+      orderType: OrderType.fromValue(entity.orderType),
       items: items,
       note: entity.note,
+      paymentMethod: entity.paymentMethod,
       subtotalCents: entity.subtotal,
       taxCents: entity.taxTotal,
       discountCents: entity.discountTotal,
@@ -69,12 +72,13 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       id: order.id ?? 0,
       createdAt: order.createdAt,
       status: order.status.value,
+      orderType: order.orderType.value,
       subtotal: order.subtotalCents,
       taxTotal: order.taxCents,
       discountTotal: order.discountCents,
       grandTotal: order.grandTotalCents,
       note: order.note,
-      paymentMethod: null,
+      paymentMethod: order.paymentMethod,
       updatedAt: DateTime.now(),
       deletedAt: null,
     );
@@ -84,11 +88,13 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
     return OrdersTableCompanion.insert(
       createdAt: Value(order.createdAt),
       status: Value(order.status.value),
+      orderType: Value(order.orderType.value),
       subtotal: order.subtotalCents,
       discountTotal: Value(order.discountCents),
       taxTotal: Value(order.taxCents),
       grandTotal: order.grandTotalCents,
       note: Value(order.note),
+      paymentMethod: Value(order.paymentMethod),
     );
   }
 

@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 mixin _$Order {
 
  int? get id;// Null if it's a new cart not yet saved to DB
- DateTime get createdAt; OrderStatus get status; List<OrderLineItem> get items; String? get note;// Financials
+ DateTime get createdAt; OrderStatus get status; OrderType get orderType; List<OrderLineItem> get items; String? get note;// Payment
+ String? get paymentMethod;// "Cash", "Card", etc. Null until paid.
+// Financials
  int get subtotalCents; int get taxCents; int get discountCents; int get grandTotalCents;
 /// Create a copy of Order
 /// with the given fields replaced by the non-null parameter values.
@@ -27,16 +29,16 @@ $OrderCopyWith<Order> get copyWith => _$OrderCopyWithImpl<Order>(this as Order, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Order&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.note, note) || other.note == note)&&(identical(other.subtotalCents, subtotalCents) || other.subtotalCents == subtotalCents)&&(identical(other.taxCents, taxCents) || other.taxCents == taxCents)&&(identical(other.discountCents, discountCents) || other.discountCents == discountCents)&&(identical(other.grandTotalCents, grandTotalCents) || other.grandTotalCents == grandTotalCents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Order&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.orderType, orderType) || other.orderType == orderType)&&const DeepCollectionEquality().equals(other.items, items)&&(identical(other.note, note) || other.note == note)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.subtotalCents, subtotalCents) || other.subtotalCents == subtotalCents)&&(identical(other.taxCents, taxCents) || other.taxCents == taxCents)&&(identical(other.discountCents, discountCents) || other.discountCents == discountCents)&&(identical(other.grandTotalCents, grandTotalCents) || other.grandTotalCents == grandTotalCents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,createdAt,status,const DeepCollectionEquality().hash(items),note,subtotalCents,taxCents,discountCents,grandTotalCents);
+int get hashCode => Object.hash(runtimeType,id,createdAt,status,orderType,const DeepCollectionEquality().hash(items),note,paymentMethod,subtotalCents,taxCents,discountCents,grandTotalCents);
 
 @override
 String toString() {
-  return 'Order(id: $id, createdAt: $createdAt, status: $status, items: $items, note: $note, subtotalCents: $subtotalCents, taxCents: $taxCents, discountCents: $discountCents, grandTotalCents: $grandTotalCents)';
+  return 'Order(id: $id, createdAt: $createdAt, status: $status, orderType: $orderType, items: $items, note: $note, paymentMethod: $paymentMethod, subtotalCents: $subtotalCents, taxCents: $taxCents, discountCents: $discountCents, grandTotalCents: $grandTotalCents)';
 }
 
 
@@ -47,7 +49,7 @@ abstract mixin class $OrderCopyWith<$Res>  {
   factory $OrderCopyWith(Order value, $Res Function(Order) _then) = _$OrderCopyWithImpl;
 @useResult
 $Res call({
- int? id, DateTime createdAt, OrderStatus status, List<OrderLineItem> items, String? note, int subtotalCents, int taxCents, int discountCents, int grandTotalCents
+ int? id, DateTime createdAt, OrderStatus status, OrderType orderType, List<OrderLineItem> items, String? note, String? paymentMethod, int subtotalCents, int taxCents, int discountCents, int grandTotalCents
 });
 
 
@@ -64,13 +66,15 @@ class _$OrderCopyWithImpl<$Res>
 
 /// Create a copy of Order
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = null,Object? status = null,Object? items = null,Object? note = freezed,Object? subtotalCents = null,Object? taxCents = null,Object? discountCents = null,Object? grandTotalCents = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? createdAt = null,Object? status = null,Object? orderType = null,Object? items = null,Object? note = freezed,Object? paymentMethod = freezed,Object? subtotalCents = null,Object? taxCents = null,Object? discountCents = null,Object? grandTotalCents = null,}) {
   return _then(_self.copyWith(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as OrderStatus,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
+as OrderStatus,orderType: null == orderType ? _self.orderType : orderType // ignore: cast_nullable_to_non_nullable
+as OrderType,items: null == items ? _self.items : items // ignore: cast_nullable_to_non_nullable
 as List<OrderLineItem>,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,paymentMethod: freezed == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
 as String?,subtotalCents: null == subtotalCents ? _self.subtotalCents : subtotalCents // ignore: cast_nullable_to_non_nullable
 as int,taxCents: null == taxCents ? _self.taxCents : taxCents // ignore: cast_nullable_to_non_nullable
 as int,discountCents: null == discountCents ? _self.discountCents : discountCents // ignore: cast_nullable_to_non_nullable
@@ -160,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  DateTime createdAt,  OrderStatus status,  List<OrderLineItem> items,  String? note,  int subtotalCents,  int taxCents,  int discountCents,  int grandTotalCents)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  DateTime createdAt,  OrderStatus status,  OrderType orderType,  List<OrderLineItem> items,  String? note,  String? paymentMethod,  int subtotalCents,  int taxCents,  int discountCents,  int grandTotalCents)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Order() when $default != null:
-return $default(_that.id,_that.createdAt,_that.status,_that.items,_that.note,_that.subtotalCents,_that.taxCents,_that.discountCents,_that.grandTotalCents);case _:
+return $default(_that.id,_that.createdAt,_that.status,_that.orderType,_that.items,_that.note,_that.paymentMethod,_that.subtotalCents,_that.taxCents,_that.discountCents,_that.grandTotalCents);case _:
   return orElse();
 
 }
@@ -181,10 +185,10 @@ return $default(_that.id,_that.createdAt,_that.status,_that.items,_that.note,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  DateTime createdAt,  OrderStatus status,  List<OrderLineItem> items,  String? note,  int subtotalCents,  int taxCents,  int discountCents,  int grandTotalCents)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  DateTime createdAt,  OrderStatus status,  OrderType orderType,  List<OrderLineItem> items,  String? note,  String? paymentMethod,  int subtotalCents,  int taxCents,  int discountCents,  int grandTotalCents)  $default,) {final _that = this;
 switch (_that) {
 case _Order():
-return $default(_that.id,_that.createdAt,_that.status,_that.items,_that.note,_that.subtotalCents,_that.taxCents,_that.discountCents,_that.grandTotalCents);case _:
+return $default(_that.id,_that.createdAt,_that.status,_that.orderType,_that.items,_that.note,_that.paymentMethod,_that.subtotalCents,_that.taxCents,_that.discountCents,_that.grandTotalCents);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +205,10 @@ return $default(_that.id,_that.createdAt,_that.status,_that.items,_that.note,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  DateTime createdAt,  OrderStatus status,  List<OrderLineItem> items,  String? note,  int subtotalCents,  int taxCents,  int discountCents,  int grandTotalCents)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  DateTime createdAt,  OrderStatus status,  OrderType orderType,  List<OrderLineItem> items,  String? note,  String? paymentMethod,  int subtotalCents,  int taxCents,  int discountCents,  int grandTotalCents)?  $default,) {final _that = this;
 switch (_that) {
 case _Order() when $default != null:
-return $default(_that.id,_that.createdAt,_that.status,_that.items,_that.note,_that.subtotalCents,_that.taxCents,_that.discountCents,_that.grandTotalCents);case _:
+return $default(_that.id,_that.createdAt,_that.status,_that.orderType,_that.items,_that.note,_that.paymentMethod,_that.subtotalCents,_that.taxCents,_that.discountCents,_that.grandTotalCents);case _:
   return null;
 
 }
@@ -216,13 +220,14 @@ return $default(_that.id,_that.createdAt,_that.status,_that.items,_that.note,_th
 
 
 class _Order extends Order {
-  const _Order({required this.id, required this.createdAt, required this.status, required final  List<OrderLineItem> items, required this.note, required this.subtotalCents, required this.taxCents, required this.discountCents, required this.grandTotalCents}): _items = items,super._();
+  const _Order({required this.id, required this.createdAt, required this.status, this.orderType = OrderType.dineIn, required final  List<OrderLineItem> items, required this.note, this.paymentMethod, required this.subtotalCents, required this.taxCents, required this.discountCents, required this.grandTotalCents}): _items = items,super._();
   
 
 @override final  int? id;
 // Null if it's a new cart not yet saved to DB
 @override final  DateTime createdAt;
 @override final  OrderStatus status;
+@override@JsonKey() final  OrderType orderType;
  final  List<OrderLineItem> _items;
 @override List<OrderLineItem> get items {
   if (_items is EqualUnmodifiableListView) return _items;
@@ -231,6 +236,9 @@ class _Order extends Order {
 }
 
 @override final  String? note;
+// Payment
+@override final  String? paymentMethod;
+// "Cash", "Card", etc. Null until paid.
 // Financials
 @override final  int subtotalCents;
 @override final  int taxCents;
@@ -247,16 +255,16 @@ _$OrderCopyWith<_Order> get copyWith => __$OrderCopyWithImpl<_Order>(this, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Order&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.note, note) || other.note == note)&&(identical(other.subtotalCents, subtotalCents) || other.subtotalCents == subtotalCents)&&(identical(other.taxCents, taxCents) || other.taxCents == taxCents)&&(identical(other.discountCents, discountCents) || other.discountCents == discountCents)&&(identical(other.grandTotalCents, grandTotalCents) || other.grandTotalCents == grandTotalCents));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Order&&(identical(other.id, id) || other.id == id)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.orderType, orderType) || other.orderType == orderType)&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.note, note) || other.note == note)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod)&&(identical(other.subtotalCents, subtotalCents) || other.subtotalCents == subtotalCents)&&(identical(other.taxCents, taxCents) || other.taxCents == taxCents)&&(identical(other.discountCents, discountCents) || other.discountCents == discountCents)&&(identical(other.grandTotalCents, grandTotalCents) || other.grandTotalCents == grandTotalCents));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,createdAt,status,const DeepCollectionEquality().hash(_items),note,subtotalCents,taxCents,discountCents,grandTotalCents);
+int get hashCode => Object.hash(runtimeType,id,createdAt,status,orderType,const DeepCollectionEquality().hash(_items),note,paymentMethod,subtotalCents,taxCents,discountCents,grandTotalCents);
 
 @override
 String toString() {
-  return 'Order(id: $id, createdAt: $createdAt, status: $status, items: $items, note: $note, subtotalCents: $subtotalCents, taxCents: $taxCents, discountCents: $discountCents, grandTotalCents: $grandTotalCents)';
+  return 'Order(id: $id, createdAt: $createdAt, status: $status, orderType: $orderType, items: $items, note: $note, paymentMethod: $paymentMethod, subtotalCents: $subtotalCents, taxCents: $taxCents, discountCents: $discountCents, grandTotalCents: $grandTotalCents)';
 }
 
 
@@ -267,7 +275,7 @@ abstract mixin class _$OrderCopyWith<$Res> implements $OrderCopyWith<$Res> {
   factory _$OrderCopyWith(_Order value, $Res Function(_Order) _then) = __$OrderCopyWithImpl;
 @override @useResult
 $Res call({
- int? id, DateTime createdAt, OrderStatus status, List<OrderLineItem> items, String? note, int subtotalCents, int taxCents, int discountCents, int grandTotalCents
+ int? id, DateTime createdAt, OrderStatus status, OrderType orderType, List<OrderLineItem> items, String? note, String? paymentMethod, int subtotalCents, int taxCents, int discountCents, int grandTotalCents
 });
 
 
@@ -284,13 +292,15 @@ class __$OrderCopyWithImpl<$Res>
 
 /// Create a copy of Order
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = null,Object? status = null,Object? items = null,Object? note = freezed,Object? subtotalCents = null,Object? taxCents = null,Object? discountCents = null,Object? grandTotalCents = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? createdAt = null,Object? status = null,Object? orderType = null,Object? items = null,Object? note = freezed,Object? paymentMethod = freezed,Object? subtotalCents = null,Object? taxCents = null,Object? discountCents = null,Object? grandTotalCents = null,}) {
   return _then(_Order(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as OrderStatus,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
+as OrderStatus,orderType: null == orderType ? _self.orderType : orderType // ignore: cast_nullable_to_non_nullable
+as OrderType,items: null == items ? _self._items : items // ignore: cast_nullable_to_non_nullable
 as List<OrderLineItem>,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
+as String?,paymentMethod: freezed == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
 as String?,subtotalCents: null == subtotalCents ? _self.subtotalCents : subtotalCents // ignore: cast_nullable_to_non_nullable
 as int,taxCents: null == taxCents ? _self.taxCents : taxCents // ignore: cast_nullable_to_non_nullable
 as int,discountCents: null == discountCents ? _self.discountCents : discountCents // ignore: cast_nullable_to_non_nullable

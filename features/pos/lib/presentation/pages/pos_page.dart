@@ -1,6 +1,7 @@
 // assets.gen.dart is app-level; logo path inlined below
 import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
+import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_orders/presentation/blocs/active_order/active_order_bloc.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
@@ -50,8 +51,51 @@ class _PosPageState extends State<PosPage> {
     context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.cleared());
   }
 
-  void _onProcessTransaction() {
-    context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.submitted());
+  void _onOrderTypeChanged(OrderType type) {
+    setState(() => _orderType = type);
+    // Persist the selection into the cart so the completed order carries it.
+    context.read<ActiveOrderBloc>().add(
+      ActiveOrderEvent.orderTypeChanged(type),
+    );
+  }
+
+  Future<void> _onProcessTransaction() async {
+    final order = context.read<ActiveOrderBloc>().state.currentOrder;
+    if (order == null || order.items.isEmpty) return;
+
+    final completedOrder = await CheckoutSheet.show(context, order);
+    if (!mounted) return;
+
+    if (completedOrder != null) {
+      // Sale finalised: clear the cart and confirm.
+      context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.cleared());
+
+      ScaffoldMessenger.of(context)
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white),
+                const SizedBox(width: Sizes.sm),
+                Text(
+                  completedOrder.id != null
+                      ? 'Order #${completedOrder.id} completed'
+                      : 'Order completed',
+                ),
+              ],
+            ),
+            backgroundColor: AppColors.success700,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
+      // Close the mobile cart drawer if it is open.
+      final scaffold = Scaffold.maybeOf(context);
+      if (scaffold?.isEndDrawerOpen ?? false) {
+        Navigator.of(context).pop();
+      }
+    }
   }
 
   void _onItemRemoved(int productId) {
@@ -79,38 +123,23 @@ class _PosPageState extends State<PosPage> {
   Widget build(BuildContext context) {
     final isTabletOrLarger = context.isTabletOrLarger;
 
-    return BlocListener<ActiveOrderBloc, ActiveOrderState>(
-      listenWhen: (_, current) =>
-          current.maybeMap(submitted: (_) => true, orElse: () => false),
-      listener: (context, state) {
-        state.maybeMap(
-          submitted: (submittedState) {
-            ScaffoldMessenger.of(context)
-              ..clearSnackBars()
-              ..showSnackBar(
-                SnackBar(
-                  content: Row(
-                    children: [
-                      const Icon(Icons.check_circle, color: Colors.white),
-                      const SizedBox(width: Sizes.sm),
-                      Text(
-                        submittedState.order.id != null
-                            ? 'Order #${submittedState.order.id} placed successfully'
-                            : 'Order placed successfully',
-                      ),
-                    ],
-                  ),
-                  backgroundColor: AppColors.success700,
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-
-            context.read<ActiveOrderBloc>().add(
-              const ActiveOrderEvent.cleared(),
+    // Surface errors emitted by the active-order bloc (e.g. submit guards).
+    // Checkout success/failure is handled inline by the checkout sheet, so the
+    // previously-broken `submitted` state listener has been removed (P1-7).
+    return EffectListener<ActiveOrderBloc, ActiveOrderEffect>(
+      filter: (effect) => effect is ActiveOrderShowError,
+      onEffect: (context, effect) {
+        if (effect is ActiveOrderShowError) {
+          ScaffoldMessenger.of(context)
+            ..clearSnackBars()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(effect.message),
+                backgroundColor: AppColors.error500,
+                behavior: SnackBarBehavior.floating,
+              ),
             );
-          },
-          orElse: () {},
-        );
+        }
       },
       child: Scaffold(
         appBar: _buildAppBar(context),
@@ -119,7 +148,7 @@ class _PosPageState extends State<PosPage> {
         body: isTabletOrLarger
             ? _TabletLayout(
                 orderType: _orderType,
-                onOrderTypeChanged: (type) => setState(() => _orderType = type),
+                onOrderTypeChanged: _onOrderTypeChanged,
                 onProductTap: _onProductTap,
                 onCategorySelected: _onCategorySelected,
                 onSearch: _onSearch,
@@ -130,7 +159,7 @@ class _PosPageState extends State<PosPage> {
               )
             : _MobileLayout(
                 orderType: _orderType,
-                onOrderTypeChanged: (type) => setState(() => _orderType = type),
+                onOrderTypeChanged: _onOrderTypeChanged,
                 onProductTap: _onProductTap,
                 onCategorySelected: _onCategorySelected,
                 onSearch: _onSearch,
@@ -241,7 +270,7 @@ class _PosPageState extends State<PosPage> {
             child: PosOrderPanel(
               currentOrder: state.currentOrder,
               orderType: _orderType,
-              onOrderTypeChanged: (type) => setState(() => _orderType = type),
+              onOrderTypeChanged: _onOrderTypeChanged,
               onClearOrder: _onClearOrder,
               onProcessTransaction: _onProcessTransaction,
               onItemRemoved: _onItemRemoved,
@@ -418,9 +447,7 @@ class _MobileLayout extends StatelessWidget {
                     emptyDescription:
                         'Product from your store will show here. Tap button below to add your product now',
                     emptyActionLabel: 'Add Product',
-                    onEmptyAction: () {
-                      // TODO: Navigate to add product
-                    },
+                    onEmptyAction: () => ProductFormWrapper.showCreate(context),
                   );
                 },
               );

@@ -1,4 +1,5 @@
 import 'package:feature_orders/domain/models/order_line_item.dart';
+import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
 part 'order.freezed.dart';
@@ -19,9 +20,12 @@ abstract class Order with _$Order {
     required int? id, // Null if it's a new cart not yet saved to DB
     required DateTime createdAt,
     required OrderStatus status,
+    @Default(OrderType.dineIn) OrderType orderType,
     required List<OrderLineItem> items,
     required String? note,
 
+    // Payment
+    String? paymentMethod, // "Cash", "Card", etc. Null until paid.
     // Financials
     required int subtotalCents,
     required int taxCents,

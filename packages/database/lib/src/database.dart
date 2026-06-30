@@ -39,13 +39,19 @@ class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
       onCreate: (m) async {
         await m.createAll();
+      },
+      onUpgrade: (m, from, to) async {
+        // v1 -> v2: add `orderType` to orders (0 = Dine In, 1 = Take Away).
+        if (from < 2) {
+          await m.addColumn(ordersTable, ordersTable.orderType);
+        }
       },
     );
   }
