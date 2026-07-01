@@ -57,8 +57,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
     final confirmed = await ConfirmationDialog.showDelete(
       context: context,
       title: 'Delete Employee?',
-      message:
-          'Are you sure you want to remove ${employee.name}? This cannot be undone.',
+      message: 'Are you sure you want to remove ${employee.name}? This cannot be undone.',
     );
     if (confirmed && mounted) {
       context.read<EmployeesBloc>().add(EmployeesEvent.deleted(employee.id));
@@ -95,8 +94,9 @@ class _EmployeesPageState extends State<EmployeesPage> {
             onEdit: _onEdit,
             onDelete: _onDelete,
           ),
-          error: (message) =>
-              Center(child: Text(message, style: const TextStyle(color: Colors.red))),
+          error: (message) => Center(
+            child: Text(message, style: const TextStyle(color: Colors.red)),
+          ),
         ),
       ),
     );
@@ -123,11 +123,8 @@ class _EmployeesList extends StatefulWidget {
 class _EmployeesListState extends State<_EmployeesList> {
   String _search = '';
 
-  List<Employee> get _filtered => widget.employees
-      .where(
-        (e) => e.name.toLowerCase().contains(_search.toLowerCase()),
-      )
-      .toList();
+  List<Employee> get _filtered =>
+      widget.employees.where((e) => e.name.toLowerCase().contains(_search.toLowerCase())).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -140,9 +137,7 @@ class _EmployeesListState extends State<_EmployeesList> {
             children: [
               Text(
                 'Employees',
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               SizedBox(
@@ -188,11 +183,7 @@ class _EmployeesListState extends State<_EmployeesList> {
 }
 
 class _EmployeeTile extends StatelessWidget {
-  const _EmployeeTile({
-    required this.employee,
-    required this.onEdit,
-    required this.onDelete,
-  });
+  const _EmployeeTile({required this.employee, required this.onEdit, required this.onDelete});
 
   final Employee employee;
   final VoidCallback onEdit;
@@ -206,10 +197,7 @@ class _EmployeeTile extends StatelessWidget {
         backgroundColor: AppColors.primary500.withValues(alpha: 0.12),
         child: Text(
           employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-          style: TextStyle(
-            color: AppColors.primary500,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(color: AppColors.primary500, fontWeight: FontWeight.bold),
         ),
       ),
       title: Text(employee.name, style: theme.textTheme.bodyLarge),
@@ -224,16 +212,9 @@ class _EmployeeTile extends StatelessWidget {
           const SizedBox(width: 8),
           _StatusBadge(isActive: employee.isActive),
           const SizedBox(width: 8),
+          AppIconButton.ghost(icon: const Icon(Icons.edit_outlined, size: 20), onPressed: onEdit),
           AppIconButton.ghost(
-            icon: const Icon(Icons.edit_outlined, size: 20),
-            onPressed: onEdit,
-          ),
-          AppIconButton.ghost(
-            icon: const Icon(
-              Icons.delete_outline,
-              size: 20,
-              color: Colors.red,
-            ),
+            icon: const Icon(Icons.delete_outline, size: 20, color: Colors.red),
             onPressed: onDelete,
           ),
         ],
@@ -256,17 +237,13 @@ class _RoleBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: _color.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(12),
-        ),
+      decoration: BoxDecoration(
+        color: _color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Text(
         role.label,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: _color,
-        ),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _color),
       ),
     );
   }
@@ -280,12 +257,11 @@ class _StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: isActive
-              ? Colors.green.withValues(alpha: 0.12)
-              : AppColors.neutral200,
-          borderRadius: BorderRadius.circular(12),
-        ),
+      decoration: BoxDecoration(
+        color: isActive ? Colors.green.withValues(alpha: 0.12) : AppColors.neutral200,
+        borderRadius: BorderRadius.circular(12),
+      ),
+
       child: Text(
         isActive ? 'Active' : 'Inactive',
         style: TextStyle(
@@ -308,17 +284,11 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.people_outline,
-            size: 64,
-            color: AppColors.neutral300,
-          ),
+          Icon(Icons.people_outline, size: 64, color: AppColors.neutral300),
           const SizedBox(height: 16),
           Text(
             'No employees yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.neutral500,
-            ),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
           ),
           const SizedBox(height: 8),
           AppButton.primary(
