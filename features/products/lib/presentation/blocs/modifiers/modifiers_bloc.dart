@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
 import 'package:feature_products/domain/models/modifier_group.dart';
+import 'package:feature_products/domain/models/modifier_option.dart';
 import 'package:feature_products/domain/repositories/modifiers_repository.dart';
 
 part 'modifiers_bloc.freezed.dart';
@@ -32,6 +33,9 @@ class ModifiersBloc
     on<_Deleted>(_onDeleted);
     on<_LinkedToProduct>(_onLinkedToProduct);
     on<_UnlinkedFromProduct>(_onUnlinkedFromProduct);
+    on<_OptionCreated>(_onOptionCreated);
+    on<_OptionUpdated>(_onOptionUpdated);
+    on<_OptionDeleted>(_onOptionDeleted);
   }
 
   final ModifiersRepository _modifiersRepository;
@@ -155,6 +159,71 @@ class ModifiersBloc
       error: (error) {
         emitEffect(
           ModifiersShowError('Failed to unlink modifier: ${error.toString()}'),
+        );
+      },
+    );
+  }
+
+  Future<void> _onOptionCreated(
+    _OptionCreated event,
+    Emitter<ModifiersState> emit,
+  ) async {
+    final result = await _modifiersRepository.createModifierOption(
+      modifierId: event.modifierId,
+      option: event.option,
+    );
+
+    result.when(
+      success: (_) {
+        // Stream will update automatically
+      },
+      error: (error) {
+        emitEffect(
+          ModifiersShowError(
+            'Failed to create modifier option: ${error.toString()}',
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onOptionUpdated(
+    _OptionUpdated event,
+    Emitter<ModifiersState> emit,
+  ) async {
+    final result = await _modifiersRepository.updateModifierOption(
+      event.option,
+    );
+
+    result.when(
+      success: (_) {
+        // Stream will update automatically
+      },
+      error: (error) {
+        emitEffect(
+          ModifiersShowError(
+            'Failed to update modifier option: ${error.toString()}',
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onOptionDeleted(
+    _OptionDeleted event,
+    Emitter<ModifiersState> emit,
+  ) async {
+    final result = await _modifiersRepository.deleteModifierOption(event.id);
+
+    result.when(
+      success: (_) {
+        // Stream will update automatically
+      },
+      error: (error) {
+        emitEffect(
+          ModifiersShowError(
+            'Failed to delete modifier option: ${error.toString()}',
+          ),
         );
       },
     );

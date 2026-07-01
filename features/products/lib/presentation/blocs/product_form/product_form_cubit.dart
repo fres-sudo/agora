@@ -2,6 +2,7 @@ import 'package:result/result.dart';
 import 'package:feature_products/domain/models/product.dart';
 import 'package:feature_products/domain/models/product_form_data.dart';
 import 'package:feature_products/domain/models/product_status.dart';
+import 'package:feature_products/domain/repositories/modifiers_repository.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
 import 'package:feature_products/presentation/utils/form_validators.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,15 @@ part 'product_form_state.dart';
 
 /// Cubit for managing the multi-step product form.
 class ProductFormCubit extends Cubit<ProductFormState> {
-  ProductFormCubit({required ProductsRepository productsRepository})
-    : _productsRepository = productsRepository,
-      super(const ProductFormState.initial());
+  ProductFormCubit({
+    required ProductsRepository productsRepository,
+    required ModifiersRepository modifiersRepository,
+  }) : _productsRepository = productsRepository,
+       _modifiersRepository = modifiersRepository,
+       super(const ProductFormState.initial());
 
   final ProductsRepository _productsRepository;
+  final ModifiersRepository _modifiersRepository;
 
   // ============================================================
   // INITIALIZATION
@@ -48,6 +53,9 @@ class ProductFormCubit extends Cubit<ProductFormState> {
           taxPercent: product.taxPercent,
           stockQuantity: product.stockQuantity,
           status: product.status,
+          selectedModifierIds: product.modifierGroups
+              .map((group) => group.id)
+              .toList(),
         ),
         isEditing: true,
       ),
@@ -142,9 +150,6 @@ class ProductFormCubit extends Cubit<ProductFormState> {
   void updateImageUrl(String? imageUrl) =>
       updateFormData((d) => d.copyWith(imageUrl: imageUrl));
 
-  void updateUnlimitedAvailability(bool value) =>
-      updateFormData((d) => d.copyWith(unlimitedAvailability: value));
-
   void toggleModifier(int modifierId) {
     updateFormData((data) {
       final modifiers = List<int>.from(data.selectedModifierIds);
@@ -154,26 +159,6 @@ class ProductFormCubit extends Cubit<ProductFormState> {
         modifiers.add(modifierId);
       }
       return data.copyWith(selectedModifierIds: modifiers);
-    });
-  }
-
-  void updateIngredient(int productId, double quantity) {
-    updateFormData((data) {
-      final ingredients = Map<int, double>.from(data.ingredients);
-      if (quantity <= 0) {
-        ingredients.remove(productId);
-      } else {
-        ingredients[productId] = quantity;
-      }
-      return data.copyWith(ingredients: ingredients);
-    });
-  }
-
-  void removeIngredient(int productId) {
-    updateFormData((data) {
-      final ingredients = Map<int, double>.from(data.ingredients);
-      ingredients.remove(productId);
-      return data.copyWith(ingredients: ingredients);
     });
   }
 
@@ -222,13 +207,26 @@ class ProductFormCubit extends Cubit<ProductFormState> {
         ? await _productsRepository.createProduct(product)
         : await _productsRepository.updateProduct(product);
 
-    result.when(
-      success: (savedProduct) {
-        emit(
-          ProductFormState.success(productId: savedProduct.id, isNew: isNew),
+    switch (result) {
+      case Ok<Product>(:final value):
+        // Persist the product<->modifier links selected on the "Variants &
+        // Modifiers" step. The product row is already safely saved at this
+        // point, so a failure here is logged rather than surfaced as a
+        // blocking error — retrying would otherwise risk creating a
+        // duplicate product (submit() branches create-vs-update on
+        // `formData.id == 0`).
+        final modifiersResult = await _modifiersRepository.setProductModifiers(
+          productId: value.id,
+          modifierIds: formData.selectedModifierIds,
         );
-      },
-      error: (error) {
+        if (modifiersResult is Error<void>) {
+          debugPrint(
+            'Failed to save product modifiers for product ${value.id}: '
+            '${modifiersResult.error}',
+          );
+        }
+        emit(ProductFormState.success(productId: value.id, isNew: isNew));
+      case Error<Product>(:final error):
         emit(
           ProductFormState.error(
             message: error.toString(),
@@ -236,8 +234,7 @@ class ProductFormCubit extends Cubit<ProductFormState> {
             currentStep: currentState.currentStep,
           ),
         );
-      },
-    );
+    }
   }
 
   /// Save as draft.
@@ -269,8 +266,6 @@ class ProductFormCubit extends Cubit<ProductFormState> {
         check('tax', FormValidators.validateTax(data.taxPercent));
         break;
       case ProductFormStep.variantsModifiers:
-        break;
-      case ProductFormStep.ingredients:
         break;
     }
 

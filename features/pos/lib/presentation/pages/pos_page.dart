@@ -33,10 +33,18 @@ class _PosPageState extends State<PosPage> {
     context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.started());
   }
 
-  void _onProductTap(Product product) {
-    context.read<ActiveOrderBloc>().add(
-      ActiveOrderEvent.itemAdded(product: product),
-    );
+  Future<void> _onProductTap(Product product) async {
+    if (product.modifierGroups.isNotEmpty) {
+      final selected = await ModifierPickerSheet.show(context, product);
+      if (selected == null || !mounted) return;
+      context.read<ActiveOrderBloc>().add(
+        ActiveOrderEvent.itemAdded(product: product, modifiers: selected),
+      );
+    } else {
+      context.read<ActiveOrderBloc>().add(
+        ActiveOrderEvent.itemAdded(product: product),
+      );
+    }
   }
 
   void _onCategorySelected(int? categoryId) {
@@ -105,9 +113,18 @@ class _PosPageState extends State<PosPage> {
     }
   }
 
-  void _onItemRemoved(int productId) {
+  void _onItemRemoved(int lineItemId) {
     context.read<ActiveOrderBloc>().add(
-      ActiveOrderEvent.itemRemoved(productId),
+      ActiveOrderEvent.itemRemoved(lineItemId),
+    );
+  }
+
+  void _onItemQuantityChanged(int lineItemId, int quantity) {
+    context.read<ActiveOrderBloc>().add(
+      ActiveOrderEvent.itemQuantityChanged(
+        lineItemId: lineItemId,
+        quantity: quantity,
+      ),
     );
   }
 
@@ -162,6 +179,7 @@ class _PosPageState extends State<PosPage> {
                 onClearOrder: _onClearOrder,
                 onProcessTransaction: _onProcessTransaction,
                 onItemRemoved: _onItemRemoved,
+                onItemQuantityChanged: _onItemQuantityChanged,
                 buildCartQuantities: _buildCartQuantities,
               )
             : _MobileLayout(
@@ -173,6 +191,7 @@ class _PosPageState extends State<PosPage> {
                 onClearOrder: _onClearOrder,
                 onProcessTransaction: _onProcessTransaction,
                 onItemRemoved: _onItemRemoved,
+                onItemQuantityChanged: _onItemQuantityChanged,
                 buildCartQuantities: _buildCartQuantities,
               ),
       ),
@@ -281,6 +300,7 @@ class _PosPageState extends State<PosPage> {
               onClearOrder: _onClearOrder,
               onProcessTransaction: _onProcessTransaction,
               onItemRemoved: _onItemRemoved,
+              onItemQuantityChanged: _onItemQuantityChanged,
             ),
           ),
         );
@@ -299,6 +319,7 @@ class _TabletLayout extends StatelessWidget {
   final VoidCallback onClearOrder;
   final VoidCallback onProcessTransaction;
   final ValueChanged<int> onItemRemoved;
+  final void Function(int lineItemId, int quantity) onItemQuantityChanged;
   final Map<int, int> Function(ActiveOrderState) buildCartQuantities;
 
   const _TabletLayout({
@@ -310,6 +331,7 @@ class _TabletLayout extends StatelessWidget {
     required this.onClearOrder,
     required this.onProcessTransaction,
     required this.onItemRemoved,
+    required this.onItemQuantityChanged,
     required this.buildCartQuantities,
   });
 
@@ -382,6 +404,7 @@ class _TabletLayout extends StatelessWidget {
                 onClearOrder: onClearOrder,
                 onProcessTransaction: onProcessTransaction,
                 onItemRemoved: onItemRemoved,
+                onItemQuantityChanged: onItemQuantityChanged,
               );
             },
           ),
@@ -401,6 +424,7 @@ class _MobileLayout extends StatelessWidget {
   final VoidCallback onClearOrder;
   final VoidCallback onProcessTransaction;
   final ValueChanged<int> onItemRemoved;
+  final void Function(int lineItemId, int quantity) onItemQuantityChanged;
   final Map<int, int> Function(ActiveOrderState) buildCartQuantities;
 
   const _MobileLayout({
@@ -412,6 +436,7 @@ class _MobileLayout extends StatelessWidget {
     required this.onClearOrder,
     required this.onProcessTransaction,
     required this.onItemRemoved,
+    required this.onItemQuantityChanged,
     required this.buildCartQuantities,
   });
 

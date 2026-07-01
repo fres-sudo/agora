@@ -81,7 +81,7 @@ class DataSeeder {
       // --- 2. Products ---
 
       // Primi
-      await db
+      final tagliatelleId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -93,7 +93,7 @@ class DataSeeder {
               status: const Value('active'),
             ),
           );
-      await db
+      final tortelliniId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -105,7 +105,7 @@ class DataSeeder {
               status: const Value('active'),
             ),
           );
-      await db
+      final gramignaId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -119,7 +119,7 @@ class DataSeeder {
           );
 
       // Secondi
-      await db
+      final grigliataId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -131,7 +131,7 @@ class DataSeeder {
               status: const Value('active'),
             ),
           );
-      await db
+      final cotolettaId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -147,7 +147,7 @@ class DataSeeder {
           );
 
       // Contorni
-      await db
+      final patatineId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -158,7 +158,7 @@ class DataSeeder {
               status: const Value('active'),
             ),
           );
-      await db
+      final insalataId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -182,7 +182,7 @@ class DataSeeder {
               status: const Value('active'),
             ),
           );
-      await db
+      final birraId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -204,7 +204,7 @@ class DataSeeder {
               status: const Value('active'),
             ),
           );
-      await db
+      final cocaColaId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -217,7 +217,7 @@ class DataSeeder {
           );
 
       // Dolci
-      await db
+      final tiramisuId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -228,7 +228,7 @@ class DataSeeder {
               status: const Value('active'),
             ),
           );
-      await db
+      final zuppaIngleseId = await db
           .into(db.productsTable)
           .insert(
             ProductsTableCompanion(
@@ -240,7 +240,47 @@ class DataSeeder {
             ),
           );
 
-      // --- 3. Mock Orders ---
+      // --- 3. Stock (P3-7) ---
+      // Believable festival opening quantities. A couple of items are seeded
+      // intentionally low (<= the inventory feature's default threshold of
+      // 10) so the low-stock indicator has something to show out of the box.
+      final initialStock = <int, int>{
+        tagliatelleId: 40,
+        tortelliniId: 35,
+        gramignaId: 8, // low stock
+        grigliataId: 25,
+        cotolettaId: 30,
+        patatineId: 50,
+        insalataId: 45,
+        waterId: 150,
+        birraId: 80,
+        wineId: 6, // low stock
+        cocaColaId: 100,
+        tiramisuId: 20,
+        zuppaIngleseId: 18,
+      };
+
+      for (final entry in initialStock.entries) {
+        await db
+            .into(db.stocksTable)
+            .insert(
+              StocksTableCompanion(
+                productId: Value(entry.key),
+                quantity: Value(entry.value),
+              ),
+            );
+        await db
+            .into(db.stockMovementsTable)
+            .insert(
+              StockMovementsTableCompanion(
+                productId: Value(entry.key),
+                quantityChange: Value(entry.value),
+                reason: const Value('Initial stock'),
+              ),
+            );
+      }
+
+      // --- 4. Mock Orders ---
 
       // Order 1: Completed (Cash)
       final order1Id = await db

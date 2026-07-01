@@ -10,6 +10,7 @@ class OrderLineItemFixtureFactory extends FixtureFactory<OrderLineItem> {
   @override
   FixtureDefinition<OrderLineItem> definition() => define(
         (faker, [int _ = 0]) => OrderLineItem(
+          id: faker.randomGenerator.integer(100000),
           productId: faker.randomGenerator.integer(1000),
           productName: faker.food.dish(),
           quantity: faker.randomGenerator.integer(5, min: 1),

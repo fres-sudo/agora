@@ -25,6 +25,7 @@ class OrderItemsRepositoryImpl extends Repository
       entity.id,
     );
     return OrderLineItem(
+      id: entity.id,
       productId: entity.productId,
       productName: entity.productName,
       quantity: entity.quantity,

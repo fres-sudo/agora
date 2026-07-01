@@ -1,4 +1,5 @@
 import 'package:database/database.dart';
+import 'package:feature_products/domain/models/modifier_group.dart';
 import 'package:feature_products/domain/models/product.dart';
 import 'package:feature_products/domain/models/product_status.dart';
 
@@ -7,7 +8,13 @@ extension ProductEntityMapper on ProductEntity {
   /// Converts a [ProductEntity] to a [Product] domain model.
   ///
   /// [stockQuantity] is required since stock is stored in a separate table.
-  Product toModel({required int stockQuantity}) {
+  /// [modifierGroups] is optional since modifier links are stored in a
+  /// separate join table (`ProductModifierLinksTable`) — callers that don't
+  /// need modifier data can omit it and get an empty list.
+  Product toModel({
+    required int stockQuantity,
+    List<ModifierGroup> modifierGroups = const [],
+  }) {
     return Product(
       id: id,
       name: name,
@@ -21,6 +28,7 @@ extension ProductEntityMapper on ProductEntity {
       stockQuantity: stockQuantity,
       trackStock: trackStock,
       status: _parseStatus(status),
+      modifierGroups: modifierGroups,
     );
   }
 

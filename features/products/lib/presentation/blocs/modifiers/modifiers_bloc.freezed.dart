@@ -55,7 +55,7 @@ extension ModifiersEventPatterns on ModifiersEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Created value)?  created,TResult Function( _Updated value)?  updated,TResult Function( _Deleted value)?  deleted,TResult Function( _LinkedToProduct value)?  linkedToProduct,TResult Function( _UnlinkedFromProduct value)?  unlinkedFromProduct,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Created value)?  created,TResult Function( _Updated value)?  updated,TResult Function( _Deleted value)?  deleted,TResult Function( _LinkedToProduct value)?  linkedToProduct,TResult Function( _UnlinkedFromProduct value)?  unlinkedFromProduct,TResult Function( _OptionCreated value)?  optionCreated,TResult Function( _OptionUpdated value)?  optionUpdated,TResult Function( _OptionDeleted value)?  optionDeleted,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
@@ -64,7 +64,10 @@ return created(_that);case _Updated() when updated != null:
 return updated(_that);case _Deleted() when deleted != null:
 return deleted(_that);case _LinkedToProduct() when linkedToProduct != null:
 return linkedToProduct(_that);case _UnlinkedFromProduct() when unlinkedFromProduct != null:
-return unlinkedFromProduct(_that);case _:
+return unlinkedFromProduct(_that);case _OptionCreated() when optionCreated != null:
+return optionCreated(_that);case _OptionUpdated() when optionUpdated != null:
+return optionUpdated(_that);case _OptionDeleted() when optionDeleted != null:
+return optionDeleted(_that);case _:
   return orElse();
 
 }
@@ -82,7 +85,7 @@ return unlinkedFromProduct(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Created value)  created,required TResult Function( _Updated value)  updated,required TResult Function( _Deleted value)  deleted,required TResult Function( _LinkedToProduct value)  linkedToProduct,required TResult Function( _UnlinkedFromProduct value)  unlinkedFromProduct,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Created value)  created,required TResult Function( _Updated value)  updated,required TResult Function( _Deleted value)  deleted,required TResult Function( _LinkedToProduct value)  linkedToProduct,required TResult Function( _UnlinkedFromProduct value)  unlinkedFromProduct,required TResult Function( _OptionCreated value)  optionCreated,required TResult Function( _OptionUpdated value)  optionUpdated,required TResult Function( _OptionDeleted value)  optionDeleted,}){
 final _that = this;
 switch (_that) {
 case _Started():
@@ -91,7 +94,10 @@ return created(_that);case _Updated():
 return updated(_that);case _Deleted():
 return deleted(_that);case _LinkedToProduct():
 return linkedToProduct(_that);case _UnlinkedFromProduct():
-return unlinkedFromProduct(_that);}
+return unlinkedFromProduct(_that);case _OptionCreated():
+return optionCreated(_that);case _OptionUpdated():
+return optionUpdated(_that);case _OptionDeleted():
+return optionDeleted(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -105,7 +111,7 @@ return unlinkedFromProduct(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Created value)?  created,TResult? Function( _Updated value)?  updated,TResult? Function( _Deleted value)?  deleted,TResult? Function( _LinkedToProduct value)?  linkedToProduct,TResult? Function( _UnlinkedFromProduct value)?  unlinkedFromProduct,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Created value)?  created,TResult? Function( _Updated value)?  updated,TResult? Function( _Deleted value)?  deleted,TResult? Function( _LinkedToProduct value)?  linkedToProduct,TResult? Function( _UnlinkedFromProduct value)?  unlinkedFromProduct,TResult? Function( _OptionCreated value)?  optionCreated,TResult? Function( _OptionUpdated value)?  optionUpdated,TResult? Function( _OptionDeleted value)?  optionDeleted,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
@@ -114,7 +120,10 @@ return created(_that);case _Updated() when updated != null:
 return updated(_that);case _Deleted() when deleted != null:
 return deleted(_that);case _LinkedToProduct() when linkedToProduct != null:
 return linkedToProduct(_that);case _UnlinkedFromProduct() when unlinkedFromProduct != null:
-return unlinkedFromProduct(_that);case _:
+return unlinkedFromProduct(_that);case _OptionCreated() when optionCreated != null:
+return optionCreated(_that);case _OptionUpdated() when optionUpdated != null:
+return optionUpdated(_that);case _OptionDeleted() when optionDeleted != null:
+return optionDeleted(_that);case _:
   return null;
 
 }
@@ -131,7 +140,7 @@ return unlinkedFromProduct(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( ModifierGroup modifierGroup)?  created,TResult Function( ModifierGroup modifierGroup)?  updated,TResult Function( int id)?  deleted,TResult Function( int productId,  int modifierId)?  linkedToProduct,TResult Function( int productId,  int modifierId)?  unlinkedFromProduct,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( ModifierGroup modifierGroup)?  created,TResult Function( ModifierGroup modifierGroup)?  updated,TResult Function( int id)?  deleted,TResult Function( int productId,  int modifierId)?  linkedToProduct,TResult Function( int productId,  int modifierId)?  unlinkedFromProduct,TResult Function( int modifierId,  ModifierOption option)?  optionCreated,TResult Function( ModifierOption option)?  optionUpdated,TResult Function( int id)?  optionDeleted,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Created() when created != null:
@@ -139,7 +148,10 @@ return created(_that.modifierGroup);case _Updated() when updated != null:
 return updated(_that.modifierGroup);case _Deleted() when deleted != null:
 return deleted(_that.id);case _LinkedToProduct() when linkedToProduct != null:
 return linkedToProduct(_that.productId,_that.modifierId);case _UnlinkedFromProduct() when unlinkedFromProduct != null:
-return unlinkedFromProduct(_that.productId,_that.modifierId);case _:
+return unlinkedFromProduct(_that.productId,_that.modifierId);case _OptionCreated() when optionCreated != null:
+return optionCreated(_that.modifierId,_that.option);case _OptionUpdated() when optionUpdated != null:
+return optionUpdated(_that.option);case _OptionDeleted() when optionDeleted != null:
+return optionDeleted(_that.id);case _:
   return orElse();
 
 }
@@ -157,7 +169,7 @@ return unlinkedFromProduct(_that.productId,_that.modifierId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( ModifierGroup modifierGroup)  created,required TResult Function( ModifierGroup modifierGroup)  updated,required TResult Function( int id)  deleted,required TResult Function( int productId,  int modifierId)  linkedToProduct,required TResult Function( int productId,  int modifierId)  unlinkedFromProduct,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( ModifierGroup modifierGroup)  created,required TResult Function( ModifierGroup modifierGroup)  updated,required TResult Function( int id)  deleted,required TResult Function( int productId,  int modifierId)  linkedToProduct,required TResult Function( int productId,  int modifierId)  unlinkedFromProduct,required TResult Function( int modifierId,  ModifierOption option)  optionCreated,required TResult Function( ModifierOption option)  optionUpdated,required TResult Function( int id)  optionDeleted,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _Created():
@@ -165,7 +177,10 @@ return created(_that.modifierGroup);case _Updated():
 return updated(_that.modifierGroup);case _Deleted():
 return deleted(_that.id);case _LinkedToProduct():
 return linkedToProduct(_that.productId,_that.modifierId);case _UnlinkedFromProduct():
-return unlinkedFromProduct(_that.productId,_that.modifierId);}
+return unlinkedFromProduct(_that.productId,_that.modifierId);case _OptionCreated():
+return optionCreated(_that.modifierId,_that.option);case _OptionUpdated():
+return optionUpdated(_that.option);case _OptionDeleted():
+return optionDeleted(_that.id);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -179,7 +194,7 @@ return unlinkedFromProduct(_that.productId,_that.modifierId);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( ModifierGroup modifierGroup)?  created,TResult? Function( ModifierGroup modifierGroup)?  updated,TResult? Function( int id)?  deleted,TResult? Function( int productId,  int modifierId)?  linkedToProduct,TResult? Function( int productId,  int modifierId)?  unlinkedFromProduct,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( ModifierGroup modifierGroup)?  created,TResult? Function( ModifierGroup modifierGroup)?  updated,TResult? Function( int id)?  deleted,TResult? Function( int productId,  int modifierId)?  linkedToProduct,TResult? Function( int productId,  int modifierId)?  unlinkedFromProduct,TResult? Function( int modifierId,  ModifierOption option)?  optionCreated,TResult? Function( ModifierOption option)?  optionUpdated,TResult? Function( int id)?  optionDeleted,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Created() when created != null:
@@ -187,7 +202,10 @@ return created(_that.modifierGroup);case _Updated() when updated != null:
 return updated(_that.modifierGroup);case _Deleted() when deleted != null:
 return deleted(_that.id);case _LinkedToProduct() when linkedToProduct != null:
 return linkedToProduct(_that.productId,_that.modifierId);case _UnlinkedFromProduct() when unlinkedFromProduct != null:
-return unlinkedFromProduct(_that.productId,_that.modifierId);case _:
+return unlinkedFromProduct(_that.productId,_that.modifierId);case _OptionCreated() when optionCreated != null:
+return optionCreated(_that.modifierId,_that.option);case _OptionUpdated() when optionUpdated != null:
+return optionUpdated(_that.option);case _OptionDeleted() when optionDeleted != null:
+return optionDeleted(_that.id);case _:
   return null;
 
 }
@@ -572,6 +590,224 @@ class __$UnlinkedFromProductCopyWithImpl<$Res>
   return _then(_UnlinkedFromProduct(
 productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
 as int,modifierId: null == modifierId ? _self.modifierId : modifierId // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _OptionCreated implements ModifiersEvent {
+  const _OptionCreated({required this.modifierId, required this.option});
+  
+
+ final  int modifierId;
+ final  ModifierOption option;
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OptionCreatedCopyWith<_OptionCreated> get copyWith => __$OptionCreatedCopyWithImpl<_OptionCreated>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OptionCreated&&(identical(other.modifierId, modifierId) || other.modifierId == modifierId)&&(identical(other.option, option) || other.option == option));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,modifierId,option);
+
+@override
+String toString() {
+  return 'ModifiersEvent.optionCreated(modifierId: $modifierId, option: $option)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OptionCreatedCopyWith<$Res> implements $ModifiersEventCopyWith<$Res> {
+  factory _$OptionCreatedCopyWith(_OptionCreated value, $Res Function(_OptionCreated) _then) = __$OptionCreatedCopyWithImpl;
+@useResult
+$Res call({
+ int modifierId, ModifierOption option
+});
+
+
+$ModifierOptionCopyWith<$Res> get option;
+
+}
+/// @nodoc
+class __$OptionCreatedCopyWithImpl<$Res>
+    implements _$OptionCreatedCopyWith<$Res> {
+  __$OptionCreatedCopyWithImpl(this._self, this._then);
+
+  final _OptionCreated _self;
+  final $Res Function(_OptionCreated) _then;
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? modifierId = null,Object? option = null,}) {
+  return _then(_OptionCreated(
+modifierId: null == modifierId ? _self.modifierId : modifierId // ignore: cast_nullable_to_non_nullable
+as int,option: null == option ? _self.option : option // ignore: cast_nullable_to_non_nullable
+as ModifierOption,
+  ));
+}
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ModifierOptionCopyWith<$Res> get option {
+  
+  return $ModifierOptionCopyWith<$Res>(_self.option, (value) {
+    return _then(_self.copyWith(option: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class _OptionUpdated implements ModifiersEvent {
+  const _OptionUpdated(this.option);
+  
+
+ final  ModifierOption option;
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OptionUpdatedCopyWith<_OptionUpdated> get copyWith => __$OptionUpdatedCopyWithImpl<_OptionUpdated>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OptionUpdated&&(identical(other.option, option) || other.option == option));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,option);
+
+@override
+String toString() {
+  return 'ModifiersEvent.optionUpdated(option: $option)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OptionUpdatedCopyWith<$Res> implements $ModifiersEventCopyWith<$Res> {
+  factory _$OptionUpdatedCopyWith(_OptionUpdated value, $Res Function(_OptionUpdated) _then) = __$OptionUpdatedCopyWithImpl;
+@useResult
+$Res call({
+ ModifierOption option
+});
+
+
+$ModifierOptionCopyWith<$Res> get option;
+
+}
+/// @nodoc
+class __$OptionUpdatedCopyWithImpl<$Res>
+    implements _$OptionUpdatedCopyWith<$Res> {
+  __$OptionUpdatedCopyWithImpl(this._self, this._then);
+
+  final _OptionUpdated _self;
+  final $Res Function(_OptionUpdated) _then;
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? option = null,}) {
+  return _then(_OptionUpdated(
+null == option ? _self.option : option // ignore: cast_nullable_to_non_nullable
+as ModifierOption,
+  ));
+}
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ModifierOptionCopyWith<$Res> get option {
+  
+  return $ModifierOptionCopyWith<$Res>(_self.option, (value) {
+    return _then(_self.copyWith(option: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class _OptionDeleted implements ModifiersEvent {
+  const _OptionDeleted(this.id);
+  
+
+ final  int id;
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OptionDeletedCopyWith<_OptionDeleted> get copyWith => __$OptionDeletedCopyWithImpl<_OptionDeleted>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OptionDeleted&&(identical(other.id, id) || other.id == id));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,id);
+
+@override
+String toString() {
+  return 'ModifiersEvent.optionDeleted(id: $id)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OptionDeletedCopyWith<$Res> implements $ModifiersEventCopyWith<$Res> {
+  factory _$OptionDeletedCopyWith(_OptionDeleted value, $Res Function(_OptionDeleted) _then) = __$OptionDeletedCopyWithImpl;
+@useResult
+$Res call({
+ int id
+});
+
+
+
+
+}
+/// @nodoc
+class __$OptionDeletedCopyWithImpl<$Res>
+    implements _$OptionDeletedCopyWith<$Res> {
+  __$OptionDeletedCopyWithImpl(this._self, this._then);
+
+  final _OptionDeleted _self;
+  final $Res Function(_OptionDeleted) _then;
+
+/// Create a copy of ModifiersEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? id = null,}) {
+  return _then(_OptionDeleted(
+null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

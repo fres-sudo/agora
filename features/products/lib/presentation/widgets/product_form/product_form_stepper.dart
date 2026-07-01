@@ -7,7 +7,7 @@ import 'package:bloc_exports/bloc_exports.dart';
 class ProductFormStepper extends StatelessWidget {
   const ProductFormStepper({super.key});
 
-  static const int _stepCount = 4;
+  static final int _stepCount = ProductFormStep.values.length;
 
   @override
   Widget build(BuildContext context) {

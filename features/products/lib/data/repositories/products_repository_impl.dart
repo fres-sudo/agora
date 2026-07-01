@@ -1,6 +1,9 @@
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
+import 'package:feature_products/data/sources/local/daos/modifiers_dao.dart';
 import 'package:feature_products/data/sources/local/daos/products_dao.dart';
+import 'package:feature_products/domain/mappers/modifier_mapper.dart';
 import 'package:feature_products/domain/mappers/product_mapper.dart';
+import 'package:feature_products/domain/models/modifier_group.dart';
 import 'package:feature_products/domain/models/product.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
 import 'package:result/result.dart';
@@ -10,13 +13,37 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
   ProductsRepositoryImpl({
     required ProductsDao productsDao,
     required StocksDao stocksDao,
+    required ModifiersDao modifiersDao,
     Talker? logger,
   }) : _productsDao = productsDao,
        _stocksDao = stocksDao,
+       _modifiersDao = modifiersDao,
        super(logger);
 
   final ProductsDao _productsDao;
   final StocksDao _stocksDao;
+  final ModifiersDao _modifiersDao;
+
+  // ============================================================
+  // HELPERS
+  // ============================================================
+
+  /// Loads the modifier groups (with their options) linked to [productId].
+  ///
+  /// Mirrors [ModifiersRepositoryImpl]'s hydration; kept here too (rather
+  /// than depending on `ModifiersRepository`) to match the existing direct
+  /// DAO-dependency style this repository already uses for stock.
+  Future<List<ModifierGroup>> _getModifierGroups(int productId) async {
+    final entities = await _modifiersDao.getModifiersByProductId(productId);
+    final groups = <ModifierGroup>[];
+    for (final entity in entities) {
+      final options = await _modifiersDao.getOptionsByModifierId(entity.id);
+      groups.add(
+        entity.toModel(options: options.map((o) => o.toModel()).toList()),
+      );
+    }
+    return groups;
+  }
 
   // ============================================================
   // STREAMS
@@ -30,7 +57,13 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
           final products = <Product>[];
           for (final entity in entities) {
             final stock = await _stocksDao.getStockByProductId(entity.id);
-            products.add(entity.toModel(stockQuantity: stock?.quantity ?? 0));
+            final modifierGroups = await _getModifierGroups(entity.id);
+            products.add(
+              entity.toModel(
+                stockQuantity: stock?.quantity ?? 0,
+                modifierGroups: modifierGroups,
+              ),
+            );
           }
           return products;
         })
@@ -45,7 +78,13 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
           final products = <Product>[];
           for (final entity in entities) {
             final stock = await _stocksDao.getStockByProductId(entity.id);
-            products.add(entity.toModel(stockQuantity: stock?.quantity ?? 0));
+            final modifierGroups = await _getModifierGroups(entity.id);
+            products.add(
+              entity.toModel(
+                stockQuantity: stock?.quantity ?? 0,
+                modifierGroups: modifierGroups,
+              ),
+            );
           }
           return products;
         })
@@ -59,7 +98,11 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
         .asyncMap((entity) async {
           if (entity == null) return null;
           final stock = await _stocksDao.getStockByProductId(entity.id);
-          return entity.toModel(stockQuantity: stock?.quantity ?? 0);
+          final modifierGroups = await _getModifierGroups(entity.id);
+          return entity.toModel(
+            stockQuantity: stock?.quantity ?? 0,
+            modifierGroups: modifierGroups,
+          );
         })
         .safeCode(logger);
   }
@@ -74,7 +117,11 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
         final entity = await _productsDao.getProductById(id);
         if (entity == null) return null;
         final stock = await _stocksDao.getStockByProductId(entity.id);
-        return entity.toModel(stockQuantity: stock?.quantity ?? 0);
+        final modifierGroups = await _getModifierGroups(entity.id);
+        return entity.toModel(
+          stockQuantity: stock?.quantity ?? 0,
+          modifierGroups: modifierGroups,
+        );
       });
 
   @override
@@ -83,7 +130,11 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
         final entity = await _productsDao.getProductBySku(sku);
         if (entity == null) return null;
         final stock = await _stocksDao.getStockByProductId(entity.id);
-        return entity.toModel(stockQuantity: stock?.quantity ?? 0);
+        final modifierGroups = await _getModifierGroups(entity.id);
+        return entity.toModel(
+          stockQuantity: stock?.quantity ?? 0,
+          modifierGroups: modifierGroups,
+        );
       });
 
   @override

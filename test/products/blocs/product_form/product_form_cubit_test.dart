@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 
 import 'product_form_cubit_test.mocks.dart';
 
-@GenerateMocks([ProductsRepository])
+@GenerateMocks([ProductsRepository, ModifiersRepository])
 void main() {
   final product = Product(
     id: 1,
@@ -19,15 +19,24 @@ void main() {
     taxPercent: 10,
     stockQuantity: 10,
     status: ProductStatus.active,
+    modifierGroups: const [
+      ModifierGroup(id: 5, name: 'Size', isMultiSelect: false, options: []),
+    ],
   );
 
   late MockProductsRepository mockProductsRepository;
+  late MockModifiersRepository mockModifiersRepository;
   late ProductFormCubit productFormCubit;
 
   setUp(() {
     provideDummy<Result<Product>>(Result.ok(product));
+    provideDummy<Result<void>>(const Result.ok(null));
     mockProductsRepository = MockProductsRepository();
-    productFormCubit = ProductFormCubit(productsRepository: mockProductsRepository);
+    mockModifiersRepository = MockModifiersRepository();
+    productFormCubit = ProductFormCubit(
+      productsRepository: mockProductsRepository,
+      modifiersRepository: mockModifiersRepository,
+    );
   });
 
   tearDown(() {
@@ -69,6 +78,7 @@ void main() {
             taxPercent: product.taxPercent,
             stockQuantity: product.stockQuantity,
             status: product.status,
+            selectedModifierIds: const [5],
           ),
           isEditing: true,
         ),
@@ -95,6 +105,12 @@ void main() {
       setUp: () {
         when(mockProductsRepository.createProduct(any))
             .thenAnswer((_) async => Result.ok(product));
+        when(
+          mockModifiersRepository.setProductModifiers(
+            productId: anyNamed('productId'),
+            modifierIds: anyNamed('modifierIds'),
+          ),
+        ).thenAnswer((_) async => const Result.ok(null));
       },
       build: () => productFormCubit,
       act: (cubit) async {
@@ -117,5 +133,67 @@ void main() {
     );
      // Note: Testing exact state emission sequence for complex flows in blocTest can be tricky with intermediate updates.
      // Relying on verify for side effects is often cleaner for complex form logic.
+
+    blocTest<ProductFormCubit, ProductFormState>(
+      'submit calls setProductModifiers with the selected modifier ids after a successful save',
+      setUp: () {
+        when(mockProductsRepository.createProduct(any))
+            .thenAnswer((_) async => Result.ok(product));
+        when(
+          mockModifiersRepository.setProductModifiers(
+            productId: anyNamed('productId'),
+            modifierIds: anyNamed('modifierIds'),
+          ),
+        ).thenAnswer((_) async => const Result.ok(null));
+      },
+      build: () => productFormCubit,
+      act: (cubit) async {
+        cubit.initCreate();
+        cubit.updateName('New Product');
+        cubit.updateCategory(1);
+        cubit.updatePrice(100);
+        cubit.toggleModifier(5);
+        await Future.delayed(Duration.zero);
+        await cubit.submit();
+      },
+      skip: 4,
+      verify: (_) {
+        verify(
+          mockModifiersRepository.setProductModifiers(
+            productId: product.id,
+            modifierIds: [5],
+          ),
+        ).called(1);
+      },
+    );
+
+    blocTest<ProductFormCubit, ProductFormState>(
+      'submit still emits success even if setProductModifiers fails',
+      setUp: () {
+        when(mockProductsRepository.createProduct(any))
+            .thenAnswer((_) async => Result.ok(product));
+        when(
+          mockModifiersRepository.setProductModifiers(
+            productId: anyNamed('productId'),
+            modifierIds: anyNamed('modifierIds'),
+          ),
+        ).thenAnswer(
+          (_) async => Result.error(Exception('link failed')),
+        );
+      },
+      build: () => productFormCubit,
+      act: (cubit) async {
+        cubit.initCreate();
+        cubit.updateName('New Product');
+        cubit.updateCategory(1);
+        cubit.updatePrice(100);
+        await Future.delayed(Duration.zero);
+        await cubit.submit();
+      },
+      skip: 5, // Skip init/updates (4) + submitting (1)
+      expect: () => [
+        ProductFormState.success(productId: product.id, isNew: true),
+      ],
+    );
   });
 }

@@ -1,7 +1,12 @@
 part of 'product_form_cubit.dart';
 
 /// The different steps in the product form wizard.
-enum ProductFormStep { productInfo, pricing, variantsModifiers, ingredients }
+///
+/// An "Ingredients" step previously existed here but was removed (P3-5):
+/// no ingredients table/repository exists anywhere in the schema, the step's
+/// search box was a non-functional stub, and nothing was ever persisted —
+/// deferred rather than half-implemented.
+enum ProductFormStep { productInfo, pricing, variantsModifiers }
 
 @freezed
 class ProductFormState with _$ProductFormState {
@@ -52,11 +57,11 @@ class ProductFormState with _$ProductFormState {
 
   /// Returns true if on the last step.
   bool get isLastStep => maybeMap(
-    editing: (s) => s.currentStep == ProductFormStep.ingredients,
+    editing: (s) => s.currentStep == ProductFormStep.variantsModifiers,
     orElse: () => false,
   );
 
-  /// Returns the current step index (0-3).
+  /// Returns the current step index (0-2).
   int get currentStepIndex => maybeMap(
     editing: (s) => s.currentStep.index,
     error: (s) => s.currentStep.index,

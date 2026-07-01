@@ -26,9 +26,9 @@ void main() {
     modifierGroups: [],
   );
 
-  final testModifier = ModifierOption(
-    id: 1,
-    name: 'Test Modifier',
+  const testSelectedModifier = SelectedModifiers(
+    groupName: 'Size',
+    optionName: 'Large',
     priceChangeCents: 100,
   );
 
@@ -97,7 +97,7 @@ void main() {
           ActiveOrderEvent.itemAdded(
             product: testProduct,
             quantity: 1,
-            modifiers: [testModifier],
+            modifiers: [testSelectedModifier],
           ),
         ),
         verify: (bloc) {
@@ -106,7 +106,57 @@ void main() {
             building: (s) {
               expect(s.order.items.length, 1);
               expect(s.order.items.first.selectedModifiers.length, 1);
+              expect(
+                s.order.items.first.selectedModifiers.first.groupName,
+                'Size',
+              );
               expect(s.order.subtotalCents, 1100); // 1000 + 100
+            },
+          );
+        },
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'merges into the existing line instead of duplicating it when the '
+        'same product is added again with no modifiers',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
+        },
+        skip: 1,
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.items.length, 1);
+              expect(s.order.items.first.quantity, 2);
+              expect(s.order.subtotalCents, 2000);
+            },
+          );
+        },
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'keeps separate lines when the same product is added with '
+        'different modifier selections',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
+          bloc.add(
+            ActiveOrderEvent.itemAdded(
+              product: testProduct,
+              modifiers: const [testSelectedModifier],
+            ),
+          );
+        },
+        skip: 1,
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.items.length, 2);
+              expect(s.order.items[0].id, isNot(s.order.items[1].id));
             },
           );
         },
@@ -131,7 +181,7 @@ void main() {
         ), // Cannot easily seed private _items, so we rely on acting
         act: (bloc) {
             bloc.add(ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
-            bloc.add(ActiveOrderEvent.itemQuantityChanged(productId: testProduct.id, quantity: 2));
+            bloc.add(ActiveOrderEvent.itemQuantityChanged(lineItemId: 1, quantity: 2));
         },
         skip: 1, // Skip the itemAdded state
         verify: (bloc) {
@@ -146,14 +196,81 @@ void main() {
       );
 
       blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'emits empty when ItemQuantityChanged drops to 0',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
+          bloc.add(ActiveOrderEvent.itemQuantityChanged(lineItemId: 1, quantity: 0));
+        },
+        skip: 1,
+        expect: () => [const ActiveOrderState.empty()],
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'ItemQuantityChanged only updates the targeted line, not every line '
+        'for the same product',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct)); // id 1
+          bloc.add(
+            ActiveOrderEvent.itemAdded(
+              product: testProduct,
+              modifiers: const [testSelectedModifier],
+            ),
+          ); // id 2
+          bloc.add(
+            ActiveOrderEvent.itemQuantityChanged(lineItemId: 2, quantity: 5),
+          );
+        },
+        skip: 2,
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              final unmodified = s.order.items.firstWhere((i) => i.id == 1);
+              final changed = s.order.items.firstWhere((i) => i.id == 2);
+              expect(unmodified.quantity, 1);
+              expect(changed.quantity, 5);
+            },
+          );
+        },
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
         'emits empty when last item is removed',
          build: () => bloc,
         act: (bloc) {
             bloc.add(ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
-            bloc.add(ActiveOrderEvent.itemRemoved(testProduct.id));
+            bloc.add(const ActiveOrderEvent.itemRemoved(1));
         },
         skip: 1,
         expect: () => [const ActiveOrderState.empty()],
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'ItemRemoved only removes the targeted line, not every line for the '
+        'same product',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct)); // id 1
+          bloc.add(
+            ActiveOrderEvent.itemAdded(
+              product: testProduct,
+              modifiers: const [testSelectedModifier],
+            ),
+          ); // id 2
+          bloc.add(const ActiveOrderEvent.itemRemoved(1));
+        },
+        skip: 2,
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.items.length, 1);
+              expect(s.order.items.first.id, 2);
+            },
+          );
+        },
       );
     });
 

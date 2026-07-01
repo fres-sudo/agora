@@ -1,5 +1,6 @@
 import 'package:database/database.dart';
 import 'package:feature_products/data/sources/local/daos/modifiers_dao.dart';
+import 'package:feature_products/domain/mappers/modifier_mapper.dart';
 import 'package:feature_products/domain/models/modifier_group.dart';
 import 'package:feature_products/domain/models/modifier_option.dart';
 import 'package:feature_products/domain/repositories/modifiers_repository.dart';
@@ -20,20 +21,7 @@ class ModifiersRepositoryImpl extends Repository
 
   Future<ModifierGroup> _entityToModel(ModifierEntity entity) async {
     final options = await _modifiersDao.getOptionsByModifierId(entity.id);
-    return ModifierGroup(
-      id: entity.id,
-      name: entity.name,
-      isMultiSelect: entity.isMultiSelect,
-      options: options
-          .map(
-            (o) => ModifierOption(
-              id: o.id,
-              name: o.name,
-              priceChangeCents: o.priceChange,
-            ),
-          )
-          .toList(),
-    );
+    return entity.toModel(options: options.map((o) => o.toModel()).toList());
   }
 
   ModifiersTableCompanion _toInsertCompanion(ModifierGroup modifier) {
@@ -164,6 +152,10 @@ class ModifiersRepositoryImpl extends Repository
   Future<Result<int>> deleteModifier(int id) =>
       safe('deleteModifier($id)', () async {
         await _modifiersDao.softDeleteModifier(id);
+        // Cascade: a soft-deleted group should not leave orphaned options or
+        // dangling product links behind.
+        await _modifiersDao.hardDeleteOptionsByModifierId(id);
+        await _modifiersDao.unlinkAllProductsFromModifier(id);
         return id;
       });
 

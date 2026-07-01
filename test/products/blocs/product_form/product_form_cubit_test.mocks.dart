@@ -5,7 +5,11 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
+import 'package:feature_products/domain/models/modifier_group.dart' as _i8;
+import 'package:feature_products/domain/models/modifier_option.dart' as _i9;
 import 'package:feature_products/domain/models/product.dart' as _i4;
+import 'package:feature_products/domain/repositories/modifiers_repository.dart'
+    as _i7;
 import 'package:feature_products/domain/repositories/products_repository.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -191,4 +195,295 @@ class MockProductsRepository extends _i1.Mock
           ),
         )),
       ) as _i3.Future<_i5.Result<bool>>);
+}
+
+/// A class which mocks [ModifiersRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockModifiersRepository extends _i1.Mock
+    implements _i7.ModifiersRepository {
+  MockModifiersRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Stream<List<_i8.ModifierGroup>> watchAllModifiers() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #watchAllModifiers,
+          [],
+        ),
+        returnValue: _i3.Stream<List<_i8.ModifierGroup>>.empty(),
+      ) as _i3.Stream<List<_i8.ModifierGroup>>);
+
+  @override
+  _i3.Stream<List<_i8.ModifierGroup>> watchModifiersByProductId(
+          int? productId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #watchModifiersByProductId,
+          [productId],
+        ),
+        returnValue: _i3.Stream<List<_i8.ModifierGroup>>.empty(),
+      ) as _i3.Stream<List<_i8.ModifierGroup>>);
+
+  @override
+  _i3.Stream<_i8.ModifierGroup?> watchModifierById(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #watchModifierById,
+          [id],
+        ),
+        returnValue: _i3.Stream<_i8.ModifierGroup?>.empty(),
+      ) as _i3.Stream<_i8.ModifierGroup?>);
+
+  @override
+  _i3.Future<_i5.Result<_i8.ModifierGroup?>> getModifierById(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getModifierById,
+          [id],
+        ),
+        returnValue: _i3.Future<_i5.Result<_i8.ModifierGroup?>>.value(
+            _i6.dummyValue<_i5.Result<_i8.ModifierGroup?>>(
+          this,
+          Invocation.method(
+            #getModifierById,
+            [id],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<_i8.ModifierGroup?>>);
+
+  @override
+  _i3.Future<_i5.Result<List<_i8.ModifierGroup>>> getModifiersByProductId(
+          int? productId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getModifiersByProductId,
+          [productId],
+        ),
+        returnValue: _i3.Future<_i5.Result<List<_i8.ModifierGroup>>>.value(
+            _i6.dummyValue<_i5.Result<List<_i8.ModifierGroup>>>(
+          this,
+          Invocation.method(
+            #getModifiersByProductId,
+            [productId],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<List<_i8.ModifierGroup>>>);
+
+  @override
+  _i3.Future<_i5.Result<int>> getModifiersCount() => (super.noSuchMethod(
+        Invocation.method(
+          #getModifiersCount,
+          [],
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<int>>.value(_i6.dummyValue<_i5.Result<int>>(
+          this,
+          Invocation.method(
+            #getModifiersCount,
+            [],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<int>>);
+
+  @override
+  _i3.Future<_i5.Result<_i8.ModifierGroup>> createModifier(
+          _i8.ModifierGroup? modifier) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createModifier,
+          [modifier],
+        ),
+        returnValue: _i3.Future<_i5.Result<_i8.ModifierGroup>>.value(
+            _i6.dummyValue<_i5.Result<_i8.ModifierGroup>>(
+          this,
+          Invocation.method(
+            #createModifier,
+            [modifier],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<_i8.ModifierGroup>>);
+
+  @override
+  _i3.Future<_i5.Result<_i8.ModifierGroup>> updateModifier(
+          _i8.ModifierGroup? modifier) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateModifier,
+          [modifier],
+        ),
+        returnValue: _i3.Future<_i5.Result<_i8.ModifierGroup>>.value(
+            _i6.dummyValue<_i5.Result<_i8.ModifierGroup>>(
+          this,
+          Invocation.method(
+            #updateModifier,
+            [modifier],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<_i8.ModifierGroup>>);
+
+  @override
+  _i3.Future<_i5.Result<int>> deleteModifier(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #deleteModifier,
+          [id],
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<int>>.value(_i6.dummyValue<_i5.Result<int>>(
+          this,
+          Invocation.method(
+            #deleteModifier,
+            [id],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<int>>);
+
+  @override
+  _i3.Future<_i5.Result<_i9.ModifierOption>> createModifierOption({
+    required int? modifierId,
+    required _i9.ModifierOption? option,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createModifierOption,
+          [],
+          {
+            #modifierId: modifierId,
+            #option: option,
+          },
+        ),
+        returnValue: _i3.Future<_i5.Result<_i9.ModifierOption>>.value(
+            _i6.dummyValue<_i5.Result<_i9.ModifierOption>>(
+          this,
+          Invocation.method(
+            #createModifierOption,
+            [],
+            {
+              #modifierId: modifierId,
+              #option: option,
+            },
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<_i9.ModifierOption>>);
+
+  @override
+  _i3.Future<_i5.Result<_i9.ModifierOption>> updateModifierOption(
+          _i9.ModifierOption? option) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateModifierOption,
+          [option],
+        ),
+        returnValue: _i3.Future<_i5.Result<_i9.ModifierOption>>.value(
+            _i6.dummyValue<_i5.Result<_i9.ModifierOption>>(
+          this,
+          Invocation.method(
+            #updateModifierOption,
+            [option],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<_i9.ModifierOption>>);
+
+  @override
+  _i3.Future<_i5.Result<int>> deleteModifierOption(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteModifierOption,
+          [id],
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<int>>.value(_i6.dummyValue<_i5.Result<int>>(
+          this,
+          Invocation.method(
+            #deleteModifierOption,
+            [id],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<int>>);
+
+  @override
+  _i3.Future<_i5.Result<void>> linkModifierToProduct({
+    required int? modifierId,
+    required int? productId,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #linkModifierToProduct,
+          [],
+          {
+            #modifierId: modifierId,
+            #productId: productId,
+          },
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<void>>.value(_i6.dummyValue<_i5.Result<void>>(
+          this,
+          Invocation.method(
+            #linkModifierToProduct,
+            [],
+            {
+              #modifierId: modifierId,
+              #productId: productId,
+            },
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<void>>);
+
+  @override
+  _i3.Future<_i5.Result<void>> unlinkModifierFromProduct({
+    required int? modifierId,
+    required int? productId,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #unlinkModifierFromProduct,
+          [],
+          {
+            #modifierId: modifierId,
+            #productId: productId,
+          },
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<void>>.value(_i6.dummyValue<_i5.Result<void>>(
+          this,
+          Invocation.method(
+            #unlinkModifierFromProduct,
+            [],
+            {
+              #modifierId: modifierId,
+              #productId: productId,
+            },
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<void>>);
+
+  @override
+  _i3.Future<_i5.Result<void>> setProductModifiers({
+    required int? productId,
+    required List<int>? modifierIds,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setProductModifiers,
+          [],
+          {
+            #productId: productId,
+            #modifierIds: modifierIds,
+          },
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<void>>.value(_i6.dummyValue<_i5.Result<void>>(
+          this,
+          Invocation.method(
+            #setProductModifiers,
+            [],
+            {
+              #productId: productId,
+              #modifierIds: modifierIds,
+            },
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<void>>);
 }

@@ -12,6 +12,29 @@ void main() {
   late MockModifiersRepository mockModifiersRepository;
   late ModifiersBloc modifiersBloc;
 
+  const modifierGroup = ModifierGroup(
+    id: 1,
+    name: 'Group 1',
+    options: [],
+    isMultiSelect: false,
+  );
+
+  const modifierOption = ModifierOption(
+    id: 1,
+    name: 'Large',
+    priceChangeCents: 100,
+  );
+
+  setUpAll(() {
+    // Mockito needs a dummy value for any Result<T> return type it can't
+    // auto-construct (Result is a sealed class with private constructors),
+    // even when every call is explicitly stubbed via `when(...).thenAnswer`.
+    provideDummy<Result<ModifierGroup>>(const Result.ok(modifierGroup));
+    provideDummy<Result<ModifierOption>>(const Result.ok(modifierOption));
+    provideDummy<Result<int>>(const Result.ok(0));
+    provideDummy<Result<void>>(const Result.ok(null));
+  });
+
   setUp(() {
     mockModifiersRepository = MockModifiersRepository();
     modifiersBloc = ModifiersBloc(modifiersRepository: mockModifiersRepository);
@@ -20,13 +43,6 @@ void main() {
   tearDown(() {
     modifiersBloc.close();
   });
-
-  const modifierGroup = ModifierGroup(
-    id: 1,
-    name: 'Group 1',
-    options: [],
-    isMultiSelect: false,
-  );
 
   group('ModifiersBloc', () {
     test('initial state is ModifiersState.initial', () {
@@ -134,6 +150,64 @@ void main() {
             modifierId: 1,
           ),
         ).called(1);
+      },
+    );
+
+    blocTest<ModifiersBloc, ModifiersState>(
+      'calls createModifierOption when OptionCreated event added',
+      setUp: () {
+        when(
+          mockModifiersRepository.createModifierOption(
+            modifierId: 1,
+            option: modifierOption,
+          ),
+        ).thenAnswer((_) async => const Result.ok(modifierOption));
+      },
+      build: () => modifiersBloc,
+      act: (bloc) => bloc.add(
+        const ModifiersEvent.optionCreated(
+          modifierId: 1,
+          option: modifierOption,
+        ),
+      ),
+      verify: (_) {
+        verify(
+          mockModifiersRepository.createModifierOption(
+            modifierId: 1,
+            option: modifierOption,
+          ),
+        ).called(1);
+      },
+    );
+
+    blocTest<ModifiersBloc, ModifiersState>(
+      'calls updateModifierOption when OptionUpdated event added',
+      setUp: () {
+        when(
+          mockModifiersRepository.updateModifierOption(modifierOption),
+        ).thenAnswer((_) async => const Result.ok(modifierOption));
+      },
+      build: () => modifiersBloc,
+      act: (bloc) =>
+          bloc.add(const ModifiersEvent.optionUpdated(modifierOption)),
+      verify: (_) {
+        verify(
+          mockModifiersRepository.updateModifierOption(modifierOption),
+        ).called(1);
+      },
+    );
+
+    blocTest<ModifiersBloc, ModifiersState>(
+      'calls deleteModifierOption when OptionDeleted event added',
+      setUp: () {
+        when(
+          mockModifiersRepository.deleteModifierOption(1),
+        ).thenAnswer((_) async => const Result.ok(1));
+      },
+      build: () => modifiersBloc,
+      act: (bloc) => bloc.add(const ModifiersEvent.optionDeleted(1)),
+      verify: (_) {
+        verify(mockModifiersRepository.deleteModifierOption(1)).called(1);
       },
     );
   });

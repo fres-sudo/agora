@@ -32,6 +32,7 @@ void main() {
       items: items ??
           const [
             OrderLineItem(
+              id: 1,
               productId: 1,
               productName: 'Tagliatelle',
               quantity: 2,

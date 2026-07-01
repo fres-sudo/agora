@@ -1,6 +1,7 @@
 import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/domain/models/order.dart';
+import 'package:feature_orders/domain/models/order_line_item.dart';
 import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,14 @@ class PosOrderPanel extends StatelessWidget {
   /// Callback when process transaction is tapped.
   final VoidCallback onProcessTransaction;
 
-  /// Callback when an item is removed from order.
+  /// Callback when an item is removed from order. Called with the line
+  /// item's cart-local id ([OrderLineItem.id]).
   final ValueChanged<int> onItemRemoved;
+
+  /// Callback when a line item's quantity is changed via the quantity
+  /// stepper. Called with the line item's cart-local id and the new
+  /// quantity.
+  final void Function(int lineItemId, int quantity) onItemQuantityChanged;
 
   /// Callback when Customer button is tapped.
   final VoidCallback? onCustomerTap;
@@ -46,6 +53,7 @@ class PosOrderPanel extends StatelessWidget {
     required this.onClearOrder,
     required this.onProcessTransaction,
     required this.onItemRemoved,
+    required this.onItemQuantityChanged,
     this.onCustomerTap,
     this.onTablesTap,
     this.onDiscountTap,
@@ -102,6 +110,7 @@ class PosOrderPanel extends StatelessWidget {
                 ? _OrderItemsList(
                     items: currentOrder!.items,
                     onItemRemoved: onItemRemoved,
+                    onItemQuantityChanged: onItemQuantityChanged,
                     onClearAll: onClearOrder,
                   )
                 : PosEmptyState(
@@ -151,13 +160,15 @@ class PosOrderPanel extends StatelessWidget {
 }
 
 class _OrderItemsList extends StatelessWidget {
-  final List<dynamic> items;
+  final List<OrderLineItem> items;
   final ValueChanged<int> onItemRemoved;
+  final void Function(int lineItemId, int quantity) onItemQuantityChanged;
   final VoidCallback onClearAll;
 
   const _OrderItemsList({
     required this.items,
     required this.onItemRemoved,
+    required this.onItemQuantityChanged,
     required this.onClearAll,
   });
 
@@ -173,11 +184,9 @@ class _OrderItemsList extends StatelessWidget {
               final item = items[index];
               return PosOrderItem(
                 item: item,
-                onRemove: () {
-                  if (item.productId != null) {
-                    onItemRemoved(item.productId!);
-                  }
-                },
+                onRemove: () => onItemRemoved(item.id),
+                onQuantityChanged: (quantity) =>
+                    onItemQuantityChanged(item.id, quantity),
               );
             },
           ),

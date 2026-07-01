@@ -6,18 +6,24 @@ sealed class ActiveOrderEvent with _$ActiveOrderEvent {
   const factory ActiveOrderEvent.started() = _Started;
 
   /// Add a product to the cart.
+  ///
+  /// If a line with the same product and the same selected modifiers
+  /// already exists, its quantity is incremented instead of creating a
+  /// duplicate line.
   const factory ActiveOrderEvent.itemAdded({
     required Product product,
     @Default(1) int quantity,
-    @Default([]) List<ModifierOption> modifiers,
+    @Default([]) List<SelectedModifiers> modifiers,
   }) = _ItemAdded;
 
-  /// Remove an item from the cart.
-  const factory ActiveOrderEvent.itemRemoved(int productId) = _ItemRemoved;
+  /// Remove a specific line item from the cart, by its cart-local
+  /// [OrderLineItem.id].
+  const factory ActiveOrderEvent.itemRemoved(int lineItemId) = _ItemRemoved;
 
-  /// Change quantity of an item.
+  /// Change the quantity of a specific line item, by its cart-local
+  /// [OrderLineItem.id]. A [quantity] of 0 or less removes the line.
   const factory ActiveOrderEvent.itemQuantityChanged({
-    required int productId,
+    required int lineItemId,
     required int quantity,
   }) = _ItemQuantityChanged;
 

@@ -143,13 +143,13 @@ return cleared(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( Product product,  int quantity,  List<ModifierOption> modifiers)?  itemAdded,TResult Function( int productId)?  itemRemoved,TResult Function( int productId,  int quantity)?  itemQuantityChanged,TResult Function( OrderType orderType)?  orderTypeChanged,TResult Function( Discount discount)?  discountApplied,TResult Function()?  discountRemoved,TResult Function( String note)?  noteUpdated,TResult Function()?  submitted,TResult Function()?  cleared,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)?  itemAdded,TResult Function( int lineItemId)?  itemRemoved,TResult Function( int lineItemId,  int quantity)?  itemQuantityChanged,TResult Function( OrderType orderType)?  orderTypeChanged,TResult Function( Discount discount)?  discountApplied,TResult Function()?  discountRemoved,TResult Function( String note)?  noteUpdated,TResult Function()?  submitted,TResult Function()?  cleared,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _ItemAdded() when itemAdded != null:
 return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved() when itemRemoved != null:
-return itemRemoved(_that.productId);case _ItemQuantityChanged() when itemQuantityChanged != null:
-return itemQuantityChanged(_that.productId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
+return itemRemoved(_that.lineItemId);case _ItemQuantityChanged() when itemQuantityChanged != null:
+return itemQuantityChanged(_that.lineItemId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
 return orderTypeChanged(_that.orderType);case _DiscountApplied() when discountApplied != null:
 return discountApplied(_that.discount);case _DiscountRemoved() when discountRemoved != null:
 return discountRemoved();case _NoteUpdated() when noteUpdated != null:
@@ -173,13 +173,13 @@ return cleared();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( Product product,  int quantity,  List<ModifierOption> modifiers)  itemAdded,required TResult Function( int productId)  itemRemoved,required TResult Function( int productId,  int quantity)  itemQuantityChanged,required TResult Function( OrderType orderType)  orderTypeChanged,required TResult Function( Discount discount)  discountApplied,required TResult Function()  discountRemoved,required TResult Function( String note)  noteUpdated,required TResult Function()  submitted,required TResult Function()  cleared,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)  itemAdded,required TResult Function( int lineItemId)  itemRemoved,required TResult Function( int lineItemId,  int quantity)  itemQuantityChanged,required TResult Function( OrderType orderType)  orderTypeChanged,required TResult Function( Discount discount)  discountApplied,required TResult Function()  discountRemoved,required TResult Function( String note)  noteUpdated,required TResult Function()  submitted,required TResult Function()  cleared,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _ItemAdded():
 return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved():
-return itemRemoved(_that.productId);case _ItemQuantityChanged():
-return itemQuantityChanged(_that.productId,_that.quantity);case _OrderTypeChanged():
+return itemRemoved(_that.lineItemId);case _ItemQuantityChanged():
+return itemQuantityChanged(_that.lineItemId,_that.quantity);case _OrderTypeChanged():
 return orderTypeChanged(_that.orderType);case _DiscountApplied():
 return discountApplied(_that.discount);case _DiscountRemoved():
 return discountRemoved();case _NoteUpdated():
@@ -199,13 +199,13 @@ return cleared();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( Product product,  int quantity,  List<ModifierOption> modifiers)?  itemAdded,TResult? Function( int productId)?  itemRemoved,TResult? Function( int productId,  int quantity)?  itemQuantityChanged,TResult? Function( OrderType orderType)?  orderTypeChanged,TResult? Function( Discount discount)?  discountApplied,TResult? Function()?  discountRemoved,TResult? Function( String note)?  noteUpdated,TResult? Function()?  submitted,TResult? Function()?  cleared,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)?  itemAdded,TResult? Function( int lineItemId)?  itemRemoved,TResult? Function( int lineItemId,  int quantity)?  itemQuantityChanged,TResult? Function( OrderType orderType)?  orderTypeChanged,TResult? Function( Discount discount)?  discountApplied,TResult? Function()?  discountRemoved,TResult? Function( String note)?  noteUpdated,TResult? Function()?  submitted,TResult? Function()?  cleared,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _ItemAdded() when itemAdded != null:
 return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved() when itemRemoved != null:
-return itemRemoved(_that.productId);case _ItemQuantityChanged() when itemQuantityChanged != null:
-return itemQuantityChanged(_that.productId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
+return itemRemoved(_that.lineItemId);case _ItemQuantityChanged() when itemQuantityChanged != null:
+return itemQuantityChanged(_that.lineItemId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
 return orderTypeChanged(_that.orderType);case _DiscountApplied() when discountApplied != null:
 return discountApplied(_that.discount);case _DiscountRemoved() when discountRemoved != null:
 return discountRemoved();case _NoteUpdated() when noteUpdated != null:
@@ -255,13 +255,13 @@ String toString() {
 
 
 class _ItemAdded implements ActiveOrderEvent {
-  const _ItemAdded({required this.product, this.quantity = 1, final  List<ModifierOption> modifiers = const []}): _modifiers = modifiers;
+  const _ItemAdded({required this.product, this.quantity = 1, final  List<SelectedModifiers> modifiers = const []}): _modifiers = modifiers;
   
 
  final  Product product;
 @JsonKey() final  int quantity;
- final  List<ModifierOption> _modifiers;
-@JsonKey() List<ModifierOption> get modifiers {
+ final  List<SelectedModifiers> _modifiers;
+@JsonKey() List<SelectedModifiers> get modifiers {
   if (_modifiers is EqualUnmodifiableListView) return _modifiers;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_modifiers);
@@ -298,7 +298,7 @@ abstract mixin class _$ItemAddedCopyWith<$Res> implements $ActiveOrderEventCopyW
   factory _$ItemAddedCopyWith(_ItemAdded value, $Res Function(_ItemAdded) _then) = __$ItemAddedCopyWithImpl;
 @useResult
 $Res call({
- Product product, int quantity, List<ModifierOption> modifiers
+ Product product, int quantity, List<SelectedModifiers> modifiers
 });
 
 
@@ -320,7 +320,7 @@ class __$ItemAddedCopyWithImpl<$Res>
 product: null == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
 as Product,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,modifiers: null == modifiers ? _self._modifiers : modifiers // ignore: cast_nullable_to_non_nullable
-as List<ModifierOption>,
+as List<SelectedModifiers>,
   ));
 }
 
@@ -340,10 +340,10 @@ $ProductCopyWith<$Res> get product {
 
 
 class _ItemRemoved implements ActiveOrderEvent {
-  const _ItemRemoved(this.productId);
+  const _ItemRemoved(this.lineItemId);
   
 
- final  int productId;
+ final  int lineItemId;
 
 /// Create a copy of ActiveOrderEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -355,16 +355,16 @@ _$ItemRemovedCopyWith<_ItemRemoved> get copyWith => __$ItemRemovedCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ItemRemoved&&(identical(other.productId, productId) || other.productId == productId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ItemRemoved&&(identical(other.lineItemId, lineItemId) || other.lineItemId == lineItemId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,productId);
+int get hashCode => Object.hash(runtimeType,lineItemId);
 
 @override
 String toString() {
-  return 'ActiveOrderEvent.itemRemoved(productId: $productId)';
+  return 'ActiveOrderEvent.itemRemoved(lineItemId: $lineItemId)';
 }
 
 
@@ -375,7 +375,7 @@ abstract mixin class _$ItemRemovedCopyWith<$Res> implements $ActiveOrderEventCop
   factory _$ItemRemovedCopyWith(_ItemRemoved value, $Res Function(_ItemRemoved) _then) = __$ItemRemovedCopyWithImpl;
 @useResult
 $Res call({
- int productId
+ int lineItemId
 });
 
 
@@ -392,9 +392,9 @@ class __$ItemRemovedCopyWithImpl<$Res>
 
 /// Create a copy of ActiveOrderEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? productId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? lineItemId = null,}) {
   return _then(_ItemRemoved(
-null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+null == lineItemId ? _self.lineItemId : lineItemId // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -406,10 +406,10 @@ as int,
 
 
 class _ItemQuantityChanged implements ActiveOrderEvent {
-  const _ItemQuantityChanged({required this.productId, required this.quantity});
+  const _ItemQuantityChanged({required this.lineItemId, required this.quantity});
   
 
- final  int productId;
+ final  int lineItemId;
  final  int quantity;
 
 /// Create a copy of ActiveOrderEvent
@@ -422,16 +422,16 @@ _$ItemQuantityChangedCopyWith<_ItemQuantityChanged> get copyWith => __$ItemQuant
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ItemQuantityChanged&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ItemQuantityChanged&&(identical(other.lineItemId, lineItemId) || other.lineItemId == lineItemId)&&(identical(other.quantity, quantity) || other.quantity == quantity));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,productId,quantity);
+int get hashCode => Object.hash(runtimeType,lineItemId,quantity);
 
 @override
 String toString() {
-  return 'ActiveOrderEvent.itemQuantityChanged(productId: $productId, quantity: $quantity)';
+  return 'ActiveOrderEvent.itemQuantityChanged(lineItemId: $lineItemId, quantity: $quantity)';
 }
 
 
@@ -442,7 +442,7 @@ abstract mixin class _$ItemQuantityChangedCopyWith<$Res> implements $ActiveOrder
   factory _$ItemQuantityChangedCopyWith(_ItemQuantityChanged value, $Res Function(_ItemQuantityChanged) _then) = __$ItemQuantityChangedCopyWithImpl;
 @useResult
 $Res call({
- int productId, int quantity
+ int lineItemId, int quantity
 });
 
 
@@ -459,9 +459,9 @@ class __$ItemQuantityChangedCopyWithImpl<$Res>
 
 /// Create a copy of ActiveOrderEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? productId = null,Object? quantity = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? lineItemId = null,Object? quantity = null,}) {
   return _then(_ItemQuantityChanged(
-productId: null == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
+lineItemId: null == lineItemId ? _self.lineItemId : lineItemId // ignore: cast_nullable_to_non_nullable
 as int,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,
   ));

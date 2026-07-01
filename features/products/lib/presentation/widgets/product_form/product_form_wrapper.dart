@@ -1,5 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_products/domain/models/product.dart';
+import 'package:feature_products/domain/repositories/modifiers_repository.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
@@ -17,6 +18,7 @@ class ProductFormWrapper {
 
   static Future<bool> _show(BuildContext context, {Product? product}) async {
     final productsRepo = context.read<ProductsRepository>();
+    final modifiersRepo = context.read<ModifiersRepository>();
     final isEditing = product != null;
 
     final result = await AdaptiveSheet.show<bool>(
@@ -24,7 +26,10 @@ class ProductFormWrapper {
       barrierDismissible: false,
       builder: (ctx, _) => BlocProvider(
         create: (_) {
-          final cubit = ProductFormCubit(productsRepository: productsRepo);
+          final cubit = ProductFormCubit(
+            productsRepository: productsRepo,
+            modifiersRepository: modifiersRepo,
+          );
           if (isEditing) {
             cubit.initEdit(product);
           } else {

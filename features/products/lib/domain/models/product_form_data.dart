@@ -41,14 +41,8 @@ abstract class ProductFormData with _$ProductFormData {
     /// Product status.
     @Default(ProductStatus.draft) ProductStatus status,
 
-    /// Whether this product has unlimited availability (ignores ingredients).
-    @Default(false) bool unlimitedAvailability,
-
     /// Selected modifier group IDs.
     @Default([]) List<int> selectedModifierIds,
-
-    /// Ingredients with quantities (productId -> quantity).
-    @Default({}) Map<int, double> ingredients,
   }) = _ProductFormData;
 
   const ProductFormData._();

@@ -10,7 +10,6 @@ import 'package:feature_orders/domain/models/order_line_item.dart';
 import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_orders/domain/models/selected_modifiers.dart';
 import 'package:feature_orders/domain/repositories/orders_repository.dart';
-import 'package:feature_products/domain/models/modifier_option.dart';
 import 'package:feature_products/domain/models/product.dart';
 
 part 'active_order_bloc.freezed.dart';
@@ -62,6 +61,11 @@ class ActiveOrderBloc
   String _note = '';
   OrderType _orderType = OrderType.dineIn;
 
+  // Monotonic cart-local id generator for OrderLineItem.id. Never reset (a
+  // fresh cart starts after a submit/clear, so ids simply keep counting up),
+  // which keeps every line item unique for the lifetime of the bloc.
+  int _nextLineItemId = 1;
+
   // ============================================================
   // EVENT HANDLERS
   // ============================================================
@@ -81,27 +85,37 @@ class ActiveOrderBloc
     _ItemAdded event,
     Emitter<ActiveOrderState> emit,
   ) async {
-    // Convert product and modifiers to OrderLineItem
-    final selectedModifiers = event.modifiers
-        .map(
-          (m) => SelectedModifiers(
-            groupName: '', // Would need modifier group name from context
-            optionName: m.name,
-            priceChangeCents: m.priceChangeCents,
-          ),
-        )
-        .toList();
-
-    final lineItem = OrderLineItem(
-      productId: event.product.id,
-      productName: event.product.name,
-      unitPriceCents: event.product.priceCents,
-      quantity: event.quantity,
-      selectedModifiers: selectedModifiers,
+    // If an identical line (same product + same selected modifiers) is
+    // already in the cart, merge into it instead of adding a duplicate row.
+    final existingIndex = _items.indexWhere(
+      (item) =>
+          item.productId == event.product.id &&
+          _sameModifiers(item.selectedModifiers, event.modifiers),
     );
 
-    // Optimistic update: add item immediately
-    _items = [..._items, lineItem];
+    if (existingIndex != -1) {
+      final existing = _items[existingIndex];
+      final merged = existing.copyWith(
+        quantity: existing.quantity + event.quantity,
+      );
+      _items = [
+        ..._items.sublist(0, existingIndex),
+        merged,
+        ..._items.sublist(existingIndex + 1),
+      ];
+    } else {
+      final lineItem = OrderLineItem(
+        id: _nextLineItemId++,
+        productId: event.product.id,
+        productName: event.product.name,
+        unitPriceCents: event.product.priceCents,
+        quantity: event.quantity,
+        selectedModifiers: event.modifiers,
+      );
+      _items = [..._items, lineItem];
+    }
+
+    // Optimistic update: cart reflects the change immediately.
     _emitBuilding(emit);
 
     // No async operation needed for local cart state
@@ -113,7 +127,7 @@ class ActiveOrderBloc
     Emitter<ActiveOrderState> emit,
   ) async {
     // Optimistic update: remove immediately
-    _items = _items.where((item) => item.productId != event.productId).toList();
+    _items = _items.where((item) => item.id != event.lineItemId).toList();
 
     if (_items.isEmpty) {
       emit(const ActiveOrderState.empty());
@@ -126,15 +140,25 @@ class ActiveOrderBloc
     _ItemQuantityChanged event,
     Emitter<ActiveOrderState> emit,
   ) async {
-    // Optimistic update: change quantity immediately
-    _items = _items.map((item) {
-      if (item.productId != null && item.productId == event.productId) {
-        return item.copyWith(quantity: event.quantity);
-      }
-      return item;
-    }).toList();
+    // Optimistic update: change quantity immediately. A non-positive
+    // quantity is treated as a removal (defensive; the cart UI's quantity
+    // stepper keeps a minimum of 1 and uses swipe-to-remove instead).
+    if (event.quantity <= 0) {
+      _items = _items.where((item) => item.id != event.lineItemId).toList();
+    } else {
+      _items = _items.map((item) {
+        if (item.id == event.lineItemId) {
+          return item.copyWith(quantity: event.quantity);
+        }
+        return item;
+      }).toList();
+    }
 
-    _emitBuilding(emit);
+    if (_items.isEmpty) {
+      emit(const ActiveOrderState.empty());
+    } else {
+      _emitBuilding(emit);
+    }
   }
 
   Future<void> _onOrderTypeChanged(
@@ -223,6 +247,24 @@ class ActiveOrderBloc
   // ============================================================
   // HELPERS
   // ============================================================
+
+  /// Compares two modifier selections order-independently, so "Large" then
+  /// "Extra cheese" is considered the same line as "Extra cheese" then
+  /// "Large".
+  bool _sameModifiers(List<SelectedModifiers> a, List<SelectedModifiers> b) {
+    if (a.length != b.length) return false;
+
+    String key(SelectedModifiers m) =>
+        '${m.groupName}::${m.optionName}::${m.priceChangeCents}';
+
+    final sortedA = a.map(key).toList()..sort();
+    final sortedB = b.map(key).toList()..sort();
+
+    for (var i = 0; i < sortedA.length; i++) {
+      if (sortedA[i] != sortedB[i]) return false;
+    }
+    return true;
+  }
 
   void _emitBuilding(Emitter<ActiveOrderState> emit) {
     emit(

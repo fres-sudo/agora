@@ -36,6 +36,7 @@ class ProductsFeature {
         logger: ctx.read<Talker>(),
         productsDao: ctx.read(),
         stocksDao: ctx.read(),
+        modifiersDao: ctx.read(),
       ),
     ),
     RepositoryProvider<CategoriesRepository>(

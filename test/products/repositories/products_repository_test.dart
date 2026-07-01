@@ -1,6 +1,7 @@
 import 'package:database/database.dart';
 import 'package:feature_inventory/feature_inventory.dart';
 import 'package:feature_products/data/repositories/products_repository_impl.dart';
+import 'package:feature_products/data/sources/local/daos/modifiers_dao.dart';
 import 'package:feature_products/data/sources/local/daos/products_dao.dart';
 import 'package:feature_products/feature_products.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,18 +10,24 @@ import 'package:mockito/mockito.dart';
 
 import 'products_repository_test.mocks.dart';
 
-@GenerateMocks([ProductsDao, StocksDao])
+@GenerateMocks([ProductsDao, StocksDao, ModifiersDao])
 void main() {
   late MockProductsDao mockProductsDao;
   late MockStocksDao mockStocksDao;
+  late MockModifiersDao mockModifiersDao;
   late ProductsRepositoryImpl repository;
 
   setUp(() {
     mockProductsDao = MockProductsDao();
     mockStocksDao = MockStocksDao();
+    mockModifiersDao = MockModifiersDao();
+    when(
+      mockModifiersDao.getModifiersByProductId(any),
+    ).thenAnswer((_) async => []);
     repository = ProductsRepositoryImpl(
       productsDao: mockProductsDao,
       stocksDao: mockStocksDao,
+      modifiersDao: mockModifiersDao,
     );
   });
 
@@ -80,6 +87,51 @@ void main() {
       expect(products.first, productModel);
       verify(mockProductsDao.watchAllProducts()).called(1);
       verify(mockStocksDao.getStockByProductId(1)).called(1);
+    });
+
+    test('watchAllProducts hydrates modifierGroups from linked modifiers', () async {
+      final modifierEntity = ModifierEntity(
+        id: 5,
+        name: 'Size',
+        isMultiSelect: false,
+        updatedAt: null,
+        createdAt: DateTime.now(),
+        deletedAt: null,
+      );
+      final optionEntity = ModifierOptionEntity(
+        id: 9,
+        modifierId: 5,
+        name: 'Large',
+        priceChange: 100,
+        updatedAt: null,
+        createdAt: DateTime.now(),
+        deletedAt: null,
+      );
+
+      when(
+        mockProductsDao.watchAllProducts(),
+      ).thenAnswer((_) => Stream.value([productEntity]));
+      when(
+        mockStocksDao.getStockByProductId(1),
+      ).thenAnswer((_) async => stockEntity);
+      when(
+        mockModifiersDao.getModifiersByProductId(1),
+      ).thenAnswer((_) async => [modifierEntity]);
+      when(
+        mockModifiersDao.getOptionsByModifierId(5),
+      ).thenAnswer((_) async => [optionEntity]);
+
+      final stream = repository.watchAllProducts();
+      final products = await stream.first;
+
+      expect(products.first.modifierGroups, hasLength(1));
+      expect(products.first.modifierGroups.first.id, 5);
+      expect(products.first.modifierGroups.first.name, 'Size');
+      expect(products.first.modifierGroups.first.options, hasLength(1));
+      expect(
+        products.first.modifierGroups.first.options.first.priceChangeCents,
+        100,
+      );
     });
 
     test('watchProductsByCategory emits filtered products', () async {

@@ -35,6 +35,7 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       );
       items.add(
         OrderLineItem(
+          id: itemEntity.id,
           productId: itemEntity.productId,
           productName: itemEntity.productName,
           quantity: itemEntity.quantity,

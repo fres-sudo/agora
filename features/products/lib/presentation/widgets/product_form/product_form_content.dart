@@ -4,7 +4,6 @@ import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_stepper.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_actions.dart';
-import 'package:feature_products/presentation/widgets/product_form/steps/ingredients_step.dart';
 import 'package:feature_products/presentation/widgets/product_form/steps/pricing_step.dart';
 import 'package:feature_products/presentation/widgets/product_form/steps/product_info_step.dart';
 import 'package:feature_products/presentation/widgets/product_form/steps/variants_modifiers_step.dart';
@@ -95,8 +94,6 @@ class ProductFormContent extends StatelessWidget {
             return const PricingStep();
           case ProductFormStep.variantsModifiers:
             return const VariantsModifiersStep();
-          case ProductFormStep.ingredients:
-            return const IngredientsStep();
         }
       },
       submitting: (_) => const Center(child: CircularProgressIndicator()),

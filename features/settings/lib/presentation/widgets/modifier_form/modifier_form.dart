@@ -1,0 +1,337 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
+import 'package:feature_products/domain/models/modifier_group.dart';
+import 'package:feature_products/domain/models/modifier_option.dart';
+
+/// Create/edit form for a [ModifierGroup] and its nested [ModifierOption]s.
+///
+/// Unlike [CategoryForm], this form manages a parent (the group: name +
+/// single/multi-select) plus an editable list of children (the options: name
+/// + price change). The repository only persists group-level fields via
+/// `updateModifier` — option add/edit/remove must go through separate
+/// `ModifiersEvent.optionCreated/optionUpdated/optionDeleted` events. To keep
+/// this form simple, it always returns the *full* desired [ModifierGroup]
+/// (including options with `id == 0` for new ones); the caller is
+/// responsible for diffing against the original group and dispatching the
+/// right granular events (see `ModifierSection._onEditModifier`).
+class ModifierForm extends StatefulWidget {
+  const ModifierForm({super.key, this.initialGroup});
+
+  final ModifierGroup? initialGroup;
+
+  @override
+  State<ModifierForm> createState() => _ModifierFormState();
+}
+
+class _ModifierFormState extends State<ModifierForm> {
+  final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _nameController;
+  late bool _isMultiSelect;
+  late List<_OptionDraft> _options;
+  String? _optionsError;
+
+  @override
+  void initState() {
+    super.initState();
+    final group = widget.initialGroup;
+    _nameController = TextEditingController(text: group?.name ?? '');
+    _isMultiSelect = group?.isMultiSelect ?? false;
+    _options = (group?.options ?? const <ModifierOption>[])
+        .map(_OptionDraft.fromOption)
+        .toList();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    for (final option in _options) {
+      option.dispose();
+    }
+    super.dispose();
+  }
+
+  void _addOption() {
+    setState(() => _options.add(_OptionDraft.blank()));
+  }
+
+  void _removeOption(_OptionDraft option) {
+    setState(() {
+      _options.remove(option);
+      option.dispose();
+    });
+  }
+
+  void _onSave() {
+    final isNameValid = _formKey.currentState?.validate() ?? false;
+    final options = _options
+        .where((o) => o.nameController.text.trim().isNotEmpty)
+        .toList();
+
+    setState(() {
+      _optionsError = options.isEmpty ? 'Add at least one option' : null;
+    });
+
+    if (!isNameValid || options.isEmpty) return;
+
+    final group = ModifierGroup(
+      id: widget.initialGroup?.id ?? 0,
+      name: _nameController.text.trim(),
+      isMultiSelect: _isMultiSelect,
+      options: options.map((o) => o.toOption()).toList(),
+    );
+    Navigator.of(context).pop(group);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isEditing = widget.initialGroup != null;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Header
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            isEditing ? 'Edit Modifier' : 'New Modifier',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const Divider(height: 1),
+
+        // Form Content
+        Flexible(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Name Field
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Modifier Name',
+                      hintText: 'e.g. Size, Milk Option',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.label_outline),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a name';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Single vs multi select
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Allow multiple selections'),
+                    subtitle: const Text(
+                      'On: customers can pick several options (checkboxes). '
+                      'Off: customers pick exactly one (radio buttons).',
+                    ),
+                    value: _isMultiSelect,
+                    onChanged: (value) =>
+                        setState(() => _isMultiSelect = value),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Options section
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Options',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      AppButton.ghost(
+                        onPressed: _addOption,
+                        label: 'Add Option',
+                        leadingIcon: const Icon(Icons.add, size: 18),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  if (_options.isEmpty)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(Sizes.lg),
+                      decoration: BoxDecoration(
+                        color: AppColors.neutral50,
+                        borderRadius: BorderRadius.circular(Sizes.sm),
+                        border: Border.all(color: AppColors.neutral200),
+                      ),
+                      child: Text(
+                        'No options yet. Add at least one, '
+                        'e.g. "Small" / "Large".',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.neutral500,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  else
+                    ..._options.map(
+                      (option) => Padding(
+                        key: option.localKey,
+                        padding: const EdgeInsets.only(bottom: Sizes.sm),
+                        child: _OptionRow(
+                          option: option,
+                          onRemove: () => _removeOption(option),
+                        ),
+                      ),
+                    ),
+
+                  if (_optionsError != null) ...[
+                    const SizedBox(height: Sizes.sm),
+                    Text(
+                      _optionsError!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.error500,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        const Divider(height: 1),
+
+        // Actions
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AppButton.ghost(
+                onPressed: () => Navigator.of(context).pop(),
+                label: 'Cancel',
+              ),
+              const SizedBox(width: 16),
+              AppButton.primary(onPressed: _onSave, label: 'Save'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Mutable, controller-backed draft of a [ModifierOption] being edited.
+///
+/// Keeping stable [TextEditingController]s per row (rather than recreating
+/// them on every build, as `ingredients_step.dart` does) avoids losing focus
+/// / cursor position while typing.
+class _OptionDraft {
+  _OptionDraft._({
+    required this.id,
+    required this.localKey,
+    required this.nameController,
+    required this.priceController,
+  });
+
+  factory _OptionDraft.fromOption(ModifierOption option) => _OptionDraft._(
+    id: option.id,
+    localKey: ValueKey('modifier_option_${option.id}'),
+    nameController: TextEditingController(text: option.name),
+    priceController: TextEditingController(
+      text: option.priceChangeCents == 0
+          ? ''
+          : (option.priceChangeCents / 100).toStringAsFixed(2),
+    ),
+  );
+
+  factory _OptionDraft.blank() => _OptionDraft._(
+    id: 0,
+    localKey: UniqueKey(),
+    nameController: TextEditingController(),
+    priceController: TextEditingController(),
+  );
+
+  /// The persisted option id, or `0` if this row is a new, unsaved option.
+  final int id;
+  final Key localKey;
+  final TextEditingController nameController;
+  final TextEditingController priceController;
+
+  ModifierOption toOption() {
+    final parsedPrice = double.tryParse(priceController.text) ?? 0;
+    return ModifierOption(
+      id: id,
+      name: nameController.text.trim(),
+      priceChangeCents: (parsedPrice * 100).round(),
+    );
+  }
+
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+  }
+}
+
+class _OptionRow extends StatelessWidget {
+  const _OptionRow({required this.option, required this.onRemove});
+
+  final _OptionDraft option;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 3,
+          child: TextField(
+            controller: option.nameController,
+            decoration: const InputDecoration(
+              hintText: 'Option name',
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        const SizedBox(width: Sizes.sm),
+        Expanded(
+          flex: 2,
+          child: TextField(
+            controller: option.priceController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+            ],
+            decoration: const InputDecoration(
+              prefixText: '+€ ',
+              hintText: '0.00',
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        AppIconButton.ghost(
+          onPressed: onRemove,
+          icon: const Icon(Icons.close, size: 18, color: AppColors.neutral500),
+          tooltip: 'Remove option',
+        ),
+      ],
+    );
+  }
+}

@@ -6,19 +6,6 @@ import 'package:feature_settings/presentation/widgets/settings_section_scaffold.
 /// These sections currently display placeholder text but follow the
 /// same structure as fully implemented sections.
 
-/// Modifier settings section.
-class ModifierSection extends StatelessWidget {
-  const ModifierSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SettingsSectionScaffold(
-      title: 'Modifier',
-      child: Center(child: Text('Modifier settings coming soon...')),
-    );
-  }
-}
-
 /// Payment method settings section.
 class PaymentMethodSection extends StatelessWidget {
   const PaymentMethodSection({super.key});
