@@ -211,10 +211,9 @@ melos:
         concurrency: 6
 
 dependencies:
-  flutter:
-    sdk: flutter
   database:
     path: packages/database
+  drift: ^2.30.0
   feature_inventory:
     path: features/inventory
   feature_orders:
@@ -225,30 +224,30 @@ dependencies:
     path: features/products
   feature_settings:
     path: features/settings
-  result:
-    path: packages/result
-  drift: ^2.30.0
+  flutter:
+    sdk: flutter
   flutter_bloc: ^9.1.1
   mocktail: ^1.0.4
+  printing:
+    path: packages/printing
+  result:
+    path: packages/result
 
 dev_dependencies:
+  auto_route_generator: ^10.2.6
+  bloc_test: ^10.0.0
+  build: ^3.0.0
+  build_runner: ^2.4.7
+  data_fixture_dart: ^3.0.0
+  drift_dev: ^2.30.0
+  flutter_gen_runner:
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  melos: ^7.4.0
-  # Linting
-  lints: ^6.0.0
-  # Code generation
-  build_runner: ^2.4.7
-  build: ^3.0.0
   freezed: ^3.2.3
   json_serializable: ^6.11.1
-  auto_route_generator: ^10.2.6
-  drift_dev: ^2.30.0
-  slang_build_runner: ^4.10.0
-  flutter_lints: ^6.0.0
-  flutter_gen_runner:
-  # Testing
-  bloc_test: ^10.0.0
+  lints: ^6.0.0
+  melos: ^7.4.0
   mockito: ^5.5.0
-  data_fixture_dart: ^3.0.0
+  slang_build_runner: ^4.10.0
   test: ^1.24.0

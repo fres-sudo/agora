@@ -1,29 +1,27 @@
 import 'package:database/database.dart';
 import 'package:drift/drift.dart';
 
-part 'clock_records_dao.g.dart';
-
-@DriftAccessor(tables: [ClockRecordsTable, EmployeesTable])
-class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase>
-    with _$ClockRecordsDaoMixin {
+class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase> {
   ClockRecordsDao(super.db);
 
   Stream<List<ClockRecordWithEmployee>> watchClockRecords({int? employeeId}) {
-    final query = select(clockRecordsTable).join([
-      innerJoin(employeesTable, employeesTable.id.equalsExp(clockRecordsTable.employeeId)),
+    final clockTable = attachedDatabase.clockRecordsTable;
+    final employeesTable = attachedDatabase.employeesTable;
+    final query = select(clockTable).join([
+      innerJoin(employeesTable, employeesTable.id.equalsExp(clockTable.employeeId)),
     ])
-      ..where(clockRecordsTable.deletedAt.isNull())
-      ..orderBy([OrderingTerm.desc(clockRecordsTable.clockedInAt)]);
+      ..where(clockTable.deletedAt.isNull())
+      ..orderBy([OrderingTerm.desc(clockTable.clockedInAt)]);
 
     if (employeeId != null) {
-      query.where(clockRecordsTable.employeeId.equals(employeeId));
+      query.where(clockTable.employeeId.equals(employeeId));
     }
 
     return query.watch().map(
       (rows) => rows
           .map(
             (row) => ClockRecordWithEmployee(
-              record: row.readTable(clockRecordsTable),
+              record: row.readTable(clockTable),
               employee: row.readTable(employeesTable),
             ),
           )
@@ -32,7 +30,8 @@ class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase>
   }
 
   Future<ClockRecordEntity?> getActiveClockRecord(int employeeId) {
-    return (select(clockRecordsTable)
+    final table = attachedDatabase.clockRecordsTable;
+    return (select(table)
           ..where(
             (t) =>
                 t.employeeId.equals(employeeId) &
@@ -44,11 +43,12 @@ class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase>
   }
 
   Future<int> insertClockRecord(ClockRecordsTableCompanion companion) {
-    return into(clockRecordsTable).insert(companion);
+    return into(attachedDatabase.clockRecordsTable).insert(companion);
   }
 
   Future<bool> updateClockRecord(int id, ClockRecordsTableCompanion companion) {
-    return (update(clockRecordsTable)..where((t) => t.id.equals(id)))
+    final table = attachedDatabase.clockRecordsTable;
+    return (update(table)..where((t) => t.id.equals(id)))
         .write(companion.copyWith(updatedAt: Value(DateTime.now())))
         .then((rows) => rows > 0);
   }

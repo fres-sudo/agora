@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:drift/drift.dart';
 import '../../../data/sources/local/daos/clock_records_dao.dart';
 import '../models/clock_record.dart';
 

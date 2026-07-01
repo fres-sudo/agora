@@ -1,6 +1,7 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/domain/models/employee.dart';
 import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
+import 'package:result/result.dart';
 
 part 'employees_event.dart';
 part 'employees_state.dart';
@@ -32,25 +33,22 @@ class EmployeesBloc extends Bloc<EmployeesEvent, EmployeesState> {
 
   Future<void> _onCreate(_Created event, Emitter<EmployeesState> emit) async {
     final result = await _repo.createEmployee(event.employee);
-    result.when(
-      success: (_) {},
-      error: (e) => emit(EmployeesState.error(e.toString())),
-    );
+    if (result case Error<Employee>(:final error)) {
+      emit(EmployeesState.error(error.toString()));
+    }
   }
 
   Future<void> _onUpdate(_Updated event, Emitter<EmployeesState> emit) async {
     final result = await _repo.updateEmployee(event.employee);
-    result.when(
-      success: (_) {},
-      error: (e) => emit(EmployeesState.error(e.toString())),
-    );
+    if (result case Error<Employee>(:final error)) {
+      emit(EmployeesState.error(error.toString()));
+    }
   }
 
   Future<void> _onDelete(_Deleted event, Emitter<EmployeesState> emit) async {
     final result = await _repo.deleteEmployee(event.id);
-    result.when(
-      success: (_) {},
-      error: (e) => emit(EmployeesState.error(e.toString())),
-    );
+    if (result case Error<int>(:final error)) {
+      emit(EmployeesState.error(error.toString()));
+    }
   }
 }

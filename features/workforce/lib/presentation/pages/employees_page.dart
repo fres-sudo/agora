@@ -86,20 +86,18 @@ class _EmployeesPageState extends State<EmployeesPage> {
             : null,
       ),
       body: BlocBuilder<EmployeesBloc, EmployeesState>(
-        builder: (context, state) => switch (state) {
-          _Initial() || _Loading() => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          _Error(:final message) => Center(
-            child: Text(message, style: const TextStyle(color: Colors.red)),
-          ),
-          _Loaded(:final employees) => _EmployeesList(
+        builder: (context, state) => state.when(
+          initial: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          loaded: (employees) => _EmployeesList(
             employees: employees,
             onAdd: _onAdd,
             onEdit: _onEdit,
             onDelete: _onDelete,
           ),
-        },
+          error: (message) =>
+              Center(child: Text(message, style: const TextStyle(color: Colors.red))),
+        ),
       ),
     );
   }
@@ -162,7 +160,7 @@ class _EmployeesListState extends State<_EmployeesList> {
               AppButton.primary(
                 onPressed: widget.onAdd,
                 label: 'Add Employee',
-                icon: Icons.add,
+                leadingIcon: const Icon(Icons.add),
               ),
             ],
           ),
@@ -173,7 +171,7 @@ class _EmployeesListState extends State<_EmployeesList> {
               ? _EmptyState(onAdd: widget.onAdd)
               : ListView.separated(
                   itemCount: _filtered.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  separatorBuilder: (_, _) => const Divider(height: 1),
                   itemBuilder: (context, index) {
                     final emp = _filtered[index];
                     return _EmployeeTile(
@@ -205,11 +203,11 @@ class _EmployeeTile extends StatelessWidget {
     final theme = Theme.of(context);
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: AppColors.primary.withOpacity(0.12),
+        backgroundColor: AppColors.primary500.withValues(alpha: 0.12),
         child: Text(
           employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
           style: TextStyle(
-            color: AppColors.primary,
+            color: AppColors.primary500,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -249,7 +247,7 @@ class _RoleBadge extends StatelessWidget {
   final EmployeeRole role;
 
   Color get _color => switch (role) {
-    EmployeeRole.owner => AppColors.primary,
+    EmployeeRole.owner => AppColors.primary500,
     EmployeeRole.manager => Colors.orange,
     EmployeeRole.cashier => AppColors.neutral500,
   };
@@ -258,10 +256,10 @@ class _RoleBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: _color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(12),
-      ),
+        decoration: BoxDecoration(
+          color: _color.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+        ),
       child: Text(
         role.label,
         style: TextStyle(
@@ -282,12 +280,12 @@ class _StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: isActive
-            ? Colors.green.withOpacity(0.12)
-            : AppColors.neutral200,
-        borderRadius: BorderRadius.circular(12),
-      ),
+        decoration: BoxDecoration(
+          color: isActive
+              ? Colors.green.withValues(alpha: 0.12)
+              : AppColors.neutral200,
+          borderRadius: BorderRadius.circular(12),
+        ),
       child: Text(
         isActive ? 'Active' : 'Inactive',
         style: TextStyle(
@@ -326,7 +324,7 @@ class _EmptyState extends StatelessWidget {
           AppButton.primary(
             onPressed: onAdd,
             label: 'Add First Employee',
-            icon: Icons.add,
+            leadingIcon: const Icon(Icons.add),
           ),
         ],
       ),

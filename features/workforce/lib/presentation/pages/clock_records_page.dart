@@ -62,7 +62,7 @@ class _RecordsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: records.length,
-      separatorBuilder: (_, __) => const Divider(height: 1),
+      separatorBuilder: (_, _) => const Divider(height: 1),
       itemBuilder: (context, index) => _RecordTile(record: records[index]),
     );
   }
@@ -82,7 +82,7 @@ class _RecordTile extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: record.isActive
-            ? Colors.green.withOpacity(0.12)
+            ? Colors.green.withValues(alpha: 0.12)
             : AppColors.neutral100,
         child: Icon(
           record.isActive ? Icons.login : Icons.logout,
@@ -99,7 +99,7 @@ class _RecordTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
           color: record.isActive
-              ? Colors.green.withOpacity(0.12)
+              ? Colors.green.withValues(alpha: 0.12)
               : AppColors.neutral100,
           borderRadius: BorderRadius.circular(12),
         ),

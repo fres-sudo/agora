@@ -1,45 +1,46 @@
 import 'package:database/database.dart';
 import 'package:drift/drift.dart';
 
-part 'employees_dao.g.dart';
-
-@DriftAccessor(tables: [EmployeesTable])
-class EmployeesDao extends DatabaseAccessor<AgoraDatabase>
-    with _$EmployeesDaoMixin {
+class EmployeesDao extends DatabaseAccessor<AgoraDatabase> {
   EmployeesDao(super.db);
 
   Stream<List<EmployeeEntity>> watchActiveEmployees() {
-    return (select(employeesTable)
+    final table = attachedDatabase.employeesTable;
+    return (select(table)
           ..where((t) => t.deletedAt.isNull() & t.isActive.equals(true))
           ..orderBy([(t) => OrderingTerm.asc(t.name)]))
         .watch();
   }
 
   Future<List<EmployeeEntity>> getActiveEmployees() {
-    return (select(employeesTable)
+    final table = attachedDatabase.employeesTable;
+    return (select(table)
           ..where((t) => t.deletedAt.isNull() & t.isActive.equals(true))
           ..orderBy([(t) => OrderingTerm.asc(t.name)]))
         .get();
   }
 
   Future<EmployeeEntity?> getEmployeeById(int id) {
-    return (select(employeesTable)
+    final table = attachedDatabase.employeesTable;
+    return (select(table)
           ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
         .getSingleOrNull();
   }
 
   Future<int> insertEmployee(EmployeesTableCompanion companion) {
-    return into(employeesTable).insert(companion);
+    return into(attachedDatabase.employeesTable).insert(companion);
   }
 
   Future<bool> updateEmployee(int id, EmployeesTableCompanion companion) {
-    return (update(employeesTable)..where((t) => t.id.equals(id)))
+    final table = attachedDatabase.employeesTable;
+    return (update(table)..where((t) => t.id.equals(id)))
         .write(companion.copyWith(updatedAt: Value(DateTime.now())))
         .then((rows) => rows > 0);
   }
 
   Future<bool> softDeleteEmployee(int id) {
-    return (update(employeesTable)..where((t) => t.id.equals(id)))
+    final table = attachedDatabase.employeesTable;
+    return (update(table)..where((t) => t.id.equals(id)))
         .write(EmployeesTableCompanion(deletedAt: Value(DateTime.now())))
         .then((rows) => rows > 0);
   }

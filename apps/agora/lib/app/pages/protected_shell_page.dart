@@ -65,7 +65,10 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
     return BlocBuilder<ClockInCubit, ClockInState>(
       builder: (context, clockState) {
-        final isClockedIn = clockState is _ClockedIn;
+        final isClockedIn = clockState.maybeWhen(
+          clockedIn: (_) => true,
+          orElse: () => false,
+        );
 
         return AutoTabsRouter(
           homeIndex: 0,

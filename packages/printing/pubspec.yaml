@@ -1,0 +1,16 @@
+name: printing
+description: Receipt rendering and printer service abstractions for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  logger:
+    path: ../logger
+  result:
+    path: ../result

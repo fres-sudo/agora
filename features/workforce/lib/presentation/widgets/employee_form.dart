@@ -2,7 +2,6 @@ import 'package:feature_workforce/domain/models/employee.dart';
 import 'package:feature_workforce/domain/models/employee_role.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 class EmployeeFormData {
@@ -133,7 +132,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<EmployeeRole>(
-                value: _role,
+                initialValue: _role,
                 decoration: const InputDecoration(labelText: 'Role'),
                 items: EmployeeRole.values
                     .map(

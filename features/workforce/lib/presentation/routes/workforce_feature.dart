@@ -14,10 +14,10 @@ class WorkforceFeature {
   static List<SingleChildWidget> get providers => [
     // DAOs
     ProxyProvider<AgoraDatabase, EmployeesDao>(
-      update: (_, db, __) => EmployeesDao(db),
+      update: (_, db, _) => EmployeesDao(db),
     ),
     ProxyProvider<AgoraDatabase, ClockRecordsDao>(
-      update: (_, db, __) => ClockRecordsDao(db),
+      update: (_, db, _) => ClockRecordsDao(db),
     ),
     // Repository
     RepositoryProvider<WorkforceRepository>(

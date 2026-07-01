@@ -17,8 +17,7 @@ abstract class ClockRecord with _$ClockRecord {
 
   bool get isActive => clockedOutAt == null;
 
-  Duration? get duration =>
-      clockedOutAt != null ? clockedOutAt!.difference(clockedInAt) : null;
+  Duration? get duration => clockedOutAt?.difference(clockedInAt);
 
   String get formattedDuration {
     final d = duration;
