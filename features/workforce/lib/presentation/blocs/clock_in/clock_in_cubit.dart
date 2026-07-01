@@ -2,7 +2,6 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:result/result.dart';
 import 'package:feature_workforce/domain/models/clock_record.dart';
 import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
-import 'package:result/result.dart';
 
 part 'clock_in_state.dart';
 part 'clock_in_cubit.freezed.dart';
