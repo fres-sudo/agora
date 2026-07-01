@@ -3,6 +3,4 @@
 part of 'categories_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$CategoriesDaoMixin on DatabaseAccessor<AgoraDatabase> {
-  $CategoriesTableTable get categoriesTable => attachedDatabase.categoriesTable;
-}
+mixin _$CategoriesDaoMixin on DatabaseAccessor<AgoraDatabase> {}
