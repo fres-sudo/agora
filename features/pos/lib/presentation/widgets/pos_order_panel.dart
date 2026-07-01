@@ -1,10 +1,13 @@
-import 'package:theme/theme.dart';
-import 'package:ui_kit/ui_kit.dart';
+import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_orders/domain/models/order_line_item.dart';
 import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_pos/feature_pos.dart';
+import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
+import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// The right panel of the POS view displaying order details.
 /// Contains action buttons, order type selector, order items, and summary.
@@ -65,6 +68,8 @@ class PosOrderPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final currencySymbol =
+        context.watch<SettingsCubit>().getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
 
     return Container(
       color: Colors.white,
@@ -112,6 +117,7 @@ class PosOrderPanel extends StatelessWidget {
                     onItemRemoved: onItemRemoved,
                     onItemQuantityChanged: onItemQuantityChanged,
                     onClearAll: onClearOrder,
+                    currencySymbol: currencySymbol,
                   )
                 : PosEmptyState(
                     icon: Icons.shopping_bag_outlined,
@@ -133,6 +139,7 @@ class PosOrderPanel extends StatelessWidget {
                   taxCents: currentOrder?.taxCents ?? 0,
                   discountCents: currentOrder?.discountCents ?? 0,
                   grandTotalCents: currentOrder?.grandTotalCents ?? 0,
+                  currencySymbol: currencySymbol,
                 ),
                 const SizedBox(height: 16),
                 AppButton.primary(
@@ -164,12 +171,14 @@ class _OrderItemsList extends StatelessWidget {
   final ValueChanged<int> onItemRemoved;
   final void Function(int lineItemId, int quantity) onItemQuantityChanged;
   final VoidCallback onClearAll;
+  final String currencySymbol;
 
   const _OrderItemsList({
     required this.items,
     required this.onItemRemoved,
     required this.onItemQuantityChanged,
     required this.onClearAll,
+    required this.currencySymbol,
   });
 
   @override
@@ -187,6 +196,7 @@ class _OrderItemsList extends StatelessWidget {
                 onRemove: () => onItemRemoved(item.id),
                 onQuantityChanged: (quantity) =>
                     onItemQuantityChanged(item.id, quantity),
+                currencySymbol: currencySymbol,
               );
             },
           ),

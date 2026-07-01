@@ -1,10 +1,15 @@
+import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_orders/feature_orders.dart';
+import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
+import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:theme/theme.dart';
 
 /// Segmented selector for the order's [PaymentMethod] (Cash / Card).
 ///
-/// For the free tier the set is fixed; P4-5 will make it configurable.
+/// Reads [AppSettingsDao.keyPaymentMethodCashEnabled] /
+/// [AppSettingsDao.keyPaymentMethodCardEnabled] from [SettingsCubit] to filter
+/// the displayed methods. Both default to enabled when not yet persisted.
 class PaymentMethodSelector extends StatelessWidget {
   const PaymentMethodSelector({
     super.key,
@@ -19,13 +24,30 @@ class PaymentMethodSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.watch<SettingsCubit>();
+    final enabledMethods = PaymentMethod.values.where((m) {
+      return switch (m) {
+        PaymentMethod.cash => cubit.getBool(
+          AppSettingsDao.keyPaymentMethodCashEnabled,
+          defaultValue: true,
+        ),
+        PaymentMethod.card => cubit.getBool(
+          AppSettingsDao.keyPaymentMethodCardEnabled,
+          defaultValue: true,
+        ),
+      };
+    }).toList();
+
+    // Fallback: show all if operator somehow disabled every method.
+    final methods = enabledMethods.isEmpty ? PaymentMethod.values : enabledMethods;
+
     return Row(
       children: [
-        for (final method in PaymentMethod.values)
+        for (final method in methods)
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(
-                right: method == PaymentMethod.values.last ? 0 : Sizes.sm,
+                right: method == methods.last ? 0 : Sizes.sm,
               ),
               child: _MethodTile(
                 method: method,

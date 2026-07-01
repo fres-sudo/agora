@@ -1,5 +1,8 @@
+import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/domain/models/product.dart';
+import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
+import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:flutter/material.dart';
 
 /// A responsive grid of product cards for the POS view.
@@ -39,6 +42,9 @@ class PosProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currencySymbol =
+        context.watch<SettingsCubit>().getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
+
     if (products.isEmpty) {
       return PosEmptyState(
         icon: Icons.inventory_2_outlined,
@@ -75,6 +81,7 @@ class PosProductGrid extends StatelessWidget {
               product: product,
               quantityInCart: quantity,
               onTap: () => onProductTap(product),
+              currencySymbol: currencySymbol,
             );
           },
         );

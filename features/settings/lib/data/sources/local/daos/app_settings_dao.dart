@@ -17,6 +17,14 @@ class AppSettingsDao extends DatabaseAccessor<AgoraDatabase>
   static const String keyCurrencySymbol = 'currency_symbol';
   static const String keyBusinessName = 'business_name';
   static const String keyBusinessAddress = 'business_address';
+  static const String keyBusinessPhone = 'business_phone';
+  static const String keyBusinessEmail = 'business_email';
+  static const String keyBusinessCity = 'business_city';
+  static const String keyBusinessCountry = 'business_country';
+
+  // Payment method enabled toggles (default: both enabled).
+  static const String keyPaymentMethodCashEnabled = 'payment_method_cash_enabled';
+  static const String keyPaymentMethodCardEnabled = 'payment_method_card_enabled';
 
   // Selected receipt printer (persisted so it survives restart).
   static const String keyPrinterId = 'printer_id';

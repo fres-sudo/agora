@@ -25,7 +25,7 @@ class PosOrderItem extends StatelessWidget {
     required this.item,
     required this.onRemove,
     required this.onQuantityChanged,
-    this.currencySymbol = '\$',
+    this.currencySymbol = '€',
   });
 
   String _formatCents(int cents) {

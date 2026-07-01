@@ -25,7 +25,7 @@ class PosOrderSummary extends StatelessWidget {
     required this.taxCents,
     required this.discountCents,
     required this.grandTotalCents,
-    this.currencySymbol = '\$',
+    this.currencySymbol = '€',
   });
 
   String _formatCents(int cents) {

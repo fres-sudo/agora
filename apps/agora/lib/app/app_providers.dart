@@ -160,9 +160,9 @@ List<SingleChildWidget> _buildProviders({
   // ---------------------------------------------------------------------------
   ...AuthFeature.providers,
   ...WorkforceFeature.providers,
+  ...SettingsFeature.providers,
   ...InventoryFeature.providers, // must be before Products (StocksDao)
   ...ProductsFeature.providers,
   ...OrdersFeature.providers,
   ...DiscountsFeature.providers,
-  ...SettingsFeature.providers,
 ];

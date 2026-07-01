@@ -11,6 +11,8 @@ import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_orders/domain/models/selected_modifiers.dart';
 import 'package:feature_orders/domain/repositories/orders_repository.dart';
 import 'package:feature_products/domain/models/product.dart';
+import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
+import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 
 part 'active_order_bloc.freezed.dart';
 part 'active_order_event.dart';
@@ -38,9 +40,12 @@ final class ActiveOrderShowError extends ActiveOrderEffect {
 /// - On success, orderSubmitted effect triggers navigation
 class ActiveOrderBloc
     extends EffectBloc<ActiveOrderEvent, ActiveOrderState, ActiveOrderEffect> {
-  ActiveOrderBloc({required OrdersRepository ordersRepository})
-    : _ordersRepository = ordersRepository,
-      super(const ActiveOrderState.empty()) {
+  ActiveOrderBloc({
+    required OrdersRepository ordersRepository,
+    required SettingsCubit settingsCubit,
+  }) : _ordersRepository = ordersRepository,
+       _settingsCubit = settingsCubit,
+       super(const ActiveOrderState.empty()) {
     on<_Started>(_onStarted);
     on<_ItemAdded>(_onItemAdded);
     on<_ItemRemoved>(_onItemRemoved);
@@ -54,6 +59,7 @@ class ActiveOrderBloc
   }
 
   final OrdersRepository _ordersRepository;
+  final SettingsCubit _settingsCubit;
 
   // Current order being built
   List<OrderLineItem> _items = [];
@@ -296,8 +302,9 @@ class ActiveOrderBloc
       }
     }
 
-    // Calculate tax (assuming 0 for now - would come from settings)
-    const taxAmount = 0;
+    // Calculate tax from the persisted tax-rate setting (percentage, e.g. 22.0 = 22%).
+    final taxRatePct = _settingsCubit.getDouble(AppSettingsDao.keyTaxRate) ?? 0.0;
+    final taxAmount = taxRatePct > 0 ? ((subtotal - discountAmount) * taxRatePct / 100).round() : 0;
 
     final grandTotal = subtotal - discountAmount + taxAmount;
 

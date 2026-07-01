@@ -10,6 +10,7 @@ import 'package:feature_orders/presentation/blocs/checkout/checkout_cubit.dart';
 import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:printing/printing.dart';
 import 'package:talker/talker.dart';
@@ -45,7 +46,10 @@ class OrdersFeature {
       ),
     ),
     BlocProvider<ActiveOrderBloc>(
-      create: (ctx) => ActiveOrderBloc(ordersRepository: ctx.read()),
+      create: (ctx) => ActiveOrderBloc(
+        ordersRepository: ctx.read(),
+        settingsCubit: ctx.read<SettingsCubit>(),
+      ),
     ),
     BlocProvider<CheckoutCubit>(
       create: (ctx) => CheckoutCubit(

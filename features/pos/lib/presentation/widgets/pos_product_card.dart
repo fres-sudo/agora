@@ -23,7 +23,7 @@ class PosProductCard extends StatelessWidget {
     required this.product,
     this.quantityInCart = 0,
     required this.onTap,
-    this.currencySymbol = '\$',
+    this.currencySymbol = '€',
   });
 
   @override
