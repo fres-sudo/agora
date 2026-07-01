@@ -1,118 +1,111 @@
-import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
-import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
-import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc_exports/bloc_exports.dart';
-import 'package:ui_kit/ui_kit.dart';
+import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 
-class ReceiptOptionSection extends StatefulWidget {
+/// Receipt presentation settings: the header/footer text printed on receipts
+/// and which optional blocks (logo, tax line) are shown.
+///
+/// Mirrors the `receipt_*` keys persisted by `AppSettingsDao`.
+class ReceiptOptionSection extends StatelessWidget {
   const ReceiptOptionSection({super.key});
-
-  @override
-  State<ReceiptOptionSection> createState() => _ReceiptOptionSectionState();
-}
-
-class _ReceiptOptionSectionState extends State<ReceiptOptionSection> {
-  late final TextEditingController _businessNameController;
-  late final TextEditingController _currencySymbolController;
-  late final TextEditingController _headerController;
-  late final TextEditingController _footerController;
-
-  @override
-  void initState() {
-    super.initState();
-    final settings = context.read<SettingsCubit>();
-    _businessNameController = TextEditingController(
-      text: settings.getString(AppSettingsDao.keyBusinessName) ?? '',
-    );
-    _currencySymbolController = TextEditingController(
-      text: settings.getString(AppSettingsDao.keyCurrencySymbol) ?? r'$',
-    );
-    _headerController = TextEditingController(
-      text: settings.getString(AppSettingsDao.keyReceiptHeader) ?? '',
-    );
-    _footerController = TextEditingController(
-      text: settings.getString(AppSettingsDao.keyReceiptFooter) ?? '',
-    );
-  }
-
-  @override
-  void dispose() {
-    _businessNameController.dispose();
-    _currencySymbolController.dispose();
-    _headerController.dispose();
-    _footerController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return SettingsSectionScaffold(
       title: 'Receipt Option',
-      actionButton: AppButton.primary(
-        onPressed: _save,
-        label: 'Save Changes',
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextFormField(
-            controller: _businessNameController,
-            decoration: const InputDecoration(
-              labelText: 'Business name',
-              border: OutlineInputBorder(),
-            ),
-          ),
+          _ReceiptField(label: 'Receipt Header', hint: 'Shown above the items (e.g. a greeting)'),
           const SizedBox(height: 16),
-          TextFormField(
-            controller: _currencySymbolController,
-            decoration: const InputDecoration(
-              labelText: 'Currency symbol',
-              border: OutlineInputBorder(),
-            ),
+          _ReceiptField(
+            label: 'Receipt Footer',
+            hint: 'Shown at the bottom (e.g. "Thank you!")',
+            maxLines: 3,
           ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _headerController,
-            maxLines: 2,
-            decoration: const InputDecoration(
-              labelText: 'Receipt header',
-              border: OutlineInputBorder(),
-            ),
+          const SizedBox(height: 24),
+          const _ReceiptToggle(
+            label: 'Show store logo',
+            description: 'Print the store logo at the top of the receipt.',
           ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _footerController,
-            maxLines: 2,
-            decoration: const InputDecoration(
-              labelText: 'Receipt footer',
-              border: OutlineInputBorder(),
-            ),
+          const Divider(height: 24),
+          const _ReceiptToggle(
+            label: 'Show tax breakdown',
+            description: 'Include the tax line in the receipt totals.',
+            initialValue: true,
           ),
         ],
       ),
     );
   }
+}
 
-  void _save() {
-    final settings = context.read<SettingsCubit>();
-    settings.update(
-      AppSettingsDao.keyBusinessName,
-      _businessNameController.text.trim(),
+class _ReceiptField extends StatelessWidget {
+  const _ReceiptField({required this.label, required this.hint, this.maxLines = 1});
+
+  final String label;
+  final String hint;
+  final int maxLines;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          maxLines: maxLines,
+          decoration: InputDecoration(
+            hintText: hint,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+        ),
+      ],
     );
-    settings.update(
-      AppSettingsDao.keyCurrencySymbol,
-      _currencySymbolController.text.trim().isEmpty
-          ? r'$'
-          : _currencySymbolController.text.trim(),
-    );
-    settings.update(
-      AppSettingsDao.keyReceiptHeader,
-      _headerController.text.trim(),
-    );
-    settings.update(
-      AppSettingsDao.keyReceiptFooter,
-      _footerController.text.trim(),
+  }
+}
+
+class _ReceiptToggle extends StatefulWidget {
+  const _ReceiptToggle({required this.label, required this.description, this.initialValue = false});
+
+  final String label;
+  final String description;
+  final bool initialValue;
+
+  @override
+  State<_ReceiptToggle> createState() => _ReceiptToggleState();
+}
+
+class _ReceiptToggleState extends State<_ReceiptToggle> {
+  late bool _value = widget.initialValue;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.label,
+                style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                widget.description,
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
+              ),
+            ],
+          ),
+        ),
+        Switch(value: _value, onChanged: (value) => setState(() => _value = value)),
+      ],
     );
   }
 }

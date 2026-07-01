@@ -1,19 +1,28 @@
-import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
+import 'package:feature_settings/feature_settings.dart';
 import 'package:printing/printing.dart';
 
-ReceiptConfig buildReceiptConfig(SettingsCubit settingsCubit) {
-  final businessName = settingsCubit.getString('business_name')?.trim();
-  final storeName = (businessName?.isNotEmpty ?? false)
-      ? businessName!
-      : 'Agora POS';
-  final currencySymbol = settingsCubit.getString('currency_symbol') ?? r'$';
-  final header = settingsCubit.getString('receipt_header');
-  final footer = settingsCubit.getString('receipt_footer');
+/// Setting keys (kept in sync with `AppSettingsDao`) that drive the receipt
+/// presentation.
+const _kBusinessName = 'business_name';
+const _kBusinessAddress = 'business_address';
+const _kReceiptHeader = 'receipt_header';
+const _kReceiptFooter = 'receipt_footer';
+const _kCurrencySymbol = 'currency_symbol';
+const _kReceiptShowTax = 'receipt_show_tax';
 
+/// Builds a [ReceiptConfig] from the current values in [settings].
+///
+/// Missing settings fall back to sensible defaults so a receipt can always be
+/// produced, even before the operator has filled in the store details.
+ReceiptConfig buildReceiptConfig(SettingsCubit settings) {
   return ReceiptConfig(
-    storeName: storeName,
-    currencySymbol: currencySymbol,
-    header: header,
-    footer: footer,
+    storeName: settings.getString(_kBusinessName) ?? '',
+    storeAddress: _nullIfEmpty(settings.getString(_kBusinessAddress)),
+    header: _nullIfEmpty(settings.getString(_kReceiptHeader)),
+    footer: _nullIfEmpty(settings.getString(_kReceiptFooter)),
+    currencySymbol: _nullIfEmpty(settings.getString(_kCurrencySymbol)) ?? '€',
+    showTax: settings.getBool(_kReceiptShowTax, defaultValue: true),
   );
 }
+
+String? _nullIfEmpty(String? value) => (value == null || value.isEmpty) ? null : value;
