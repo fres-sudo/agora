@@ -20,6 +20,7 @@ workspace:
   - packages/bloc
   - packages/config
   - packages/database
+  - packages/design_lint
   - packages/errors
   - packages/feature_flags
   - packages/i18n
@@ -144,6 +145,16 @@ melos:
       exec:
         concurrency: 6
 
+    lint:design:
+      description: >-
+        Enforce the design-system rules (design_lint via custom_lint): no
+        hard-coded colors/text styles, prefer AppText/AppTextField/AppButton
+        over the raw Material widgets. Runs once at the workspace root.
+      run: dart run custom_lint
+      # NOTE: intentionally NOT part of `check`/`ci` yet — there is pre-existing
+      # tech debt to migrate first. Promote it into those gates once the
+      # workspace is clean (or once violations are ratcheted down).
+
     format:
       description: Check formatting of all Dart files (fails if changes needed — use format:fix to apply)
       run: dart format lib test --set-exit-if-changed
@@ -241,7 +252,10 @@ dev_dependencies:
   bloc_test: ^10.0.0
   build: ^3.0.0
   build_runner: ^2.4.7
+  custom_lint: ^0.8.1
   data_fixture_dart: ^3.0.0
+  design_lint:
+    path: packages/design_lint
   drift_dev: ^2.30.0
   flutter_gen_runner:
   flutter_lints: ^6.0.0

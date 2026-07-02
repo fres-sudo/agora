@@ -9,6 +9,17 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+# Design-system enforcement. `custom_lint` runs the rules defined in
+# `packages/design_lint` (avoid_hardcoded_colors, avoid_hardcoded_text_styles,
+# prefer_app_text, prefer_app_text_field, prefer_app_button). They apply to
+# every package that inherits this file; the rules themselves exempt
+# `packages/ui_kit` (the design system defines the primitives) and generated
+# sources. Run them with `dart run custom_lint` (the plain `dart analyze` /
+# `flutter analyze` do not load analyzer plugins).
+analyzer:
+  plugins:
+    - custom_lint
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
