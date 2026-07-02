@@ -46,6 +46,30 @@ class MockInventoryRepository extends _i1.Mock
       ) as _i3.Stream<List<({int productId, int quantity})>>);
 
   @override
+  _i3.Stream<
+      List<
+          ({
+            String name,
+            int productId,
+            int quantity,
+            bool trackStock
+          })>> watchStockLevels() => (super.noSuchMethod(
+        Invocation.method(
+          #watchStockLevels,
+          [],
+        ),
+        returnValue: _i3.Stream<
+            List<
+                ({
+                  String name,
+                  int productId,
+                  int quantity,
+                  bool trackStock
+                })>>.empty(),
+      ) as _i3.Stream<
+          List<({String name, int productId, int quantity, bool trackStock})>>);
+
+  @override
   _i3.Stream<({int productId, int quantity})?> watchStockByProductId(
           int? productId) =>
       (super.noSuchMethod(

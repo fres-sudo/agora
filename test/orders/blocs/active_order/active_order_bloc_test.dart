@@ -1,6 +1,7 @@
 
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_products/feature_products.dart';
+import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:result/result.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,9 +10,10 @@ import 'package:mockito/mockito.dart';
 
 import 'active_order_bloc_test.mocks.dart';
 
-@GenerateMocks([OrdersRepository])
+@GenerateMocks([OrdersRepository, SettingsCubit])
 void main() {
   late MockOrdersRepository mockOrdersRepository;
+  late MockSettingsCubit mockSettingsCubit;
   late ActiveOrderBloc bloc;
 
   final testProduct = Product(
@@ -52,7 +54,12 @@ void main() {
 
   setUp(() {
     mockOrdersRepository = MockOrdersRepository();
-    bloc = ActiveOrderBloc(ordersRepository: mockOrdersRepository);
+    mockSettingsCubit = MockSettingsCubit();
+    when(mockSettingsCubit.getDouble(any)).thenReturn(null);
+    bloc = ActiveOrderBloc(
+      ordersRepository: mockOrdersRepository,
+      settingsCubit: mockSettingsCubit,
+    );
   });
 
   tearDown(() {

@@ -3,14 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:feature_orders/domain/models/order.dart' as _i4;
+import 'package:bloc_exports/bloc_exports.dart' as _i8;
+import 'package:feature_orders/domain/models/order.dart' as _i5;
 import 'package:feature_orders/domain/repositories/orders_repository.dart'
+    as _i3;
+import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i6;
-import 'package:result/result.dart' as _i5;
+import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:result/result.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -27,52 +30,62 @@ import 'package:result/result.dart' as _i5;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
+class _FakeSettingsState_0 extends _i1.SmartFake implements _i2.SettingsState {
+  _FakeSettingsState_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [OrdersRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
+class MockOrdersRepository extends _i1.Mock implements _i3.OrdersRepository {
   MockOrdersRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Stream<List<_i4.Order>> watchAllOrders() => (super.noSuchMethod(
+  _i4.Stream<List<_i5.Order>> watchAllOrders() => (super.noSuchMethod(
         Invocation.method(
           #watchAllOrders,
           [],
         ),
-        returnValue: _i3.Stream<List<_i4.Order>>.empty(),
-      ) as _i3.Stream<List<_i4.Order>>);
+        returnValue: _i4.Stream<List<_i5.Order>>.empty(),
+      ) as _i4.Stream<List<_i5.Order>>);
 
   @override
-  _i3.Stream<List<_i4.Order>> watchPendingOrders() => (super.noSuchMethod(
+  _i4.Stream<List<_i5.Order>> watchPendingOrders() => (super.noSuchMethod(
         Invocation.method(
           #watchPendingOrders,
           [],
         ),
-        returnValue: _i3.Stream<List<_i4.Order>>.empty(),
-      ) as _i3.Stream<List<_i4.Order>>);
+        returnValue: _i4.Stream<List<_i5.Order>>.empty(),
+      ) as _i4.Stream<List<_i5.Order>>);
 
   @override
-  _i3.Stream<List<_i4.Order>> watchCompletedOrders() => (super.noSuchMethod(
+  _i4.Stream<List<_i5.Order>> watchCompletedOrders() => (super.noSuchMethod(
         Invocation.method(
           #watchCompletedOrders,
           [],
         ),
-        returnValue: _i3.Stream<List<_i4.Order>>.empty(),
-      ) as _i3.Stream<List<_i4.Order>>);
+        returnValue: _i4.Stream<List<_i5.Order>>.empty(),
+      ) as _i4.Stream<List<_i5.Order>>);
 
   @override
-  _i3.Stream<_i4.Order?> watchOrderById(int? id) => (super.noSuchMethod(
+  _i4.Stream<_i5.Order?> watchOrderById(int? id) => (super.noSuchMethod(
         Invocation.method(
           #watchOrderById,
           [id],
         ),
-        returnValue: _i3.Stream<_i4.Order?>.empty(),
-      ) as _i3.Stream<_i4.Order?>);
+        returnValue: _i4.Stream<_i5.Order?>.empty(),
+      ) as _i4.Stream<_i5.Order?>);
 
   @override
-  _i3.Stream<List<_i4.Order>> watchOrdersByDateRange({
+  _i4.Stream<List<_i5.Order>> watchOrdersByDateRange({
     DateTime? startDate,
     DateTime? endDate,
   }) =>
@@ -85,29 +98,29 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
             #endDate: endDate,
           },
         ),
-        returnValue: _i3.Stream<List<_i4.Order>>.empty(),
-      ) as _i3.Stream<List<_i4.Order>>);
+        returnValue: _i4.Stream<List<_i5.Order>>.empty(),
+      ) as _i4.Stream<List<_i5.Order>>);
 
   @override
-  _i3.Future<_i5.Result<_i4.Order?>> getOrderById(int? id) =>
+  _i4.Future<_i6.Result<_i5.Order?>> getOrderById(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getOrderById,
           [id],
         ),
-        returnValue: _i3.Future<_i5.Result<_i4.Order?>>.value(
-            _i6.dummyValue<_i5.Result<_i4.Order?>>(
+        returnValue: _i4.Future<_i6.Result<_i5.Order?>>.value(
+            _i7.dummyValue<_i6.Result<_i5.Order?>>(
           this,
           Invocation.method(
             #getOrderById,
             [id],
           ),
         )),
-      ) as _i3.Future<_i5.Result<_i4.Order?>>);
+      ) as _i4.Future<_i6.Result<_i5.Order?>>);
 
   @override
-  _i3.Future<_i5.Result<int>> getOrdersCount({
-    _i4.OrderStatus? status,
+  _i4.Future<_i6.Result<int>> getOrdersCount({
+    _i5.OrderStatus? status,
     DateTime? startDate,
     DateTime? endDate,
   }) =>
@@ -122,7 +135,7 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
           },
         ),
         returnValue:
-            _i3.Future<_i5.Result<int>>.value(_i6.dummyValue<_i5.Result<int>>(
+            _i4.Future<_i6.Result<int>>.value(_i7.dummyValue<_i6.Result<int>>(
           this,
           Invocation.method(
             #getOrdersCount,
@@ -134,10 +147,10 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
             },
           ),
         )),
-      ) as _i3.Future<_i5.Result<int>>);
+      ) as _i4.Future<_i6.Result<int>>);
 
   @override
-  _i3.Future<_i5.Result<int>> getTotalRevenue({
+  _i4.Future<_i6.Result<int>> getTotalRevenue({
     required DateTime? startDate,
     required DateTime? endDate,
   }) =>
@@ -151,7 +164,7 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
           },
         ),
         returnValue:
-            _i3.Future<_i5.Result<int>>.value(_i6.dummyValue<_i5.Result<int>>(
+            _i4.Future<_i6.Result<int>>.value(_i7.dummyValue<_i6.Result<int>>(
           this,
           Invocation.method(
             #getTotalRevenue,
@@ -162,10 +175,10 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
             },
           ),
         )),
-      ) as _i3.Future<_i5.Result<int>>);
+      ) as _i4.Future<_i6.Result<int>>);
 
   @override
-  _i3.Future<_i5.Result<int>> getTotalDiscounts({
+  _i4.Future<_i6.Result<int>> getTotalDiscounts({
     required DateTime? startDate,
     required DateTime? endDate,
   }) =>
@@ -179,7 +192,7 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
           },
         ),
         returnValue:
-            _i3.Future<_i5.Result<int>>.value(_i6.dummyValue<_i5.Result<int>>(
+            _i4.Future<_i6.Result<int>>.value(_i7.dummyValue<_i6.Result<int>>(
           this,
           Invocation.method(
             #getTotalDiscounts,
@@ -190,99 +203,319 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
             },
           ),
         )),
-      ) as _i3.Future<_i5.Result<int>>);
+      ) as _i4.Future<_i6.Result<int>>);
 
   @override
-  _i3.Future<_i5.Result<_i4.Order>> createOrder(_i4.Order? order) =>
+  _i4.Future<_i6.Result<_i5.Order>> createOrder(_i5.Order? order) =>
       (super.noSuchMethod(
         Invocation.method(
           #createOrder,
           [order],
         ),
-        returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
-            _i6.dummyValue<_i5.Result<_i4.Order>>(
+        returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+            _i7.dummyValue<_i6.Result<_i5.Order>>(
           this,
           Invocation.method(
             #createOrder,
             [order],
           ),
         )),
-      ) as _i3.Future<_i5.Result<_i4.Order>>);
+      ) as _i4.Future<_i6.Result<_i5.Order>>);
 
   @override
-  _i3.Future<_i5.Result<_i4.Order>> updateOrder(_i4.Order? order) =>
+  _i4.Future<_i6.Result<_i5.Order>> updateOrder(_i5.Order? order) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateOrder,
           [order],
         ),
-        returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
-            _i6.dummyValue<_i5.Result<_i4.Order>>(
+        returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+            _i7.dummyValue<_i6.Result<_i5.Order>>(
           this,
           Invocation.method(
             #updateOrder,
             [order],
           ),
         )),
-      ) as _i3.Future<_i5.Result<_i4.Order>>);
+      ) as _i4.Future<_i6.Result<_i5.Order>>);
 
   @override
-  _i3.Future<_i5.Result<_i4.Order>> completeOrder(int? id) =>
+  _i4.Future<_i6.Result<_i5.Order>> completeOrder(int? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #completeOrder,
           [id],
         ),
-        returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
-            _i6.dummyValue<_i5.Result<_i4.Order>>(
+        returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+            _i7.dummyValue<_i6.Result<_i5.Order>>(
           this,
           Invocation.method(
             #completeOrder,
             [id],
           ),
         )),
-      ) as _i3.Future<_i5.Result<_i4.Order>>);
+      ) as _i4.Future<_i6.Result<_i5.Order>>);
 
   @override
-  _i3.Future<_i5.Result<_i4.Order>> voidOrder(int? id) => (super.noSuchMethod(
+  _i4.Future<_i6.Result<_i5.Order>> voidOrder(int? id) => (super.noSuchMethod(
         Invocation.method(
           #voidOrder,
           [id],
         ),
-        returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
-            _i6.dummyValue<_i5.Result<_i4.Order>>(
+        returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+            _i7.dummyValue<_i6.Result<_i5.Order>>(
           this,
           Invocation.method(
             #voidOrder,
             [id],
           ),
         )),
-      ) as _i3.Future<_i5.Result<_i4.Order>>);
+      ) as _i4.Future<_i6.Result<_i5.Order>>);
 
   @override
-  _i3.Future<_i5.Result<int>> deleteOrder(int? id) => (super.noSuchMethod(
+  _i4.Future<_i6.Result<int>> deleteOrder(int? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteOrder,
           [id],
         ),
         returnValue:
-            _i3.Future<_i5.Result<int>>.value(_i6.dummyValue<_i5.Result<int>>(
+            _i4.Future<_i6.Result<int>>.value(_i7.dummyValue<_i6.Result<int>>(
           this,
           Invocation.method(
             #deleteOrder,
             [id],
           ),
         )),
-      ) as _i3.Future<_i5.Result<int>>);
+      ) as _i4.Future<_i6.Result<int>>);
 
   @override
-  _i3.Stream<List<_i4.Order>> watchOrdersByStatus(
-          _i4.OrderStatus? orderStatus) =>
+  _i4.Stream<List<_i5.Order>> watchOrdersByStatus(
+          _i5.OrderStatus? orderStatus) =>
       (super.noSuchMethod(
         Invocation.method(
           #watchOrdersByStatus,
           [orderStatus],
         ),
-        returnValue: _i3.Stream<List<_i4.Order>>.empty(),
-      ) as _i3.Stream<List<_i4.Order>>);
+        returnValue: _i4.Stream<List<_i5.Order>>.empty(),
+      ) as _i4.Stream<List<_i5.Order>>);
+}
+
+/// A class which mocks [SettingsCubit].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSettingsCubit extends _i1.Mock implements _i2.SettingsCubit {
+  MockSettingsCubit() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.SettingsState get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _FakeSettingsState_0(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i2.SettingsState);
+
+  @override
+  _i4.Stream<_i2.SettingsState> get stream => (super.noSuchMethod(
+        Invocation.getter(#stream),
+        returnValue: _i4.Stream<_i2.SettingsState>.empty(),
+      ) as _i4.Stream<_i2.SettingsState>);
+
+  @override
+  bool get isClosed => (super.noSuchMethod(
+        Invocation.getter(#isClosed),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i4.Future<void> load() => (super.noSuchMethod(
+        Invocation.method(
+          #load,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> update(
+    String? key,
+    String? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #update,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> updateInt(
+    String? key,
+    int? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateInt,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> updateBool(
+    String? key,
+    bool? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateBool,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> updateDouble(
+    String? key,
+    double? value,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateDouble,
+          [
+            key,
+            value,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  String? getString(String? key) => (super.noSuchMethod(Invocation.method(
+        #getString,
+        [key],
+      )) as String?);
+
+  @override
+  int? getInt(String? key) => (super.noSuchMethod(Invocation.method(
+        #getInt,
+        [key],
+      )) as int?);
+
+  @override
+  bool getBool(
+    String? key, {
+    bool? defaultValue = false,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getBool,
+          [key],
+          {#defaultValue: defaultValue},
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  double? getDouble(String? key) => (super.noSuchMethod(Invocation.method(
+        #getDouble,
+        [key],
+      )) as double?);
+
+  @override
+  _i4.Future<void> delete(String? key) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [key],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> reset() => (super.noSuchMethod(
+        Invocation.method(
+          #reset,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> close() => (super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  void emit(_i2.SettingsState? state) => super.noSuchMethod(
+        Invocation.method(
+          #emit,
+          [state],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void onChange(_i8.Change<_i2.SettingsState>? change) => super.noSuchMethod(
+        Invocation.method(
+          #onChange,
+          [change],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addError(
+    Object? error, [
+    StackTrace? stackTrace,
+  ]) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #addError,
+          [
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void onError(
+    Object? error,
+    StackTrace? stackTrace,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #onError,
+          [
+            error,
+            stackTrace,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
