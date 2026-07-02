@@ -1,6 +1,5 @@
 import 'package:feature_discounts/domain/models/discount.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
@@ -36,9 +35,9 @@ class DiscountListItem extends StatelessWidget {
           vertical: Sizes.md,
         ),
         decoration: BoxDecoration(
-          color: AppColors.neutral50,
+          color: AppPalette.neutral50,
           borderRadius: BorderRadius.circular(Sizes.sm),
-          border: Border.all(color: AppColors.neutral200),
+          border: Border.all(color: AppPalette.neutral200),
         ),
         child: Row(
           children: [
@@ -48,11 +47,11 @@ class DiscountListItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(Sizes.xs),
-                border: Border.all(color: AppColors.neutral200),
+                border: Border.all(color: AppPalette.neutral200),
               ),
               child: const Icon(
                 Icons.local_offer_outlined,
-                color: AppColors.primary500,
+                color: AppPalette.primary500,
                 size: 20,
               ),
             ),
@@ -73,7 +72,7 @@ class DiscountListItem extends StatelessWidget {
                   Text(
                     _subtitle(),
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral500,
+                      color: AppPalette.neutral500,
                     ),
                   ),
                 ],
@@ -86,7 +85,7 @@ class DiscountListItem extends StatelessWidget {
               '-$valueLabel',
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary500,
+                color: AppPalette.primary500,
               ),
             ),
             const SizedBox(width: Sizes.sm),
@@ -99,7 +98,7 @@ class DiscountListItem extends StatelessWidget {
               onPressed: onDelete,
               icon: const Icon(
                 Icons.delete_outline,
-                color: AppColors.neutral500,
+                color: AppPalette.neutral500,
               ),
               tooltip: 'Delete discount',
             ),

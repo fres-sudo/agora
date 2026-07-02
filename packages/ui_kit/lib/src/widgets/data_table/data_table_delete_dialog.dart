@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
-import '../app_button.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Delete confirmation dialog for the data table.
 ///
@@ -57,12 +56,12 @@ class DataTableDeleteDialog extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: AppColors.error100,
+                  color: AppPalette.error100,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.close_rounded,
-                  color: AppColors.error500,
+                  color: AppPalette.error500,
                   size: 32,
                 ),
               ),
@@ -81,7 +80,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                 message,
                 style: Theme.of(
                   context,
-                ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+                ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: Sizes.xl),
@@ -93,8 +92,8 @@ class DataTableDeleteDialog extends StatelessWidget {
                       onPressed: () => Navigator.of(context).pop(false),
                       label: cancelButtonLabel,
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.neutral700,
-                        side: const BorderSide(color: AppColors.neutral300),
+                        foregroundColor: AppPalette.neutral700,
+                        side: const BorderSide(color: AppPalette.neutral300),
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),
@@ -105,7 +104,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                       onPressed: () => Navigator.of(context).pop(true),
                       label: deleteButtonLabel,
                       style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.error500,
+                        backgroundColor: AppPalette.error500,
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),

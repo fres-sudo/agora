@@ -5,7 +5,6 @@ import 'package:feature_workforce/domain/models/employee_role.dart';
 import 'package:feature_workforce/presentation/blocs/employees/employees_bloc.dart';
 import 'package:feature_workforce/presentation/widgets/employee_form.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -194,10 +193,10 @@ class _EmployeeTile extends StatelessWidget {
     final theme = Theme.of(context);
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: AppColors.primary500.withValues(alpha: 0.12),
+        backgroundColor: AppPalette.primary500.withValues(alpha: 0.12),
         child: Text(
           employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-          style: const TextStyle(color: AppColors.primary500, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: AppPalette.primary500, fontWeight: FontWeight.bold),
         ),
       ),
       title: Text(employee.name, style: theme.textTheme.bodyLarge),
@@ -228,9 +227,9 @@ class _RoleBadge extends StatelessWidget {
   final EmployeeRole role;
 
   Color get _color => switch (role) {
-    EmployeeRole.owner => AppColors.primary500,
+    EmployeeRole.owner => AppPalette.primary500,
     EmployeeRole.manager => Colors.orange,
-    EmployeeRole.cashier => AppColors.neutral500,
+    EmployeeRole.cashier => AppPalette.neutral500,
   };
 
   @override
@@ -258,7 +257,7 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: isActive ? Colors.green.withValues(alpha: 0.12) : AppColors.neutral200,
+        color: isActive ? Colors.green.withValues(alpha: 0.12) : AppPalette.neutral200,
         borderRadius: BorderRadius.circular(12),
       ),
 
@@ -267,7 +266,7 @@ class _StatusBadge extends StatelessWidget {
         style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: isActive ? Colors.green.shade700 : AppColors.neutral500,
+          color: isActive ? Colors.green.shade700 : AppPalette.neutral500,
         ),
       ),
     );
@@ -284,11 +283,11 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.people_outline, size: 64, color: AppColors.neutral300),
+          Icon(Icons.people_outline, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: 16),
           Text(
             'No employees yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppPalette.neutral500),
           ),
           const SizedBox(height: 8),
           AppButton.primary(

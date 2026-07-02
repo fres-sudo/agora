@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Header widget for the data table view.
@@ -63,15 +62,15 @@ class DataTableHeader extends StatelessWidget {
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                  borderSide: const BorderSide(color: AppColors.neutral300),
+                  borderSide: const BorderSide(color: AppPalette.neutral300),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                  borderSide: const BorderSide(color: AppColors.neutral300),
+                  borderSide: const BorderSide(color: AppPalette.neutral300),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                  borderSide: const BorderSide(color: AppColors.primary500),
+                  borderSide: const BorderSide(color: AppPalette.primary500),
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -98,8 +97,8 @@ class DataTableHeader extends StatelessWidget {
               child: const Icon(Icons.filter_list_rounded, size: 18),
             ),
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.neutral700,
-              side: const BorderSide(color: AppColors.neutral300),
+              foregroundColor: AppPalette.neutral700,
+              side: const BorderSide(color: AppPalette.neutral300),
               padding: const EdgeInsets.symmetric(
                 horizontal: Sizes.md,
                 vertical: Sizes.sm,
@@ -113,7 +112,7 @@ class DataTableHeader extends StatelessWidget {
             label: addButtonLabel,
             leadingIcon: const Icon(Icons.add, size: 18),
             style: FilledButton.styleFrom(
-              backgroundColor: AppColors.primary500,
+              backgroundColor: AppPalette.primary500,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(
                 horizontal: Sizes.md,
@@ -152,7 +151,7 @@ class _SortButton extends StatelessWidget {
                 option.label,
                 style: TextStyle(
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  color: isSelected ? AppColors.primary500 : null,
+                  color: isSelected ? AppPalette.primary500 : null,
                 ),
               ),
               if (isSelected) ...[
@@ -162,7 +161,7 @@ class _SortButton extends StatelessWidget {
                       ? Icons.arrow_upward
                       : Icons.arrow_downward,
                   size: 16,
-                  color: AppColors.primary500,
+                  color: AppPalette.primary500,
                 ),
               ],
             ],
@@ -174,9 +173,9 @@ class _SortButton extends StatelessWidget {
         label: 'Sort',
         leadingIcon: const Icon(Icons.sort_rounded, size: 18),
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.neutral700,
-          disabledForegroundColor: AppColors.neutral700,
-          side: const BorderSide(color: AppColors.neutral300),
+          foregroundColor: AppPalette.neutral700,
+          disabledForegroundColor: AppPalette.neutral700,
+          side: const BorderSide(color: AppPalette.neutral300),
           padding: const EdgeInsets.symmetric(
             horizontal: Sizes.md,
             vertical: Sizes.sm,

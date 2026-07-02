@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Signature for building adaptive sheet content.
 /// [scrollController] is provided only when displayed as a bottom sheet;

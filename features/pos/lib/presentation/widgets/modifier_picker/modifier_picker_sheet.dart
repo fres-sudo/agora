@@ -1,4 +1,3 @@
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 import 'package:feature_orders/domain/models/selected_modifiers.dart';
@@ -140,7 +139,7 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                   height: 4,
                   margin: const EdgeInsets.only(bottom: Sizes.md),
                   decoration: BoxDecoration(
-                    color: AppColors.neutral300,
+                    color: AppPalette.neutral300,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -190,7 +189,7 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                     formatCents(total),
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary500,
+                      color: AppPalette.primary500,
                     ),
                   ),
                 ],
@@ -248,7 +247,7 @@ class _ModifierGroupSection extends StatelessWidget {
           Text(
             group.isMultiSelect ? 'Choose any' : 'Choose one',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: AppColors.neutral500,
+              color: AppPalette.neutral500,
             ),
           ),
           const SizedBox(height: Sizes.xs),
@@ -267,7 +266,7 @@ class _ModifierGroupSection extends StatelessWidget {
                     : Text(
                         '+${formatCents(option.priceChangeCents)}',
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: AppColors.neutral500,
+                          color: AppPalette.neutral500,
                         ),
                       ),
               ),
@@ -292,7 +291,7 @@ class _ModifierGroupSection extends StatelessWidget {
                             : Text(
                                 '+${formatCents(option.priceChangeCents)}',
                                 style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: AppColors.neutral500,
+                                  color: AppPalette.neutral500,
                                 ),
                               ),
                       ),

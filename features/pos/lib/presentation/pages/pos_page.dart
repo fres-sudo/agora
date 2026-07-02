@@ -1,5 +1,4 @@
 // assets.gen.dart is app-level; logo path inlined below
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:feature_orders/presentation/blocs/active_order/active_order_bloc.dart';
@@ -114,7 +113,7 @@ class _PosPageState extends State<PosPage> {
                 ),
               ],
             ),
-            backgroundColor: AppColors.success700,
+            backgroundColor: AppPalette.success700,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -173,7 +172,7 @@ class _PosPageState extends State<PosPage> {
             ..showSnackBar(
               SnackBar(
                 content: Text(effect.message),
-                backgroundColor: AppColors.error500,
+                backgroundColor: AppPalette.error500,
                 behavior: SnackBarBehavior.floating,
               ),
             );
@@ -254,7 +253,7 @@ class _PosPageState extends State<PosPage> {
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: const BoxDecoration(
-                          color: AppColors.primary500,
+                          color: AppPalette.primary500,
                           shape: BoxShape.circle,
                         ),
                         constraints: const BoxConstraints(
@@ -416,7 +415,7 @@ class _TabletLayout extends StatelessWidget {
         Container(
           width: 320,
           decoration: BoxDecoration(
-            border: Border(left: BorderSide(color: AppColors.neutral200)),
+            border: Border(left: BorderSide(color: AppPalette.neutral200)),
           ),
           child: BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
             builder: (context, state) {
@@ -578,17 +577,17 @@ class _CategoryChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary500 : Colors.white,
+          color: isSelected ? AppPalette.primary500 : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? AppColors.primary500 : AppColors.neutral300,
+            color: isSelected ? AppPalette.primary500 : AppPalette.neutral300,
           ),
         ),
         child: Center(
           child: Text(
             label,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: isSelected ? Colors.white : AppColors.neutral600,
+              color: isSelected ? Colors.white : AppPalette.neutral600,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
           ),

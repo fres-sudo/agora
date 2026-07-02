@@ -2,7 +2,6 @@ import 'package:feature_settings/presentation/widgets/category_form/category_for
 import 'package:feature_settings/presentation/widgets/category_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/categories/categories_bloc.dart';
 import 'package:feature_products/domain/models/category.dart';
@@ -126,16 +125,16 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.category_outlined, size: 64, color: AppColors.neutral300),
+          Icon(Icons.category_outlined, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: Sizes.md),
           Text(
             'No categories yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppPalette.neutral500),
           ),
           const SizedBox(height: Sizes.sm),
           Text(
             'Add a category to get started',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral400),
           ),
         ],
       ),
@@ -147,11 +146,11 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: AppColors.error500),
+          Icon(Icons.error_outline, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
           Text('Failed to load categories', style: theme.textTheme.titleMedium),
           const SizedBox(height: Sizes.sm),
-          Text(message, style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral500)),
+          Text(message, style: theme.textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500)),
           const SizedBox(height: Sizes.lg),
           AppButton.primary(
             onPressed: () => context.read<CategoriesBloc>().add(const CategoriesEvent.started()),

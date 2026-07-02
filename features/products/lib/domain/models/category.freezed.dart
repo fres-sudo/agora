@@ -210,7 +210,7 @@ return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case
 
 
 class _Category extends Category {
-  const _Category({required this.id, required this.name, this.color = AppColors.primary500, this.icon = Icons.hot_tub_outlined, this.isEnabled = true}): super._();
+  const _Category({required this.id, required this.name, this.color = AppPalette.primary500, this.icon = Icons.hot_tub_outlined, this.isEnabled = true}): super._();
   
 
 @override final  int id;

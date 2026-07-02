@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A table cell widget displaying product image, name, and description.
@@ -25,7 +25,7 @@ class ProductNameCell extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: AppColors.neutral100,
+            color: AppPalette.neutral100,
             borderRadius: BorderRadius.circular(Sizes.xs),
             image: imageUrl != null && imageUrl!.isNotEmpty
                 ? DecorationImage(
@@ -40,7 +40,7 @@ class ProductNameCell extends StatelessWidget {
               ? Icon(
                   Icons.image_outlined,
                   size: 20,
-                  color: AppColors.neutral400,
+                  color: AppPalette.neutral400,
                 )
               : null,
         ),
@@ -65,7 +65,7 @@ class ProductNameCell extends StatelessWidget {
                 Text(
                   description!,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral500,
+                    color: AppPalette.neutral500,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

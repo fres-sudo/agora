@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
 
 class TopProductsList extends StatelessWidget {
@@ -19,7 +19,7 @@ class TopProductsList extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: AppPalette.neutral200),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +28,7 @@ class TopProductsList extends StatelessWidget {
                 t.report.top_10_product,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.neutral900,
+                  color: AppPalette.neutral900,
                   fontSize: isCompact ? 16 : null,
                 ),
               ),
@@ -47,7 +47,7 @@ class TopProductsList extends StatelessWidget {
                       child: Text(
                         'PRODUCT',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: AppColors.neutral500,
+                          color: AppPalette.neutral500,
                           fontWeight: FontWeight.w600,
                           fontSize: isCompact ? 10 : null,
                         ),
@@ -56,7 +56,7 @@ class TopProductsList extends StatelessWidget {
                     Text(
                       'SALES',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.neutral500,
+                        color: AppPalette.neutral500,
                         fontWeight: FontWeight.w600,
                         fontSize: isCompact ? 10 : null,
                       ),
@@ -64,12 +64,12 @@ class TopProductsList extends StatelessWidget {
                   ],
                 ),
               ),
-              const Divider(color: AppColors.neutral200),
+              const Divider(color: AppPalette.neutral200),
               Expanded(
                 child: ListView.separated(
                   itemCount: products.length,
                   separatorBuilder: (context, index) =>
-                      const Divider(color: AppColors.neutral200, height: 1),
+                      const Divider(color: AppPalette.neutral200, height: 1),
                   itemBuilder: (context, index) {
                     final product = products[index];
                     return Padding(
@@ -89,7 +89,7 @@ class TopProductsList extends StatelessWidget {
                               product.name,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.neutral900,
+                                color: AppPalette.neutral900,
                                 fontSize: isCompact ? 12 : 14,
                               ),
                               maxLines: isVeryCompact ? 1 : 2,
@@ -101,7 +101,7 @@ class TopProductsList extends StatelessWidget {
                             product.sales.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: AppColors.neutral900,
+                              color: AppPalette.neutral900,
                               fontSize: isCompact ? 12 : 14,
                             ),
                           ),
@@ -131,7 +131,7 @@ class TopProductsList extends StatelessWidget {
         color = const Color(0xff1D90FB);
         break;
       default:
-        color = AppColors.neutral300;
+        color = AppPalette.neutral300;
     }
 
     final width = isCompact ? 26.0 : 32.0;
@@ -170,7 +170,7 @@ class TopProductsList extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: AppColors.neutral100,
+        color: AppPalette.neutral100,
         borderRadius: BorderRadius.circular(Sizes.xs),
       ),
       child: imageUrl != null && imageUrl.isNotEmpty
@@ -178,7 +178,7 @@ class TopProductsList extends StatelessWidget {
               borderRadius: BorderRadius.circular(Sizes.xs),
               child: Image.network(imageUrl, fit: BoxFit.cover),
             )
-          : const Icon(Icons.fastfood, color: AppColors.neutral400, size: 20),
+          : const Icon(Icons.fastfood, color: AppPalette.neutral400, size: 20),
     );
   }
 }

@@ -11,7 +11,6 @@ import 'package:feature_settings/feature_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 import 'package:result/result.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
@@ -161,7 +160,7 @@ class _OrderBody extends StatelessWidget {
             Text(
               _formatDateTime(context, order.createdAt),
               style: theme.textTheme.bodySmall?.copyWith(
-                color: AppColors.neutral500,
+                color: AppPalette.neutral500,
               ),
               textAlign: TextAlign.right,
             ),
@@ -241,7 +240,7 @@ class _LineItemTile extends StatelessWidget {
                     '${modifier.groupName}: ${modifier.optionName}'
                     '${modifier.priceChangeCents != 0 ? ' (${formatCents(modifier.priceChangeCents)})' : ''}',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral500,
+                      color: AppPalette.neutral500,
                     ),
                   ),
               ],
@@ -275,7 +274,7 @@ class _TotalRow extends StatelessWidget {
     final theme = Theme.of(context);
     final style = emphasized
         ? theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)
-        : theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral600);
+        : theme.textTheme.bodyMedium?.copyWith(color: AppPalette.neutral600);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
@@ -307,7 +306,7 @@ class _InfoRow extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppColors.neutral500,
+              color: AppPalette.neutral500,
             ),
           ),
           Text(
@@ -330,9 +329,9 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      OrderStatus.pending => (AppColors.warning500, 'Pending'),
-      OrderStatus.completed => (AppColors.primary500, 'Completed'),
-      OrderStatus.voided => (AppColors.error500, 'Voided'),
+      OrderStatus.pending => (AppPalette.warning500, 'Pending'),
+      OrderStatus.completed => (AppPalette.primary500, 'Completed'),
+      OrderStatus.voided => (AppPalette.error500, 'Voided'),
     };
 
     return Container(

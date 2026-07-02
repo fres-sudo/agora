@@ -3,7 +3,6 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adjustment_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Basic inventory management (P7-8).
@@ -126,7 +125,7 @@ class _InventoryPageState extends State<InventoryPage> {
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: AppColors.neutral700,
+                              color: AppPalette.neutral700,
                             ),
                           ),
                         ),
@@ -134,7 +133,7 @@ class _InventoryPageState extends State<InventoryPage> {
                           const SizedBox(width: Sizes.sm),
                           _Tag(
                             label: 'Not tracked',
-                            color: AppColors.neutral500,
+                            color: AppPalette.neutral500,
                           ),
                         ],
                       ],
@@ -149,7 +148,7 @@ class _InventoryPageState extends State<InventoryPage> {
                       final low = _isLow(level);
                       return _Tag(
                         label: '${level.quantity}',
-                        color: low ? AppColors.error500 : AppColors.primary500,
+                        color: low ? AppPalette.error500 : AppPalette.primary500,
                         icon: low ? Icons.warning_amber_rounded : null,
                       );
                     },

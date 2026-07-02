@@ -1,7 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_discounts/feature_discounts.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
@@ -86,7 +85,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                     height: 4,
                     margin: const EdgeInsets.only(bottom: Sizes.md),
                     decoration: BoxDecoration(
-                      color: AppColors.neutral300,
+                      color: AppPalette.neutral300,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -142,7 +141,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                         children: [
                           const Icon(
                             Icons.error_outline,
-                            color: AppColors.error500,
+                            color: AppPalette.error500,
                             size: 18,
                           ),
                           const SizedBox(width: Sizes.xs),
@@ -150,7 +149,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                             child: Text(
                               message,
                               style: theme.textTheme.bodySmall?.copyWith(
-                                color: AppColors.error500,
+                                color: AppPalette.error500,
                               ),
                             ),
                           ),
@@ -186,7 +185,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                             'No active discounts. Create one in '
                             'Settings → Discount & Voucher.',
                             style: theme.textTheme.bodyMedium?.copyWith(
-                              color: AppColors.neutral500,
+                              color: AppPalette.neutral500,
                             ),
                           ),
                         );
@@ -248,14 +247,14 @@ class _DiscountTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(Sizes.md),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: AppPalette.neutral200),
             borderRadius: BorderRadius.circular(Sizes.md),
           ),
           child: Row(
             children: [
               const Icon(
                 Icons.local_offer_outlined,
-                color: AppColors.primary500,
+                color: AppPalette.primary500,
               ),
               const SizedBox(width: Sizes.md),
               Expanded(
@@ -272,7 +271,7 @@ class _DiscountTile extends StatelessWidget {
                       Text(
                         discount.code!,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: AppColors.neutral500,
+                          color: AppPalette.neutral500,
                         ),
                       ),
                   ],
@@ -282,7 +281,7 @@ class _DiscountTile extends StatelessWidget {
                 '-$valueLabel',
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary500,
+                  color: AppPalette.primary500,
                 ),
               ),
             ],

@@ -1,4 +1,3 @@
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/category.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +37,10 @@ class _CategoryFormState extends State<CategoryForm> {
 
   // Helper list of colors to choose from
   static const List<Color> _availableColors = [
-    AppColors.primary500,
-    AppColors.error500,
-    AppColors.warning500,
-    AppColors.info500,
+    AppPalette.primary500,
+    AppPalette.error500,
+    AppPalette.warning500,
+    AppPalette.info500,
     Colors.purple,
     Colors.pink,
     Colors.teal,
@@ -56,7 +55,7 @@ class _CategoryFormState extends State<CategoryForm> {
     final category = widget.initialCategory;
     _nameController = TextEditingController(text: category?.name ?? '');
     _selectedIcon = category?.icon ?? Icons.fastfood;
-    _selectedColor = category?.color ?? AppColors.primary500;
+    _selectedColor = category?.color ?? AppPalette.primary500;
     _isEnabled = category?.isEnabled ?? true;
   }
 

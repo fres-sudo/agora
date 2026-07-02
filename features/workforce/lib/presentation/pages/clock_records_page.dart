@@ -3,7 +3,6 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/domain/models/clock_record.dart';
 import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -83,10 +82,10 @@ class _RecordTile extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: record.isActive
             ? Colors.green.withValues(alpha: 0.12)
-            : AppColors.neutral100,
+            : AppPalette.neutral100,
         child: Icon(
           record.isActive ? Icons.login : Icons.logout,
-          color: record.isActive ? Colors.green.shade700 : AppColors.neutral400,
+          color: record.isActive ? Colors.green.shade700 : AppPalette.neutral400,
           size: 20,
         ),
       ),
@@ -100,7 +99,7 @@ class _RecordTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: record.isActive
               ? Colors.green.withValues(alpha: 0.12)
-              : AppColors.neutral100,
+              : AppPalette.neutral100,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
@@ -110,7 +109,7 @@ class _RecordTile extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: record.isActive
                 ? Colors.green.shade700
-                : AppColors.neutral600,
+                : AppPalette.neutral600,
           ),
         ),
       ),
@@ -136,12 +135,12 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.access_time_outlined, size: 64, color: AppColors.neutral300),
+          Icon(Icons.access_time_outlined, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: 16),
           Text(
             'No clock records yet',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.neutral500,
+              color: AppPalette.neutral500,
             ),
           ),
         ],

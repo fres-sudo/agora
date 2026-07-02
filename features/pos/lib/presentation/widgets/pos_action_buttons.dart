@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A 2x2 grid of action buttons for the POS order panel.
@@ -94,7 +94,7 @@ class _ActionButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: AppPalette.neutral200),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -103,15 +103,15 @@ class _ActionButton extends StatelessWidget {
               Icon(
                 icon,
                 size: 24,
-                color: isEnabled ? AppColors.neutral600 : AppColors.neutral400,
+                color: isEnabled ? AppPalette.neutral600 : AppPalette.neutral400,
               ),
               const SizedBox(height: 4),
               Text(
                 label,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: isEnabled
-                      ? AppColors.neutral600
-                      : AppColors.neutral400,
+                      ? AppPalette.neutral600
+                      : AppPalette.neutral400,
                 ),
               ),
             ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Shows a standardized floating [SnackBar].
 ///
 /// Use this instead of building `SnackBar`s ad-hoc so success/error surfacing
 /// is consistent across the app (checkout, inventory, order detail, printing).
-/// Errors use [AppColors.error500]; successes use the default surface.
+/// Errors use [AppPalette.error500]; successes use the default surface.
 void showAppSnackBar(
   BuildContext context,
   String message, {
@@ -17,7 +17,7 @@ void showAppSnackBar(
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: isError ? AppColors.error500 : null,
+        backgroundColor: isError ? AppPalette.error500 : null,
       ),
     );
 }

@@ -6,14 +6,13 @@ import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/presentation/blocs/reports/reports_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
 import 'package:feature_reports/presentation/widgets/end_of_day_summary.dart';
 import 'package:feature_reports/presentation/widgets/summary_card.dart';
 import 'package:feature_reports/presentation/widgets/sales_overview_chart.dart';
 import 'package:feature_reports/presentation/widgets/status_donut_chart.dart';
 import 'package:feature_reports/presentation/widgets/top_products_list.dart';
-import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
 @RoutePage()
@@ -111,7 +110,7 @@ class ReportPage extends StatelessWidget {
         children: [
           const Icon(
             Icons.error_outline,
-            color: AppColors.error500,
+            color: AppPalette.error500,
             size: 48,
           ),
           const SizedBox(height: Sizes.md),
@@ -135,7 +134,7 @@ class ReportPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: AppPalette.neutral200),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<ReportPeriod>(
@@ -166,8 +165,8 @@ class ReportPage extends StatelessWidget {
       label: t.report.download,
       leadingIcon: const Icon(Icons.download_outlined, size: 20),
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.neutral700,
-        side: const BorderSide(color: AppColors.neutral200),
+        foregroundColor: AppPalette.neutral700,
+        side: const BorderSide(color: AppPalette.neutral200),
         padding: const EdgeInsets.symmetric(
           horizontal: Sizes.lg,
           vertical: Sizes.md,
@@ -192,7 +191,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.shopping_bag_outlined,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -203,7 +202,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.attach_money,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -214,7 +213,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.receipt_long_outlined,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -225,7 +224,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.inventory_2_outlined,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -318,17 +317,17 @@ class ReportPage extends StatelessWidget {
           DonutData(
             label: 'Completed',
             value: status.completed,
-            color: AppColors.primary500,
+            color: AppPalette.primary500,
           ),
           DonutData(
             label: 'Pending',
             value: status.pending,
-            color: AppColors.warning500,
+            color: AppPalette.warning500,
           ),
           DonutData(
             label: 'Voided',
             value: status.voided,
-            color: AppColors.error500,
+            color: AppPalette.error500,
           ),
         ],
       ),
@@ -344,17 +343,17 @@ class ReportPage extends StatelessWidget {
           DonutData(
             label: t.report.stock_status.in_stock,
             value: stock.inStock,
-            color: AppColors.primary500,
+            color: AppPalette.primary500,
           ),
           DonutData(
             label: t.report.stock_status.low_stock,
             value: stock.lowStock,
-            color: AppColors.warning500,
+            color: AppPalette.warning500,
           ),
           DonutData(
             label: t.report.stock_status.out_of_stock,
             value: stock.outOfStock,
-            color: AppColors.error500,
+            color: AppPalette.error500,
           ),
         ],
       ),
@@ -387,13 +386,13 @@ class ReportPage extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(Sizes.md),
-          border: Border.all(color: AppColors.neutral200),
+          border: Border.all(color: AppPalette.neutral200),
         ),
         child: Text(
           'No orders in this period',
           style: Theme.of(
             context,
-          ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+          ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
         ),
       );
     }
@@ -423,7 +422,7 @@ class ReportPage extends StatelessWidget {
               _formatDateTime(item.createdAt),
               style: Theme.of(
                 context,
-              ).textTheme.bodySmall?.copyWith(color: AppColors.neutral500),
+              ).textTheme.bodySmall?.copyWith(color: AppPalette.neutral500),
             ),
           ),
           DataTableColumn(
@@ -436,7 +435,7 @@ class ReportPage extends StatelessWidget {
             label: t.report.recent_order.customer,
             cellBuilder: (item) => Text(
               item.paymentMethod ?? '—',
-              style: const TextStyle(color: AppColors.neutral700),
+              style: const TextStyle(color: AppPalette.neutral700),
             ),
           ),
           DataTableColumn(
@@ -481,9 +480,9 @@ class ReportPage extends StatelessWidget {
 
   Widget _buildStatusBadge(OrderStatus status) {
     final (color, label) = switch (status) {
-      OrderStatus.pending => (AppColors.warning500, 'Pending'),
-      OrderStatus.completed => (AppColors.primary500, 'Completed'),
-      OrderStatus.voided => (AppColors.error500, 'Voided'),
+      OrderStatus.pending => (AppPalette.warning500, 'Pending'),
+      OrderStatus.completed => (AppPalette.primary500, 'Completed'),
+      OrderStatus.voided => (AppPalette.error500, 'Voided'),
     };
 
     return Container(

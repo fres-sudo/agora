@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/category.dart';
 
@@ -37,9 +36,9 @@ class CategoryListItem extends StatelessWidget {
           vertical: Sizes.md,
         ),
         decoration: BoxDecoration(
-          color: AppColors.neutral50,
+          color: AppPalette.neutral50,
           borderRadius: BorderRadius.circular(Sizes.sm),
-          border: Border.all(color: AppColors.neutral200),
+          border: Border.all(color: AppPalette.neutral200),
         ),
         child: Row(
           children: [
@@ -47,10 +46,10 @@ class CategoryListItem extends StatelessWidget {
             Switch(
               value: category.isEnabled,
               onChanged: onToggle,
-              activeTrackColor: AppColors.primary500.withValues(alpha: 0.5),
+              activeTrackColor: AppPalette.primary500.withValues(alpha: 0.5),
               thumbColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AppColors.primary500;
+                  return AppPalette.primary500;
                 }
                 return null;
               }),
@@ -64,7 +63,7 @@ class CategoryListItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: category.color ?? Colors.white,
                 borderRadius: BorderRadius.circular(Sizes.xs),
-                border: Border.all(color: AppColors.neutral200),
+                border: Border.all(color: AppPalette.neutral200),
               ),
               child: Icon(
                 category.icon ?? Icons.category,
@@ -92,7 +91,7 @@ class CategoryListItem extends StatelessWidget {
                 Text(
                   'Total Product',
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral500,
+                    color: AppPalette.neutral500,
                   ),
                 ),
                 Text(
@@ -108,7 +107,7 @@ class CategoryListItem extends StatelessWidget {
             // Delete Button
             AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(Icons.delete_outline, color: AppColors.neutral500),
+              icon: const Icon(Icons.delete_outline, color: AppPalette.neutral500),
               tooltip: 'Delete category',
             ),
           ],
@@ -118,10 +117,10 @@ class CategoryListItem extends StatelessWidget {
   }
 
   Color _getIconColor(Color? backgroundColor) {
-    if (backgroundColor == null) return AppColors.neutral600;
+    if (backgroundColor == null) return AppPalette.neutral600;
     // Simple check for darkness to decide icon color (white or black/grey)
     // This is a basic approximation.
     final luminance = backgroundColor.computeLuminance();
-    return luminance > 0.5 ? AppColors.neutral800 : Colors.white;
+    return luminance > 0.5 ? AppPalette.neutral800 : Colors.white;
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
-import 'section_sidebar_item.dart';
 
 /// A bottom tab bar for mobile section navigation.
 ///
@@ -31,7 +30,7 @@ class SectionTabBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: AppColors.neutral200, width: 1)),
+        border: Border(top: BorderSide(color: AppPalette.neutral200, width: 1)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -94,7 +93,7 @@ class SectionTabBar extends StatelessWidget {
             Icon(
               item.icon,
               size: 24,
-              color: isSelected ? theme.primaryColor : AppColors.neutral400,
+              color: isSelected ? theme.primaryColor : AppPalette.neutral400,
             ),
             const SizedBox(height: 4),
             // Label
@@ -102,7 +101,7 @@ class SectionTabBar extends StatelessWidget {
               item.label,
               style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? theme.primaryColor : AppColors.neutral500,
+                color: isSelected ? theme.primaryColor : AppPalette.neutral500,
                 fontSize: 10,
               ),
               maxLines: 1,

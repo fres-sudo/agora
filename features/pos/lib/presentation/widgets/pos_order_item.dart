@@ -1,4 +1,3 @@
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/domain/models/order_line_item.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +50,7 @@ class PosOrderItem extends StatelessWidget {
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 16),
-        color: AppColors.error400,
+        color: AppPalette.error400,
         child: const Icon(Icons.delete_outline, color: Colors.white),
       ),
       child: Padding(
@@ -68,7 +67,7 @@ class PosOrderItem extends StatelessWidget {
                     item.productName,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.neutral800,
+                      color: AppPalette.neutral800,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -80,7 +79,7 @@ class PosOrderItem extends StatelessWidget {
                           .map((m) => m.optionName)
                           .join(', '),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral500,
+                        color: AppPalette.neutral500,
                         fontStyle: FontStyle.italic,
                       ),
                       maxLines: 1,
@@ -91,7 +90,7 @@ class PosOrderItem extends StatelessWidget {
                   Text(
                     '${_formatCents(item.unitPriceCents)} each',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral500,
+                      color: AppPalette.neutral500,
                     ),
                   ),
                 ],
@@ -106,7 +105,7 @@ class PosOrderItem extends StatelessWidget {
                   _formatCents(_itemTotal),
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.neutral800,
+                    color: AppPalette.neutral800,
                   ),
                 ),
                 const SizedBox(height: 4),

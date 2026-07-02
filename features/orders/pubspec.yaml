@@ -33,7 +33,6 @@ dependencies:
   result:
     path: ../../packages/result
   talker: ^5.1.9
-  theme: ^0.0.0
   ui_kit:
     path: ../../packages/ui_kit
   utils:

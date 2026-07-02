@@ -1,7 +1,7 @@
 import 'package:feature_reports/domain/models/report_data.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
 import 'package:utils/utils.dart';
 
@@ -26,7 +26,7 @@ class SalesOverviewChart extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: AppPalette.neutral200),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +35,7 @@ class SalesOverviewChart extends StatelessWidget {
                 t.report.sales_overview,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.neutral900,
+                  color: AppPalette.neutral900,
                   fontSize: isCompact ? 16 : null,
                 ),
               ),
@@ -73,12 +73,12 @@ class SalesOverviewChart extends StatelessWidget {
           drawVerticalLine: !isCompact,
           horizontalInterval: horizontalInterval,
           getDrawingHorizontalLine: (value) => const FlLine(
-            color: AppColors.neutral200,
+            color: AppPalette.neutral200,
             strokeWidth: 1,
             dashArray: [5, 5],
           ),
           getDrawingVerticalLine: (value) => const FlLine(
-            color: AppColors.neutral200,
+            color: AppPalette.neutral200,
             strokeWidth: 1,
             dashArray: [5, 5],
           ),
@@ -95,7 +95,7 @@ class SalesOverviewChart extends StatelessWidget {
                     ? '${(value / 1000).toStringAsFixed(1)}k'
                     : value.toInt().toString(),
                 style: TextStyle(
-                  color: AppColors.neutral500,
+                  color: AppPalette.neutral500,
                   fontSize: isCompact ? 10 : 12,
                 ),
               ),
@@ -122,7 +122,7 @@ class SalesOverviewChart extends StatelessWidget {
                 return Text(
                   points[index].label,
                   style: TextStyle(
-                    color: AppColors.neutral500,
+                    color: AppPalette.neutral500,
                     fontSize: isCompact ? 10 : 12,
                   ),
                 );
@@ -143,7 +143,7 @@ class SalesOverviewChart extends StatelessWidget {
             spots: spots,
             isCurved: true,
             gradient: const LinearGradient(
-              colors: [AppColors.primary500, AppColors.primary300],
+              colors: [AppPalette.primary500, AppPalette.primary300],
             ),
             barWidth: isCompact ? 3 : 4,
             isStrokeCapRound: true,
@@ -152,8 +152,8 @@ class SalesOverviewChart extends StatelessWidget {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppColors.primary500.withValues(alpha: 0.3),
-                  AppColors.primary300.withValues(alpha: 0.0),
+                  AppPalette.primary500.withValues(alpha: 0.3),
+                  AppPalette.primary300.withValues(alpha: 0.0),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -169,7 +169,7 @@ class SalesOverviewChart extends StatelessWidget {
               return LineTooltipItem(
                 '${t.report.sales}: ${formatCents((barSpot.y * 100).round())}',
                 const TextStyle(
-                  color: AppColors.neutral900,
+                  color: AppPalette.neutral900,
                   fontWeight: FontWeight.bold,
                 ),
               );
@@ -191,7 +191,7 @@ class _EmptyChart extends StatelessWidget {
         'No sales in this period',
         style: Theme.of(
           context,
-        ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+        ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
       ),
     );
   }

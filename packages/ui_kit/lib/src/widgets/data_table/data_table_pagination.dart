@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
-import '../app_icon_button.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Pagination widget for the data table.
 ///
@@ -40,7 +39,7 @@ class DataTablePagination extends StatelessWidget {
                 'Rows per page',
                 style: Theme.of(
                   context,
-                ).textTheme.bodySmall?.copyWith(color: AppColors.neutral500),
+                ).textTheme.bodySmall?.copyWith(color: AppPalette.neutral500),
               ),
               const SizedBox(width: Sizes.sm),
               DropdownButton<int>(
@@ -148,7 +147,7 @@ class DataTablePagination extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: Material(
-        color: isSelected ? AppColors.primary500 : Colors.transparent,
+        color: isSelected ? AppPalette.primary500 : Colors.transparent,
         borderRadius: BorderRadius.circular(Sizes.xs),
         child: InkWell(
           onTap: isSelected ? null : () => onPageChanged?.call(page),
@@ -160,7 +159,7 @@ class DataTablePagination extends StatelessWidget {
             child: Text(
               '${page + 1}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: isSelected ? Colors.white : AppColors.neutral600,
+                color: isSelected ? Colors.white : AppPalette.neutral600,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
@@ -173,7 +172,7 @@ class DataTablePagination extends StatelessWidget {
   Widget _buildEllipsis() {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 4),
-      child: Text('...', style: TextStyle(color: AppColors.neutral400)),
+      child: Text('...', style: TextStyle(color: AppPalette.neutral400)),
     );
   }
 }

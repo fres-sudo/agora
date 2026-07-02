@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
@@ -9,7 +9,7 @@ abstract class Category with _$Category {
   const factory Category({
     required int id,
     required String name,
-    @Default(AppColors.primary500) Color? color,
+    @Default(AppPalette.primary500) Color? color,
     @Default(Icons.hot_tub_outlined) IconData? icon,
     @Default(true) bool isEnabled,
   }) = _Category;

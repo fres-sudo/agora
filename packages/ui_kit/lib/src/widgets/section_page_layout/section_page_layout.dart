@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
-import 'section_sidebar.dart';
-import 'section_sidebar_item.dart';
-import 'section_tab_bar.dart';
 
 /// A responsive page layout with sidebar navigation.
 ///

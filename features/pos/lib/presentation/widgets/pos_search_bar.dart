@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A search bar widget for searching products in the POS view.
@@ -50,8 +50,8 @@ class _PosSearchBarState extends State<PosSearchBar> {
       onChanged: _onChanged,
       decoration: InputDecoration(
         hintText: widget.hintText ?? 'Search Product...',
-        hintStyle: TextStyle(color: AppColors.neutral400),
-        prefixIcon: Icon(Icons.search, color: AppColors.neutral400),
+        hintStyle: TextStyle(color: AppPalette.neutral400),
+        prefixIcon: Icon(Icons.search, color: AppPalette.neutral400),
         filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(
@@ -60,15 +60,15 @@ class _PosSearchBarState extends State<PosSearchBar> {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.neutral200),
+          borderSide: BorderSide(color: AppPalette.neutral200),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.neutral200),
+          borderSide: BorderSide(color: AppPalette.neutral200),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.primary500, width: 2),
+          borderSide: BorderSide(color: AppPalette.primary500, width: 2),
         ),
       ),
     );

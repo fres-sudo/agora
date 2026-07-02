@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/product.dart';
 import 'package:flutter/material.dart';
 
@@ -39,8 +39,8 @@ class PosProductCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: quantityInCart > 0
-                ? Border.all(color: AppColors.primary500, width: 2)
-                : Border.all(color: AppColors.neutral200, width: 1),
+                ? Border.all(color: AppPalette.primary500, width: 2)
+                : Border.all(color: AppPalette.neutral200, width: 1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -54,7 +54,7 @@ class PosProductCard extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: AppColors.neutral100,
+                        color: AppPalette.neutral100,
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(12),
                         ),
@@ -63,7 +63,7 @@ class PosProductCard extends StatelessWidget {
                         child: Icon(
                           Icons.fastfood_outlined,
                           size: 48,
-                          color: AppColors.neutral300,
+                          color: AppPalette.neutral300,
                         ),
                       ),
                     ),
@@ -88,7 +88,7 @@ class PosProductCard extends StatelessWidget {
                       product.name,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.neutral800,
+                        color: AppPalette.neutral800,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -100,7 +100,7 @@ class PosProductCard extends StatelessWidget {
                         Text(
                           '$currencySymbol ${(product.priceCents / 100).toStringAsFixed(2)}',
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: AppColors.neutral600,
+                            color: AppPalette.neutral600,
                           ),
                         ),
                         if (quantityInCart > 0) ...[
@@ -108,7 +108,7 @@ class PosProductCard extends StatelessWidget {
                           Text(
                             'x',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: AppColors.neutral400,
+                              color: AppPalette.neutral400,
                             ),
                           ),
                           const SizedBox(width: 4),
@@ -118,7 +118,7 @@ class PosProductCard extends StatelessWidget {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: AppColors.primary500,
+                              color: AppPalette.primary500,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
@@ -153,7 +153,7 @@ class _QuantityBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.primary500,
+        color: AppPalette.primary500,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

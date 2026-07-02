@@ -1,4 +1,3 @@
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
@@ -48,13 +47,13 @@ class PosEmptyState extends StatelessWidget {
               width: iconSize * 2,
               height: iconSize * 2,
               decoration: BoxDecoration(
-                color: AppColors.neutral200,
+                color: AppPalette.neutral200,
                 shape: BoxShape.circle,
               ),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Icon(icon, size: iconSize, color: AppColors.neutral400),
+                  Icon(icon, size: iconSize, color: AppPalette.neutral400),
                   // Question mark badge
                   Positioned(
                     right: iconSize * 0.15,
@@ -66,14 +65,14 @@ class PosEmptyState extends StatelessWidget {
                         color: Colors.white,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.neutral300,
+                          color: AppPalette.neutral300,
                           width: 2,
                         ),
                       ),
                       child: Icon(
                         Icons.question_mark_rounded,
                         size: iconSize * 0.3,
-                        color: AppColors.neutral500,
+                        color: AppPalette.neutral500,
                       ),
                     ),
                   ),
@@ -86,7 +85,7 @@ class PosEmptyState extends StatelessWidget {
               title,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.neutral800,
+                color: AppPalette.neutral800,
               ),
               textAlign: TextAlign.center,
             ),
@@ -96,7 +95,7 @@ class PosEmptyState extends StatelessWidget {
               Text(
                 description!,
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.neutral500,
+                  color: AppPalette.neutral500,
                 ),
                 textAlign: TextAlign.center,
               ),

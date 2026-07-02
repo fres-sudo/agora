@@ -8,7 +8,6 @@ import 'package:feature_settings/presentation/widgets/receipt_option_section.dar
 import 'package:feature_settings/presentation/widgets/store_setting_section.dart';
 import 'package:feature_settings/presentation/widgets/taxes_section.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()

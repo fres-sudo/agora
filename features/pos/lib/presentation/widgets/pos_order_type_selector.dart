@@ -1,5 +1,5 @@
 import 'package:feature_orders/domain/models/order_type.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A tab-style selector for choosing order type (Dine In / Take Away).
@@ -23,7 +23,7 @@ class PosOrderTypeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.neutral100,
+        color: AppPalette.neutral100,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -71,7 +71,7 @@ class _OrderTypeTab extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: isSelected ? AppColors.primary500 : Colors.transparent,
+              color: isSelected ? AppPalette.primary500 : Colors.transparent,
               width: 3,
             ),
           ),
@@ -81,7 +81,7 @@ class _OrderTypeTab extends StatelessWidget {
           textAlign: TextAlign.center,
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? AppColors.neutral800 : AppColors.neutral500,
+            color: isSelected ? AppPalette.neutral800 : AppPalette.neutral500,
           ),
         ),
       ),

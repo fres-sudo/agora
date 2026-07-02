@@ -1,6 +1,6 @@
 import 'package:feature_reports/domain/models/report_data.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
 /// Festival-operator "end of day" strip (P5-3): the raw numbers that wrap up an
@@ -41,7 +41,7 @@ class EndOfDaySummary extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(Sizes.md),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: AppPalette.neutral200),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class EndOfDaySummary extends StatelessWidget {
             'End of Day',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.neutral900,
+              color: AppPalette.neutral900,
             ),
           ),
           const SizedBox(height: Sizes.lg),
@@ -108,10 +108,10 @@ class _MetricTile extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(Sizes.sm),
           decoration: BoxDecoration(
-            color: AppColors.primary500.withValues(alpha: 0.1),
+            color: AppPalette.primary500.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
-          child: Icon(metric.icon, color: AppColors.primary500, size: 18),
+          child: Icon(metric.icon, color: AppPalette.primary500, size: 18),
         ),
         const SizedBox(width: Sizes.sm),
         Expanded(
@@ -122,7 +122,7 @@ class _MetricTile extends StatelessWidget {
               Text(
                 metric.label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.neutral500,
+                  color: AppPalette.neutral500,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -135,7 +135,7 @@ class _MetricTile extends StatelessWidget {
                   metric.value,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: AppColors.neutral900,
+                    color: AppPalette.neutral900,
                   ),
                 ),
               ),

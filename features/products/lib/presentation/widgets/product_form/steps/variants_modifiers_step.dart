@@ -1,5 +1,5 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/modifiers/modifiers_bloc.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class VariantsModifiersStep extends StatelessWidget {
           Text(
             t.products.form.steps.variants_modifiers_desc,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: AppColors.neutral500,
+              color: AppPalette.neutral500,
             ),
           ),
           const SizedBox(height: Sizes.lg),
@@ -100,10 +100,10 @@ class _ModifierGroupTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: Sizes.sm),
       decoration: BoxDecoration(
-        color: AppColors.neutral50,
+        color: AppPalette.neutral50,
         borderRadius: BorderRadius.circular(Sizes.sm),
         border: Border.all(
-          color: isSelected ? theme.primaryColor : AppColors.neutral200,
+          color: isSelected ? theme.primaryColor : AppPalette.neutral200,
         ),
       ),
       child: CheckboxListTile(
@@ -118,7 +118,7 @@ class _ModifierGroupTile extends StatelessWidget {
         subtitle: Text(
           '$optionCount options',
           style: theme.textTheme.bodySmall?.copyWith(
-            color: AppColors.neutral500,
+            color: AppPalette.neutral500,
           ),
         ),
         controlAffinity: ListTileControlAffinity.leading,
@@ -140,25 +140,25 @@ class _EmptyModifiersState extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Sizes.xl),
       decoration: BoxDecoration(
-        color: AppColors.neutral50,
+        color: AppPalette.neutral50,
         borderRadius: BorderRadius.circular(Sizes.sm),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: AppPalette.neutral200),
       ),
       child: Column(
         children: [
-          Icon(Icons.tune_outlined, size: 48, color: AppColors.neutral400),
+          Icon(Icons.tune_outlined, size: 48, color: AppPalette.neutral400),
           const SizedBox(height: Sizes.md),
           Text(
             'No modifiers available',
             style: theme.textTheme.titleSmall?.copyWith(
-              color: AppColors.neutral600,
+              color: AppPalette.neutral600,
             ),
           ),
           const SizedBox(height: Sizes.xs),
           Text(
             'Create modifiers in Settings to add them here',
             style: theme.textTheme.bodySmall?.copyWith(
-              color: AppColors.neutral500,
+              color: AppPalette.neutral500,
             ),
             textAlign: TextAlign.center,
           ),

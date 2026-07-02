@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/modifier_group.dart';
 
@@ -30,9 +29,9 @@ class ModifierListItem extends StatelessWidget {
           vertical: Sizes.md,
         ),
         decoration: BoxDecoration(
-          color: AppColors.neutral50,
+          color: AppPalette.neutral50,
           borderRadius: BorderRadius.circular(Sizes.sm),
-          border: Border.all(color: AppColors.neutral200),
+          border: Border.all(color: AppPalette.neutral200),
         ),
         child: Row(
           children: [
@@ -43,11 +42,11 @@ class ModifierListItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(Sizes.xs),
-                border: Border.all(color: AppColors.neutral200),
+                border: Border.all(color: AppPalette.neutral200),
               ),
               child: const Icon(
                 Icons.tune_outlined,
-                color: AppColors.neutral600,
+                color: AppPalette.neutral600,
                 size: 20,
               ),
             ),
@@ -70,7 +69,7 @@ class ModifierListItem extends StatelessWidget {
                         ? 'Multi-select'
                         : 'Single-select',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral500,
+                      color: AppPalette.neutral500,
                     ),
                   ),
                 ],
@@ -85,7 +84,7 @@ class ModifierListItem extends StatelessWidget {
                 Text(
                   'Options',
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral500,
+                    color: AppPalette.neutral500,
                   ),
                 ),
                 Text(
@@ -103,7 +102,7 @@ class ModifierListItem extends StatelessWidget {
               onPressed: onDelete,
               icon: const Icon(
                 Icons.delete_outline,
-                color: AppColors.neutral500,
+                color: AppPalette.neutral500,
               ),
               tooltip: 'Delete modifier',
             ),

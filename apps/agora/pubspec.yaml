@@ -70,8 +70,6 @@ dependencies:
   shared_preferences: ^2.5.2
   talker: ^5.1.9
   talker_dio_logger: ^5.1.9
-  theme:
-    path: ../../packages/theme
   ui_kit:
     path: ../../packages/ui_kit
   utils:

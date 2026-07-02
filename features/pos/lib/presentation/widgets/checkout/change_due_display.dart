@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
 /// Shows the change owed back to the customer for a cash payment.
@@ -19,10 +19,10 @@ class ChangeDueDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = isSufficient ? AppColors.success700 : AppColors.neutral600;
+    final color = isSufficient ? AppPalette.success700 : AppPalette.neutral600;
     final background = isSufficient
-        ? AppColors.success100
-        : AppColors.neutral200.withValues(alpha: 0.4);
+        ? AppPalette.success100
+        : AppPalette.neutral200.withValues(alpha: 0.4);
 
     return Container(
       padding: const EdgeInsets.all(Sizes.md),

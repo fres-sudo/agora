@@ -4,7 +4,6 @@ import 'package:feature_auth/domain/models/session_employee.dart';
 import 'package:feature_auth/domain/repositories/auth_repository.dart';
 import 'package:feature_auth/presentation/blocs/session/session_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -77,7 +76,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutral900,
+      backgroundColor: AppPalette.neutral900,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -140,7 +139,7 @@ class _EmployeeSelector extends StatelessWidget {
         Text(
           'Select your profile to continue',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.neutral400,
+            color: AppPalette.neutral400,
           ),
         ),
         const SizedBox(height: 32),
@@ -148,7 +147,7 @@ class _EmployeeSelector extends StatelessWidget {
           Text(
             'No employees found.\nPlease set up staff in Settings first.',
             textAlign: TextAlign.center,
-            style: const TextStyle(color: AppColors.neutral400),
+            style: const TextStyle(color: AppPalette.neutral400),
           )
         else
           Wrap(
@@ -177,13 +176,13 @@ class _AvatarTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 32,
-            backgroundColor: AppColors.primary100,
+            backgroundColor: AppPalette.primary100,
             child: Text(
               employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primary700,
+                color: AppPalette.primary700,
               ),
             ),
           ),
@@ -236,13 +235,13 @@ class _PinPad extends StatelessWidget {
         const SizedBox(height: 8),
         CircleAvatar(
           radius: 32,
-          backgroundColor: AppColors.primary100,
+          backgroundColor: AppPalette.primary100,
           child: Text(
             employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary700,
+              color: AppPalette.primary700,
             ),
           ),
         ),
@@ -258,7 +257,7 @@ class _PinPad extends StatelessWidget {
         const SizedBox(height: 4),
         const Text(
           'Enter your PIN',
-          style: TextStyle(color: AppColors.neutral400, fontSize: 14),
+          style: TextStyle(color: AppPalette.neutral400, fontSize: 14),
         ),
         const SizedBox(height: 24),
         // PIN dots
@@ -273,8 +272,8 @@ class _PinPad extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: i < pin.length
-                    ? AppColors.primary500
-                    : AppColors.neutral600,
+                    ? AppPalette.primary500
+                    : AppPalette.neutral600,
               ),
             ),
           ),
@@ -283,7 +282,7 @@ class _PinPad extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             error!,
-            style: const TextStyle(color: AppColors.error400, fontSize: 13),
+            style: const TextStyle(color: AppPalette.error400, fontSize: 13),
           ),
         ],
         const SizedBox(height: 24),
@@ -323,7 +322,7 @@ class _DigitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.neutral800,
+      color: AppPalette.neutral800,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onTap,
@@ -350,7 +349,7 @@ class _DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.neutral800,
+      color: AppPalette.neutral800,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onTap,

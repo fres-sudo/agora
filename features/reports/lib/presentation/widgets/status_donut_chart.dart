@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 class StatusDonutChart extends StatelessWidget {
@@ -39,7 +38,7 @@ class StatusDonutChart extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: AppPalette.neutral200),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +52,7 @@ class StatusDonutChart extends StatelessWidget {
                       title,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.neutral900,
+                        color: AppPalette.neutral900,
                         fontSize: isCompact ? 16 : null,
                       ),
                       maxLines: 1,
@@ -104,7 +103,7 @@ class StatusDonutChart extends StatelessWidget {
                           style: Theme.of(context).textTheme.headlineMedium
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.neutral900,
+                                color: AppPalette.neutral900,
                                 fontSize: isVeryCompact ? 20 : null,
                               ),
                         ),
@@ -112,7 +111,7 @@ class StatusDonutChart extends StatelessWidget {
                           totalLabel,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                                color: AppColors.neutral500,
+                                color: AppPalette.neutral500,
                                 fontSize: isVeryCompact ? 10 : null,
                               ),
                           textAlign: TextAlign.center,
@@ -144,7 +143,7 @@ class StatusDonutChart extends StatelessWidget {
                         child: Text(
                           d.label,
                           style: TextStyle(
-                            color: AppColors.neutral600,
+                            color: AppPalette.neutral600,
                             fontSize: isCompact ? 12 : 14,
                           ),
                           maxLines: 1,
@@ -155,7 +154,7 @@ class StatusDonutChart extends StatelessWidget {
                         d.value.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: AppColors.neutral900,
+                          color: AppPalette.neutral900,
                           fontSize: isCompact ? 12 : 14,
                         ),
                       ),

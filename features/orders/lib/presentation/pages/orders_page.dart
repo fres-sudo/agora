@@ -1,4 +1,3 @@
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
 import 'package:feature_orders/domain/models/order.dart';
@@ -86,7 +85,7 @@ class _OrdersPageState extends State<OrdersPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(error.message),
-                backgroundColor: AppColors.error500,
+                backgroundColor: AppPalette.error500,
               ),
             );
           },
@@ -141,7 +140,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       '#${order.id ?? '-'}',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.neutral700,
+                        color: AppPalette.neutral700,
                       ),
                     ),
                   ),
@@ -152,7 +151,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     cellBuilder: (order) => Text(
                       _formatDateTime(context, order.createdAt),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral500,
+                        color: AppPalette.neutral500,
                       ),
                     ),
                   ),
@@ -195,7 +194,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: AppColors.neutral700,
+                        color: AppPalette.neutral700,
                       ),
                     ),
                   ),
@@ -425,9 +424,9 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      OrderStatus.pending => (AppColors.warning500, 'Pending'),
-      OrderStatus.completed => (AppColors.primary500, 'Completed'),
-      OrderStatus.voided => (AppColors.error500, 'Voided'),
+      OrderStatus.pending => (AppPalette.warning500, 'Pending'),
+      OrderStatus.completed => (AppPalette.primary500, 'Completed'),
+      OrderStatus.voided => (AppPalette.error500, 'Voided'),
     };
 
     return Container(

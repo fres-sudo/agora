@@ -1,5 +1,4 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_stepper.dart';
@@ -52,7 +51,7 @@ class ProductFormContent extends StatelessWidget {
                     ),
                   ],
                 ),
-                backgroundColor: AppColors.primary500,
+                backgroundColor: AppPalette.primary500,
                 behavior: SnackBarBehavior.floating,
               ),
             );
@@ -60,7 +59,7 @@ class ProductFormContent extends StatelessWidget {
           error: (e) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text(e.message), backgroundColor: AppColors.error500));
+            ).showSnackBar(SnackBar(content: Text(e.message), backgroundColor: AppPalette.error500));
           },
         );
       },
@@ -125,7 +124,7 @@ class _ProductFormHeader extends StatelessWidget {
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(false),
             icon: const Icon(Icons.close),
-            style: IconButton.styleFrom(foregroundColor: AppColors.neutral500),
+            style: IconButton.styleFrom(foregroundColor: AppPalette.neutral500),
           ),
         ],
       ),

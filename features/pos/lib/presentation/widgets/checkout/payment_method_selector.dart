@@ -3,7 +3,7 @@ import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Segmented selector for the order's [PaymentMethod] (Cash / Card).
 ///
@@ -80,12 +80,12 @@ class _MethodTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = isSelected ? AppColors.primary500 : AppColors.neutral300;
-    final foreground = isSelected ? AppColors.primary500 : AppColors.neutral600;
+    final color = isSelected ? AppPalette.primary500 : AppPalette.neutral300;
+    final foreground = isSelected ? AppPalette.primary500 : AppPalette.neutral600;
 
     return Material(
       color: isSelected
-          ? AppColors.primary500.withValues(alpha: 0.08)
+          ? AppPalette.primary500.withValues(alpha: 0.08)
           : Colors.transparent,
       borderRadius: BorderRadius.circular(Sizes.md),
       child: InkWell(

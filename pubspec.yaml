@@ -30,7 +30,6 @@ workspace:
   - packages/remote_config
   - packages/result
   - packages/sync_engine
-  - packages/theme
   - packages/ui_kit
   - packages/utils
 

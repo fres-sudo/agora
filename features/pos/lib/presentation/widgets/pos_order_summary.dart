@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// Displays order totals in the POS order panel.
@@ -43,24 +43,24 @@ class PosOrderSummary extends StatelessWidget {
         _SummaryRow(
           label: 'Subtotal',
           value: _formatCents(subtotalCents),
-          valueColor: hasItems ? AppColors.neutral800 : AppColors.neutral400,
+          valueColor: hasItems ? AppPalette.neutral800 : AppPalette.neutral400,
         ),
         const SizedBox(height: 8),
         // Tax row
         _SummaryRow(
           label: 'Tax',
           value: _formatCents(taxCents),
-          valueColor: hasItems ? AppColors.neutral800 : AppColors.neutral400,
+          valueColor: hasItems ? AppPalette.neutral800 : AppPalette.neutral400,
         ),
         const SizedBox(height: 8),
         // Voucher/Discount row
         _SummaryRow(
           label: 'Voucher',
           value: _formatCents(discountCents),
-          valueColor: hasItems ? AppColors.neutral800 : AppColors.neutral400,
+          valueColor: hasItems ? AppPalette.neutral800 : AppPalette.neutral400,
         ),
         const SizedBox(height: 12),
-        const Divider(height: 1, color: AppColors.neutral200),
+        const Divider(height: 1, color: AppPalette.neutral200),
         const SizedBox(height: 12),
         // Total row (emphasized)
         Row(
@@ -69,14 +69,14 @@ class PosOrderSummary extends StatelessWidget {
             Text(
               'Total',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: AppColors.neutral600,
+                color: AppPalette.neutral600,
               ),
             ),
             Text(
               '$currencySymbol ${(grandTotalCents / 100).toStringAsFixed(2)}',
               style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.neutral800,
+                color: AppPalette.neutral800,
               ),
             ),
           ],
@@ -107,7 +107,7 @@ class _SummaryRow extends StatelessWidget {
         Text(
           label,
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: AppColors.neutral500,
+            color: AppPalette.neutral500,
           ),
         ),
         Text(

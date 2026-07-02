@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// A reusable menu category item widget for the POS system.
 /// Displays an icon and a title in a card-like container.
@@ -40,17 +40,17 @@ class MenuCategoryItem extends StatelessWidget {
     // Background color: White when selected, light neutral when not.
     final Color backgroundColor = isSelected
         ? Colors.white
-        : AppColors.neutral100;
+        : AppPalette.neutral100;
 
     // Content colors based on selection and enabled state.
     final Color contentColor = isEnabled
-        ? (isSelected ? AppColors.neutral800 : AppColors.neutral600)
-        : AppColors.neutral400;
+        ? (isSelected ? AppPalette.neutral800 : AppPalette.neutral600)
+        : AppPalette.neutral400;
 
     // Icon color: slightly more muted when not selected.
     final Color iconColor = isEnabled
-        ? (isSelected ? AppColors.neutral800 : AppColors.neutral400)
-        : AppColors.neutral300;
+        ? (isSelected ? AppPalette.neutral800 : AppPalette.neutral400)
+        : AppPalette.neutral300;
 
     return Material(
       color: backgroundColor,
@@ -65,7 +65,7 @@ class MenuCategoryItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             // Subtle border when selected to match the image's depth.
             border: isSelected
-                ? Border.all(color: AppColors.neutral200, width: 1.5)
+                ? Border.all(color: AppPalette.neutral200, width: 1.5)
                 : null,
           ),
           child: Stack(

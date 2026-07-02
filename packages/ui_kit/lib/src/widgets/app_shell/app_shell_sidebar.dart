@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
-import 'app_shell_nav_item.dart';
 
 class AppShellSidebar extends StatelessWidget {
   const AppShellSidebar({
@@ -37,7 +36,7 @@ class AppShellSidebar extends StatelessWidget {
       curve: Curves.easeInOut,
       width: isCollapsed ? collapsedWidth : expandedWidth,
       decoration: const BoxDecoration(
-        color: AppColors.neutral900,
+        color: AppPalette.neutral900,
         border: Border(
           right: BorderSide(color: Color(0xff1f1f1f), width: 1),
         ),
@@ -84,14 +83,14 @@ class AppShellSidebar extends StatelessWidget {
       child: isCollapsed
           ? Center(
               child: logo ??
-                  const Icon(Icons.bolt, color: AppColors.primary500, size: 26),
+                  const Icon(Icons.bolt, color: AppPalette.primary500, size: 26),
             )
           : Row(
               children: [
                 logo ??
                     const Icon(
                       Icons.bolt,
-                      color: AppColors.primary500,
+                      color: AppPalette.primary500,
                       size: 26,
                     ),
                 const SizedBox(width: 10),
@@ -139,7 +138,7 @@ class AppShellSidebar extends StatelessWidget {
                   child: const Icon(
                     Icons.chevron_left_rounded,
                     size: 18,
-                    color: AppColors.neutral400,
+                    color: AppPalette.neutral400,
                   ),
                 ),
               ),
@@ -171,10 +170,10 @@ class _SidebarNavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconColor = !isEnabled
-        ? AppColors.neutral700
+        ? AppPalette.neutral700
         : isSelected
             ? Colors.white
-            : AppColors.neutral400;
+            : AppPalette.neutral400;
 
     return Tooltip(
       message: isCollapsed && isEnabled ? label : '',
@@ -213,7 +212,7 @@ class _SidebarNavItem extends StatelessWidget {
                         margin: const EdgeInsets.only(right: 10),
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? AppColors.primary500
+                              ? AppPalette.primary500
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(2),
                         ),

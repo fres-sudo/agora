@@ -7,7 +7,6 @@ import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
@@ -74,7 +73,7 @@ class PosOrderPanel extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          const Divider(height: 1, color: AppColors.neutral200),
+          const Divider(height: 1, color: AppPalette.neutral200),
           // Order Details header
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -84,7 +83,7 @@ class PosOrderPanel extends StatelessWidget {
                 'Order Details',
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.neutral800,
+                  color: AppPalette.neutral800,
                 ),
               ),
             ),
@@ -119,7 +118,7 @@ class PosOrderPanel extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: AppColors.neutral200)),
+              border: Border(top: BorderSide(color: AppPalette.neutral200)),
             ),
             child: Column(
               children: [
@@ -147,8 +146,8 @@ class PosOrderPanel extends StatelessWidget {
                   fullWidth: true,
                   style: FilledButton.styleFrom(
                     backgroundColor: _hasItems
-                        ? AppColors.primary500
-                        : AppColors.neutral300,
+                        ? AppPalette.primary500
+                        : AppPalette.neutral300,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -203,7 +202,7 @@ class _DiscountRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.primary500.withValues(alpha: 0.08),
+        color: AppPalette.primary500.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -211,7 +210,7 @@ class _DiscountRow extends StatelessWidget {
           const Icon(
             Icons.local_offer_outlined,
             size: 18,
-            color: AppColors.primary500,
+            color: AppPalette.primary500,
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -219,7 +218,7 @@ class _DiscountRow extends StatelessWidget {
               '${discount.name} ($valueLabel)',
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: AppColors.primary700,
+                color: AppPalette.primary700,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -229,7 +228,7 @@ class _DiscountRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: const Padding(
               padding: EdgeInsets.all(4),
-              child: Icon(Icons.close, size: 18, color: AppColors.neutral500),
+              child: Icon(Icons.close, size: 18, color: AppPalette.neutral500),
             ),
           ),
         ],
@@ -282,8 +281,8 @@ class _OrderItemsList extends StatelessWidget {
               label: 'Clear All Order',
               fullWidth: true,
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.neutral600,
-                side: const BorderSide(color: AppColors.neutral300),
+                foregroundColor: AppPalette.neutral600,
+                side: const BorderSide(color: AppPalette.neutral300),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

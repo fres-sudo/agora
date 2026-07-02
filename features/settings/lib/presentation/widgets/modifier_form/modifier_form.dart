@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/modifier_group.dart';
 import 'package:feature_products/domain/models/modifier_option.dart';
@@ -173,15 +172,15 @@ class _ModifierFormState extends State<ModifierForm> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(Sizes.lg),
                       decoration: BoxDecoration(
-                        color: AppColors.neutral50,
+                        color: AppPalette.neutral50,
                         borderRadius: BorderRadius.circular(Sizes.sm),
-                        border: Border.all(color: AppColors.neutral200),
+                        border: Border.all(color: AppPalette.neutral200),
                       ),
                       child: Text(
                         'No options yet. Add at least one, '
                         'e.g. "Small" / "Large".',
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: AppColors.neutral500,
+                          color: AppPalette.neutral500,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -203,7 +202,7 @@ class _ModifierFormState extends State<ModifierForm> {
                     Text(
                       _optionsError!,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.error500,
+                        color: AppPalette.error500,
                       ),
                     ),
                   ],
@@ -328,7 +327,7 @@ class _OptionRow extends StatelessWidget {
         ),
         AppIconButton.ghost(
           onPressed: onRemove,
-          icon: const Icon(Icons.close, size: 18, color: AppColors.neutral500),
+          icon: const Icon(Icons.close, size: 18, color: AppPalette.neutral500),
           tooltip: 'Remove option',
         ),
       ],

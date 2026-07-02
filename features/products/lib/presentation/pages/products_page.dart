@@ -1,5 +1,4 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
 import 'package:feature_products/domain/models/category.dart';
@@ -89,7 +88,7 @@ class _ProductsView extends StatelessWidget {
                     ? product.sku!
                     : '#${product.id}',
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.neutral500,
+                  color: AppPalette.neutral500,
                   fontFamily: 'RobotoMono',
                 ),
               );
@@ -124,13 +123,13 @@ class _ProductsView extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.neutral100,
+                  color: AppPalette.neutral100,
                   borderRadius: BorderRadius.circular(Sizes.xs),
                 ),
                 child: Text(
                   category.name,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral700,
+                    color: AppPalette.neutral700,
                   ),
                 ),
               );
@@ -145,11 +144,11 @@ class _ProductsView extends StatelessWidget {
               final isLowStock = product.stockQuantity <= 10;
               final isOutOfStock = product.stockQuantity <= 0;
 
-              Color color = AppColors.neutral700;
+              Color color = AppPalette.neutral700;
               if (isOutOfStock) {
-                color = AppColors.error500;
+                color = AppPalette.error500;
               } else if (isLowStock) {
-                color = AppColors.warning600;
+                color = AppPalette.warning600;
               }
 
               return Text(
@@ -225,7 +224,7 @@ class _ProductsView extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(t.products.messages.product_deleted),
-                    backgroundColor: AppColors.primary500,
+                    backgroundColor: AppPalette.primary500,
                   ),
                 );
               }
