@@ -158,6 +158,19 @@ class DiscountsDao extends DatabaseAccessor<AgoraDatabase>
         .then((rows) => rows > 0);
   }
 
+  /// Increments a discount's usage count by one. Read-modify-write is fine at
+  /// festival scale (single terminal, sequential checkouts).
+  Future<void> incrementUsageCount(int id) async {
+    final current = await getDiscountById(id);
+    if (current == null) return;
+    await (update(discountsTable)..where((t) => t.id.equals(id))).write(
+      DiscountsTableCompanion(
+        usageCount: Value(current.usageCount + 1),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
+  }
+
   /// Activates a discount.
   Future<bool> activateDiscount(int id) {
     return toggleDiscountActive(id, true);

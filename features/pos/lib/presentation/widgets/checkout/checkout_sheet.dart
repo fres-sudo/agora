@@ -1,4 +1,5 @@
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:feature_discounts/domain/models/discount.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
@@ -29,9 +30,14 @@ class CheckoutSheet extends StatelessWidget {
     BuildContext context,
     Order order, {
     ReceiptConfig receiptConfig = const ReceiptConfig(),
+    Discount? appliedDiscount,
   }) {
     final cubit = context.read<CheckoutCubit>()
-      ..start(order, receiptConfig: receiptConfig);
+      ..start(
+        order,
+        receiptConfig: receiptConfig,
+        appliedDiscount: appliedDiscount,
+      );
 
     return AdaptiveSheet.show<Order>(
       context: context,

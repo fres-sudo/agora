@@ -69,8 +69,21 @@ class _PosPageState extends State<PosPage> {
     );
   }
 
+  Future<void> _onDiscountTap() async {
+    final discount = await DiscountSheet.show(context);
+    if (discount == null || !mounted) return;
+    context.read<ActiveOrderBloc>().add(
+      ActiveOrderEvent.discountApplied(discount),
+    );
+  }
+
+  void _onRemoveDiscount() {
+    context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.discountRemoved());
+  }
+
   Future<void> _onProcessTransaction() async {
-    final order = context.read<ActiveOrderBloc>().state.currentOrder;
+    final activeState = context.read<ActiveOrderBloc>().state;
+    final order = activeState.currentOrder;
     if (order == null || order.items.isEmpty) return;
 
     final receiptConfig = buildReceiptConfig(context.read<SettingsCubit>());
@@ -78,6 +91,7 @@ class _PosPageState extends State<PosPage> {
       context,
       order,
       receiptConfig: receiptConfig,
+      appliedDiscount: activeState.appliedDiscount,
     );
     if (!mounted) return;
 
@@ -180,6 +194,8 @@ class _PosPageState extends State<PosPage> {
                 onProcessTransaction: _onProcessTransaction,
                 onItemRemoved: _onItemRemoved,
                 onItemQuantityChanged: _onItemQuantityChanged,
+                onDiscountTap: _onDiscountTap,
+                onRemoveDiscount: _onRemoveDiscount,
                 buildCartQuantities: _buildCartQuantities,
               )
             : _MobileLayout(
@@ -301,6 +317,9 @@ class _PosPageState extends State<PosPage> {
               onProcessTransaction: _onProcessTransaction,
               onItemRemoved: _onItemRemoved,
               onItemQuantityChanged: _onItemQuantityChanged,
+              appliedDiscount: state.appliedDiscount,
+              onDiscountTap: _onDiscountTap,
+              onRemoveDiscount: _onRemoveDiscount,
             ),
           ),
         );
@@ -320,6 +339,8 @@ class _TabletLayout extends StatelessWidget {
   final VoidCallback onProcessTransaction;
   final ValueChanged<int> onItemRemoved;
   final void Function(int lineItemId, int quantity) onItemQuantityChanged;
+  final VoidCallback onDiscountTap;
+  final VoidCallback onRemoveDiscount;
   final Map<int, int> Function(ActiveOrderState) buildCartQuantities;
 
   const _TabletLayout({
@@ -332,6 +353,8 @@ class _TabletLayout extends StatelessWidget {
     required this.onProcessTransaction,
     required this.onItemRemoved,
     required this.onItemQuantityChanged,
+    required this.onDiscountTap,
+    required this.onRemoveDiscount,
     required this.buildCartQuantities,
   });
 
@@ -405,6 +428,9 @@ class _TabletLayout extends StatelessWidget {
                 onProcessTransaction: onProcessTransaction,
                 onItemRemoved: onItemRemoved,
                 onItemQuantityChanged: onItemQuantityChanged,
+                appliedDiscount: state.appliedDiscount,
+                onDiscountTap: onDiscountTap,
+                onRemoveDiscount: onRemoveDiscount,
               );
             },
           ),

@@ -164,7 +164,7 @@ List<SingleChildWidget> _buildProviders({
   ...SettingsFeature.providers,
   ...InventoryFeature.providers, // must be before Products (StocksDao)
   ...ProductsFeature.providers,
+  ...DiscountsFeature.providers, // must be before Orders (CheckoutCubit reads DiscountsRepository)
   ...OrdersFeature.providers,
-  ...DiscountsFeature.providers,
   ...ReportsFeature.providers, // must be after Orders + Products (reads both)
 ];

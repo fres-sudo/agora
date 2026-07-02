@@ -1,0 +1,311 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:bloc_exports/bloc_exports.dart';
+import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adjustment_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
+
+/// Basic inventory management (P7-8).
+///
+/// Lists every product with its current stock level, highlights low stock,
+/// and offers quick ±1 adjustments plus an absolute "Set" action. Writes go
+/// through [StockAdjustmentCubit] (which records a `StockMovementsTable` row);
+/// the list is driven reactively by [InventoryRepository.watchStockLevels].
+@RoutePage()
+class InventoryPage extends StatefulWidget {
+  const InventoryPage({super.key});
+
+  @override
+  State<InventoryPage> createState() => _InventoryPageState();
+}
+
+class _InventoryPageState extends State<InventoryPage> {
+  static const _defaultThreshold = 10;
+
+  late final DataTableController<StockLevel> _tableController;
+  String _search = '';
+  bool _lowStockOnly = false;
+  int _threshold = _defaultThreshold;
+
+  @override
+  void initState() {
+    super.initState();
+    _tableController = DataTableController<StockLevel>(rowsPerPage: 10);
+  }
+
+  @override
+  void dispose() {
+    _tableController.dispose();
+    super.dispose();
+  }
+
+  List<StockLevel> _visible(List<StockLevel> levels) {
+    final query = _search.trim().toLowerCase();
+    return levels.where((level) {
+      if (_lowStockOnly && !(level.trackStock && level.quantity <= _threshold)) {
+        return false;
+      }
+      if (query.isEmpty) return true;
+      return level.name.toLowerCase().contains(query);
+    }).toList();
+  }
+
+  bool _isLow(StockLevel level) =>
+      level.trackStock && level.quantity <= _threshold;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return BlocListener<StockAdjustmentCubit, StockAdjustmentState>(
+      listener: (context, state) {
+        state.maybeWhen(
+          error: (message, _, _) => showAppSnackBar(
+            context,
+            message,
+            isError: true,
+          ),
+          orElse: () {},
+        );
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Inventory'),
+          leading: context.isTabletOrLarger
+              ? null
+              : AppIconButton.ghost(
+                  onPressed: AppShellScope.maybeOf(context)?.openSidebar,
+                  icon: const Icon(Icons.menu_rounded),
+                ),
+          actions: context.isTabletOrLarger
+              ? const [
+                  AppShellOperatorChip(),
+                  SizedBox(width: 8),
+                  AppShellUserMenu(),
+                  SizedBox(width: 12),
+                ]
+              : null,
+        ),
+        body: StreamBuilder<List<StockLevel>>(
+          stream: context.read<InventoryRepository>().watchStockLevels(),
+          builder: (context, snapshot) {
+            final levels = _visible(snapshot.data ?? const []);
+
+            return AnimatedBuilder(
+              animation: _tableController,
+              builder: (context, _) => DataTableView<StockLevel>(
+                controller: _tableController,
+                items: levels,
+                isLoading:
+                    snapshot.connectionState == ConnectionState.waiting &&
+                    !snapshot.hasData,
+                showAddButton: false,
+                showEditAction: false,
+                showDeleteAction: false,
+                config: const DataTableConfig(
+                  title: 'Inventory',
+                  searchHint: 'Search products...',
+                  emptyStateTitle: 'No products',
+                  emptyStateSubtitle: 'Add products to start tracking stock',
+                  emptyStateIcon: Icons.warehouse_outlined,
+                ),
+                onSearch: (query) => setState(() => _search = query),
+                onFilter: _showFilterDialog,
+                columns: [
+                  DataTableColumn(
+                    id: 'name',
+                    label: 'Product',
+                    flex: 3,
+                    cellBuilder: (level) => Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            level.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.neutral700,
+                            ),
+                          ),
+                        ),
+                        if (!level.trackStock) ...[
+                          const SizedBox(width: Sizes.sm),
+                          _Tag(
+                            label: 'Not tracked',
+                            color: AppColors.neutral500,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  DataTableColumn(
+                    id: 'quantity',
+                    label: 'In stock',
+                    width: 130,
+                    alignment: Alignment.centerLeft,
+                    cellBuilder: (level) {
+                      final low = _isLow(level);
+                      return _Tag(
+                        label: '${level.quantity}',
+                        color: low ? AppColors.error500 : AppColors.primary500,
+                        icon: low ? Icons.warning_amber_rounded : null,
+                      );
+                    },
+                  ),
+                  DataTableColumn(
+                    id: 'adjust',
+                    label: 'Adjust',
+                    width: 190,
+                    alignment: Alignment.centerRight,
+                    cellBuilder: (level) => Align(
+                      alignment: Alignment.centerRight,
+                      child: QuantityButton(
+                        quantity: level.quantity,
+                        min: 0,
+                        onChanged: (value) => _onQuickAdjust(level, value),
+                      ),
+                    ),
+                  ),
+                  DataTableColumn(
+                    id: 'set',
+                    label: '',
+                    width: 72,
+                    alignment: Alignment.centerRight,
+                    cellBuilder: (level) => AppIconButton.ghost(
+                      onPressed: () => _showSetDialog(level),
+                      icon: const Icon(Icons.edit_outlined, size: 18),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void _onQuickAdjust(StockLevel level, int newValue) {
+    final delta = newValue - level.quantity;
+    if (delta == 0) return;
+    context.read<StockAdjustmentCubit>().adjust(
+      productId: level.productId,
+      delta: delta,
+    );
+  }
+
+  Future<void> _showSetDialog(StockLevel level) async {
+    final controller = TextEditingController(text: '${level.quantity}');
+    final cubit = context.read<StockAdjustmentCubit>();
+
+    final value = await showDialog<int>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Set stock — ${level.name}'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(
+            labelText: 'Quantity',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          AppButton.ghost(
+            onPressed: () => Navigator.of(context).pop(),
+            label: 'Cancel',
+          ),
+          AppButton.primary(
+            onPressed: () {
+              final parsed = int.tryParse(controller.text.trim());
+              Navigator.of(context).pop(parsed);
+            },
+            label: 'Save',
+          ),
+        ],
+      ),
+    );
+
+    if (value != null && value >= 0) {
+      await cubit.setQuantity(productId: level.productId, quantity: value);
+    }
+  }
+
+  Future<void> _showFilterDialog() async {
+    var lowOnly = _lowStockOnly;
+    final thresholdController = TextEditingController(text: '$_threshold');
+
+    await DataTableFilterDialog.show(
+      context: context,
+      title: 'Inventory filters',
+      onApply: () {
+        setState(() {
+          _lowStockOnly = lowOnly;
+          _threshold = int.tryParse(thresholdController.text.trim()) ?? _threshold;
+        });
+      },
+      child: StatefulBuilder(
+        builder: (context, setLocalState) => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Low stock only'),
+              value: lowOnly,
+              onChanged: (v) => setLocalState(() => lowOnly = v),
+            ),
+            const SizedBox(height: Sizes.sm),
+            TextField(
+              controller: thresholdController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Low stock threshold',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Small rounded label used for stock counts and status tags.
+class _Tag extends StatelessWidget {
+  const _Tag({required this.label, required this.color, this.icon});
+
+  final String label;
+  final Color color;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(Sizes.borderRadius),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 4),
+          ],
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

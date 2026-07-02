@@ -16,6 +16,8 @@ dependencies:
   drift: ^2.30.0
   errors:
     path: ../../packages/errors
+  feature_discounts:
+    path: ../discounts
   feature_products:
     path: ../products
   flutter:
@@ -32,6 +34,8 @@ dependencies:
   theme: ^0.0.0
   ui_kit:
     path: ../../packages/ui_kit
+  utils:
+    path: ../../packages/utils
 
 dev_dependencies:
   flutter_test:

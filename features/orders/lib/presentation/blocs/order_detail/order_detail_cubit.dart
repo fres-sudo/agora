@@ -6,17 +6,22 @@ import 'package:bloc_exports/bloc_exports.dart';
 
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_orders/domain/repositories/orders_repository.dart';
+import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 
 part 'order_detail_cubit.freezed.dart';
 part 'order_detail_state.dart';
 
 /// Cubit for managing a single order's detail view and operations.
 class OrderDetailCubit extends Cubit<OrderDetailState> {
-  OrderDetailCubit({required OrdersRepository ordersRepository})
-    : _ordersRepository = ordersRepository,
-      super(const OrderDetailState.initial());
+  OrderDetailCubit({
+    required OrdersRepository ordersRepository,
+    required InventoryRepository inventoryRepository,
+  }) : _ordersRepository = ordersRepository,
+       _inventoryRepository = inventoryRepository,
+       super(const OrderDetailState.initial());
 
   final OrdersRepository _ordersRepository;
+  final InventoryRepository _inventoryRepository;
   StreamSubscription<Order?>? _subscription;
 
   // ============================================================
@@ -89,6 +94,40 @@ class OrderDetailCubit extends Cubit<OrderDetailState> {
     if (currentOrder == null) return;
 
     emit(OrderDetailState.voiding(order: currentOrder));
+
+    // Restore inventory before voiding — a completed order already decremented
+    // stock at checkout, so voiding must give it back. (The repository's
+    // voidOrder only flips status; it does not touch inventory.)
+    if (currentOrder.status == OrderStatus.completed) {
+      final restoredQuantities = <int, int>{};
+      for (final item in currentOrder.items) {
+        final productId = item.productId;
+        if (productId == null) continue;
+        restoredQuantities.update(
+          productId,
+          (value) => value + item.quantity,
+          ifAbsent: () => item.quantity,
+        );
+      }
+
+      for (final entry in restoredQuantities.entries) {
+        final restoreResult = await _inventoryRepository.restoreForVoidedOrder(
+          productId: entry.key,
+          quantity: entry.value,
+          orderId: currentOrder.id ?? 0,
+        );
+        if (restoreResult.isError) {
+          emit(
+            OrderDetailState.error(
+              message:
+                  'Failed to restore inventory for order #${currentOrder.id ?? '-'}',
+              order: currentOrder,
+            ),
+          );
+          return;
+        }
+      }
+    }
 
     final result = await _ordersRepository.voidOrder(currentOrder.id ?? 0);
 

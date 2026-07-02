@@ -59,4 +59,8 @@ abstract interface class DiscountsRepository {
   /// Deletes a discount (soft delete).
   /// Returns the deleted discount ID for optimistic updates.
   Future<Result<int>> deleteDiscount(int id);
+
+  /// Increments the usage count of a discount by one (called when a discount
+  /// is applied to a completed sale). No-op-safe if the discount is missing.
+  Future<Result<void>> incrementUsage(int id);
 }

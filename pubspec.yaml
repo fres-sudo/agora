@@ -214,6 +214,8 @@ dependencies:
   database:
     path: packages/database
   drift: ^2.30.0
+  feature_discounts:
+    path: features/discounts
   feature_inventory:
     path: features/inventory
   feature_orders:

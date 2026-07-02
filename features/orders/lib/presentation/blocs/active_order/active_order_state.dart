@@ -54,4 +54,8 @@ class ActiveOrderState with _$ActiveOrderState {
 
   /// Returns the grand total in cents.
   int get grandTotalCents => currentOrder?.grandTotalCents ?? 0;
+
+  /// Returns the discount currently applied to the cart, if any.
+  Discount? get appliedDiscount =>
+      maybeMap(building: (s) => s.appliedDiscount, orElse: () => null);
 }

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:feature_auth/feature_auth.dart';
+import 'package:feature_inventory/feature_inventory.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
@@ -28,11 +29,9 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
   static const _navItems = [
     AppShellNavItem(icon: Icons.home_outlined, label: 'Point of Sale'),
     AppShellNavItem(icon: Icons.inventory_2_outlined, label: 'Orders'),
-    AppShellNavItem(icon: Icons.people_outline, label: 'Customers', isEnabled: false),
-    AppShellNavItem(icon: Icons.table_restaurant_outlined, label: 'Tables', isEnabled: false),
     AppShellNavItem(icon: Icons.grid_view_outlined, label: 'Products'),
     AppShellNavItem(icon: Icons.bar_chart_outlined, label: 'Reports'),
-    AppShellNavItem(icon: Icons.warehouse_outlined, label: 'Inventory', isEnabled: false),
+    AppShellNavItem(icon: Icons.warehouse_outlined, label: 'Inventory'),
     AppShellNavItem(icon: Icons.settings_outlined, label: 'Settings'),
     AppShellNavItem(icon: Icons.badge_outlined, label: 'Staff'),
   ];
@@ -40,10 +39,11 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
   static final _routedIndices = <int, PageRouteInfo>{
     0: const PosRoute(),
     1: const OrdersRoute(),
-    4: const ProductsRoute(),
-    5: const ReportRoute(),
-    7: const SettingsRoute(),
-    8: const EmployeesRoute(),
+    2: const ProductsRoute(),
+    3: const ReportRoute(),
+    4: const InventoryRoute(),
+    5: const SettingsRoute(),
+    6: const EmployeesRoute(),
   };
 
   @override
@@ -77,6 +77,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
             const OrdersRoute(),
             const ProductsRoute(),
             const ReportRoute(),
+            const InventoryRoute(),
             const SettingsRoute(),
             const EmployeesRoute(),
           ],

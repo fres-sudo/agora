@@ -3,6 +3,7 @@ export 'presentation/routes/pos_feature.dart';
 export 'presentation/routes/pos_router.dart';
 export 'presentation/widgets/checkout/change_due_display.dart';
 export 'presentation/widgets/checkout/checkout_sheet.dart';
+export 'presentation/widgets/checkout/discount_sheet.dart';
 export 'presentation/widgets/checkout/payment_method_selector.dart';
 export 'presentation/widgets/menu_category.dart';
 export 'presentation/widgets/modifier_picker/modifier_picker_sheet.dart';

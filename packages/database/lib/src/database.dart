@@ -43,12 +43,20 @@ class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
       onCreate: (m) async {
+        await m.createAll();
+      },
+      // Not in production: on any schema bump, drop everything and recreate.
+      // Replace with real migrations before shipping.
+      onUpgrade: (m, from, to) async {
+        for (final table in allTables) {
+          await m.deleteTable(table.actualTableName);
+        }
         await m.createAll();
       },
     );

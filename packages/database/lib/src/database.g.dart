@@ -5485,6 +5485,29 @@ class $DiscountsTableTable extends DiscountsTable
     ),
     defaultValue: const Constant(true),
   );
+  static const VerificationMeta _usageLimitMeta = const VerificationMeta(
+    'usageLimit',
+  );
+  @override
+  late final GeneratedColumn<int> usageLimit = GeneratedColumn<int>(
+    'usage_limit',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _usageCountMeta = const VerificationMeta(
+    'usageCount',
+  );
+  @override
+  late final GeneratedColumn<int> usageCount = GeneratedColumn<int>(
+    'usage_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5497,6 +5520,8 @@ class $DiscountsTableTable extends DiscountsTable
     code,
     validUntil,
     isActive,
+    usageLimit,
+    usageCount,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5573,6 +5598,18 @@ class $DiscountsTableTable extends DiscountsTable
         isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
       );
     }
+    if (data.containsKey('usage_limit')) {
+      context.handle(
+        _usageLimitMeta,
+        usageLimit.isAcceptableOrUnknown(data['usage_limit']!, _usageLimitMeta),
+      );
+    }
+    if (data.containsKey('usage_count')) {
+      context.handle(
+        _usageCountMeta,
+        usageCount.isAcceptableOrUnknown(data['usage_count']!, _usageCountMeta),
+      );
+    }
     return context;
   }
 
@@ -5622,6 +5659,14 @@ class $DiscountsTableTable extends DiscountsTable
         DriftSqlType.bool,
         data['${effectivePrefix}is_active'],
       )!,
+      usageLimit: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}usage_limit'],
+      ),
+      usageCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}usage_count'],
+      )!,
     );
   }
 
@@ -5643,6 +5688,8 @@ class DiscountsTableData extends DataClass
   final String? code;
   final DateTime? validUntil;
   final bool isActive;
+  final int? usageLimit;
+  final int usageCount;
   const DiscountsTableData({
     required this.id,
     required this.createdAt,
@@ -5654,6 +5701,8 @@ class DiscountsTableData extends DataClass
     this.code,
     this.validUntil,
     required this.isActive,
+    this.usageLimit,
+    required this.usageCount,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5676,6 +5725,10 @@ class DiscountsTableData extends DataClass
       map['valid_until'] = Variable<DateTime>(validUntil);
     }
     map['is_active'] = Variable<bool>(isActive);
+    if (!nullToAbsent || usageLimit != null) {
+      map['usage_limit'] = Variable<int>(usageLimit);
+    }
+    map['usage_count'] = Variable<int>(usageCount);
     return map;
   }
 
@@ -5697,6 +5750,10 @@ class DiscountsTableData extends DataClass
           ? const Value.absent()
           : Value(validUntil),
       isActive: Value(isActive),
+      usageLimit: usageLimit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(usageLimit),
+      usageCount: Value(usageCount),
     );
   }
 
@@ -5716,6 +5773,8 @@ class DiscountsTableData extends DataClass
       code: serializer.fromJson<String?>(json['code']),
       validUntil: serializer.fromJson<DateTime?>(json['validUntil']),
       isActive: serializer.fromJson<bool>(json['isActive']),
+      usageLimit: serializer.fromJson<int?>(json['usageLimit']),
+      usageCount: serializer.fromJson<int>(json['usageCount']),
     );
   }
   @override
@@ -5732,6 +5791,8 @@ class DiscountsTableData extends DataClass
       'code': serializer.toJson<String?>(code),
       'validUntil': serializer.toJson<DateTime?>(validUntil),
       'isActive': serializer.toJson<bool>(isActive),
+      'usageLimit': serializer.toJson<int?>(usageLimit),
+      'usageCount': serializer.toJson<int>(usageCount),
     };
   }
 
@@ -5746,6 +5807,8 @@ class DiscountsTableData extends DataClass
     Value<String?> code = const Value.absent(),
     Value<DateTime?> validUntil = const Value.absent(),
     bool? isActive,
+    Value<int?> usageLimit = const Value.absent(),
+    int? usageCount,
   }) => DiscountsTableData(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -5757,6 +5820,8 @@ class DiscountsTableData extends DataClass
     code: code.present ? code.value : this.code,
     validUntil: validUntil.present ? validUntil.value : this.validUntil,
     isActive: isActive ?? this.isActive,
+    usageLimit: usageLimit.present ? usageLimit.value : this.usageLimit,
+    usageCount: usageCount ?? this.usageCount,
   );
   DiscountsTableData copyWithCompanion(DiscountsTableCompanion data) {
     return DiscountsTableData(
@@ -5772,6 +5837,12 @@ class DiscountsTableData extends DataClass
           ? data.validUntil.value
           : this.validUntil,
       isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      usageLimit: data.usageLimit.present
+          ? data.usageLimit.value
+          : this.usageLimit,
+      usageCount: data.usageCount.present
+          ? data.usageCount.value
+          : this.usageCount,
     );
   }
 
@@ -5787,7 +5858,9 @@ class DiscountsTableData extends DataClass
           ..write('value: $value, ')
           ..write('code: $code, ')
           ..write('validUntil: $validUntil, ')
-          ..write('isActive: $isActive')
+          ..write('isActive: $isActive, ')
+          ..write('usageLimit: $usageLimit, ')
+          ..write('usageCount: $usageCount')
           ..write(')'))
         .toString();
   }
@@ -5804,6 +5877,8 @@ class DiscountsTableData extends DataClass
     code,
     validUntil,
     isActive,
+    usageLimit,
+    usageCount,
   );
   @override
   bool operator ==(Object other) =>
@@ -5818,7 +5893,9 @@ class DiscountsTableData extends DataClass
           other.value == this.value &&
           other.code == this.code &&
           other.validUntil == this.validUntil &&
-          other.isActive == this.isActive);
+          other.isActive == this.isActive &&
+          other.usageLimit == this.usageLimit &&
+          other.usageCount == this.usageCount);
 }
 
 class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
@@ -5832,6 +5909,8 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
   final Value<String?> code;
   final Value<DateTime?> validUntil;
   final Value<bool> isActive;
+  final Value<int?> usageLimit;
+  final Value<int> usageCount;
   const DiscountsTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -5843,6 +5922,8 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
     this.code = const Value.absent(),
     this.validUntil = const Value.absent(),
     this.isActive = const Value.absent(),
+    this.usageLimit = const Value.absent(),
+    this.usageCount = const Value.absent(),
   });
   DiscountsTableCompanion.insert({
     this.id = const Value.absent(),
@@ -5855,6 +5936,8 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
     this.code = const Value.absent(),
     this.validUntil = const Value.absent(),
     this.isActive = const Value.absent(),
+    this.usageLimit = const Value.absent(),
+    this.usageCount = const Value.absent(),
   }) : name = Value(name),
        type = Value(type),
        value = Value(value);
@@ -5869,6 +5952,8 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
     Expression<String>? code,
     Expression<DateTime>? validUntil,
     Expression<bool>? isActive,
+    Expression<int>? usageLimit,
+    Expression<int>? usageCount,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -5881,6 +5966,8 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
       if (code != null) 'code': code,
       if (validUntil != null) 'valid_until': validUntil,
       if (isActive != null) 'is_active': isActive,
+      if (usageLimit != null) 'usage_limit': usageLimit,
+      if (usageCount != null) 'usage_count': usageCount,
     });
   }
 
@@ -5895,6 +5982,8 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
     Value<String?>? code,
     Value<DateTime?>? validUntil,
     Value<bool>? isActive,
+    Value<int?>? usageLimit,
+    Value<int>? usageCount,
   }) {
     return DiscountsTableCompanion(
       id: id ?? this.id,
@@ -5907,6 +5996,8 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
       code: code ?? this.code,
       validUntil: validUntil ?? this.validUntil,
       isActive: isActive ?? this.isActive,
+      usageLimit: usageLimit ?? this.usageLimit,
+      usageCount: usageCount ?? this.usageCount,
     );
   }
 
@@ -5943,6 +6034,12 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
     if (isActive.present) {
       map['is_active'] = Variable<bool>(isActive.value);
     }
+    if (usageLimit.present) {
+      map['usage_limit'] = Variable<int>(usageLimit.value);
+    }
+    if (usageCount.present) {
+      map['usage_count'] = Variable<int>(usageCount.value);
+    }
     return map;
   }
 
@@ -5958,7 +6055,9 @@ class DiscountsTableCompanion extends UpdateCompanion<DiscountsTableData> {
           ..write('value: $value, ')
           ..write('code: $code, ')
           ..write('validUntil: $validUntil, ')
-          ..write('isActive: $isActive')
+          ..write('isActive: $isActive, ')
+          ..write('usageLimit: $usageLimit, ')
+          ..write('usageCount: $usageCount')
           ..write(')'))
         .toString();
   }
@@ -12857,6 +12956,8 @@ typedef $$DiscountsTableTableCreateCompanionBuilder =
       Value<String?> code,
       Value<DateTime?> validUntil,
       Value<bool> isActive,
+      Value<int?> usageLimit,
+      Value<int> usageCount,
     });
 typedef $$DiscountsTableTableUpdateCompanionBuilder =
     DiscountsTableCompanion Function({
@@ -12870,6 +12971,8 @@ typedef $$DiscountsTableTableUpdateCompanionBuilder =
       Value<String?> code,
       Value<DateTime?> validUntil,
       Value<bool> isActive,
+      Value<int?> usageLimit,
+      Value<int> usageCount,
     });
 
 class $$DiscountsTableTableFilterComposer
@@ -12928,6 +13031,16 @@ class $$DiscountsTableTableFilterComposer
 
   ColumnFilters<bool> get isActive => $composableBuilder(
     column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get usageLimit => $composableBuilder(
+    column: $table.usageLimit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get usageCount => $composableBuilder(
+    column: $table.usageCount,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -12990,6 +13103,16 @@ class $$DiscountsTableTableOrderingComposer
     column: $table.isActive,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get usageLimit => $composableBuilder(
+    column: $table.usageLimit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get usageCount => $composableBuilder(
+    column: $table.usageCount,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$DiscountsTableTableAnnotationComposer
@@ -13032,6 +13155,16 @@ class $$DiscountsTableTableAnnotationComposer
 
   GeneratedColumn<bool> get isActive =>
       $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<int> get usageLimit => $composableBuilder(
+    column: $table.usageLimit,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get usageCount => $composableBuilder(
+    column: $table.usageCount,
+    builder: (column) => column,
+  );
 }
 
 class $$DiscountsTableTableTableManager
@@ -13081,6 +13214,8 @@ class $$DiscountsTableTableTableManager
                 Value<String?> code = const Value.absent(),
                 Value<DateTime?> validUntil = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
+                Value<int?> usageLimit = const Value.absent(),
+                Value<int> usageCount = const Value.absent(),
               }) => DiscountsTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -13092,6 +13227,8 @@ class $$DiscountsTableTableTableManager
                 code: code,
                 validUntil: validUntil,
                 isActive: isActive,
+                usageLimit: usageLimit,
+                usageCount: usageCount,
               ),
           createCompanionCallback:
               ({
@@ -13105,6 +13242,8 @@ class $$DiscountsTableTableTableManager
                 Value<String?> code = const Value.absent(),
                 Value<DateTime?> validUntil = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
+                Value<int?> usageLimit = const Value.absent(),
+                Value<int> usageCount = const Value.absent(),
               }) => DiscountsTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -13116,6 +13255,8 @@ class $$DiscountsTableTableTableManager
                 code: code,
                 validUntil: validUntil,
                 isActive: isActive,
+                usageLimit: usageLimit,
+                usageCount: usageCount,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

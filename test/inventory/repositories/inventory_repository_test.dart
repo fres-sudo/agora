@@ -45,6 +45,25 @@ void main() {
   );
 
   group('InventoryRepository', () {
+    group('watchStockLevels', () {
+      test('maps dao rows (name + qty + trackStock) to StockLevel', () async {
+        when(mockStocksDao.watchStockLevels()).thenAnswer(
+          (_) => Stream.value(const [
+            (productId: 1, name: 'Tagliatelle', quantity: 10, trackStock: true),
+            (productId: 2, name: 'Water', quantity: 0, trackStock: false),
+          ]),
+        );
+
+        final levels = await repository.watchStockLevels().first;
+
+        expect(levels, hasLength(2));
+        expect(levels.first.name, 'Tagliatelle');
+        expect(levels.first.quantity, 10);
+        expect(levels.first.trackStock, isTrue);
+        expect(levels[1].trackStock, isFalse);
+      });
+    });
+
     group('watchAllStocks', () {
       test('should emit list of stocks from dao', () {
         // Arrange

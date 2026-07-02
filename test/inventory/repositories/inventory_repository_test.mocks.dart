@@ -369,6 +369,30 @@ class MockStocksDao extends _i1.Mock implements _i6.StocksDao {
       ) as _i5.Future<int>);
 
   @override
+  _i5.Stream<
+      List<
+          ({
+            String name,
+            int productId,
+            int quantity,
+            bool trackStock
+          })>> watchStockLevels() => (super.noSuchMethod(
+        Invocation.method(
+          #watchStockLevels,
+          [],
+        ),
+        returnValue: _i5.Stream<
+            List<
+                ({
+                  String name,
+                  int productId,
+                  int quantity,
+                  bool trackStock
+                })>>.empty(),
+      ) as _i5.Stream<
+          List<({String name, int productId, int quantity, bool trackStock})>>);
+
+  @override
   _i5.Stream<List<_i2.StockEntity>> watchLowStocks(int? threshold) =>
       (super.noSuchMethod(
         Invocation.method(

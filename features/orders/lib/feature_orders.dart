@@ -10,6 +10,7 @@ export 'presentation/blocs/active_order/active_order_bloc.dart';
 export 'presentation/blocs/checkout/checkout_cubit.dart';
 export 'presentation/blocs/order_detail/order_detail_cubit.dart';
 export 'presentation/blocs/orders/orders_bloc.dart';
+export 'presentation/pages/order_detail_page.dart';
 export 'presentation/pages/orders_page.dart';
 export 'presentation/routes/orders_feature.dart';
 export 'presentation/routes/orders_router.dart';

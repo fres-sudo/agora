@@ -26,6 +26,8 @@ class DiscountsRepositoryImpl extends Repository
       value: entity.value,
       isActive: entity.isActive,
       validUntil: entity.validUntil,
+      usageLimit: entity.usageLimit,
+      usageCount: entity.usageCount,
     );
   }
 
@@ -37,6 +39,8 @@ class DiscountsRepositoryImpl extends Repository
       value: discount.value,
       isActive: Value(discount.isActive),
       validUntil: Value(discount.validUntil),
+      usageLimit: Value(discount.usageLimit),
+      usageCount: Value(discount.usageCount),
     );
   }
 
@@ -48,6 +52,8 @@ class DiscountsRepositoryImpl extends Repository
       value: Value(discount.value),
       isActive: Value(discount.isActive),
       validUntil: Value(discount.validUntil),
+      usageLimit: Value(discount.usageLimit),
+      // usageCount is not edited via the form; it changes only via incrementUsage.
     );
   }
 
@@ -156,4 +162,8 @@ class DiscountsRepositoryImpl extends Repository
         await _discountsDao.softDeleteDiscount(id);
         return id;
       });
+
+  @override
+  Future<Result<void>> incrementUsage(int id) =>
+      safe('incrementUsage($id)', () => _discountsDao.incrementUsageCount(id));
 }

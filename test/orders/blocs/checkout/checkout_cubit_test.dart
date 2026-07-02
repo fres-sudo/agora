@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:feature_discounts/feature_discounts.dart';
 import 'package:feature_inventory/feature_inventory.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_products/feature_products.dart';
@@ -10,13 +11,19 @@ import 'package:result/result.dart';
 
 import 'checkout_cubit_test.mocks.dart';
 
-@GenerateMocks([OrdersRepository, InventoryRepository, ProductsRepository])
+@GenerateMocks([
+  OrdersRepository,
+  InventoryRepository,
+  ProductsRepository,
+  DiscountsRepository,
+])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late MockOrdersRepository ordersRepository;
   late MockInventoryRepository inventoryRepository;
   late MockProductsRepository productsRepository;
+  late MockDiscountsRepository discountsRepository;
   late FakePrinterService printerService;
 
   // A cart-shaped order (status pending, id null/0) ready for checkout.
@@ -62,6 +69,7 @@ void main() {
         ordersRepository: ordersRepository,
         inventoryRepository: inventoryRepository,
         productsRepository: productsRepository,
+        discountsRepository: discountsRepository,
         printerService: printerService,
       );
 
@@ -76,6 +84,7 @@ void main() {
     ordersRepository = MockOrdersRepository();
     inventoryRepository = MockInventoryRepository();
     productsRepository = MockProductsRepository();
+    discountsRepository = MockDiscountsRepository();
     printerService = FakePrinterService();
   });
 

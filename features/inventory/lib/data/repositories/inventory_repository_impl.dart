@@ -49,6 +49,25 @@ class InventoryRepositoryImpl extends Repository
   }
 
   @override
+  Stream<List<StockLevel>> watchStockLevels() {
+    return _stocksDao
+        .watchStockLevels()
+        .map(
+          (rows) => rows
+              .map<StockLevel>(
+                (r) => (
+                  productId: r.productId,
+                  name: r.name,
+                  quantity: r.quantity,
+                  trackStock: r.trackStock,
+                ),
+              )
+              .toList(),
+        )
+        .safeCode(logger);
+  }
+
+  @override
   Stream<Stock?> watchStockByProductId(int productId) {
     return _stocksDao
         .watchStockByProductId(productId)

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:flutter/material.dart';
 
+import 'package:feature_discounts/domain/models/discount.dart';
+import 'package:feature_discounts/domain/repositories/discounts_repository.dart';
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:feature_orders/domain/mappers/order_receipt_mapper.dart';
 import 'package:feature_orders/domain/models/order.dart';
@@ -33,11 +35,13 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     required OrdersRepository ordersRepository,
     required InventoryRepository inventoryRepository,
     required ProductsRepository productsRepository,
+    required DiscountsRepository discountsRepository,
     required PrinterService printerService,
     Talker? logger,
   }) : _ordersRepository = ordersRepository,
        _inventoryRepository = inventoryRepository,
        _productsRepository = productsRepository,
+       _discountsRepository = discountsRepository,
        _printerService = printerService,
        _logger = logger,
        super(const CheckoutState.initial());
@@ -45,6 +49,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   final OrdersRepository _ordersRepository;
   final InventoryRepository _inventoryRepository;
   final ProductsRepository _productsRepository;
+  final DiscountsRepository _discountsRepository;
   final PrinterService _printerService;
   final Talker? _logger;
 
@@ -52,15 +57,21 @@ class CheckoutCubit extends Cubit<CheckoutState> {
 
   ReceiptConfig _receiptConfig = const ReceiptConfig();
 
+  /// The discount applied to the cart being checked out, if any. Used to bump
+  /// its usage count once the sale completes.
+  Discount? _appliedDiscount;
+
   /// Begin checkout for [order]. Defaults to cash with no tender entered.
   /// [receiptConfig] (store/receipt settings) is used to build the receipt once
-  /// the sale completes.
+  /// the sale completes. [appliedDiscount] is the cart's active discount, if any.
   void start(
     Order order, {
     PaymentMethod method = PaymentMethod.cash,
     ReceiptConfig receiptConfig = const ReceiptConfig(),
+    Discount? appliedDiscount,
   }) {
     _receiptConfig = receiptConfig;
+    _appliedDiscount = appliedDiscount;
     emit(CheckoutState.selecting(order: order, method: method));
   }
 
@@ -83,7 +94,10 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   }
 
   /// Reset the cubit, abandoning any in-progress checkout.
-  void cancel() => emit(const CheckoutState.initial());
+  void cancel() {
+    _appliedDiscount = null;
+    emit(const CheckoutState.initial());
+  }
 
   /// Finalise the sale: persist as completed, then decrement stock.
   Future<void> confirm() async {
@@ -116,6 +130,9 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         // 2. Decrement stock for tracked products (best-effort; a stock
         //    failure must not lose the recorded sale).
         await _decrementStock(value);
+
+        // 2b. Count the discount usage (best-effort; never fail the sale).
+        await _recordDiscountUsage();
 
         // 3. Build the receipt for the preview/print stage.
         final changeDue = current.changeDueCents;
@@ -177,6 +194,18 @@ class CheckoutCubit extends Cubit<CheckoutState> {
           (state as CheckoutSuccess).copyWith(printStatus: PrintStatus.failed),
         );
       }
+    }
+  }
+
+  /// Increments the applied discount's usage count once a sale completes.
+  /// Best-effort: a failure here must not undo the recorded sale (P6-2).
+  Future<void> _recordDiscountUsage() async {
+    final discount = _appliedDiscount;
+    if (discount == null || discount.id == 0) return;
+
+    final result = await _discountsRepository.incrementUsage(discount.id);
+    if (result.isError) {
+      _logger?.error('Failed to record usage for discount #${discount.id}');
     }
   }
 

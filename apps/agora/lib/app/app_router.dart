@@ -1,6 +1,7 @@
 import 'package:agora/app/app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:feature_auth/feature_auth.dart';
+import 'package:feature_inventory/feature_inventory.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
@@ -28,9 +29,11 @@ class AppRouter extends RootStackRouter {
       children: [
         AutoRoute(page: PosRoute.page),
         AutoRoute(page: OrdersRoute.page),
+        AutoRoute(page: OrderDetailRoute.page),
         AutoRoute(page: ReportRoute.page),
         AutoRoute(page: SettingsRoute.page),
         AutoRoute(page: ProductsRoute.page),
+        AutoRoute(page: InventoryRoute.page),
         AutoRoute(page: EmployeesRoute.page),
         AutoRoute(page: ClockRecordsRoute.page),
       ],

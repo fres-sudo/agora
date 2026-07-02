@@ -3,6 +3,7 @@ import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
 import 'package:feature_orders/domain/models/order.dart';
 import 'package:feature_orders/domain/mappers/order_receipt_mapper.dart';
+import 'package:feature_orders/presentation/routes/orders_router.dart';
 import 'package:feature_orders/presentation/utils/receipt_config_builder.dart';
 import 'package:feature_settings/feature_settings.dart';
 import 'package:auto_route/auto_route.dart';
@@ -37,6 +38,12 @@ class _OrdersPageState extends State<OrdersPage> {
   void dispose() {
     _tableController.dispose();
     super.dispose();
+  }
+
+  void _openDetail(BuildContext context, Order order) {
+    final id = order.id;
+    if (id == null) return;
+    context.router.push(OrderDetailRoute(orderId: id));
   }
 
   /// Re-renders [order] and sends it to the configured printer (P2-3).
@@ -197,9 +204,11 @@ class _OrdersPageState extends State<OrdersPage> {
                 onFilter: () => _showFilterDialog(context, state),
                 onAdd: () =>
                     context.read<OrdersBloc>().add(const OrdersEvent.refresh()),
+                onRowTap: (order) => _openDetail(context, order),
                 onRowAction: (order, action) async {
                   switch (action) {
                     case DataTableRowAction.edit:
+                      _openDetail(context, order);
                       break;
                     case DataTableRowAction.reprint:
                       await _reprint(order);

@@ -4,6 +4,7 @@ import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.da
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:feature_inventory/presentation/blocs/inventory/inventory_bloc.dart';
+import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adjustment_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:talker/talker.dart';
 
@@ -24,9 +25,12 @@ class InventoryFeature {
         stockMovementsDao: ctx.read(),
       ),
     ),
-    // BLoC
+    // BLoCs
     BlocProvider<InventoryBloc>(
       create: (ctx) => InventoryBloc(inventoryRepository: ctx.read()),
+    ),
+    BlocProvider<StockAdjustmentCubit>(
+      create: (ctx) => StockAdjustmentCubit(inventoryRepository: ctx.read()),
     ),
   ];
 }

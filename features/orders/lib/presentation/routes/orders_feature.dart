@@ -8,6 +8,7 @@ import 'package:feature_orders/domain/repositories/orders_repository.dart';
 import 'package:feature_orders/presentation/blocs/active_order/active_order_bloc.dart';
 import 'package:feature_orders/presentation/blocs/checkout/checkout_cubit.dart';
 import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
+import 'package:feature_discounts/domain/repositories/discounts_repository.dart';
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:feature_products/domain/repositories/products_repository.dart';
 import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
@@ -56,6 +57,7 @@ class OrdersFeature {
         ordersRepository: ctx.read(),
         inventoryRepository: ctx.read<InventoryRepository>(),
         productsRepository: ctx.read<ProductsRepository>(),
+        discountsRepository: ctx.read<DiscountsRepository>(),
         printerService: ctx.read<PrinterService>(),
         logger: ctx.read<Talker>(),
       ),

@@ -3,6 +3,15 @@ import 'package:drift/drift.dart';
 
 part 'stocks_dao.g.dart';
 
+/// A product paired with its current stock level, produced by
+/// [StocksDao.watchStockLevels] (products ⋈ stocks).
+typedef StockLevelRow = ({
+  int productId,
+  String name,
+  int quantity,
+  bool trackStock,
+});
+
 @DriftAccessor(tables: [StocksTable, ProductsTable])
 class StocksDao extends DatabaseAccessor<AgoraDatabase> with _$StocksDaoMixin {
   StocksDao(super.db);
@@ -53,6 +62,37 @@ class StocksDao extends DatabaseAccessor<AgoraDatabase> with _$StocksDaoMixin {
       ..where(stocksTable.deletedAt.isNull());
     final result = await query.getSingle();
     return result.read(count) ?? 0;
+  }
+
+  /// Watches every product joined with its current stock level.
+  ///
+  /// Left-joins so products without a stock row still appear (quantity 0).
+  /// Reads the shared `ProductsTable` directly (already declared on this
+  /// accessor) so the inventory feature never depends on `feature_products`.
+  Stream<List<StockLevelRow>> watchStockLevels() {
+    final query =
+        select(productsTable).join([
+          leftOuterJoin(
+            stocksTable,
+            stocksTable.productId.equalsExp(productsTable.id) &
+                stocksTable.deletedAt.isNull(),
+          ),
+        ])
+          ..where(productsTable.deletedAt.isNull())
+          ..orderBy([OrderingTerm.asc(productsTable.name)]);
+
+    return query.watch().map(
+      (rows) => rows.map((row) {
+        final product = row.readTable(productsTable);
+        final stock = row.readTableOrNull(stocksTable);
+        return (
+          productId: product.id,
+          name: product.name,
+          quantity: stock?.quantity ?? 0,
+          trackStock: product.trackStock,
+        );
+      }).toList(),
+    );
   }
 
   /// Watches stocks with low quantity (below threshold).

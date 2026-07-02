@@ -3,6 +3,16 @@ import 'package:result/result.dart';
 /// A stock record with product ID and quantity.
 typedef Stock = ({int productId, int quantity});
 
+/// A product paired with its current stock level (name + quantity + tracking).
+/// Used by the inventory management UI, which needs product names alongside
+/// quantities without depending on `feature_products`.
+typedef StockLevel = ({
+  int productId,
+  String name,
+  int quantity,
+  bool trackStock,
+});
+
 /// A stock movement record.
 typedef StockMovement = ({
   int id,
@@ -23,6 +33,10 @@ abstract interface class InventoryRepository {
 
   /// Watches all stock records.
   Stream<List<Stock>> watchAllStocks();
+
+  /// Watches every product joined with its current stock level (name +
+  /// quantity + whether it's stock-tracked). Backs the inventory page.
+  Stream<List<StockLevel>> watchStockLevels();
 
   /// Watches stock for a specific product.
   Stream<Stock?> watchStockByProductId(int productId);
