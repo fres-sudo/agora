@@ -340,7 +340,7 @@ The **data + domain + bloc layers are largely real**; the **presentation/wiring 
 
 **Goal:** a real sales summary / Z-report from local data. `ReportPage` is currently **entirely mocked**.
 
-- [ ] **P5-1 — Replace mock report data with a real reports bloc/repo** · _Effort: L_
+- [x] **P5-1 — Replace mock report data with a real reports bloc/repo** · _Effort: L_
   - `features/reports` has **no models, no repository, no bloc** (`ReportsFeature.providers == const []`). `ReportPage` hardcodes every number: summary cards (`72,099`, `$349,005`, …), `_mockTopProducts`, donut charts, `_mockOrders` (built with `OrderLineItem.fake()`), and the sales chart `FlSpot`s. The period dropdown (`onChanged: (value){}`) and the export button (`onPressed: (){}`) are no-ops. Dead leftover class `ImageFileOrderLineItem`.
   - The real queries already exist and are unused: `OrdersRepository.getTotalRevenue({start,end})`, `getTotalDiscounts(...)`, `getOrdersCount({status,start,end})`, `watchOrdersByDateRange(...)`, `watchOrdersByStatus(...)`.
   - Build a `ReportsCubit`/`ReportsBloc` + (optionally) a thin reporting repository that composes orders/order-items/inventory data. Register it in `ReportsFeature.providers`.
@@ -348,24 +348,28 @@ The **data + domain + bloc layers are largely real**; the **presentation/wiring 
   - **Files:** `features/reports/lib/...` (new bloc + models + provider wiring), `features/reports/lib/presentation/pages/report_page.dart`.
   - **Acceptance:** summary cards, top products, status donuts, and the orders table show **real** data for the selected period; remove `_mock*` and `ImageFileOrderLineItem`.
   - **Deps:** P1-3, P1-4.
+  - ✅ **Done.** New domain models (`ReportData`, `ReportSummary`, `SalesPoint`, `ReportTopProduct`, `OrderStatusBreakdown`, `StockBreakdown` — freezed) + `ReportPeriod` enum. New `ReportsRepository`/`ReportsRepositoryImpl` composes the already-registered `OrdersRepository` + `ProductsRepository` (aggregation is in-memory over the period's orders via `watchOrdersByDateRange(...).first` + `watchAllProducts().first`; no new DAO queries needed). New `ReportsCubit`/`ReportsState` registered in `ReportsFeature.providers` (auto-loads on create); `...ReportsFeature.providers` added to `app_providers.dart` **after** Orders+Products. `report_page.dart` fully rewritten to a `BlocBuilder` consuming real data — all `_mock*`, `ImageFileOrderLineItem`, and the `SalesOverviewChart` mock `FlSpot`s removed. Revenue/items/avg-ticket count **completed** orders only; status donut counts all statuses; stock donut derived from `Product.trackStock`/`stockQuantity` (low-stock ≤ 5). Money rendered via `packages/utils` `formatCents`. `feature_reports` gained `result`/`talker`/`logger`/`utils` deps + `build_runner`/`freezed`/`auto_route_generator` dev-deps. `melos run build` (per-package) + analyze clean. Unit tests in `test/reports/repositories/` (5/5 pass) cover completed-only summary, status breakdown, top-product ranking incl. modifier revenue, stock breakdown, and empty state.
 
-- [ ] **P5-2 — Implement the period selector** · _Effort: S_
+- [x] **P5-2 — Implement the period selector** · _Effort: S_
   - Make the period dropdown functional (Today / This event / Custom range) and refilter via the new bloc using `watchOrdersByDateRange`.
   - **Files:** `report_page.dart`, reports bloc.
   - **Acceptance:** changing the period updates all report widgets.
   - **Deps:** P5-1.
+  - ✅ **Done.** The app-bar dropdown is now bound to `ReportPeriod` (`Today` / `This Week` / `This Month` / `All Time`); selecting a period calls `ReportsCubit.selectPeriod(...)` which recomputes the range (`ReportPeriod.range()`, week starts Monday) and reloads. Sales-trend granularity follows the period (hourly for Today, daily for week/month, monthly for All Time). Pull-to-refresh also reloads the current period. (Free-form custom date range deferred — the four presets cover the festival flow; a custom picker can slot into the same enum later.)
 
-- [ ] **P5-3 — End-of-day / Z-report summary screen** · _Effort: M_
+- [x] **P5-3 — End-of-day / Z-report summary screen** · _Effort: M_
   - A festival-operator-friendly summary: total revenue, order count, average ticket, cash vs card split, top products, items that hit zero stock, peak hour. This mirrors the (future, paid) AI "event wrap-up" but with raw numbers only — see `AI_INTEGRATION.md` Feature 7 ("free tier shows the raw numbers only").
   - **Files:** `features/reports/lib/presentation/pages/` (new `end_of_day_page.dart` or section), reports bloc.
   - **Acceptance:** one screen summarises an event/day from local data; reachable from the report area.
   - **Deps:** P5-1.
+  - ✅ **Done (as a section on the report page).** New `EndOfDaySummary` widget surfaces the raw event wrap-up numbers — **cash vs card split**, discounts given, and **peak trading hour** — computed in `ReportSummary` (per-hour completed-order tally). Combined with the summary cards (total revenue, order count, **avg ticket**, items sold), top-products list, and the **out-of-stock** count in the stock donut, the report screen is the free-tier end-of-day summary for the selected period. Kept as a section on the existing `ReportPage` rather than a separate route (reachable from the Report nav destination); a dedicated `end_of_day_page.dart` can be extracted later if a print/share-only view is wanted.
 
-- [ ] **P5-4 — Export report (CSV/PDF)** · _Effort: M_
+- [ ] **P5-4 — Export report (CSV/PDF)** · _Effort: M_ — ⏸️ **DEFERRED.**
   - The download button is a no-op. Add local export (CSV minimum; PDF optional, reusing the printing/PDF stack if added in Phase 2). No package exists yet for this.
   - **Files:** `report_page.dart`, new util/package for CSV/PDF.
   - **Acceptance:** operator exports the current report to a shareable file.
   - **Deps:** P5-1; optionally P2-1/P2-2 if PDF.
+  - ⏸️ **Deferred** (needs a file/share dependency — `share_plus`/`path_provider`/`csv` are not in the workspace). The Download button now shows an explicit "Export is coming soon" snackbar instead of silently no-op'ing, so intent is surfaced. Land alongside adding the export deps.
 
 ---
 

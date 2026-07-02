@@ -222,6 +222,8 @@ dependencies:
     path: features/pos
   feature_products:
     path: features/products
+  feature_reports:
+    path: features/reports
   feature_settings:
     path: features/settings
   flutter:

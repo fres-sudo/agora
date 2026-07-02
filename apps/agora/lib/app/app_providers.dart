@@ -8,6 +8,7 @@ import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_inventory/presentation/routes/inventory_feature.dart';
 import 'package:feature_orders/presentation/routes/orders_feature.dart';
 import 'package:feature_products/presentation/routes/products_feature.dart';
+import 'package:feature_reports/presentation/routes/reports_feature.dart';
 import 'package:feature_settings/presentation/routes/settings_feature.dart';
 import 'package:feature_workforce/presentation/routes/workforce_feature.dart';
 import 'package:flutter/widgets.dart';
@@ -165,4 +166,5 @@ List<SingleChildWidget> _buildProviders({
   ...ProductsFeature.providers,
   ...OrdersFeature.providers,
   ...DiscountsFeature.providers,
+  ...ReportsFeature.providers, // must be after Orders + Products (reads both)
 ];

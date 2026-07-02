@@ -20,10 +20,20 @@ dependencies:
     sdk: flutter
   i18n:
     path: ../../packages/i18n
+  logger:
+    path: ../../packages/logger
+  result:
+    path: ../../packages/result
+  talker: ^5.1.9
   theme: ^0.0.0
   ui_kit:
     path: ../../packages/ui_kit
+  utils:
+    path: ../../packages/utils
 
 dev_dependencies:
+  auto_route_generator: ^10.2.6
+  build_runner: ^2.4.7
   flutter_test:
     sdk: flutter
+  freezed: ^3.2.3
