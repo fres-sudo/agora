@@ -28,10 +28,10 @@ class PosProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Material(
-      color: Colors.white,
+      color: colors.card,
       borderRadius: BorderRadius.circular(12),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -39,8 +39,8 @@ class PosProductCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: quantityInCart > 0
-                ? Border.all(color: AppPalette.primary500, width: 2)
-                : Border.all(color: AppPalette.neutral200, width: 1),
+                ? Border.all(color: colors.primary, width: 2)
+                : Border.all(color: colors.border, width: 1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -54,7 +54,7 @@ class PosProductCard extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: AppPalette.neutral100,
+                        color: colors.muted,
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(12),
                         ),
@@ -63,7 +63,7 @@ class PosProductCard extends StatelessWidget {
                         child: Icon(
                           Icons.fastfood_outlined,
                           size: 48,
-                          color: AppPalette.neutral300,
+                          color: colors.mutedForeground,
                         ),
                       ),
                     ),
@@ -84,12 +84,8 @@ class PosProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Product name
-                    Text(
+                    AppText.titleMd(
                       product.name,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppPalette.neutral800,
-                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -97,20 +93,13 @@ class PosProductCard extends StatelessWidget {
                     // Price row
                     Row(
                       children: [
-                        Text(
+                        AppText.body(
                           '$currencySymbol ${(product.priceCents / 100).toStringAsFixed(2)}',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: AppPalette.neutral600,
-                          ),
+                          color: colors.mutedForeground,
                         ),
                         if (quantityInCart > 0) ...[
                           const SizedBox(width: 8),
-                          Text(
-                            'x',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: AppPalette.neutral400,
-                            ),
-                          ),
+                          AppText.bodySm('x', color: colors.mutedForeground),
                           const SizedBox(width: 4),
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -118,15 +107,12 @@ class PosProductCard extends StatelessWidget {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: AppPalette.primary500,
+                              color: colors.primary,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(
+                            child: AppText.label(
                               '$quantityInCart',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              color: colors.primaryForeground,
                             ),
                           ),
                         ],
@@ -150,19 +136,14 @@ class _QuantityBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppPalette.primary500,
+        color: colors.primary,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(
-        '$quantity',
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child: AppText.label('$quantity', color: colors.primaryForeground),
     );
   }
 }

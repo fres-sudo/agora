@@ -60,10 +60,10 @@ class _DiscountSheetState extends State<DiscountSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Material(
-      color: theme.scaffoldBackgroundColor,
+      color: colors.background,
       borderRadius: const BorderRadius.vertical(top: Radius.circular(Sizes.lg)),
       child: SafeArea(
         top: false,
@@ -85,17 +85,12 @@ class _DiscountSheetState extends State<DiscountSheet> {
                     height: 4,
                     margin: const EdgeInsets.only(bottom: Sizes.md),
                     decoration: BoxDecoration(
-                      color: AppPalette.neutral300,
+                      color: colors.border,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
                 ),
-                Text(
-                  'Apply Discount',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                const AppText.headingSm('Apply Discount'),
                 const SizedBox(height: Sizes.md),
 
                 // Voucher code entry.
@@ -103,25 +98,19 @@ class _DiscountSheetState extends State<DiscountSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: TextField(
+                      child: AppTextField(
                         controller: _codeController,
+                        label: 'Voucher code',
                         textInputAction: TextInputAction.done,
                         textCapitalization: TextCapitalization.characters,
-                        decoration: const InputDecoration(
-                          labelText: 'Voucher code',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.confirmation_number_outlined),
-                        ),
+                        prefix: const Icon(Icons.confirmation_number_outlined),
                         onSubmitted: (_) => _applyCode(),
                       ),
                     ),
                     const SizedBox(width: Sizes.sm),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: AppButton.primary(
-                        label: 'Apply',
-                        onPressed: _applyCode,
-                      ),
+                    AppButton.primary(
+                      label: 'Apply',
+                      onPressed: _applyCode,
                     ),
                   ],
                 ),
@@ -139,18 +128,16 @@ class _DiscountSheetState extends State<DiscountSheet> {
                       padding: const EdgeInsets.only(top: Sizes.sm),
                       child: Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.error_outline,
-                            color: AppPalette.error500,
+                            color: colors.destructive,
                             size: 18,
                           ),
                           const SizedBox(width: Sizes.xs),
                           Expanded(
-                            child: Text(
+                            child: AppText.bodySm(
                               message,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: AppPalette.error500,
-                              ),
+                              color: colors.destructive,
                             ),
                           ),
                         ],
@@ -160,12 +147,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                 ),
 
                 const SizedBox(height: Sizes.lg),
-                Text(
-                  'Active discounts',
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                const AppText.titleMd('Active discounts'),
                 const SizedBox(height: Sizes.sm),
 
                 // Selectable list of valid active discounts.
@@ -181,12 +163,10 @@ class _DiscountSheetState extends State<DiscountSheet> {
                           padding: const EdgeInsets.symmetric(
                             vertical: Sizes.lg,
                           ),
-                          child: Text(
+                          child: AppText.body(
                             'No active discounts. Create one in '
                             'Settings → Discount & Voucher.',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: AppPalette.neutral500,
-                            ),
+                            color: colors.mutedForeground,
                           ),
                         );
                       }
@@ -233,13 +213,13 @@ class _DiscountTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final valueLabel = discount.isPercentage
         ? '${discount.value}%'
         : formatCents(discount.value);
 
     return Material(
-      color: Colors.white,
+      color: colors.card,
       borderRadius: BorderRadius.circular(Sizes.md),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -247,43 +227,27 @@ class _DiscountTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(Sizes.md),
           decoration: BoxDecoration(
-            border: Border.all(color: AppPalette.neutral200),
+            border: Border.all(color: colors.border),
             borderRadius: BorderRadius.circular(Sizes.md),
           ),
           child: Row(
             children: [
-              const Icon(
-                Icons.local_offer_outlined,
-                color: AppPalette.primary500,
-              ),
+              Icon(Icons.local_offer_outlined, color: colors.primary),
               const SizedBox(width: Sizes.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      discount.name,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    AppText.titleMd(discount.name),
                     if (discount.code != null)
-                      Text(
+                      AppText.bodySm(
                         discount.code!,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: AppPalette.neutral500,
-                        ),
+                        color: colors.mutedForeground,
                       ),
                   ],
                 ),
               ),
-              Text(
-                '-$valueLabel',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppPalette.primary500,
-                ),
-              ),
+              AppText.titleMd('-$valueLabel', color: colors.primary),
             ],
           ),
         ),

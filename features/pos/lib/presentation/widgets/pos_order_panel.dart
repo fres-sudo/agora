@@ -65,27 +65,21 @@ class PosOrderPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final currencySymbol =
         context.watch<SettingsCubit>().getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
 
     return Container(
-      color: Colors.white,
+      color: colors.card,
       child: Column(
         children: [
-          const Divider(height: 1, color: AppPalette.neutral200),
+          Divider(height: 1, color: colors.border),
           // Order Details header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                'Order Details',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppPalette.neutral800,
-                ),
-              ),
+              child: AppText.titleMd('Order Details'),
             ),
           ),
           // Order type selector
@@ -118,7 +112,7 @@ class PosOrderPanel extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: AppPalette.neutral200)),
+              border: Border(top: BorderSide(color: colors.border)),
             ),
             child: Column(
               children: [
@@ -144,16 +138,7 @@ class PosOrderPanel extends StatelessWidget {
                   onPressed: _hasItems ? onProcessTransaction : null,
                   label: 'Process Transaction',
                   fullWidth: true,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: _hasItems
-                        ? AppPalette.primary500
-                        : AppPalette.neutral300,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  size: AppButtonSize.lg,
                 ),
               ],
             ),
@@ -181,7 +166,7 @@ class _DiscountRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final discount = appliedDiscount;
 
     if (discount == null) {
@@ -202,33 +187,30 @@ class _DiscountRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppPalette.primary500.withValues(alpha: 0.08),
+        color: colors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.local_offer_outlined,
             size: 18,
-            color: AppPalette.primary500,
+            color: colors.primary,
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
+            child: AppText.titleMd(
               '${discount.name} ($valueLabel)',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: AppPalette.primary700,
-              ),
+              color: colors.primary,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           InkWell(
             onTap: onRemoveDiscount,
             borderRadius: BorderRadius.circular(12),
-            child: const Padding(
-              padding: EdgeInsets.all(4),
-              child: Icon(Icons.close, size: 18, color: AppPalette.neutral500),
+            child: Padding(
+              padding: const EdgeInsets.all(4),
+              child: Icon(Icons.close, size: 18, color: colors.mutedForeground),
             ),
           ),
         ],
@@ -280,14 +262,6 @@ class _OrderItemsList extends StatelessWidget {
               onPressed: onClearAll,
               label: 'Clear All Order',
               fullWidth: true,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppPalette.neutral600,
-                side: const BorderSide(color: AppPalette.neutral300),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
             ),
           ),
         ),

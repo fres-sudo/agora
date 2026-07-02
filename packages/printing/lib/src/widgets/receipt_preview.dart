@@ -1,3 +1,7 @@
+// A receipt is physical monochrome paper: it is intentionally black-on-white
+// with a fixed monospace layout and must NOT follow the app's light/dark theme,
+// so the design-system rules do not apply to this preview.
+// ignore_for_file: prefer_app_text, avoid_hardcoded_colors, avoid_hardcoded_text_styles
 import 'package:flutter/material.dart';
 
 import '../models/receipt.dart';

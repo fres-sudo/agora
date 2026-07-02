@@ -23,7 +23,7 @@ class PosOrderTypeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppPalette.neutral100,
+        color: context.colors.muted,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -61,7 +61,7 @@ class _OrderTypeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return GestureDetector(
       onTap: onTap,
@@ -69,21 +69,21 @@ class _OrderTypeTab extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: isSelected ? AppPalette.primary500 : Colors.transparent,
-              width: 3,
-            ),
-          ),
+          border: isSelected
+              ? Border(bottom: BorderSide(color: colors.primary, width: 3))
+              : null,
         ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? AppPalette.neutral800 : AppPalette.neutral500,
-          ),
-        ),
+        child: isSelected
+            ? AppText.titleMd(
+                label,
+                textAlign: TextAlign.center,
+                color: colors.foreground,
+              )
+            : AppText.body(
+                label,
+                textAlign: TextAlign.center,
+                color: colors.mutedForeground,
+              ),
       ),
     );
   }

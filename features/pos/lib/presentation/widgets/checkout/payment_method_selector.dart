@@ -79,14 +79,14 @@ class _MethodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final color = isSelected ? AppPalette.primary500 : AppPalette.neutral300;
-    final foreground = isSelected ? AppPalette.primary500 : AppPalette.neutral600;
+    final colors = context.colors;
+    final borderColor = isSelected ? colors.primary : colors.border;
+    final foreground = isSelected ? colors.primary : colors.mutedForeground;
+    final fill = isSelected ? colors.primary.withValues(alpha: 0.08) : null;
 
     return Material(
-      color: isSelected
-          ? AppPalette.primary500.withValues(alpha: 0.08)
-          : Colors.transparent,
+      color: fill,
+      type: fill == null ? MaterialType.transparency : MaterialType.canvas,
       borderRadius: BorderRadius.circular(Sizes.md),
       child: InkWell(
         borderRadius: BorderRadius.circular(Sizes.md),
@@ -94,20 +94,14 @@ class _MethodTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: Sizes.md),
           decoration: BoxDecoration(
-            border: Border.all(color: color, width: isSelected ? 2 : 1),
+            border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
             borderRadius: BorderRadius.circular(Sizes.md),
           ),
           child: Column(
             children: [
               Icon(_icon, color: foreground),
               const SizedBox(height: Sizes.xs),
-              Text(
-                method.label,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: foreground,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                ),
-              ),
+              AppText.label(method.label, color: foreground),
             ],
           ),
         ),

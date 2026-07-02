@@ -34,8 +34,9 @@ class PosOrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final hasItems = grandTotalCents > 0;
+    final valueColor = hasItems ? colors.foreground : colors.mutedForeground;
 
     return Column(
       children: [
@@ -43,41 +44,32 @@ class PosOrderSummary extends StatelessWidget {
         _SummaryRow(
           label: 'Subtotal',
           value: _formatCents(subtotalCents),
-          valueColor: hasItems ? AppPalette.neutral800 : AppPalette.neutral400,
+          valueColor: valueColor,
         ),
         const SizedBox(height: 8),
         // Tax row
         _SummaryRow(
           label: 'Tax',
           value: _formatCents(taxCents),
-          valueColor: hasItems ? AppPalette.neutral800 : AppPalette.neutral400,
+          valueColor: valueColor,
         ),
         const SizedBox(height: 8),
         // Voucher/Discount row
         _SummaryRow(
           label: 'Voucher',
           value: _formatCents(discountCents),
-          valueColor: hasItems ? AppPalette.neutral800 : AppPalette.neutral400,
+          valueColor: valueColor,
         ),
         const SizedBox(height: 12),
-        const Divider(height: 1, color: AppPalette.neutral200),
+        Divider(height: 1, color: colors.border),
         const SizedBox(height: 12),
         // Total row (emphasized)
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Total',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: AppPalette.neutral600,
-              ),
-            ),
-            Text(
+            AppText.body('Total', color: colors.mutedForeground),
+            AppText.headingSm(
               '$currencySymbol ${(grandTotalCents / 100).toStringAsFixed(2)}',
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppPalette.neutral800,
-              ),
             ),
           ],
         ),
@@ -99,21 +91,11 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: AppPalette.neutral500,
-          ),
-        ),
-        Text(
-          value,
-          style: theme.textTheme.bodyMedium?.copyWith(color: valueColor),
-        ),
+        AppText.body(label, color: context.colors.mutedForeground),
+        AppText.body(value, color: valueColor),
       ],
     );
   }

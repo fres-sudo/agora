@@ -119,11 +119,11 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final total = widget.product.priceCents + _extraCents;
 
     return Material(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: colors.background,
       borderRadius: const BorderRadius.vertical(top: Radius.circular(Sizes.lg)),
       child: SafeArea(
         top: false,
@@ -139,17 +139,12 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                   height: 4,
                   margin: const EdgeInsets.only(bottom: Sizes.md),
                   decoration: BoxDecoration(
-                    color: AppPalette.neutral300,
+                    color: colors.border,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
               ),
-              Text(
-                widget.product.name,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              AppText.headingSm(widget.product.name),
               const SizedBox(height: Sizes.md),
               Flexible(
                 child: SingleChildScrollView(
@@ -184,14 +179,8 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Total', style: theme.textTheme.titleMedium),
-                  Text(
-                    formatCents(total),
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppPalette.primary500,
-                    ),
-                  ),
+                  const AppText.titleMd('Total'),
+                  AppText.headingSm(formatCents(total), color: colors.primary),
                 ],
               ),
               const SizedBox(height: Sizes.md),
@@ -231,24 +220,17 @@ class _ModifierGroupSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: Sizes.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            group.name,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
+          AppText.titleMd(group.name),
+          AppText.bodySm(
             group.isMultiSelect ? 'Choose any' : 'Choose one',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: AppPalette.neutral500,
-            ),
+            color: colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.xs),
           if (group.isMultiSelect)
@@ -260,14 +242,12 @@ class _ModifierGroupSection extends StatelessWidget {
                 value: multiSelectedIds.contains(option.id),
                 onChanged: (selected) =>
                     onMultiToggled(option.id, selected ?? false),
-                title: Text(option.name),
+                title: AppText.body(option.name),
                 secondary: option.priceChangeCents == 0
                     ? null
-                    : Text(
+                    : AppText.body(
                         '+${formatCents(option.priceChangeCents)}',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: AppPalette.neutral500,
-                        ),
+                        color: colors.mutedForeground,
                       ),
               ),
             )
@@ -285,14 +265,12 @@ class _ModifierGroupSection extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         controlAffinity: ListTileControlAffinity.leading,
                         value: option.id,
-                        title: Text(option.name),
+                        title: AppText.body(option.name),
                         secondary: option.priceChangeCents == 0
                             ? null
-                            : Text(
+                            : AppText.body(
                                 '+${formatCents(option.priceChangeCents)}',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: AppPalette.neutral500,
-                                ),
+                                color: colors.mutedForeground,
                               ),
                       ),
                     )

@@ -104,16 +104,20 @@ class _PosPageState extends State<PosPage> {
           SnackBar(
             content: Row(
               children: [
-                const Icon(Icons.check_circle, color: Colors.white),
+                Icon(
+                  Icons.check_circle,
+                  color: context.colors.successForeground,
+                ),
                 const SizedBox(width: Sizes.sm),
-                Text(
+                AppText.body(
                   completedOrder.id != null
                       ? 'Order #${completedOrder.id} completed'
                       : 'Order completed',
+                  color: context.colors.successForeground,
                 ),
               ],
             ),
-            backgroundColor: AppPalette.success700,
+            backgroundColor: context.colors.success,
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -171,8 +175,11 @@ class _PosPageState extends State<PosPage> {
             ..clearSnackBars()
             ..showSnackBar(
               SnackBar(
-                content: Text(effect.message),
-                backgroundColor: AppPalette.error500,
+                content: AppText.body(
+                  effect.message,
+                  color: context.colors.destructiveForeground,
+                ),
+                backgroundColor: context.colors.destructive,
                 behavior: SnackBarBehavior.floating,
               ),
             );
@@ -228,7 +235,7 @@ class _PosPageState extends State<PosPage> {
         spacing: Sizes.sm,
         children: [
           Image.asset('assets/brand/logo.png', width: 32, height: 32),
-          const Text('agora'),
+          const AppText.titleLg('agora'),
         ],
       ),
       actions: [
@@ -252,21 +259,17 @@ class _PosPageState extends State<PosPage> {
                       top: 8,
                       child: Container(
                         padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: AppPalette.primary500,
+                        decoration: BoxDecoration(
+                          color: context.colors.primary,
                           shape: BoxShape.circle,
                         ),
                         constraints: const BoxConstraints(
                           minWidth: 16,
                           minHeight: 16,
                         ),
-                        child: Text(
+                        child: AppText.caption(
                           '${state.itemCount}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          color: context.colors.primaryForeground,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -572,25 +575,25 @@ class _CategoryChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppPalette.primary500 : Colors.white,
+          color: isSelected ? colors.primary : colors.card,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? AppPalette.primary500 : AppPalette.neutral300,
+            color: isSelected ? colors.primary : colors.border,
           ),
         ),
         child: Center(
-          child: Text(
-            label,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: isSelected ? Colors.white : AppPalette.neutral600,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
+          child: isSelected
+              ? AppText.titleMd(
+                  label,
+                  color: colors.primaryForeground,
+                )
+              : AppText.body(label, color: colors.mutedForeground),
         ),
       ),
     );

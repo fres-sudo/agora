@@ -34,7 +34,7 @@ class PosEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Center(
       child: Padding(
@@ -47,13 +47,13 @@ class PosEmptyState extends StatelessWidget {
               width: iconSize * 2,
               height: iconSize * 2,
               decoration: BoxDecoration(
-                color: AppPalette.neutral200,
+                color: colors.muted,
                 shape: BoxShape.circle,
               ),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Icon(icon, size: iconSize, color: AppPalette.neutral400),
+                  Icon(icon, size: iconSize, color: colors.mutedForeground),
                   // Question mark badge
                   Positioned(
                     right: iconSize * 0.15,
@@ -62,17 +62,17 @@ class PosEmptyState extends StatelessWidget {
                       width: iconSize * 0.5,
                       height: iconSize * 0.5,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: colors.card,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppPalette.neutral300,
+                          color: colors.border,
                           width: 2,
                         ),
                       ),
                       child: Icon(
                         Icons.question_mark_rounded,
                         size: iconSize * 0.3,
-                        color: AppPalette.neutral500,
+                        color: colors.mutedForeground,
                       ),
                     ),
                   ),
@@ -81,22 +81,13 @@ class PosEmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             // Title
-            Text(
-              title,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppPalette.neutral800,
-              ),
-              textAlign: TextAlign.center,
-            ),
+            AppText.titleMd(title, textAlign: TextAlign.center),
             // Description
             if (description != null) ...[
               const SizedBox(height: 8),
-              Text(
+              AppText.body(
                 description!,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: AppPalette.neutral500,
-                ),
+                color: colors.mutedForeground,
                 textAlign: TextAlign.center,
               ),
             ],
