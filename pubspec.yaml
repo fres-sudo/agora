@@ -151,9 +151,6 @@ melos:
         hard-coded colors/text styles, prefer AppText/AppTextField/AppButton
         over the raw Material widgets. Runs once at the workspace root.
       run: dart run custom_lint
-      # NOTE: intentionally NOT part of `check`/`ci` yet — there is pre-existing
-      # tech debt to migrate first. Promote it into those gates once the
-      # workspace is clean (or once violations are ratcheted down).
 
     format:
       description: Check formatting of all Dart files (fails if changes needed — use format:fix to apply)
@@ -175,16 +172,18 @@ melos:
 
     # Composite quality gates — steps run sequentially
     check:
-      description: Fast quality gate — format check + lint (no tests)
+      description: Fast quality gate — format check + lint + design-system lint (no tests)
       steps:
         - format
         - lint
+        - lint:design
 
     ci:
-      description: Full CI quality gate — format + lint + test
+      description: Full CI quality gate — format + lint + design-system lint + test
       steps:
         - format
         - lint
+        - lint:design
         - test
 
     # -------------------------------------------------------------------------

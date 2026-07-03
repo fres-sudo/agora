@@ -63,6 +63,9 @@ class _AgoraAppState extends State<AgoraApp> {
     return Banner(
       message: widget.config.flavor.name.toUpperCase(),
       location: BannerLocation.topStart,
+      // Fixed environment-indicator colors (dev = blue, staging = orange) — a
+      // debug banner must read the same regardless of the app theme.
+      // ignore: avoid_hardcoded_colors
       color: widget.config.flavor.isStaging ? Colors.deepOrange : Colors.blue,
       child: content,
     );

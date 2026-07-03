@@ -175,13 +175,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                 children: [
                   Image.asset('assets/brand/logo.png', width: 26, height: 26),
                   const SizedBox(width: 10),
-                  Text(
-                    'agora',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
+                  const AppText.titleLg('agora', color: AppPalette.white),
                   const Spacer(),
                   AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),

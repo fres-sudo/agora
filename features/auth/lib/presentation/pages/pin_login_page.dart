@@ -128,26 +128,18 @@ class _EmployeeSelector extends StatelessWidget {
       children: [
         Image.asset('assets/brand/logo.png', width: 48, height: 48),
         const SizedBox(height: 12),
-        Text(
-          'agora',
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        const AppText.headingMd('agora', color: AppPalette.white),
         const SizedBox(height: 8),
-        Text(
+        const AppText.body(
           'Select your profile to continue',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppPalette.neutral400,
-          ),
+          color: AppPalette.neutral400,
         ),
         const SizedBox(height: 32),
         if (employees.isEmpty)
-          Text(
+          const AppText.body(
             'No employees found.\nPlease set up staff in Settings first.',
+            color: AppPalette.neutral400,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: AppPalette.neutral400),
           )
         else
           Wrap(
@@ -177,20 +169,13 @@ class _AvatarTile extends StatelessWidget {
           CircleAvatar(
             radius: 32,
             backgroundColor: AppPalette.primary100,
-            child: Text(
+            child: AppText.headingLg(
               employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppPalette.primary700,
-              ),
+              color: AppPalette.primary700,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            employee.name,
-            style: const TextStyle(color: Colors.white, fontSize: 13),
-          ),
+          AppText.bodySm(employee.name, color: AppPalette.white),
         ],
       ),
     );
@@ -229,36 +214,22 @@ class _PinPad extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: IconButton(
             onPressed: onBack,
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: AppPalette.white),
           ),
         ),
         const SizedBox(height: 8),
         CircleAvatar(
           radius: 32,
           backgroundColor: AppPalette.primary100,
-          child: Text(
+          child: AppText.headingLg(
             employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppPalette.primary700,
-            ),
+            color: AppPalette.primary700,
           ),
         ),
         const SizedBox(height: 12),
-        Text(
-          employee.name,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        AppText.headingSm(employee.name, color: AppPalette.white),
         const SizedBox(height: 4),
-        const Text(
-          'Enter your PIN',
-          style: TextStyle(color: AppPalette.neutral400, fontSize: 14),
-        ),
+        const AppText.body('Enter your PIN', color: AppPalette.neutral400),
         const SizedBox(height: 24),
         // PIN dots
         Row(
@@ -280,10 +251,7 @@ class _PinPad extends StatelessWidget {
         ),
         if (error != null) ...[
           const SizedBox(height: 12),
-          Text(
-            error!,
-            style: const TextStyle(color: AppPalette.error400, fontSize: 13),
-          ),
+          AppText.bodySm(error!, color: AppPalette.error400),
         ],
         const SizedBox(height: 24),
         GridView.count(
@@ -328,14 +296,7 @@ class _DigitButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: Center(
-          child: Text(
-            digit,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          child: AppText.headingMd(digit, color: AppPalette.white),
         ),
       ),
     );
@@ -355,7 +316,11 @@ class _DeleteButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: const Center(
-          child: Icon(Icons.backspace_outlined, color: Colors.white, size: 22),
+          child: Icon(
+            Icons.backspace_outlined,
+            color: AppPalette.white,
+            size: 22,
+          ),
         ),
       ),
     );

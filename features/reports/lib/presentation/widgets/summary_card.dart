@@ -88,14 +88,7 @@ class SummaryCard extends StatelessWidget {
                         Flexible(
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text(
-                              value,
-                              style: Theme.of(context).textTheme.headlineMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppPalette.neutral900,
-                                  ),
-                            ),
+                            child: AppText.headingMd(value),
                           ),
                         ),
                         const SizedBox(width: Sizes.sm),

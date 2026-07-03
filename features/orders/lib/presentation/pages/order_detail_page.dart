@@ -62,7 +62,9 @@ class _OrderDetailView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(order != null ? 'Order #${order.id ?? '-'}' : 'Order details'),
+            title: AppText.titleLg(
+              order != null ? 'Order #${order.id ?? '-'}' : 'Order details',
+            ),
             actions: [
               if (order != null && order.status != OrderStatus.voided)
                 AppIconButton.ghost(
@@ -76,7 +78,7 @@ class _OrderDetailView extends StatelessWidget {
             loading: (_) => const Center(child: CircularProgressIndicator()),
             initial: (_) => const Center(child: CircularProgressIndicator()),
             orElse: () => order == null
-                ? const Center(child: Text('Order not found'))
+                ? const Center(child: AppText.body('Order not found'))
                 : _OrderBody(order: order),
           ),
           bottomNavigationBar: order == null ||
@@ -148,8 +150,6 @@ class _OrderBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return ListView(
       padding: const EdgeInsets.all(Sizes.lg),
       children: [
@@ -157,17 +157,15 @@ class _OrderBody extends StatelessWidget {
           children: [
             _StatusBadge(status: order.status),
             const Spacer(),
-            Text(
+            AppText.bodySm(
               _formatDateTime(context, order.createdAt),
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: AppPalette.neutral500,
-              ),
+              color: context.colors.mutedForeground,
               textAlign: TextAlign.right,
             ),
           ],
         ),
         const SizedBox(height: Sizes.lg),
-        Text('Items', style: theme.textTheme.titleSmall),
+        const AppText.titleMd('Items'),
         const SizedBox(height: Sizes.sm),
         ...order.items.map((item) => _LineItemTile(item: item)),
         const Divider(height: Sizes.xl),
@@ -202,7 +200,7 @@ class _LineItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final lineTotal =
         (item.unitPriceCents +
             item.selectedModifiers.fold<int>(
@@ -218,40 +216,23 @@ class _LineItemTile extends StatelessWidget {
         children: [
           SizedBox(
             width: 32,
-            child: Text(
-              '${item.quantity}×',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: AppText.titleMd('${item.quantity}×'),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  item.productName,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                AppText.titleMd(item.productName),
                 for (final modifier in item.selectedModifiers)
-                  Text(
+                  AppText.bodySm(
                     '${modifier.groupName}: ${modifier.optionName}'
                     '${modifier.priceChangeCents != 0 ? ' (${formatCents(modifier.priceChangeCents)})' : ''}',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppPalette.neutral500,
-                    ),
+                    color: colors.mutedForeground,
                   ),
               ],
             ),
           ),
-          Text(
-            formatCents(lineTotal),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          AppText.titleMd(formatCents(lineTotal)),
         ],
       ),
     );
@@ -271,18 +252,18 @@ class _TotalRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = emphasized
-        ? theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)
-        : theme.textTheme.bodyMedium?.copyWith(color: AppPalette.neutral600);
+    final colors = context.colors;
+    Widget cell(String text) => emphasized
+        ? AppText.titleMd(text)
+        : AppText.body(text, color: colors.mutedForeground);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: style),
-          Text(formatCents(cents), style: style),
+          cell(label),
+          cell(formatCents(cents)),
         ],
       ),
     );
@@ -297,24 +278,13 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppPalette.neutral500,
-            ),
-          ),
-          Text(
-            value,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          AppText.body(label, color: context.colors.mutedForeground),
+          AppText.titleMd(value),
         ],
       ),
     );
@@ -340,14 +310,7 @@ class _StatusBadge extends StatelessWidget {
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      child: AppText.label(label, color: color),
     );
   }
 }

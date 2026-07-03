@@ -73,7 +73,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
                 onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                 icon: const Icon(Icons.menu_rounded),
               ),
-        title: const Text('Employees'),
+        title: const AppText.titleLg('Employees'),
         actions: context.isTabletOrLarger
             ? const [
                 AppShellOperatorChip(),
@@ -94,7 +94,7 @@ class _EmployeesPageState extends State<EmployeesPage> {
             onDelete: _onDelete,
           ),
           error: (message) => Center(
-            child: Text(message, style: const TextStyle(color: Colors.red)),
+            child: AppText.body(message, color: context.colors.destructive),
           ),
         ),
       ),
@@ -127,27 +127,20 @@ class _EmployeesListState extends State<_EmployeesList> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(Sizes.lg),
           child: Row(
             children: [
-              Text(
-                'Employees',
-                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-              ),
+              const AppText.headingSm('Employees'),
               const Spacer(),
               SizedBox(
                 width: 240,
-                child: TextField(
+                child: AppTextField(
                   onChanged: (v) => setState(() => _search = v),
-                  decoration: const InputDecoration(
-                    hintText: 'Search employees…',
-                    prefixIcon: Icon(Icons.search, size: 20),
-                    isDense: true,
-                  ),
+                  hintText: 'Search employees…',
+                  prefix: const Icon(Icons.search, size: 20),
                 ),
               ),
               const SizedBox(width: 12),
@@ -190,19 +183,19 @@ class _EmployeeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: AppPalette.primary500.withValues(alpha: 0.12),
-        child: Text(
+        child: AppText.titleMd(
           employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-          style: const TextStyle(color: AppPalette.primary500, fontWeight: FontWeight.bold),
+          color: AppPalette.primary500,
         ),
       ),
-      title: Text(employee.name, style: theme.textTheme.bodyLarge),
-      subtitle: Text(
+      title: AppText.body(employee.name),
+      subtitle: AppText.bodySm(
         '${employee.role.label} · ${employee.formattedHourlyRate}',
-        style: theme.textTheme.bodySmall,
+        color: colors.mutedForeground,
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -213,7 +206,7 @@ class _EmployeeTile extends StatelessWidget {
           const SizedBox(width: 8),
           AppIconButton.ghost(icon: const Icon(Icons.edit_outlined, size: 20), onPressed: onEdit),
           AppIconButton.ghost(
-            icon: const Icon(Icons.delete_outline, size: 20, color: Colors.red),
+            icon: Icon(Icons.delete_outline, size: 20, color: colors.destructive),
             onPressed: onDelete,
           ),
         ],
@@ -228,7 +221,7 @@ class _RoleBadge extends StatelessWidget {
 
   Color get _color => switch (role) {
     EmployeeRole.owner => AppPalette.primary500,
-    EmployeeRole.manager => Colors.orange,
+    EmployeeRole.manager => AppPalette.warning500,
     EmployeeRole.cashier => AppPalette.neutral500,
   };
 
@@ -240,10 +233,7 @@ class _RoleBadge extends StatelessWidget {
         color: _color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(
-        role.label,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _color),
-      ),
+      child: AppText.label(role.label, color: _color),
     );
   }
 }
@@ -254,20 +244,18 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: isActive ? Colors.green.withValues(alpha: 0.12) : AppPalette.neutral200,
+        color: isActive
+            ? colors.success.withValues(alpha: 0.12)
+            : colors.muted,
         borderRadius: BorderRadius.circular(12),
       ),
-
-      child: Text(
+      child: AppText.label(
         isActive ? 'Active' : 'Inactive',
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: isActive ? Colors.green.shade700 : AppPalette.neutral500,
-        ),
+        color: isActive ? colors.success : colors.mutedForeground,
       ),
     );
   }
@@ -285,9 +273,9 @@ class _EmptyState extends StatelessWidget {
         children: [
           Icon(Icons.people_outline, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: 16),
-          Text(
+          AppText.titleMd(
             'No employees yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppPalette.neutral500),
+            color: context.colors.mutedForeground,
           ),
           const SizedBox(height: 8),
           AppButton.primary(
