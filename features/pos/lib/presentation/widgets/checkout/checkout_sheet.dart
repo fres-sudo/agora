@@ -3,7 +3,6 @@ import 'package:feature_discounts/domain/models/discount.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
@@ -86,7 +85,6 @@ class _CheckoutBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final cubit = context.read<CheckoutCubit>();
     final method = state.method ?? PaymentMethod.cash;
     final isProcessing = state.isProcessing;
@@ -102,17 +100,12 @@ class _CheckoutBody extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(bottom: Sizes.md),
             decoration: BoxDecoration(
-              color: AppColors.neutral300,
+              color: AppPalette.neutral300,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
         ),
-        Text(
-          'Checkout',
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        const AppText.headingSm('Checkout'),
         const SizedBox(height: Sizes.md),
 
         // Total to pay.
@@ -120,7 +113,7 @@ class _CheckoutBody extends StatelessWidget {
         const SizedBox(height: Sizes.lg),
 
         // Payment method.
-        Text('Payment Method', style: theme.textTheme.titleSmall),
+        const AppText.titleMd('Payment Method'),
         const SizedBox(height: Sizes.sm),
         PaymentMethodSelector(
           selected: method,
@@ -167,7 +160,6 @@ class _ReceiptStage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final cubit = context.read<CheckoutCubit>();
     final receipt = state.receipt;
     final printing = state.printStatus == PrintStatus.printing;
@@ -182,7 +174,7 @@ class _ReceiptStage extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(bottom: Sizes.md),
             decoration: BoxDecoration(
-              color: AppColors.neutral300,
+              color: AppPalette.neutral300,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -190,14 +182,9 @@ class _ReceiptStage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.check_circle, color: AppColors.success700),
+            const Icon(Icons.check_circle, color: AppPalette.success700),
             const SizedBox(width: Sizes.sm),
-            Text(
-              'Payment complete',
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const AppText.headingSm('Payment complete'),
           ],
         ),
         const SizedBox(height: Sizes.lg),
@@ -210,13 +197,13 @@ class _ReceiptStage extends StatelessWidget {
         if (state.printStatus == PrintStatus.printed)
           const _PrintStatusBanner(
             icon: Icons.check_circle_outline,
-            color: AppColors.success700,
+            color: AppPalette.success700,
             message: 'Receipt printed',
           ),
         if (state.printStatus == PrintStatus.failed)
           const _PrintStatusBanner(
             icon: Icons.error_outline,
-            color: AppColors.error500,
+            color: AppPalette.error500,
             message: 'Print failed — the sale is still recorded',
           ),
         if (state.printStatus != PrintStatus.idle)
@@ -268,14 +255,7 @@ class _PrintStatusBanner extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 18),
           const SizedBox(width: Sizes.sm),
-          Expanded(
-            child: Text(
-              message,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: color),
-            ),
-          ),
+          Expanded(child: AppText.body(message, color: color)),
         ],
       ),
     );
@@ -289,24 +269,18 @@ class _TotalRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     return Container(
       padding: const EdgeInsets.all(Sizes.md),
       decoration: BoxDecoration(
-        color: AppColors.neutral200.withValues(alpha: 0.4),
+        color: colors.muted,
         borderRadius: BorderRadius.circular(Sizes.md),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Total', style: theme.textTheme.titleMedium),
-          Text(
-            formatCents(totalCents),
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary500,
-            ),
-          ),
+          const AppText.titleMd('Total'),
+          AppText.headingSm(formatCents(totalCents), color: colors.primary),
         ],
       ),
     );
@@ -320,7 +294,6 @@ class _CashSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final cubit = context.read<CheckoutCubit>();
     final tendered = state.tenderedCents;
     final total = state.totalCents;
@@ -332,13 +305,8 @@ class _CashSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Amount Tendered', style: theme.textTheme.titleSmall),
-            Text(
-              formatCents(tendered),
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            const AppText.titleMd('Amount Tendered'),
+            AppText.headingSm(formatCents(tendered)),
           ],
         ),
         const SizedBox(height: Sizes.sm),
@@ -377,7 +345,7 @@ class _QuickTenderRow extends StatelessWidget {
       children: [
         for (final preset in presets)
           ActionChip(
-            label: Text(preset.label),
+            label: AppText.body(preset.label),
             onPressed: () => onSelected(preset.cents),
           ),
       ],
@@ -415,20 +383,15 @@ class _ErrorBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Sizes.md),
       decoration: BoxDecoration(
-        color: AppColors.error500.withValues(alpha: 0.1),
+        color: AppPalette.error500.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(Sizes.sm),
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error500, size: 20),
+          const Icon(Icons.error_outline, color: AppPalette.error500, size: 20),
           const SizedBox(width: Sizes.sm),
           Expanded(
-            child: Text(
-              message,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: AppColors.error500),
-            ),
+            child: AppText.body(message, color: AppPalette.error500),
           ),
         ],
       ),

@@ -1,6 +1,5 @@
 import 'package:feature_discounts/domain/models/discount.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
@@ -22,7 +21,7 @@ class DiscountListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final valueLabel = discount.isPercentage
         ? '${discount.value}%'
         : formatCents(discount.value);
@@ -36,9 +35,9 @@ class DiscountListItem extends StatelessWidget {
           vertical: Sizes.md,
         ),
         decoration: BoxDecoration(
-          color: AppColors.neutral50,
+          color: colors.card,
           borderRadius: BorderRadius.circular(Sizes.sm),
-          border: Border.all(color: AppColors.neutral200),
+          border: Border.all(color: colors.border),
         ),
         child: Row(
           children: [
@@ -46,13 +45,13 @@ class DiscountListItem extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: colors.card,
                 borderRadius: BorderRadius.circular(Sizes.xs),
-                border: Border.all(color: AppColors.neutral200),
+                border: Border.all(color: colors.border),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.local_offer_outlined,
-                color: AppColors.primary500,
+                color: colors.primary,
                 size: 20,
               ),
             ),
@@ -63,32 +62,16 @@ class DiscountListItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    discount.name,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  AppText.titleMd(discount.name),
                   const SizedBox(height: 2),
-                  Text(
-                    _subtitle(),
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral500,
-                    ),
-                  ),
+                  AppText.bodySm(_subtitle(), color: colors.mutedForeground),
                 ],
               ),
             ),
             const SizedBox(width: Sizes.md),
 
             // Value
-            Text(
-              '-$valueLabel',
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary500,
-              ),
-            ),
+            AppText.titleMd('-$valueLabel', color: colors.primary),
             const SizedBox(width: Sizes.sm),
 
             // Active toggle
@@ -99,7 +82,7 @@ class DiscountListItem extends StatelessWidget {
               onPressed: onDelete,
               icon: const Icon(
                 Icons.delete_outline,
-                color: AppColors.neutral500,
+                color: AppPalette.neutral500,
               ),
               tooltip: 'Delete discount',
             ),

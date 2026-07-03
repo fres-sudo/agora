@@ -1,5 +1,4 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
 import 'package:feature_products/domain/models/category.dart';
@@ -22,7 +21,7 @@ class ProductsPage extends StatelessWidget {
         return state.map(
           initial: (_) => const Center(child: CircularProgressIndicator()),
           loading: (_) => const Center(child: CircularProgressIndicator()),
-          error: (error) => Center(child: Text(error.message)),
+          error: (error) => Center(child: AppText.body(error.message)),
           loaded: (loaded) => _ProductsView(state: loaded),
         );
       },
@@ -38,7 +37,6 @@ class _ProductsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
-    final theme = Theme.of(context);
 
     // Filter products based on search query if needed,
     // though Bloc handles search logic usually.
@@ -48,7 +46,7 @@ class _ProductsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.products.title),
+        title: AppText.titleLg(t.products.title),
         leading: context.isTabletOrLarger
             ? null
             : AppIconButton.ghost(
@@ -84,14 +82,11 @@ class _ProductsView extends StatelessWidget {
             label: t.products.columns.id,
             width: 80,
             cellBuilder: (product) {
-              return Text(
+              return AppText.mono(
                 product.sku?.isNotEmpty == true
                     ? product.sku!
                     : '#${product.id}',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.neutral500,
-                  fontFamily: 'RobotoMono',
-                ),
+                color: context.colors.mutedForeground,
               );
             },
           ),
@@ -124,15 +119,10 @@ class _ProductsView extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.neutral100,
+                  color: context.colors.muted,
                   borderRadius: BorderRadius.circular(Sizes.xs),
                 ),
-                child: Text(
-                  category.name,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral700,
-                  ),
-                ),
+                child: AppText.bodySm(category.name),
               );
             },
           ),
@@ -145,20 +135,14 @@ class _ProductsView extends StatelessWidget {
               final isLowStock = product.stockQuantity <= 10;
               final isOutOfStock = product.stockQuantity <= 0;
 
-              Color color = AppColors.neutral700;
+              Color color = AppPalette.neutral700;
               if (isOutOfStock) {
-                color = AppColors.error500;
+                color = AppPalette.error500;
               } else if (isLowStock) {
-                color = AppColors.warning600;
+                color = AppPalette.warning600;
               }
 
-              return Text(
-                '${product.stockQuantity}',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
+              return AppText.titleMd('${product.stockQuantity}', color: color);
             },
             sortable: true,
           ),
@@ -168,12 +152,7 @@ class _ProductsView extends StatelessWidget {
             width: 100,
             alignment: Alignment.centerRight,
             cellBuilder: (product) {
-              return Text(
-                product.formattedPrice,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-              );
+              return AppText.titleMd(product.formattedPrice);
             },
             sortable: true,
           ),
@@ -224,8 +203,11 @@ class _ProductsView extends StatelessWidget {
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(t.products.messages.product_deleted),
-                    backgroundColor: AppColors.primary500,
+                    content: AppText.body(
+                      t.products.messages.product_deleted,
+                      color: context.colors.primaryForeground,
+                    ),
+                    backgroundColor: context.colors.primary,
                   ),
                 );
               }

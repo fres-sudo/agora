@@ -1,0 +1,14 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  errors:
+    # custom_lint 0.8.1's public API (LintCode.errorSeverity, the ErrorReporter
+    # passed to LintRule.run) is still typed against analyzer's ErrorSeverity /
+    # ErrorReporter, which analyzer 8.4 has begun deprecating in favour of the
+    # Diagnostic* names. We must match the framework signatures, so this
+    # deprecation is expected here and only here.
+    deprecated_member_use: ignore
+
+# This is the lint plugin itself — it must not enable `custom_lint` on its own
+# sources (that would be circular), so it intentionally omits the analyzer
+# plugin the rest of the workspace turns on.

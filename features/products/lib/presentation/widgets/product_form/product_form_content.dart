@@ -1,5 +1,4 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_stepper.dart';
@@ -16,11 +15,11 @@ class ProductFormContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final t = Translations.of(context);
 
     return BlocConsumer<ProductFormCubit, ProductFormState>(
       listener: (context, state) {
+        final colors = context.colors;
         state.mapOrNull(
           success: (s) {
             Navigator.of(context).pop(true);
@@ -28,39 +27,47 @@ class ProductFormContent extends StatelessWidget {
               SnackBar(
                 content: Row(
                   children: [
-                    const Icon(Icons.check_circle, color: Colors.white),
+                    Icon(Icons.check_circle, color: colors.primaryForeground),
                     const SizedBox(width: Sizes.sm),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          AppText.titleMd(
                             s.isNew
                                 ? t.products.messages.product_added
                                 : t.products.messages.product_updated,
-                            style: theme.textTheme.titleSmall?.copyWith(color: Colors.white),
+                            color: colors.primaryForeground,
                           ),
-                          Text(
+                          AppText.bodySm(
                             s.isNew
                                 ? t.products.messages.product_added_desc
                                 : t.products.messages.product_updated_desc,
-                            style: theme.textTheme.bodySmall?.copyWith(color: Colors.white70),
+                            color: colors.primaryForeground.withValues(
+                              alpha: 0.8,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                backgroundColor: AppColors.primary500,
+                backgroundColor: colors.primary,
                 behavior: SnackBarBehavior.floating,
               ),
             );
           },
           error: (e) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(e.message), backgroundColor: AppColors.error500));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: AppText.body(
+                  e.message,
+                  color: colors.destructiveForeground,
+                ),
+                backgroundColor: colors.destructive,
+              ),
+            );
           },
         );
       },
@@ -110,22 +117,15 @@ class _ProductFormHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.sm),
       child: Row(
         children: [
-          Expanded(
-            child: Text(
-              title,
-              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
+          Expanded(child: AppText.headingSm(title)),
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(false),
             icon: const Icon(Icons.close),
-            style: IconButton.styleFrom(foregroundColor: AppColors.neutral500),
+            style: IconButton.styleFrom(foregroundColor: AppPalette.neutral500),
           ),
         ],
       ),

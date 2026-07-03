@@ -3,7 +3,7 @@ import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Segmented selector for the order's [PaymentMethod] (Cash / Card).
 ///
@@ -79,14 +79,14 @@ class _MethodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final color = isSelected ? AppColors.primary500 : AppColors.neutral300;
-    final foreground = isSelected ? AppColors.primary500 : AppColors.neutral600;
+    final colors = context.colors;
+    final borderColor = isSelected ? colors.primary : colors.border;
+    final foreground = isSelected ? colors.primary : colors.mutedForeground;
+    final fill = isSelected ? colors.primary.withValues(alpha: 0.08) : null;
 
     return Material(
-      color: isSelected
-          ? AppColors.primary500.withValues(alpha: 0.08)
-          : Colors.transparent,
+      color: fill,
+      type: fill == null ? MaterialType.transparency : MaterialType.canvas,
       borderRadius: BorderRadius.circular(Sizes.md),
       child: InkWell(
         borderRadius: BorderRadius.circular(Sizes.md),
@@ -94,20 +94,14 @@ class _MethodTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: Sizes.md),
           decoration: BoxDecoration(
-            border: Border.all(color: color, width: isSelected ? 2 : 1),
+            border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
             borderRadius: BorderRadius.circular(Sizes.md),
           ),
           child: Column(
             children: [
               Icon(_icon, color: foreground),
               const SizedBox(height: Sizes.xs),
-              Text(
-                method.label,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  color: foreground,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                ),
-              ),
+              AppText.label(method.label, color: foreground),
             ],
           ),
         ),

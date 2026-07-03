@@ -1,4 +1,7 @@
-import 'package:theme/theme.dart';
+// This form is a category-color picker: the swatches and the contrast colors
+// used to render them are persisted DATA values (a category's color), not app
+// theme tokens, so the hard-coded-color rule does not apply here.
+// ignore_for_file: avoid_hardcoded_colors
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/category.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +41,10 @@ class _CategoryFormState extends State<CategoryForm> {
 
   // Helper list of colors to choose from
   static const List<Color> _availableColors = [
-    AppColors.primary500,
-    AppColors.error500,
-    AppColors.warning500,
-    AppColors.info500,
+    AppPalette.primary500,
+    AppPalette.error500,
+    AppPalette.warning500,
+    AppPalette.info500,
     Colors.purple,
     Colors.pink,
     Colors.teal,
@@ -56,7 +59,7 @@ class _CategoryFormState extends State<CategoryForm> {
     final category = widget.initialCategory;
     _nameController = TextEditingController(text: category?.name ?? '');
     _selectedIcon = category?.icon ?? Icons.fastfood;
-    _selectedColor = category?.color ?? AppColors.primary500;
+    _selectedColor = category?.color ?? AppPalette.primary500;
     _isEnabled = category?.isEnabled ?? true;
   }
 
@@ -91,11 +94,8 @@ class _CategoryFormState extends State<CategoryForm> {
         // Header
         Padding(
           padding: const EdgeInsets.all(24),
-          child: Text(
+          child: AppText.headingSm(
             isEditing ? 'Edit Category' : 'New Category',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -111,40 +111,32 @@ class _CategoryFormState extends State<CategoryForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Name Field
-                  TextFormField(
+                  AppTextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Category Name',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.label_outline),
-                    ),
+                    label: 'Category Name',
+                    prefix: const Icon(Icons.label_outline),
+                    textInputAction: TextInputAction.next,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter a name';
                       }
                       return null;
                     },
-                    textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 24),
 
                   // Enabled Switch
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Enabled'),
-                    subtitle: const Text('Visible in POS'),
+                    title: const AppText.body('Enabled'),
+                    subtitle: const AppText.caption('Visible in POS'),
                     value: _isEnabled,
                     onChanged: (value) => setState(() => _isEnabled = value),
                   ),
                   const SizedBox(height: 24),
 
                   // Icons Section
-                  Text(
-                    'Icon',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const AppText.titleMd('Icon'),
                   const SizedBox(height: 12),
                   Wrap(
                     spacing: 12,
@@ -173,12 +165,7 @@ class _CategoryFormState extends State<CategoryForm> {
                   const SizedBox(height: 24),
 
                   // Colors Section
-                  Text(
-                    'Color',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const AppText.titleMd('Color'),
                   const SizedBox(height: 12),
                   Wrap(
                     spacing: 12,

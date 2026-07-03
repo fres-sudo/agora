@@ -1,3 +1,6 @@
+// The fallback `Colors.blue` is a persisted category-color DATA default written
+// to the database, not a theme token — the hard-coded-color rule does not apply.
+// ignore_for_file: avoid_hardcoded_colors
 import 'package:database/database.dart';
 import 'package:feature_products/domain/models/category.dart';
 import 'package:flutter/material.dart';

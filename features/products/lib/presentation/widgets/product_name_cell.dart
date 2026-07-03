@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A table cell widget displaying product image, name, and description.
@@ -16,8 +16,6 @@ class ProductNameCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       children: [
         // Product Image
@@ -25,7 +23,7 @@ class ProductNameCell extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: AppColors.neutral100,
+            color: AppPalette.neutral100,
             borderRadius: BorderRadius.circular(Sizes.xs),
             image: imageUrl != null && imageUrl!.isNotEmpty
                 ? DecorationImage(
@@ -40,7 +38,7 @@ class ProductNameCell extends StatelessWidget {
               ? Icon(
                   Icons.image_outlined,
                   size: 20,
-                  color: AppColors.neutral400,
+                  color: AppPalette.neutral400,
                 )
               : null,
         ),
@@ -52,21 +50,16 @@ class ProductNameCell extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AppText.titleMd(
                 name,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               if (description != null && description!.isNotEmpty) ...[
                 const SizedBox(height: 2),
-                Text(
+                AppText.bodySm(
                   description!,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral500,
-                  ),
+                  color: context.colors.mutedForeground,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

@@ -1,5 +1,5 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/product_status.dart';
 import 'package:flutter/material.dart';
 
@@ -20,18 +20,18 @@ class ProductStatusBadge extends StatelessWidget {
 
     switch (status) {
       case ProductStatus.active:
-        backgroundColor = AppColors.success100;
-        foregroundColor = AppColors.success700;
+        backgroundColor = AppPalette.success100;
+        foregroundColor = AppPalette.success700;
         label = t.products.status.active;
         break;
       case ProductStatus.inactive:
-        backgroundColor = AppColors.error100;
-        foregroundColor = AppColors.error700;
+        backgroundColor = AppPalette.error100;
+        foregroundColor = AppPalette.error700;
         label = t.products.status.inactive;
         break;
       case ProductStatus.draft:
-        backgroundColor = AppColors.neutral100;
-        foregroundColor = AppColors.neutral700;
+        backgroundColor = AppPalette.neutral100;
+        foregroundColor = AppPalette.neutral700;
         label = t.products.status.draft;
         break;
     }
@@ -42,12 +42,9 @@ class ProductStatusBadge extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(Sizes.xs),
       ),
-      child: Text(
+      child: AppText.label(
         label,
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: foregroundColor,
-          fontWeight: FontWeight.w600,
-        ),
+        color: foregroundColor,
         textAlign: TextAlign.center,
       ),
     );

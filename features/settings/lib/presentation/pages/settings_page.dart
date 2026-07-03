@@ -8,7 +8,6 @@ import 'package:feature_settings/presentation/widgets/receipt_option_section.dar
 import 'package:feature_settings/presentation/widgets/store_setting_section.dart';
 import 'package:feature_settings/presentation/widgets/taxes_section.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -32,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                 icon: const Icon(Icons.menu_rounded),
               ),
-        title: const Text('Settings'),
+        title: const AppText.titleLg('Settings'),
         actions: context.isTabletOrLarger
             ? const [
                 AppShellOperatorChip(),

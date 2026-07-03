@@ -1,4 +1,3 @@
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
 import 'package:feature_orders/domain/models/order.dart';
@@ -57,7 +56,10 @@ class _OrdersPageState extends State<OrdersPage> {
       messenger
         ..clearSnackBars()
         ..showSnackBar(
-          SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+          SnackBar(
+            content: AppText.body(message),
+            behavior: SnackBarBehavior.floating,
+          ),
         );
     }
 
@@ -75,8 +77,6 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BlocConsumer<OrdersBloc, OrdersState>(
       listenWhen: (previous, current) =>
           current.maybeMap(error: (_) => true, orElse: () => false),
@@ -85,8 +85,11 @@ class _OrdersPageState extends State<OrdersPage> {
           error: (error) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(error.message),
-                backgroundColor: AppColors.error500,
+                content: AppText.body(
+                  error.message,
+                  color: context.colors.destructiveForeground,
+                ),
+                backgroundColor: context.colors.destructive,
               ),
             );
           },
@@ -96,7 +99,7 @@ class _OrdersPageState extends State<OrdersPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Orders'),
+            title: const AppText.titleLg('Orders'),
             leading: context.isTabletOrLarger
                 ? null
                 : AppIconButton.ghost(
@@ -137,23 +140,16 @@ class _OrdersPageState extends State<OrdersPage> {
                     id: 'id',
                     label: 'Order #',
                     width: 110,
-                    cellBuilder: (order) => Text(
-                      '#${order.id ?? '-'}',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.neutral700,
-                      ),
-                    ),
+                    cellBuilder: (order) =>
+                        AppText.titleMd('#${order.id ?? '-'}'),
                   ),
                   DataTableColumn(
                     id: 'createdAt',
                     label: 'Date',
                     width: 160,
-                    cellBuilder: (order) => Text(
+                    cellBuilder: (order) => AppText.bodySm(
                       _formatDateTime(context, order.createdAt),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral500,
-                      ),
+                      color: context.colors.mutedForeground,
                     ),
                   ),
                   DataTableColumn(
@@ -167,36 +163,25 @@ class _OrdersPageState extends State<OrdersPage> {
                     label: 'Items',
                     width: 90,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (order) => Text(
-                      order.items.length.toString(),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    cellBuilder: (order) =>
+                        AppText.titleMd(order.items.length.toString()),
                   ),
                   DataTableColumn(
                     id: 'total',
                     label: 'Total',
                     width: 120,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (order) => Text(
-                      _formatCurrency(order.grandTotalCents),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    cellBuilder: (order) =>
+                        AppText.titleMd(_formatCurrency(order.grandTotalCents)),
                   ),
                   DataTableColumn(
                     id: 'note',
                     label: 'Note',
                     flex: 3,
-                    cellBuilder: (order) => Text(
+                    cellBuilder: (order) => AppText.body(
                       order.note?.isNotEmpty == true ? order.note! : '—',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: AppColors.neutral700,
-                      ),
                     ),
                   ),
                 ],
@@ -363,19 +348,19 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
           items: const [
             DropdownMenuItem<OrderStatus?>(
               value: null,
-              child: Text('Any status'),
+              child: AppText.body('Any status'),
             ),
             DropdownMenuItem<OrderStatus?>(
               value: OrderStatus.pending,
-              child: Text('Pending'),
+              child: AppText.body('Pending'),
             ),
             DropdownMenuItem<OrderStatus?>(
               value: OrderStatus.completed,
-              child: Text('Completed'),
+              child: AppText.body('Completed'),
             ),
             DropdownMenuItem<OrderStatus?>(
               value: OrderStatus.voided,
-              child: Text('Voided'),
+              child: AppText.body('Voided'),
             ),
           ],
           onChanged: (value) {
@@ -425,9 +410,9 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      OrderStatus.pending => (AppColors.warning500, 'Pending'),
-      OrderStatus.completed => (AppColors.primary500, 'Completed'),
-      OrderStatus.voided => (AppColors.error500, 'Voided'),
+      OrderStatus.pending => (AppPalette.warning500, 'Pending'),
+      OrderStatus.completed => (AppPalette.primary500, 'Completed'),
+      OrderStatus.voided => (AppPalette.error500, 'Voided'),
     };
 
     return Container(
@@ -436,14 +421,7 @@ class _StatusBadge extends StatelessWidget {
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      child: AppText.label(label, color: color),
     );
   }
 }

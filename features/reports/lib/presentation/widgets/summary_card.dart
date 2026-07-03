@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 class SummaryCard extends StatelessWidget {
   final String title;
@@ -25,12 +25,13 @@ class SummaryCard extends StatelessWidget {
         final isCompact = constraints.maxWidth < 200;
         final isNarrow = constraints.maxWidth < 160;
 
+        final colors = context.colors;
         return Container(
           padding: EdgeInsets.all(isNarrow ? Sizes.sm : Sizes.lg),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colors.card,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,8 +45,8 @@ class SummaryCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color:
                           (isPositive
-                                  ? AppColors.primary500
-                                  : AppColors.error500)
+                                  ? AppPalette.primary500
+                                  : AppPalette.error500)
                               .withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
@@ -57,13 +58,9 @@ class SummaryCard extends StatelessWidget {
                   ),
                   const SizedBox(width: Sizes.sm),
                   Expanded(
-                    child: Text(
+                    child: AppText.label(
                       title,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.neutral700,
-                        fontWeight: FontWeight.w500,
-                        fontSize: isNarrow ? 12 : null,
-                      ),
+                      color: colors.mutedForeground,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -78,14 +75,7 @@ class SummaryCard extends StatelessWidget {
                       children: [
                         FittedBox(
                           fit: BoxFit.scaleDown,
-                          child: Text(
-                            value,
-                            style: Theme.of(context).textTheme.headlineMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.neutral900,
-                                ),
-                          ),
+                          child: AppText.headingMd(value),
                         ),
                         const SizedBox(height: Sizes.xxs),
                         _buildTrendBadge(),
@@ -98,14 +88,7 @@ class SummaryCard extends StatelessWidget {
                         Flexible(
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text(
-                              value,
-                              style: Theme.of(context).textTheme.headlineMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.neutral900,
-                                  ),
-                            ),
+                            child: AppText.headingMd(value),
                           ),
                         ),
                         const SizedBox(width: Sizes.sm),
@@ -123,18 +106,14 @@ class SummaryCard extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
+        AppText.label(
           trend,
-          style: TextStyle(
-            color: isPositive ? AppColors.primary500 : AppColors.error500,
-            fontWeight: FontWeight.w600,
-            fontSize: 13,
-          ),
+          color: isPositive ? AppPalette.primary500 : AppPalette.error500,
         ),
         const SizedBox(width: Sizes.xxs),
         Icon(
           isPositive ? Icons.trending_up : Icons.trending_down,
-          color: isPositive ? AppColors.primary500 : AppColors.error500,
+          color: isPositive ? AppPalette.primary500 : AppPalette.error500,
           size: 16,
         ),
       ],

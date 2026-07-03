@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
@@ -48,7 +48,7 @@ class _StepDot extends StatelessWidget {
       width: 10,
       height: 10,
       decoration: BoxDecoration(
-        color: isActive ? Theme.of(context).primaryColor : AppColors.neutral200,
+        color: isActive ? Theme.of(context).primaryColor : AppPalette.neutral200,
         shape: BoxShape.circle,
       ),
     );
@@ -64,7 +64,7 @@ class _StepConnector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 2,
-      color: isCompleted ? Theme.of(context).primaryColor : AppColors.neutral200,
+      color: isCompleted ? Theme.of(context).primaryColor : AppPalette.neutral200,
     );
   }
 }

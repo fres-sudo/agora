@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// Displays order totals in the POS order panel.
@@ -34,8 +34,9 @@ class PosOrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final hasItems = grandTotalCents > 0;
+    final valueColor = hasItems ? colors.foreground : colors.mutedForeground;
 
     return Column(
       children: [
@@ -43,41 +44,32 @@ class PosOrderSummary extends StatelessWidget {
         _SummaryRow(
           label: 'Subtotal',
           value: _formatCents(subtotalCents),
-          valueColor: hasItems ? AppColors.neutral800 : AppColors.neutral400,
+          valueColor: valueColor,
         ),
         const SizedBox(height: 8),
         // Tax row
         _SummaryRow(
           label: 'Tax',
           value: _formatCents(taxCents),
-          valueColor: hasItems ? AppColors.neutral800 : AppColors.neutral400,
+          valueColor: valueColor,
         ),
         const SizedBox(height: 8),
         // Voucher/Discount row
         _SummaryRow(
           label: 'Voucher',
           value: _formatCents(discountCents),
-          valueColor: hasItems ? AppColors.neutral800 : AppColors.neutral400,
+          valueColor: valueColor,
         ),
         const SizedBox(height: 12),
-        const Divider(height: 1, color: AppColors.neutral200),
+        Divider(height: 1, color: colors.border),
         const SizedBox(height: 12),
         // Total row (emphasized)
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Total',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: AppColors.neutral600,
-              ),
-            ),
-            Text(
+            AppText.body('Total', color: colors.mutedForeground),
+            AppText.headingSm(
               '$currencySymbol ${(grandTotalCents / 100).toStringAsFixed(2)}',
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.neutral800,
-              ),
             ),
           ],
         ),
@@ -99,21 +91,11 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: AppColors.neutral500,
-          ),
-        ),
-        Text(
-          value,
-          style: theme.textTheme.bodyMedium?.copyWith(color: valueColor),
-        ),
+        AppText.body(label, color: context.colors.mutedForeground),
+        AppText.body(value, color: valueColor),
       ],
     );
   }

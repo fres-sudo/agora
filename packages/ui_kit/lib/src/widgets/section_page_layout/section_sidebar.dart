@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
-import '../app_icon_button.dart';
+import 'package:ui_kit/ui_kit.dart';
 
-import 'section_sidebar_item.dart';
 
 /// A collapsible sidebar for section navigation.
 ///
@@ -46,9 +44,9 @@ class SectionSidebar extends StatelessWidget {
       curve: Curves.easeInOut,
       width: isCollapsed ? collapsedWidth : expandedWidth,
       decoration: BoxDecoration(
-        color: AppColors.neutral100,
+        color: AppPalette.neutral100,
         border: Border(
-          right: BorderSide(color: AppColors.neutral200, width: 1),
+          right: BorderSide(color: AppPalette.neutral200, width: 1),
         ),
       ),
       child: Column(
@@ -103,13 +101,13 @@ class SectionSidebar extends StatelessWidget {
           tooltip: isCollapsed ? 'Expand sidebar' : 'Collapse sidebar',
           style: IconButton.styleFrom(
             backgroundColor: Colors.white,
-            foregroundColor: AppColors.neutral600,
+            foregroundColor: AppPalette.neutral600,
             iconSize: 20,
             minimumSize: const Size(36, 36),
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
-              side: const BorderSide(color: AppColors.neutral200),
+              side: const BorderSide(color: AppPalette.neutral200),
             ),
           ),
         ),

@@ -7,7 +7,6 @@ import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
@@ -66,27 +65,21 @@ class PosOrderPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final currencySymbol =
         context.watch<SettingsCubit>().getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
 
     return Container(
-      color: Colors.white,
+      color: colors.card,
       child: Column(
         children: [
-          const Divider(height: 1, color: AppColors.neutral200),
+          Divider(height: 1, color: colors.border),
           // Order Details header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                'Order Details',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.neutral800,
-                ),
-              ),
+              child: AppText.titleMd('Order Details'),
             ),
           ),
           // Order type selector
@@ -119,7 +112,7 @@ class PosOrderPanel extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: AppColors.neutral200)),
+              border: Border(top: BorderSide(color: colors.border)),
             ),
             child: Column(
               children: [
@@ -145,16 +138,7 @@ class PosOrderPanel extends StatelessWidget {
                   onPressed: _hasItems ? onProcessTransaction : null,
                   label: 'Process Transaction',
                   fullWidth: true,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: _hasItems
-                        ? AppColors.primary500
-                        : AppColors.neutral300,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+                  size: AppButtonSize.lg,
                 ),
               ],
             ),
@@ -182,7 +166,7 @@ class _DiscountRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final discount = appliedDiscount;
 
     if (discount == null) {
@@ -203,33 +187,30 @@ class _DiscountRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.primary500.withValues(alpha: 0.08),
+        color: colors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.local_offer_outlined,
             size: 18,
-            color: AppColors.primary500,
+            color: colors.primary,
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
+            child: AppText.titleMd(
               '${discount.name} ($valueLabel)',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: AppColors.primary700,
-              ),
+              color: colors.primary,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           InkWell(
             onTap: onRemoveDiscount,
             borderRadius: BorderRadius.circular(12),
-            child: const Padding(
-              padding: EdgeInsets.all(4),
-              child: Icon(Icons.close, size: 18, color: AppColors.neutral500),
+            child: Padding(
+              padding: const EdgeInsets.all(4),
+              child: Icon(Icons.close, size: 18, color: colors.mutedForeground),
             ),
           ),
         ],
@@ -281,14 +262,6 @@ class _OrderItemsList extends StatelessWidget {
               onPressed: onClearAll,
               label: 'Clear All Order',
               fullWidth: true,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.neutral600,
-                side: const BorderSide(color: AppColors.neutral300),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
             ),
           ),
         ),

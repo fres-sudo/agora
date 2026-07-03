@@ -1,7 +1,7 @@
 import 'package:feature_reports/domain/models/report_data.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
 import 'package:utils/utils.dart';
 
@@ -24,21 +24,14 @@ class SalesOverviewChart extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(isCompact ? Sizes.md : Sizes.lg),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.colors.card,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: context.colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                t.report.sales_overview,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.neutral900,
-                  fontSize: isCompact ? 16 : null,
-                ),
-              ),
+              AppText.headingSm(t.report.sales_overview),
               SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
               Expanded(
                 child: points.isEmpty
@@ -53,6 +46,7 @@ class SalesOverviewChart extends StatelessWidget {
   }
 
   Widget _buildChart(BuildContext context, bool isCompact) {
+    final colors = context.colors;
     // Revenue in whole currency units keeps the axis readable.
     final spots = <FlSpot>[
       for (var i = 0; i < points.length; i++)
@@ -73,12 +67,12 @@ class SalesOverviewChart extends StatelessWidget {
           drawVerticalLine: !isCompact,
           horizontalInterval: horizontalInterval,
           getDrawingHorizontalLine: (value) => const FlLine(
-            color: AppColors.neutral200,
+            color: AppPalette.neutral200,
             strokeWidth: 1,
             dashArray: [5, 5],
           ),
           getDrawingVerticalLine: (value) => const FlLine(
-            color: AppColors.neutral200,
+            color: AppPalette.neutral200,
             strokeWidth: 1,
             dashArray: [5, 5],
           ),
@@ -90,14 +84,11 @@ class SalesOverviewChart extends StatelessWidget {
               showTitles: true,
               reservedSize: isCompact ? 34 : 44,
               interval: horizontalInterval,
-              getTitlesWidget: (value, meta) => Text(
+              getTitlesWidget: (value, meta) => AppText.caption(
                 value >= 1000
                     ? '${(value / 1000).toStringAsFixed(1)}k'
                     : value.toInt().toString(),
-                style: TextStyle(
-                  color: AppColors.neutral500,
-                  fontSize: isCompact ? 10 : 12,
-                ),
+                color: colors.mutedForeground,
               ),
             ),
           ),
@@ -119,12 +110,9 @@ class SalesOverviewChart extends StatelessWidget {
                 if (points.length > 6 && index % step != 0) {
                   return const SizedBox.shrink();
                 }
-                return Text(
+                return AppText.caption(
                   points[index].label,
-                  style: TextStyle(
-                    color: AppColors.neutral500,
-                    fontSize: isCompact ? 10 : 12,
-                  ),
+                  color: colors.mutedForeground,
                 );
               },
             ),
@@ -143,7 +131,7 @@ class SalesOverviewChart extends StatelessWidget {
             spots: spots,
             isCurved: true,
             gradient: const LinearGradient(
-              colors: [AppColors.primary500, AppColors.primary300],
+              colors: [AppPalette.primary500, AppPalette.primary300],
             ),
             barWidth: isCompact ? 3 : 4,
             isStrokeCapRound: true,
@@ -152,8 +140,8 @@ class SalesOverviewChart extends StatelessWidget {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppColors.primary500.withValues(alpha: 0.3),
-                  AppColors.primary300.withValues(alpha: 0.0),
+                  AppPalette.primary500.withValues(alpha: 0.3),
+                  AppPalette.primary300.withValues(alpha: 0.0),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -163,14 +151,13 @@ class SalesOverviewChart extends StatelessWidget {
         ],
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.white,
+            getTooltipColor: (touchedSpot) => colors.popover,
             tooltipBorderRadius: BorderRadius.circular(8),
             getTooltipItems: (touchedBarSpots) => touchedBarSpots.map((barSpot) {
               return LineTooltipItem(
                 '${t.report.sales}: ${formatCents((barSpot.y * 100).round())}',
-                const TextStyle(
-                  color: AppColors.neutral900,
-                  fontWeight: FontWeight.bold,
+                context.typography.titleMd.copyWith(
+                  color: colors.popoverForeground,
                 ),
               );
             }).toList(),
@@ -187,11 +174,9 @@ class _EmptyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
+      child: AppText.body(
         'No sales in this period',
-        style: Theme.of(
-          context,
-        ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+        color: context.colors.mutedForeground,
       ),
     );
   }

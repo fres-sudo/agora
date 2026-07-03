@@ -3,7 +3,6 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
 import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adjustment_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Basic inventory management (P7-8).
@@ -56,8 +55,6 @@ class _InventoryPageState extends State<InventoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BlocListener<StockAdjustmentCubit, StockAdjustmentState>(
       listener: (context, state) {
         state.maybeWhen(
@@ -71,7 +68,7 @@ class _InventoryPageState extends State<InventoryPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Inventory'),
+          title: const AppText.titleLg('Inventory'),
           leading: context.isTabletOrLarger
               ? null
               : AppIconButton.ghost(
@@ -120,21 +117,17 @@ class _InventoryPageState extends State<InventoryPage> {
                     cellBuilder: (level) => Row(
                       children: [
                         Flexible(
-                          child: Text(
+                          child: AppText.titleMd(
                             level.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.neutral700,
-                            ),
                           ),
                         ),
                         if (!level.trackStock) ...[
                           const SizedBox(width: Sizes.sm),
                           _Tag(
                             label: 'Not tracked',
-                            color: AppColors.neutral500,
+                            color: AppPalette.neutral500,
                           ),
                         ],
                       ],
@@ -149,7 +142,7 @@ class _InventoryPageState extends State<InventoryPage> {
                       final low = _isLow(level);
                       return _Tag(
                         label: '${level.quantity}',
-                        color: low ? AppColors.error500 : AppColors.primary500,
+                        color: low ? AppPalette.error500 : AppPalette.primary500,
                         icon: low ? Icons.warning_amber_rounded : null,
                       );
                     },
@@ -203,15 +196,12 @@ class _InventoryPageState extends State<InventoryPage> {
     final value = await showDialog<int>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Set stock — ${level.name}'),
-        content: TextField(
+        title: AppText.titleLg('Set stock — ${level.name}'),
+        content: AppTextField(
           controller: controller,
           autofocus: true,
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            labelText: 'Quantity',
-            border: OutlineInputBorder(),
-          ),
+          label: 'Quantity',
         ),
         actions: [
           AppButton.ghost(
@@ -253,18 +243,15 @@ class _InventoryPageState extends State<InventoryPage> {
           children: [
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
-              title: const Text('Low stock only'),
+              title: const AppText.body('Low stock only'),
               value: lowOnly,
               onChanged: (v) => setLocalState(() => lowOnly = v),
             ),
             const SizedBox(height: Sizes.sm),
-            TextField(
+            AppTextField(
               controller: thresholdController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Low stock threshold',
-                border: OutlineInputBorder(),
-              ),
+              label: 'Low stock threshold',
             ),
           ],
         ),
@@ -296,14 +283,7 @@ class _Tag extends StatelessWidget {
             Icon(icon, size: 14, color: color),
             const SizedBox(width: 4),
           ],
-          Text(
-            label,
-            style: TextStyle(
-              color: color,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          AppText.label(label, color: color),
         ],
       ),
     );

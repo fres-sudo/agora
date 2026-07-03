@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Empty state widget displayed when the data table has no items.
 class DataTableEmptyState extends StatelessWidget {
@@ -27,7 +27,7 @@ class DataTableEmptyState extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.neutral200,
+                color: AppPalette.neutral200,
                 shape: BoxShape.circle,
               ),
               child: Stack(
@@ -36,7 +36,7 @@ class DataTableEmptyState extends StatelessWidget {
                   Icon(
                     Icons.description_outlined,
                     size: 36,
-                    color: AppColors.neutral400,
+                    color: AppPalette.neutral400,
                   ),
                   Positioned(
                     right: 14,
@@ -44,17 +44,17 @@ class DataTableEmptyState extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                        color: AppColors.neutral200,
+                        color: AppPalette.neutral200,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.neutral200,
+                          color: AppPalette.neutral200,
                           width: 2,
                         ),
                       ),
                       child: Icon(
                         Icons.help_outline_rounded,
                         size: 20,
-                        color: AppColors.neutral500,
+                        color: AppPalette.neutral500,
                       ),
                     ),
                   ),
@@ -75,7 +75,7 @@ class DataTableEmptyState extends StatelessWidget {
               subtitle,
               style: Theme.of(
                 context,
-              ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+              ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
               textAlign: TextAlign.center,
             ),
           ],

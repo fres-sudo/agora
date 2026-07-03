@@ -9,7 +9,6 @@ import 'package:feature_products/feature_products.dart';
 import 'package:feature_reports/feature_reports.dart';
 import 'package:feature_settings/feature_settings.dart';
 import 'package:feature_workforce/workforce.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -164,7 +163,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     int activeIndex,
   ) {
     return Drawer(
-      backgroundColor: AppColors.neutral900,
+      backgroundColor: AppPalette.neutral900,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
         child: Column(
@@ -176,17 +175,11 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                 children: [
                   Image.asset('assets/brand/logo.png', width: 26, height: 26),
                   const SizedBox(width: 10),
-                  Text(
-                    'agora',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
+                  const AppText.titleLg('agora', color: AppPalette.white),
                   const Spacer(),
                   AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close, color: AppColors.neutral400),
+                    icon: const Icon(Icons.close, color: AppPalette.neutral400),
                     style: IconButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: const Size(40, 40),

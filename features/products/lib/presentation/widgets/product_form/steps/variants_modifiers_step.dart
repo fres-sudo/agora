@@ -1,5 +1,5 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/modifiers/modifiers_bloc.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,6 @@ class VariantsModifiersStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final t = Translations.of(context);
 
     return SingleChildScrollView(
@@ -20,17 +19,10 @@ class VariantsModifiersStep extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Section Title
-          Text(
-            t.products.form.steps.variants_modifiers,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
+          AppText.titleMd(t.products.form.steps.variants_modifiers),
+          AppText.bodySm(
             t.products.form.steps.variants_modifiers_desc,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: AppColors.neutral500,
-            ),
+            color: context.colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.lg),
 
@@ -100,26 +92,19 @@ class _ModifierGroupTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: Sizes.sm),
       decoration: BoxDecoration(
-        color: AppColors.neutral50,
+        color: AppPalette.neutral50,
         borderRadius: BorderRadius.circular(Sizes.sm),
         border: Border.all(
-          color: isSelected ? theme.primaryColor : AppColors.neutral200,
+          color: isSelected ? theme.primaryColor : AppPalette.neutral200,
         ),
       ),
       child: CheckboxListTile(
         value: isSelected,
         onChanged: (_) => onToggle(),
-        title: Text(
-          name,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        subtitle: Text(
+        title: AppText.titleMd(name),
+        subtitle: AppText.bodySm(
           '$optionCount options',
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: AppColors.neutral500,
-          ),
+          color: context.colors.mutedForeground,
         ),
         controlAffinity: ListTileControlAffinity.leading,
         activeColor: theme.primaryColor,
@@ -135,31 +120,27 @@ class _ModifierGroupTile extends StatelessWidget {
 class _EmptyModifiersState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Container(
       padding: const EdgeInsets.all(Sizes.xl),
       decoration: BoxDecoration(
-        color: AppColors.neutral50,
+        color: colors.muted,
         borderRadius: BorderRadius.circular(Sizes.sm),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         children: [
-          Icon(Icons.tune_outlined, size: 48, color: AppColors.neutral400),
+          Icon(Icons.tune_outlined, size: 48, color: colors.mutedForeground),
           const SizedBox(height: Sizes.md),
-          Text(
+          AppText.titleMd(
             'No modifiers available',
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: AppColors.neutral600,
-            ),
+            color: colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.xs),
-          Text(
+          AppText.bodySm(
             'Create modifiers in Settings to add them here',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: AppColors.neutral500,
-            ),
+            color: colors.mutedForeground,
             textAlign: TextAlign.center,
           ),
         ],

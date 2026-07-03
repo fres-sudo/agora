@@ -1,4 +1,4 @@
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A 2x2 grid of action buttons for the POS order panel.
@@ -82,11 +82,13 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final isEnabled = onTap != null;
+    final contentColor =
+        isEnabled ? colors.foreground : colors.mutedForeground;
 
     return Material(
-      color: Colors.white,
+      color: colors.card,
       borderRadius: BorderRadius.circular(12),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -94,26 +96,15 @@ class _ActionButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: colors.border),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                icon,
-                size: 24,
-                color: isEnabled ? AppColors.neutral600 : AppColors.neutral400,
-              ),
+              Icon(icon, size: 24, color: contentColor),
               const SizedBox(height: 4),
-              Text(
-                label,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: isEnabled
-                      ? AppColors.neutral600
-                      : AppColors.neutral400,
-                ),
-              ),
+              AppText.bodySm(label, color: contentColor),
             ],
           ),
         ),

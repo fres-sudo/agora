@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
 
 class TopProductsList extends StatelessWidget {
@@ -14,24 +14,18 @@ class TopProductsList extends StatelessWidget {
         final isCompact = constraints.maxWidth < 300;
         final isVeryCompact = constraints.maxWidth < 240;
 
+        final colors = context.colors;
         return Container(
           padding: EdgeInsets.all(isCompact ? Sizes.md : Sizes.lg),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colors.card,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                t.report.top_10_product,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.neutral900,
-                  fontSize: isCompact ? 16 : null,
-                ),
-              ),
+              AppText.headingSm(t.report.top_10_product),
               SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
               // Table header
               Padding(
@@ -44,32 +38,21 @@ class TopProductsList extends StatelessWidget {
                       width: isVeryCompact ? 50 : 80,
                     ), // For Rank and Image
                     Expanded(
-                      child: Text(
+                      child: AppText.caption(
                         'PRODUCT',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: AppColors.neutral500,
-                          fontWeight: FontWeight.w600,
-                          fontSize: isCompact ? 10 : null,
-                        ),
+                        color: colors.mutedForeground,
                       ),
                     ),
-                    Text(
-                      'SALES',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.neutral500,
-                        fontWeight: FontWeight.w600,
-                        fontSize: isCompact ? 10 : null,
-                      ),
-                    ),
+                    AppText.caption('SALES', color: colors.mutedForeground),
                   ],
                 ),
               ),
-              const Divider(color: AppColors.neutral200),
+              const Divider(color: AppPalette.neutral200),
               Expanded(
                 child: ListView.separated(
                   itemCount: products.length,
                   separatorBuilder: (context, index) =>
-                      const Divider(color: AppColors.neutral200, height: 1),
+                      const Divider(color: AppPalette.neutral200, height: 1),
                   itemBuilder: (context, index) {
                     final product = products[index];
                     return Padding(
@@ -78,33 +61,21 @@ class TopProductsList extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          _buildRankBadge(index + 1, isVeryCompact),
+                          _buildRankBadge(context, index + 1, isVeryCompact),
                           SizedBox(width: isVeryCompact ? Sizes.xs : Sizes.md),
                           if (!isVeryCompact) ...[
                             _buildProductImage(product.imageUrl),
                             const SizedBox(width: Sizes.md),
                           ],
                           Expanded(
-                            child: Text(
+                            child: AppText.body(
                               product.name,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.neutral900,
-                                fontSize: isCompact ? 12 : 14,
-                              ),
                               maxLines: isVeryCompact ? 1 : 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           const SizedBox(width: Sizes.xs),
-                          Text(
-                            product.sales.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.neutral900,
-                              fontSize: isCompact ? 12 : 14,
-                            ),
-                          ),
+                          AppText.titleMd(product.sales.toString()),
                         ],
                       ),
                     );
@@ -118,21 +89,14 @@ class TopProductsList extends StatelessWidget {
     );
   }
 
-  Widget _buildRankBadge(int rank, bool isCompact) {
-    Color color;
-    switch (rank) {
-      case 1:
-        color = const Color(0xff34CB6F);
-        break;
-      case 2:
-        color = const Color(0xffFFAB00);
-        break;
-      case 3:
-        color = const Color(0xff1D90FB);
-        break;
-      default:
-        color = AppColors.neutral300;
-    }
+  Widget _buildRankBadge(BuildContext context, int rank, bool isCompact) {
+    final colors = context.colors;
+    final Color color = switch (rank) {
+      1 => colors.primary,
+      2 => colors.warning,
+      3 => colors.info,
+      _ => AppPalette.neutral300,
+    };
 
     final width = isCompact ? 26.0 : 32.0;
     final height = isCompact ? 20.0 : 24.0;
@@ -151,14 +115,7 @@ class TopProductsList extends StatelessWidget {
           children: [
             Icon(Icons.emoji_events, size: isCompact ? 10 : 12, color: color),
             SizedBox(width: isCompact ? 1 : 2),
-            Text(
-              rank.toString(),
-              style: TextStyle(
-                color: color,
-                fontSize: isCompact ? 10 : 12,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            AppText.caption(rank.toString(), color: color),
           ],
         ),
       ),
@@ -170,7 +127,7 @@ class TopProductsList extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: AppColors.neutral100,
+        color: AppPalette.neutral100,
         borderRadius: BorderRadius.circular(Sizes.xs),
       ),
       child: imageUrl != null && imageUrl.isNotEmpty
@@ -178,7 +135,7 @@ class TopProductsList extends StatelessWidget {
               borderRadius: BorderRadius.circular(Sizes.xs),
               child: Image.network(imageUrl, fit: BoxFit.cover),
             )
-          : const Icon(Icons.fastfood, color: AppColors.neutral400, size: 20),
+          : const Icon(Icons.fastfood, color: AppPalette.neutral400, size: 20),
     );
   }
 }

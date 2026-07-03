@@ -1,64 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
-import 'app_button.dart';
+import 'package:ui_kit/src/atoms/app_button.dart';
+import 'package:ui_kit/src/atoms/app_text.dart';
+import 'package:ui_kit/src/theme/context_extensions.dart';
 
-/// A reusable confirmation dialog for destructive actions.
+/// A reusable confirmation dialog for destructive or important actions.
 ///
-/// This dialog displays a centered icon, title, message, and two action buttons.
-/// It's commonly used for delete confirmations but can be customized for any
-/// confirmation scenario.
+/// Displays a centered icon, title, message, and cancel/confirm buttons. Colors
+/// default to semantic tokens resolved from context (so it is theme-correct);
+/// pass [iconColor]/[iconBackgroundColor]/[confirmButtonColor] to override.
 class ConfirmationDialog extends StatelessWidget {
   const ConfirmationDialog({
     super.key,
     required this.title,
     required this.message,
     this.icon = Icons.close_rounded,
-    this.iconColor = AppColors.error500,
-    this.iconBackgroundColor = AppColors.error100,
+    this.iconColor,
+    this.iconBackgroundColor,
     this.confirmButtonLabel = 'Confirm',
     this.cancelButtonLabel = 'Cancel',
     this.confirmButtonColor,
     this.isDestructive = false,
   });
 
-  /// The title text displayed below the icon.
   final String title;
-
-  /// The message text displayed below the title.
   final String message;
-
-  /// The icon to display at the top of the dialog.
   final IconData icon;
-
-  /// The color of the icon.
-  final Color iconColor;
-
-  /// The background color of the icon container.
-  final Color iconBackgroundColor;
-
-  /// The label for the confirm button.
+  final Color? iconColor;
+  final Color? iconBackgroundColor;
   final String confirmButtonLabel;
-
-  /// The label for the cancel button.
   final String cancelButtonLabel;
-
-  /// Optional custom color for the confirm button.
-  /// If null, uses error color for destructive actions.
   final Color? confirmButtonColor;
-
-  /// Whether this is a destructive action (affects button styling).
   final bool isDestructive;
 
-  /// Shows a generic confirmation dialog.
-  ///
-  /// Returns `true` if confirmed, `false` if cancelled.
+  /// Shows a generic confirmation dialog. Returns `true` if confirmed.
   static Future<bool> show({
     required BuildContext context,
     required String title,
     required String message,
     IconData icon = Icons.help_outline_rounded,
-    Color iconColor = AppColors.primary500,
-    Color iconBackgroundColor = AppColors.primary100,
+    Color? iconColor,
+    Color? iconBackgroundColor,
     String confirmButtonLabel = 'Confirm',
     String cancelButtonLabel = 'Cancel',
     Color? confirmButtonColor,
@@ -82,9 +63,7 @@ class ConfirmationDialog extends StatelessWidget {
     return result ?? false;
   }
 
-  /// Shows a delete confirmation dialog with pre-configured destructive styling.
-  ///
-  /// Returns `true` if deletion was confirmed, `false` if cancelled.
+  /// Shows a delete confirmation with destructive styling. Returns `true` if confirmed.
   static Future<bool> showDelete({
     required BuildContext context,
     required String title,
@@ -97,8 +76,6 @@ class ConfirmationDialog extends StatelessWidget {
       title: title,
       message: message,
       icon: Icons.close_rounded,
-      iconColor: AppColors.error500,
-      iconBackgroundColor: AppColors.error100,
       confirmButtonLabel: confirmButtonLabel,
       cancelButtonLabel: cancelButtonLabel,
       isDestructive: true,
@@ -107,78 +84,67 @@ class ConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final effectiveConfirmColor =
-        confirmButtonColor ??
-        (isDestructive ? AppColors.error500 : theme.primaryColor);
+    final colors = context.colors;
+    final tokens = context.tokens;
+    final accent = iconColor ??
+        (isDestructive ? colors.destructive : colors.primary);
+    final accentBg = iconBackgroundColor ?? accent.withValues(alpha: 0.12);
 
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Sizes.md),
-      ),
+      backgroundColor: colors.popover,
+      shape: RoundedRectangleBorder(borderRadius: tokens.borderRadiusLg),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 380),
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.xl),
+          padding: EdgeInsets.all(tokens.spaceXl),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Icon
               Container(
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: iconBackgroundColor,
+                  color: accentBg,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: iconColor, size: 32),
+                child: Icon(icon, color: accent, size: 32),
               ),
-              const SizedBox(height: Sizes.lg),
-
-              // Title
-              Text(
-                title,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: Sizes.sm),
-
-              // Message
-              Text(
+              SizedBox(height: tokens.spaceLg),
+              AppText.titleLg(title, textAlign: TextAlign.center),
+              SizedBox(height: tokens.spaceSm),
+              AppText.bodySm(
                 message,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.neutral500,
-                ),
+                color: colors.mutedForeground,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: Sizes.xl),
-
-              // Buttons
+              SizedBox(height: tokens.spaceXl),
               Row(
                 children: [
                   Expanded(
                     child: AppButton.outline(
                       onPressed: () => Navigator.of(context).pop(false),
                       label: cancelButtonLabel,
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.neutral700,
-                        side: const BorderSide(color: AppColors.neutral300),
-                        padding: const EdgeInsets.symmetric(vertical: Sizes.md),
-                      ),
+                      fullWidth: true,
                     ),
                   ),
-                  const SizedBox(width: Sizes.md),
+                  SizedBox(width: tokens.spaceMd),
                   Expanded(
-                    child: AppButton.primary(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      label: confirmButtonLabel,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: effectiveConfirmColor,
-                        padding: const EdgeInsets.symmetric(vertical: Sizes.md),
-                      ),
-                    ),
+                    child: isDestructive
+                        ? AppButton.destructive(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            label: confirmButtonLabel,
+                            fullWidth: true,
+                          )
+                        : AppButton.primary(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            label: confirmButtonLabel,
+                            fullWidth: true,
+                            style: confirmButtonColor == null
+                                ? null
+                                : FilledButton.styleFrom(
+                                    backgroundColor: confirmButtonColor,
+                                  ),
+                          ),
                   ),
                 ],
               ),

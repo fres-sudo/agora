@@ -114,7 +114,6 @@ class _DiscountFormState extends State<DiscountForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final isEditing = widget.initialDiscount != null;
     final isPercentage = _type == DiscountType.percentage;
 
@@ -124,11 +123,8 @@ class _DiscountFormState extends State<DiscountForm> {
       children: [
         Padding(
           padding: const EdgeInsets.all(24),
-          child: Text(
+          child: AppText.headingSm(
             isEditing ? 'Edit Discount' : 'New Discount',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -143,39 +139,31 @@ class _DiscountFormState extends State<DiscountForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Name
-                  TextFormField(
+                  AppTextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Discount Name',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.label_outline),
-                    ),
+                    label: 'Discount Name',
+                    prefix: const Icon(Icons.label_outline),
+                    textInputAction: TextInputAction.next,
                     validator: (value) =>
                         (value == null || value.trim().isEmpty)
                         ? 'Please enter a name'
                         : null,
-                    textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 20),
 
                   // Type
-                  Text(
-                    'Type',
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const AppText.titleMd('Type'),
                   const SizedBox(height: 8),
                   SegmentedButton<DiscountType>(
                     segments: const [
                       ButtonSegment(
                         value: DiscountType.percentage,
-                        label: Text('Percentage'),
+                        label: AppText.body('Percentage'),
                         icon: Icon(Icons.percent),
                       ),
                       ButtonSegment(
                         value: DiscountType.fixedAmount,
-                        label: Text('Fixed'),
+                        label: AppText.body('Fixed'),
                         icon: Icon(Icons.euro),
                       ),
                     ],
@@ -188,53 +176,42 @@ class _DiscountFormState extends State<DiscountForm> {
                   const SizedBox(height: 20),
 
                   // Value
-                  TextFormField(
+                  AppTextField(
                     controller: _valueController,
+                    label: isPercentage ? 'Percentage' : 'Amount',
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                     ],
-                    decoration: InputDecoration(
-                      labelText: isPercentage ? 'Percentage' : 'Amount',
-                      border: const OutlineInputBorder(),
-                      prefixIcon: Icon(
-                        isPercentage ? Icons.percent : Icons.euro,
-                      ),
-                      suffixText: isPercentage ? '%' : '€',
-                    ),
-                    validator: _validateValue,
+                    prefix: Icon(isPercentage ? Icons.percent : Icons.euro),
+                    suffix: AppText.body(isPercentage ? '%' : '€'),
                     textInputAction: TextInputAction.next,
+                    validator: _validateValue,
                   ),
                   const SizedBox(height: 20),
 
                   // Code (optional)
-                  TextFormField(
+                  AppTextField(
                     controller: _codeController,
+                    label: 'Voucher code (optional)',
                     textCapitalization: TextCapitalization.characters,
-                    decoration: const InputDecoration(
-                      labelText: 'Voucher code (optional)',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.confirmation_number_outlined),
-                    ),
+                    prefix: const Icon(Icons.confirmation_number_outlined),
                     textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 20),
 
                   // Usage limit (optional)
-                  TextFormField(
+                  AppTextField(
                     controller: _usageLimitController,
+                    label: 'Usage limit (optional)',
+                    helperText: 'Leave empty for unlimited use',
                     keyboardType: TextInputType.number,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    decoration: const InputDecoration(
-                      labelText: 'Usage limit (optional)',
-                      helperText: 'Leave empty for unlimited use',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.repeat),
-                    ),
+                    prefix: const Icon(Icons.repeat),
                     textInputAction: TextInputAction.done,
                   ),
                   const SizedBox(height: 8),
@@ -243,16 +220,18 @@ class _DiscountFormState extends State<DiscountForm> {
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: const Icon(Icons.event_outlined),
-                    title: const Text('Valid until'),
-                    subtitle: Text(
+                    title: const AppText.body('Valid until'),
+                    subtitle: AppText.bodySm(
                       _validUntil == null
                           ? 'No expiry'
                           : _formatDate(_validUntil!),
+                      color: context.colors.mutedForeground,
                     ),
                     trailing: _validUntil == null
-                        ? TextButton(
+                        ? AppButton.ghost(
                             onPressed: _pickValidUntil,
-                            child: const Text('Set date'),
+                            label: 'Set date',
+                            size: AppButtonSize.sm,
                           )
                         : IconButton(
                             icon: const Icon(Icons.clear),
@@ -265,8 +244,8 @@ class _DiscountFormState extends State<DiscountForm> {
                   // Active
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Active'),
-                    subtitle: const Text('Available at checkout'),
+                    title: const AppText.body('Active'),
+                    subtitle: const AppText.caption('Available at checkout'),
                     value: _isActive,
                     onChanged: (value) => setState(() => _isActive = value),
                   ),

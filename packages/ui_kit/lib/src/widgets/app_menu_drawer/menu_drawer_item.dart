@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// A single menu item in the drawer
 class MenuDrawerItem extends StatelessWidget {
@@ -26,7 +26,7 @@ class MenuDrawerItem extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.neutral700 : Colors.transparent,
+            color: isSelected ? AppPalette.neutral700 : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -34,14 +34,14 @@ class MenuDrawerItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 22,
-                color: isSelected ? Colors.white : AppColors.neutral600,
+                color: isSelected ? Colors.white : AppPalette.neutral600,
               ),
               const SizedBox(width: 14),
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected ? Colors.white : AppColors.neutral800,
+                  color: isSelected ? Colors.white : AppPalette.neutral800,
                 ),
               ),
             ],

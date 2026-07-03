@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/domain/models/modifier_group.dart';
 import 'package:feature_products/domain/models/modifier_option.dart';
@@ -87,7 +86,7 @@ class _ModifierFormState extends State<ModifierForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final isEditing = widget.initialGroup != null;
 
     return Column(
@@ -97,11 +96,8 @@ class _ModifierFormState extends State<ModifierForm> {
         // Header
         Padding(
           padding: const EdgeInsets.all(24),
-          child: Text(
+          child: AppText.headingSm(
             isEditing ? 'Edit Modifier' : 'New Modifier',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -117,29 +113,26 @@ class _ModifierFormState extends State<ModifierForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Name Field
-                  TextFormField(
+                  AppTextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Modifier Name',
-                      hintText: 'e.g. Size, Milk Option',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.label_outline),
-                    ),
+                    label: 'Modifier Name',
+                    hintText: 'e.g. Size, Milk Option',
+                    prefix: const Icon(Icons.label_outline),
+                    textInputAction: TextInputAction.next,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return 'Please enter a name';
                       }
                       return null;
                     },
-                    textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 24),
 
                   // Single vs multi select
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Allow multiple selections'),
-                    subtitle: const Text(
+                    title: const AppText.body('Allow multiple selections'),
+                    subtitle: const AppText.caption(
                       'On: customers can pick several options (checkboxes). '
                       'Off: customers pick exactly one (radio buttons).',
                     ),
@@ -153,12 +146,7 @@ class _ModifierFormState extends State<ModifierForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Options',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      const AppText.titleMd('Options'),
                       AppButton.ghost(
                         onPressed: _addOption,
                         label: 'Add Option',
@@ -173,16 +161,14 @@ class _ModifierFormState extends State<ModifierForm> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(Sizes.lg),
                       decoration: BoxDecoration(
-                        color: AppColors.neutral50,
+                        color: colors.muted,
                         borderRadius: BorderRadius.circular(Sizes.sm),
-                        border: Border.all(color: AppColors.neutral200),
+                        border: Border.all(color: colors.border),
                       ),
-                      child: Text(
+                      child: AppText.bodySm(
                         'No options yet. Add at least one, '
                         'e.g. "Small" / "Large".',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: AppColors.neutral500,
-                        ),
+                        color: colors.mutedForeground,
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -200,12 +186,7 @@ class _ModifierFormState extends State<ModifierForm> {
 
                   if (_optionsError != null) ...[
                     const SizedBox(height: Sizes.sm),
-                    Text(
-                      _optionsError!,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.error500,
-                      ),
-                    ),
+                    AppText.bodySm(_optionsError!, color: colors.destructive),
                   ],
                 ],
               ),
@@ -300,35 +281,27 @@ class _OptionRow extends StatelessWidget {
       children: [
         Expanded(
           flex: 3,
-          child: TextField(
+          child: AppTextField(
             controller: option.nameController,
-            decoration: const InputDecoration(
-              hintText: 'Option name',
-              border: OutlineInputBorder(),
-              isDense: true,
-            ),
+            hintText: 'Option name',
           ),
         ),
         const SizedBox(width: Sizes.sm),
         Expanded(
           flex: 2,
-          child: TextField(
+          child: AppTextField(
             controller: option.priceController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
             ],
-            decoration: const InputDecoration(
-              prefixText: '+€ ',
-              hintText: '0.00',
-              border: OutlineInputBorder(),
-              isDense: true,
-            ),
+            prefixText: '+€ ',
+            hintText: '0.00',
           ),
         ),
         AppIconButton.ghost(
           onPressed: onRemove,
-          icon: const Icon(Icons.close, size: 18, color: AppColors.neutral500),
+          icon: const Icon(Icons.close, size: 18, color: AppPalette.neutral500),
           tooltip: 'Remove option',
         ),
       ],

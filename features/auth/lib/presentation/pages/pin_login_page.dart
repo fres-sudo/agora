@@ -4,7 +4,6 @@ import 'package:feature_auth/domain/models/session_employee.dart';
 import 'package:feature_auth/domain/repositories/auth_repository.dart';
 import 'package:feature_auth/presentation/blocs/session/session_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -77,7 +76,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutral900,
+      backgroundColor: AppPalette.neutral900,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -129,26 +128,18 @@ class _EmployeeSelector extends StatelessWidget {
       children: [
         Image.asset('assets/brand/logo.png', width: 48, height: 48),
         const SizedBox(height: 12),
-        Text(
-          'agora',
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        const AppText.headingMd('agora', color: AppPalette.white),
         const SizedBox(height: 8),
-        Text(
+        const AppText.body(
           'Select your profile to continue',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.neutral400,
-          ),
+          color: AppPalette.neutral400,
         ),
         const SizedBox(height: 32),
         if (employees.isEmpty)
-          Text(
+          const AppText.body(
             'No employees found.\nPlease set up staff in Settings first.',
+            color: AppPalette.neutral400,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: AppColors.neutral400),
           )
         else
           Wrap(
@@ -177,21 +168,14 @@ class _AvatarTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 32,
-            backgroundColor: AppColors.primary100,
-            child: Text(
+            backgroundColor: AppPalette.primary100,
+            child: AppText.headingLg(
               employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary700,
-              ),
+              color: AppPalette.primary700,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            employee.name,
-            style: const TextStyle(color: Colors.white, fontSize: 13),
-          ),
+          AppText.bodySm(employee.name, color: AppPalette.white),
         ],
       ),
     );
@@ -230,36 +214,22 @@ class _PinPad extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: IconButton(
             onPressed: onBack,
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: AppPalette.white),
           ),
         ),
         const SizedBox(height: 8),
         CircleAvatar(
           radius: 32,
-          backgroundColor: AppColors.primary100,
-          child: Text(
+          backgroundColor: AppPalette.primary100,
+          child: AppText.headingLg(
             employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primary700,
-            ),
+            color: AppPalette.primary700,
           ),
         ),
         const SizedBox(height: 12),
-        Text(
-          employee.name,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        AppText.headingSm(employee.name, color: AppPalette.white),
         const SizedBox(height: 4),
-        const Text(
-          'Enter your PIN',
-          style: TextStyle(color: AppColors.neutral400, fontSize: 14),
-        ),
+        const AppText.body('Enter your PIN', color: AppPalette.neutral400),
         const SizedBox(height: 24),
         // PIN dots
         Row(
@@ -273,18 +243,15 @@ class _PinPad extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: i < pin.length
-                    ? AppColors.primary500
-                    : AppColors.neutral600,
+                    ? AppPalette.primary500
+                    : AppPalette.neutral600,
               ),
             ),
           ),
         ),
         if (error != null) ...[
           const SizedBox(height: 12),
-          Text(
-            error!,
-            style: const TextStyle(color: AppColors.error400, fontSize: 13),
-          ),
+          AppText.bodySm(error!, color: AppPalette.error400),
         ],
         const SizedBox(height: 24),
         GridView.count(
@@ -323,20 +290,13 @@ class _DigitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.neutral800,
+      color: AppPalette.neutral800,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: Center(
-          child: Text(
-            digit,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          child: AppText.headingMd(digit, color: AppPalette.white),
         ),
       ),
     );
@@ -350,13 +310,17 @@ class _DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.neutral800,
+      color: AppPalette.neutral800,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: const Center(
-          child: Icon(Icons.backspace_outlined, color: Colors.white, size: 22),
+          child: Icon(
+            Icons.backspace_outlined,
+            color: AppPalette.white,
+            size: 22,
+          ),
         ),
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
-import '../app_button.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Generic filter dialog shell for the data table.
 ///
@@ -75,8 +74,8 @@ class DataTableFilterDialog extends StatelessWidget {
                       onPressed: onCancel,
                       label: 'Cancel',
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.neutral700,
-                        side: const BorderSide(color: AppColors.neutral300),
+                        foregroundColor: AppPalette.neutral700,
+                        side: const BorderSide(color: AppPalette.neutral300),
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),
@@ -87,7 +86,7 @@ class DataTableFilterDialog extends StatelessWidget {
                       onPressed: onApply,
                       label: 'Apply',
                       style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.primary500,
+                        backgroundColor: AppPalette.primary500,
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),

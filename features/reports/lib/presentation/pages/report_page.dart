@@ -6,14 +6,13 @@ import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/presentation/blocs/reports/reports_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
 import 'package:feature_reports/presentation/widgets/end_of_day_summary.dart';
 import 'package:feature_reports/presentation/widgets/summary_card.dart';
 import 'package:feature_reports/presentation/widgets/sales_overview_chart.dart';
 import 'package:feature_reports/presentation/widgets/status_donut_chart.dart';
 import 'package:feature_reports/presentation/widgets/top_products_list.dart';
-import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
 @RoutePage()
@@ -36,7 +35,7 @@ class ReportPage extends StatelessWidget {
                     onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                     icon: const Icon(Icons.menu_rounded),
                   ),
-            title: Text(t.report.title),
+            title: AppText.titleLg(t.report.title),
             actions: [
               _buildPeriodDropdown(context, state),
               const SizedBox(width: Sizes.md),
@@ -111,14 +110,11 @@ class ReportPage extends StatelessWidget {
         children: [
           const Icon(
             Icons.error_outline,
-            color: AppColors.error500,
+            color: AppPalette.error500,
             size: 48,
           ),
           const SizedBox(height: Sizes.md),
-          Text(
-            'Could not load the report.',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          const AppText.body('Could not load the report.'),
           const SizedBox(height: Sizes.md),
           AppButton.outline(
             onPressed: () => context.reportsCubit.load(),
@@ -133,9 +129,9 @@ class ReportPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.md),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: context.colors.border),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<ReportPeriod>(
@@ -147,7 +143,10 @@ class ReportPage extends StatelessWidget {
           },
           items: [
             for (final period in ReportPeriod.values)
-              DropdownMenuItem(value: period, child: Text(period.label)),
+              DropdownMenuItem(
+                value: period,
+                child: AppText.body(period.label),
+              ),
           ],
         ),
       ),
@@ -160,14 +159,14 @@ class ReportPage extends StatelessWidget {
         // Export (CSV/PDF) is tracked separately as P5-4 and needs a
         // file/share dependency; surface intent rather than silently no-op.
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Export is coming soon')),
+          const SnackBar(content: AppText.body('Export is coming soon')),
         );
       },
       label: t.report.download,
       leadingIcon: const Icon(Icons.download_outlined, size: 20),
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.neutral700,
-        side: const BorderSide(color: AppColors.neutral200),
+        foregroundColor: AppPalette.neutral700,
+        side: const BorderSide(color: AppPalette.neutral200),
         padding: const EdgeInsets.symmetric(
           horizontal: Sizes.lg,
           vertical: Sizes.md,
@@ -192,7 +191,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.shopping_bag_outlined,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -203,7 +202,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.attach_money,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -214,7 +213,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.receipt_long_outlined,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -225,7 +224,7 @@ class ReportPage extends StatelessWidget {
         isPositive: true,
         icon: const Icon(
           Icons.inventory_2_outlined,
-          color: AppColors.primary500,
+          color: AppPalette.primary500,
           size: 20,
         ),
       ),
@@ -318,17 +317,17 @@ class ReportPage extends StatelessWidget {
           DonutData(
             label: 'Completed',
             value: status.completed,
-            color: AppColors.primary500,
+            color: AppPalette.primary500,
           ),
           DonutData(
             label: 'Pending',
             value: status.pending,
-            color: AppColors.warning500,
+            color: AppPalette.warning500,
           ),
           DonutData(
             label: 'Voided',
             value: status.voided,
-            color: AppColors.error500,
+            color: AppPalette.error500,
           ),
         ],
       ),
@@ -344,17 +343,17 @@ class ReportPage extends StatelessWidget {
           DonutData(
             label: t.report.stock_status.in_stock,
             value: stock.inStock,
-            color: AppColors.primary500,
+            color: AppPalette.primary500,
           ),
           DonutData(
             label: t.report.stock_status.low_stock,
             value: stock.lowStock,
-            color: AppColors.warning500,
+            color: AppPalette.warning500,
           ),
           DonutData(
             label: t.report.stock_status.out_of_stock,
             value: stock.outOfStock,
-            color: AppColors.error500,
+            color: AppPalette.error500,
           ),
         ],
       ),
@@ -385,15 +384,13 @@ class ReportPage extends StatelessWidget {
         height: 200,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.colors.card,
           borderRadius: BorderRadius.circular(Sizes.md),
-          border: Border.all(color: AppColors.neutral200),
+          border: Border.all(color: context.colors.border),
         ),
-        child: Text(
+        child: AppText.body(
           'No orders in this period',
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
+          color: context.colors.mutedForeground,
         ),
       );
     }
@@ -406,10 +403,7 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'id',
             label: t.report.recent_order.id,
-            cellBuilder: (item) => Text(
-              '#${item.id ?? '-'}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            cellBuilder: (item) => AppText.titleMd('#${item.id ?? '-'}'),
           ),
           DataTableColumn(
             id: 'status',
@@ -419,30 +413,25 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'orderDate',
             label: t.report.recent_order.order_date,
-            cellBuilder: (item) => Text(
+            cellBuilder: (item) => AppText.bodySm(
               _formatDateTime(item.createdAt),
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: AppColors.neutral500),
+              color: context.colors.mutedForeground,
             ),
           ),
           DataTableColumn(
             id: 'orderType',
             label: t.report.recent_order.order_type,
-            cellBuilder: (item) => Text(_orderTypeLabel(item.orderType)),
+            cellBuilder: (item) => AppText.body(_orderTypeLabel(item.orderType)),
           ),
           DataTableColumn(
             id: 'payment',
             label: t.report.recent_order.customer,
-            cellBuilder: (item) => Text(
-              item.paymentMethod ?? '—',
-              style: const TextStyle(color: AppColors.neutral700),
-            ),
+            cellBuilder: (item) => AppText.body(item.paymentMethod ?? '—'),
           ),
           DataTableColumn(
             id: 'qty',
             label: t.report.recent_order.qty,
-            cellBuilder: (item) => Text(
+            cellBuilder: (item) => AppText.body(
               item.items
                   .fold<int>(0, (sum, i) => sum + i.quantity)
                   .toString(),
@@ -451,10 +440,8 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'total',
             label: t.report.recent_order.total,
-            cellBuilder: (item) => Text(
-              formatCents(item.grandTotalCents),
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            cellBuilder: (item) =>
+                AppText.titleMd(formatCents(item.grandTotalCents)),
           ),
         ],
         config: DataTableConfig(title: t.report.recent_order.title),
@@ -481,9 +468,9 @@ class ReportPage extends StatelessWidget {
 
   Widget _buildStatusBadge(OrderStatus status) {
     final (color, label) = switch (status) {
-      OrderStatus.pending => (AppColors.warning500, 'Pending'),
-      OrderStatus.completed => (AppColors.primary500, 'Completed'),
-      OrderStatus.voided => (AppColors.error500, 'Voided'),
+      OrderStatus.pending => (AppPalette.warning500, 'Pending'),
+      OrderStatus.completed => (AppPalette.primary500, 'Completed'),
+      OrderStatus.voided => (AppPalette.error500, 'Voided'),
     };
 
     return Container(
@@ -495,14 +482,7 @@ class ReportPage extends StatelessWidget {
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      child: AppText.label(label, color: color),
     );
   }
 }

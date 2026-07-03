@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Row action types for the data table.
@@ -181,7 +180,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(Sizes.md),
-        border: Border.all(color: AppColors.neutral200),
+        border: Border.all(color: AppPalette.neutral200),
       ),
       child: Column(
         children: [
@@ -211,7 +210,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
             onAdd: widget.showAddButton ? widget.onAdd : null,
           ),
           // Divider
-          const Divider(height: 1, color: AppColors.neutral200),
+          const Divider(height: 1, color: AppPalette.neutral200),
           // Content
           Expanded(
             child: widget.isLoading
@@ -226,7 +225,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
           ),
           // Pagination (only show if there are items)
           if (!widget.isLoading && widget.items.isNotEmpty) ...[
-            const Divider(height: 1, color: AppColors.neutral200),
+            const Divider(height: 1, color: AppPalette.neutral200),
             DataTablePagination(
               currentPage: _controller.currentPage,
               totalPages: _controller.totalPages,
@@ -265,8 +264,8 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
         vertical: Sizes.md,
       ),
       decoration: const BoxDecoration(
-        color: AppColors.neutral50,
-        border: Border(bottom: BorderSide(color: AppColors.neutral200)),
+        color: AppPalette.neutral50,
+        border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
       ),
       child: Row(
         children: [
@@ -292,7 +291,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       child: Text(
         column.label.toUpperCase(),
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: AppColors.neutral500,
+          color: AppPalette.neutral500,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
         ),
@@ -309,7 +308,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
           vertical: Sizes.md,
         ),
         decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: AppColors.neutral200)),
+          border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
         ),
         child: Row(
           children: [
@@ -341,7 +340,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                       widget.onRowAction?.call(item, action),
                   icon: const Icon(
                     Icons.more_vert,
-                    color: AppColors.neutral500,
+                    color: AppPalette.neutral500,
                     size: 20,
                   ),
                   padding: EdgeInsets.zero,
@@ -379,12 +378,12 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                             Icon(
                               Icons.delete_outline,
                               size: 18,
-                              color: AppColors.error500,
+                              color: AppPalette.error500,
                             ),
                             SizedBox(width: Sizes.sm),
                             Text(
                               'Delete',
-                              style: TextStyle(color: AppColors.error500),
+                              style: TextStyle(color: AppPalette.error500),
                             ),
                           ],
                         ),

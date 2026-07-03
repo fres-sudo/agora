@@ -62,5 +62,10 @@ extension TODELETE on String {
 }
 
 extension BuildContextX on BuildContext {
+  @Deprecated(
+    'Do not branch UI on brightness. Read semantic design tokens instead '
+    '(context.colors / context.typography / context.tokens from package:ui_kit), '
+    'which already resolve correctly for light and dark.',
+  )
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 }

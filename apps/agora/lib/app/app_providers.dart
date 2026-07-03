@@ -23,7 +23,7 @@ import 'package:remote_config/remote_config.dart';
 import 'package:talker/talker.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
 class AppProviders extends StatelessWidget {

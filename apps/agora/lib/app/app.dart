@@ -7,7 +7,7 @@ import 'package:i18n/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker/talker.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
 
 class AgoraApp extends StatefulWidget {
@@ -42,7 +42,8 @@ class _AgoraAppState extends State<AgoraApp> {
             title: widget.config.appName,
             debugShowCheckedModeBanner: false,
             themeMode: themeMode,
-            theme: AppTheme.lightTheme,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
             routerDelegate: _router?.delegate(),
             routeInformationParser: _router?.defaultRouteParser(),
             locale: TranslationProvider.of(context).flutterLocale,
@@ -62,6 +63,9 @@ class _AgoraAppState extends State<AgoraApp> {
     return Banner(
       message: widget.config.flavor.name.toUpperCase(),
       location: BannerLocation.topStart,
+      // Fixed environment-indicator colors (dev = blue, staging = orange) — a
+      // debug banner must read the same regardless of the app theme.
+      // ignore: avoid_hardcoded_colors
       color: widget.config.flavor.isStaging ? Colors.deepOrange : Colors.blue,
       child: content,
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// User profile tile displayed at the bottom of the drawer
 class MenuDrawerUserTile extends StatelessWidget {
@@ -48,7 +48,7 @@ class MenuDrawerUserTile extends StatelessWidget {
                   name,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.neutral900,
+                    color: AppPalette.neutral900,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -58,7 +58,7 @@ class MenuDrawerUserTile extends StatelessWidget {
                   Text(
                     subtitle!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.primary500,
+                      color: AppPalette.primary500,
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
@@ -79,7 +79,7 @@ class MenuDrawerUserTile extends StatelessWidget {
       return CircleAvatar(
         radius: 20,
         backgroundImage: NetworkImage(avatarUrl!),
-        backgroundColor: AppColors.neutral200,
+        backgroundColor: AppPalette.neutral200,
       );
     }
 
@@ -87,10 +87,10 @@ class MenuDrawerUserTile extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: AppColors.neutral200,
+        color: AppPalette.neutral200,
         shape: BoxShape.circle,
       ),
-      child: const Icon(Icons.person, color: AppColors.neutral500, size: 24),
+      child: const Icon(Icons.person, color: AppPalette.neutral500, size: 24),
     );
   }
 
@@ -100,10 +100,10 @@ class MenuDrawerUserTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isClockedIn ? AppColors.error100 : AppColors.primary50,
+          color: isClockedIn ? AppPalette.error100 : AppPalette.primary50,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isClockedIn ? AppColors.error300 : AppColors.primary300,
+            color: isClockedIn ? AppPalette.error300 : AppPalette.primary300,
             width: 1,
           ),
         ),
@@ -114,7 +114,7 @@ class MenuDrawerUserTile extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: isClockedIn ? AppColors.error500 : AppColors.primary500,
+                color: isClockedIn ? AppPalette.error500 : AppPalette.primary500,
                 shape: BoxShape.circle,
               ),
             ),
@@ -123,7 +123,7 @@ class MenuDrawerUserTile extends StatelessWidget {
               isClockedIn ? 'Clock Out' : 'Clock In',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: isClockedIn ? AppColors.error500 : AppColors.primary600,
+                color: isClockedIn ? AppPalette.error500 : AppPalette.primary600,
               ),
             ),
           ],

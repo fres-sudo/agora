@@ -71,7 +71,7 @@ class _ReceiptOptionSectionState extends State<ReceiptOptionSection> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Receipt options saved')),
+      const SnackBar(content: AppText.body('Receipt options saved')),
     );
   }
 
@@ -146,23 +146,11 @@ class _ReceiptField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            hintText: hint,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        ),
-      ],
+    return AppTextField(
+      label: label,
+      hintText: hint,
+      controller: controller,
+      maxLines: maxLines,
     );
   }
 }
@@ -182,7 +170,6 @@ class _ReceiptToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -190,12 +177,9 @@ class _ReceiptToggle extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
+              AppText.titleMd(label),
               const SizedBox(height: 2),
-              Text(
-                description,
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
-              ),
+              AppText.bodySm(description, color: context.colors.mutedForeground),
             ],
           ),
         ),

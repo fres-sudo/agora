@@ -1,10 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
-import '../app_icon_button.dart';
+import 'package:ui_kit/ui_kit.dart';
 
-import 'menu_drawer_item.dart';
-import 'menu_drawer_user_tile.dart';
 
 /// A reusable menu drawer widget that displays navigation items,
 /// user information, and a logout option.
@@ -64,7 +61,7 @@ class AppMenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AppColors.neutral100,
+      backgroundColor: AppPalette.neutral100,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
         child: Column(
@@ -85,19 +82,19 @@ class AppMenuDrawer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 12, 0),
       child: Row(
         children: [
-          logo ?? Icon(Icons.bolt, color: AppColors.primary500, size: 28),
+          logo ?? Icon(Icons.bolt, color: AppPalette.primary500, size: 28),
           const SizedBox(width: 8),
           Text(
             appName,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppColors.neutral900,
+              color: AppPalette.neutral900,
             ),
           ),
           const Spacer(),
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close, color: AppColors.neutral600, size: 24),
+            icon: const Icon(Icons.close, color: AppPalette.neutral600, size: 24),
             style: IconButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: const Size(40, 40),

@@ -3,7 +3,6 @@ import 'package:feature_settings/presentation/widgets/discount_form/discount_for
 import 'package:feature_settings/presentation/widgets/discount_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Discount & voucher settings section (Settings → Discount & Voucher, P6-3).
@@ -58,8 +57,6 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return EffectListener<DiscountsBloc, DiscountsEffect>(
       onEffect: (context, effect) {
         if (effect is DiscountsShowError) {
@@ -67,14 +64,17 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
             ..clearSnackBars()
             ..showSnackBar(
               SnackBar(
-                content: Text(effect.message),
-                backgroundColor: AppColors.error500,
+                content: AppText.body(
+                  effect.message,
+                  color: context.colors.destructiveForeground,
+                ),
+                backgroundColor: context.colors.destructive,
               ),
             );
         }
       },
       child: Container(
-        color: Colors.white,
+        color: context.colors.card,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -83,12 +83,7 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Discount & Voucher',
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const AppText.headingSm('Discount & Voucher'),
                   AppButton.primary(
                     onPressed: _onAddDiscount,
                     label: 'Add Discount',
@@ -107,7 +102,7 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
                     loading: (_) =>
                         const Center(child: CircularProgressIndicator()),
                     loaded: (loaded) => _buildList(loaded.discounts),
-                    error: (error) => _buildErrorState(theme, error.message),
+                    error: (error) => _buildErrorState(error.message),
                   );
                 },
               ),
@@ -145,42 +140,33 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
           Icon(
             Icons.local_offer_outlined,
             size: 64,
-            color: AppColors.neutral300,
+            color: AppPalette.neutral300,
           ),
           const SizedBox(height: Sizes.md),
-          Text(
+          AppText.titleMd(
             'No discounts yet',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
+            color: context.colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.sm),
-          Text(
+          AppText.body(
             'Add a discount (e.g. "10% off" or a voucher code) to get started',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
+            color: context.colors.mutedForeground,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildErrorState(ThemeData theme, String message) {
+  Widget _buildErrorState(String message) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: AppColors.error500),
+          Icon(Icons.error_outline, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
-          Text('Failed to load discounts', style: theme.textTheme.titleMedium),
+          const AppText.titleMd('Failed to load discounts'),
           const SizedBox(height: Sizes.sm),
-          Text(
-            message,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppColors.neutral500,
-            ),
-          ),
+          AppText.body(message, color: context.colors.mutedForeground),
           const SizedBox(height: Sizes.lg),
           AppButton.primary(
             onPressed: () =>

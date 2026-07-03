@@ -1,5 +1,5 @@
 name: ui_kit
-description: Shared UI widgets for Agora
+description: Agora Design System — tokens, theme and atomic components
 publish_to: none
 resolution: workspace
 
@@ -9,13 +9,28 @@ environment:
 
 dependencies:
   auto_route: ^11.1.0
+  bloc: ^9.0.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   flutter_svg: ^2.2.3
+  freezed_annotation: ^3.1.0
   skeletonizer: ^2.1.2
-  theme:
-    path: ../theme
+  utils:
+    path: ../utils
 
 dev_dependencies:
+  build_runner: ^2.4.7
   flutter_test:
     sdk: flutter
+  freezed: ^3.2.3
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono.ttf

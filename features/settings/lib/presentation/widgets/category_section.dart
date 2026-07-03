@@ -2,7 +2,6 @@ import 'package:feature_settings/presentation/widgets/category_form/category_for
 import 'package:feature_settings/presentation/widgets/category_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/categories/categories_bloc.dart';
 import 'package:feature_products/domain/models/category.dart';
@@ -56,10 +55,8 @@ class _CategorySectionState extends State<CategorySection> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      color: Colors.white,
+      color: context.colors.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,10 +66,7 @@ class _CategorySectionState extends State<CategorySection> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Category',
-                  style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-                ),
+                const AppText.headingSm('Category'),
                 AppButton.primary(
                   onPressed: _onAddCategory,
                   label: 'Add Category',
@@ -90,7 +84,7 @@ class _CategorySectionState extends State<CategorySection> {
                   initial: (_) => const Center(child: CircularProgressIndicator()),
                   loading: (_) => const Center(child: CircularProgressIndicator()),
                   loaded: (loaded) => _buildCategoryList(loaded.categories),
-                  error: (error) => _buildErrorState(theme, error.message),
+                  error: (error) => _buildErrorState(error.message),
                 );
               },
             ),
@@ -126,32 +120,37 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.category_outlined, size: 64, color: AppColors.neutral300),
+          Icon(Icons.category_outlined, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: Sizes.md),
-          Text(
+          AppText.titleMd(
             'No categories yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: AppColors.neutral500),
+            color: context.colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.sm),
-          Text(
+          AppText.body(
             'Add a category to get started',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
+            color: context.colors.mutedForeground,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildErrorState(ThemeData theme, String message) {
+  Widget _buildErrorState(String message) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: AppColors.error500),
+          Icon(Icons.error_outline, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
-          Text('Failed to load categories', style: theme.textTheme.titleMedium),
+          const AppText.titleMd('Failed to load categories'),
           const SizedBox(height: Sizes.sm),
-          Text(message, style: theme.textTheme.bodyMedium?.copyWith(color: AppColors.neutral500)),
+          Builder(
+            builder: (context) => AppText.body(
+              message,
+              color: context.colors.mutedForeground,
+            ),
+          ),
           const SizedBox(height: Sizes.lg),
           AppButton.primary(
             onPressed: () => context.read<CategoriesBloc>().add(const CategoriesEvent.started()),

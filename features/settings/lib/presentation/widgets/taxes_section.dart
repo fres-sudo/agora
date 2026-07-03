@@ -64,7 +64,7 @@ class _TaxesSectionState extends State<TaxesSection> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Tax rate saved')),
+      const SnackBar(content: AppText.body('Tax rate saved')),
     );
   }
 
@@ -77,8 +77,6 @@ class _TaxesSectionState extends State<TaxesSection> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return BlocListener<SettingsCubit, SettingsState>(
       listenWhen: (prev, curr) => !prev.isLoaded && curr.isLoaded,
       listener: (context, state) => _loadFromSettings(),
@@ -93,24 +91,18 @@ class _TaxesSectionState extends State<TaxesSection> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Tax Rate (%)',
-                style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
-              ),
+              const AppText.label('Tax Rate (%)'),
               const SizedBox(height: 8),
               SizedBox(
                 width: 220,
-                child: TextFormField(
+                child: AppTextField(
                   controller: _rateCtrl,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                   ],
-                  decoration: InputDecoration(
-                    hintText: '0',
-                    suffixText: '%',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                  ),
+                  hintText: '0',
+                  suffixText: '%',
                   validator: (value) {
                     if (value == null || value.isEmpty) return null;
                     final v = double.tryParse(value);
@@ -121,9 +113,9 @@ class _TaxesSectionState extends State<TaxesSection> {
                 ),
               ),
               const SizedBox(height: 12),
-              Text(
+              AppText.bodySm(
                 'Applied to each order total. Set to 0 to disable tax.',
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
+                color: context.colors.mutedForeground,
               ),
             ],
           ),

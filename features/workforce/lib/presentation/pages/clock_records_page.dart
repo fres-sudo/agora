@@ -3,7 +3,6 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/domain/models/clock_record.dart';
 import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -16,7 +15,7 @@ class ClockRecordsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clock Records'),
+        title: const AppText.titleLg('Clock Records'),
         leading: context.isTabletOrLarger
             ? null
             : AppIconButton.ghost(
@@ -41,7 +40,7 @@ class ClockRecordsPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: AppText.body('Error: ${snapshot.error}'));
           }
           final records = snapshot.data ?? [];
           if (records.isEmpty) {
@@ -74,45 +73,37 @@ class _RecordTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final timeIn = _formatTime(record.clockedInAt);
     final timeOut =
         record.clockedOutAt != null ? _formatTime(record.clockedOutAt!) : null;
+    final statusColor = record.isActive ? colors.success : colors.mutedForeground;
 
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: record.isActive
-            ? Colors.green.withValues(alpha: 0.12)
-            : AppColors.neutral100,
+            ? colors.success.withValues(alpha: 0.12)
+            : colors.muted,
         child: Icon(
           record.isActive ? Icons.login : Icons.logout,
-          color: record.isActive ? Colors.green.shade700 : AppColors.neutral400,
+          color: statusColor,
           size: 20,
         ),
       ),
-      title: Text(record.employeeName, style: theme.textTheme.bodyLarge),
-      subtitle: Text(
+      title: AppText.body(record.employeeName),
+      subtitle: AppText.bodySm(
         '$timeIn${timeOut != null ? ' → $timeOut' : ''}',
-        style: theme.textTheme.bodySmall,
+        color: colors.mutedForeground,
       ),
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
           color: record.isActive
-              ? Colors.green.withValues(alpha: 0.12)
-              : AppColors.neutral100,
+              ? colors.success.withValues(alpha: 0.12)
+              : colors.muted,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text(
-          record.formattedDuration,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: record.isActive
-                ? Colors.green.shade700
-                : AppColors.neutral600,
-          ),
-        ),
+        child: AppText.label(record.formattedDuration, color: statusColor),
       ),
     );
   }
@@ -136,13 +127,11 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.access_time_outlined, size: 64, color: AppColors.neutral300),
+          Icon(Icons.access_time_outlined, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: 16),
-          Text(
+          AppText.titleMd(
             'No clock records yet',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.neutral500,
-            ),
+            color: context.colors.mutedForeground,
           ),
         ],
       ),

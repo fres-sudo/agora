@@ -84,9 +84,8 @@ class _EmployeeFormState extends State<EmployeeForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return AlertDialog(
-      title: Text(_isEditing ? 'Edit Employee' : 'Add Employee'),
+      title: AppText.titleLg(_isEditing ? 'Edit Employee' : 'Add Employee'),
       content: SizedBox(
         width: 400,
         child: Form(
@@ -94,27 +93,25 @@ class _EmployeeFormState extends State<EmployeeForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextFormField(
+              AppTextField(
                 controller: _nameCtrl,
-                decoration: const InputDecoration(labelText: 'Full Name'),
+                label: 'Full Name',
                 textCapitalization: TextCapitalization.words,
                 validator: (v) =>
                     (v == null || v.trim().isEmpty) ? 'Name is required' : null,
               ),
               const SizedBox(height: 16),
-              TextFormField(
+              AppTextField(
                 controller: _pinCtrl,
-                decoration: InputDecoration(
-                  labelText: _isEditing
-                      ? 'PIN (leave blank to keep current)'
-                      : 'PIN (4–6 digits)',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePin ? Icons.visibility_off : Icons.visibility,
-                    ),
-                    onPressed: () =>
-                        setState(() => _obscurePin = !_obscurePin),
+                label: _isEditing
+                    ? 'PIN (leave blank to keep current)'
+                    : 'PIN (4–6 digits)',
+                suffix: IconButton(
+                  icon: Icon(
+                    _obscurePin ? Icons.visibility_off : Icons.visibility,
                   ),
+                  onPressed: () =>
+                      setState(() => _obscurePin = !_obscurePin),
                 ),
                 obscureText: _obscurePin,
                 keyboardType: TextInputType.number,
@@ -136,18 +133,19 @@ class _EmployeeFormState extends State<EmployeeForm> {
                 decoration: const InputDecoration(labelText: 'Role'),
                 items: EmployeeRole.values
                     .map(
-                      (r) => DropdownMenuItem(value: r, child: Text(r.label)),
+                      (r) => DropdownMenuItem(
+                        value: r,
+                        child: AppText.body(r.label),
+                      ),
                     )
                     .toList(),
                 onChanged: (v) => setState(() => _role = v!),
               ),
               const SizedBox(height: 16),
-              TextFormField(
+              AppTextField(
                 controller: _rateCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Hourly Rate',
-                  prefixText: '\$',
-                ),
+                label: 'Hourly Rate',
+                prefixText: '\$',
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
@@ -155,10 +153,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
               const SizedBox(height: 8),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text(
-                  'Active',
-                  style: theme.textTheme.bodyMedium,
-                ),
+                title: const AppText.body('Active'),
                 value: _isActive,
                 onChanged: (v) => setState(() => _isActive = v),
               ),
@@ -167,9 +162,9 @@ class _EmployeeFormState extends State<EmployeeForm> {
         ),
       ),
       actions: [
-        TextButton(
+        AppButton.ghost(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          label: 'Cancel',
         ),
         AppButton.primary(
           onPressed: _submit,

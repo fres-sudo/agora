@@ -88,7 +88,7 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Store settings saved')),
+      const SnackBar(content: AppText.body('Store settings saved')),
     );
   }
 
@@ -144,11 +144,9 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
                 hint: 'e.g. € or \$',
               ),
               const SizedBox(height: 4),
-              Text(
+              AppText.bodySm(
                 'Symbol shown on prices and receipts across the app.',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).hintColor,
-                    ),
+                color: context.colors.mutedForeground,
               ),
             ],
           ),
@@ -173,26 +171,11 @@ class _FormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            hintText: hint ?? 'Enter $label',
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        ),
-      ],
+    return AppTextField(
+      label: label,
+      hintText: hint ?? 'Enter $label',
+      controller: controller,
+      maxLines: maxLines,
     );
   }
 }

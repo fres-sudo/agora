@@ -1,4 +1,3 @@
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/domain/models/order_line_item.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,7 @@ class PosOrderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Dismissible(
       key: ValueKey(item.id),
@@ -51,8 +50,8 @@ class PosOrderItem extends StatelessWidget {
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 16),
-        color: AppColors.error400,
-        child: const Icon(Icons.delete_outline, color: Colors.white),
+        color: colors.destructive,
+        child: Icon(Icons.delete_outline, color: colors.destructiveForeground),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -64,35 +63,26 @@ class PosOrderItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText.titleMd(
                     item.productName,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.neutral800,
-                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (item.selectedModifiers.isNotEmpty) ...[
                     const SizedBox(height: 2),
-                    Text(
+                    AppText.bodySm(
                       item.selectedModifiers
                           .map((m) => m.optionName)
                           .join(', '),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral500,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      color: colors.mutedForeground,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                   const SizedBox(height: 2),
-                  Text(
+                  AppText.bodySm(
                     '${_formatCents(item.unitPriceCents)} each',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral500,
-                    ),
+                    color: colors.mutedForeground,
                   ),
                 ],
               ),
@@ -102,13 +92,7 @@ class PosOrderItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  _formatCents(_itemTotal),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.neutral800,
-                  ),
-                ),
+                AppText.titleMd(_formatCents(_itemTotal)),
                 const SizedBox(height: 4),
                 QuantityButton(
                   quantity: item.quantity,

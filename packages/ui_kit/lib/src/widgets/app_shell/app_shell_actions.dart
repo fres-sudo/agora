@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
-import 'app_shell_scope.dart';
 
 enum _UserMenuAction { clockToggle, logout }
 
@@ -21,9 +20,9 @@ class AppShellOperatorChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: AppColors.neutral100,
+          color: AppPalette.neutral100,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.neutral200),
+          border: Border.all(color: AppPalette.neutral200),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -32,20 +31,20 @@ class AppShellOperatorChip extends StatelessWidget {
             const Icon(
               Icons.storefront_outlined,
               size: 14,
-              color: AppColors.neutral500,
+              color: AppPalette.neutral500,
             ),
             Text(
               operator,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppColors.neutral700,
+                    color: AppPalette.neutral700,
                   ),
             ),
             if (scope?.onOperatorSwitchTap != null)
               const Icon(
                 Icons.unfold_more_rounded,
                 size: 14,
-                color: AppColors.neutral400,
+                color: AppPalette.neutral400,
               ),
           ],
         ),
@@ -69,7 +68,7 @@ class AppShellUserMenu extends StatelessWidget {
       offset: const Offset(0, 10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppPalette.neutral200),
       ),
       elevation: 6,
       shadowColor: Colors.black12,
@@ -113,7 +112,7 @@ class AppShellUserMenu extends StatelessWidget {
                   scope.userName!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: AppColors.neutral900,
+                        color: AppPalette.neutral900,
                       ),
                 ),
                 if (scope.userSubtitle != null) ...[
@@ -121,7 +120,7 @@ class AppShellUserMenu extends StatelessWidget {
                   Text(
                     scope.userSubtitle!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.primary600,
+                          color: AppPalette.primary600,
                           fontWeight: FontWeight.w500,
                         ),
                   ),
@@ -143,20 +142,20 @@ class AppShellUserMenu extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: isClockedIn ? AppColors.error100 : AppColors.primary50,
+                color: isClockedIn ? AppPalette.error100 : AppPalette.primary50,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
                 isClockedIn ? Icons.timer_off_outlined : Icons.timer_outlined,
                 size: 16,
-                color: isClockedIn ? AppColors.error500 : AppColors.primary600,
+                color: isClockedIn ? AppPalette.error500 : AppPalette.primary600,
               ),
             ),
             Text(
               isClockedIn ? 'Clock Out' : 'Clock In',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: isClockedIn ? AppColors.error700 : AppColors.neutral800,
+                    color: isClockedIn ? AppPalette.error700 : AppPalette.neutral800,
                   ),
             ),
           ],
@@ -174,20 +173,20 @@ class AppShellUserMenu extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: AppColors.error100,
+                color: AppPalette.error100,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
                 Icons.logout_rounded,
                 size: 16,
-                color: AppColors.error500,
+                color: AppPalette.error500,
               ),
             ),
             Text(
               'Logout',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: AppColors.error500,
+                    color: AppPalette.error500,
                   ),
             ),
           ],
@@ -225,14 +224,14 @@ class _AvatarChip extends StatelessWidget {
                 name,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: AppColors.neutral900,
+                      color: AppPalette.neutral900,
                     ),
               ),
               if (subtitle != null)
                 Text(
                   subtitle!,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral500,
+                        color: AppPalette.neutral500,
                         fontSize: 10,
                       ),
                 ),
@@ -241,7 +240,7 @@ class _AvatarChip extends StatelessWidget {
           const Icon(
             Icons.keyboard_arrow_down_rounded,
             size: 16,
-            color: AppColors.neutral400,
+            color: AppPalette.neutral400,
           ),
         ],
       ),
@@ -266,18 +265,18 @@ class _Avatar extends StatelessWidget {
       return CircleAvatar(
         radius: radius,
         backgroundImage: NetworkImage(avatarUrl!),
-        backgroundColor: AppColors.neutral200,
+        backgroundColor: AppPalette.neutral200,
       );
     }
 
     final initials = _initials(name);
     return CircleAvatar(
       radius: radius,
-      backgroundColor: AppColors.primary100,
+      backgroundColor: AppPalette.primary100,
       child: Text(
         initials,
         style: TextStyle(
-          color: AppColors.primary700,
+          color: AppPalette.primary700,
           fontSize: radius * 0.65,
           fontWeight: FontWeight.w700,
         ),

@@ -1,5 +1,4 @@
 import 'package:i18n/i18n.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +36,8 @@ class ProductFormActions extends StatelessWidget {
                     : () => Navigator.of(context).pop(false),
                 label: t.cancel,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.neutral700,
-                  side: const BorderSide(color: AppColors.neutral300),
+                  foregroundColor: AppPalette.neutral700,
+                  side: const BorderSide(color: AppPalette.neutral300),
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.lg,
                     vertical: Sizes.md,
@@ -51,8 +50,8 @@ class ProductFormActions extends StatelessWidget {
                 onPressed: isSubmitting ? null : cubit.saveAsDraft,
                 label: t.products.actions.save_as_draft,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.neutral700,
-                  side: const BorderSide(color: AppColors.neutral300),
+                  foregroundColor: AppPalette.neutral700,
+                  side: const BorderSide(color: AppPalette.neutral300),
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.lg,
                     vertical: Sizes.md,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Loading state widget that shows skeleton placeholders for the data table.
 class DataTableLoadingState extends StatelessWidget {
@@ -26,8 +26,8 @@ class DataTableLoadingState extends StatelessWidget {
               vertical: Sizes.md,
             ),
             decoration: BoxDecoration(
-              color: AppColors.neutral100,
-              border: Border(bottom: BorderSide(color: AppColors.neutral200)),
+              color: AppPalette.neutral100,
+              border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
             ),
             child: Row(
               children: List.generate(
@@ -39,7 +39,7 @@ class DataTableLoadingState extends StatelessWidget {
                       height: 16,
                       margin: const EdgeInsets.only(right: Sizes.lg),
                       decoration: BoxDecoration(
-                        color: AppColors.neutral300,
+                        color: AppPalette.neutral300,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -57,7 +57,7 @@ class DataTableLoadingState extends StatelessWidget {
                 vertical: Sizes.md,
               ),
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: AppColors.neutral200)),
+                border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
               ),
               child: Row(
                 children: List.generate(
@@ -72,7 +72,7 @@ class DataTableLoadingState extends StatelessWidget {
                               child: Container(
                                 height: 14,
                                 decoration: BoxDecoration(
-                                  color: AppColors.neutral200,
+                                  color: AppPalette.neutral200,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                               ),
@@ -97,7 +97,7 @@ class DataTableLoadingState extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.neutral200,
+              color: AppPalette.neutral200,
               borderRadius: BorderRadius.circular(Sizes.borderRadius),
             ),
           ),
@@ -113,7 +113,7 @@ class DataTableLoadingState extends StatelessWidget {
                   height: 14,
                   width: 120,
                   decoration: BoxDecoration(
-                    color: AppColors.neutral200,
+                    color: AppPalette.neutral200,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -124,7 +124,7 @@ class DataTableLoadingState extends StatelessWidget {
                   height: 12,
                   width: 200,
                   decoration: BoxDecoration(
-                    color: AppColors.neutral100,
+                    color: AppPalette.neutral100,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

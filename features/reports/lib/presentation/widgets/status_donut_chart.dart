@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:theme/theme.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 class StatusDonutChart extends StatelessWidget {
@@ -34,12 +33,13 @@ class StatusDonutChart extends StatelessWidget {
             : 60.0;
         final pieRadius = isVeryCompact ? 16.0 : 20.0;
 
+        final colors = context.colors;
         return Container(
           padding: EdgeInsets.all(isCompact ? Sizes.md : Sizes.lg),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: colors.card,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppColors.neutral200),
+            border: Border.all(color: colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,13 +49,8 @@ class StatusDonutChart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text(
+                    child: AppText.headingSm(
                       title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.neutral900,
-                        fontSize: isCompact ? 16 : null,
-                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -64,14 +59,7 @@ class StatusDonutChart extends StatelessWidget {
                     AppButton.ghost(
                       onPressed: onShowAll,
                       label: 'Show All',
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isCompact ? Sizes.xs : Sizes.sm,
-                        ),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        textStyle: TextStyle(fontSize: isCompact ? 12 : 14),
-                      ),
+                      size: AppButtonSize.sm,
                     ),
                 ],
               ),
@@ -99,22 +87,10 @@ class StatusDonutChart extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          totalValue.toString(),
-                          style: Theme.of(context).textTheme.headlineMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.neutral900,
-                                fontSize: isVeryCompact ? 20 : null,
-                              ),
-                        ),
-                        Text(
+                        AppText.headingMd(totalValue.toString()),
+                        AppText.bodySm(
                           totalLabel,
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: AppColors.neutral500,
-                                fontSize: isVeryCompact ? 10 : null,
-                              ),
+                          color: colors.mutedForeground,
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -141,24 +117,13 @@ class StatusDonutChart extends StatelessWidget {
                       ),
                       const SizedBox(width: Sizes.sm),
                       Expanded(
-                        child: Text(
+                        child: AppText.body(
                           d.label,
-                          style: TextStyle(
-                            color: AppColors.neutral600,
-                            fontSize: isCompact ? 12 : 14,
-                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text(
-                        d.value.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.neutral900,
-                          fontSize: isCompact ? 12 : 14,
-                        ),
-                      ),
+                      AppText.titleMd(d.value.toString()),
                     ],
                   ),
                 ),

@@ -1,7 +1,7 @@
 import 'package:feature_discounts/domain/models/discount.dart';
 import 'package:feature_settings/presentation/widgets/discount_form/discount_form.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Presents [DiscountForm] as a bottom sheet on mobile / dialog on desktop.
 /// Mirrors [CategoryFormWrapper].

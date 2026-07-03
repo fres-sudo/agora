@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Data class for section sidebar/tab bar items.
 class SectionSidebarItemData {
@@ -68,7 +68,7 @@ class SectionSidebarItem extends StatelessWidget {
             color: isSelected ? Colors.white : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
             border: isSelected
-                ? Border.all(color: AppColors.neutral200, width: 1)
+                ? Border.all(color: AppPalette.neutral200, width: 1)
                 : null,
           ),
           child: Row(
@@ -89,7 +89,7 @@ class SectionSidebarItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 22,
-                color: isSelected ? AppColors.neutral800 : AppColors.neutral500,
+                color: isSelected ? AppPalette.neutral800 : AppPalette.neutral500,
               ),
               // Label (hidden when collapsed)
               if (!isCollapsed) ...[
@@ -102,8 +102,8 @@ class SectionSidebarItem extends StatelessWidget {
                           ? FontWeight.w600
                           : FontWeight.w500,
                       color: isSelected
-                          ? AppColors.neutral800
-                          : AppColors.neutral600,
+                          ? AppPalette.neutral800
+                          : AppPalette.neutral600,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

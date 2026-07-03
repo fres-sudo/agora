@@ -3,7 +3,7 @@ import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
 import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:theme/theme.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Configure which payment methods are available at checkout.
 ///
@@ -34,11 +34,9 @@ class PaymentMethodSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AppText.body(
                 'Enable the payment methods operators can use at checkout.',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).hintColor,
-                    ),
+                color: context.colors.mutedForeground,
               ),
               const SizedBox(height: 24),
               _MethodTile(
@@ -67,20 +65,18 @@ class PaymentMethodSection extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColors.warning100,
+                    color: AppPalette.warning100,
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.warning300),
+                    border: Border.all(color: AppPalette.warning300),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.warning_outlined, color: AppColors.warning600, size: 18),
+                      const Icon(Icons.warning_outlined, color: AppPalette.warning600, size: 18),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text(
+                        child: AppText.bodySm(
                           'At least one payment method must be enabled.',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.warning600,
-                              ),
+                          color: context.colors.warning,
                         ),
                       ),
                     ],
@@ -111,19 +107,19 @@ class _MethodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: isEnabled ? AppColors.primary100 : AppColors.neutral100,
+            color: isEnabled ? AppPalette.primary100 : AppPalette.neutral100,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(
             icon,
             size: 20,
-            color: isEnabled ? AppColors.primary500 : AppColors.neutral400,
+            color: isEnabled ? AppPalette.primary500 : AppPalette.neutral400,
           ),
         ),
         const SizedBox(width: 16),
@@ -131,12 +127,9 @@ class _MethodTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+              AppText.titleMd(label),
               const SizedBox(height: 2),
-              Text(
-                description,
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor),
-              ),
+              AppText.bodySm(description, color: colors.mutedForeground),
             ],
           ),
         ),

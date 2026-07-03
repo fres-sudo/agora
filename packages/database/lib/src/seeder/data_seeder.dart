@@ -1,3 +1,6 @@
+// Seed data assigns persisted category colors (stored as ints), not theme
+// tokens — the design-system color rule does not apply here.
+// ignore_for_file: avoid_hardcoded_colors
 import 'package:database/database.dart';
 import 'package:flutter/material.dart';
 
