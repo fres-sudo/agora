@@ -66,16 +66,11 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
               // Product Name
               _FormLabel(label: t.products.form.product_name, required: true),
               const SizedBox(height: Sizes.sm),
-              TextField(
+              AppTextField(
                 controller: _nameController,
                 onChanged: cubit.updateName,
-                decoration: InputDecoration(
-                  hintText: t.products.form.product_name,
-                  errorText: errors['name'],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.sm),
-                  ),
-                ),
+                hintText: t.products.form.product_name,
+                errorText: errors['name'],
               ),
               const SizedBox(height: Sizes.lg),
 
@@ -96,7 +91,7 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                     items: categoriesState.categories.map((category) {
                       return DropdownMenuItem(
                         value: category.id,
-                        child: Text(category.name),
+                        child: AppText.body(category.name),
                       );
                     }).toList(),
                     onChanged: (value) => cubit.updateCategory(value),
@@ -108,33 +103,23 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
               // Description
               _FormLabel(label: t.products.form.description),
               const SizedBox(height: Sizes.sm),
-              TextField(
+              AppTextField(
                 controller: _descriptionController,
                 onChanged: cubit.updateDescription,
                 maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: t.products.form.description_hint,
-                  errorText: errors['description'],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.sm),
-                  ),
-                ),
+                hintText: t.products.form.description_hint,
+                errorText: errors['description'],
               ),
               const SizedBox(height: Sizes.lg),
 
               // SKU
               _FormLabel(label: t.products.form.sku),
               const SizedBox(height: Sizes.sm),
-              TextField(
+              AppTextField(
                 controller: _skuController,
                 onChanged: cubit.updateSku,
-                decoration: InputDecoration(
-                  hintText: t.products.form.sku_hint,
-                  errorText: errors['sku'],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.sm),
-                  ),
-                ),
+                hintText: t.products.form.sku_hint,
+                errorText: errors['sku'],
               ),
             ],
           ),
@@ -153,24 +138,12 @@ class _FormLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       children: [
-        Text(
-          label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        AppText.label(label),
         if (required) ...[
           const SizedBox(width: 4),
-          Text(
-            '*',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppPalette.error500,
-            ),
-          ),
+          AppText.label('*', color: context.colors.destructive),
         ],
       ],
     );

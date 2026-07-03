@@ -16,8 +16,6 @@ class ProductNameCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       children: [
         // Product Image
@@ -52,21 +50,16 @@ class ProductNameCell extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AppText.titleMd(
                 name,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               if (description != null && description!.isNotEmpty) ...[
                 const SizedBox(height: 2),
-                Text(
+                AppText.bodySm(
                   description!,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppPalette.neutral500,
-                  ),
+                  color: context.colors.mutedForeground,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

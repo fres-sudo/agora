@@ -42,12 +42,9 @@ class ProductStatusBadge extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(Sizes.xs),
       ),
-      child: Text(
+      child: AppText.label(
         label,
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: foregroundColor,
-          fontWeight: FontWeight.w600,
-        ),
+        color: foregroundColor,
         textAlign: TextAlign.center,
       ),
     );

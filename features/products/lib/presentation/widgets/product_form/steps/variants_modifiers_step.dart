@@ -11,7 +11,6 @@ class VariantsModifiersStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final t = Translations.of(context);
 
     return SingleChildScrollView(
@@ -20,17 +19,10 @@ class VariantsModifiersStep extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Section Title
-          Text(
-            t.products.form.steps.variants_modifiers,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
+          AppText.titleMd(t.products.form.steps.variants_modifiers),
+          AppText.bodySm(
             t.products.form.steps.variants_modifiers_desc,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: AppPalette.neutral500,
-            ),
+            color: context.colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.lg),
 
@@ -109,17 +101,10 @@ class _ModifierGroupTile extends StatelessWidget {
       child: CheckboxListTile(
         value: isSelected,
         onChanged: (_) => onToggle(),
-        title: Text(
-          name,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        subtitle: Text(
+        title: AppText.titleMd(name),
+        subtitle: AppText.bodySm(
           '$optionCount options',
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: AppPalette.neutral500,
-          ),
+          color: context.colors.mutedForeground,
         ),
         controlAffinity: ListTileControlAffinity.leading,
         activeColor: theme.primaryColor,
@@ -135,31 +120,27 @@ class _ModifierGroupTile extends StatelessWidget {
 class _EmptyModifiersState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     return Container(
       padding: const EdgeInsets.all(Sizes.xl),
       decoration: BoxDecoration(
-        color: AppPalette.neutral50,
+        color: colors.muted,
         borderRadius: BorderRadius.circular(Sizes.sm),
-        border: Border.all(color: AppPalette.neutral200),
+        border: Border.all(color: colors.border),
       ),
       child: Column(
         children: [
-          Icon(Icons.tune_outlined, size: 48, color: AppPalette.neutral400),
+          Icon(Icons.tune_outlined, size: 48, color: colors.mutedForeground),
           const SizedBox(height: Sizes.md),
-          Text(
+          AppText.titleMd(
             'No modifiers available',
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: AppPalette.neutral600,
-            ),
+            color: colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.xs),
-          Text(
+          AppText.bodySm(
             'Create modifiers in Settings to add them here',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: AppPalette.neutral500,
-            ),
+            color: colors.mutedForeground,
             textAlign: TextAlign.center,
           ),
         ],

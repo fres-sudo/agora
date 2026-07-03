@@ -56,7 +56,6 @@ class _PricingStepState extends State<PricingStep> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final t = Translations.of(context);
 
     return BlocBuilder<ProductFormCubit, ProductFormState>(
@@ -72,51 +71,36 @@ class _PricingStepState extends State<PricingStep> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Section Title
-              Text(
-                t.products.form.steps.pricing,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              AppText.titleMd(t.products.form.steps.pricing),
               const SizedBox(height: Sizes.lg),
 
               // Price
               _FormLabel(label: t.products.form.price, required: true),
               const SizedBox(height: Sizes.sm),
-              TextField(
+              AppTextField(
                 controller: _priceController,
                 onChanged: _onPriceChanged,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                 ],
-                decoration: InputDecoration(
-                  prefixText: '\$ ',
-                  hintText: '0.00',
-                  errorText: errors['price'],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.sm),
-                  ),
-                ),
+                prefixText: '\$ ',
+                hintText: '0.00',
+                errorText: errors['price'],
               ),
               const SizedBox(height: Sizes.lg),
 
               // Tax
               _FormLabel(label: t.products.form.tax),
               const SizedBox(height: Sizes.sm),
-              TextField(
+              AppTextField(
                 controller: _taxController,
                 onChanged: _onTaxChanged,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: InputDecoration(
-                  prefixText: '% ',
-                  hintText: '0',
-                  errorText: errors['tax'],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(Sizes.sm),
-                  ),
-                ),
+                prefixText: '% ',
+                hintText: '0',
+                errorText: errors['tax'],
               ),
             ],
           ),
@@ -135,24 +119,12 @@ class _FormLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       children: [
-        Text(
-          label,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        AppText.label(label),
         if (required) ...[
           const SizedBox(width: 4),
-          Text(
-            '*',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppPalette.error500,
-            ),
-          ),
+          AppText.label('*', color: context.colors.destructive),
         ],
       ],
     );
