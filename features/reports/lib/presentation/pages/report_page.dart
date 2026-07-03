@@ -35,7 +35,7 @@ class ReportPage extends StatelessWidget {
                     onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                     icon: const Icon(Icons.menu_rounded),
                   ),
-            title: Text(t.report.title),
+            title: AppText.titleLg(t.report.title),
             actions: [
               _buildPeriodDropdown(context, state),
               const SizedBox(width: Sizes.md),
@@ -114,10 +114,7 @@ class ReportPage extends StatelessWidget {
             size: 48,
           ),
           const SizedBox(height: Sizes.md),
-          Text(
-            'Could not load the report.',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          const AppText.body('Could not load the report.'),
           const SizedBox(height: Sizes.md),
           AppButton.outline(
             onPressed: () => context.reportsCubit.load(),
@@ -132,9 +129,9 @@ class ReportPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.md),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
-        border: Border.all(color: AppPalette.neutral200),
+        border: Border.all(color: context.colors.border),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<ReportPeriod>(
@@ -146,7 +143,10 @@ class ReportPage extends StatelessWidget {
           },
           items: [
             for (final period in ReportPeriod.values)
-              DropdownMenuItem(value: period, child: Text(period.label)),
+              DropdownMenuItem(
+                value: period,
+                child: AppText.body(period.label),
+              ),
           ],
         ),
       ),
@@ -159,7 +159,7 @@ class ReportPage extends StatelessWidget {
         // Export (CSV/PDF) is tracked separately as P5-4 and needs a
         // file/share dependency; surface intent rather than silently no-op.
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Export is coming soon')),
+          const SnackBar(content: AppText.body('Export is coming soon')),
         );
       },
       label: t.report.download,
@@ -384,15 +384,13 @@ class ReportPage extends StatelessWidget {
         height: 200,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.colors.card,
           borderRadius: BorderRadius.circular(Sizes.md),
-          border: Border.all(color: AppPalette.neutral200),
+          border: Border.all(color: context.colors.border),
         ),
-        child: Text(
+        child: AppText.body(
           'No orders in this period',
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
+          color: context.colors.mutedForeground,
         ),
       );
     }
@@ -405,10 +403,7 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'id',
             label: t.report.recent_order.id,
-            cellBuilder: (item) => Text(
-              '#${item.id ?? '-'}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            cellBuilder: (item) => AppText.titleMd('#${item.id ?? '-'}'),
           ),
           DataTableColumn(
             id: 'status',
@@ -418,30 +413,25 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'orderDate',
             label: t.report.recent_order.order_date,
-            cellBuilder: (item) => Text(
+            cellBuilder: (item) => AppText.bodySm(
               _formatDateTime(item.createdAt),
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: AppPalette.neutral500),
+              color: context.colors.mutedForeground,
             ),
           ),
           DataTableColumn(
             id: 'orderType',
             label: t.report.recent_order.order_type,
-            cellBuilder: (item) => Text(_orderTypeLabel(item.orderType)),
+            cellBuilder: (item) => AppText.body(_orderTypeLabel(item.orderType)),
           ),
           DataTableColumn(
             id: 'payment',
             label: t.report.recent_order.customer,
-            cellBuilder: (item) => Text(
-              item.paymentMethod ?? '—',
-              style: const TextStyle(color: AppPalette.neutral700),
-            ),
+            cellBuilder: (item) => AppText.body(item.paymentMethod ?? '—'),
           ),
           DataTableColumn(
             id: 'qty',
             label: t.report.recent_order.qty,
-            cellBuilder: (item) => Text(
+            cellBuilder: (item) => AppText.body(
               item.items
                   .fold<int>(0, (sum, i) => sum + i.quantity)
                   .toString(),
@@ -450,10 +440,8 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'total',
             label: t.report.recent_order.total,
-            cellBuilder: (item) => Text(
-              formatCents(item.grandTotalCents),
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            cellBuilder: (item) =>
+                AppText.titleMd(formatCents(item.grandTotalCents)),
           ),
         ],
         config: DataTableConfig(title: t.report.recent_order.title),
@@ -494,14 +482,7 @@ class ReportPage extends StatelessWidget {
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
       ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: color,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      child: AppText.label(label, color: color),
     );
   }
 }

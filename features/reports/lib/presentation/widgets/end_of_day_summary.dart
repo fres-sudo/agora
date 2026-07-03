@@ -39,20 +39,14 @@ class EndOfDaySummary extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Sizes.lg),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(Sizes.md),
-        border: Border.all(color: AppPalette.neutral200),
+        border: Border.all(color: context.colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'End of Day',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppPalette.neutral900,
-            ),
-          ),
+          const AppText.headingSm('End of Day'),
           const SizedBox(height: Sizes.lg),
           LayoutBuilder(
             builder: (context, constraints) {
@@ -119,11 +113,9 @@ class _MetricTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              AppText.bodySm(
                 metric.label,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppPalette.neutral500,
-                ),
+                color: context.colors.mutedForeground,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -131,13 +123,7 @@ class _MetricTile extends StatelessWidget {
               FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  metric.value,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppPalette.neutral900,
-                  ),
-                ),
+                child: AppText.titleMd(metric.value),
               ),
             ],
           ),

@@ -24,21 +24,14 @@ class SalesOverviewChart extends StatelessWidget {
         return Container(
           padding: EdgeInsets.all(isCompact ? Sizes.md : Sizes.lg),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.colors.card,
             borderRadius: BorderRadius.circular(Sizes.md),
-            border: Border.all(color: AppPalette.neutral200),
+            border: Border.all(color: context.colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                t.report.sales_overview,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppPalette.neutral900,
-                  fontSize: isCompact ? 16 : null,
-                ),
-              ),
+              AppText.headingSm(t.report.sales_overview),
               SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
               Expanded(
                 child: points.isEmpty
@@ -53,6 +46,7 @@ class SalesOverviewChart extends StatelessWidget {
   }
 
   Widget _buildChart(BuildContext context, bool isCompact) {
+    final colors = context.colors;
     // Revenue in whole currency units keeps the axis readable.
     final spots = <FlSpot>[
       for (var i = 0; i < points.length; i++)
@@ -90,14 +84,11 @@ class SalesOverviewChart extends StatelessWidget {
               showTitles: true,
               reservedSize: isCompact ? 34 : 44,
               interval: horizontalInterval,
-              getTitlesWidget: (value, meta) => Text(
+              getTitlesWidget: (value, meta) => AppText.caption(
                 value >= 1000
                     ? '${(value / 1000).toStringAsFixed(1)}k'
                     : value.toInt().toString(),
-                style: TextStyle(
-                  color: AppPalette.neutral500,
-                  fontSize: isCompact ? 10 : 12,
-                ),
+                color: colors.mutedForeground,
               ),
             ),
           ),
@@ -119,12 +110,9 @@ class SalesOverviewChart extends StatelessWidget {
                 if (points.length > 6 && index % step != 0) {
                   return const SizedBox.shrink();
                 }
-                return Text(
+                return AppText.caption(
                   points[index].label,
-                  style: TextStyle(
-                    color: AppPalette.neutral500,
-                    fontSize: isCompact ? 10 : 12,
-                  ),
+                  color: colors.mutedForeground,
                 );
               },
             ),
@@ -163,14 +151,13 @@ class SalesOverviewChart extends StatelessWidget {
         ],
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.white,
+            getTooltipColor: (touchedSpot) => colors.popover,
             tooltipBorderRadius: BorderRadius.circular(8),
             getTooltipItems: (touchedBarSpots) => touchedBarSpots.map((barSpot) {
               return LineTooltipItem(
                 '${t.report.sales}: ${formatCents((barSpot.y * 100).round())}',
-                const TextStyle(
-                  color: AppPalette.neutral900,
-                  fontWeight: FontWeight.bold,
+                context.typography.titleMd.copyWith(
+                  color: colors.popoverForeground,
                 ),
               );
             }).toList(),
@@ -187,11 +174,9 @@ class _EmptyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
+      child: AppText.body(
         'No sales in this period',
-        style: Theme.of(
-          context,
-        ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
+        color: context.colors.mutedForeground,
       ),
     );
   }
