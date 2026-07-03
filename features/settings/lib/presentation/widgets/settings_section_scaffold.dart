@@ -25,10 +25,8 @@ class SettingsSectionScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      color: Colors.white,
+      color: context.colors.card,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,12 +36,7 @@ class SettingsSectionScaffold extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                AppText.headingSm(title),
                 actionButton ??
                     AppButton.primary(
                       onPressed: () {},

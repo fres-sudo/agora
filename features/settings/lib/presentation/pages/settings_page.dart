@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onPressed: AppShellScope.maybeOf(context)?.openSidebar,
                 icon: const Icon(Icons.menu_rounded),
               ),
-        title: const Text('Settings'),
+        title: const AppText.titleLg('Settings'),
         actions: context.isTabletOrLarger
             ? const [
                 AppShellOperatorChip(),

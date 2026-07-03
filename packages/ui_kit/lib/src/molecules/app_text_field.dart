@@ -20,7 +20,9 @@ class AppTextField extends StatelessWidget {
     this.helperText,
     this.errorText,
     this.prefix,
+    this.prefixText,
     this.suffix,
+    this.suffixText,
     this.obscureText = false,
     this.enabled = true,
     this.readOnly = false,
@@ -36,6 +38,8 @@ class AppTextField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.onTap,
+    this.validator,
+    this.autovalidateMode,
   });
 
   final TextEditingController? controller;
@@ -44,7 +48,13 @@ class AppTextField extends StatelessWidget {
   final String? helperText;
   final String? errorText;
   final Widget? prefix;
+
+  /// Inline text shown before the input (e.g. a currency symbol).
+  final String? prefixText;
   final Widget? suffix;
+
+  /// Inline text shown after the input (e.g. a unit like `%`).
+  final String? suffixText;
   final bool obscureText;
   final bool enabled;
   final bool readOnly;
@@ -61,6 +71,11 @@ class AppTextField extends StatelessWidget {
   final ValueChanged<String>? onSubmitted;
   final VoidCallback? onTap;
 
+  /// When provided, the field participates in an enclosing [Form] and shows the
+  /// returned message. Use this instead of a raw `TextFormField`.
+  final FormFieldValidator<String>? validator;
+  final AutovalidateMode? autovalidateMode;
+
   OutlineInputBorder _border(Color color, double width, BuildContext context) =>
       OutlineInputBorder(
         borderRadius: context.tokens.borderRadiusMd,
@@ -73,7 +88,7 @@ class AppTextField extends StatelessWidget {
     final tokens = context.tokens;
     final hasError = errorText != null;
 
-    final field = TextField(
+    final field = TextFormField(
       controller: controller,
       focusNode: focusNode,
       enabled: enabled,
@@ -88,8 +103,10 @@ class AppTextField extends StatelessWidget {
       maxLength: maxLength,
       autofocus: autofocus,
       onChanged: onChanged,
-      onSubmitted: onSubmitted,
+      onFieldSubmitted: onSubmitted,
       onTap: onTap,
+      validator: validator,
+      autovalidateMode: autovalidateMode,
       style: context.typography.body.copyWith(color: colors.foreground),
       cursorColor: colors.ring,
       decoration: InputDecoration(
@@ -101,7 +118,11 @@ class AppTextField extends StatelessWidget {
           color: colors.mutedForeground,
         ),
         prefixIcon: prefix,
+        prefixText: prefixText,
+        prefixStyle: context.typography.body.copyWith(color: colors.foreground),
         suffixIcon: suffix,
+        suffixText: suffixText,
+        suffixStyle: context.typography.body.copyWith(color: colors.foreground),
         contentPadding: EdgeInsets.symmetric(
           horizontal: tokens.spaceMd,
           vertical: tokens.spaceMd,

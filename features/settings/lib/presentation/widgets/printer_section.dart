@@ -57,7 +57,7 @@ class _PrinterSectionState extends State<PrinterSection> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Printer settings saved')),
+      const SnackBar(content: AppText.body('Printer settings saved')),
     );
   }
 
@@ -124,23 +124,11 @@ class _PrinterField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            hintText: hint,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        ),
-      ],
+    return AppTextField(
+      label: label,
+      hintText: hint,
+      controller: controller,
+      keyboardType: TextInputType.number,
     );
   }
 }

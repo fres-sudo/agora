@@ -88,8 +88,6 @@ class _ModifierSectionState extends State<ModifierSection> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return EffectListener<ModifiersBloc, ModifiersEffect>(
       onEffect: (context, effect) {
         if (effect is ModifiersShowError) {
@@ -97,14 +95,17 @@ class _ModifierSectionState extends State<ModifierSection> {
             ..clearSnackBars()
             ..showSnackBar(
               SnackBar(
-                content: Text(effect.message),
-                backgroundColor: AppPalette.error500,
+                content: AppText.body(
+                  effect.message,
+                  color: context.colors.destructiveForeground,
+                ),
+                backgroundColor: context.colors.destructive,
               ),
             );
         }
       },
       child: Container(
-        color: Colors.white,
+        color: context.colors.card,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -114,12 +115,7 @@ class _ModifierSectionState extends State<ModifierSection> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Modifier',
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  const AppText.headingSm('Modifier'),
                   AppButton.primary(
                     onPressed: _onAddModifier,
                     label: 'Add Modifier',
@@ -139,7 +135,7 @@ class _ModifierSectionState extends State<ModifierSection> {
                     loading: (_) =>
                         const Center(child: CircularProgressIndicator()),
                     loaded: (loaded) => _buildModifierList(loaded.modifiers),
-                    error: (error) => _buildErrorState(theme, error.message),
+                    error: (error) => _buildErrorState(error.message),
                   );
                 },
               ),
@@ -177,39 +173,30 @@ class _ModifierSectionState extends State<ModifierSection> {
         children: [
           Icon(Icons.tune_outlined, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: Sizes.md),
-          Text(
+          AppText.titleMd(
             'No modifiers yet',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: AppPalette.neutral500),
+            color: context.colors.mutedForeground,
           ),
           const SizedBox(height: Sizes.sm),
-          Text(
+          AppText.body(
             'Add a modifier (e.g. "Size" or "Milk Option") to get started',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral400),
+            color: context.colors.mutedForeground,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildErrorState(ThemeData theme, String message) {
+  Widget _buildErrorState(String message) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.error_outline, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
-          Text('Failed to load modifiers', style: theme.textTheme.titleMedium),
+          const AppText.titleMd('Failed to load modifiers'),
           const SizedBox(height: Sizes.sm),
-          Text(
-            message,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: AppPalette.neutral500,
-            ),
-          ),
+          AppText.body(message, color: context.colors.mutedForeground),
           const SizedBox(height: Sizes.lg),
           AppButton.primary(
             onPressed: () =>

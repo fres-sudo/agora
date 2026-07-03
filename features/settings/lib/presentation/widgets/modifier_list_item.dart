@@ -17,7 +17,7 @@ class ModifierListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
     final optionCount = modifierGroup.options.length;
 
     return InkWell(
@@ -29,9 +29,9 @@ class ModifierListItem extends StatelessWidget {
           vertical: Sizes.md,
         ),
         decoration: BoxDecoration(
-          color: AppPalette.neutral50,
+          color: colors.card,
           borderRadius: BorderRadius.circular(Sizes.sm),
-          border: Border.all(color: AppPalette.neutral200),
+          border: Border.all(color: colors.border),
         ),
         child: Row(
           children: [
@@ -40,13 +40,13 @@ class ModifierListItem extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: colors.card,
                 borderRadius: BorderRadius.circular(Sizes.xs),
-                border: Border.all(color: AppPalette.neutral200),
+                border: Border.all(color: colors.border),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.tune_outlined,
-                color: AppPalette.neutral600,
+                color: colors.mutedForeground,
                 size: 20,
               ),
             ),
@@ -57,20 +57,13 @@ class ModifierListItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    modifierGroup.name,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  AppText.titleMd(modifierGroup.name),
                   const SizedBox(height: 2),
-                  Text(
+                  AppText.bodySm(
                     modifierGroup.isMultiSelect
                         ? 'Multi-select'
                         : 'Single-select',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppPalette.neutral500,
-                    ),
+                    color: colors.mutedForeground,
                   ),
                 ],
               ),
@@ -81,18 +74,8 @@ class ModifierListItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  'Options',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppPalette.neutral500,
-                  ),
-                ),
-                Text(
-                  '$optionCount',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                AppText.bodySm('Options', color: colors.mutedForeground),
+                AppText.titleMd('$optionCount'),
               ],
             ),
             const SizedBox(width: Sizes.lg),

@@ -24,7 +24,7 @@ class CategoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = context.colors;
 
     // Using InkWell for tap effect
     return InkWell(
@@ -36,9 +36,9 @@ class CategoryListItem extends StatelessWidget {
           vertical: Sizes.md,
         ),
         decoration: BoxDecoration(
-          color: AppPalette.neutral50,
+          color: colors.card,
           borderRadius: BorderRadius.circular(Sizes.sm),
-          border: Border.all(color: AppPalette.neutral200),
+          border: Border.all(color: colors.border),
         ),
         child: Row(
           children: [
@@ -61,9 +61,9 @@ class CategoryListItem extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: category.color ?? Colors.white,
+                color: category.color ?? AppPalette.white,
                 borderRadius: BorderRadius.circular(Sizes.xs),
-                border: Border.all(color: AppPalette.neutral200),
+                border: Border.all(color: colors.border),
               ),
               child: Icon(
                 category.icon ?? Icons.category,
@@ -74,32 +74,15 @@ class CategoryListItem extends StatelessWidget {
             const SizedBox(width: Sizes.md),
 
             // Category Name
-            Expanded(
-              child: Text(
-                category.name,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            Expanded(child: AppText.titleMd(category.name)),
             const SizedBox(width: Sizes.lg),
 
             // Product Count (Placeholder for now as in original)
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  'Total Product',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: AppPalette.neutral500,
-                  ),
-                ),
-                Text(
-                  '0',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                AppText.bodySm('Total Product', color: colors.mutedForeground),
+                const AppText.titleMd('0'),
               ],
             ),
             const SizedBox(width: Sizes.lg),
@@ -118,9 +101,8 @@ class CategoryListItem extends StatelessWidget {
 
   Color _getIconColor(Color? backgroundColor) {
     if (backgroundColor == null) return AppPalette.neutral600;
-    // Simple check for darkness to decide icon color (white or black/grey)
-    // This is a basic approximation.
+    // Contrast the icon against the category's (data) color, not the theme.
     final luminance = backgroundColor.computeLuminance();
-    return luminance > 0.5 ? AppPalette.neutral800 : Colors.white;
+    return luminance > 0.5 ? AppPalette.neutral800 : AppPalette.white;
   }
 }
