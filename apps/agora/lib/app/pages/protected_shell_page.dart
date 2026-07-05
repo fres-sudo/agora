@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:feature_auth/feature_auth.dart';
+import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_inventory/feature_inventory.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_pos/feature_pos.dart';
@@ -25,25 +26,42 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  static const _navItems = [
-    AppShellNavItem(icon: Icons.home_outlined, label: 'Point of Sale'),
-    AppShellNavItem(icon: Icons.inventory_2_outlined, label: 'Orders'),
-    AppShellNavItem(icon: Icons.grid_view_outlined, label: 'Products'),
-    AppShellNavItem(icon: Icons.bar_chart_outlined, label: 'Reports'),
-    AppShellNavItem(icon: Icons.warehouse_outlined, label: 'Inventory'),
-    AppShellNavItem(icon: Icons.settings_outlined, label: 'Settings'),
-    AppShellNavItem(icon: Icons.badge_outlined, label: 'Staff'),
+  /// The navigation destinations available for [profile]. The core screens are
+  /// always present; the rest are gated on business-type capabilities so the
+  /// app only shows what this kind of business needs.
+  static List<_NavEntry> _entriesFor(BusinessProfile profile) => [
+    const _NavEntry(
+      AppShellNavItem(icon: Icons.home_outlined, label: 'Point of Sale'),
+      PosRoute(),
+    ),
+    const _NavEntry(
+      AppShellNavItem(icon: Icons.inventory_2_outlined, label: 'Orders'),
+      OrdersRoute(),
+    ),
+    const _NavEntry(
+      AppShellNavItem(icon: Icons.grid_view_outlined, label: 'Products'),
+      ProductsRoute(),
+    ),
+    if (profile.has(Capability.reports))
+      const _NavEntry(
+        AppShellNavItem(icon: Icons.bar_chart_outlined, label: 'Reports'),
+        ReportRoute(),
+      ),
+    if (profile.has(Capability.inventory))
+      const _NavEntry(
+        AppShellNavItem(icon: Icons.warehouse_outlined, label: 'Inventory'),
+        InventoryRoute(),
+      ),
+    const _NavEntry(
+      AppShellNavItem(icon: Icons.settings_outlined, label: 'Settings'),
+      SettingsRoute(),
+    ),
+    if (profile.has(Capability.staffLogin))
+      const _NavEntry(
+        AppShellNavItem(icon: Icons.badge_outlined, label: 'Staff'),
+        EmployeesRoute(),
+      ),
   ];
-
-  static final _routedIndices = <int, PageRouteInfo>{
-    0: const PosRoute(),
-    1: const OrdersRoute(),
-    2: const ProductsRoute(),
-    3: const ReportRoute(),
-    4: const InventoryRoute(),
-    5: const SettingsRoute(),
-    6: const EmployeesRoute(),
-  };
 
   @override
   void initState() {
@@ -61,6 +79,8 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
   Widget build(BuildContext context) {
     final session = context.watch<SessionCubit>().state;
     final employee = session is Authenticated ? session.employee : null;
+    final profile = context.watch<BusinessProfileCubit>().state;
+    final entries = _entriesFor(profile);
 
     return BlocBuilder<ClockInCubit, ClockInState>(
       builder: (context, clockState) {
@@ -71,38 +91,29 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
         return AutoTabsRouter(
           homeIndex: 0,
-          routes: [
-            const PosRoute(),
-            const OrdersRoute(),
-            const ProductsRoute(),
-            const ReportRoute(),
-            const InventoryRoute(),
-            const SettingsRoute(),
-            const EmployeesRoute(),
-          ],
+          routes: [for (final e in entries) e.route],
           builder: (context, child) {
             final tabsRouter = AutoTabsRouter.of(context);
             final currentRouteName = tabsRouter.current.name;
-            final activeIndex = _routedIndices.entries
-                .firstWhere(
-                  (e) => e.value.routeName == currentRouteName,
-                  orElse: () => MapEntry(
-                    _selectedIndex,
-                    _routedIndices[_selectedIndex] ?? const PosRoute(),
-                  ),
-                )
-                .key;
+            var activeIndex = entries.indexWhere(
+              (e) => e.route.routeName == currentRouteName,
+            );
+            if (activeIndex < 0) {
+              activeIndex = _selectedIndex.clamp(0, entries.length - 1);
+            }
 
             return AppShellScope(
               userName: employee?.name ?? 'Guest',
               userSubtitle: employee?.role ?? '',
               isClockedIn: isClockedIn,
               onClockInTap: () => _onClockInTap(employee?.id),
-              onLogout: () => context.read<SessionCubit>().signOut(),
+              onLogout: profile.requiresStaffLogin
+                  ? () => context.read<SessionCubit>().signOut()
+                  : null,
               currentOperator: 'Main Counter',
               onOperatorSwitchTap: () {},
               openSidebar: () => _scaffoldKey.currentState?.openDrawer(),
-              child: _buildLayout(context, child, tabsRouter, activeIndex),
+              child: _buildLayout(context, child, tabsRouter, activeIndex, entries),
             );
           },
         );
@@ -125,6 +136,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     Widget child,
     TabsRouter tabsRouter,
     int activeIndex,
+    List<_NavEntry> entries,
   ) {
     final isTablet = context.isTabletOrLarger;
 
@@ -133,14 +145,13 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
         body: Row(
           children: [
             AppShellSidebar(
-              items: _navItems,
+              items: [for (final e in entries) e.item],
               selectedIndex: activeIndex,
               isCollapsed: _isSidebarCollapsed,
               onCollapsedChanged: (v) => setState(() => _isSidebarCollapsed = v),
               onItemSelected: (index) {
                 setState(() => _selectedIndex = index);
-                final route = _routedIndices[index];
-                if (route != null) tabsRouter.navigate(route);
+                tabsRouter.navigate(entries[index].route);
               },
               logo: Image.asset('assets/brand/logo.png', width: 26, height: 26),
             ),
@@ -152,7 +163,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      drawer: _buildMobileDrawer(context, tabsRouter, activeIndex),
+      drawer: _buildMobileDrawer(context, tabsRouter, activeIndex, entries),
       body: child,
     );
   }
@@ -161,6 +172,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     BuildContext context,
     TabsRouter tabsRouter,
     int activeIndex,
+    List<_NavEntry> entries,
   ) {
     return Drawer(
       backgroundColor: AppPalette.neutral900,
@@ -190,15 +202,14 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
             ),
             Expanded(
               child: AppShellSidebar(
-                items: _navItems,
+                items: [for (final e in entries) e.item],
                 selectedIndex: activeIndex,
                 isCollapsed: false,
                 showHeader: false,
                 showCollapseToggle: false,
                 onItemSelected: (index) {
                   setState(() => _selectedIndex = index);
-                  final route = _routedIndices[index];
-                  if (route != null) tabsRouter.navigate(route);
+                  tabsRouter.navigate(entries[index].route);
                   Navigator.of(context).pop();
                 },
               ),
@@ -208,4 +219,12 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
       ),
     );
   }
+}
+
+/// Pairs a sidebar destination with the tab route it opens. The visible set is
+/// derived from the active [BusinessProfile] so nav and routes stay aligned.
+class _NavEntry {
+  const _NavEntry(this.item, this.route);
+  final AppShellNavItem item;
+  final PageRouteInfo route;
 }

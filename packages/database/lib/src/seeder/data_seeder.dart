@@ -4,350 +4,182 @@
 import 'package:database/database.dart';
 import 'package:flutter/material.dart';
 
+/// The starter catalog to load during onboarding. Kept as a plain enum local to
+/// `package:database` so this low-level package stays free of `feature_flags`;
+/// the onboarding layer maps its `BusinessType` onto one of these.
+enum StarterCatalog { restaurant, barCafe, quickService, festival }
+
+/// A single product row in a starter catalog. [categoryIndex] refers into the
+/// catalog's category list.
+class _SeedProduct {
+  const _SeedProduct(
+    this.categoryIndex,
+    this.name,
+    this.priceCents,
+    this.costCents,
+    this.stock,
+  );
+  final int categoryIndex;
+  final String name;
+  final int priceCents;
+  final int costCents;
+  final int stock;
+}
+
+class _SeedCategory {
+  const _SeedCategory(this.name, this.color, this.icon);
+  final String name;
+  final Color color;
+  final IconData icon;
+}
+
 class DataSeeder {
   final AgoraDatabase db;
 
   DataSeeder(this.db);
 
-  /// Seeds the database with mock data if it's empty.
-  Future<void> seed() async {
-    // Check if we already have categories
+  /// Seeds a starter catalog (categories + products + opening stock) for the
+  /// given business type. Idempotent: if any category already exists it does
+  /// nothing, so it is safe to call from onboarding. Does not create demo
+  /// orders — a freshly set-up business starts with zero sales.
+  Future<void> seedStarterCatalog(StarterCatalog catalog) async {
     final categoryCount = await db
         .select(db.categoriesTable)
         .get()
         .then((l) => l.length);
-
     if (categoryCount > 0) {
-      debugPrint('Database already seeded. Skipping.');
+      debugPrint('Catalog already present. Skipping starter seed.');
       return;
     }
 
-    debugPrint('Seeding database with mock data...');
+    final categories = _categoriesFor(catalog);
+    final products = _productsFor(catalog);
 
     await db.transaction(() async {
-      // --- 1. Categories ---
-      final primiId = await db
-          .into(db.categoriesTable)
-          .insert(
-            CategoriesTableCompanion(
-              name: const Value('Primi'),
-              color: Value(Colors.orange),
-              iconCodePoint: Value(Icons.dinner_dining.codePoint),
-              isEnabled: const Value(true),
-            ),
-          );
-
-      final secondiId = await db
-          .into(db.categoriesTable)
-          .insert(
-            CategoriesTableCompanion(
-              name: const Value('Secondi'),
-              color: Value(Colors.red),
-              iconCodePoint: Value(Icons.restaurant.codePoint),
-              isEnabled: const Value(true),
-            ),
-          );
-
-      final contorniId = await db
-          .into(db.categoriesTable)
-          .insert(
-            CategoriesTableCompanion(
-              name: const Value('Contorni'),
-              color: Value(Colors.green),
-              iconCodePoint: Value(Icons.soup_kitchen.codePoint),
-              isEnabled: const Value(true),
-            ),
-          );
-
-      final bevandeId = await db
-          .into(db.categoriesTable)
-          .insert(
-            CategoriesTableCompanion(
-              name: const Value('Bevande'),
-              color: Value(Colors.blue),
-              iconCodePoint: Value(Icons.local_bar.codePoint),
-              isEnabled: const Value(true),
-            ),
-          );
-
-      final dolciId = await db
-          .into(db.categoriesTable)
-          .insert(
-            CategoriesTableCompanion(
-              name: const Value('Dolci'),
-              color: Value(Colors.purple),
-              iconCodePoint: Value(Icons.icecream.codePoint),
-              isEnabled: const Value(true),
-            ),
-          );
-
-      // --- 2. Products ---
-
-      // Primi
-      final tagliatelleId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Tagliatelle al Ragù'),
-              description: const Value('Pasta fresca con ragù alla bolognese'),
-              categoryId: Value(primiId),
-              price: const Value(800), // €8.00
-              cost: const Value(250),
-              status: const Value('active'),
-            ),
-          );
-      final tortelliniId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Tortellini Panna e Prosciutto'),
-              description: const Value('Classici tortellini modenesi'),
-              categoryId: Value(primiId),
-              price: const Value(900), // €9.00
-              cost: const Value(300),
-              status: const Value('active'),
-            ),
-          );
-      final gramignaId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Gramigna alla Salsiccia'),
-              description: const Value('Gramigna con salsiccia locale'),
-              categoryId: Value(primiId),
-              price: const Value(750), // €7.50
-              cost: const Value(200),
-              status: const Value('active'),
-            ),
-          );
-
-      // Secondi
-      final grigliataId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Grigliata Mista'),
-              description: const Value('Costine, salsiccia, e coppone'),
-              categoryId: Value(secondiId),
-              price: const Value(1500), // €15.00
-              cost: const Value(600),
-              status: const Value('active'),
-            ),
-          );
-      final cotolettaId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Cotoletta alla Bolognese'),
-              description: const Value(
-                'Cotoletta con prosciutto crudo e parmigiano',
-              ),
-              categoryId: Value(secondiId),
-              price: const Value(1200), // €12.00
-              cost: const Value(500),
-              status: const Value('active'),
-            ),
-          );
-
-      // Contorni
-      final patatineId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Patatine Fritte'),
-              categoryId: Value(contorniId),
-              price: const Value(400), // €4.00
-              cost: const Value(100),
-              status: const Value('active'),
-            ),
-          );
-      final insalataId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Insalata Mista'),
-              categoryId: Value(contorniId),
-              price: const Value(350), // €3.50
-              cost: const Value(100),
-              status: const Value('active'),
-            ),
-          );
-
-      // Bevande
-      final waterId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Acqua Naturale 50cl'),
-              categoryId: Value(bevandeId),
-              price: const Value(100), // €1.00
-              cost: const Value(20),
-              status: const Value('active'),
-            ),
-          );
-      final birraId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Birra Media'),
-              categoryId: Value(bevandeId),
-              price: const Value(450), // €4.50
-              cost: const Value(150),
-              status: const Value('active'),
-            ),
-          );
-      final wineId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Lambrusco Caraffa 1L'),
-              categoryId: Value(bevandeId),
-              price: const Value(800), // €8.00
-              cost: const Value(300),
-              status: const Value('active'),
-            ),
-          );
-      final cocaColaId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Coca Cola Lattina'),
-              categoryId: Value(bevandeId),
-              price: const Value(250), // €2.50
-              cost: const Value(80),
-              status: const Value('active'),
-            ),
-          );
-
-      // Dolci
-      final tiramisuId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Tiramisù'),
-              categoryId: Value(dolciId),
-              price: const Value(500), // €5.00
-              cost: const Value(150),
-              status: const Value('active'),
-            ),
-          );
-      final zuppaIngleseId = await db
-          .into(db.productsTable)
-          .insert(
-            ProductsTableCompanion(
-              name: const Value('Zuppa Inglese'),
-              categoryId: Value(dolciId),
-              price: const Value(500), // €5.00
-              cost: const Value(150),
-              status: const Value('active'),
-            ),
-          );
-
-      // --- 3. Stock (P3-7) ---
-      // Believable festival opening quantities. A couple of items are seeded
-      // intentionally low (<= the inventory feature's default threshold of
-      // 10) so the low-stock indicator has something to show out of the box.
-      final initialStock = <int, int>{
-        tagliatelleId: 40,
-        tortelliniId: 35,
-        gramignaId: 8, // low stock
-        grigliataId: 25,
-        cotolettaId: 30,
-        patatineId: 50,
-        insalataId: 45,
-        waterId: 150,
-        birraId: 80,
-        wineId: 6, // low stock
-        cocaColaId: 100,
-        tiramisuId: 20,
-        zuppaIngleseId: 18,
-      };
-
-      for (final entry in initialStock.entries) {
-        await db
-            .into(db.stocksTable)
-            .insert(
-              StocksTableCompanion(
-                productId: Value(entry.key),
-                quantity: Value(entry.value),
+      final categoryIds = <int>[];
+      for (final c in categories) {
+        final id = await db.into(db.categoriesTable).insert(
+              CategoriesTableCompanion(
+                name: Value(c.name),
+                color: Value(c.color),
+                iconCodePoint: Value(c.icon.codePoint),
+                isEnabled: const Value(true),
               ),
             );
-        await db
-            .into(db.stockMovementsTable)
-            .insert(
+        categoryIds.add(id);
+      }
+
+      for (final p in products) {
+        final productId = await db.into(db.productsTable).insert(
+              ProductsTableCompanion(
+                name: Value(p.name),
+                categoryId: Value(categoryIds[p.categoryIndex]),
+                price: Value(p.priceCents),
+                cost: Value(p.costCents),
+                status: const Value('active'),
+              ),
+            );
+        await db.into(db.stocksTable).insert(
+              StocksTableCompanion(
+                productId: Value(productId),
+                quantity: Value(p.stock),
+              ),
+            );
+        await db.into(db.stockMovementsTable).insert(
               StockMovementsTableCompanion(
-                productId: Value(entry.key),
-                quantityChange: Value(entry.value),
+                productId: Value(productId),
+                quantityChange: Value(p.stock),
                 reason: const Value('Initial stock'),
               ),
             );
       }
-
-      // --- 4. Mock Orders ---
-
-      // Order 1: Completed (Cash)
-      final order1Id = await db
-          .into(db.ordersTable)
-          .insert(
-            OrdersTableCompanion(
-              status: const Value(1), // Completed
-              subtotal: const Value(1300),
-              grandTotal: const Value(1300),
-              paymentMethod: const Value('Cash'),
-              note: const Value('Tavolo 5'),
-            ),
-          );
-
-      // 2 Waters + 1 Wine + 1 Insalata (mock logic for items)
-      await db
-          .into(db.orderItemsTable)
-          .insert(
-            OrderItemsTableCompanion(
-              orderId: Value(order1Id),
-              productId: Value(waterId),
-              productName: const Value('Acqua Naturale 50cl'),
-              unitPrice: const Value(100),
-              costPrice: const Value(20),
-              quantity: const Value(2),
-            ),
-          );
-      await db
-          .into(db.orderItemsTable)
-          .insert(
-            OrderItemsTableCompanion(
-              orderId: Value(order1Id),
-              productId: Value(wineId),
-              productName: const Value('Lambrusco Caraffa 1L'),
-              unitPrice: const Value(800),
-              costPrice: const Value(300),
-              quantity: const Value(1),
-            ),
-          );
-      await db
-          .into(db.orderItemsTable)
-          .insert(
-            OrderItemsTableCompanion(
-              orderId: Value(order1Id),
-              productId: Value(0), // manual item example? or just linked
-              productName: const Value('Coperto'),
-              unitPrice: const Value(150),
-              costPrice: const Value(0),
-              quantity: const Value(2),
-            ),
-          );
-
-      // Order 2: Pending
-      await db.into(db.ordersTable).insert(
-            OrdersTableCompanion(
-              status: const Value(0), // Pending
-              subtotal: const Value(3400),
-              grandTotal: const Value(3400),
-              note: const Value('Da asporto'),
-            ),
-          );
-      // Just some random items logic - we won't detailedly link for brevity but normally we would
     });
 
-    debugPrint('Database seeding completed!');
+    debugPrint('Seeded ${products.length} products for $catalog.');
+  }
+
+  List<_SeedCategory> _categoriesFor(StarterCatalog catalog) {
+    switch (catalog) {
+      case StarterCatalog.restaurant:
+        return const [
+          _SeedCategory('Primi', Colors.orange, Icons.dinner_dining),
+          _SeedCategory('Secondi', Colors.red, Icons.restaurant),
+          _SeedCategory('Contorni', Colors.green, Icons.soup_kitchen),
+          _SeedCategory('Bevande', Colors.blue, Icons.local_bar),
+          _SeedCategory('Dolci', Colors.purple, Icons.icecream),
+        ];
+      case StarterCatalog.barCafe:
+        return const [
+          _SeedCategory('Coffee', Colors.brown, Icons.coffee),
+          _SeedCategory('Drinks', Colors.blue, Icons.local_bar),
+          _SeedCategory('Pastries', Colors.orange, Icons.bakery_dining),
+          _SeedCategory('Snacks', Colors.green, Icons.lunch_dining),
+        ];
+      case StarterCatalog.quickService:
+        return const [
+          _SeedCategory('Mains', Colors.red, Icons.lunch_dining),
+          _SeedCategory('Sides', Colors.green, Icons.fastfood),
+          _SeedCategory('Drinks', Colors.blue, Icons.local_drink),
+          _SeedCategory('Desserts', Colors.purple, Icons.icecream),
+        ];
+      case StarterCatalog.festival:
+        return const [
+          _SeedCategory('Food', Colors.red, Icons.fastfood),
+          _SeedCategory('Drinks', Colors.blue, Icons.local_bar),
+        ];
+    }
+  }
+
+  List<_SeedProduct> _productsFor(StarterCatalog catalog) {
+    switch (catalog) {
+      case StarterCatalog.restaurant:
+        return const [
+          _SeedProduct(0, 'Tagliatelle al Ragù', 800, 250, 40),
+          _SeedProduct(0, 'Tortellini Panna e Prosciutto', 900, 300, 35),
+          _SeedProduct(0, 'Gramigna alla Salsiccia', 750, 200, 20),
+          _SeedProduct(1, 'Grigliata Mista', 1500, 600, 25),
+          _SeedProduct(1, 'Cotoletta alla Bolognese', 1200, 500, 30),
+          _SeedProduct(2, 'Patatine Fritte', 400, 100, 50),
+          _SeedProduct(2, 'Insalata Mista', 350, 100, 45),
+          _SeedProduct(3, 'Acqua Naturale 50cl', 100, 20, 150),
+          _SeedProduct(3, 'Birra Media', 450, 150, 80),
+          _SeedProduct(3, 'Lambrusco Caraffa 1L', 800, 300, 30),
+          _SeedProduct(3, 'Coca Cola Lattina', 250, 80, 100),
+          _SeedProduct(4, 'Tiramisù', 500, 150, 20),
+          _SeedProduct(4, 'Zuppa Inglese', 500, 150, 18),
+        ];
+      case StarterCatalog.barCafe:
+        return const [
+          _SeedProduct(0, 'Espresso', 120, 30, 500),
+          _SeedProduct(0, 'Cappuccino', 160, 45, 500),
+          _SeedProduct(0, 'Caffè Latte', 180, 50, 500),
+          _SeedProduct(1, 'Orange Juice', 300, 90, 60),
+          _SeedProduct(1, 'Beer', 450, 150, 80),
+          _SeedProduct(1, 'Aperol Spritz', 600, 200, 60),
+          _SeedProduct(2, 'Croissant', 150, 40, 40),
+          _SeedProduct(2, 'Muffin', 250, 70, 30),
+          _SeedProduct(3, 'Toasted Sandwich', 450, 150, 25),
+        ];
+      case StarterCatalog.quickService:
+        return const [
+          _SeedProduct(0, 'Classic Burger', 750, 250, 60),
+          _SeedProduct(0, 'Cheeseburger', 850, 300, 60),
+          _SeedProduct(0, 'Chicken Wrap', 700, 230, 40),
+          _SeedProduct(1, 'Fries', 350, 90, 100),
+          _SeedProduct(1, 'Onion Rings', 400, 110, 50),
+          _SeedProduct(2, 'Soft Drink', 250, 60, 200),
+          _SeedProduct(2, 'Water', 150, 30, 200),
+          _SeedProduct(3, 'Ice Cream', 300, 90, 40),
+        ];
+      case StarterCatalog.festival:
+        return const [
+          _SeedProduct(0, 'Panino Salsiccia', 500, 150, 100),
+          _SeedProduct(0, 'Patatine Fritte', 400, 100, 100),
+          _SeedProduct(0, 'Piadina', 600, 200, 80),
+          _SeedProduct(1, 'Acqua 50cl', 100, 20, 300),
+          _SeedProduct(1, 'Birra Media', 400, 130, 200),
+          _SeedProduct(1, 'Coca Cola', 250, 80, 150),
+        ];
+    }
   }
 }

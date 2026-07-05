@@ -1,0 +1,77 @@
+import 'package:agora/app/app_router.gr.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:feature_auth/feature_auth.dart';
+import 'package:feature_onboarding/onboarding.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+/// Owns the top-level routing gate. Onboarding takes precedence over auth: if
+/// first-run setup has not been completed the wizard is shown; otherwise the
+/// existing session logic decides between the PIN login and the main app.
+///
+/// Must sit above the router so it stays active on every route.
+class AppRootListener extends StatefulWidget {
+  const AppRootListener({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  State<AppRootListener> createState() => _AppRootListenerState();
+}
+
+class _AppRootListenerState extends State<AppRootListener> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final onboarded = context.read<OnboardingRepository>().isCompleted();
+      if (!onboarded) {
+        context.router.replaceAll([const OnboardingShellRoute()]);
+      } else {
+        // Restore any persisted session (single-user businesses auto-restore).
+        context.read<SessionCubit>().init();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<OnboardingCubit, OnboardingState>(
+          listenWhen: (prev, next) => prev.phase != next.phase,
+          listener: (context, state) {
+            switch (state.phase) {
+              case OnboardingPhase.completed:
+                // Wizard done — hand off to the session gate. Single-user
+                // profiles pre-wrote a session, so this lands on the app;
+                // staff-login profiles land on the PIN screen.
+                context.read<SessionCubit>().init();
+              case OnboardingPhase.needsReonboarding:
+                context.router.replaceAll([const OnboardingShellRoute()]);
+                context.read<OnboardingCubit>().acknowledgeReonboarding();
+              case OnboardingPhase.editing:
+              case OnboardingPhase.submitting:
+                break;
+            }
+          },
+        ),
+        BlocListener<SessionCubit, SessionState>(
+          listener: (context, state) {
+            state.when(
+              initial: () {},
+              loading: () {},
+              authenticated: (_) =>
+                  context.router.replaceAll([const ProtectedShellRoute()]),
+              unauthenticated: () =>
+                  context.router.replaceAll([const AuthShellRoute()]),
+              error: (_) {},
+            );
+          },
+        ),
+      ],
+      child: widget.child,
+    );
+  }
+}

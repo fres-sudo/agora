@@ -18,6 +18,8 @@ dependencies:
     path: ../../packages/errors
   feature_discounts:
     path: ../discounts
+  feature_onboarding:
+    path: ../onboarding
   feature_products:
     path: ../products
   flutter:

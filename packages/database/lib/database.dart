@@ -2,6 +2,7 @@ export 'src/color_converter.dart';
 export 'src/database.dart';
 export 'src/database_mixin.dart';
 export 'src/seeder/data_seeder.dart';
+export 'src/settings_keys.dart';
 export 'src/tables/categories_table.dart';
 export 'src/tables/clock_records_table.dart';
 export 'src/tables/discounts_table.dart';

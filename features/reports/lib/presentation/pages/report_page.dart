@@ -28,27 +28,8 @@ class ReportPage extends StatelessWidget {
     return BlocBuilder<ReportsCubit, ReportsState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            leading: context.isTabletOrLarger
-                ? null
-                : AppIconButton.ghost(
-                    onPressed: AppShellScope.maybeOf(context)?.openSidebar,
-                    icon: const Icon(Icons.menu_rounded),
-                  ),
-            title: AppText.titleLg(t.report.title),
-            actions: [
-              _buildPeriodDropdown(context, state),
-              const SizedBox(width: Sizes.md),
-              _buildDownloadButton(context),
-              if (context.isTabletOrLarger) ...[
-                const SizedBox(width: Sizes.md),
-                const AppShellOperatorChip(),
-                const SizedBox(width: 8),
-                const AppShellUserMenu(),
-              ],
-              const SizedBox(width: Sizes.lg),
-            ],
-          ),
+          floatingActionButton: const AppShellMenuButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
           body: _buildBody(context, state),
         );
       },
@@ -81,6 +62,8 @@ class ReportPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _buildReportHeader(context, state, isMobile),
+                const SizedBox(height: Sizes.lg),
                 _buildSummaryCards(context, width, data.summary),
                 const SizedBox(height: Sizes.xl),
                 EndOfDaySummary(summary: data.summary),
@@ -122,6 +105,46 @@ class ReportPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  /// In-page header replacing the former app bar: page title plus the period
+  /// selector and export button. Stacks vertically on mobile so the controls
+  /// stay reachable, sits inline on wider screens.
+  Widget _buildReportHeader(
+    BuildContext context,
+    ReportsState state,
+    bool isMobile,
+  ) {
+    final title = AppText.titleLg(t.report.title);
+
+    if (isMobile) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Clear the floating menu button overlaid at the top-left.
+          const SizedBox(height: Sizes.xxl),
+          title,
+          const SizedBox(height: Sizes.md),
+          Row(
+            children: [
+              Expanded(child: _buildPeriodDropdown(context, state)),
+              const SizedBox(width: Sizes.md),
+              _buildDownloadButton(context),
+            ],
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      children: [
+        title,
+        const Spacer(),
+        _buildPeriodDropdown(context, state),
+        const SizedBox(width: Sizes.md),
+        _buildDownloadButton(context),
+      ],
     );
   }
 

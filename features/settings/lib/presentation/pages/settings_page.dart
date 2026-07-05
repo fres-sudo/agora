@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:feature_settings/presentation/widgets/category_section.dart';
+import 'package:feature_settings/presentation/widgets/danger_zone_section.dart';
 import 'package:feature_settings/presentation/widgets/modifier_section.dart';
 import 'package:feature_settings/presentation/widgets/payment_method_section.dart';
 import 'package:feature_settings/presentation/widgets/discount_section.dart';
@@ -24,23 +25,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: context.isTabletOrLarger
-            ? null
-            : AppIconButton.ghost(
-                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
-                icon: const Icon(Icons.menu_rounded),
-              ),
-        title: const AppText.titleLg('Settings'),
-        actions: context.isTabletOrLarger
-            ? const [
-                AppShellOperatorChip(),
-                SizedBox(width: 8),
-                AppShellUserMenu(),
-                SizedBox(width: 12),
-              ]
-            : null,
-      ),
+      floatingActionButton: const AppShellMenuButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: SectionPageLayout(
         items: [
           SectionSidebarItemData(
@@ -82,6 +68,11 @@ class _SettingsPageState extends State<SettingsPage> {
             icon: Icons.print_outlined,
             label: 'Printer',
             child: const PrinterSection(),
+          ),
+          SectionSidebarItemData(
+            icon: Icons.warning_amber_outlined,
+            label: 'Reset',
+            child: const DangerZoneSection(),
           ),
         ],
         selectedIndex: _selectedIndex,

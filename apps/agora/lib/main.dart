@@ -43,11 +43,11 @@ void main() async {
       Bloc.observer = AppBlocObserver(talker: talker);
       talker.info('Booting ${config.appName} — $config');
 
-      // One long-lived database instance owns the app session. We open it
-      // here, seed it once (idempotent), and hand the SAME instance to the
-      // provider tree — no second open (see FESTIVAL_POS_TASKS P0-4).
+      // One long-lived database instance owns the app session. We open it here
+      // and hand the SAME instance to the provider tree — no second open (see
+      // FESTIVAL_POS_TASKS P0-4). The database starts empty; onboarding decides
+      // whether to seed a starter catalog on first run.
       final database = AgoraDatabase(driftDatabase(name: K.dbName));
-      await DataSeeder(database).seed();
 
       if (config.bootstrapMode.isHybrid) {
         talker.info(

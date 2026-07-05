@@ -14,6 +14,7 @@ class AppShellSidebar extends StatelessWidget {
     this.appName = 'agora',
     this.showHeader = true,
     this.showCollapseToggle = true,
+    this.showUserMenu = true,
   });
 
   final List<AppShellNavItem> items;
@@ -25,6 +26,7 @@ class AppShellSidebar extends StatelessWidget {
   final String appName;
   final bool showHeader;
   final bool showCollapseToggle;
+  final bool showUserMenu;
 
   static const double expandedWidth = 220;
   static const double collapsedWidth = 72;
@@ -66,7 +68,36 @@ class AppShellSidebar extends StatelessWidget {
               },
             ),
           ),
+          if (showUserMenu) _buildUserFooter(context),
           if (showCollapseToggle) _buildCollapseToggle(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserFooter(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: isCollapsed ? 8 : 12,
+        vertical: 10,
+      ),
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(color: Color(0xff1f1f1f), width: 1),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Align(
+            alignment: isCollapsed ? Alignment.center : Alignment.centerLeft,
+            child: AppShellOperatorChip(onDark: true, isCompact: isCollapsed),
+          ),
+          const SizedBox(height: 8),
+          Align(
+            alignment: isCollapsed ? Alignment.center : Alignment.centerLeft,
+            child: AppShellUserMenu(onDark: true, isCompact: isCollapsed),
+          ),
         ],
       ),
     );

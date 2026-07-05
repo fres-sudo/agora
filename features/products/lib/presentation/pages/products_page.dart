@@ -45,23 +45,8 @@ class _ProductsView extends StatelessWidget {
     // However, looking at ProductsBloc, it exposes filtered products.
 
     return Scaffold(
-      appBar: AppBar(
-        title: AppText.titleLg(t.products.title),
-        leading: context.isTabletOrLarger
-            ? null
-            : AppIconButton.ghost(
-                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
-                icon: const Icon(Icons.menu_rounded),
-              ),
-        actions: context.isTabletOrLarger
-            ? const [
-                AppShellOperatorChip(),
-                SizedBox(width: 8),
-                AppShellUserMenu(),
-                SizedBox(width: 12),
-              ]
-            : null,
-      ),
+      floatingActionButton: const AppShellMenuButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: DataTableView<Product>(
         items: state.products,
         config: DataTableConfig(

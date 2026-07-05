@@ -2,6 +2,7 @@ import 'package:agora/app/app_router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_inventory/feature_inventory.dart';
+import 'package:feature_onboarding/onboarding.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
@@ -18,6 +19,9 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
+    // First-run setup wizard — shown until onboarding is completed. The
+    // AppRootListener decides whether this or a shell is the initial route.
+    AutoRoute(page: OnboardingShellRoute.page),
     // Auth shell — PIN login lives here as an initial child
     AutoRoute(page: AuthShellRoute.page, children: [
       AutoRoute(page: PinLoginRoute.page, initial: true),

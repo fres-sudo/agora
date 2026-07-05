@@ -10,6 +10,7 @@ workspace:
   - features/auth
   - features/discounts
   - features/inventory
+  - features/onboarding
   - features/orders
   - features/pos
   - features/products

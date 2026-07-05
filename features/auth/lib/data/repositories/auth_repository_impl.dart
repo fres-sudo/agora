@@ -57,6 +57,24 @@ class AuthRepositoryImpl extends Repository implements AuthRepository {
   });
 
   @override
+  Future<SessionEmployee?> startSession(int employeeId) async {
+    try {
+      final entity = await _authDao.getEmployeeById(employeeId);
+      if (entity == null || !entity.isActive || entity.deletedAt != null) {
+        return null;
+      }
+      await _secureStorage.write(
+        key: _kSessionKey,
+        value: entity.id.toString(),
+      );
+      return SessionEmployee(id: entity.id, name: entity.name, role: entity.role);
+    } catch (e) {
+      logger?.error('startSession failed: $e');
+      return null;
+    }
+  }
+
+  @override
   Future<void> signOut() async {
     await _secureStorage.delete(key: _kSessionKey);
   }

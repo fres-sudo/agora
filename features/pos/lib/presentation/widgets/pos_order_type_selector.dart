@@ -1,8 +1,14 @@
+import 'package:bloc_exports/bloc_exports.dart';
+import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_orders/domain/models/order_type.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
 /// A tab-style selector for choosing order type (Dine In / Take Away).
+///
+/// The available tabs are gated on the active [BusinessProfile]: a business
+/// without dine-in (e.g. quick-service / festival) never sees the Dine In tab,
+/// and when only one order type is available the selector hides itself.
 ///
 /// Uses the shared [OrderType] from `feature_orders` so the selection can be
 /// persisted on the order (the enum is no longer POS-private).
@@ -21,6 +27,14 @@ class PosOrderTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = context.watch<BusinessProfileCubit>().state;
+    final types = [
+      if (profile.has(Capability.dineIn)) OrderType.dineIn,
+      if (profile.has(Capability.takeaway)) OrderType.takeAway,
+    ];
+    // Nothing to choose between — hide the selector entirely.
+    if (types.length < 2) return const SizedBox.shrink();
+
     return Container(
       decoration: BoxDecoration(
         color: context.colors.muted,
@@ -28,20 +42,14 @@ class PosOrderTypeSelector extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(
-            child: _OrderTypeTab(
-              label: 'Dine In',
-              isSelected: selected == OrderType.dineIn,
-              onTap: () => onChanged(OrderType.dineIn),
+          for (final type in types)
+            Expanded(
+              child: _OrderTypeTab(
+                label: type == OrderType.dineIn ? 'Dine In' : 'Take Away',
+                isSelected: selected == type,
+                onTap: () => onChanged(type),
+              ),
             ),
-          ),
-          Expanded(
-            child: _OrderTypeTab(
-              label: 'Take Away',
-              isSelected: selected == OrderType.takeAway,
-              onTap: () => onChanged(OrderType.takeAway),
-            ),
-          ),
         ],
       ),
     );

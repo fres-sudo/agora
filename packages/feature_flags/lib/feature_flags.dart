@@ -1,5 +1,10 @@
+export 'src/blocs/business_profile_cubit.dart';
 export 'src/blocs/feature_flags_cubit.dart';
+export 'src/business_profile_repository.dart';
 export 'src/feature_flags.dart';
 export 'src/feature_flags_repository.dart';
+export 'src/models/business_profile.dart';
+export 'src/models/business_type.dart';
+export 'src/models/capability.dart';
 export 'src/models/feature.dart';
 export 'src/models/subscription_tier.dart';

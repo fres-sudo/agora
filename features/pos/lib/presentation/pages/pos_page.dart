@@ -186,7 +186,8 @@ class _PosPageState extends State<PosPage> {
         }
       },
       child: Scaffold(
-        appBar: _buildAppBar(context),
+        floatingActionButton: const AppShellMenuButton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         drawer: isTabletOrLarger ? null : _buildMobileDrawer(context),
         endDrawer: isTabletOrLarger ? null : _buildOrderDrawer(context),
         body: isTabletOrLarger
@@ -204,81 +205,29 @@ class _PosPageState extends State<PosPage> {
                 onRemoveDiscount: _onRemoveDiscount,
                 buildCartQuantities: _buildCartQuantities,
               )
-            : _MobileLayout(
-                orderType: _orderType,
-                onOrderTypeChanged: _onOrderTypeChanged,
-                onProductTap: _onProductTap,
-                onCategorySelected: _onCategorySelected,
-                onSearch: _onSearch,
-                onClearOrder: _onClearOrder,
-                onProcessTransaction: _onProcessTransaction,
-                onItemRemoved: _onItemRemoved,
-                onItemQuantityChanged: _onItemQuantityChanged,
-                buildCartQuantities: _buildCartQuantities,
+            : Stack(
+                children: [
+                  _MobileLayout(
+                    orderType: _orderType,
+                    onOrderTypeChanged: _onOrderTypeChanged,
+                    onProductTap: _onProductTap,
+                    onCategorySelected: _onCategorySelected,
+                    onSearch: _onSearch,
+                    onClearOrder: _onClearOrder,
+                    onProcessTransaction: _onProcessTransaction,
+                    onItemRemoved: _onItemRemoved,
+                    onItemQuantityChanged: _onItemQuantityChanged,
+                    buildCartQuantities: _buildCartQuantities,
+                  ),
+                  // Cart access moves off the (removed) app bar into a floating
+                  // button mirroring the menu button on the opposite side.
+                  const Align(
+                    alignment: Alignment.topRight,
+                    child: _PosCartButton(),
+                  ),
+                ],
               ),
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    final isTablet = context.isTabletOrLarger;
-    final scope = AppShellScope.maybeOf(context);
-
-    return AppBar(
-      leading: isTablet
-          ? null
-          : AppIconButton.ghost(
-              onPressed: scope?.openSidebar,
-              icon: const Icon(Icons.menu_rounded),
-            ),
-      title: Row(
-        spacing: Sizes.sm,
-        children: [
-          Image.asset('assets/brand/logo.png', width: 32, height: 32),
-          const AppText.titleLg('agora'),
-        ],
-      ),
-      actions: [
-        if (isTablet) ...[
-          const AppShellOperatorChip(),
-          const SizedBox(width: 8),
-          const AppShellUserMenu(),
-          const SizedBox(width: 12),
-        ] else
-          BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  AppIconButton.ghost(
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                    icon: const Icon(Icons.shopping_cart_outlined),
-                  ),
-                  if (state.itemCount > 0)
-                    Positioned(
-                      right: 8,
-                      top: 8,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: context.colors.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: AppText.caption(
-                          '${state.itemCount}',
-                          color: context.colors.primaryForeground,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
-          ),
-      ],
     );
   }
 
@@ -326,6 +275,73 @@ class _PosPageState extends State<PosPage> {
           ),
         );
       },
+    );
+  }
+}
+
+/// Floating cart button for the mobile POS layout. Replaces the cart action
+/// that used to live in the app bar; opens the order panel end-drawer and
+/// shows a live item-count badge. Styled to match [AppShellMenuButton].
+class _PosCartButton extends StatelessWidget {
+  const _PosCartButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(Sizes.sm),
+        child: BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
+          builder: (context, state) {
+            return Material(
+              color: context.colors.card,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(Sizes.borderRadius),
+                side: BorderSide(color: context.colors.border),
+              ),
+              elevation: 2,
+              child: InkWell(
+                onTap: () => Scaffold.of(context).openEndDrawer(),
+                borderRadius: BorderRadius.circular(Sizes.borderRadius),
+                child: SizedBox(
+                  width: 44,
+                  height: 44,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        Icons.shopping_cart_outlined,
+                        size: 22,
+                        color: context.colors.foreground,
+                      ),
+                      if (state.itemCount > 0)
+                        Positioned(
+                          right: 6,
+                          top: 6,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: context.colors.primary,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 16,
+                              minHeight: 16,
+                            ),
+                            child: AppText.caption(
+                              '${state.itemCount}',
+                              color: context.colors.primaryForeground,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

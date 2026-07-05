@@ -67,23 +67,8 @@ class _InventoryPageState extends State<InventoryPage> {
         );
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const AppText.titleLg('Inventory'),
-          leading: context.isTabletOrLarger
-              ? null
-              : AppIconButton.ghost(
-                  onPressed: AppShellScope.maybeOf(context)?.openSidebar,
-                  icon: const Icon(Icons.menu_rounded),
-                ),
-          actions: context.isTabletOrLarger
-              ? const [
-                  AppShellOperatorChip(),
-                  SizedBox(width: 8),
-                  AppShellUserMenu(),
-                  SizedBox(width: 12),
-                ]
-              : null,
-        ),
+        floatingActionButton: const AppShellMenuButton(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         body: StreamBuilder<List<StockLevel>>(
           stream: context.read<InventoryRepository>().watchStockLevels(),
           builder: (context, snapshot) {

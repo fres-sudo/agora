@@ -14,23 +14,8 @@ class ClockRecordsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const AppText.titleLg('Clock Records'),
-        leading: context.isTabletOrLarger
-            ? null
-            : AppIconButton.ghost(
-                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
-                icon: const Icon(Icons.menu_rounded),
-              ),
-        actions: context.isTabletOrLarger
-            ? const [
-                AppShellOperatorChip(),
-                SizedBox(width: 8),
-                AppShellUserMenu(),
-                SizedBox(width: 12),
-              ]
-            : null,
-      ),
+      floatingActionButton: const AppShellMenuButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: StreamBuilder<List<ClockRecord>>(
         stream: context
             .read<WorkforceRepository>()

@@ -33,6 +33,8 @@ dependencies:
     path: ../../packages/feature_flags
   feature_inventory:
     path: ../../features/inventory
+  feature_onboarding:
+    path: ../../features/onboarding
   feature_orders:
     path: ../../features/orders
   feature_pos:

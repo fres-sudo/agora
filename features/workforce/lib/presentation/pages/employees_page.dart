@@ -66,23 +66,8 @@ class _EmployeesPageState extends State<EmployeesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: context.isTabletOrLarger
-            ? null
-            : AppIconButton.ghost(
-                onPressed: AppShellScope.maybeOf(context)?.openSidebar,
-                icon: const Icon(Icons.menu_rounded),
-              ),
-        title: const AppText.titleLg('Employees'),
-        actions: context.isTabletOrLarger
-            ? const [
-                AppShellOperatorChip(),
-                SizedBox(width: 8),
-                AppShellUserMenu(),
-                SizedBox(width: 12),
-              ]
-            : null,
-      ),
+      floatingActionButton: const AppShellMenuButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: BlocBuilder<EmployeesBloc, EmployeesState>(
         builder: (context, state) => state.when(
           initial: () => const Center(child: CircularProgressIndicator()),

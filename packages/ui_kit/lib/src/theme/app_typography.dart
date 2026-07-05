@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Named typographic scale (Inter), resolved via `context.typography`.
 ///
@@ -53,7 +54,6 @@ class AppTypography extends ThemeExtension<AppTypography> {
   final TextStyle mono;
 
   /// Font family names (bundled as assets in this package — no runtime fetch).
-  static const String fontFamily = 'Inter';
   static const String monoFontFamily = 'JetBrainsMono';
   static const String _package = 'ui_kit';
 
@@ -64,9 +64,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       required FontWeight weight,
       double height = 1.4,
       double? letterSpacing,
-    }) => TextStyle(
-      fontFamily: fontFamily,
-      package: _package,
+    }) => GoogleFonts.interTight(
       fontSize: size,
       fontWeight: weight,
       height: height,

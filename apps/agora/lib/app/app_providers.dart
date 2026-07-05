@@ -6,6 +6,7 @@ import 'package:feature_auth/presentation/routes/auth_feature.dart';
 import 'package:feature_discounts/presentation/routes/discounts_feature.dart';
 import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_inventory/presentation/routes/inventory_feature.dart';
+import 'package:feature_onboarding/presentation/routes/onboarding_feature.dart';
 import 'package:feature_orders/presentation/routes/orders_feature.dart';
 import 'package:feature_products/presentation/routes/products_feature.dart';
 import 'package:feature_reports/presentation/routes/reports_feature.dart';
@@ -116,6 +117,11 @@ List<SingleChildWidget> _buildProviders({
       config: config,
     ),
   ),
+  RepositoryProvider<BusinessProfileRepository>(
+    create: (ctx) => BusinessProfileRepositoryImpl(
+      persistenceService: ctx.read<PersistenceService>(),
+    ),
+  ),
   RepositoryProvider<ConfigRepository>(
     create: (ctx) => ConfigRepositoryImpl(
       logger: ctx.read<Talker>(),
@@ -136,6 +142,10 @@ List<SingleChildWidget> _buildProviders({
   BlocProvider<FeatureFlagsCubit>(
     create: (ctx) =>
         FeatureFlagsCubit(repository: ctx.read<FeatureFlagsRepository>()),
+  ),
+  BlocProvider<BusinessProfileCubit>(
+    create: (ctx) =>
+        BusinessProfileCubit(repository: ctx.read<BusinessProfileRepository>()),
   ),
   BlocProvider<ThemeCubit>(
     create: (ctx) =>
@@ -160,6 +170,7 @@ List<SingleChildWidget> _buildProviders({
   // Feature providers (each feature registers its own DAOs, repos and BLoCs)
   // ---------------------------------------------------------------------------
   ...AuthFeature.providers,
+  ...OnboardingFeature.providers, // after Auth (reads AuthRepository) + profile repo
   ...WorkforceFeature.providers,
   ...SettingsFeature.providers,
   ...InventoryFeature.providers, // must be before Products (StocksDao)

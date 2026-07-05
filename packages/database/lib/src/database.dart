@@ -61,4 +61,16 @@ class AgoraDatabase extends _$AgoraDatabase {
       },
     );
   }
+
+  /// Wipes every row from every table (a hard factory reset), keeping the
+  /// schema intact. Used by the "Reset app & data" flow so the operator can
+  /// re-run onboarding from a clean slate. Foreign-key enforcement is off by
+  /// default here, so table order does not matter.
+  Future<void> resetAllData() async {
+    await transaction(() async {
+      for (final table in allTables) {
+        await delete(table).go();
+      }
+    });
+  }
 }

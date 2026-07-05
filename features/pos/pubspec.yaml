@@ -13,6 +13,8 @@ dependencies:
     path: ../../packages/bloc
   feature_discounts:
     path: ../discounts
+  feature_flags:
+    path: ../../packages/feature_flags
   feature_orders:
     path: ../orders
   feature_products:

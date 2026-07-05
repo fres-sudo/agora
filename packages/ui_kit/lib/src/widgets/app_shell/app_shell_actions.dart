@@ -6,8 +6,18 @@ enum _UserMenuAction { clockToggle, logout }
 
 /// Pill chip showing the current operator/station. Reads from [AppShellScope].
 /// Renders nothing if [AppShellScope.currentOperator] is null.
+///
+/// Set [onDark] when placed on a dark surface (e.g. the sidebar). Set
+/// [isCompact] to render only the station icon (collapsed sidebar).
 class AppShellOperatorChip extends StatelessWidget {
-  const AppShellOperatorChip({super.key});
+  const AppShellOperatorChip({
+    super.key,
+    this.onDark = false,
+    this.isCompact = false,
+  });
+
+  final bool onDark;
+  final bool isCompact;
 
   @override
   Widget build(BuildContext context) {
@@ -15,38 +25,115 @@ class AppShellOperatorChip extends StatelessWidget {
     final operator = scope?.currentOperator;
     if (operator == null) return const SizedBox.shrink();
 
+    final bgColor = onDark ? const Color(0xff1f1f1f) : AppPalette.neutral100;
+    final borderColor = onDark ? const Color(0xff2b2b2b) : AppPalette.neutral200;
+    final iconColor = onDark ? AppPalette.neutral400 : AppPalette.neutral500;
+    final textColor = onDark ? Colors.white : AppPalette.neutral700;
+
     return GestureDetector(
       onTap: scope?.onOperatorSwitchTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: AppPalette.neutral100,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppPalette.neutral200),
+        padding: EdgeInsets.symmetric(
+          horizontal: isCompact ? 8 : 12,
+          vertical: isCompact ? 8 : 6,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 6,
-          children: [
-            const Icon(
-              Icons.storefront_outlined,
-              size: 14,
-              color: AppPalette.neutral500,
-            ),
-            Text(
-              operator,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppPalette.neutral700,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(isCompact ? 10 : 20),
+          border: Border.all(color: borderColor),
+        ),
+        child: isCompact
+            ? Icon(Icons.storefront_outlined, size: 16, color: iconColor)
+            : Row(
+                mainAxisSize: onDark ? MainAxisSize.max : MainAxisSize.min,
+                spacing: 6,
+                children: [
+                  Icon(
+                    Icons.storefront_outlined,
+                    size: 14,
+                    color: iconColor,
                   ),
-            ),
-            if (scope?.onOperatorSwitchTap != null)
-              const Icon(
-                Icons.unfold_more_rounded,
-                size: 14,
-                color: AppPalette.neutral400,
+                  _OperatorLabel(
+                    operator: operator,
+                    color: textColor,
+                    flexible: onDark,
+                  ),
+                  if (scope?.onOperatorSwitchTap != null)
+                    Icon(
+                      Icons.unfold_more_rounded,
+                      size: 14,
+                      color: onDark ? AppPalette.neutral500 : AppPalette.neutral400,
+                    ),
+                ],
               ),
-          ],
+      ),
+    );
+  }
+}
+
+class _OperatorLabel extends StatelessWidget {
+  const _OperatorLabel({
+    required this.operator,
+    required this.color,
+    required this.flexible,
+  });
+
+  final String operator;
+  final Color color;
+  final bool flexible;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Text(
+      operator,
+      overflow: TextOverflow.ellipsis,
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            fontWeight: FontWeight.w600,
+            color: color,
+          ),
+    );
+    // In the fixed-width sidebar the label flexes/ellipsizes; in the app bar
+    // the chip shrink-wraps its text.
+    return flexible ? Expanded(child: text) : text;
+  }
+}
+
+/// Circular menu button that opens the sidebar drawer on narrow screens.
+/// Reads [AppShellScope.openSidebar]. Renders nothing on tablet/desktop where
+/// the sidebar is always visible. Meant to be overlaid at the top-left of a
+/// page body via [Align] / [Stack].
+class AppShellMenuButton extends StatelessWidget {
+  const AppShellMenuButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (context.isTabletOrLarger) return const SizedBox.shrink();
+    final onTap = AppShellScope.maybeOf(context)?.openSidebar;
+
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(Sizes.sm),
+        child: Material(
+          color: context.colors.card,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Sizes.borderRadius),
+            side: BorderSide(color: context.colors.border),
+          ),
+          elevation: 2,
+          shadowColor: Colors.black12,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(Sizes.borderRadius),
+            child: SizedBox(
+              width: 44,
+              height: 44,
+              child: Icon(
+                Icons.menu_rounded,
+                color: context.colors.foreground,
+                size: 22,
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -55,8 +142,19 @@ class AppShellOperatorChip extends StatelessWidget {
 
 /// Avatar button that opens a dropdown with user info, clock in/out, and logout.
 /// Reads from [AppShellScope]. Renders nothing if [AppShellScope.userName] is null.
+///
+/// Set [onDark] when placed on a dark surface (e.g. the sidebar) so the label
+/// colors invert for contrast. Set [isCompact] to render only the avatar
+/// (used when the sidebar is collapsed).
 class AppShellUserMenu extends StatelessWidget {
-  const AppShellUserMenu({super.key});
+  const AppShellUserMenu({
+    super.key,
+    this.onDark = false,
+    this.isCompact = false,
+  });
+
+  final bool onDark;
+  final bool isCompact;
 
   @override
   Widget build(BuildContext context) {
@@ -77,11 +175,14 @@ class AppShellUserMenu extends StatelessWidget {
         if (action == _UserMenuAction.clockToggle) scope?.onClockInTap?.call();
         if (action == _UserMenuAction.logout) scope?.onLogout?.call();
       },
-      child: _AvatarChip(
-        name: name,
-        subtitle: scope?.userSubtitle,
-        avatarUrl: scope?.userAvatarUrl,
-      ),
+      child: isCompact
+          ? _Avatar(name: name, avatarUrl: scope?.userAvatarUrl, radius: 16)
+          : _AvatarChip(
+              name: name,
+              subtitle: scope?.userSubtitle,
+              avatarUrl: scope?.userAvatarUrl,
+              onDark: onDark,
+            ),
     );
   }
 
@@ -201,46 +302,57 @@ class _AvatarChip extends StatelessWidget {
     required this.name,
     this.subtitle,
     this.avatarUrl,
+    this.onDark = false,
   });
 
   final String name;
   final String? subtitle;
   final String? avatarUrl;
+  final bool onDark;
 
   @override
   Widget build(BuildContext context) {
+    final nameColor = onDark ? Colors.white : AppPalette.neutral900;
+    final subtitleColor = onDark ? AppPalette.neutral400 : AppPalette.neutral500;
+
+    final labels = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          name,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: nameColor,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        if (subtitle != null)
+          Text(
+            subtitle!,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: subtitleColor,
+                  fontSize: 10,
+                ),
+            overflow: TextOverflow.ellipsis,
+          ),
+      ],
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
+        // On a dark surface the chip lives in the fixed-width sidebar, so the
+        // labels flex to fill and ellipsize. In the app bar the row shrink-wraps.
+        mainAxisSize: onDark ? MainAxisSize.max : MainAxisSize.min,
         spacing: 8,
         children: [
           _Avatar(name: name, avatarUrl: avatarUrl, radius: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                name,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: AppPalette.neutral900,
-                    ),
-              ),
-              if (subtitle != null)
-                Text(
-                  subtitle!,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppPalette.neutral500,
-                        fontSize: 10,
-                      ),
-                ),
-            ],
-          ),
-          const Icon(
+          if (onDark) Expanded(child: labels) else labels,
+          Icon(
             Icons.keyboard_arrow_down_rounded,
             size: 16,
-            color: AppPalette.neutral400,
+            color: onDark ? AppPalette.neutral500 : AppPalette.neutral400,
           ),
         ],
       ),
