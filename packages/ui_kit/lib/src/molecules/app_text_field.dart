@@ -76,11 +76,10 @@ class AppTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autovalidateMode;
 
-  OutlineInputBorder _border(Color color, double width, BuildContext context) =>
-      OutlineInputBorder(
-        borderRadius: context.tokens.borderRadiusMd,
-        borderSide: BorderSide(color: color, width: width),
-      );
+  OutlineInputBorder _border(Color color, double width, BuildContext context) => OutlineInputBorder(
+    borderRadius: context.tokens.borderRadiusMd,
+    borderSide: BorderSide(color: color, width: width),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -114,29 +113,20 @@ class AppTextField extends StatelessWidget {
         filled: true,
         fillColor: enabled ? colors.background : colors.muted,
         hintText: hintText,
-        hintStyle: context.typography.body.copyWith(
-          color: colors.mutedForeground,
-        ),
+        hintStyle: context.typography.body.copyWith(color: colors.mutedForeground),
         prefixIcon: prefix,
         prefixText: prefixText,
         prefixStyle: context.typography.body.copyWith(color: colors.foreground),
         suffixIcon: suffix,
         suffixText: suffixText,
         suffixStyle: context.typography.body.copyWith(color: colors.foreground),
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: tokens.spaceMd,
-          vertical: tokens.spaceMd,
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: tokens.spaceSm, vertical: tokens.spaceXs),
         counterText: '',
         enabledBorder: _border(colors.input, tokens.borderHairline, context),
         disabledBorder: _border(colors.border, tokens.borderHairline, context),
         focusedBorder: _border(colors.ring, tokens.borderThin, context),
         errorBorder: _border(colors.destructive, tokens.borderThin, context),
-        focusedErrorBorder: _border(
-          colors.destructive,
-          tokens.borderThin,
-          context,
-        ),
+        focusedErrorBorder: _border(colors.destructive, tokens.borderThin, context),
       ),
     );
 
@@ -144,10 +134,7 @@ class AppTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (label != null) ...[
-          AppText.label(label!),
-          SizedBox(height: tokens.spaceXs),
-        ],
+        if (label != null) ...[AppText.label(label!), SizedBox(height: tokens.spaceXs)],
         Semantics(label: label, textField: true, child: field),
         if (hasError || helperText != null) ...[
           SizedBox(height: tokens.spaceXs),
