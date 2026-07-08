@@ -212,7 +212,7 @@ class _PinPad extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: IconButton(
             onPressed: onBack,
-            icon: const Icon(AgoraIcons.caretLeft, color: AppPalette.white),
+            icon: const Icon(AgoraIcons.chevron_left, color: AppPalette.white),
           ),
         ),
         const SizedBox(height: 8),
@@ -328,7 +328,7 @@ class _DeleteButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: const Center(
-          child: Icon(AgoraIcons.backspace, color: AppPalette.white, size: 22),
+          child: Icon(AgoraIcons.eraser, color: AppPalette.white, size: 22),
         ),
       ),
     );

@@ -67,6 +67,7 @@ class SectionSidebar extends StatelessWidget {
                 final item = items[index];
                 return SectionSidebarItem(
                   icon: item.icon,
+                  selectedIcon: item.selectedIcon,
                   label: item.label,
                   isSelected: index == selectedIndex,
                   isCollapsed: isCollapsed,
@@ -95,7 +96,7 @@ class SectionSidebar extends StatelessWidget {
           icon: AnimatedRotation(
             duration: const Duration(milliseconds: 200),
             turns: isCollapsed ? 0.5 : 0,
-            child: const Icon(AgoraIcons.caretLeft),
+            child: const Icon(AgoraIcons.chevron_left),
           ),
           tooltip: isCollapsed ? 'Expand sidebar' : 'Collapse sidebar',
           style: IconButton.styleFrom(
@@ -105,7 +106,7 @@ class SectionSidebar extends StatelessWidget {
             minimumSize: const Size(36, 36),
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(6),
               side: const BorderSide(color: AppPalette.neutral200),
             ),
           ),

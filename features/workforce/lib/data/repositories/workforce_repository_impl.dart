@@ -9,7 +9,8 @@ import '../../domain/models/employee.dart';
 import '../../domain/models/clock_record.dart';
 import '../../domain/repositories/workforce_repository.dart';
 
-class WorkforceRepositoryImpl extends Repository implements WorkforceRepository {
+class WorkforceRepositoryImpl extends Repository
+    implements WorkforceRepository {
   WorkforceRepositoryImpl({
     required EmployeesDao employeesDao,
     required ClockRecordsDao clockRecordsDao,
@@ -24,10 +25,10 @@ class WorkforceRepositoryImpl extends Repository implements WorkforceRepository 
   // ── Employees ──────────────────────────────────────────────────────────────
 
   @override
-  Stream<List<Employee>> watchActiveEmployees() =>
-      _employeesDao.watchActiveEmployees().map(
-        (entities) => entities.map((e) => e.toModel()).toList(),
-      ).safeCode(logger);
+  Stream<List<Employee>> watchActiveEmployees() => _employeesDao
+      .watchActiveEmployees()
+      .map((entities) => entities.map((e) => e.toModel()).toList())
+      .safeCode(logger);
 
   @override
   Future<Result<List<Employee>>> getActiveEmployees() =>
@@ -101,16 +102,18 @@ class WorkforceRepositoryImpl extends Repository implements WorkforceRepository 
       });
 
   @override
-  Future<Result<ClockRecord>> clockOut(int employeeId) =>
-      safe('clockOut($employeeId)', () async {
-        final active = await _clockRecordsDao.getActiveClockRecord(employeeId);
-        if (active == null) {
-          throw RepositoryException('No active clock-in found');
-        }
-        await _clockRecordsDao.updateClockRecord(active.id, clockOutCompanion());
-        final emp = await _employeesDao.getEmployeeById(employeeId);
-        return active.toModelWithName(emp?.name ?? '').copyWith(
-          clockedOutAt: DateTime.now(),
-        );
-      });
+  Future<Result<ClockRecord>> clockOut(int employeeId) => safe(
+    'clockOut($employeeId)',
+    () async {
+      final active = await _clockRecordsDao.getActiveClockRecord(employeeId);
+      if (active == null) {
+        throw RepositoryException('No active clock-in found');
+      }
+      await _clockRecordsDao.updateClockRecord(active.id, clockOutCompanion());
+      final emp = await _employeesDao.getEmployeeById(employeeId);
+      return active
+          .toModelWithName(emp?.name ?? '')
+          .copyWith(clockedOutAt: DateTime.now());
+    },
+  );
 }

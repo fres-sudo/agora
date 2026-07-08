@@ -17,7 +17,7 @@ class ConfirmationDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.message,
-    this.icon = AgoraIcons.x,
+    this.icon = AgoraIcons.x_mark,
     this.iconColor,
     this.iconBackgroundColor,
     this.confirmButtonLabel = 'Confirm',
@@ -41,8 +41,7 @@ class ConfirmationDialog extends StatelessWidget {
     required BuildContext context,
     required String title,
     required String message,
-    IconData icon = AgoraIcons
-        .info, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.help_outline_rounded
+    IconData icon = AgoraIcons.help_circle,
     Color? iconColor,
     Color? iconBackgroundColor,
     String confirmButtonLabel = 'Confirm',
@@ -80,7 +79,7 @@ class ConfirmationDialog extends StatelessWidget {
       context: context,
       title: title,
       message: message,
-      icon: AgoraIcons.x,
+      icon: AgoraIcons.x_mark,
       confirmButtonLabel: confirmButtonLabel,
       cancelButtonLabel: cancelButtonLabel,
       isDestructive: true,

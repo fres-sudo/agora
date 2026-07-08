@@ -14,6 +14,5 @@ class ConfigRepositoryImpl extends Repository implements ConfigRepository {
   final ConfigService service;
 
   @override
-  Future<Result<RemoteConfig>> fetch() =>
-      safe('fetch', () => service.fetch());
+  Future<Result<RemoteConfig>> fetch() => safe('fetch', () => service.fetch());
 }

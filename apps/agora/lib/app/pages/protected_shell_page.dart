@@ -31,43 +31,62 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
   /// app only shows what this kind of business needs.
   static List<_NavEntry> _entriesFor(BusinessProfile profile) => [
     const _NavEntry(
-      AppShellNavItem(icon: AgoraIcons.home, label: 'Point of Sale'),
+      AppShellNavItem(
+        icon: AgoraIcons.home_01,
+        selectedIcon: AgoraIcons.home_01_solid,
+        label: 'Point of Sale',
+      ),
       PosRoute(),
     ),
     const _NavEntry(
-      AppShellNavItem(icon: AgoraIcons.box, label: 'Orders'),
+      AppShellNavItem(
+        icon: AgoraIcons.receipt,
+        selectedIcon: AgoraIcons.receipt_solid,
+        label: 'Orders',
+      ),
       OrdersRoute(),
     ),
     const _NavEntry(
       AppShellNavItem(
-        icon: AgoraIcons.square,
+        icon: AgoraIcons.categories,
+        selectedIcon: AgoraIcons.categories_solid,
         label: 'Products',
-      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.grid_view_outlined
+      ),
       ProductsRoute(),
     ),
     if (profile.has(Capability.reports))
       const _NavEntry(
-        AppShellNavItem(icon: AgoraIcons.pieChart, label: 'Reports'),
+        AppShellNavItem(
+          icon: AgoraIcons.chart,
+          selectedIcon: AgoraIcons.chart_solid,
+          label: 'Reports',
+        ),
         ReportRoute(),
       ),
     if (profile.has(Capability.inventory))
       const _NavEntry(
         AppShellNavItem(
-          icon: AgoraIcons.box,
+          icon: AgoraIcons.package,
+          selectedIcon: AgoraIcons.package_solid,
           label: 'Inventory',
-        ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.warehouse_outlined
+        ),
         InventoryRoute(),
       ),
     const _NavEntry(
-      AppShellNavItem(icon: AgoraIcons.gear, label: 'Settings'),
+      AppShellNavItem(
+        icon: AgoraIcons.settings_01,
+        selectedIcon: AgoraIcons.settings_01_solid,
+        label: 'Settings',
+      ),
       SettingsRoute(),
     ),
     if (profile.has(Capability.staffLogin))
       const _NavEntry(
         AppShellNavItem(
-          icon: AgoraIcons.userPlus,
+          icon: AgoraIcons.user_add,
+          selectedIcon: AgoraIcons.user_add_solid,
           label: 'Staff',
-        ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.badge_outlined
+        ),
         EmployeesRoute(),
       ),
   ];
@@ -208,7 +227,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                   AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),
                     icon: const Icon(
-                      AgoraIcons.x,
+                      AgoraIcons.x_mark,
                       color: AppPalette.neutral400,
                     ),
                     style: IconButton.styleFrom(

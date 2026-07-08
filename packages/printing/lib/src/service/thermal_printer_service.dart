@@ -15,9 +15,11 @@ typedef PrinterTransport = Future<void> Function(List<int> bytes);
 /// and reports success, so the checkout/receipt flow remains fully usable
 /// before a printer is connected.
 class ThermalPrinterServiceImpl implements PrinterService {
-  ThermalPrinterServiceImpl({required Talker logger, PrinterTransport? transport})
-    : _logger = logger,
-      _transport = transport;
+  ThermalPrinterServiceImpl({
+    required Talker logger,
+    PrinterTransport? transport,
+  }) : _logger = logger,
+       _transport = transport;
 
   final Talker _logger;
   final PrinterTransport? _transport;

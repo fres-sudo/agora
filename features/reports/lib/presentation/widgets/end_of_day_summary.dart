@@ -20,7 +20,7 @@ class EndOfDaySummary extends StatelessWidget {
         value: formatCents(summary.cashRevenueCents),
       ),
       _Metric(
-        icon: AgoraIcons.creditCard,
+        icon: AgoraIcons.card,
         label: 'Card',
         value: formatCents(summary.cardRevenueCents),
       ),

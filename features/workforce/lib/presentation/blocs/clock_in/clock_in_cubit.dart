@@ -8,8 +8,8 @@ part 'clock_in_cubit.freezed.dart';
 
 class ClockInCubit extends Cubit<ClockInState> {
   ClockInCubit({required WorkforceRepository workforceRepository})
-      : _repo = workforceRepository,
-        super(const ClockInState.initial());
+    : _repo = workforceRepository,
+      super(const ClockInState.initial());
 
   final WorkforceRepository _repo;
 

@@ -27,7 +27,10 @@ class OnboardingShellPage extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 560),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
                 child: Column(
                   children: [
                     _Progress(current: stepIndex + 1, total: steps.length),
@@ -45,7 +48,10 @@ class OnboardingShellPage extends StatelessWidget {
                     ),
                     if (state.error != null) ...[
                       const SizedBox(height: 8),
-                      AppText.bodySm(state.error!, color: context.colors.destructive),
+                      AppText.bodySm(
+                        state.error!,
+                        color: context.colors.destructive,
+                      ),
                     ],
                     const SizedBox(height: 16),
                     _NavBar(
@@ -66,16 +72,17 @@ class OnboardingShellPage extends StatelessWidget {
     );
   }
 
-  Widget _stepBody(OnboardingStep step, OnboardingDraft draft) => switch (step) {
-    OnboardingStep.welcome => const WelcomeStep(),
-    OnboardingStep.businessType => BusinessTypeStep(draft: draft),
-    OnboardingStep.businessDetails => BusinessDetailsStep(draft: draft),
-    OnboardingStep.taxCurrency => TaxCurrencyStep(draft: draft),
-    OnboardingStep.payments => PaymentsStep(draft: draft),
-    OnboardingStep.team => TeamStep(draft: draft),
-    OnboardingStep.menu => MenuStep(draft: draft),
-    OnboardingStep.review => ReviewStep(draft: draft),
-  };
+  Widget _stepBody(OnboardingStep step, OnboardingDraft draft) =>
+      switch (step) {
+        OnboardingStep.welcome => const WelcomeStep(),
+        OnboardingStep.businessType => BusinessTypeStep(draft: draft),
+        OnboardingStep.businessDetails => BusinessDetailsStep(draft: draft),
+        OnboardingStep.taxCurrency => TaxCurrencyStep(draft: draft),
+        OnboardingStep.payments => PaymentsStep(draft: draft),
+        OnboardingStep.team => TeamStep(draft: draft),
+        OnboardingStep.menu => MenuStep(draft: draft),
+        OnboardingStep.review => ReviewStep(draft: draft),
+      };
 }
 
 class _Progress extends StatelessWidget {
@@ -99,7 +106,10 @@ class _Progress extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        AppText.caption('Step $current of $total', color: context.colors.mutedForeground),
+        AppText.caption(
+          'Step $current of $total',
+          color: context.colors.mutedForeground,
+        ),
       ],
     );
   }

@@ -105,7 +105,7 @@ class PosOrderPanel extends StatelessWidget {
                     currencySymbol: currencySymbol,
                   )
                 : PosEmptyState(
-                    icon: AgoraIcons.bag,
+                    icon: AgoraIcons.cart,
                     title: 'No Order',
                     description: 'Tap the product to add into order',
                     iconSize: 40,
@@ -210,7 +210,7 @@ class _DiscountRow extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(4),
               child: Icon(
-                AgoraIcons.x,
+                AgoraIcons.x_mark,
                 size: 18,
                 color: colors.mutedForeground,
               ),

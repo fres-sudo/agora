@@ -179,8 +179,8 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       margin: const EdgeInsets.all(Sizes.lg),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(Sizes.md),
-        border: Border.all(color: AppPalette.neutral200),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: AppPalette.neutral300),
       ),
       child: Column(
         children: [
@@ -339,7 +339,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                   onSelected: (action) =>
                       widget.onRowAction?.call(item, action),
                   icon: const Icon(
-                    AgoraIcons.dots,
+                    AgoraIcons.dots_horizontal,
                     color: AppPalette.neutral500,
                     size: 20,
                   ),
@@ -353,7 +353,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                         value: DataTableRowAction.edit,
                         child: Row(
                           children: [
-                            Icon(AgoraIcons.pen, size: 18),
+                            Icon(AgoraIcons.pencil, size: 18),
                             SizedBox(width: Sizes.sm),
                             Text('Edit'),
                           ],

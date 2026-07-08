@@ -81,12 +81,7 @@ class AppMenuDrawer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 12, 0),
       child: Row(
         children: [
-          logo ??
-              Icon(
-                AgoraIcons.trendUp,
-                color: AppPalette.primary500,
-                size: 28,
-              ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bolt
+          logo ?? Icon(AgoraIcons.zap, color: AppPalette.primary500, size: 28),
           const SizedBox(width: 8),
           Text(
             appName,
@@ -99,7 +94,7 @@ class AppMenuDrawer extends StatelessWidget {
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(
-              AgoraIcons.x,
+              AgoraIcons.x_mark,
               color: AppPalette.neutral600,
               size: 24,
             ),

@@ -33,7 +33,7 @@ class PosActionButtons extends StatelessWidget {
           children: [
             Expanded(
               child: _ActionButton(
-                icon: AgoraIcons.users,
+                icon: AgoraIcons.user_group,
                 label: 'Customer',
                 onTap: onCustomerTap,
               ),
@@ -41,7 +41,7 @@ class PosActionButtons extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: _ActionButton(
-                icon: AgoraIcons.tables,
+                icon: AgoraIcons.map,
                 label: 'Tables',
                 onTap: onTablesTap,
               ),

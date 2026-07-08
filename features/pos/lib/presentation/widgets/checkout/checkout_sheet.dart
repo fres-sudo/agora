@@ -202,7 +202,7 @@ class _ReceiptStage extends StatelessWidget {
           ),
         if (state.printStatus == PrintStatus.failed)
           const _PrintStatusBanner(
-            icon: AgoraIcons.alert,
+            icon: AgoraIcons.alert_triangle,
             color: AppPalette.error500,
             message: 'Print failed — the sale is still recorded',
           ),
@@ -388,7 +388,11 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(AgoraIcons.alert, color: AppPalette.error500, size: 20),
+          const Icon(
+            AgoraIcons.alert_triangle,
+            color: AppPalette.error500,
+            size: 20,
+          ),
           const SizedBox(width: Sizes.sm),
           Expanded(child: AppText.body(message, color: AppPalette.error500)),
         ],

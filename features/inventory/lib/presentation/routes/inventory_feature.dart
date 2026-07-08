@@ -12,10 +12,10 @@ class InventoryFeature {
   static List<SingleChildWidget> get providers => [
     // DAOs
     ProxyProvider<AgoraDatabase, StocksDao>(
-      update: (_, db, _) =>StocksDao(db),
+      update: (_, db, _) => StocksDao(db),
     ),
     ProxyProvider<AgoraDatabase, StockMovementsDao>(
-      update: (_, db, _) =>StockMovementsDao(db),
+      update: (_, db, _) => StockMovementsDao(db),
     ),
     // Repository
     RepositoryProvider<InventoryRepository>(

@@ -35,7 +35,8 @@ class ReceiptLine {
           listEquals(other.modifiers, modifiers);
 
   @override
-  int get hashCode => Object.hash(name, quantity, unitPriceCents, Object.hashAll(modifiers));
+  int get hashCode =>
+      Object.hash(name, quantity, unitPriceCents, Object.hashAll(modifiers));
 }
 
 /// A fully-described receipt, ready to be previewed on screen

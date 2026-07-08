@@ -112,46 +112,30 @@ class DataSeeder {
     switch (catalog) {
       case StarterCatalog.restaurant:
         return const [
-          _SeedCategory('Primi', Colors.orange, AgoraIcons.spoonFork),
-          _SeedCategory('Secondi', Colors.red, AgoraIcons.tables),
-          _SeedCategory(
-            'Contorni',
-            Colors.green,
-            AgoraIcons.box,
-          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.soup_kitchen
-          _SeedCategory('Bevande', Colors.blue, AgoraIcons.glass),
-          _SeedCategory('Dolci', Colors.purple, AgoraIcons.iceCream),
+          _SeedCategory('Primi', Colors.orange, AgoraIcons.restaurant),
+          _SeedCategory('Secondi', Colors.red, AgoraIcons.map),
+          _SeedCategory('Contorni', Colors.green, AgoraIcons.chef_hat),
+          _SeedCategory('Bevande', Colors.blue, AgoraIcons.cup),
+          _SeedCategory('Dolci', Colors.purple, AgoraIcons.ice_cream),
         ];
       case StarterCatalog.barCafe:
         return const [
           _SeedCategory('Coffee', Colors.brown, AgoraIcons.coffee),
-          _SeedCategory('Drinks', Colors.blue, AgoraIcons.glass),
-          _SeedCategory(
-            'Pastries',
-            Colors.orange,
-            AgoraIcons.trophy,
-          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bakery_dining
-          _SeedCategory(
-            'Snacks',
-            Colors.green,
-            AgoraIcons.cube,
-          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.lunch_dining
+          _SeedCategory('Drinks', Colors.blue, AgoraIcons.cup),
+          _SeedCategory('Pastries', Colors.orange, AgoraIcons.bread),
+          _SeedCategory('Snacks', Colors.green, AgoraIcons.chef_hat),
         ];
       case StarterCatalog.quickService:
         return const [
-          _SeedCategory(
-            'Mains',
-            Colors.red,
-            AgoraIcons.cube,
-          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.lunch_dining
+          _SeedCategory('Mains', Colors.red, AgoraIcons.chef_hat),
           _SeedCategory('Sides', Colors.green, AgoraIcons.burger),
-          _SeedCategory('Drinks', Colors.blue, AgoraIcons.drink),
-          _SeedCategory('Desserts', Colors.purple, AgoraIcons.iceCream),
+          _SeedCategory('Drinks', Colors.blue, AgoraIcons.wine),
+          _SeedCategory('Desserts', Colors.purple, AgoraIcons.ice_cream),
         ];
       case StarterCatalog.festival:
         return const [
           _SeedCategory('Food', Colors.red, AgoraIcons.burger),
-          _SeedCategory('Drinks', Colors.blue, AgoraIcons.glass),
+          _SeedCategory('Drinks', Colors.blue, AgoraIcons.cup),
         ];
     }
   }

@@ -34,8 +34,7 @@ class AppSearchField extends StatelessWidget {
       onChanged: onChanged,
       textInputAction: TextInputAction.search,
       prefix: Icon(
-        AgoraIcons
-            .eye, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search_rounded
+        AgoraIcons.search,
         color: colors.mutedForeground,
         size: context.tokens.iconMd,
       ),
@@ -43,7 +42,7 @@ class AppSearchField extends StatelessWidget {
           ? null
           : IconButton(
               tooltip: 'Clear search',
-              icon: Icon(AgoraIcons.x, color: colors.mutedForeground),
+              icon: Icon(AgoraIcons.x_mark, color: colors.mutedForeground),
               onPressed: onClear,
             ),
     );

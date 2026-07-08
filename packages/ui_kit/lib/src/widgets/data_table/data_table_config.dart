@@ -92,8 +92,7 @@ class DataTableConfig {
     this.addButtonLabel = 'Add',
     this.emptyStateTitle = 'No Data Found',
     this.emptyStateSubtitle = 'Try adjusting your search or filters',
-    this.emptyStateIcon = AgoraIcons
-        .eye, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search_off_rounded
+    this.emptyStateIcon = AgoraIcons.search,
     this.deleteDialogTitle = 'Delete Item?',
     this.deleteDialogMessage =
         'Are you sure you want to delete this item? This action cannot be undone.',

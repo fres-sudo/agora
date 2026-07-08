@@ -24,7 +24,9 @@ class QuantityButton extends StatelessWidget {
     return Container(
       decoration: ShapeDecoration(
         color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-        shape: const StadiumBorder(),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(4.0),
@@ -81,14 +83,11 @@ class _CircularButton extends StatelessWidget {
         height: 32,
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: colorScheme.outline,
+            width: 1,
+          ),
         ),
         child: Icon(
           icon,

@@ -10,7 +10,11 @@ extension OrderReceiptMapper on Order {
   ///
   /// [tenderedCents] / [changeCents] are supplied for cash sales so the receipt
   /// shows the amount paid and the change returned; pass null for card sales.
-  Receipt toReceipt(ReceiptConfig config, {int? tenderedCents, int? changeCents}) {
+  Receipt toReceipt(
+    ReceiptConfig config, {
+    int? tenderedCents,
+    int? changeCents,
+  }) {
     return Receipt(
       storeName: config.storeName,
       storeAddress: config.storeAddress,

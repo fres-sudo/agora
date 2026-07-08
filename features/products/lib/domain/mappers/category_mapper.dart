@@ -33,9 +33,7 @@ extension CategoryModelMapper on Category {
       name: name,
       color: color ?? Colors.blue,
       isEnabled: Value(isEnabled),
-      iconCodePoint: Value(
-        icon?.codePoint ?? AgoraIcons.square.codePoint,
-      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.abc
+      iconCodePoint: Value(icon?.codePoint ?? AgoraIcons.categories.codePoint),
     );
   }
 
@@ -45,9 +43,7 @@ extension CategoryModelMapper on Category {
       name: Value(name),
       color: Value(color ?? Colors.blue),
       isEnabled: Value(isEnabled),
-      iconCodePoint: Value(
-        icon?.codePoint ?? AgoraIcons.square.codePoint,
-      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.abc
+      iconCodePoint: Value(icon?.codePoint ?? AgoraIcons.categories.codePoint),
     );
   }
 }

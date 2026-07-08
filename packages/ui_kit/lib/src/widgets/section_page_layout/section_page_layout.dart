@@ -11,12 +11,12 @@ import 'package:ui_kit/ui_kit.dart';
 /// SectionPageLayout(
 ///   items: [
 ///     SectionSidebarItemData(
-///       icon: AgoraIcons.garage, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.store
+///       icon: AgoraIcons.building,
 ///       label: 'Store Setting',
 ///       child: StoreSettingSection(),
 ///     ),
 ///     SectionSidebarItemData(
-///       icon: AgoraIcons.square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.category
+///       icon: AgoraIcons.categories,
 ///       label: 'Category',
 ///       child: CategorySection(),
 ///     ),

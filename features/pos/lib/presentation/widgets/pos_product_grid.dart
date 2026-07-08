@@ -52,7 +52,7 @@ class PosProductGrid extends StatelessWidget {
 
     if (products.isEmpty) {
       return PosEmptyState(
-        icon: AgoraIcons.box,
+        icon: AgoraIcons.package,
         title: emptyTitle,
         description: emptyDescription,
         actionLabel: emptyActionLabel,

@@ -16,7 +16,8 @@ abstract class EffectBloc<Event, State, Effect> extends Bloc<Event, State> {
   // Trade-off: effects emitted while no listener is attached are dropped rather
   // than buffered. That is fine for UI side-effects (snackbars, navigation),
   // which are only meaningful when a view is present to react to them.
-  final StreamController<Effect> _effects = StreamController<Effect>.broadcast();
+  final StreamController<Effect> _effects =
+      StreamController<Effect>.broadcast();
 
   Stream<Effect> get effects => _effects.stream;
 

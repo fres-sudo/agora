@@ -9,8 +9,8 @@ part 'employees_bloc.freezed.dart';
 
 class EmployeesBloc extends Bloc<EmployeesEvent, EmployeesState> {
   EmployeesBloc({required WorkforceRepository workforceRepository})
-      : _repo = workforceRepository,
-        super(const EmployeesState.initial()) {
+    : _repo = workforceRepository,
+      super(const EmployeesState.initial()) {
     on<_Started>(_onStarted);
     on<_Created>(_onCreate);
     on<_Updated>(_onUpdate);
@@ -19,10 +19,7 @@ class EmployeesBloc extends Bloc<EmployeesEvent, EmployeesState> {
 
   final WorkforceRepository _repo;
 
-  Future<void> _onStarted(
-    _Started event,
-    Emitter<EmployeesState> emit,
-  ) async {
+  Future<void> _onStarted(_Started event, Emitter<EmployeesState> emit) async {
     emit(const EmployeesState.loading());
     await emit.forEach(
       _repo.watchActiveEmployees(),

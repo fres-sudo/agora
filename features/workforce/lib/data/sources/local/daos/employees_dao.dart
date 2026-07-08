@@ -22,9 +22,9 @@ class EmployeesDao extends DatabaseAccessor<AgoraDatabase> {
 
   Future<EmployeeEntity?> getEmployeeById(int id) {
     final table = attachedDatabase.employeesTable;
-    return (select(table)
-          ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
-        .getSingleOrNull();
+    return (select(
+      table,
+    )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).getSingleOrNull();
   }
 
   Future<int> insertEmployee(EmployeesTableCompanion companion) {

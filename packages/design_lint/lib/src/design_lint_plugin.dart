@@ -20,10 +20,10 @@ import 'rules/prefer_app_text_field.dart';
 class DesignLintPlugin extends PluginBase {
   @override
   List<LintRule> getLintRules(CustomLintConfigs configs) => [
-        const AvoidHardcodedColors(),
-        const AvoidHardcodedTextStyles(),
-        const PreferAppText(),
-        const PreferAppTextField(),
-        const PreferAppButton(),
-      ];
+    const AvoidHardcodedColors(),
+    const AvoidHardcodedTextStyles(),
+    const PreferAppText(),
+    const PreferAppTextField(),
+    const PreferAppButton(),
+  ];
 }

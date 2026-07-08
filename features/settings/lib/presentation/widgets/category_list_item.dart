@@ -66,9 +66,7 @@ class CategoryListItem extends StatelessWidget {
                 border: Border.all(color: colors.border),
               ),
               child: Icon(
-                category.icon ??
-                    AgoraIcons
-                        .square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.category
+                category.icon ?? AgoraIcons.categories,
                 color: _getIconColor(category.color),
                 size: 20,
               ),

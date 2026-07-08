@@ -22,7 +22,10 @@ void main() {
     });
 
     test('exempts test files and test directories', () {
-      expect(isExemptPath('/repo/features/pos/test/pos_bloc_test.dart'), isTrue);
+      expect(
+        isExemptPath('/repo/features/pos/test/pos_bloc_test.dart'),
+        isTrue,
+      );
       expect(isExemptPath('/repo/test/products/foo_test.dart'), isTrue);
     });
 
@@ -31,10 +34,7 @@ void main() {
         isExemptPath('/repo/features/pos/lib/presentation/pos_page.dart'),
         isFalse,
       );
-      expect(
-        isExemptPath('/repo/apps/agora/lib/app/app.dart'),
-        isFalse,
-      );
+      expect(isExemptPath('/repo/apps/agora/lib/app/app.dart'), isFalse);
     });
 
     test('handles Windows-style separators', () {

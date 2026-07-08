@@ -24,8 +24,9 @@ abstract interface class BusinessProfileRepository {
 }
 
 class BusinessProfileRepositoryImpl implements BusinessProfileRepository {
-  BusinessProfileRepositoryImpl({required PersistenceService persistenceService})
-    : _persistence = persistenceService {
+  BusinessProfileRepositoryImpl({
+    required PersistenceService persistenceService,
+  }) : _persistence = persistenceService {
     _type = _resolveInitialType();
   }
 

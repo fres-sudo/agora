@@ -5,12 +5,18 @@ import 'package:ui_kit/ui_kit.dart';
 class SectionSidebarItemData {
   const SectionSidebarItemData({
     required this.icon,
+    this.selectedIcon,
     required this.label,
     required this.child,
   });
 
   /// The icon displayed for this item.
   final IconData icon;
+
+  /// Icon shown when this item is selected. Falls back to [icon] when unset —
+  /// pass the filled/solid variant of [icon] to get a regular/filled
+  /// active-state swap.
+  final IconData? selectedIcon;
 
   /// The label text for this item.
   final String label;
@@ -27,6 +33,7 @@ class SectionSidebarItem extends StatelessWidget {
   const SectionSidebarItem({
     super.key,
     required this.icon,
+    this.selectedIcon,
     required this.label,
     this.isSelected = false,
     this.isCollapsed = false,
@@ -35,6 +42,9 @@ class SectionSidebarItem extends StatelessWidget {
 
   /// The icon to display.
   final IconData icon;
+
+  /// Icon shown when this item is selected. Falls back to [icon] when unset.
+  final IconData? selectedIcon;
 
   /// The label text (hidden when collapsed).
   final String label;
@@ -56,7 +66,7 @@ class SectionSidebarItem extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(6),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
@@ -66,7 +76,7 @@ class SectionSidebarItem extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: isSelected ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(6),
             border: isSelected
                 ? Border.all(color: AppPalette.neutral200, width: 1)
                 : null,
@@ -87,7 +97,7 @@ class SectionSidebarItem extends StatelessWidget {
               ),
               // Icon
               Icon(
-                icon,
+                isSelected ? (selectedIcon ?? icon) : icon,
                 size: 22,
                 color: isSelected
                     ? AppPalette.neutral800

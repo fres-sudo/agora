@@ -14,8 +14,7 @@ class AvoidHardcodedColors extends DartLintRule {
 
   static const _code = LintCode(
     name: 'avoid_hardcoded_colors',
-    problemMessage:
-        'Hard-coded color. This will not adapt to light/dark mode.',
+    problemMessage: 'Hard-coded color. This will not adapt to light/dark mode.',
     correctionMessage:
         'Use a semantic token: context.colors.<token> (e.g. '
         'context.colors.primary, context.colors.mutedForeground).',
@@ -23,8 +22,10 @@ class AvoidHardcodedColors extends DartLintRule {
   );
 
   // Flutter's `Color` (covers Color(), Color.fromARGB(), Color.fromRGBO()).
-  static const _colorChecker =
-      TypeChecker.fromName('Color', packageName: 'flutter');
+  static const _colorChecker = TypeChecker.fromName(
+    'Color',
+    packageName: 'flutter',
+  );
   // dart:ui `Color`, in case it is referenced directly.
   static const _uiColorChecker = TypeChecker.fromUrl('dart:ui#Color');
 

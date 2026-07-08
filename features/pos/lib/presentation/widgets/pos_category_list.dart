@@ -42,7 +42,7 @@ class PosCategoryList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: MenuCategoryItem(
               title: allMenuLabel,
-              icon: AgoraIcons.spoonFork,
+              icon: AgoraIcons.restaurant,
               isSelected: selectedCategoryId == null,
               onTap: () => onCategorySelected(null),
               size: itemSize,
@@ -54,10 +54,7 @@ class PosCategoryList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: MenuCategoryItem(
                 title: category.name,
-                icon:
-                    category.icon ??
-                    AgoraIcons
-                        .square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.grid_view
+                icon: category.icon ?? AgoraIcons.categories,
                 isSelected: selectedCategoryId == category.id,
                 onTap: () => onCategorySelected(category.id),
                 size: itemSize,

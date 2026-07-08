@@ -76,7 +76,7 @@ class _MethodTile extends StatelessWidget {
 
   IconData get _icon => switch (method) {
     PaymentMethod.cash => AgoraIcons.money,
-    PaymentMethod.card => AgoraIcons.creditCard,
+    PaymentMethod.card => AgoraIcons.card,
   };
 
   @override

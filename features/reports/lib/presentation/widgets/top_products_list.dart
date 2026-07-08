@@ -118,7 +118,7 @@ class TopProductsList extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(AgoraIcons.trophy, size: isCompact ? 10 : 12, color: color),
+            Icon(AgoraIcons.ranking, size: isCompact ? 10 : 12, color: color),
             SizedBox(width: isCompact ? 1 : 2),
             AppText.caption(rank.toString(), color: color),
           ],

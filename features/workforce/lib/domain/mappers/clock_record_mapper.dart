@@ -30,6 +30,5 @@ ClockRecordsTableCompanion clockInCompanion(int employeeId) =>
       clockedInAt: DateTime.now(),
     );
 
-ClockRecordsTableCompanion clockOutCompanion() => ClockRecordsTableCompanion(
-  clockedOutAt: Value(DateTime.now()),
-);
+ClockRecordsTableCompanion clockOutCompanion() =>
+    ClockRecordsTableCompanion(clockedOutAt: Value(DateTime.now()));

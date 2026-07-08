@@ -88,9 +88,7 @@ class _AdaptiveBottomSheet extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(Sizes.lg),
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
       ),
       child: DraggableScrollableSheet(
         initialChildSize: 0.9,
@@ -113,16 +111,28 @@ class _AdaptiveSideSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       left: false,
-      child: Material(
-        elevation: 8,
-        borderRadius: const BorderRadius.horizontal(
-          left: Radius.circular(Sizes.lg),
+      child: DecoratedBox(
+        // Depth reads as a crisp hard-edged offset, not a soft Material blur.
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 0,
+              offset: const Offset(-4, 0),
+            ),
+          ],
         ),
-        clipBehavior: Clip.antiAlias,
-        child: SizedBox(
-          width: width,
-          height: double.infinity,
-          child: builder(context, null),
+        child: Material(
+          elevation: 0,
+          borderRadius: const BorderRadius.horizontal(
+            left: Radius.circular(6),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: SizedBox(
+            width: width,
+            height: double.infinity,
+            child: builder(context, null),
+          ),
         ),
       ),
     );

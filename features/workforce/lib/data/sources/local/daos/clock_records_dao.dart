@@ -7,11 +7,15 @@ class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase> {
   Stream<List<ClockRecordWithEmployee>> watchClockRecords({int? employeeId}) {
     final clockTable = attachedDatabase.clockRecordsTable;
     final employeesTable = attachedDatabase.employeesTable;
-    final query = select(clockTable).join([
-      innerJoin(employeesTable, employeesTable.id.equalsExp(clockTable.employeeId)),
-    ])
-      ..where(clockTable.deletedAt.isNull())
-      ..orderBy([OrderingTerm.desc(clockTable.clockedInAt)]);
+    final query =
+        select(clockTable).join([
+            innerJoin(
+              employeesTable,
+              employeesTable.id.equalsExp(clockTable.employeeId),
+            ),
+          ])
+          ..where(clockTable.deletedAt.isNull())
+          ..orderBy([OrderingTerm.desc(clockTable.clockedInAt)]);
 
     if (employeeId != null) {
       query.where(clockTable.employeeId.equals(employeeId));
@@ -55,10 +59,7 @@ class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase> {
 }
 
 class ClockRecordWithEmployee {
-  const ClockRecordWithEmployee({
-    required this.record,
-    required this.employee,
-  });
+  const ClockRecordWithEmployee({required this.record, required this.employee});
 
   final ClockRecordEntity record;
   final EmployeeEntity employee;

@@ -8,8 +8,9 @@ part 'auth_router.gr.dart';
 class AuthRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: AuthShellRoute.page, children: [
-      AutoRoute(page: PinLoginRoute.page, initial: true),
-    ]),
+    AutoRoute(
+      page: AuthShellRoute.page,
+      children: [AutoRoute(page: PinLoginRoute.page, initial: true)],
+    ),
   ];
 }

@@ -67,8 +67,7 @@ class PosEmptyState extends StatelessWidget {
                         border: Border.all(color: colors.border, width: 2),
                       ),
                       child: Icon(
-                        AgoraIcons
-                            .info, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.question_mark_rounded
+                        AgoraIcons.help_circle,
                         size: iconSize * 0.3,
                         color: colors.mutedForeground,
                       ),

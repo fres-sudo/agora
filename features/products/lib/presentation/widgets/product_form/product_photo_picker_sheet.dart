@@ -66,7 +66,7 @@ class _ProductPhotoPickerSheetState extends State<ProductPhotoPickerSheet> {
               children: [
                 AppText.titleMd(t.products.form.photo.title),
                 AppIconButton.ghost(
-                  icon: const Icon(AgoraIcons.x),
+                  icon: const Icon(AgoraIcons.x_mark),
                   tooltip: t.products.form.photo.close,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
@@ -81,7 +81,7 @@ class _ProductPhotoPickerSheetState extends State<ProductPhotoPickerSheet> {
                 Expanded(
                   child: AppButton.outline(
                     label: t.products.form.photo.take_photo,
-                    leadingIcon: const Icon(AgoraIcons.eye), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.photo_camera_outlined
+                    leadingIcon: const Icon(AgoraIcons.camera),
                     isLoading: _isUploading,
                     onPressed: _isUploading
                         ? null
@@ -92,7 +92,7 @@ class _ProductPhotoPickerSheetState extends State<ProductPhotoPickerSheet> {
                 Expanded(
                   child: AppButton.outline(
                     label: t.products.form.photo.choose_from_gallery,
-                    leadingIcon: const Icon(AgoraIcons.square), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.photo_library_outlined
+                    leadingIcon: const Icon(AgoraIcons.gallery),
                     isLoading: _isUploading,
                     onPressed: _isUploading
                         ? null

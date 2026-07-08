@@ -40,9 +40,12 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
     _phoneCtrl.text = cubit.getString(AppSettingsDao.keyBusinessPhone) ?? '';
     _emailCtrl.text = cubit.getString(AppSettingsDao.keyBusinessEmail) ?? '';
     _cityCtrl.text = cubit.getString(AppSettingsDao.keyBusinessCity) ?? '';
-    _countryCtrl.text = cubit.getString(AppSettingsDao.keyBusinessCountry) ?? '';
-    _addressCtrl.text = cubit.getString(AppSettingsDao.keyBusinessAddress) ?? '';
-    _currencyCtrl.text = cubit.getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
+    _countryCtrl.text =
+        cubit.getString(AppSettingsDao.keyBusinessCountry) ?? '';
+    _addressCtrl.text =
+        cubit.getString(AppSettingsDao.keyBusinessAddress) ?? '';
+    _currencyCtrl.text =
+        cubit.getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
 
     for (final ctrl in _controllers) {
       ctrl.addListener(_onChanged);
@@ -122,21 +125,36 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(child: _FormField(label: 'Phone', controller: _phoneCtrl)),
+                  Expanded(
+                    child: _FormField(label: 'Phone', controller: _phoneCtrl),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _FormField(label: 'Email', controller: _emailCtrl)),
+                  Expanded(
+                    child: _FormField(label: 'Email', controller: _emailCtrl),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Expanded(child: _FormField(label: 'City', controller: _cityCtrl)),
+                  Expanded(
+                    child: _FormField(label: 'City', controller: _cityCtrl),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _FormField(label: 'Country', controller: _countryCtrl)),
+                  Expanded(
+                    child: _FormField(
+                      label: 'Country',
+                      controller: _countryCtrl,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
-              _FormField(label: 'Full Address', controller: _addressCtrl, maxLines: 3),
+              _FormField(
+                label: 'Full Address',
+                controller: _addressCtrl,
+                maxLines: 3,
+              ),
               const Divider(height: 32),
               _FormField(
                 label: 'Currency Symbol',

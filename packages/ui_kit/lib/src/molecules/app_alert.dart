@@ -41,13 +41,11 @@ class AppAlert extends StatelessWidget {
   }
 
   IconData _defaultIcon() => switch (variant) {
-    AppAlertVariant.info => AgoraIcons.info,
+    AppAlertVariant.info => AgoraIcons.info_circle,
     AppAlertVariant.success => AgoraIcons.check,
-    AppAlertVariant.warning => AgoraIcons.alert,
-    AppAlertVariant.destructive => AgoraIcons.alert,
-    AppAlertVariant.neutral =>
-      AgoraIcons
-          .invoice, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.notes_rounded
+    AppAlertVariant.warning => AgoraIcons.alert_triangle,
+    AppAlertVariant.destructive => AgoraIcons.alert_triangle,
+    AppAlertVariant.neutral => AgoraIcons.note,
   };
 
   @override

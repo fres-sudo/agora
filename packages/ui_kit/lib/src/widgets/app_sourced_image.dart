@@ -6,6 +6,7 @@ import 'package:ui_kit/src/data/product_stock_gallery.dart';
 import 'package:ui_kit/src/theme/context_extensions.dart';
 
 import 'package:ui_kit/src/theme/agora_icons.dart';
+
 /// Resolves a nullable image source string into the right visual.
 ///
 /// Recognizes three forms of [source]:
@@ -20,7 +21,7 @@ class AppSourcedImage extends StatelessWidget {
     required this.source,
     this.size = 40,
     this.borderRadius,
-    this.placeholderIcon = AgoraIcons.square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.image_outlined
+    this.placeholderIcon = AgoraIcons.gallery,
     super.key,
   });
 

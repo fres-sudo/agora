@@ -36,7 +36,10 @@ class _ReceiptOptionSectionState extends State<ReceiptOptionSection> {
     _headerCtrl.text = cubit.getString(AppSettingsDao.keyReceiptHeader) ?? '';
     _footerCtrl.text = cubit.getString(AppSettingsDao.keyReceiptFooter) ?? '';
     _showLogo = cubit.getBool(AppSettingsDao.keyReceiptShowLogo);
-    _showTax = cubit.getBool(AppSettingsDao.keyReceiptShowTax, defaultValue: true);
+    _showTax = cubit.getBool(
+      AppSettingsDao.keyReceiptShowTax,
+      defaultValue: true,
+    );
   }
 
   void _onChanged() {
@@ -44,14 +47,14 @@ class _ReceiptOptionSectionState extends State<ReceiptOptionSection> {
   }
 
   void _onToggleLogo(bool value) => setState(() {
-        _showLogo = value;
-        _isDirty = true;
-      });
+    _showLogo = value;
+    _isDirty = true;
+  });
 
   void _onToggleTax(bool value) => setState(() {
-        _showTax = value;
-        _isDirty = true;
-      });
+    _showTax = value;
+    _isDirty = true;
+  });
 
   Future<void> _onSave() async {
     setState(() => _isSaving = true);
@@ -179,7 +182,10 @@ class _ReceiptToggle extends StatelessWidget {
             children: [
               AppText.titleMd(label),
               const SizedBox(height: 2),
-              AppText.bodySm(description, color: context.colors.mutedForeground),
+              AppText.bodySm(
+                description,
+                color: context.colors.mutedForeground,
+              ),
             ],
           ),
         ),

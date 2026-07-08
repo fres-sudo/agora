@@ -127,10 +127,7 @@ class _EmployeesListState extends State<_EmployeesList> {
                 child: AppTextField(
                   onChanged: (v) => setState(() => _search = v),
                   hintText: 'Search employees…',
-                  prefix: const Icon(
-                    AgoraIcons.eye,
-                    size: 20,
-                  ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search
+                  prefix: const Icon(AgoraIcons.search, size: 20),
                 ),
               ),
               const SizedBox(width: 12),
@@ -199,7 +196,7 @@ class _EmployeeTile extends StatelessWidget {
           _StatusBadge(isActive: employee.isActive),
           const SizedBox(width: 8),
           AppIconButton.ghost(
-            icon: const Icon(AgoraIcons.pen, size: 20),
+            icon: const Icon(AgoraIcons.pencil, size: 20),
             onPressed: onEdit,
           ),
           AppIconButton.ghost(
@@ -266,7 +263,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(AgoraIcons.users, size: 64, color: AppPalette.neutral300),
+          Icon(AgoraIcons.user_group, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: 16),
           AppText.titleMd(
             'No employees yet',

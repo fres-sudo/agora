@@ -26,14 +26,8 @@ class MenuDrawerUserTile extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: AppPalette.neutral300),
       ),
       child: Row(
         children: [
@@ -91,10 +85,10 @@ class MenuDrawerUserTile extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: const Icon(
-        AgoraIcons.smile,
+        AgoraIcons.user_circle,
         color: AppPalette.neutral500,
         size: 24,
-      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.person
+      ),
     );
   }
 
@@ -105,7 +99,7 @@ class MenuDrawerUserTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isClockedIn ? AppPalette.error100 : AppPalette.primary50,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(6),
           border: Border.all(
             color: isClockedIn ? AppPalette.error300 : AppPalette.primary300,
             width: 1,

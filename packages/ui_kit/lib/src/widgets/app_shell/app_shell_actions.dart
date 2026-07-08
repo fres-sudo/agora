@@ -40,24 +40,16 @@ class AppShellOperatorChip extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(isCompact ? 10 : 20),
+          borderRadius: BorderRadius.circular(6),
           border: Border.all(color: borderColor),
         ),
         child: isCompact
-            ? Icon(
-                AgoraIcons.garage,
-                size: 16,
-                color: iconColor,
-              ) // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.storefront_outlined
+            ? Icon(AgoraIcons.building, size: 16, color: iconColor)
             : Row(
                 mainAxisSize: onDark ? MainAxisSize.max : MainAxisSize.min,
                 spacing: 6,
                 children: [
-                  Icon(
-                    AgoraIcons.garage,
-                    size: 14,
-                    color: iconColor,
-                  ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.storefront_outlined
+                  Icon(AgoraIcons.building, size: 14, color: iconColor),
                   _OperatorLabel(
                     operator: operator,
                     color: textColor,
@@ -65,8 +57,7 @@ class AppShellOperatorChip extends StatelessWidget {
                   ),
                   if (scope?.onOperatorSwitchTap != null)
                     Icon(
-                      AgoraIcons
-                          .sort, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.unfold_more_rounded
+                      AgoraIcons.chevron_up_down,
                       size: 14,
                       color: onDark
                           ? AppPalette.neutral500
@@ -127,8 +118,7 @@ class AppShellMenuButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(Sizes.borderRadius),
             side: BorderSide(color: context.colors.border),
           ),
-          elevation: 2,
-          shadowColor: Colors.black12,
+          elevation: 0,
           child: InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.circular(Sizes.borderRadius),
@@ -136,7 +126,7 @@ class AppShellMenuButton extends StatelessWidget {
               width: 44,
               height: 44,
               child: Icon(
-                AgoraIcons.list,
+                AgoraIcons.menu,
                 color: context.colors.foreground,
                 size: 22,
               ),
@@ -173,11 +163,10 @@ class AppShellUserMenu extends StatelessWidget {
     return PopupMenuButton<_UserMenuAction>(
       offset: const Offset(0, 10),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: AppPalette.neutral200),
+        borderRadius: BorderRadius.circular(6),
+        side: const BorderSide(color: AppPalette.neutral300),
       ),
-      elevation: 6,
-      shadowColor: Colors.black12,
+      elevation: 0,
       itemBuilder: (context) => _buildMenuItems(context, scope!),
       onSelected: (action) {
         if (action == _UserMenuAction.clockToggle) scope?.onClockInTap?.call();
@@ -252,10 +241,10 @@ class AppShellUserMenu extends StatelessWidget {
               height: 32,
               decoration: BoxDecoration(
                 color: isClockedIn ? AppPalette.error100 : AppPalette.primary50,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: Icon(
-                isClockedIn ? AgoraIcons.timer : AgoraIcons.timer,
+                isClockedIn ? AgoraIcons.logout : AgoraIcons.login,
                 size: 16,
                 color: isClockedIn
                     ? AppPalette.error500
@@ -287,7 +276,7 @@ class AppShellUserMenu extends StatelessWidget {
               height: 32,
               decoration: BoxDecoration(
                 color: AppPalette.error100,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: const Icon(
                 AgoraIcons.logout,
@@ -363,7 +352,7 @@ class _AvatarChip extends StatelessWidget {
           _Avatar(name: name, avatarUrl: avatarUrl, radius: 16),
           if (onDark) Expanded(child: labels) else labels,
           Icon(
-            AgoraIcons.caretDown,
+            AgoraIcons.chevron_down,
             size: 16,
             color: onDark ? AppPalette.neutral500 : AppPalette.neutral400,
           ),

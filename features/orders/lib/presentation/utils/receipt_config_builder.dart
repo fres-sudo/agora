@@ -25,4 +25,5 @@ ReceiptConfig buildReceiptConfig(SettingsCubit settings) {
   );
 }
 
-String? _nullIfEmpty(String? value) => (value == null || value.isEmpty) ? null : value;
+String? _nullIfEmpty(String? value) =>
+    (value == null || value.isEmpty) ? null : value;

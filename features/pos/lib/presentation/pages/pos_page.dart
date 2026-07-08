@@ -308,8 +308,7 @@ class _PosCartButton extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       Icon(
-                        AgoraIcons
-                            .bag, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.shopping_cart_outlined
+                        AgoraIcons.cart,
                         size: 22,
                         color: context.colors.foreground,
                       ),

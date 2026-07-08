@@ -91,7 +91,11 @@ class ReportPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(AgoraIcons.alert, color: AppPalette.error500, size: 48),
+          const Icon(
+            AgoraIcons.alert_triangle,
+            color: AppPalette.error500,
+            size: 48,
+          ),
           const SizedBox(height: Sizes.md),
           const AppText.body('Could not load the report.'),
           const SizedBox(height: Sizes.md),
@@ -155,7 +159,7 @@ class ReportPage extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<ReportPeriod>(
           value: state.period,
-          icon: const Icon(AgoraIcons.caretDown),
+          icon: const Icon(AgoraIcons.chevron_down),
           style: Theme.of(context).textTheme.bodyMedium,
           onChanged: (period) {
             if (period != null) context.reportsCubit.selectPeriod(period);
@@ -209,7 +213,7 @@ class ReportPage extends StatelessWidget {
         trend: '',
         isPositive: true,
         icon: const Icon(
-          AgoraIcons.bag,
+          AgoraIcons.cart,
           color: AppPalette.primary500,
           size: 20,
         ),
@@ -220,7 +224,7 @@ class ReportPage extends StatelessWidget {
         trend: '',
         isPositive: true,
         icon: const Icon(
-          AgoraIcons.dollarCurrency,
+          AgoraIcons.coin_alt,
           color: AppPalette.primary500,
           size: 20,
         ),
@@ -242,7 +246,7 @@ class ReportPage extends StatelessWidget {
         trend: '',
         isPositive: true,
         icon: const Icon(
-          AgoraIcons.box,
+          AgoraIcons.package,
           color: AppPalette.primary500,
           size: 20,
         ),

@@ -60,7 +60,8 @@ class ReceiptPreview extends StatelessWidget {
             ),
             if (_isNotEmpty(receipt.storeAddress))
               Text(receipt.storeAddress!, textAlign: TextAlign.center),
-            if (_isNotEmpty(receipt.header)) Text(receipt.header!, textAlign: TextAlign.center),
+            if (_isNotEmpty(receipt.header))
+              Text(receipt.header!, textAlign: TextAlign.center),
             const _Divider(),
             Text('Order #${receipt.orderNumber}'),
             Text(_formatDateTime(receipt.createdAt)),
@@ -88,7 +89,10 @@ class ReceiptPreview extends StatelessWidget {
             if (receipt.discountCents > 0)
               _Row(
                 left: 'Discount',
-                right: formatReceiptMoney(-receipt.discountCents, symbol: symbol),
+                right: formatReceiptMoney(
+                  -receipt.discountCents,
+                  symbol: symbol,
+                ),
               ),
             if (receipt.showTax && receipt.taxCents > 0)
               _Row(
@@ -107,7 +111,10 @@ class ReceiptPreview extends StatelessWidget {
             if (receipt.tenderedCents != null)
               _Row(
                 left: 'Tendered',
-                right: formatReceiptMoney(receipt.tenderedCents!, symbol: symbol),
+                right: formatReceiptMoney(
+                  receipt.tenderedCents!,
+                  symbol: symbol,
+                ),
               ),
             if (receipt.changeCents != null)
               _Row(

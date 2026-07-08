@@ -44,7 +44,8 @@ class DataTableFilterDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Sizes.md),
+        borderRadius: BorderRadius.circular(6),
+        side: const BorderSide(color: AppPalette.neutral300),
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400, maxHeight: 500),

@@ -109,16 +109,12 @@ class WelcomeStep extends StatelessWidget {
           "Let's set up your point of sale. It only takes a minute — we'll ask "
               'a few simple questions and then you can start selling.',
         ),
-        _bullet(
-          context,
-          AgoraIcons.garage,
-          'Tell us about your business',
-        ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.storefront
+        _bullet(context, AgoraIcons.building, 'Tell us about your business'),
         _bullet(context, AgoraIcons.discount, 'Set your tax and currency'),
         _bullet(context, AgoraIcons.money, 'Choose how you take payment'),
         _bullet(
           context,
-          AgoraIcons.spoonFork,
+          AgoraIcons.restaurant,
           'Add your menu — or start from a sample',
         ),
       ],
@@ -155,7 +151,7 @@ class BusinessTypeStep extends StatelessWidget {
   };
 
   static const _icons = {
-    BusinessType.restaurant: AgoraIcons.tables,
+    BusinessType.restaurant: AgoraIcons.map,
     BusinessType.barCafe: AgoraIcons.coffee,
     BusinessType.quickService: AgoraIcons.burger,
     BusinessType.festival: AgoraIcons.gift,
@@ -374,14 +370,14 @@ class PaymentsStep extends StatelessWidget {
         ),
         _toggle(
           context,
-          icon: AgoraIcons.dollarCurrency,
+          icon: AgoraIcons.coin_alt,
           title: 'Cash',
           value: draft.cashEnabled,
           onChanged: (v) => cubit.updateDraft(draft.copyWith(cashEnabled: v)),
         ),
         _toggle(
           context,
-          icon: AgoraIcons.creditCard,
+          icon: AgoraIcons.card,
           title: 'Card',
           value: draft.cardEnabled,
           onChanged: (v) => cubit.updateDraft(draft.copyWith(cardEnabled: v)),
@@ -463,10 +459,7 @@ class _TeamStepState extends State<TeamStep> {
             padding: const EdgeInsets.only(bottom: 8),
             child: Row(
               children: [
-                const Icon(
-                  AgoraIcons.smile,
-                  size: 20,
-                ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.person_outline
+                const Icon(AgoraIcons.user_circle, size: 20),
                 const SizedBox(width: 12),
                 Expanded(child: AppText.body(widget.draft.staff[i].name)),
                 AppText.bodySm(
@@ -474,7 +467,7 @@ class _TeamStepState extends State<TeamStep> {
                   color: context.colors.mutedForeground,
                 ),
                 IconButton(
-                  icon: const Icon(AgoraIcons.x),
+                  icon: const Icon(AgoraIcons.x_mark),
                   onPressed: () => cubit.removeStaffAt(i),
                 ),
               ],
@@ -556,8 +549,7 @@ class MenuStep extends StatelessWidget {
               'catalog and add your own products.',
         ),
         _SelectableTile(
-          icon: AgoraIcons
-              .gift, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.auto_awesome
+          icon: AgoraIcons.magic_wand,
           title: 'Start with a sample menu',
           description:
               'A starter catalog for a ${draft.profile.type.label.toLowerCase()} you can tweak.',
@@ -565,8 +557,7 @@ class MenuStep extends StatelessWidget {
           onTap: () => cubit.setMenuChoice(MenuChoice.sample),
         ),
         _SelectableTile(
-          icon: AgoraIcons
-              .invoice, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.note_add_outlined
+          icon: AgoraIcons.note_add,
           title: 'Start empty',
           description:
               'No products yet — add your own from the Products screen.',

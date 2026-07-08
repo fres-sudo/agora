@@ -30,49 +30,56 @@ class _SettingsPageState extends State<SettingsPage> {
       body: SectionPageLayout(
         items: [
           SectionSidebarItemData(
-            icon: AgoraIcons
-                .garage, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.store_outlined
+            icon: AgoraIcons.building,
+            selectedIcon: AgoraIcons.building_solid,
             label: 'Store Setting',
             child: const StoreSettingSection(),
           ),
           SectionSidebarItemData(
-            icon: AgoraIcons
-                .square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.category_outlined
+            icon: AgoraIcons.categories,
+            selectedIcon: AgoraIcons.categories_solid,
             label: 'Category',
             child: const CategorySection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.filter,
+            selectedIcon: AgoraIcons.filter_solid,
             label: 'Modifier',
             child: const ModifierSection(),
           ),
           SectionSidebarItemData(
-            icon: AgoraIcons.creditCard,
+            icon: AgoraIcons.card,
+            selectedIcon: AgoraIcons.card_solid,
             label: 'Payment Method',
             child: const PaymentMethodSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.discount,
+            selectedIcon: AgoraIcons.discount_solid,
             label: 'Taxes',
             child: const TaxesSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.discount,
+            selectedIcon: AgoraIcons.discount_solid,
             label: 'Discount & Voucher',
             child: const DiscountVoucherSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.receipt,
+            selectedIcon: AgoraIcons.receipt_solid,
             label: 'Receipt Option',
             child: const ReceiptOptionSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.printer,
+            selectedIcon: AgoraIcons.printer_solid,
             label: 'Printer',
             child: const PrinterSection(),
           ),
           SectionSidebarItemData(
-            icon: AgoraIcons.alert,
+            icon: AgoraIcons.alert_triangle,
+            selectedIcon: AgoraIcons.alert_triangle_solid,
             label: 'Reset',
             child: const DangerZoneSection(),
           ),

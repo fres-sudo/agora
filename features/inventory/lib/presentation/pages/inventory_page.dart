@@ -88,8 +88,7 @@ class _InventoryPageState extends State<InventoryPage> {
                   searchHint: 'Search products...',
                   emptyStateTitle: 'No products',
                   emptyStateSubtitle: 'Add products to start tracking stock',
-                  emptyStateIcon: AgoraIcons
-                      .box, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.warehouse_outlined
+                  emptyStateIcon: AgoraIcons.package,
                 ),
                 onSearch: (query) => setState(() => _search = query),
                 onFilter: _showFilterDialog,
@@ -129,7 +128,7 @@ class _InventoryPageState extends State<InventoryPage> {
                         color: low
                             ? AppPalette.error500
                             : AppPalette.primary500,
-                        icon: low ? AgoraIcons.alert : null,
+                        icon: low ? AgoraIcons.alert_triangle : null,
                       );
                     },
                   ),
@@ -154,7 +153,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     alignment: Alignment.centerRight,
                     cellBuilder: (level) => AppIconButton.ghost(
                       onPressed: () => _showSetDialog(level),
-                      icon: const Icon(AgoraIcons.pen, size: 18),
+                      icon: const Icon(AgoraIcons.pencil, size: 18),
                     ),
                   ),
                 ],

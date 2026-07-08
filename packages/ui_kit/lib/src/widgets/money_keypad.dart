@@ -74,7 +74,7 @@ class MoneyKeypad extends StatelessWidget {
           _KeyData(label: '00', onTap: _onDoubleZero),
           _KeyData.digit(0),
           _KeyData(
-            icon: AgoraIcons.backspace,
+            icon: AgoraIcons.eraser,
             onTap: _onBackspace,
             onLongPress: _onClear,
           ),
@@ -132,9 +132,9 @@ class _KeypadButton extends StatelessWidget {
 
     return Material(
       color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
-      borderRadius: BorderRadius.circular(Sizes.md),
+      borderRadius: BorderRadius.circular(6),
       child: InkWell(
-        borderRadius: BorderRadius.circular(Sizes.md),
+        borderRadius: BorderRadius.circular(6),
         onTap: () {
           if (data.digit != null) {
             onDigit(data.digit!);

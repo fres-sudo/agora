@@ -105,7 +105,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                     ? 'PIN (leave blank to keep current)'
                     : 'PIN (4–6 digits)',
                 suffix: IconButton(
-                  icon: Icon(_obscurePin ? AgoraIcons.eye : AgoraIcons.eye),
+                  icon: Icon(_obscurePin ? AgoraIcons.eye : AgoraIcons.eye_off),
                   onPressed: () => setState(() => _obscurePin = !_obscurePin),
                 ),
                 obscureText: _obscurePin,

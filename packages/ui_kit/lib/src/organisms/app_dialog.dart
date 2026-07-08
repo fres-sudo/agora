@@ -44,7 +44,12 @@ class AppDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: colors.popover,
       surfaceTintColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: tokens.borderRadiusLg),
+      elevation: 0,
+      shadowColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: tokens.borderRadiusLg,
+        side: BorderSide(color: colors.border, width: tokens.borderHairline),
+      ),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
         child: Padding(

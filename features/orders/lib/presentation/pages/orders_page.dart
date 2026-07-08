@@ -370,7 +370,7 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
           label: _range == null
               ? 'Pick date range'
               : 'From ${MaterialLocalizations.of(context).formatShortDate(_range!.start)} to ${MaterialLocalizations.of(context).formatShortDate(_range!.end)}',
-          leadingIcon: const Icon(AgoraIcons.calendar),
+          leadingIcon: const Icon(AgoraIcons.calendar_01),
         ),
         if (_range != null) ...[
           const SizedBox(height: Sizes.sm),

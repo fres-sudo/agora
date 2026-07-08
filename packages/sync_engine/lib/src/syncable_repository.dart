@@ -39,7 +39,7 @@ import 'sync_manager.dart';
 /// ```
 abstract class SyncableRepository extends Repository {
   SyncableRepository({required this.syncManager, Talker? logger})
-      : super(logger);
+    : super(logger);
 
   final SyncManager syncManager;
 

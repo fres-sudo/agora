@@ -32,10 +32,7 @@ class SessionAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconPerson = Icon(
-      AgoraIcons.smile,
-      size: size.toIconSizePx,
-    ); // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.person
+    final iconPerson = Icon(AgoraIcons.user_circle, size: size.toIconSizePx);
     return BlocBuilder<SessionCubit, SessionState>(
       builder: (context, state) => switch (state) {
         // Authenticated(:final user) =>

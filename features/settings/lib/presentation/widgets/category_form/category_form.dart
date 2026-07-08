@@ -26,22 +26,17 @@ class _CategoryFormState extends State<CategoryForm> {
   // Helper list of icons to choose from
   static const List<IconData> _availableIcons = [
     AgoraIcons.burger,
-    AgoraIcons
-        .chicken, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.local_pizza
-    AgoraIcons
-        .cube, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.lunch_dining
+    AgoraIcons.pizza,
+    AgoraIcons.chef_hat,
     AgoraIcons.coffee,
-    AgoraIcons.glass,
-    AgoraIcons.iceCream,
-    AgoraIcons.cake,
-    AgoraIcons.tables,
-    AgoraIcons
-        .gift, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.local_dining
-    AgoraIcons
-        .ticket, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.ramen_dining
-    AgoraIcons
-        .trophy, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bakery_dining
-    AgoraIcons.drink,
+    AgoraIcons.cup,
+    AgoraIcons.ice_cream,
+    AgoraIcons.cupcake,
+    AgoraIcons.map,
+    AgoraIcons.restaurant,
+    AgoraIcons.ramen,
+    AgoraIcons.bread,
+    AgoraIcons.wine,
   ];
 
   // Helper list of colors to choose from
@@ -119,9 +114,7 @@ class _CategoryFormState extends State<CategoryForm> {
                   AppTextField(
                     controller: _nameController,
                     label: 'Category Name',
-                    prefix: const Icon(
-                      AgoraIcons.ticket,
-                    ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.label_outline
+                    prefix: const Icon(AgoraIcons.tag),
                     textInputAction: TextInputAction.next,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {

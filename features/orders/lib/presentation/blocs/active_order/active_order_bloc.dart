@@ -303,8 +303,11 @@ class ActiveOrderBloc
     }
 
     // Calculate tax from the persisted tax-rate setting (percentage, e.g. 22.0 = 22%).
-    final taxRatePct = _settingsCubit.getDouble(AppSettingsDao.keyTaxRate) ?? 0.0;
-    final taxAmount = taxRatePct > 0 ? ((subtotal - discountAmount) * taxRatePct / 100).round() : 0;
+    final taxRatePct =
+        _settingsCubit.getDouble(AppSettingsDao.keyTaxRate) ?? 0.0;
+    final taxAmount = taxRatePct > 0
+        ? ((subtotal - discountAmount) * taxRatePct / 100).round()
+        : 0;
 
     final grandTotal = subtotal - discountAmount + taxAmount;
 

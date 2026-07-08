@@ -38,10 +38,7 @@ class SettingsSectionScaffold extends StatelessWidget {
               children: [
                 AppText.headingSm(title),
                 actionButton ??
-                    AppButton.primary(
-                      onPressed: () {},
-                      label: 'Save Changes',
-                    ),
+                    AppButton.primary(onPressed: () {}, label: 'Save Changes'),
               ],
             ),
           ),

@@ -40,7 +40,9 @@ class _TaxesSectionState extends State<TaxesSection> {
 
   String _formatRate(double rate) {
     // Show as integer when whole number (e.g. 22.0 → "22"), otherwise decimal.
-    return rate == rate.truncateToDouble() ? rate.toInt().toString() : rate.toString();
+    return rate == rate.truncateToDouble()
+        ? rate.toInt().toString()
+        : rate.toString();
   }
 
   void _onChanged() {
@@ -63,9 +65,9 @@ class _TaxesSectionState extends State<TaxesSection> {
       _isSaving = false;
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: AppText.body('Tax rate saved')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: AppText.body('Tax rate saved')));
   }
 
   @override
@@ -97,7 +99,9 @@ class _TaxesSectionState extends State<TaxesSection> {
                 width: 220,
                 child: AppTextField(
                   controller: _rateCtrl,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
                   ],

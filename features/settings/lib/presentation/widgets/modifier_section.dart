@@ -192,7 +192,7 @@ class _ModifierSectionState extends State<ModifierSection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(AgoraIcons.alert, size: 48, color: AppPalette.error500),
+          Icon(AgoraIcons.alert_triangle, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
           const AppText.titleMd('Failed to load modifiers'),
           const SizedBox(height: Sizes.sm),

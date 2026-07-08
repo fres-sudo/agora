@@ -22,8 +22,10 @@ class AvoidHardcodedTextStyles extends DartLintRule {
     errorSeverity: ErrorSeverity.WARNING,
   );
 
-  static const _textStyleChecker =
-      TypeChecker.fromName('TextStyle', packageName: 'flutter');
+  static const _textStyleChecker = TypeChecker.fromName(
+    'TextStyle',
+    packageName: 'flutter',
+  );
 
   @override
   void run(

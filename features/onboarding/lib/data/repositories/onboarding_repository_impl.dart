@@ -42,7 +42,9 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     // 3. Staff vs single-user.
     if (profile.requiresStaffLogin) {
       for (final s in draft.staff) {
-        await _db.into(_db.employeesTable).insert(
+        await _db
+            .into(_db.employeesTable)
+            .insert(
               EmployeesTableCompanion.insert(
                 name: s.name,
                 pin: s.pin,
@@ -52,7 +54,9 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
       }
       // No auto-login: the PIN screen will let the operator choose who they are.
     } else {
-      final ownerId = await _db.into(_db.employeesTable).insert(
+      final ownerId = await _db
+          .into(_db.employeesTable)
+          .insert(
             EmployeesTableCompanion.insert(
               name: draft.businessName.isEmpty ? 'Owner' : draft.businessName,
               pin: '0000',
@@ -104,12 +108,15 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     );
   }
 
-  Future<void> _setString(String key, String value) => _upsert(key, value, 'string');
+  Future<void> _setString(String key, String value) =>
+      _upsert(key, value, 'string');
   Future<void> _setBool(String key, bool value) =>
       _upsert(key, value.toString(), 'bool');
 
   Future<void> _upsert(String key, String value, String type) {
-    return _db.into(_db.appSettingsTable).insertOnConflictUpdate(
+    return _db
+        .into(_db.appSettingsTable)
+        .insertOnConflictUpdate(
           AppSettingsTableCompanion.insert(
             key: key,
             value: value,

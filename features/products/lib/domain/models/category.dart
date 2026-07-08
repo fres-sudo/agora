@@ -10,9 +10,7 @@ abstract class Category with _$Category {
     required int id,
     required String name,
     @Default(AppPalette.primary500) Color? color,
-    @Default(AgoraIcons.dot)
-    IconData?
-    icon, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.hot_tub_outlined
+    @Default(AgoraIcons.categories) IconData? icon,
     @Default(true) bool isEnabled,
   }) = _Category;
 

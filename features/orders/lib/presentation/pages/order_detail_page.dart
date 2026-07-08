@@ -90,7 +90,7 @@ class _OrderDetailView extends StatelessWidget {
                     child: AppButton.outline(
                       onPressed: () => _confirmVoid(context, order),
                       label: 'Void order',
-                      leadingIcon: const Icon(AgoraIcons.x),
+                      leadingIcon: const Icon(AgoraIcons.x_mark),
                     ),
                   ),
                 ),

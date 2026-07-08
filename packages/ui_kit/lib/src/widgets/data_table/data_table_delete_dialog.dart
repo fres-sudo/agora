@@ -42,7 +42,8 @@ class DataTableDeleteDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Sizes.md),
+        borderRadius: BorderRadius.circular(6),
+        side: const BorderSide(color: AppPalette.neutral300),
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),
@@ -60,7 +61,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  AgoraIcons.x,
+                  AgoraIcons.x_mark,
                   color: AppPalette.error500,
                   size: 32,
                 ),

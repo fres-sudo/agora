@@ -170,12 +170,14 @@ List<SingleChildWidget> _buildProviders({
   // Feature providers (each feature registers its own DAOs, repos and BLoCs)
   // ---------------------------------------------------------------------------
   ...AuthFeature.providers,
-  ...OnboardingFeature.providers, // after Auth (reads AuthRepository) + profile repo
+  ...OnboardingFeature
+      .providers, // after Auth (reads AuthRepository) + profile repo
   ...WorkforceFeature.providers,
   ...SettingsFeature.providers,
   ...InventoryFeature.providers, // must be before Products (StocksDao)
   ...ProductsFeature.providers,
-  ...DiscountsFeature.providers, // must be before Orders (CheckoutCubit reads DiscountsRepository)
+  ...DiscountsFeature
+      .providers, // must be before Orders (CheckoutCubit reads DiscountsRepository)
   ...OrdersFeature.providers,
   ...ReportsFeature.providers, // must be after Orders + Products (reads both)
 ];

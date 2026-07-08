@@ -10,9 +10,7 @@ import 'package:talker/talker.dart';
 class AuthFeature {
   static List<SingleChildWidget> get providers => [
     // DAO
-    ProxyProvider<AgoraDatabase, AuthDao>(
-      update: (_, db, _) => AuthDao(db),
-    ),
+    ProxyProvider<AgoraDatabase, AuthDao>(update: (_, db, _) => AuthDao(db)),
     // Repository
     RepositoryProvider<AuthRepository>(
       create: (ctx) => AuthRepositoryImpl(

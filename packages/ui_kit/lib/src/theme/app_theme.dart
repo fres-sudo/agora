@@ -87,7 +87,25 @@ abstract final class AppTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: colors.popover,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: tokens.borderRadiusLg),
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: tokens.borderRadiusLg,
+          side: BorderSide(color: colors.border, width: tokens.borderHairline),
+        ),
+      ),
+      // Dropdowns/menus are the one place depth is allowed — keep it a crisp,
+      // hard-edged offset rather than a soft Material blur.
+      popupMenuTheme: PopupMenuThemeData(
+        color: colors.popover,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: tokens.borderRadiusMd,
+          side: BorderSide(color: colors.border, width: tokens.borderHairline),
+        ),
+        textStyle: typography.body.copyWith(color: colors.foreground),
       ),
       scrollbarTheme: ScrollbarThemeData(
         thumbColor: WidgetStatePropertyAll(colors.border),

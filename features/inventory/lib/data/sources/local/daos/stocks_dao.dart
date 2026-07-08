@@ -72,12 +72,12 @@ class StocksDao extends DatabaseAccessor<AgoraDatabase> with _$StocksDaoMixin {
   Stream<List<StockLevelRow>> watchStockLevels() {
     final query =
         select(productsTable).join([
-          leftOuterJoin(
-            stocksTable,
-            stocksTable.productId.equalsExp(productsTable.id) &
-                stocksTable.deletedAt.isNull(),
-          ),
-        ])
+            leftOuterJoin(
+              stocksTable,
+              stocksTable.productId.equalsExp(productsTable.id) &
+                  stocksTable.deletedAt.isNull(),
+            ),
+          ])
           ..where(productsTable.deletedAt.isNull())
           ..orderBy([OrderingTerm.asc(productsTable.name)]);
 

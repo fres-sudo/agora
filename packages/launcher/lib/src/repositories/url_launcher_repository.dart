@@ -16,17 +16,12 @@ class UrlLauncherRepositoryImpl extends Repository
   final UrlLauncherService urlLauncherService;
 
   @override
-  Future<Result<bool>> canLaunchUrl(Uri uri) => safe(
-    'canLaunchUrl',
-    () => urlLauncherService.canLaunchUrl(uri),
-  );
+  Future<Result<bool>> canLaunchUrl(Uri uri) =>
+      safe('canLaunchUrl', () => urlLauncherService.canLaunchUrl(uri));
 
   @override
   Future<Result<bool>> launchUrl(
     Uri uri, {
     LaunchMode mode = LaunchMode.platformDefault,
-  }) => safe(
-    'launchUrl',
-    () => urlLauncherService.launchUrl(uri, mode: mode),
-  );
+  }) => safe('launchUrl', () => urlLauncherService.launchUrl(uri, mode: mode));
 }

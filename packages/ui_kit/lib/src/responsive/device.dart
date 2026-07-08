@@ -122,8 +122,9 @@ class Sizes {
   static const double xl = 1.5 * unit;
   static const double xxl = 2 * unit;
 
-  /// Border radius for buttons, cards, inputs etc.
-  static const double borderRadius = sm;
+  /// Border radius for buttons, cards, inputs etc. Kept a tight 4-6px per the
+  /// design system's flat, structural style — never a full pill/capsule.
+  static const double borderRadius = 5;
 
   /// Edge insets and margins for phone breakpoint size.
   static const double edgeInsetsPhone = xl;

@@ -14,21 +14,20 @@ class AuthDao extends DatabaseAccessor<AgoraDatabase> {
 
   Future<EmployeeEntity?> getEmployeeByPin(int employeeId, String pin) {
     final table = attachedDatabase.employeesTable;
-    return (select(table)
-          ..where(
-            (t) =>
-                t.id.equals(employeeId) &
-                t.pin.equals(pin) &
-                t.isActive.equals(true) &
-                t.deletedAt.isNull(),
-          ))
+    return (select(table)..where(
+          (t) =>
+              t.id.equals(employeeId) &
+              t.pin.equals(pin) &
+              t.isActive.equals(true) &
+              t.deletedAt.isNull(),
+        ))
         .getSingleOrNull();
   }
 
   Future<EmployeeEntity?> getEmployeeById(int id) {
     final table = attachedDatabase.employeesTable;
-    return (select(table)
-          ..where((t) => t.id.equals(id) & t.deletedAt.isNull()))
-        .getSingleOrNull();
+    return (select(
+      table,
+    )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).getSingleOrNull();
   }
 }

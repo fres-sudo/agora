@@ -73,10 +73,7 @@ class _RecordTile extends StatelessWidget {
             ? colors.success.withValues(alpha: 0.12)
             : colors.muted,
         child: Icon(
-          record.isActive
-              ? AgoraIcons.openTab
-              : AgoraIcons
-                    .logout, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.login
+          record.isActive ? AgoraIcons.login : AgoraIcons.logout,
           color: statusColor,
           size: 20,
         ),

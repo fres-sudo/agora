@@ -142,9 +142,7 @@ class _DiscountFormState extends State<DiscountForm> {
                   AppTextField(
                     controller: _nameController,
                     label: 'Discount Name',
-                    prefix: const Icon(
-                      AgoraIcons.ticket,
-                    ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.label_outline
+                    prefix: const Icon(AgoraIcons.tag),
                     textInputAction: TextInputAction.next,
                     validator: (value) =>
                         (value == null || value.trim().isEmpty)
@@ -166,7 +164,7 @@ class _DiscountFormState extends State<DiscountForm> {
                       ButtonSegment(
                         value: DiscountType.fixedAmount,
                         label: AppText.body('Fixed'),
-                        icon: Icon(AgoraIcons.dollarCurrency),
+                        icon: Icon(AgoraIcons.coin_alt),
                       ),
                     ],
                     selected: {_type},
@@ -188,9 +186,7 @@ class _DiscountFormState extends State<DiscountForm> {
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                     ],
                     prefix: Icon(
-                      isPercentage
-                          ? AgoraIcons.discount
-                          : AgoraIcons.dollarCurrency,
+                      isPercentage ? AgoraIcons.discount : AgoraIcons.coin_alt,
                     ),
                     suffix: AppText.body(isPercentage ? '%' : '€'),
                     textInputAction: TextInputAction.next,
@@ -203,7 +199,7 @@ class _DiscountFormState extends State<DiscountForm> {
                     controller: _codeController,
                     label: 'Voucher code (optional)',
                     textCapitalization: TextCapitalization.characters,
-                    prefix: const Icon(AgoraIcons.ticket),
+                    prefix: const Icon(AgoraIcons.tag),
                     textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 20),
@@ -215,7 +211,7 @@ class _DiscountFormState extends State<DiscountForm> {
                     helperText: 'Leave empty for unlimited use',
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    prefix: const Icon(AgoraIcons.rotateClockwise),
+                    prefix: const Icon(AgoraIcons.rotate_right),
                     textInputAction: TextInputAction.done,
                   ),
                   const SizedBox(height: 8),
@@ -223,7 +219,7 @@ class _DiscountFormState extends State<DiscountForm> {
                   // Valid until (optional)
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const Icon(AgoraIcons.calendar),
+                    leading: const Icon(AgoraIcons.calendar_01),
                     title: const AppText.body('Valid until'),
                     subtitle: AppText.bodySm(
                       _validUntil == null
@@ -238,7 +234,7 @@ class _DiscountFormState extends State<DiscountForm> {
                             size: AppButtonSize.sm,
                           )
                         : IconButton(
-                            icon: const Icon(AgoraIcons.x),
+                            icon: const Icon(AgoraIcons.x_mark),
                             onPressed: () => setState(() => _validUntil = null),
                           ),
                     onTap: _pickValidUntil,

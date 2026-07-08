@@ -77,77 +77,69 @@ class AppTokens extends ThemeExtension<AppTokens> {
   BorderRadius get borderRadiusLg => BorderRadius.circular(radiusLg);
   BorderRadius get borderRadiusFull => BorderRadius.circular(radiusFull);
 
+  // Notion-style neo-minimal / soft-brutalist scale: tight 4-6px radii,
+  // generous whitespace for fast tap-accuracy, and flat surfaces — depth
+  // (where unavoidable, e.g. dropdowns) reads as a crisp hard-edged offset
+  // rather than a soft blur. See docs/architecture for the full style brief.
   static const AppTokens light = AppTokens(
-    spaceXxs: 2,
-    spaceXs: 4,
-    spaceSm: 8,
-    spaceMd: 12,
-    spaceLg: 16,
-    spaceXl: 24,
-    spaceXxl: 32,
-    radiusSm: 6,
-    radiusMd: 8,
-    radiusLg: 12,
-    radiusFull: 999,
+    spaceXxs: 4,
+    spaceXs: 8,
+    spaceSm: 12,
+    spaceMd: 16,
+    spaceLg: 20,
+    spaceXl: 28,
+    spaceXxl: 40,
+    radiusSm: 4,
+    radiusMd: 5,
+    radiusLg: 6,
+    radiusFull: 6,
     borderHairline: 1,
-    borderThin: 1.5,
-    borderThick: 2,
+    borderThin: 1,
+    borderThick: 1.5,
     iconSm: 16,
     iconMd: 20,
     iconLg: 24,
     durationFast: Duration(milliseconds: 120),
     durationNormal: Duration(milliseconds: 200),
     durationSlow: Duration(milliseconds: 320),
-    shadowSm: [
-      BoxShadow(color: Color(0x14101828), blurRadius: 2, offset: Offset(0, 1)),
-    ],
+    shadowSm: [],
     shadowMd: [
-      BoxShadow(color: Color(0x14101828), blurRadius: 8, offset: Offset(0, 4)),
-      BoxShadow(color: Color(0x0F101828), blurRadius: 4, offset: Offset(0, 2)),
+      BoxShadow(color: Color(0x33141414), blurRadius: 0, offset: Offset(2, 2)),
     ],
     shadowLg: [
-      BoxShadow(
-        color: Color(0x1A101828),
-        blurRadius: 24,
-        offset: Offset(0, 12),
-      ),
-      BoxShadow(color: Color(0x0F101828), blurRadius: 8, offset: Offset(0, 4)),
+      BoxShadow(color: Color(0x40141414), blurRadius: 0, offset: Offset(4, 4)),
     ],
   );
 
   static const AppTokens dark = AppTokens(
-    spaceXxs: 2,
-    spaceXs: 4,
-    spaceSm: 8,
-    spaceMd: 12,
-    spaceLg: 16,
-    spaceXl: 24,
-    spaceXxl: 32,
-    radiusSm: 6,
-    radiusMd: 8,
-    radiusLg: 12,
-    radiusFull: 999,
+    spaceXxs: 4,
+    spaceXs: 8,
+    spaceSm: 12,
+    spaceMd: 16,
+    spaceLg: 20,
+    spaceXl: 28,
+    spaceXxl: 40,
+    radiusSm: 4,
+    radiusMd: 5,
+    radiusLg: 6,
+    radiusFull: 6,
     borderHairline: 1,
-    borderThin: 1.5,
-    borderThick: 2,
+    borderThin: 1,
+    borderThick: 1.5,
     iconSm: 16,
     iconMd: 20,
     iconLg: 24,
     durationFast: Duration(milliseconds: 120),
     durationNormal: Duration(milliseconds: 200),
     durationSlow: Duration(milliseconds: 320),
-    shadowSm: [
-      BoxShadow(color: Color(0x66000000), blurRadius: 3, offset: Offset(0, 1)),
-    ],
+    shadowSm: [],
+    // Dark canvases can't show a black offset shadow, so elevation reads as a
+    // crisp, faint light-edged offset instead — same flat/hard-edge language.
     shadowMd: [
-      BoxShadow(color: Color(0x80000000), blurRadius: 12, offset: Offset(0, 6)),
+      BoxShadow(color: Color(0x33FFFFFF), blurRadius: 0, offset: Offset(2, 2)),
     ],
     shadowLg: [
-      BoxShadow(
-        color: Color(0x99000000),
-        blurRadius: 32,
-        offset: Offset(0, 16),
-      ),
+      BoxShadow(color: Color(0x40FFFFFF), blurRadius: 0, offset: Offset(4, 4)),
     ],
   );
 

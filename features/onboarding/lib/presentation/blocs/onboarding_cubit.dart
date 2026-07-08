@@ -64,7 +64,11 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   void updateDraft(OnboardingDraft draft) => emit(state.copyWith(draft: draft));
 
   void addStaff(StaffDraft staff) {
-    emit(state.copyWith(draft: state.draft.copyWith(staff: [...state.draft.staff, staff])));
+    emit(
+      state.copyWith(
+        draft: state.draft.copyWith(staff: [...state.draft.staff, staff]),
+      ),
+    );
   }
 
   void removeStaffAt(int index) {

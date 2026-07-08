@@ -48,7 +48,7 @@ void main() {
         AppListTile(
           title: 'Row',
           subtitle: 'sub',
-          leading: const Icon(AgoraIcons.dot),
+          leading: const Icon(AgoraIcons.categories),
           onTap: () => taps++,
         ),
       );
@@ -59,8 +59,7 @@ void main() {
         AppEmptyState(
           title: 'Nothing here',
           message: 'Add your first item',
-          icon: AgoraIcons
-              .tables, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.inbox_outlined
+          icon: AgoraIcons.inbox,
           action: AppButton.primary(label: 'Add', onPressed: () {}),
         ),
       );

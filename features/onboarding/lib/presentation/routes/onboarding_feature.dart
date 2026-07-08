@@ -20,7 +20,8 @@ class OnboardingFeature {
       ),
     ),
     BlocProvider<OnboardingCubit>(
-      create: (ctx) => OnboardingCubit(repository: ctx.read<OnboardingRepository>()),
+      create: (ctx) =>
+          OnboardingCubit(repository: ctx.read<OnboardingRepository>()),
     ),
   ];
 }

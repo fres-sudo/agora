@@ -56,6 +56,7 @@ class AppShellSidebar extends StatelessWidget {
                 final item = items[index];
                 return _SidebarNavItem(
                   icon: item.icon,
+                  selectedIcon: item.selectedIcon,
                   label: item.label,
                   isSelected: index == selectedIndex,
                   isCollapsed: isCollapsed,
@@ -108,8 +109,7 @@ class AppShellSidebar extends StatelessWidget {
               child:
                   logo ??
                   const Icon(
-                    AgoraIcons
-                        .trendUp, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bolt
+                    AgoraIcons.zap,
                     color: AppPalette.primary500,
                     size: 26,
                   ),
@@ -118,8 +118,7 @@ class AppShellSidebar extends StatelessWidget {
               children: [
                 logo ??
                     const Icon(
-                      AgoraIcons
-                          .trendUp, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bolt
+                      AgoraIcons.zap,
                       color: AppPalette.primary500,
                       size: 26,
                     ),
@@ -152,21 +151,21 @@ class AppShellSidebar extends StatelessWidget {
           preferBelow: false,
           child: InkWell(
             onTap: () => onCollapsedChanged?.call(!isCollapsed),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(6),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 32,
               height: 32,
               decoration: BoxDecoration(
                 color: const Color(0xff1f1f1f),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(6),
               ),
               child: Center(
                 child: AnimatedRotation(
                   duration: const Duration(milliseconds: 250),
                   turns: isCollapsed ? 0.5 : 0,
                   child: const Icon(
-                    AgoraIcons.caretLeft,
+                    AgoraIcons.chevron_left,
                     size: 18,
                     color: AppPalette.neutral400,
                   ),
@@ -183,6 +182,7 @@ class AppShellSidebar extends StatelessWidget {
 class _SidebarNavItem extends StatelessWidget {
   const _SidebarNavItem({
     required this.icon,
+    this.selectedIcon,
     required this.label,
     this.isSelected = false,
     this.isCollapsed = false,
@@ -191,6 +191,7 @@ class _SidebarNavItem extends StatelessWidget {
   });
 
   final IconData icon;
+  final IconData? selectedIcon;
   final String label;
   final bool isSelected;
   final bool isCollapsed;
@@ -204,6 +205,7 @@ class _SidebarNavItem extends StatelessWidget {
         : isSelected
         ? Colors.white
         : AppPalette.neutral400;
+    final displayIcon = isSelected ? (selectedIcon ?? icon) : icon;
 
     return Tooltip(
       message: isCollapsed && isEnabled ? label : '',
@@ -212,7 +214,7 @@ class _SidebarNavItem extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(6),
           splashColor: Colors.white10,
           highlightColor: Colors.white10,
           child: AnimatedContainer(
@@ -224,10 +226,10 @@ class _SidebarNavItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: isSelected ? const Color(0xff1f1f1f) : Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(6),
             ),
             child: isCollapsed
-                ? Center(child: Icon(icon, size: 20, color: iconColor))
+                ? Center(child: Icon(displayIcon, size: 20, color: iconColor))
                 : Row(
                     children: [
                       // Left accent indicator
@@ -243,7 +245,7 @@ class _SidebarNavItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      Icon(icon, size: 20, color: iconColor),
+                      Icon(displayIcon, size: 20, color: iconColor),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(

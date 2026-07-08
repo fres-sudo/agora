@@ -161,8 +161,7 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                             () => _singleSelections[group.id] = optionId,
                           ),
                           onMultiToggled: (optionId, selected) => setState(() {
-                            final set =
-                                _multiSelections[group.id] ?? <int>{};
+                            final set = _multiSelections[group.id] ?? <int>{};
                             if (selected) {
                               set.add(optionId);
                             } else {

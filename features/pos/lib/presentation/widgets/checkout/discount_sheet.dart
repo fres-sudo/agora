@@ -103,7 +103,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                         label: 'Voucher code',
                         textInputAction: TextInputAction.done,
                         textCapitalization: TextCapitalization.characters,
-                        prefix: const Icon(AgoraIcons.ticket),
+                        prefix: const Icon(AgoraIcons.tag),
                         onSubmitted: (_) => _applyCode(),
                       ),
                     ),
@@ -126,7 +126,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                       child: Row(
                         children: [
                           Icon(
-                            AgoraIcons.alert,
+                            AgoraIcons.alert_triangle,
                             color: colors.destructive,
                             size: 18,
                           ),

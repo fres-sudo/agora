@@ -20,8 +20,10 @@ class PreferAppText extends DartLintRule {
     errorSeverity: ErrorSeverity.WARNING,
   );
 
-  static const _textChecker =
-      TypeChecker.fromName('Text', packageName: 'flutter');
+  static const _textChecker = TypeChecker.fromName(
+    'Text',
+    packageName: 'flutter',
+  );
 
   @override
   void run(

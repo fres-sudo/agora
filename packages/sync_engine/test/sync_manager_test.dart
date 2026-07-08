@@ -109,7 +109,9 @@ void main() {
       final entry = makeEntry(id: 1, entityType: 'order');
 
       var pendingCallCount1 = 0;
-      when(mockQueue.pendingEntries()).thenAnswer((_) async => pendingCallCount1++ == 0 ? [entry] : []);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => pendingCallCount1++ == 0 ? [entry] : []);
       when(mockQueue.markInflight(1)).thenAnswer((_) async {});
       when(mockQueue.markDone(1)).thenAnswer((_) async {});
 
@@ -149,7 +151,9 @@ void main() {
       final entry = makeEntry(id: 3, entityType: 'unknown_entity');
 
       var pendingCallCount3 = 0;
-      when(mockQueue.pendingEntries()).thenAnswer((_) async => pendingCallCount3++ == 0 ? [entry] : []);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => pendingCallCount3++ == 0 ? [entry] : []);
       when(mockQueue.markFailed(any, any, any)).thenAnswer((_) async {});
 
       await manager.start();
@@ -163,7 +167,9 @@ void main() {
       final statuses = <SyncStatus>[];
 
       var pendingCallCount4 = 0;
-      when(mockQueue.pendingEntries()).thenAnswer((_) async => pendingCallCount4++ == 0 ? [entry] : []);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => pendingCallCount4++ == 0 ? [entry] : []);
       when(mockQueue.markInflight(4)).thenAnswer((_) async {});
       when(mockQueue.markDone(4)).thenAnswer((_) async {});
 
@@ -196,7 +202,9 @@ void main() {
         createdAt: DateTime(2025),
       );
 
-      when(mockQueue.pendingEntries()).thenAnswer((_) async => [exhaustedEntry]);
+      when(
+        mockQueue.pendingEntries(),
+      ).thenAnswer((_) async => [exhaustedEntry]);
       when(mockQueue.markInflight(5)).thenAnswer((_) async {});
       when(mockQueue.markFailed(any, any, any)).thenAnswer((_) async {});
 

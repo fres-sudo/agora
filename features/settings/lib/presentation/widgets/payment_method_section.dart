@@ -51,7 +51,7 @@ class PaymentMethodSection extends StatelessWidget {
               ),
               const Divider(height: 24),
               _MethodTile(
-                icon: AgoraIcons.creditCard,
+                icon: AgoraIcons.card,
                 label: 'Card',
                 description: 'Accept credit/debit card payments.',
                 isEnabled: cardEnabled,
@@ -72,7 +72,7 @@ class PaymentMethodSection extends StatelessWidget {
                   child: Row(
                     children: [
                       const Icon(
-                        AgoraIcons.alert,
+                        AgoraIcons.alert_triangle,
                         color: AppPalette.warning600,
                         size: 18,
                       ),

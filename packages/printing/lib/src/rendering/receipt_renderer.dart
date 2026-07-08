@@ -34,11 +34,22 @@ class ReceiptRenderer {
         ),
       ),
     );
-    if (receipt.storeAddress case final String address when address.isNotEmpty) {
-      bytes.addAll(generator.text(_safe(address), styles: const PosStyles(align: PosAlign.center)));
+    if (receipt.storeAddress case final String address
+        when address.isNotEmpty) {
+      bytes.addAll(
+        generator.text(
+          _safe(address),
+          styles: const PosStyles(align: PosAlign.center),
+        ),
+      );
     }
     if (receipt.header case final String header when header.isNotEmpty) {
-      bytes.addAll(generator.text(_safe(header), styles: const PosStyles(align: PosAlign.center)));
+      bytes.addAll(
+        generator.text(
+          _safe(header),
+          styles: const PosStyles(align: PosAlign.center),
+        ),
+      );
     }
 
     bytes.addAll(generator.hr());
@@ -54,7 +65,9 @@ class ReceiptRenderer {
         generator.row([
           PosColumn(text: _safe('${line.quantity}x ${line.name}'), width: 8),
           PosColumn(
-            text: _safe(formatReceiptMoney(line.lineTotalCents, symbol: symbol)),
+            text: _safe(
+              formatReceiptMoney(line.lineTotalCents, symbol: symbol),
+            ),
             width: 4,
             styles: const PosStyles(align: PosAlign.right),
           ),
@@ -73,15 +86,26 @@ class ReceiptRenderer {
     bytes.addAll(generator.hr());
 
     // Totals.
-    bytes.addAll(_amountRow(generator, 'Subtotal', receipt.subtotalCents, symbol));
+    bytes.addAll(
+      _amountRow(generator, 'Subtotal', receipt.subtotalCents, symbol),
+    );
     if (receipt.discountCents > 0) {
-      bytes.addAll(_amountRow(generator, 'Discount', -receipt.discountCents, symbol));
+      bytes.addAll(
+        _amountRow(generator, 'Discount', -receipt.discountCents, symbol),
+      );
     }
     if (receipt.showTax && receipt.taxCents > 0) {
       bytes.addAll(_amountRow(generator, 'Tax', receipt.taxCents, symbol));
     }
     bytes.addAll(
-      _amountRow(generator, 'TOTAL', receipt.totalCents, symbol, bold: true, size2: true),
+      _amountRow(
+        generator,
+        'TOTAL',
+        receipt.totalCents,
+        symbol,
+        bold: true,
+        size2: true,
+      ),
     );
 
     // Payment / change.
@@ -99,7 +123,12 @@ class ReceiptRenderer {
     // Footer.
     if (receipt.footer case final String footer when footer.isNotEmpty) {
       bytes.addAll(generator.feed(1));
-      bytes.addAll(generator.text(_safe(footer), styles: const PosStyles(align: PosAlign.center)));
+      bytes.addAll(
+        generator.text(
+          _safe(footer),
+          styles: const PosStyles(align: PosAlign.center),
+        ),
+      );
     }
 
     bytes.addAll(generator.feed(2));
@@ -144,7 +173,9 @@ class ReceiptRenderer {
   /// printer can't encode. The on-screen preview keeps the original symbols.
   String _safe(String text) {
     final mapped = text.replaceAll('€', 'EUR ');
-    return String.fromCharCodes(mapped.runes.map((rune) => rune <= 0xFF ? rune : 0x3F /* '?' */));
+    return String.fromCharCodes(
+      mapped.runes.map((rune) => rune <= 0xFF ? rune : 0x3F /* '?' */),
+    );
   }
 
   String _formatDateTime(DateTime dt) {

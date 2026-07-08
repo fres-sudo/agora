@@ -54,10 +54,7 @@ class DataTableHeader extends StatelessWidget {
               onChanged: onSearch,
               decoration: InputDecoration(
                 hintText: searchHint,
-                prefixIcon: const Icon(
-                  AgoraIcons.eye,
-                  size: 20,
-                ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search
+                prefixIcon: const Icon(AgoraIcons.search, size: 20),
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: Sizes.md,
@@ -161,8 +158,8 @@ class _SortButton extends StatelessWidget {
                 const Spacer(),
                 Icon(
                   currentSort!.direction == SortDirection.ascending
-                      ? AgoraIcons.caretUp
-                      : AgoraIcons.caretDown,
+                      ? AgoraIcons.chevron_up
+                      : AgoraIcons.chevron_down,
                   size: 16,
                   color: AppPalette.primary500,
                 ),
@@ -174,7 +171,7 @@ class _SortButton extends StatelessWidget {
       child: AppButton.outline(
         onPressed: null, // Handled by PopupMenuButton
         label: 'Sort',
-        leadingIcon: const Icon(AgoraIcons.sort, size: 18),
+        leadingIcon: const Icon(AgoraIcons.chevron_up_down, size: 18),
         style: OutlinedButton.styleFrom(
           foregroundColor: AppPalette.neutral700,
           disabledForegroundColor: AppPalette.neutral700,
