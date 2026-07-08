@@ -10,7 +10,8 @@ import 'products_bloc_test.mocks.dart';
 
 @GenerateMocks([ProductsRepository, CategoriesRepository])
 void main() {
-  final category = Category(id: 1, name: 'Category 1', isEnabled: true, color: Color(0xFFFF0000));
+  final category = Category(
+      id: 1, name: 'Category 1', isEnabled: true, color: Color(0xFFFF0000));
   final product = Product(
     id: 1,
     name: 'Product 1',
@@ -41,8 +42,6 @@ void main() {
   tearDown(() {
     productsBloc.close();
   });
-
-
 
   group('ProductsBloc', () {
     test('initial state is ProductsState.initial', () {
@@ -98,7 +97,7 @@ void main() {
       ],
     );
 
-     blocTest<ProductsBloc, ProductsState>(
+    blocTest<ProductsBloc, ProductsState>(
       'filters products by search query',
       setUp: () {
         when(mockCategoriesRepository.watchAllCategories())

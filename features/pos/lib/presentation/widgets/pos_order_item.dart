@@ -51,7 +51,7 @@ class PosOrderItem extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 16),
         color: colors.destructive,
-        child: Icon(Icons.delete_outline, color: colors.destructiveForeground),
+        child: Icon(AgoraIcons.trash, color: colors.destructiveForeground),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),

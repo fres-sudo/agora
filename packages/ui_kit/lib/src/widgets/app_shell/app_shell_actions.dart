@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
-
 enum _UserMenuAction { clockToggle, logout }
 
 /// Pill chip showing the current operator/station. Reads from [AppShellScope].
@@ -26,7 +25,9 @@ class AppShellOperatorChip extends StatelessWidget {
     if (operator == null) return const SizedBox.shrink();
 
     final bgColor = onDark ? const Color(0xff1f1f1f) : AppPalette.neutral100;
-    final borderColor = onDark ? const Color(0xff2b2b2b) : AppPalette.neutral200;
+    final borderColor = onDark
+        ? const Color(0xff2b2b2b)
+        : AppPalette.neutral200;
     final iconColor = onDark ? AppPalette.neutral400 : AppPalette.neutral500;
     final textColor = onDark ? Colors.white : AppPalette.neutral700;
 
@@ -43,16 +44,20 @@ class AppShellOperatorChip extends StatelessWidget {
           border: Border.all(color: borderColor),
         ),
         child: isCompact
-            ? Icon(Icons.storefront_outlined, size: 16, color: iconColor)
+            ? Icon(
+                AgoraIcons.garage,
+                size: 16,
+                color: iconColor,
+              ) // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.storefront_outlined
             : Row(
                 mainAxisSize: onDark ? MainAxisSize.max : MainAxisSize.min,
                 spacing: 6,
                 children: [
                   Icon(
-                    Icons.storefront_outlined,
+                    AgoraIcons.garage,
                     size: 14,
                     color: iconColor,
-                  ),
+                  ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.storefront_outlined
                   _OperatorLabel(
                     operator: operator,
                     color: textColor,
@@ -60,9 +65,12 @@ class AppShellOperatorChip extends StatelessWidget {
                   ),
                   if (scope?.onOperatorSwitchTap != null)
                     Icon(
-                      Icons.unfold_more_rounded,
+                      AgoraIcons
+                          .sort, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.unfold_more_rounded
                       size: 14,
-                      color: onDark ? AppPalette.neutral500 : AppPalette.neutral400,
+                      color: onDark
+                          ? AppPalette.neutral500
+                          : AppPalette.neutral400,
                     ),
                 ],
               ),
@@ -88,9 +96,9 @@ class _OperatorLabel extends StatelessWidget {
       operator,
       overflow: TextOverflow.ellipsis,
       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: color,
-          ),
+        fontWeight: FontWeight.w600,
+        color: color,
+      ),
     );
     // In the fixed-width sidebar the label flexes/ellipsizes; in the app bar
     // the chip shrink-wraps its text.
@@ -128,7 +136,7 @@ class AppShellMenuButton extends StatelessWidget {
               width: 44,
               height: 44,
               child: Icon(
-                Icons.menu_rounded,
+                AgoraIcons.list,
                 color: context.colors.foreground,
                 size: 22,
               ),
@@ -212,18 +220,18 @@ class AppShellUserMenu extends StatelessWidget {
                 Text(
                   scope.userName!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppPalette.neutral900,
-                      ),
+                    fontWeight: FontWeight.w600,
+                    color: AppPalette.neutral900,
+                  ),
                 ),
                 if (scope.userSubtitle != null) ...[
                   const SizedBox(height: 2),
                   Text(
                     scope.userSubtitle!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppPalette.primary600,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      color: AppPalette.primary600,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ],
@@ -247,17 +255,21 @@ class AppShellUserMenu extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(
-                isClockedIn ? Icons.timer_off_outlined : Icons.timer_outlined,
+                isClockedIn ? AgoraIcons.timer : AgoraIcons.timer,
                 size: 16,
-                color: isClockedIn ? AppPalette.error500 : AppPalette.primary600,
+                color: isClockedIn
+                    ? AppPalette.error500
+                    : AppPalette.primary600,
               ),
             ),
             Text(
               isClockedIn ? 'Clock Out' : 'Clock In',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: isClockedIn ? AppPalette.error700 : AppPalette.neutral800,
-                  ),
+                fontWeight: FontWeight.w500,
+                color: isClockedIn
+                    ? AppPalette.error700
+                    : AppPalette.neutral800,
+              ),
             ),
           ],
         ),
@@ -278,7 +290,7 @@ class AppShellUserMenu extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
-                Icons.logout_rounded,
+                AgoraIcons.logout,
                 size: 16,
                 color: AppPalette.error500,
               ),
@@ -286,9 +298,9 @@ class AppShellUserMenu extends StatelessWidget {
             Text(
               'Logout',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: AppPalette.error500,
-                  ),
+                fontWeight: FontWeight.w500,
+                color: AppPalette.error500,
+              ),
             ),
           ],
         ),
@@ -313,7 +325,9 @@ class _AvatarChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nameColor = onDark ? Colors.white : AppPalette.neutral900;
-    final subtitleColor = onDark ? AppPalette.neutral400 : AppPalette.neutral500;
+    final subtitleColor = onDark
+        ? AppPalette.neutral400
+        : AppPalette.neutral500;
 
     final labels = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,18 +336,17 @@ class _AvatarChip extends StatelessWidget {
         Text(
           name,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: nameColor,
-              ),
+            fontWeight: FontWeight.w600,
+            color: nameColor,
+          ),
           overflow: TextOverflow.ellipsis,
         ),
         if (subtitle != null)
           Text(
             subtitle!,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: subtitleColor,
-                  fontSize: 10,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: subtitleColor, fontSize: 10),
             overflow: TextOverflow.ellipsis,
           ),
       ],
@@ -350,7 +363,7 @@ class _AvatarChip extends StatelessWidget {
           _Avatar(name: name, avatarUrl: avatarUrl, radius: 16),
           if (onDark) Expanded(child: labels) else labels,
           Icon(
-            Icons.keyboard_arrow_down_rounded,
+            AgoraIcons.caretDown,
             size: 16,
             color: onDark ? AppPalette.neutral500 : AppPalette.neutral400,
           ),
@@ -361,11 +374,7 @@ class _AvatarChip extends StatelessWidget {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({
-    required this.name,
-    this.avatarUrl,
-    required this.radius,
-  });
+  const _Avatar({required this.name, this.avatarUrl, required this.radius});
 
   final String name;
   final String? avatarUrl;

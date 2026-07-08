@@ -26,7 +26,9 @@ class AppCheckbox extends StatelessWidget {
       activeColor: colors.primary,
       checkColor: colors.primaryForeground,
       side: BorderSide(color: colors.border, width: context.tokens.borderThin),
-      shape: RoundedRectangleBorder(borderRadius: context.tokens.borderRadiusSm),
+      shape: RoundedRectangleBorder(
+        borderRadius: context.tokens.borderRadiusSm,
+      ),
     );
 
     if (label == null) {

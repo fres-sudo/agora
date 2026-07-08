@@ -17,9 +17,9 @@ class ClockRecordsPage extends StatelessWidget {
       floatingActionButton: const AppShellMenuButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       body: StreamBuilder<List<ClockRecord>>(
-        stream: context
-            .read<WorkforceRepository>()
-            .watchClockRecords(employeeId: employeeId),
+        stream: context.read<WorkforceRepository>().watchClockRecords(
+          employeeId: employeeId,
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -60,9 +60,12 @@ class _RecordTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final timeIn = _formatTime(record.clockedInAt);
-    final timeOut =
-        record.clockedOutAt != null ? _formatTime(record.clockedOutAt!) : null;
-    final statusColor = record.isActive ? colors.success : colors.mutedForeground;
+    final timeOut = record.clockedOutAt != null
+        ? _formatTime(record.clockedOutAt!)
+        : null;
+    final statusColor = record.isActive
+        ? colors.success
+        : colors.mutedForeground;
 
     return ListTile(
       leading: CircleAvatar(
@@ -70,7 +73,10 @@ class _RecordTile extends StatelessWidget {
             ? colors.success.withValues(alpha: 0.12)
             : colors.muted,
         child: Icon(
-          record.isActive ? Icons.login : Icons.logout,
+          record.isActive
+              ? AgoraIcons.openTab
+              : AgoraIcons
+                    .logout, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.login
           color: statusColor,
           size: 20,
         ),
@@ -97,8 +103,7 @@ class _RecordTile extends StatelessWidget {
     final h = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
     final m = dt.minute.toString().padLeft(2, '0');
     final period = dt.hour < 12 ? 'AM' : 'PM';
-    final day =
-        '${dt.month}/${dt.day}/${dt.year.toString().substring(2)}';
+    final day = '${dt.month}/${dt.day}/${dt.year.toString().substring(2)}';
     return '$day $h:$m $period';
   }
 }
@@ -112,7 +117,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.access_time_outlined, size: 64, color: AppPalette.neutral300),
+          Icon(AgoraIcons.clock, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: 16),
           AppText.titleMd(
             'No clock records yet',

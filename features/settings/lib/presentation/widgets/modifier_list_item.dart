@@ -45,7 +45,7 @@ class ModifierListItem extends StatelessWidget {
                 border: Border.all(color: colors.border),
               ),
               child: Icon(
-                Icons.tune_outlined,
+                AgoraIcons.filter,
                 color: colors.mutedForeground,
                 size: 20,
               ),
@@ -83,10 +83,7 @@ class ModifierListItem extends StatelessWidget {
             // Delete Button
             AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(
-                Icons.delete_outline,
-                color: AppPalette.neutral500,
-              ),
+              icon: const Icon(AgoraIcons.trash, color: AppPalette.neutral500),
               tooltip: 'Delete modifier',
             ),
           ],

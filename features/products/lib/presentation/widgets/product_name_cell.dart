@@ -18,29 +18,10 @@ class ProductNameCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Product Image
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: AppPalette.neutral100,
-            borderRadius: BorderRadius.circular(Sizes.xs),
-            image: imageUrl != null && imageUrl!.isNotEmpty
-                ? DecorationImage(
-                    image: NetworkImage(imageUrl!),
-                    fit: BoxFit.cover,
-                    onError:
-                        (exception, stackTrace) {}, // Fallback handled by color
-                  )
-                : null,
-          ),
-          child: imageUrl == null || imageUrl!.isEmpty
-              ? Icon(
-                  Icons.image_outlined,
-                  size: 20,
-                  color: AppPalette.neutral400,
-                )
-              : null,
+        AppSourcedImage(
+          source: imageUrl,
+          size: 40,
+          borderRadius: BorderRadius.circular(Sizes.xs),
         ),
         const SizedBox(width: Sizes.md),
 

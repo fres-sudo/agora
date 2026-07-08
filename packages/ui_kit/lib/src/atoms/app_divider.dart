@@ -6,9 +6,20 @@ import 'package:ui_kit/src/theme/context_extensions.dart';
 /// Works horizontally or vertically; thickness comes from
 /// `context.tokens.borderHairline`.
 class AppDivider extends StatelessWidget {
-  const AppDivider({super.key, this.axis = Axis.horizontal, this.indent = 0, this.endIndent = 0, this.spacing});
+  const AppDivider({
+    super.key,
+    this.axis = Axis.horizontal,
+    this.indent = 0,
+    this.endIndent = 0,
+    this.spacing,
+  });
 
-  const AppDivider.vertical({super.key, this.indent = 0, this.endIndent = 0, this.spacing}) : axis = Axis.vertical;
+  const AppDivider.vertical({
+    super.key,
+    this.indent = 0,
+    this.endIndent = 0,
+    this.spacing,
+  }) : axis = Axis.vertical;
 
   final Axis axis;
   final double indent;

@@ -31,34 +31,43 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
   /// app only shows what this kind of business needs.
   static List<_NavEntry> _entriesFor(BusinessProfile profile) => [
     const _NavEntry(
-      AppShellNavItem(icon: Icons.home_outlined, label: 'Point of Sale'),
+      AppShellNavItem(icon: AgoraIcons.home, label: 'Point of Sale'),
       PosRoute(),
     ),
     const _NavEntry(
-      AppShellNavItem(icon: Icons.inventory_2_outlined, label: 'Orders'),
+      AppShellNavItem(icon: AgoraIcons.box, label: 'Orders'),
       OrdersRoute(),
     ),
     const _NavEntry(
-      AppShellNavItem(icon: Icons.grid_view_outlined, label: 'Products'),
+      AppShellNavItem(
+        icon: AgoraIcons.square,
+        label: 'Products',
+      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.grid_view_outlined
       ProductsRoute(),
     ),
     if (profile.has(Capability.reports))
       const _NavEntry(
-        AppShellNavItem(icon: Icons.bar_chart_outlined, label: 'Reports'),
+        AppShellNavItem(icon: AgoraIcons.pieChart, label: 'Reports'),
         ReportRoute(),
       ),
     if (profile.has(Capability.inventory))
       const _NavEntry(
-        AppShellNavItem(icon: Icons.warehouse_outlined, label: 'Inventory'),
+        AppShellNavItem(
+          icon: AgoraIcons.box,
+          label: 'Inventory',
+        ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.warehouse_outlined
         InventoryRoute(),
       ),
     const _NavEntry(
-      AppShellNavItem(icon: Icons.settings_outlined, label: 'Settings'),
+      AppShellNavItem(icon: AgoraIcons.gear, label: 'Settings'),
       SettingsRoute(),
     ),
     if (profile.has(Capability.staffLogin))
       const _NavEntry(
-        AppShellNavItem(icon: Icons.badge_outlined, label: 'Staff'),
+        AppShellNavItem(
+          icon: AgoraIcons.userPlus,
+          label: 'Staff',
+        ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.badge_outlined
         EmployeesRoute(),
       ),
   ];
@@ -113,7 +122,13 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
               currentOperator: 'Main Counter',
               onOperatorSwitchTap: () {},
               openSidebar: () => _scaffoldKey.currentState?.openDrawer(),
-              child: _buildLayout(context, child, tabsRouter, activeIndex, entries),
+              child: _buildLayout(
+                context,
+                child,
+                tabsRouter,
+                activeIndex,
+                entries,
+              ),
             );
           },
         );
@@ -148,7 +163,8 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
               items: [for (final e in entries) e.item],
               selectedIndex: activeIndex,
               isCollapsed: _isSidebarCollapsed,
-              onCollapsedChanged: (v) => setState(() => _isSidebarCollapsed = v),
+              onCollapsedChanged: (v) =>
+                  setState(() => _isSidebarCollapsed = v),
               onItemSelected: (index) {
                 setState(() => _selectedIndex = index);
                 tabsRouter.navigate(entries[index].route);
@@ -191,7 +207,10 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                   const Spacer(),
                   AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close, color: AppPalette.neutral400),
+                    icon: const Icon(
+                      AgoraIcons.x,
+                      color: AppPalette.neutral400,
+                    ),
                     style: IconButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: const Size(40, 40),

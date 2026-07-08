@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
-
 /// A reusable menu drawer widget that displays navigation items,
 /// user information, and a logout option.
 class AppMenuDrawer extends StatelessWidget {
@@ -82,7 +81,12 @@ class AppMenuDrawer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 12, 0),
       child: Row(
         children: [
-          logo ?? Icon(Icons.bolt, color: AppPalette.primary500, size: 28),
+          logo ??
+              Icon(
+                AgoraIcons.trendUp,
+                color: AppPalette.primary500,
+                size: 28,
+              ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bolt
           const SizedBox(width: 8),
           Text(
             appName,
@@ -94,7 +98,11 @@ class AppMenuDrawer extends StatelessWidget {
           const Spacer(),
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(Icons.close, color: AppPalette.neutral600, size: 24),
+            icon: const Icon(
+              AgoraIcons.x,
+              color: AppPalette.neutral600,
+              size: 24,
+            ),
             style: IconButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: const Size(40, 40),
@@ -140,7 +148,7 @@ class AppMenuDrawer extends StatelessWidget {
         children: [
           // Logout button
           MenuDrawerItem(
-            icon: Icons.logout,
+            icon: AgoraIcons.logout,
             label: 'Logout',
             isSelected: false,
             onTap: onLogout,

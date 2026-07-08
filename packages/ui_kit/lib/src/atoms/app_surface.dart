@@ -70,11 +70,7 @@ class AppSurface extends StatelessWidget {
     if (onTap != null) {
       content = Material(
         type: MaterialType.transparency,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: radius,
-          child: content,
-        ),
+        child: InkWell(onTap: onTap, borderRadius: radius, child: content),
       );
     }
     return content;

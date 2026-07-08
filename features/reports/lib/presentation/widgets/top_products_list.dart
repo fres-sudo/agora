@@ -64,7 +64,12 @@ class TopProductsList extends StatelessWidget {
                           _buildRankBadge(context, index + 1, isVeryCompact),
                           SizedBox(width: isVeryCompact ? Sizes.xs : Sizes.md),
                           if (!isVeryCompact) ...[
-                            _buildProductImage(product.imageUrl),
+                            AppSourcedImage(
+                              source: product.imageUrl,
+                              size: 40,
+                              borderRadius: BorderRadius.circular(Sizes.xs),
+                              placeholderIcon: AgoraIcons.burger,
+                            ),
                             const SizedBox(width: Sizes.md),
                           ],
                           Expanded(
@@ -113,29 +118,12 @@ class TopProductsList extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.emoji_events, size: isCompact ? 10 : 12, color: color),
+            Icon(AgoraIcons.trophy, size: isCompact ? 10 : 12, color: color),
             SizedBox(width: isCompact ? 1 : 2),
             AppText.caption(rank.toString(), color: color),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildProductImage(String? imageUrl) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: AppPalette.neutral100,
-        borderRadius: BorderRadius.circular(Sizes.xs),
-      ),
-      child: imageUrl != null && imageUrl.isNotEmpty
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(Sizes.xs),
-              child: Image.network(imageUrl, fit: BoxFit.cover),
-            )
-          : const Icon(Icons.fastfood, color: AppPalette.neutral400, size: 20),
     );
   }
 }

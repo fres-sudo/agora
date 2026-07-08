@@ -70,7 +70,7 @@ class _CategorySectionState extends State<CategorySection> {
                 AppButton.primary(
                   onPressed: _onAddCategory,
                   label: 'Add Category',
-                  leadingIcon: const Icon(Icons.add, size: 20),
+                  leadingIcon: const Icon(AgoraIcons.plus, size: 20),
                 ),
               ],
             ),
@@ -81,8 +81,10 @@ class _CategorySectionState extends State<CategorySection> {
             child: BlocBuilder<CategoriesBloc, CategoriesState>(
               builder: (context, state) {
                 return state.map(
-                  initial: (_) => const Center(child: CircularProgressIndicator()),
-                  loading: (_) => const Center(child: CircularProgressIndicator()),
+                  initial: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                  loading: (_) =>
+                      const Center(child: CircularProgressIndicator()),
                   loaded: (loaded) => _buildCategoryList(loaded.categories),
                   error: (error) => _buildErrorState(error.message),
                 );
@@ -120,7 +122,11 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.category_outlined, size: 64, color: AppPalette.neutral300),
+          Icon(
+            AgoraIcons.square,
+            size: 64,
+            color: AppPalette.neutral300,
+          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.category_outlined
           const SizedBox(height: Sizes.md),
           AppText.titleMd(
             'No categories yet',
@@ -141,19 +147,19 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: AppPalette.error500),
+          Icon(AgoraIcons.alert, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
           const AppText.titleMd('Failed to load categories'),
           const SizedBox(height: Sizes.sm),
           Builder(
-            builder: (context) => AppText.body(
-              message,
-              color: context.colors.mutedForeground,
-            ),
+            builder: (context) =>
+                AppText.body(message, color: context.colors.mutedForeground),
           ),
           const SizedBox(height: Sizes.lg),
           AppButton.primary(
-            onPressed: () => context.read<CategoriesBloc>().add(const CategoriesEvent.started()),
+            onPressed: () => context.read<CategoriesBloc>().add(
+              const CategoriesEvent.started(),
+            ),
             label: 'Retry',
           ),
         ],

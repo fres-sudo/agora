@@ -49,7 +49,9 @@ class _PosSearchBarState extends State<PosSearchBar> {
       controller: _controller,
       onChanged: _onChanged,
       hintText: widget.hintText ?? 'Search Product...',
-      prefix: const Icon(Icons.search),
+      prefix: const Icon(
+        AgoraIcons.eye,
+      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search
     );
   }
 }

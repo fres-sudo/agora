@@ -74,7 +74,7 @@ class MoneyKeypad extends StatelessWidget {
           _KeyData(label: '00', onTap: _onDoubleZero),
           _KeyData.digit(0),
           _KeyData(
-            icon: Icons.backspace_outlined,
+            icon: AgoraIcons.backspace,
             onTap: _onBackspace,
             onLongPress: _onClear,
           ),

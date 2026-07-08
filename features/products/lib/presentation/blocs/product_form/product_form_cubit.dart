@@ -123,29 +123,44 @@ class ProductFormCubit extends Cubit<ProductFormState> {
         ? (Map<String, String>.from(currentState.errors)..remove(clearError))
         : currentState.errors;
 
-    emit(currentState.copyWith(formData: update(currentState.formData), errors: errors));
+    emit(
+      currentState.copyWith(
+        formData: update(currentState.formData),
+        errors: errors,
+      ),
+    );
   }
 
   void updateName(String name) =>
       updateFormData((d) => d.copyWith(name: name), clearError: 'name');
 
-  void updateDescription(String description) =>
-      updateFormData((d) => d.copyWith(description: description), clearError: 'description');
+  void updateDescription(String description) => updateFormData(
+    (d) => d.copyWith(description: description),
+    clearError: 'description',
+  );
 
   void updateSku(String sku) =>
       updateFormData((d) => d.copyWith(sku: sku), clearError: 'sku');
 
-  void updateCategory(int? categoryId) =>
-      updateFormData((d) => d.copyWith(categoryId: categoryId), clearError: 'category');
+  void updateCategory(int? categoryId) => updateFormData(
+    (d) => d.copyWith(categoryId: categoryId),
+    clearError: 'category',
+  );
 
-  void updatePrice(int priceCents) =>
-      updateFormData((d) => d.copyWith(priceCents: priceCents), clearError: 'price');
+  void updatePrice(int priceCents) => updateFormData(
+    (d) => d.copyWith(priceCents: priceCents),
+    clearError: 'price',
+  );
 
-  void updateCost(int costCents) =>
-      updateFormData((d) => d.copyWith(costCents: costCents), clearError: 'cost');
+  void updateCost(int costCents) => updateFormData(
+    (d) => d.copyWith(costCents: costCents),
+    clearError: 'cost',
+  );
 
-  void updateTaxPercent(int taxPercent) =>
-      updateFormData((d) => d.copyWith(taxPercent: taxPercent), clearError: 'tax');
+  void updateTaxPercent(int taxPercent) => updateFormData(
+    (d) => d.copyWith(taxPercent: taxPercent),
+    clearError: 'tax',
+  );
 
   void updateImageUrl(String? imageUrl) =>
       updateFormData((d) => d.copyWith(imageUrl: imageUrl));
@@ -258,7 +273,10 @@ class ProductFormCubit extends Cubit<ProductFormState> {
       case ProductFormStep.productInfo:
         check('name', FormValidators.validateName(data.name));
         check('category', FormValidators.validateCategory(data.categoryId));
-        check('description', FormValidators.validateDescription(data.description));
+        check(
+          'description',
+          FormValidators.validateDescription(data.description),
+        );
         check('sku', FormValidators.validateSku(data.sku));
         break;
       case ProductFormStep.pricing:

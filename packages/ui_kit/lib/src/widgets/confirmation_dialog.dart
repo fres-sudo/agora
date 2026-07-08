@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/src/atoms/app_button.dart';
+
 import 'package:ui_kit/src/atoms/app_text.dart';
+
 import 'package:ui_kit/src/theme/context_extensions.dart';
+
+import 'package:ui_kit/src/theme/agora_icons.dart';
 
 /// A reusable confirmation dialog for destructive or important actions.
 ///
@@ -13,7 +17,7 @@ class ConfirmationDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.message,
-    this.icon = Icons.close_rounded,
+    this.icon = AgoraIcons.x,
     this.iconColor,
     this.iconBackgroundColor,
     this.confirmButtonLabel = 'Confirm',
@@ -37,7 +41,8 @@ class ConfirmationDialog extends StatelessWidget {
     required BuildContext context,
     required String title,
     required String message,
-    IconData icon = Icons.help_outline_rounded,
+    IconData icon = AgoraIcons
+        .info, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.help_outline_rounded
     Color? iconColor,
     Color? iconBackgroundColor,
     String confirmButtonLabel = 'Confirm',
@@ -75,7 +80,7 @@ class ConfirmationDialog extends StatelessWidget {
       context: context,
       title: title,
       message: message,
-      icon: Icons.close_rounded,
+      icon: AgoraIcons.x,
       confirmButtonLabel: confirmButtonLabel,
       cancelButtonLabel: cancelButtonLabel,
       isDestructive: true,
@@ -86,8 +91,8 @@ class ConfirmationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final tokens = context.tokens;
-    final accent = iconColor ??
-        (isDestructive ? colors.destructive : colors.primary);
+    final accent =
+        iconColor ?? (isDestructive ? colors.destructive : colors.primary);
     final accentBg = iconBackgroundColor ?? accent.withValues(alpha: 0.12);
 
     return Dialog(

@@ -25,18 +25,23 @@ class _CategoryFormState extends State<CategoryForm> {
 
   // Helper list of icons to choose from
   static const List<IconData> _availableIcons = [
-    Icons.fastfood,
-    Icons.local_pizza,
-    Icons.lunch_dining,
-    Icons.local_cafe,
-    Icons.local_bar,
-    Icons.icecream,
-    Icons.cake,
-    Icons.restaurant,
-    Icons.local_dining,
-    Icons.ramen_dining,
-    Icons.bakery_dining,
-    Icons.liquor,
+    AgoraIcons.burger,
+    AgoraIcons
+        .chicken, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.local_pizza
+    AgoraIcons
+        .cube, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.lunch_dining
+    AgoraIcons.coffee,
+    AgoraIcons.glass,
+    AgoraIcons.iceCream,
+    AgoraIcons.cake,
+    AgoraIcons.tables,
+    AgoraIcons
+        .gift, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.local_dining
+    AgoraIcons
+        .ticket, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.ramen_dining
+    AgoraIcons
+        .trophy, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bakery_dining
+    AgoraIcons.drink,
   ];
 
   // Helper list of colors to choose from
@@ -58,7 +63,7 @@ class _CategoryFormState extends State<CategoryForm> {
     super.initState();
     final category = widget.initialCategory;
     _nameController = TextEditingController(text: category?.name ?? '');
-    _selectedIcon = category?.icon ?? Icons.fastfood;
+    _selectedIcon = category?.icon ?? AgoraIcons.burger;
     _selectedColor = category?.color ?? AppPalette.primary500;
     _isEnabled = category?.isEnabled ?? true;
   }
@@ -114,7 +119,9 @@ class _CategoryFormState extends State<CategoryForm> {
                   AppTextField(
                     controller: _nameController,
                     label: 'Category Name',
-                    prefix: const Icon(Icons.label_outline),
+                    prefix: const Icon(
+                      AgoraIcons.ticket,
+                    ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.label_outline
                     textInputAction: TextInputAction.next,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -196,7 +203,10 @@ class _CategoryFormState extends State<CategoryForm> {
                             ],
                           ),
                           child: isSelected
-                              ? const Icon(Icons.check, color: Colors.white)
+                              ? const Icon(
+                                  AgoraIcons.check,
+                                  color: Colors.white,
+                                )
                               : null,
                         ),
                       );

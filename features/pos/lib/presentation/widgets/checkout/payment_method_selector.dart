@@ -39,7 +39,9 @@ class PaymentMethodSelector extends StatelessWidget {
     }).toList();
 
     // Fallback: show all if operator somehow disabled every method.
-    final methods = enabledMethods.isEmpty ? PaymentMethod.values : enabledMethods;
+    final methods = enabledMethods.isEmpty
+        ? PaymentMethod.values
+        : enabledMethods;
 
     return Row(
       children: [
@@ -73,8 +75,8 @@ class _MethodTile extends StatelessWidget {
   final VoidCallback? onTap;
 
   IconData get _icon => switch (method) {
-    PaymentMethod.cash => Icons.payments_outlined,
-    PaymentMethod.card => Icons.credit_card,
+    PaymentMethod.cash => AgoraIcons.money,
+    PaymentMethod.card => AgoraIcons.creditCard,
   };
 
   @override

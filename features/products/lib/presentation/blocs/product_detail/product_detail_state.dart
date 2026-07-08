@@ -11,6 +11,7 @@ sealed class ProductDetailState with _$ProductDetailState {
   const factory ProductDetailState.creating() = _Creating;
   const factory ProductDetailState.saving({required Product product}) = _Saving;
   const factory ProductDetailState.saved({required Product product}) = _Saved;
-  const factory ProductDetailState.deleting({required Product product}) = _Deleting;
+  const factory ProductDetailState.deleting({required Product product}) =
+      _Deleting;
   const factory ProductDetailState.deleted() = _Deleted;
 }

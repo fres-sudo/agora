@@ -51,8 +51,9 @@ void main() {
   });
 
   group('AppDialog', () {
-    testWidgets('shows title, content and actions; returns popped value',
-        (tester) async {
+    testWidgets('shows title, content and actions; returns popped value', (
+      tester,
+    ) async {
       late Future<String?> result;
       await tester.pumpComponent(
         Builder(

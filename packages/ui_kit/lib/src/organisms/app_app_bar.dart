@@ -65,8 +65,9 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
                               title!,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              textAlign:
-                                  centerTitle ? TextAlign.center : TextAlign.start,
+                              textAlign: centerTitle
+                                  ? TextAlign.center
+                                  : TextAlign.start,
                             ),
                     ),
                     for (final action in actions) action,

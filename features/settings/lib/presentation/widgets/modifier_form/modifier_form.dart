@@ -117,7 +117,9 @@ class _ModifierFormState extends State<ModifierForm> {
                     controller: _nameController,
                     label: 'Modifier Name',
                     hintText: 'e.g. Size, Milk Option',
-                    prefix: const Icon(Icons.label_outline),
+                    prefix: const Icon(
+                      AgoraIcons.ticket,
+                    ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.label_outline
                     textInputAction: TextInputAction.next,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -150,7 +152,7 @@ class _ModifierFormState extends State<ModifierForm> {
                       AppButton.ghost(
                         onPressed: _addOption,
                         label: 'Add Option',
-                        leadingIcon: const Icon(Icons.add, size: 18),
+                        leadingIcon: const Icon(AgoraIcons.plus, size: 18),
                       ),
                     ],
                   ),
@@ -301,7 +303,11 @@ class _OptionRow extends StatelessWidget {
         ),
         AppIconButton.ghost(
           onPressed: onRemove,
-          icon: const Icon(Icons.close, size: 18, color: AppPalette.neutral500),
+          icon: const Icon(
+            AgoraIcons.x,
+            size: 18,
+            color: AppPalette.neutral500,
+          ),
           tooltip: 'Remove option',
         ),
       ],

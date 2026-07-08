@@ -29,7 +29,7 @@ class DangerZoneSection extends StatelessWidget {
           const SizedBox(height: 24),
           AppButton.destructive(
             label: 'Reset everything',
-            leadingIcon: const Icon(Icons.delete_forever_outlined),
+            leadingIcon: const Icon(AgoraIcons.trash),
             onPressed: () => _confirm(context),
           ),
         ],

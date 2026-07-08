@@ -90,7 +90,11 @@ class MenuDrawerUserTile extends StatelessWidget {
         color: AppPalette.neutral200,
         shape: BoxShape.circle,
       ),
-      child: const Icon(Icons.person, color: AppPalette.neutral500, size: 24),
+      child: const Icon(
+        AgoraIcons.smile,
+        color: AppPalette.neutral500,
+        size: 24,
+      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.person
     );
   }
 
@@ -114,7 +118,9 @@ class MenuDrawerUserTile extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: isClockedIn ? AppPalette.error500 : AppPalette.primary500,
+                color: isClockedIn
+                    ? AppPalette.error500
+                    : AppPalette.primary500,
                 shape: BoxShape.circle,
               ),
             ),
@@ -123,7 +129,9 @@ class MenuDrawerUserTile extends StatelessWidget {
               isClockedIn ? 'Clock Out' : 'Clock In',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: isClockedIn ? AppPalette.error500 : AppPalette.primary600,
+                color: isClockedIn
+                    ? AppPalette.error500
+                    : AppPalette.primary600,
               ),
             ),
           ],

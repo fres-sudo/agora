@@ -89,7 +89,9 @@ class SectionSidebarItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 22,
-                color: isSelected ? AppPalette.neutral800 : AppPalette.neutral500,
+                color: isSelected
+                    ? AppPalette.neutral800
+                    : AppPalette.neutral500,
               ),
               // Label (hidden when collapsed)
               if (!isCollapsed) ...[

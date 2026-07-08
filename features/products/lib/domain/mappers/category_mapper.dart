@@ -4,12 +4,17 @@
 import 'package:database/database.dart';
 import 'package:feature_products/domain/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_kit/ui_kit.dart';
 
 /// Extension on [CategoryEntity] for converting to domain models.
 extension CategoryEntityMrpper on CategoryEntity {
   /// Converts a [CategoryEntity] to a [Category] domain model.
   Category toModel() {
-    final icon = IconData(iconCodePoint, fontFamily: 'MaterialIcons');
+    final icon = IconData(
+      iconCodePoint,
+      fontFamily: 'AgoraIcons',
+      fontPackage: 'ui_kit',
+    );
     return Category(
       id: id,
       name: name,
@@ -28,7 +33,9 @@ extension CategoryModelMapper on Category {
       name: name,
       color: color ?? Colors.blue,
       isEnabled: Value(isEnabled),
-      iconCodePoint: Value(icon?.codePoint ?? Icons.abc.codePoint),
+      iconCodePoint: Value(
+        icon?.codePoint ?? AgoraIcons.square.codePoint,
+      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.abc
     );
   }
 
@@ -38,7 +45,9 @@ extension CategoryModelMapper on Category {
       name: Value(name),
       color: Value(color ?? Colors.blue),
       isEnabled: Value(isEnabled),
-      iconCodePoint: Value(icon?.codePoint ?? Icons.abc.codePoint),
+      iconCodePoint: Value(
+        icon?.codePoint ?? AgoraIcons.square.codePoint,
+      ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.abc
     );
   }
 }

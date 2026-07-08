@@ -186,7 +186,9 @@ class AppButton extends StatelessWidget {
         return p.bg;
       }),
       foregroundColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.disabled)) return colors.mutedForeground;
+        if (states.contains(WidgetState.disabled)) {
+          return colors.mutedForeground;
+        }
         return p.fg;
       }),
       overlayColor: WidgetStateProperty.resolveWith((states) {
@@ -265,8 +267,6 @@ class AppButton extends StatelessWidget {
       );
     }
 
-    return fullWidth
-        ? SizedBox(width: double.infinity, child: button)
-        : button;
+    return fullWidth ? SizedBox(width: double.infinity, child: button) : button;
   }
 }

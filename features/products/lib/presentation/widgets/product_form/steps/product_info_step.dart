@@ -2,6 +2,7 @@ import 'package:i18n/i18n.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/categories/categories_bloc.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
+import 'package:feature_products/presentation/widgets/product_form/product_photo_picker_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
@@ -57,12 +58,45 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
           editing: (s) => s.formData.categoryId,
           orElse: () => null,
         );
+        final imageUrl = formState.maybeMap(
+          editing: (s) => s.formData.imageUrl,
+          orElse: () => null,
+        );
 
         return SingleChildScrollView(
           padding: const EdgeInsets.all(Sizes.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Photo
+              Center(
+                child: Column(
+                  children: [
+                    AppSourcedImage(
+                      source: imageUrl,
+                      size: 72,
+                      borderRadius: BorderRadius.circular(Sizes.sm),
+                    ),
+                    const SizedBox(height: Sizes.sm),
+                    AppButton.ghost(
+                      label: imageUrl == null || imageUrl.isEmpty
+                          ? t.products.form.photo.add_photo
+                          : t.products.form.photo.change_photo,
+                      onPressed: () async {
+                        final result = await AdaptiveSheet.show<String?>(
+                          context: context,
+                          builder: (ctx, _) =>
+                              ProductPhotoPickerSheet(initialValue: imageUrl),
+                        );
+                        if (result == null) return;
+                        cubit.updateImageUrl(result.isEmpty ? null : result);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: Sizes.lg),
+
               // Product Name
               _FormLabel(label: t.products.form.product_name, required: true),
               const SizedBox(height: Sizes.sm),

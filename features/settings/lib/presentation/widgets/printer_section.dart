@@ -33,8 +33,10 @@ class _PrinterSectionState extends State<PrinterSection> {
 
   void _loadFromSettings() {
     final cubit = context.read<SettingsCubit>();
-    _receiptCtrl.text = cubit.getString(AppSettingsDao.keyPrinterIpReceipt) ?? '';
-    _kitchenCtrl.text = cubit.getString(AppSettingsDao.keyPrinterIpKitchen) ?? '';
+    _receiptCtrl.text =
+        cubit.getString(AppSettingsDao.keyPrinterIpReceipt) ?? '';
+    _kitchenCtrl.text =
+        cubit.getString(AppSettingsDao.keyPrinterIpKitchen) ?? '';
   }
 
   void _onChanged() {
@@ -46,8 +48,14 @@ class _PrinterSectionState extends State<PrinterSection> {
 
     final cubit = context.read<SettingsCubit>();
     await Future.wait([
-      cubit.update(AppSettingsDao.keyPrinterIpReceipt, _receiptCtrl.text.trim()),
-      cubit.update(AppSettingsDao.keyPrinterIpKitchen, _kitchenCtrl.text.trim()),
+      cubit.update(
+        AppSettingsDao.keyPrinterIpReceipt,
+        _receiptCtrl.text.trim(),
+      ),
+      cubit.update(
+        AppSettingsDao.keyPrinterIpKitchen,
+        _kitchenCtrl.text.trim(),
+      ),
     ]);
 
     if (!mounted) return;
@@ -101,7 +109,7 @@ class _PrinterSectionState extends State<PrinterSection> {
               child: AppButton.outline(
                 onPressed: () {},
                 label: 'Print Test Receipt',
-                leadingIcon: const Icon(Icons.print_outlined, size: 20),
+                leadingIcon: const Icon(AgoraIcons.printer, size: 20),
               ),
             ),
           ],

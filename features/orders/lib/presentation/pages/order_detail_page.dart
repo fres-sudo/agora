@@ -69,7 +69,7 @@ class _OrderDetailView extends StatelessWidget {
               if (order != null && order.status != OrderStatus.voided)
                 AppIconButton.ghost(
                   onPressed: () => _reprint(context, order),
-                  icon: const Icon(Icons.print_outlined),
+                  icon: const Icon(AgoraIcons.printer),
                 ),
               const SizedBox(width: Sizes.sm),
             ],
@@ -81,8 +81,8 @@ class _OrderDetailView extends StatelessWidget {
                 ? const Center(child: AppText.body('Order not found'))
                 : _OrderBody(order: order),
           ),
-          bottomNavigationBar: order == null ||
-                  order.status == OrderStatus.voided
+          bottomNavigationBar:
+              order == null || order.status == OrderStatus.voided
               ? null
               : SafeArea(
                   child: Padding(
@@ -90,7 +90,7 @@ class _OrderDetailView extends StatelessWidget {
                     child: AppButton.outline(
                       onPressed: () => _confirmVoid(context, order),
                       label: 'Void order',
-                      leadingIcon: const Icon(Icons.block_outlined),
+                      leadingIcon: const Icon(AgoraIcons.x),
                     ),
                   ),
                 ),
@@ -124,8 +124,10 @@ class _OrderDetailView extends StatelessWidget {
       final result = await printer.printBytes(bytes);
       if (!context.mounted) return;
       result.when(
-        success: (_) =>
-            showAppSnackBar(context, 'Receipt #${order.id ?? '-'} sent to printer'),
+        success: (_) => showAppSnackBar(
+          context,
+          'Receipt #${order.id ?? '-'} sent to printer',
+        ),
         error: (_) => showAppSnackBar(
           context,
           'Reprint failed — check the printer connection',
@@ -214,10 +216,7 @@ class _LineItemTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 32,
-            child: AppText.titleMd('${item.quantity}×'),
-          ),
+          SizedBox(width: 32, child: AppText.titleMd('${item.quantity}×')),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,10 +260,7 @@ class _TotalRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          cell(label),
-          cell(formatCents(cents)),
-        ],
+        children: [cell(label), cell(formatCents(cents))],
       ),
     );
   }

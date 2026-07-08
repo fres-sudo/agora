@@ -70,7 +70,7 @@ class DataTablePagination extends StatelessWidget {
                 onPressed: currentPage > 0
                     ? () => onPageChanged?.call(currentPage - 1)
                     : null,
-                icon: const Icon(Icons.chevron_left),
+                icon: const Icon(AgoraIcons.caretLeft),
                 style: IconButton.styleFrom(
                   iconSize: 20,
                   padding: EdgeInsets.zero,
@@ -84,7 +84,7 @@ class DataTablePagination extends StatelessWidget {
                 onPressed: currentPage < totalPages - 1
                     ? () => onPageChanged?.call(currentPage + 1)
                     : null,
-                icon: const Icon(Icons.chevron_right),
+                icon: const Icon(AgoraIcons.caretRight),
                 style: IconButton.styleFrom(
                   iconSize: 20,
                   padding: EdgeInsets.zero,

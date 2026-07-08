@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:ui_kit/src/theme/agora_icons.dart';
+
 class QuantityButton extends StatelessWidget {
   final int quantity;
   final ValueChanged<int> onChanged;
@@ -30,7 +32,7 @@ class QuantityButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             _CircularButton(
-              icon: Icons.remove,
+              icon: AgoraIcons.minus,
               onPressed: quantity > min ? () => onChanged(quantity - 1) : null,
               enabled: quantity > min,
             ),
@@ -44,7 +46,7 @@ class QuantityButton extends StatelessWidget {
               ),
             ),
             _CircularButton(
-              icon: Icons.add,
+              icon: AgoraIcons.plus,
               onPressed: (max == null || quantity < max!)
                   ? () => onChanged(quantity + 1)
                   : null,

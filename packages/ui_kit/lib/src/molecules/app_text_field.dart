@@ -132,8 +132,11 @@ class AppTextField extends StatelessWidget {
         disabledBorder: _border(colors.border, tokens.borderHairline, context),
         focusedBorder: _border(colors.ring, tokens.borderThin, context),
         errorBorder: _border(colors.destructive, tokens.borderThin, context),
-        focusedErrorBorder:
-            _border(colors.destructive, tokens.borderThin, context),
+        focusedErrorBorder: _border(
+          colors.destructive,
+          tokens.borderThin,
+          context,
+        ),
       ),
     );
 
@@ -145,11 +148,7 @@ class AppTextField extends StatelessWidget {
           AppText.label(label!),
           SizedBox(height: tokens.spaceXs),
         ],
-        Semantics(
-          label: label,
-          textField: true,
-          child: field,
-        ),
+        Semantics(label: label, textField: true, child: field),
         if (hasError || helperText != null) ...[
           SizedBox(height: tokens.spaceXs),
           AppText.caption(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/src/atoms/app_text.dart';
+
 import 'package:ui_kit/src/theme/context_extensions.dart';
+
+import 'package:ui_kit/src/theme/agora_icons.dart';
 
 /// Severity/tone of an [AppAlert].
 enum AppAlertVariant { info, success, warning, destructive, neutral }
@@ -38,11 +41,13 @@ class AppAlert extends StatelessWidget {
   }
 
   IconData _defaultIcon() => switch (variant) {
-    AppAlertVariant.info => Icons.info_outline_rounded,
-    AppAlertVariant.success => Icons.check_circle_outline_rounded,
-    AppAlertVariant.warning => Icons.warning_amber_rounded,
-    AppAlertVariant.destructive => Icons.error_outline_rounded,
-    AppAlertVariant.neutral => Icons.notes_rounded,
+    AppAlertVariant.info => AgoraIcons.info,
+    AppAlertVariant.success => AgoraIcons.check,
+    AppAlertVariant.warning => AgoraIcons.alert,
+    AppAlertVariant.destructive => AgoraIcons.alert,
+    AppAlertVariant.neutral =>
+      AgoraIcons
+          .invoice, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.notes_rounded
   };
 
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
-
 /// A bottom tab bar for mobile section navigation.
 ///
 /// Displays navigation items as a horizontal scrollable tab bar

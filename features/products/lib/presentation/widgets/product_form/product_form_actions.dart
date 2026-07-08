@@ -63,7 +63,7 @@ class ProductFormActions extends StatelessWidget {
               if (!isFirstStep) ...[
                 AppIconButton.outline(
                   onPressed: isSubmitting ? null : cubit.previousStep,
-                  icon: const Icon(Icons.chevron_left_rounded),
+                  icon: const Icon(AgoraIcons.caretLeft),
                 ),
                 const SizedBox(width: Sizes.xs),
               ],

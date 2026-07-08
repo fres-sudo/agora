@@ -11,7 +11,7 @@ void main() {
       final handle = tester.ensureSemantics();
       await tester.pumpComponent(
         AppIconButton.primary(
-          icon: const Icon(Icons.add),
+          icon: const Icon(AgoraIcons.plus),
           tooltip: 'Add item',
           onPressed: () => taps++,
         ),

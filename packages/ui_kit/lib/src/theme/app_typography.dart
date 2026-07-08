@@ -72,16 +72,46 @@ class AppTypography extends ThemeExtension<AppTypography> {
     );
 
     return AppTypography(
-      displayLg: sans(size: 36, weight: FontWeight.w700, height: 1.1, letterSpacing: -0.5),
-      displayMd: sans(size: 30, weight: FontWeight.w700, height: 1.15, letterSpacing: -0.4),
-      headingLg: sans(size: 24, weight: FontWeight.w600, height: 1.2, letterSpacing: -0.3),
-      headingMd: sans(size: 20, weight: FontWeight.w600, height: 1.25, letterSpacing: -0.2),
-      headingSm: sans(size: 18, weight: FontWeight.w600, height: 1.3, letterSpacing: -0.1),
+      displayLg: sans(
+        size: 36,
+        weight: FontWeight.w700,
+        height: 1.1,
+        letterSpacing: -0.5,
+      ),
+      displayMd: sans(
+        size: 30,
+        weight: FontWeight.w700,
+        height: 1.15,
+        letterSpacing: -0.4,
+      ),
+      headingLg: sans(
+        size: 24,
+        weight: FontWeight.w600,
+        height: 1.2,
+        letterSpacing: -0.3,
+      ),
+      headingMd: sans(
+        size: 20,
+        weight: FontWeight.w600,
+        height: 1.25,
+        letterSpacing: -0.2,
+      ),
+      headingSm: sans(
+        size: 18,
+        weight: FontWeight.w600,
+        height: 1.3,
+        letterSpacing: -0.1,
+      ),
       titleLg: sans(size: 16, weight: FontWeight.w600, height: 1.4),
       titleMd: sans(size: 14, weight: FontWeight.w600, height: 1.4),
       body: sans(size: 14, weight: FontWeight.w400, height: 1.5),
       bodySm: sans(size: 13, weight: FontWeight.w400, height: 1.5),
-      label: sans(size: 13, weight: FontWeight.w500, height: 1.4, letterSpacing: 0.1),
+      label: sans(
+        size: 13,
+        weight: FontWeight.w500,
+        height: 1.4,
+        letterSpacing: 0.1,
+      ),
       caption: sans(size: 12, weight: FontWeight.w400, height: 1.4),
       mono: const TextStyle(
         fontFamily: monoFontFamily,

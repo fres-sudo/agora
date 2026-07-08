@@ -12,11 +12,15 @@ export 'src/theme/app_colors.dart';
 export 'src/theme/app_typography.dart';
 export 'src/theme/app_tokens.dart';
 export 'src/theme/app_theme.dart';
+export 'src/theme/agora_icons.dart';
 export 'src/theme/context_extensions.dart';
 export 'src/theme/cubits/theme_cubit.dart';
 
 // -- Foundation: responsive & device utilities -------------------------------
 export 'src/responsive/device.dart';
+
+// -- Foundation: bundled data --------------------------------------------------
+export 'src/data/product_stock_gallery.dart';
 
 // -- Atoms -------------------------------------------------------------------
 export 'src/atoms/app_text.dart';
@@ -63,6 +67,7 @@ export 'src/widgets/data_table/data_table_pagination.dart';
 export 'src/widgets/data_table/data_table_view.dart';
 export 'src/widgets/money_keypad.dart';
 export 'src/widgets/quantity_button.dart';
+export 'src/widgets/app_sourced_image.dart';
 
 // -- Templates ---------------------------------------------------------------
 export 'src/templates/app_scaffold.dart';

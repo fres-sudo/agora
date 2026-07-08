@@ -47,7 +47,10 @@ class AppChip extends StatelessWidget {
                   Icon(icon, size: tokens.iconSm, color: fg),
                   SizedBox(width: tokens.spaceXs),
                 ],
-                Text(label, style: context.typography.label.copyWith(color: fg)),
+                Text(
+                  label,
+                  style: context.typography.label.copyWith(color: fg),
+                ),
               ],
             ),
           ),

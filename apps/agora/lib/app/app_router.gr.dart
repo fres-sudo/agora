@@ -8,22 +8,36 @@
 // ignore_for_file: type=lint
 // coverage:ignore-file
 
-// ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:agora/app/pages/protected_shell_page.dart' as _i1;
-import 'package:auto_route/auto_route.dart' as _i2;
+part of 'app_router.dart';
 
 /// generated route for
-/// [_i1.ProtectedShellPage]
-class ProtectedShellRoute extends _i2.PageRouteInfo<void> {
-  const ProtectedShellRoute({List<_i2.PageRouteInfo>? children})
+/// [ProtectedShellPage]
+class ProtectedShellRoute extends PageRouteInfo<void> {
+  const ProtectedShellRoute({List<PageRouteInfo>? children})
     : super(ProtectedShellRoute.name, initialChildren: children);
 
   static const String name = 'ProtectedShellRoute';
 
-  static _i2.PageInfo page = _i2.PageInfo(
+  static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const _i1.ProtectedShellPage();
+      return const ProtectedShellPage();
+    },
+  );
+}
+
+/// generated route for
+/// [SplashPage]
+class SplashRoute extends PageRouteInfo<void> {
+  const SplashRoute({List<PageRouteInfo>? children})
+    : super(SplashRoute.name, initialChildren: children);
+
+  static const String name = 'SplashRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const SplashPage();
     },
   );
 }

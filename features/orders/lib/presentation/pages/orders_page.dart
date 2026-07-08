@@ -114,7 +114,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   addButtonLabel: 'Refresh',
                   emptyStateTitle: 'No orders found',
                   emptyStateSubtitle: 'Try changing your search or filters',
-                  emptyStateIcon: Icons.receipt_long_outlined,
+                  emptyStateIcon: AgoraIcons.receipt,
                 ),
                 showAddButton: false,
                 showEditAction: false,
@@ -370,7 +370,7 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
           label: _range == null
               ? 'Pick date range'
               : 'From ${MaterialLocalizations.of(context).formatShortDate(_range!.start)} to ${MaterialLocalizations.of(context).formatShortDate(_range!.end)}',
-          leadingIcon: const Icon(Icons.date_range_outlined),
+          leadingIcon: const Icon(AgoraIcons.calendar),
         ),
         if (_range != null) ...[
           const SizedBox(height: Sizes.sm),

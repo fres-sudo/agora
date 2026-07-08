@@ -46,9 +46,7 @@ class EmployeeForm extends StatefulWidget {
 class _EmployeeFormState extends State<EmployeeForm> {
   final _formKey = GlobalKey<FormState>();
   late final _nameCtrl = TextEditingController(text: widget.employee?.name);
-  late final _pinCtrl = TextEditingController(
-    text: widget.employee?.pin,
-  );
+  late final _pinCtrl = TextEditingController(text: widget.employee?.pin);
   late final _rateCtrl = TextEditingController(
     text: widget.employee != null
         ? (widget.employee!.hourlyRateCents / 100).toStringAsFixed(2)
@@ -107,11 +105,8 @@ class _EmployeeFormState extends State<EmployeeForm> {
                     ? 'PIN (leave blank to keep current)'
                     : 'PIN (4–6 digits)',
                 suffix: IconButton(
-                  icon: Icon(
-                    _obscurePin ? Icons.visibility_off : Icons.visibility,
-                  ),
-                  onPressed: () =>
-                      setState(() => _obscurePin = !_obscurePin),
+                  icon: Icon(_obscurePin ? AgoraIcons.eye : AgoraIcons.eye),
+                  onPressed: () => setState(() => _obscurePin = !_obscurePin),
                 ),
                 obscureText: _obscurePin,
                 keyboardType: TextInputType.number,

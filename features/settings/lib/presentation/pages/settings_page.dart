@@ -30,47 +30,49 @@ class _SettingsPageState extends State<SettingsPage> {
       body: SectionPageLayout(
         items: [
           SectionSidebarItemData(
-            icon: Icons.store_outlined,
+            icon: AgoraIcons
+                .garage, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.store_outlined
             label: 'Store Setting',
             child: const StoreSettingSection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.category_outlined,
+            icon: AgoraIcons
+                .square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.category_outlined
             label: 'Category',
             child: const CategorySection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.tune_outlined,
+            icon: AgoraIcons.filter,
             label: 'Modifier',
             child: const ModifierSection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.payment_outlined,
+            icon: AgoraIcons.creditCard,
             label: 'Payment Method',
             child: const PaymentMethodSection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.percent_outlined,
+            icon: AgoraIcons.discount,
             label: 'Taxes',
             child: const TaxesSection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.local_offer_outlined,
+            icon: AgoraIcons.discount,
             label: 'Discount & Voucher',
             child: const DiscountVoucherSection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.receipt_long_outlined,
+            icon: AgoraIcons.receipt,
             label: 'Receipt Option',
             child: const ReceiptOptionSection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.print_outlined,
+            icon: AgoraIcons.printer,
             label: 'Printer',
             child: const PrinterSection(),
           ),
           SectionSidebarItemData(
-            icon: Icons.warning_amber_outlined,
+            icon: AgoraIcons.alert,
             label: 'Reset',
             child: const DangerZoneSection(),
           ),

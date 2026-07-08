@@ -34,26 +34,24 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
     _cachedProduct = null;
     _cachedModifiers = null;
 
-    _modifiersSub = _modifiersRepository.watchModifiersByProductId(id).listen(
-      (mods) {
-        _cachedModifiers = mods;
-        final product = _cachedProduct;
-        if (product != null && !isClosed) {
-          emit(ProductDetailState.loaded(product: product, modifiers: mods));
-        }
-      },
-    );
+    _modifiersSub = _modifiersRepository.watchModifiersByProductId(id).listen((
+      mods,
+    ) {
+      _cachedModifiers = mods;
+      final product = _cachedProduct;
+      if (product != null && !isClosed) {
+        emit(ProductDetailState.loaded(product: product, modifiers: mods));
+      }
+    });
 
-    _productSub = _productsRepository.watchProductById(id).listen(
-      (product) {
-        if (product == null) return;
-        _cachedProduct = product;
-        final mods = _cachedModifiers;
-        if (mods != null && !isClosed) {
-          emit(ProductDetailState.loaded(product: product, modifiers: mods));
-        }
-      },
-    );
+    _productSub = _productsRepository.watchProductById(id).listen((product) {
+      if (product == null) return;
+      _cachedProduct = product;
+      final mods = _cachedModifiers;
+      if (mods != null && !isClosed) {
+        emit(ProductDetailState.loaded(product: product, modifiers: mods));
+      }
+    });
   }
 
   void createNew() {

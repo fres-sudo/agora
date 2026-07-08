@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_auth/feature_auth.dart';
 
+import 'package:ui_kit/ui_kit.dart';
+
 enum AvatarSize {
   small,
   medium,
@@ -30,7 +32,10 @@ class SessionAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconPerson = Icon(Icons.person, size: size.toIconSizePx);
+    final iconPerson = Icon(
+      AgoraIcons.smile,
+      size: size.toIconSizePx,
+    ); // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.person
     return BlocBuilder<SessionCubit, SessionState>(
       builder: (context, state) => switch (state) {
         // Authenticated(:final user) =>

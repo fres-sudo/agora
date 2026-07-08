@@ -49,11 +49,7 @@ class DiscountListItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(Sizes.xs),
                 border: Border.all(color: colors.border),
               ),
-              child: Icon(
-                Icons.local_offer_outlined,
-                color: colors.primary,
-                size: 20,
-              ),
+              child: Icon(AgoraIcons.discount, color: colors.primary, size: 20),
             ),
             const SizedBox(width: Sizes.md),
 
@@ -80,10 +76,7 @@ class DiscountListItem extends StatelessWidget {
             // Delete
             AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(
-                Icons.delete_outline,
-                color: AppPalette.neutral500,
-              ),
+              icon: const Icon(AgoraIcons.trash, color: AppPalette.neutral500),
               tooltip: 'Delete discount',
             ),
           ],

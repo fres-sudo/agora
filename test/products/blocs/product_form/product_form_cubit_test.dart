@@ -43,8 +43,6 @@ void main() {
     productFormCubit.close();
   });
 
-
-
   group('ProductFormCubit', () {
     test('initial state is ProductFormState.initial', () {
       expect(productFormCubit.state, const ProductFormState.initial());
@@ -101,38 +99,37 @@ void main() {
     );
 
     blocTest<ProductFormCubit, ProductFormState>(
-      'submit calls createProduct when isNew',
-      setUp: () {
-        when(mockProductsRepository.createProduct(any))
-            .thenAnswer((_) async => Result.ok(product));
-        when(
-          mockModifiersRepository.setProductModifiers(
-            productId: anyNamed('productId'),
-            modifierIds: anyNamed('modifierIds'),
-          ),
-        ).thenAnswer((_) async => const Result.ok(null));
-      },
-      build: () => productFormCubit,
-      act: (cubit) async {
-        cubit.initCreate();
-        // Fill required fields
-        cubit.updateName('New Product');
-        cubit.updateCategory(1);
-        cubit.updatePrice(100);
-        await Future.delayed(Duration.zero);
-        await cubit.submit();
-      },
-      skip: 2, // Skip init and updates
-    //  expect: () => [
-    //    isA<ProductFormState>().having((state) => state.maybeWhen(submitting: (d, _) => true, orElse: () => false), 'submitting', true),
-    //    isA<ProductFormState>().having((state) => state.maybeWhen(success: (id, isNew) => id == 1 && isNew, orElse: () => false), 'success', true),
-    //  ],
-    verify: (_) {
-       verify(mockProductsRepository.createProduct(any)).called(1);
-    }
-    );
-     // Note: Testing exact state emission sequence for complex flows in blocTest can be tricky with intermediate updates.
-     // Relying on verify for side effects is often cleaner for complex form logic.
+        'submit calls createProduct when isNew',
+        setUp: () {
+          when(mockProductsRepository.createProduct(any))
+              .thenAnswer((_) async => Result.ok(product));
+          when(
+            mockModifiersRepository.setProductModifiers(
+              productId: anyNamed('productId'),
+              modifierIds: anyNamed('modifierIds'),
+            ),
+          ).thenAnswer((_) async => const Result.ok(null));
+        },
+        build: () => productFormCubit,
+        act: (cubit) async {
+          cubit.initCreate();
+          // Fill required fields
+          cubit.updateName('New Product');
+          cubit.updateCategory(1);
+          cubit.updatePrice(100);
+          await Future.delayed(Duration.zero);
+          await cubit.submit();
+        },
+        skip: 2, // Skip init and updates
+        //  expect: () => [
+        //    isA<ProductFormState>().having((state) => state.maybeWhen(submitting: (d, _) => true, orElse: () => false), 'submitting', true),
+        //    isA<ProductFormState>().having((state) => state.maybeWhen(success: (id, isNew) => id == 1 && isNew, orElse: () => false), 'success', true),
+        //  ],
+        verify: (_) {
+          verify(mockProductsRepository.createProduct(any)).called(1);
+        });
+    // Note: Testing exact state emission sequence for complex flows in blocTest can be tricky with intermediate updates.
+    // Relying on verify for side effects is often cleaner for complex form logic.
 
     blocTest<ProductFormCubit, ProductFormState>(
       'submit calls setProductModifiers with the selected modifier ids after a successful save',

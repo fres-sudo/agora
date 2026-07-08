@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:ui_kit/src/theme/agora_icons.dart';
+
 /// Sort direction for data table sorting.
 enum SortDirection { ascending, descending }
 
@@ -90,7 +92,8 @@ class DataTableConfig {
     this.addButtonLabel = 'Add',
     this.emptyStateTitle = 'No Data Found',
     this.emptyStateSubtitle = 'Try adjusting your search or filters',
-    this.emptyStateIcon = Icons.search_off_rounded,
+    this.emptyStateIcon = AgoraIcons
+        .eye, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search_off_rounded
     this.deleteDialogTitle = 'Delete Item?',
     this.deleteDialogMessage =
         'Are you sure you want to delete this item? This action cannot be undone.',

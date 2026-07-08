@@ -77,7 +77,9 @@ class _PosPageState extends State<PosPage> {
   }
 
   void _onRemoveDiscount() {
-    context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.discountRemoved());
+    context.read<ActiveOrderBloc>().add(
+      const ActiveOrderEvent.discountRemoved(),
+    );
   }
 
   Future<void> _onProcessTransaction() async {
@@ -104,10 +106,7 @@ class _PosPageState extends State<PosPage> {
           SnackBar(
             content: Row(
               children: [
-                Icon(
-                  Icons.check_circle,
-                  color: context.colors.successForeground,
-                ),
+                Icon(AgoraIcons.check, color: context.colors.successForeground),
                 const SizedBox(width: Sizes.sm),
                 AppText.body(
                   completedOrder.id != null
@@ -309,7 +308,8 @@ class _PosCartButton extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       Icon(
-                        Icons.shopping_cart_outlined,
+                        AgoraIcons
+                            .bag, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.shopping_cart_outlined
                         size: 22,
                         color: context.colors.foreground,
                       ),
@@ -605,10 +605,7 @@ class _CategoryChip extends StatelessWidget {
         ),
         child: Center(
           child: isSelected
-              ? AppText.titleMd(
-                  label,
-                  color: colors.primaryForeground,
-                )
+              ? AppText.titleMd(label, color: colors.primaryForeground)
               : AppText.body(label, color: colors.mutedForeground),
         ),
       ),

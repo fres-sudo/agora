@@ -27,7 +27,7 @@ class ProductFormContent extends StatelessWidget {
               SnackBar(
                 content: Row(
                   children: [
-                    Icon(Icons.check_circle, color: colors.primaryForeground),
+                    Icon(AgoraIcons.check, color: colors.primaryForeground),
                     const SizedBox(width: Sizes.sm),
                     Expanded(
                       child: Column(
@@ -72,13 +72,20 @@ class ProductFormContent extends StatelessWidget {
         );
       },
       builder: (context, state) {
-        final isEditing = state.maybeMap(editing: (s) => s.isEditing, orElse: () => false);
+        final isEditing = state.maybeMap(
+          editing: (s) => s.isEditing,
+          orElse: () => false,
+        );
 
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Header
-            _ProductFormHeader(title: isEditing ? t.products.edit_product : t.products.add_product),
+            _ProductFormHeader(
+              title: isEditing
+                  ? t.products.edit_product
+                  : t.products.add_product,
+            ),
             // Stepper
             const ProductFormStepper(),
             // Content
@@ -118,13 +125,16 @@ class _ProductFormHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.sm),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Sizes.lg,
+        vertical: Sizes.sm,
+      ),
       child: Row(
         children: [
           Expanded(child: AppText.headingSm(title)),
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(false),
-            icon: const Icon(Icons.close),
+            icon: const Icon(AgoraIcons.x),
             style: IconButton.styleFrom(foregroundColor: AppPalette.neutral500),
           ),
         ],

@@ -17,8 +17,9 @@ extension PumpComponent on WidgetTester {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
-        themeMode:
-            brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
+        themeMode: brightness == Brightness.dark
+            ? ThemeMode.dark
+            : ThemeMode.light,
         home: Scaffold(body: Center(child: child)),
       ),
     );

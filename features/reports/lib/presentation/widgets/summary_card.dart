@@ -112,7 +112,7 @@ class SummaryCard extends StatelessWidget {
         ),
         const SizedBox(width: Sizes.xxs),
         Icon(
-          isPositive ? Icons.trending_up : Icons.trending_down,
+          isPositive ? AgoraIcons.trendUp : AgoraIcons.trendDown,
           color: isPositive ? AppPalette.primary500 : AppPalette.error500,
           size: 16,
         ),

@@ -57,7 +57,9 @@ class DataTableLoadingState extends StatelessWidget {
                 vertical: Sizes.md,
               ),
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
+                border: Border(
+                  bottom: BorderSide(color: AppPalette.neutral200),
+                ),
               ),
               child: Row(
                 children: List.generate(

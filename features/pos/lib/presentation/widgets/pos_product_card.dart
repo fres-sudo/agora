@@ -61,7 +61,7 @@ class PosProductCard extends StatelessWidget {
                       ),
                       child: Center(
                         child: Icon(
-                          Icons.fastfood_outlined,
+                          AgoraIcons.burger,
                           size: 48,
                           color: colors.mutedForeground,
                         ),

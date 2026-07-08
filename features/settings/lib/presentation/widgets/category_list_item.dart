@@ -66,7 +66,9 @@ class CategoryListItem extends StatelessWidget {
                 border: Border.all(color: colors.border),
               ),
               child: Icon(
-                category.icon ?? Icons.category,
+                category.icon ??
+                    AgoraIcons
+                        .square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.category
                 color: _getIconColor(category.color),
                 size: 20,
               ),
@@ -90,7 +92,7 @@ class CategoryListItem extends StatelessWidget {
             // Delete Button
             AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(Icons.delete_outline, color: AppPalette.neutral500),
+              icon: const Icon(AgoraIcons.trash, color: AppPalette.neutral500),
               tooltip: 'Delete category',
             ),
           ],

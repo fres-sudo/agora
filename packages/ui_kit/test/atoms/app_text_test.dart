@@ -15,8 +15,9 @@ void main() {
     }
   });
 
-  testWidgets('applies the resolved foreground color by default',
-      (tester) async {
+  testWidgets('applies the resolved foreground color by default', (
+    tester,
+  ) async {
     await tester.pumpComponent(const AppText.body('Hi'));
     final text = tester.widget<Text>(find.text('Hi'));
     expect(text.style!.color, AppColors.light.foreground);
@@ -25,10 +26,8 @@ void main() {
   testWidgets('honors an explicit semantic color', (tester) async {
     await tester.pumpComponent(
       Builder(
-        builder: (context) => AppText.caption(
-          'muted',
-          color: context.colors.mutedForeground,
-        ),
+        builder: (context) =>
+            AppText.caption('muted', color: context.colors.mutedForeground),
       ),
     );
     final text = tester.widget<Text>(find.text('muted'));

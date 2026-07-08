@@ -38,30 +38,28 @@ class ReportsRepositoryImpl extends Repository implements ReportsRepository {
   static const int _recentOrdersLimit = 10;
 
   @override
-  Future<Result<ReportData>> getReport(
-    ReportPeriod period, {
-    DateTime? now,
-  }) => safe('getReport(${period.name})', () async {
-    final range = period.range(now: now);
+  Future<Result<ReportData>> getReport(ReportPeriod period, {DateTime? now}) =>
+      safe('getReport(${period.name})', () async {
+        final range = period.range(now: now);
 
-    final orders = await _ordersRepository
-        .watchOrdersByDateRange(startDate: range.start, endDate: range.end)
-        .first;
-    final products = await _productsRepository.watchAllProducts().first;
+        final orders = await _ordersRepository
+            .watchOrdersByDateRange(startDate: range.start, endDate: range.end)
+            .first;
+        final products = await _productsRepository.watchAllProducts().first;
 
-    final completed = orders
-        .where((o) => o.status == OrderStatus.completed)
-        .toList();
+        final completed = orders
+            .where((o) => o.status == OrderStatus.completed)
+            .toList();
 
-    return ReportData(
-      summary: _buildSummary(completed),
-      statusBreakdown: _buildStatusBreakdown(orders),
-      stockBreakdown: _buildStockBreakdown(products),
-      salesTrend: _buildSalesTrend(completed, period),
-      topProducts: _buildTopProducts(completed),
-      recentOrders: orders.take(_recentOrdersLimit).toList(),
-    );
-  });
+        return ReportData(
+          summary: _buildSummary(completed),
+          statusBreakdown: _buildStatusBreakdown(orders),
+          stockBreakdown: _buildStockBreakdown(products),
+          salesTrend: _buildSalesTrend(completed, period),
+          topProducts: _buildTopProducts(completed),
+          recentOrders: orders.take(_recentOrdersLimit).toList(),
+        );
+      });
 
   // ============================================================
   // Aggregation helpers
@@ -189,11 +187,24 @@ class ReportsRepositoryImpl extends Repository implements ReportsRepository {
 
   /// Buckets completed-order revenue over time. Granularity follows the period:
   /// hourly for today, daily for a week/month, monthly for all-time.
-  List<SalesPoint> _buildSalesTrend(List<Order> completed, ReportPeriod period) {
+  List<SalesPoint> _buildSalesTrend(
+    List<Order> completed,
+    ReportPeriod period,
+  ) {
     const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const monthLabels = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
 
     switch (period) {

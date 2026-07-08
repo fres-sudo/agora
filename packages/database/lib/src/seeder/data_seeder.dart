@@ -4,6 +4,8 @@
 import 'package:database/database.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ui_kit/ui_kit.dart';
+
 /// The starter catalog to load during onboarding. Kept as a plain enum local to
 /// `package:database` so this low-level package stays free of `feature_flags`;
 /// the onboarding layer maps its `BusinessType` onto one of these.
@@ -58,7 +60,9 @@ class DataSeeder {
     await db.transaction(() async {
       final categoryIds = <int>[];
       for (final c in categories) {
-        final id = await db.into(db.categoriesTable).insert(
+        final id = await db
+            .into(db.categoriesTable)
+            .insert(
               CategoriesTableCompanion(
                 name: Value(c.name),
                 color: Value(c.color),
@@ -70,7 +74,9 @@ class DataSeeder {
       }
 
       for (final p in products) {
-        final productId = await db.into(db.productsTable).insert(
+        final productId = await db
+            .into(db.productsTable)
+            .insert(
               ProductsTableCompanion(
                 name: Value(p.name),
                 categoryId: Value(categoryIds[p.categoryIndex]),
@@ -79,13 +85,17 @@ class DataSeeder {
                 status: const Value('active'),
               ),
             );
-        await db.into(db.stocksTable).insert(
+        await db
+            .into(db.stocksTable)
+            .insert(
               StocksTableCompanion(
                 productId: Value(productId),
                 quantity: Value(p.stock),
               ),
             );
-        await db.into(db.stockMovementsTable).insert(
+        await db
+            .into(db.stockMovementsTable)
+            .insert(
               StockMovementsTableCompanion(
                 productId: Value(productId),
                 quantityChange: Value(p.stock),
@@ -102,30 +112,46 @@ class DataSeeder {
     switch (catalog) {
       case StarterCatalog.restaurant:
         return const [
-          _SeedCategory('Primi', Colors.orange, Icons.dinner_dining),
-          _SeedCategory('Secondi', Colors.red, Icons.restaurant),
-          _SeedCategory('Contorni', Colors.green, Icons.soup_kitchen),
-          _SeedCategory('Bevande', Colors.blue, Icons.local_bar),
-          _SeedCategory('Dolci', Colors.purple, Icons.icecream),
+          _SeedCategory('Primi', Colors.orange, AgoraIcons.spoonFork),
+          _SeedCategory('Secondi', Colors.red, AgoraIcons.tables),
+          _SeedCategory(
+            'Contorni',
+            Colors.green,
+            AgoraIcons.box,
+          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.soup_kitchen
+          _SeedCategory('Bevande', Colors.blue, AgoraIcons.glass),
+          _SeedCategory('Dolci', Colors.purple, AgoraIcons.iceCream),
         ];
       case StarterCatalog.barCafe:
         return const [
-          _SeedCategory('Coffee', Colors.brown, Icons.coffee),
-          _SeedCategory('Drinks', Colors.blue, Icons.local_bar),
-          _SeedCategory('Pastries', Colors.orange, Icons.bakery_dining),
-          _SeedCategory('Snacks', Colors.green, Icons.lunch_dining),
+          _SeedCategory('Coffee', Colors.brown, AgoraIcons.coffee),
+          _SeedCategory('Drinks', Colors.blue, AgoraIcons.glass),
+          _SeedCategory(
+            'Pastries',
+            Colors.orange,
+            AgoraIcons.trophy,
+          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bakery_dining
+          _SeedCategory(
+            'Snacks',
+            Colors.green,
+            AgoraIcons.cube,
+          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.lunch_dining
         ];
       case StarterCatalog.quickService:
         return const [
-          _SeedCategory('Mains', Colors.red, Icons.lunch_dining),
-          _SeedCategory('Sides', Colors.green, Icons.fastfood),
-          _SeedCategory('Drinks', Colors.blue, Icons.local_drink),
-          _SeedCategory('Desserts', Colors.purple, Icons.icecream),
+          _SeedCategory(
+            'Mains',
+            Colors.red,
+            AgoraIcons.cube,
+          ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.lunch_dining
+          _SeedCategory('Sides', Colors.green, AgoraIcons.burger),
+          _SeedCategory('Drinks', Colors.blue, AgoraIcons.drink),
+          _SeedCategory('Desserts', Colors.purple, AgoraIcons.iceCream),
         ];
       case StarterCatalog.festival:
         return const [
-          _SeedCategory('Food', Colors.red, Icons.fastfood),
-          _SeedCategory('Drinks', Colors.blue, Icons.local_bar),
+          _SeedCategory('Food', Colors.red, AgoraIcons.burger),
+          _SeedCategory('Drinks', Colors.blue, AgoraIcons.glass),
         ];
     }
   }

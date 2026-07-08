@@ -65,7 +65,10 @@ class _SelectableTile extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(icon, color: selected ? colors.primary : colors.mutedForeground),
+                Icon(
+                  icon,
+                  color: selected ? colors.primary : colors.mutedForeground,
+                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -73,11 +76,14 @@ class _SelectableTile extends StatelessWidget {
                     children: [
                       AppText.titleMd(title),
                       const SizedBox(height: 2),
-                      AppText.bodySm(description, color: colors.mutedForeground),
+                      AppText.bodySm(
+                        description,
+                        color: colors.mutedForeground,
+                      ),
                     ],
                   ),
                 ),
-                if (selected) Icon(Icons.check_circle, color: colors.primary),
+                if (selected) Icon(AgoraIcons.check, color: colors.primary),
               ],
             ),
           ),
@@ -103,10 +109,18 @@ class WelcomeStep extends StatelessWidget {
           "Let's set up your point of sale. It only takes a minute — we'll ask "
               'a few simple questions and then you can start selling.',
         ),
-        _bullet(context, Icons.storefront, 'Tell us about your business'),
-        _bullet(context, Icons.percent, 'Set your tax and currency'),
-        _bullet(context, Icons.payments, 'Choose how you take payment'),
-        _bullet(context, Icons.restaurant_menu, 'Add your menu — or start from a sample'),
+        _bullet(
+          context,
+          AgoraIcons.garage,
+          'Tell us about your business',
+        ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.storefront
+        _bullet(context, AgoraIcons.discount, 'Set your tax and currency'),
+        _bullet(context, AgoraIcons.money, 'Choose how you take payment'),
+        _bullet(
+          context,
+          AgoraIcons.spoonFork,
+          'Add your menu — or start from a sample',
+        ),
       ],
     );
   }
@@ -131,17 +145,20 @@ class BusinessTypeStep extends StatelessWidget {
   final OnboardingDraft draft;
 
   static const _descriptions = {
-    BusinessType.restaurant: 'Table service, staff logins, dine-in and takeaway.',
+    BusinessType.restaurant:
+        'Table service, staff logins, dine-in and takeaway.',
     BusinessType.barCafe: 'Fast counter service for drinks and light food.',
-    BusinessType.quickService: 'Counter and takeaway, quick checkout, single operator.',
-    BusinessType.festival: 'Offline, cash-first stall for events — no login needed.',
+    BusinessType.quickService:
+        'Counter and takeaway, quick checkout, single operator.',
+    BusinessType.festival:
+        'Offline, cash-first stall for events — no login needed.',
   };
 
   static const _icons = {
-    BusinessType.restaurant: Icons.restaurant,
-    BusinessType.barCafe: Icons.local_cafe,
-    BusinessType.quickService: Icons.fastfood,
-    BusinessType.festival: Icons.celebration,
+    BusinessType.restaurant: AgoraIcons.tables,
+    BusinessType.barCafe: AgoraIcons.coffee,
+    BusinessType.quickService: AgoraIcons.burger,
+    BusinessType.festival: AgoraIcons.gift,
   };
 
   @override
@@ -225,13 +242,29 @@ class _BusinessDetailsStepState extends State<BusinessDetailsStep> {
           onChanged: (_) => _sync(),
         ),
         const SizedBox(height: 12),
-        AppTextField(controller: _address, label: 'Address', onChanged: (_) => _sync()),
+        AppTextField(
+          controller: _address,
+          label: 'Address',
+          onChanged: (_) => _sync(),
+        ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: AppTextField(controller: _city, label: 'City', onChanged: (_) => _sync())),
+            Expanded(
+              child: AppTextField(
+                controller: _city,
+                label: 'City',
+                onChanged: (_) => _sync(),
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: AppTextField(controller: _country, label: 'Country', onChanged: (_) => _sync())),
+            Expanded(
+              child: AppTextField(
+                controller: _country,
+                label: 'Country',
+                onChanged: (_) => _sync(),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -265,7 +298,9 @@ class TaxCurrencyStep extends StatefulWidget {
 }
 
 class _TaxCurrencyStepState extends State<TaxCurrencyStep> {
-  late final _currency = TextEditingController(text: widget.draft.currencySymbol);
+  late final _currency = TextEditingController(
+    text: widget.draft.currencySymbol,
+  );
   late final _tax = TextEditingController(
     text: widget.draft.taxRate == 0 ? '' : widget.draft.taxRate.toString(),
   );
@@ -309,7 +344,9 @@ class _TaxCurrencyStepState extends State<TaxCurrencyStep> {
           hintText: '0',
           suffixText: '%',
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
+          ],
           onChanged: (_) => _sync(),
         ),
       ],
@@ -337,14 +374,14 @@ class PaymentsStep extends StatelessWidget {
         ),
         _toggle(
           context,
-          icon: Icons.euro,
+          icon: AgoraIcons.dollarCurrency,
           title: 'Cash',
           value: draft.cashEnabled,
           onChanged: (v) => cubit.updateDraft(draft.copyWith(cashEnabled: v)),
         ),
         _toggle(
           context,
-          icon: Icons.credit_card,
+          icon: AgoraIcons.creditCard,
           title: 'Card',
           value: draft.cardEnabled,
           onChanged: (v) => cubit.updateDraft(draft.copyWith(cardEnabled: v)),
@@ -426,7 +463,10 @@ class _TeamStepState extends State<TeamStep> {
             padding: const EdgeInsets.only(bottom: 8),
             child: Row(
               children: [
-                const Icon(Icons.person_outline, size: 20),
+                const Icon(
+                  AgoraIcons.smile,
+                  size: 20,
+                ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.person_outline
                 const SizedBox(width: 12),
                 Expanded(child: AppText.body(widget.draft.staff[i].name)),
                 AppText.bodySm(
@@ -434,7 +474,7 @@ class _TeamStepState extends State<TeamStep> {
                   color: context.colors.mutedForeground,
                 ),
                 IconButton(
-                  icon: const Icon(Icons.close),
+                  icon: const Icon(AgoraIcons.x),
                   onPressed: () => cubit.removeStaffAt(i),
                 ),
               ],
@@ -468,9 +508,18 @@ class _TeamStepState extends State<TeamStep> {
                 initialValue: _role,
                 decoration: const InputDecoration(labelText: 'Role'),
                 items: const [
-                  DropdownMenuItem(value: 'owner', child: AppText.body('Owner')),
-                  DropdownMenuItem(value: 'manager', child: AppText.body('Manager')),
-                  DropdownMenuItem(value: 'cashier', child: AppText.body('Cashier')),
+                  DropdownMenuItem(
+                    value: 'owner',
+                    child: AppText.body('Owner'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'manager',
+                    child: AppText.body('Manager'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'cashier',
+                    child: AppText.body('Cashier'),
+                  ),
                 ],
                 onChanged: (v) => setState(() => _role = v ?? 'owner'),
               ),
@@ -480,7 +529,7 @@ class _TeamStepState extends State<TeamStep> {
         const SizedBox(height: 8),
         AppButton.secondary(
           label: 'Add team member',
-          leadingIcon: const Icon(Icons.add),
+          leadingIcon: const Icon(AgoraIcons.plus),
           onPressed: _canAdd ? _add : null,
         ),
       ],
@@ -507,16 +556,20 @@ class MenuStep extends StatelessWidget {
               'catalog and add your own products.',
         ),
         _SelectableTile(
-          icon: Icons.auto_awesome,
+          icon: AgoraIcons
+              .gift, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.auto_awesome
           title: 'Start with a sample menu',
-          description: 'A starter catalog for a ${draft.profile.type.label.toLowerCase()} you can tweak.',
+          description:
+              'A starter catalog for a ${draft.profile.type.label.toLowerCase()} you can tweak.',
           selected: draft.menuChoice == MenuChoice.sample,
           onTap: () => cubit.setMenuChoice(MenuChoice.sample),
         ),
         _SelectableTile(
-          icon: Icons.note_add_outlined,
+          icon: AgoraIcons
+              .invoice, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.note_add_outlined
           title: 'Start empty',
-          description: 'No products yet — add your own from the Products screen.',
+          description:
+              'No products yet — add your own from the Products screen.',
           selected: draft.menuChoice == MenuChoice.empty,
           onTap: () => cubit.setMenuChoice(MenuChoice.empty),
         ),
@@ -547,9 +600,17 @@ class ReviewStep extends StatelessWidget {
               'Settings.',
         ),
         _row(context, 'Business type', draft.type?.label ?? '—'),
-        _row(context, 'Name', draft.businessName.isEmpty ? '—' : draft.businessName),
+        _row(
+          context,
+          'Name',
+          draft.businessName.isEmpty ? '—' : draft.businessName,
+        ),
         _row(context, 'Currency', draft.currencySymbol),
-        _row(context, 'Tax', '${draft.taxRate.toStringAsFixed(draft.taxRate % 1 == 0 ? 0 : 2)}%'),
+        _row(
+          context,
+          'Tax',
+          '${draft.taxRate.toStringAsFixed(draft.taxRate % 1 == 0 ? 0 : 2)}%',
+        ),
         _row(context, 'Payments', payments.isEmpty ? '—' : payments),
         if (draft.profile.requiresStaffLogin)
           _row(context, 'Team', '${draft.staff.length} member(s)')

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/src/molecules/app_text_field.dart';
+
 import 'package:ui_kit/src/theme/context_extensions.dart';
+
+import 'package:ui_kit/src/theme/agora_icons.dart';
 
 /// A search input: an [AppTextField] preset with a search icon and clear affordance.
 ///
@@ -31,7 +34,8 @@ class AppSearchField extends StatelessWidget {
       onChanged: onChanged,
       textInputAction: TextInputAction.search,
       prefix: Icon(
-        Icons.search_rounded,
+        AgoraIcons
+            .eye, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search_rounded
         color: colors.mutedForeground,
         size: context.tokens.iconMd,
       ),
@@ -39,7 +43,7 @@ class AppSearchField extends StatelessWidget {
           ? null
           : IconButton(
               tooltip: 'Clear search',
-              icon: Icon(Icons.close_rounded, color: colors.mutedForeground),
+              icon: Icon(AgoraIcons.x, color: colors.mutedForeground),
               onPressed: onClear,
             ),
     );

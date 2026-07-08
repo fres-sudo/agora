@@ -142,7 +142,9 @@ class _DiscountFormState extends State<DiscountForm> {
                   AppTextField(
                     controller: _nameController,
                     label: 'Discount Name',
-                    prefix: const Icon(Icons.label_outline),
+                    prefix: const Icon(
+                      AgoraIcons.ticket,
+                    ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.label_outline
                     textInputAction: TextInputAction.next,
                     validator: (value) =>
                         (value == null || value.trim().isEmpty)
@@ -159,12 +161,12 @@ class _DiscountFormState extends State<DiscountForm> {
                       ButtonSegment(
                         value: DiscountType.percentage,
                         label: AppText.body('Percentage'),
-                        icon: Icon(Icons.percent),
+                        icon: Icon(AgoraIcons.discount),
                       ),
                       ButtonSegment(
                         value: DiscountType.fixedAmount,
                         label: AppText.body('Fixed'),
-                        icon: Icon(Icons.euro),
+                        icon: Icon(AgoraIcons.dollarCurrency),
                       ),
                     ],
                     selected: {_type},
@@ -185,7 +187,11 @@ class _DiscountFormState extends State<DiscountForm> {
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                     ],
-                    prefix: Icon(isPercentage ? Icons.percent : Icons.euro),
+                    prefix: Icon(
+                      isPercentage
+                          ? AgoraIcons.discount
+                          : AgoraIcons.dollarCurrency,
+                    ),
                     suffix: AppText.body(isPercentage ? '%' : '€'),
                     textInputAction: TextInputAction.next,
                     validator: _validateValue,
@@ -197,7 +203,7 @@ class _DiscountFormState extends State<DiscountForm> {
                     controller: _codeController,
                     label: 'Voucher code (optional)',
                     textCapitalization: TextCapitalization.characters,
-                    prefix: const Icon(Icons.confirmation_number_outlined),
+                    prefix: const Icon(AgoraIcons.ticket),
                     textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 20),
@@ -208,10 +214,8 @@ class _DiscountFormState extends State<DiscountForm> {
                     label: 'Usage limit (optional)',
                     helperText: 'Leave empty for unlimited use',
                     keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    prefix: const Icon(Icons.repeat),
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    prefix: const Icon(AgoraIcons.rotateClockwise),
                     textInputAction: TextInputAction.done,
                   ),
                   const SizedBox(height: 8),
@@ -219,7 +223,7 @@ class _DiscountFormState extends State<DiscountForm> {
                   // Valid until (optional)
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: const Icon(Icons.event_outlined),
+                    leading: const Icon(AgoraIcons.calendar),
                     title: const AppText.body('Valid until'),
                     subtitle: AppText.bodySm(
                       _validUntil == null
@@ -234,9 +238,8 @@ class _DiscountFormState extends State<DiscountForm> {
                             size: AppButtonSize.sm,
                           )
                         : IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () =>
-                                setState(() => _validUntil = null),
+                            icon: const Icon(AgoraIcons.x),
+                            onPressed: () => setState(() => _validUntil = null),
                           ),
                     onTap: _pickValidUntil,
                   ),

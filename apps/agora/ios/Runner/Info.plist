@@ -45,5 +45,9 @@
     <true/>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Agora uses your photo library to let you choose a photo for a product.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Agora uses your camera to let you take a photo for a product.</string>
   </dict>
 </plist>

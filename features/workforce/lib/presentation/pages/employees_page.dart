@@ -56,7 +56,8 @@ class _EmployeesPageState extends State<EmployeesPage> {
     final confirmed = await ConfirmationDialog.showDelete(
       context: context,
       title: 'Delete Employee?',
-      message: 'Are you sure you want to remove ${employee.name}? This cannot be undone.',
+      message:
+          'Are you sure you want to remove ${employee.name}? This cannot be undone.',
     );
     if (confirmed && mounted) {
       context.read<EmployeesBloc>().add(EmployeesEvent.deleted(employee.id));
@@ -107,8 +108,9 @@ class _EmployeesList extends StatefulWidget {
 class _EmployeesListState extends State<_EmployeesList> {
   String _search = '';
 
-  List<Employee> get _filtered =>
-      widget.employees.where((e) => e.name.toLowerCase().contains(_search.toLowerCase())).toList();
+  List<Employee> get _filtered => widget.employees
+      .where((e) => e.name.toLowerCase().contains(_search.toLowerCase()))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +127,17 @@ class _EmployeesListState extends State<_EmployeesList> {
                 child: AppTextField(
                   onChanged: (v) => setState(() => _search = v),
                   hintText: 'Search employees…',
-                  prefix: const Icon(Icons.search, size: 20),
+                  prefix: const Icon(
+                    AgoraIcons.eye,
+                    size: 20,
+                  ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search
                 ),
               ),
               const SizedBox(width: 12),
               AppButton.primary(
                 onPressed: widget.onAdd,
                 label: 'Add Employee',
-                leadingIcon: const Icon(Icons.add),
+                leadingIcon: const Icon(AgoraIcons.plus),
               ),
             ],
           ),
@@ -160,7 +165,11 @@ class _EmployeesListState extends State<_EmployeesList> {
 }
 
 class _EmployeeTile extends StatelessWidget {
-  const _EmployeeTile({required this.employee, required this.onEdit, required this.onDelete});
+  const _EmployeeTile({
+    required this.employee,
+    required this.onEdit,
+    required this.onDelete,
+  });
 
   final Employee employee;
   final VoidCallback onEdit;
@@ -189,9 +198,12 @@ class _EmployeeTile extends StatelessWidget {
           const SizedBox(width: 8),
           _StatusBadge(isActive: employee.isActive),
           const SizedBox(width: 8),
-          AppIconButton.ghost(icon: const Icon(Icons.edit_outlined, size: 20), onPressed: onEdit),
           AppIconButton.ghost(
-            icon: Icon(Icons.delete_outline, size: 20, color: colors.destructive),
+            icon: const Icon(AgoraIcons.pen, size: 20),
+            onPressed: onEdit,
+          ),
+          AppIconButton.ghost(
+            icon: Icon(AgoraIcons.trash, size: 20, color: colors.destructive),
             onPressed: onDelete,
           ),
         ],
@@ -233,9 +245,7 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: isActive
-            ? colors.success.withValues(alpha: 0.12)
-            : colors.muted,
+        color: isActive ? colors.success.withValues(alpha: 0.12) : colors.muted,
         borderRadius: BorderRadius.circular(12),
       ),
       child: AppText.label(
@@ -256,7 +266,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.people_outline, size: 64, color: AppPalette.neutral300),
+          Icon(AgoraIcons.users, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: 16),
           AppText.titleMd(
             'No employees yet',
@@ -266,7 +276,7 @@ class _EmptyState extends StatelessWidget {
           AppButton.primary(
             onPressed: onAdd,
             label: 'Add First Employee',
-            leadingIcon: const Icon(Icons.add),
+            leadingIcon: const Icon(AgoraIcons.plus),
           ),
         ],
       ),

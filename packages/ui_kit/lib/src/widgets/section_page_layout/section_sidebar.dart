@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
-
 /// A collapsible sidebar for section navigation.
 ///
 /// Displays a list of navigation items with collapse/expand functionality.
@@ -96,7 +95,7 @@ class SectionSidebar extends StatelessWidget {
           icon: AnimatedRotation(
             duration: const Duration(milliseconds: 200),
             turns: isCollapsed ? 0.5 : 0,
-            child: const Icon(Icons.chevron_left_rounded),
+            child: const Icon(AgoraIcons.caretLeft),
           ),
           tooltip: isCollapsed ? 'Expand sidebar' : 'Collapse sidebar',
           style: IconButton.styleFrom(

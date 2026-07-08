@@ -34,10 +34,7 @@ class AppListTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            if (leading != null) ...[
-              leading!,
-              SizedBox(width: tokens.spaceMd),
-            ],
+            if (leading != null) ...[leading!, SizedBox(width: tokens.spaceMd)],
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

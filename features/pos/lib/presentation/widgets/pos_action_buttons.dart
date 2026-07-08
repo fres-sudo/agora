@@ -33,7 +33,7 @@ class PosActionButtons extends StatelessWidget {
           children: [
             Expanded(
               child: _ActionButton(
-                icon: Icons.people_outline,
+                icon: AgoraIcons.users,
                 label: 'Customer',
                 onTap: onCustomerTap,
               ),
@@ -41,7 +41,7 @@ class PosActionButtons extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: _ActionButton(
-                icon: Icons.table_restaurant_outlined,
+                icon: AgoraIcons.tables,
                 label: 'Tables',
                 onTap: onTablesTap,
               ),
@@ -53,7 +53,7 @@ class PosActionButtons extends StatelessWidget {
           children: [
             Expanded(
               child: _ActionButton(
-                icon: Icons.discount_outlined,
+                icon: AgoraIcons.discount,
                 label: 'Discount',
                 onTap: onDiscountTap,
               ),
@@ -61,7 +61,7 @@ class PosActionButtons extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: _ActionButton(
-                icon: Icons.receipt_long_outlined,
+                icon: AgoraIcons.receipt,
                 label: 'Save Bill',
                 onTap: onSaveBillTap,
               ),
@@ -84,8 +84,7 @@ class _ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final isEnabled = onTap != null;
-    final contentColor =
-        isEnabled ? colors.foreground : colors.mutedForeground;
+    final contentColor = isEnabled ? colors.foreground : colors.mutedForeground;
 
     return Material(
       color: colors.card,

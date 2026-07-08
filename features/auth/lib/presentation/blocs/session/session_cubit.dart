@@ -1,6 +1,7 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_auth/domain/models/session_employee.dart';
 import 'package:feature_auth/domain/repositories/auth_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:result/result.dart';
 
@@ -10,8 +11,8 @@ part 'session_cubit.freezed.dart';
 
 class SessionCubit extends Cubit<SessionState> {
   SessionCubit(AuthRepository authRepository)
-      : _authRepository = authRepository,
-        super(const SessionState.initial());
+    : _authRepository = authRepository,
+      super(const SessionState.initial());
 
   final AuthRepository _authRepository;
 
@@ -34,6 +35,18 @@ class SessionCubit extends Cubit<SessionState> {
           emit(SessionState.authenticated(employee: employee)),
       error: (e) => emit(SessionState.error(e.toString())),
     );
+  }
+
+  /// Debug-only: logs in as [employeeId] without checking the PIN.
+  Future<void> debugSkipPin(int employeeId) async {
+    if (!kDebugMode) return;
+    emit(const SessionState.loading());
+    final employee = await _authRepository.startSession(employeeId);
+    if (employee != null) {
+      emit(SessionState.authenticated(employee: employee));
+    } else {
+      emit(const SessionState.error('Employee not found'));
+    }
   }
 
   Future<void> signOut() async {

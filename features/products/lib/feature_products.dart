@@ -17,5 +17,6 @@ export 'presentation/blocs/products/products_bloc.dart';
 export 'presentation/pages/products_page.dart';
 export 'presentation/routes/products_feature.dart';
 export 'presentation/routes/products_router.dart';
+export 'presentation/widgets/product_form/product_photo_picker_sheet.dart';
 export 'presentation/widgets/product_name_cell.dart';
 export 'presentation/widgets/product_status_badge.dart';

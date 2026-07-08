@@ -15,7 +15,9 @@ void main() {
     expect(value, 'hi@a.com');
   });
 
-  testWidgets('shows error text and marks the field as errored', (tester) async {
+  testWidgets('shows error text and marks the field as errored', (
+    tester,
+  ) async {
     await tester.pumpComponent(
       const AppTextField(label: 'Name', errorText: 'Required'),
     );

@@ -64,13 +64,11 @@ class PosEmptyState extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: colors.card,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: colors.border,
-                          width: 2,
-                        ),
+                        border: Border.all(color: colors.border, width: 2),
                       ),
                       child: Icon(
-                        Icons.question_mark_rounded,
+                        AgoraIcons
+                            .info, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.question_mark_rounded
                         size: iconSize * 0.3,
                         color: colors.mutedForeground,
                       ),
@@ -97,7 +95,7 @@ class PosEmptyState extends StatelessWidget {
               AppButton.primary(
                 onPressed: onAction,
                 label: actionLabel!,
-                leadingIcon: const Icon(Icons.add),
+                leadingIcon: const Icon(AgoraIcons.plus),
               ),
             ],
           ],

@@ -3,14 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 void main() {
-  Widget wrap(Widget child, {Brightness brightness = Brightness.light, Size? size}) {
+  Widget wrap(
+    Widget child, {
+    Brightness brightness = Brightness.light,
+    Size? size,
+  }) {
     return MediaQuery(
       data: MediaQueryData(size: size ?? const Size(400, 800)),
       child: MaterialApp(
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
-        themeMode:
-            brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
+        themeMode: brightness == Brightness.dark
+            ? ThemeMode.dark
+            : ThemeMode.light,
         home: child,
       ),
     );
@@ -35,10 +40,7 @@ void main() {
   testWidgets('applies responsive insets when requested', (tester) async {
     await tester.pumpWidget(
       wrap(
-        const AppScaffold(
-          applyResponsiveInsets: true,
-          body: SizedBox.expand(),
-        ),
+        const AppScaffold(applyResponsiveInsets: true, body: SizedBox.expand()),
         size: const Size(1200, 900),
       ),
     );

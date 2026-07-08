@@ -42,10 +42,7 @@ class AppEmptyState extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ],
-            if (action != null) ...[
-              SizedBox(height: tokens.spaceLg),
-              action!,
-            ],
+            if (action != null) ...[SizedBox(height: tokens.spaceLg), action!],
           ],
         ),
       ),

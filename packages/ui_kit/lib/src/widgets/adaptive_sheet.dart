@@ -4,10 +4,8 @@ import 'package:ui_kit/ui_kit.dart';
 /// Signature for building adaptive sheet content.
 /// [scrollController] is provided only when displayed as a bottom sheet;
 /// connect it to inner scrollable widgets to enable proper dragging.
-typedef AdaptiveSheetBuilder = Widget Function(
-  BuildContext context,
-  ScrollController? scrollController,
-);
+typedef AdaptiveSheetBuilder =
+    Widget Function(BuildContext context, ScrollController? scrollController);
 
 /// Shows content as a bottom sheet on mobile and a right side sheet on
 /// tablet/desktop, with a slide-in animation.
@@ -65,12 +63,10 @@ class AdaptiveSheet {
       transitionDuration: const Duration(milliseconds: 300),
       transitionBuilder: (ctx, animation, secondaryAnimation, child) {
         return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(1, 0),
-            end: Offset.zero,
-          ).animate(
-            CurvedAnimation(parent: animation, curve: Curves.easeInOut),
-          ),
+          position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
+              .animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+              ),
           child: child,
         );
       },

@@ -119,7 +119,7 @@ class _ModifierSectionState extends State<ModifierSection> {
                   AppButton.primary(
                     onPressed: _onAddModifier,
                     label: 'Add Modifier',
-                    leadingIcon: const Icon(Icons.add, size: 20),
+                    leadingIcon: const Icon(AgoraIcons.plus, size: 20),
                   ),
                 ],
               ),
@@ -171,7 +171,7 @@ class _ModifierSectionState extends State<ModifierSection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.tune_outlined, size: 64, color: AppPalette.neutral300),
+          Icon(AgoraIcons.filter, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: Sizes.md),
           AppText.titleMd(
             'No modifiers yet',
@@ -192,15 +192,16 @@ class _ModifierSectionState extends State<ModifierSection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: AppPalette.error500),
+          Icon(AgoraIcons.alert, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
           const AppText.titleMd('Failed to load modifiers'),
           const SizedBox(height: Sizes.sm),
           AppText.body(message, color: context.colors.mutedForeground),
           const SizedBox(height: Sizes.lg),
           AppButton.primary(
-            onPressed: () =>
-                context.read<ModifiersBloc>().add(const ModifiersEvent.started()),
+            onPressed: () => context.read<ModifiersBloc>().add(
+              const ModifiersEvent.started(),
+            ),
             label: 'Retry',
           ),
         ],

@@ -2,6 +2,8 @@ import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/domain/models/category.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ui_kit/ui_kit.dart';
+
 /// A vertical list of category items for the POS sidebar.
 /// Includes an "All Menu" option at the top.
 class PosCategoryList extends StatelessWidget {
@@ -40,7 +42,7 @@ class PosCategoryList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: MenuCategoryItem(
               title: allMenuLabel,
-              icon: Icons.restaurant_menu,
+              icon: AgoraIcons.spoonFork,
               isSelected: selectedCategoryId == null,
               onTap: () => onCategorySelected(null),
               size: itemSize,
@@ -52,7 +54,10 @@ class PosCategoryList extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: MenuCategoryItem(
                 title: category.name,
-                icon: category.icon ?? Icons.grid_view,
+                icon:
+                    category.icon ??
+                    AgoraIcons
+                        .square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.grid_view
                 isSelected: selectedCategoryId == category.id,
                 onTap: () => onCategorySelected(category.id),
                 size: itemSize,

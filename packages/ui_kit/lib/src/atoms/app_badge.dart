@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:ui_kit/src/theme/context_extensions.dart';
 
 /// Semantic tone of an [AppBadge].
-enum AppBadgeVariant { neutral, primary, success, warning, destructive, info, outline }
+enum AppBadgeVariant {
+  neutral,
+  primary,
+  success,
+  warning,
+  destructive,
+  info,
+  outline,
+}
 
 /// A compact status pill (labels, counts, states).
 ///
@@ -23,13 +31,37 @@ class AppBadge extends StatelessWidget {
   ({Color bg, Color fg, Color? border}) _palette(BuildContext context) {
     final c = context.colors;
     return switch (variant) {
-      AppBadgeVariant.neutral => (bg: c.muted, fg: c.mutedForeground, border: null),
-      AppBadgeVariant.primary => (bg: c.primary, fg: c.primaryForeground, border: null),
-      AppBadgeVariant.success => (bg: c.success, fg: c.successForeground, border: null),
-      AppBadgeVariant.warning => (bg: c.warning, fg: c.warningForeground, border: null),
-      AppBadgeVariant.destructive => (bg: c.destructive, fg: c.destructiveForeground, border: null),
+      AppBadgeVariant.neutral => (
+        bg: c.muted,
+        fg: c.mutedForeground,
+        border: null,
+      ),
+      AppBadgeVariant.primary => (
+        bg: c.primary,
+        fg: c.primaryForeground,
+        border: null,
+      ),
+      AppBadgeVariant.success => (
+        bg: c.success,
+        fg: c.successForeground,
+        border: null,
+      ),
+      AppBadgeVariant.warning => (
+        bg: c.warning,
+        fg: c.warningForeground,
+        border: null,
+      ),
+      AppBadgeVariant.destructive => (
+        bg: c.destructive,
+        fg: c.destructiveForeground,
+        border: null,
+      ),
       AppBadgeVariant.info => (bg: c.info, fg: c.infoForeground, border: null),
-      AppBadgeVariant.outline => (bg: Colors.transparent, fg: c.foreground, border: c.border),
+      AppBadgeVariant.outline => (
+        bg: Colors.transparent,
+        fg: c.foreground,
+        border: c.border,
+      ),
     };
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
-
 /// A responsive page layout with sidebar navigation.
 ///
 /// On desktop/tablet: Displays a collapsible sidebar on the left with content on the right.
@@ -12,12 +11,12 @@ import 'package:ui_kit/ui_kit.dart';
 /// SectionPageLayout(
 ///   items: [
 ///     SectionSidebarItemData(
-///       icon: Icons.store,
+///       icon: AgoraIcons.garage, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.store
 ///       label: 'Store Setting',
 ///       child: StoreSettingSection(),
 ///     ),
 ///     SectionSidebarItemData(
-///       icon: Icons.category,
+///       icon: AgoraIcons.square, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.category
 ///       label: 'Category',
 ///       child: CategorySection(),
 ///     ),

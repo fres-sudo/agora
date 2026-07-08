@@ -153,7 +153,9 @@ class SalesOverviewChart extends StatelessWidget {
           touchTooltipData: LineTouchTooltipData(
             getTooltipColor: (touchedSpot) => colors.popover,
             tooltipBorderRadius: BorderRadius.circular(8),
-            getTooltipItems: (touchedBarSpots) => touchedBarSpots.map((barSpot) {
+            getTooltipItems: (touchedBarSpots) => touchedBarSpots.map((
+              barSpot,
+            ) {
               return LineTooltipItem(
                 '${t.report.sales}: ${formatCents((barSpot.y * 100).round())}',
                 context.typography.titleMd.copyWith(

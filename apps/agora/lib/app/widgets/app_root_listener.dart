@@ -1,5 +1,4 @@
-import 'package:agora/app/app_router.gr.dart';
-import 'package:auto_route/auto_route.dart';
+import 'package:agora/app/app_router.dart';
 import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// first-run setup has not been completed the wizard is shown; otherwise the
 /// existing session logic decides between the PIN login and the main app.
 ///
-/// Must sit above the router so it stays active on every route.
+/// Installed via `MaterialApp.router`'s `builder`, which places this widget
+/// *above* the `Router`. `context.router` therefore cannot resolve an
+/// `AutoRouter` ancestor, so navigation goes through the [router] instance
+/// directly rather than through the build context.
 class AppRootListener extends StatefulWidget {
-  const AppRootListener({required this.child, super.key});
+  const AppRootListener({required this.router, required this.child, super.key});
 
+  final AppRouter router;
   final Widget child;
 
   @override
@@ -27,7 +30,7 @@ class _AppRootListenerState extends State<AppRootListener> {
       if (!mounted) return;
       final onboarded = context.read<OnboardingRepository>().isCompleted();
       if (!onboarded) {
-        context.router.replaceAll([const OnboardingShellRoute()]);
+        widget.router.replaceAll([const OnboardingShellRoute()]);
       } else {
         // Restore any persisted session (single-user businesses auto-restore).
         context.read<SessionCubit>().init();
@@ -49,7 +52,7 @@ class _AppRootListenerState extends State<AppRootListener> {
                 // staff-login profiles land on the PIN screen.
                 context.read<SessionCubit>().init();
               case OnboardingPhase.needsReonboarding:
-                context.router.replaceAll([const OnboardingShellRoute()]);
+                widget.router.replaceAll([const OnboardingShellRoute()]);
                 context.read<OnboardingCubit>().acknowledgeReonboarding();
               case OnboardingPhase.editing:
               case OnboardingPhase.submitting:
@@ -63,9 +66,9 @@ class _AppRootListenerState extends State<AppRootListener> {
               initial: () {},
               loading: () {},
               authenticated: (_) =>
-                  context.router.replaceAll([const ProtectedShellRoute()]),
+                  widget.router.replaceAll([const ProtectedShellRoute()]),
               unauthenticated: () =>
-                  context.router.replaceAll([const AuthShellRoute()]),
+                  widget.router.replaceAll([const AuthShellRoute()]),
               error: (_) {},
             );
           },

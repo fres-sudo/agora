@@ -83,16 +83,31 @@ class AppIconButton extends StatelessWidget {
   ({Color bg, Color fg, Color? border}) _palette(BuildContext context) {
     final c = context.colors;
     return switch (variant) {
-      AppIconButtonVariant.primary =>
-        (bg: c.primary, fg: c.primaryForeground, border: null),
-      AppIconButtonVariant.secondary =>
-        (bg: c.secondary, fg: c.secondaryForeground, border: null),
-      AppIconButtonVariant.ghost =>
-        (bg: Colors.transparent, fg: c.foreground, border: null),
-      AppIconButtonVariant.outline =>
-        (bg: Colors.transparent, fg: c.foreground, border: c.border),
-      AppIconButtonVariant.destructive =>
-        (bg: c.destructive, fg: c.destructiveForeground, border: null),
+      AppIconButtonVariant.primary => (
+        bg: c.primary,
+        fg: c.primaryForeground,
+        border: null,
+      ),
+      AppIconButtonVariant.secondary => (
+        bg: c.secondary,
+        fg: c.secondaryForeground,
+        border: null,
+      ),
+      AppIconButtonVariant.ghost => (
+        bg: Colors.transparent,
+        fg: c.foreground,
+        border: null,
+      ),
+      AppIconButtonVariant.outline => (
+        bg: Colors.transparent,
+        fg: c.foreground,
+        border: c.border,
+      ),
+      AppIconButtonVariant.destructive => (
+        bg: c.destructive,
+        fg: c.destructiveForeground,
+        border: null,
+      ),
     };
   }
 

@@ -45,12 +45,7 @@ class ReportsCubit extends Cubit<ReportsState> {
 
     switch (result) {
       case Ok<ReportData>(:final value):
-        emit(
-          state.copyWith(
-            status: ReportsStatus.success,
-            data: value,
-          ),
-        );
+        emit(state.copyWith(status: ReportsStatus.success, data: value));
       case Error<ReportData>():
         emit(
           state.copyWith(

@@ -60,7 +60,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  Icons.close_rounded,
+                  AgoraIcons.x,
                   color: AppPalette.error500,
                   size: 32,
                 ),

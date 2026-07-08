@@ -339,7 +339,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                   onSelected: (action) =>
                       widget.onRowAction?.call(item, action),
                   icon: const Icon(
-                    Icons.more_vert,
+                    AgoraIcons.dots,
                     color: AppPalette.neutral500,
                     size: 20,
                   ),
@@ -353,7 +353,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                         value: DataTableRowAction.edit,
                         child: Row(
                           children: [
-                            Icon(Icons.edit_outlined, size: 18),
+                            Icon(AgoraIcons.pen, size: 18),
                             SizedBox(width: Sizes.sm),
                             Text('Edit'),
                           ],
@@ -364,7 +364,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                         value: DataTableRowAction.reprint,
                         child: Row(
                           children: [
-                            Icon(Icons.print_outlined, size: 18),
+                            Icon(AgoraIcons.printer, size: 18),
                             SizedBox(width: Sizes.sm),
                             Text('Reprint'),
                           ],
@@ -376,7 +376,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                         child: Row(
                           children: [
                             Icon(
-                              Icons.delete_outline,
+                              AgoraIcons.trash,
                               size: 18,
                               color: AppPalette.error500,
                             ),

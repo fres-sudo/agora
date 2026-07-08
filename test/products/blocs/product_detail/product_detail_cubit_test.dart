@@ -7,7 +7,6 @@ import 'package:mockito/mockito.dart';
 
 import 'product_detail_cubit_test.mocks.dart';
 
-
 @GenerateMocks([ProductsRepository, ModifiersRepository])
 void main() {
   provideDummy<Result<Category>>(

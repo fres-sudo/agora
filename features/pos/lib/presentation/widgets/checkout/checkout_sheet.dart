@@ -182,7 +182,7 @@ class _ReceiptStage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.check_circle, color: AppPalette.success700),
+            const Icon(AgoraIcons.check, color: AppPalette.success700),
             const SizedBox(width: Sizes.sm),
             const AppText.headingSm('Payment complete'),
           ],
@@ -196,13 +196,13 @@ class _ReceiptStage extends StatelessWidget {
 
         if (state.printStatus == PrintStatus.printed)
           const _PrintStatusBanner(
-            icon: Icons.check_circle_outline,
+            icon: AgoraIcons.check,
             color: AppPalette.success700,
             message: 'Receipt printed',
           ),
         if (state.printStatus == PrintStatus.failed)
           const _PrintStatusBanner(
-            icon: Icons.error_outline,
+            icon: AgoraIcons.alert,
             color: AppPalette.error500,
             message: 'Print failed — the sale is still recorded',
           ),
@@ -216,7 +216,7 @@ class _ReceiptStage extends StatelessWidget {
               : 'Print Receipt',
           fullWidth: true,
           isLoading: printing,
-          leadingIcon: const Icon(Icons.print, size: 20),
+          leadingIcon: const Icon(AgoraIcons.printer, size: 20),
           onPressed: printing ? null : cubit.printReceipt,
         ),
         const SizedBox(height: Sizes.sm),
@@ -388,11 +388,9 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline, color: AppPalette.error500, size: 20),
+          const Icon(AgoraIcons.alert, color: AppPalette.error500, size: 20),
           const SizedBox(width: Sizes.sm),
-          Expanded(
-            child: AppText.body(message, color: AppPalette.error500),
-          ),
+          Expanded(child: AppText.body(message, color: AppPalette.error500)),
         ],
       ),
     );

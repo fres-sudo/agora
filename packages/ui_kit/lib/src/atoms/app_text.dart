@@ -37,18 +37,126 @@ class AppText extends StatelessWidget {
   });
 
   // Convenience constructors for the common variants.
-  const AppText.displayLg(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.displayLg;
-  const AppText.displayMd(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.displayMd;
-  const AppText.headingLg(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.headingLg;
-  const AppText.headingMd(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.headingMd;
-  const AppText.headingSm(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.headingSm;
-  const AppText.titleLg(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.titleLg;
-  const AppText.titleMd(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.titleMd;
-  const AppText.body(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.body;
-  const AppText.bodySm(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.bodySm;
-  const AppText.label(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.label;
-  const AppText.caption(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.caption;
-  const AppText.mono(this.data, {super.key, this.color, this.textAlign, this.maxLines, this.overflow, this.style, this.semanticsLabel}) : variant = AppTextVariant.mono;
+  const AppText.displayLg(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.displayLg;
+  const AppText.displayMd(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.displayMd;
+  const AppText.headingLg(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.headingLg;
+  const AppText.headingMd(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.headingMd;
+  const AppText.headingSm(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.headingSm;
+  const AppText.titleLg(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.titleLg;
+  const AppText.titleMd(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.titleMd;
+  const AppText.body(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.body;
+  const AppText.bodySm(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.bodySm;
+  const AppText.label(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.label;
+  const AppText.caption(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.caption;
+  const AppText.mono(
+    this.data, {
+    super.key,
+    this.color,
+    this.textAlign,
+    this.maxLines,
+    this.overflow,
+    this.style,
+    this.semanticsLabel,
+  }) : variant = AppTextVariant.mono;
 
   final String data;
   final AppTextVariant variant;
@@ -78,9 +186,9 @@ class AppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resolved = _base(context.typography)
-        .copyWith(color: color ?? context.colors.foreground)
-        .merge(style);
+    final resolved = _base(
+      context.typography,
+    ).copyWith(color: color ?? context.colors.foreground).merge(style);
     return Text(
       data,
       style: resolved,

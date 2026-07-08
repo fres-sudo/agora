@@ -42,7 +42,8 @@ class _InventoryPageState extends State<InventoryPage> {
   List<StockLevel> _visible(List<StockLevel> levels) {
     final query = _search.trim().toLowerCase();
     return levels.where((level) {
-      if (_lowStockOnly && !(level.trackStock && level.quantity <= _threshold)) {
+      if (_lowStockOnly &&
+          !(level.trackStock && level.quantity <= _threshold)) {
         return false;
       }
       if (query.isEmpty) return true;
@@ -58,11 +59,8 @@ class _InventoryPageState extends State<InventoryPage> {
     return BlocListener<StockAdjustmentCubit, StockAdjustmentState>(
       listener: (context, state) {
         state.maybeWhen(
-          error: (message, _, _) => showAppSnackBar(
-            context,
-            message,
-            isError: true,
-          ),
+          error: (message, _, _) =>
+              showAppSnackBar(context, message, isError: true),
           orElse: () {},
         );
       },
@@ -90,7 +88,8 @@ class _InventoryPageState extends State<InventoryPage> {
                   searchHint: 'Search products...',
                   emptyStateTitle: 'No products',
                   emptyStateSubtitle: 'Add products to start tracking stock',
-                  emptyStateIcon: Icons.warehouse_outlined,
+                  emptyStateIcon: AgoraIcons
+                      .box, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.warehouse_outlined
                 ),
                 onSearch: (query) => setState(() => _search = query),
                 onFilter: _showFilterDialog,
@@ -127,8 +126,10 @@ class _InventoryPageState extends State<InventoryPage> {
                       final low = _isLow(level);
                       return _Tag(
                         label: '${level.quantity}',
-                        color: low ? AppPalette.error500 : AppPalette.primary500,
-                        icon: low ? Icons.warning_amber_rounded : null,
+                        color: low
+                            ? AppPalette.error500
+                            : AppPalette.primary500,
+                        icon: low ? AgoraIcons.alert : null,
                       );
                     },
                   ),
@@ -153,7 +154,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     alignment: Alignment.centerRight,
                     cellBuilder: (level) => AppIconButton.ghost(
                       onPressed: () => _showSetDialog(level),
-                      icon: const Icon(Icons.edit_outlined, size: 18),
+                      icon: const Icon(AgoraIcons.pen, size: 18),
                     ),
                   ),
                 ],
@@ -219,7 +220,8 @@ class _InventoryPageState extends State<InventoryPage> {
       onApply: () {
         setState(() {
           _lowStockOnly = lowOnly;
-          _threshold = int.tryParse(thresholdController.text.trim()) ?? _threshold;
+          _threshold =
+              int.tryParse(thresholdController.text.trim()) ?? _threshold;
         });
       },
       child: StatefulBuilder(

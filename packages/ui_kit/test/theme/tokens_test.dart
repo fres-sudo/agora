@@ -56,8 +56,9 @@ void main() {
   });
 
   group('context accessors', () {
-    testWidgets('context.colors/typography/tokens resolve per theme',
-        (tester) async {
+    testWidgets('context.colors/typography/tokens resolve per theme', (
+      tester,
+    ) async {
       late AppColors captured;
       await tester.pumpWidget(
         MaterialApp(

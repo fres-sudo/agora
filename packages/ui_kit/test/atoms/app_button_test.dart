@@ -34,7 +34,11 @@ void main() {
     testWidgets('isLoading shows a spinner, hides label taps', (tester) async {
       var taps = 0;
       await tester.pumpComponent(
-        AppButton.primary(label: 'Busy', isLoading: true, onPressed: () => taps++),
+        AppButton.primary(
+          label: 'Busy',
+          isLoading: true,
+          onPressed: () => taps++,
+        ),
       );
       expect(find.byType(AppSpinner), findsOneWidget);
       await tester.tap(find.byType(AppButton), warnIfMissed: false);
@@ -60,8 +64,9 @@ void main() {
   });
 
   group('AppButton accessibility', () {
-    testWidgets('meets tap-target and labeled-tap-target guidelines',
-        (tester) async {
+    testWidgets('meets tap-target and labeled-tap-target guidelines', (
+      tester,
+    ) async {
       final handle = tester.ensureSemantics();
       await tester.pumpComponent(
         AppButton.primary(label: 'Confirm', onPressed: () {}),
@@ -71,8 +76,9 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('primary and outline meet text-contrast guideline',
-        (tester) async {
+    testWidgets('primary and outline meet text-contrast guideline', (
+      tester,
+    ) async {
       final handle = tester.ensureSemantics();
       await tester.pumpComponent(
         Column(

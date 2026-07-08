@@ -40,7 +40,7 @@ class PaymentMethodSection extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               _MethodTile(
-                icon: Icons.payments_outlined,
+                icon: AgoraIcons.money,
                 label: 'Cash',
                 description: 'Accept cash payments with change calculation.',
                 isEnabled: cashEnabled,
@@ -51,7 +51,7 @@ class PaymentMethodSection extends StatelessWidget {
               ),
               const Divider(height: 24),
               _MethodTile(
-                icon: Icons.credit_card,
+                icon: AgoraIcons.creditCard,
                 label: 'Card',
                 description: 'Accept credit/debit card payments.',
                 isEnabled: cardEnabled,
@@ -71,7 +71,11 @@ class PaymentMethodSection extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.warning_outlined, color: AppPalette.warning600, size: 18),
+                      const Icon(
+                        AgoraIcons.alert,
+                        color: AppPalette.warning600,
+                        size: 18,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: AppText.bodySm(

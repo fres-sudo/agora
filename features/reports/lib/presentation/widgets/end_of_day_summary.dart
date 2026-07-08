@@ -15,22 +15,22 @@ class EndOfDaySummary extends StatelessWidget {
   Widget build(BuildContext context) {
     final metrics = <_Metric>[
       _Metric(
-        icon: Icons.payments_outlined,
+        icon: AgoraIcons.money,
         label: 'Cash',
         value: formatCents(summary.cashRevenueCents),
       ),
       _Metric(
-        icon: Icons.credit_card_outlined,
+        icon: AgoraIcons.creditCard,
         label: 'Card',
         value: formatCents(summary.cardRevenueCents),
       ),
       _Metric(
-        icon: Icons.local_offer_outlined,
+        icon: AgoraIcons.discount,
         label: 'Discounts',
         value: formatCents(summary.totalDiscountCents),
       ),
       _Metric(
-        icon: Icons.schedule_outlined,
+        icon: AgoraIcons.clock,
         label: 'Peak Hour',
         value: _formatPeakHour(summary.peakHour),
       ),
@@ -79,11 +79,7 @@ class EndOfDaySummary extends StatelessWidget {
 }
 
 class _Metric {
-  const _Metric({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
+  const _Metric({required this.icon, required this.label, required this.value});
 
   final IconData icon;
   final String label;

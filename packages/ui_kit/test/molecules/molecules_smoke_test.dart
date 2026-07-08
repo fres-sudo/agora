@@ -40,13 +40,15 @@ void main() {
   });
 
   group('AppListTile / AppEmptyState', () {
-    testWidgets('list tile taps and empty state renders action', (tester) async {
+    testWidgets('list tile taps and empty state renders action', (
+      tester,
+    ) async {
       var taps = 0;
       await tester.pumpComponent(
         AppListTile(
           title: 'Row',
           subtitle: 'sub',
-          leading: const Icon(Icons.circle),
+          leading: const Icon(AgoraIcons.dot),
           onTap: () => taps++,
         ),
       );
@@ -57,7 +59,8 @@ void main() {
         AppEmptyState(
           title: 'Nothing here',
           message: 'Add your first item',
-          icon: Icons.inbox_outlined,
+          icon: AgoraIcons
+              .tables, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.inbox_outlined
           action: AppButton.primary(label: 'Add', onPressed: () {}),
         ),
       );
@@ -67,12 +70,11 @@ void main() {
   });
 
   group('AppSearchField / AppSegmentedControl', () {
-    testWidgets('search forwards changes; segmented switches selection',
-        (tester) async {
+    testWidgets('search forwards changes; segmented switches selection', (
+      tester,
+    ) async {
       var query = '';
-      await tester.pumpComponent(
-        AppSearchField(onChanged: (v) => query = v),
-      );
+      await tester.pumpComponent(AppSearchField(onChanged: (v) => query = v));
       await tester.enterText(find.byType(TextField), 'pizza');
       expect(query, 'pizza');
 

@@ -131,7 +131,7 @@ class _EmptyModifiersState extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(Icons.tune_outlined, size: 48, color: colors.mutedForeground),
+          Icon(AgoraIcons.filter, size: 48, color: colors.mutedForeground),
           const SizedBox(height: Sizes.md),
           AppText.titleMd(
             'No modifiers available',

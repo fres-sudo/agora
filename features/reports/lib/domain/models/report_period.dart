@@ -34,11 +34,7 @@ enum ReportPeriod {
         return DateTimeRangeValue(start: start, end: endOfDay);
       case ReportPeriod.week:
         // Monday as the start of the week.
-        final startOfToday = DateTime(
-          current.year,
-          current.month,
-          current.day,
-        );
+        final startOfToday = DateTime(current.year, current.month, current.day);
         final start = startOfToday.subtract(
           Duration(days: current.weekday - 1),
         );

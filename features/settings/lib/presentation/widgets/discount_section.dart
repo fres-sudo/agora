@@ -87,7 +87,7 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
                   AppButton.primary(
                     onPressed: _onAddDiscount,
                     label: 'Add Discount',
-                    leadingIcon: const Icon(Icons.add, size: 20),
+                    leadingIcon: const Icon(AgoraIcons.plus, size: 20),
                   ),
                 ],
               ),
@@ -137,11 +137,7 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.local_offer_outlined,
-            size: 64,
-            color: AppPalette.neutral300,
-          ),
+          Icon(AgoraIcons.discount, size: 64, color: AppPalette.neutral300),
           const SizedBox(height: Sizes.md),
           AppText.titleMd(
             'No discounts yet',
@@ -162,15 +158,16 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 48, color: AppPalette.error500),
+          Icon(AgoraIcons.alert, size: 48, color: AppPalette.error500),
           const SizedBox(height: Sizes.md),
           const AppText.titleMd('Failed to load discounts'),
           const SizedBox(height: Sizes.sm),
           AppText.body(message, color: context.colors.mutedForeground),
           const SizedBox(height: Sizes.lg),
           AppButton.primary(
-            onPressed: () =>
-                context.read<DiscountsBloc>().add(const DiscountsEvent.started()),
+            onPressed: () => context.read<DiscountsBloc>().add(
+              const DiscountsEvent.started(),
+            ),
             label: 'Retry',
           ),
         ],

@@ -99,23 +99,11 @@ class AppTokens extends ThemeExtension<AppTokens> {
     durationNormal: Duration(milliseconds: 200),
     durationSlow: Duration(milliseconds: 320),
     shadowSm: [
-      BoxShadow(
-        color: Color(0x14101828),
-        blurRadius: 2,
-        offset: Offset(0, 1),
-      ),
+      BoxShadow(color: Color(0x14101828), blurRadius: 2, offset: Offset(0, 1)),
     ],
     shadowMd: [
-      BoxShadow(
-        color: Color(0x14101828),
-        blurRadius: 8,
-        offset: Offset(0, 4),
-      ),
-      BoxShadow(
-        color: Color(0x0F101828),
-        blurRadius: 4,
-        offset: Offset(0, 2),
-      ),
+      BoxShadow(color: Color(0x14101828), blurRadius: 8, offset: Offset(0, 4)),
+      BoxShadow(color: Color(0x0F101828), blurRadius: 4, offset: Offset(0, 2)),
     ],
     shadowLg: [
       BoxShadow(
@@ -123,11 +111,7 @@ class AppTokens extends ThemeExtension<AppTokens> {
         blurRadius: 24,
         offset: Offset(0, 12),
       ),
-      BoxShadow(
-        color: Color(0x0F101828),
-        blurRadius: 8,
-        offset: Offset(0, 4),
-      ),
+      BoxShadow(color: Color(0x0F101828), blurRadius: 8, offset: Offset(0, 4)),
     ],
   );
 
@@ -153,18 +137,10 @@ class AppTokens extends ThemeExtension<AppTokens> {
     durationNormal: Duration(milliseconds: 200),
     durationSlow: Duration(milliseconds: 320),
     shadowSm: [
-      BoxShadow(
-        color: Color(0x66000000),
-        blurRadius: 3,
-        offset: Offset(0, 1),
-      ),
+      BoxShadow(color: Color(0x66000000), blurRadius: 3, offset: Offset(0, 1)),
     ],
     shadowMd: [
-      BoxShadow(
-        color: Color(0x80000000),
-        blurRadius: 12,
-        offset: Offset(0, 6),
-      ),
+      BoxShadow(color: Color(0x80000000), blurRadius: 12, offset: Offset(0, 6)),
     ],
     shadowLg: [
       BoxShadow(

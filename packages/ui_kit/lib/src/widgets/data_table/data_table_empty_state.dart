@@ -7,7 +7,8 @@ class DataTableEmptyState extends StatelessWidget {
     super.key,
     required this.title,
     required this.subtitle,
-    this.icon = Icons.search_off_rounded,
+    this.icon = AgoraIcons
+        .eye, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search_off_rounded
   });
 
   final String title;
@@ -34,7 +35,7 @@ class DataTableEmptyState extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Icon(
-                    Icons.description_outlined,
+                    AgoraIcons.invoice,
                     size: 36,
                     color: AppPalette.neutral400,
                   ),
@@ -52,7 +53,8 @@ class DataTableEmptyState extends StatelessWidget {
                         ),
                       ),
                       child: Icon(
-                        Icons.help_outline_rounded,
+                        AgoraIcons
+                            .info, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.help_outline_rounded
                         size: 20,
                         color: AppPalette.neutral500,
                       ),

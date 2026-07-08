@@ -32,8 +32,6 @@ void main() {
     categoriesBloc.close();
   });
 
-
-
   group('CategoriesBloc', () {
     test('initial state is CategoriesState.initial', () {
       expect(categoriesBloc.state, const CategoriesState.initial());

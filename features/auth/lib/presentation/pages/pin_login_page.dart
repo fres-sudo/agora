@@ -3,6 +3,7 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_auth/domain/models/session_employee.dart';
 import 'package:feature_auth/domain/repositories/auth_repository.dart';
 import 'package:feature_auth/presentation/blocs/session/session_cubit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
@@ -81,7 +82,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
-            child: Padding(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(32),
               child: _selected == null
                   ? _EmployeeSelector(
@@ -113,10 +114,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
 // ── Employee selector ─────────────────────────────────────────────────────────
 
 class _EmployeeSelector extends StatelessWidget {
-  const _EmployeeSelector({
-    required this.employees,
-    required this.onSelect,
-  });
+  const _EmployeeSelector({required this.employees, required this.onSelect});
 
   final List<SessionEmployee> employees;
   final ValueChanged<SessionEmployee> onSelect;
@@ -214,7 +212,7 @@ class _PinPad extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: IconButton(
             onPressed: onBack,
-            icon: const Icon(Icons.arrow_back, color: AppPalette.white),
+            icon: const Icon(AgoraIcons.caretLeft, color: AppPalette.white),
           ),
         ),
         const SizedBox(height: 8),
@@ -262,21 +260,37 @@ class _PinPad extends StatelessWidget {
           crossAxisSpacing: 12,
           childAspectRatio: 1.6,
           children: [
-            ...['1', '2', '3', '4', '5', '6', '7', '8', '9'].map(
-              (d) => _DigitButton(digit: d, onTap: () => onDigit(d)),
-            ),
+            ...[
+              '1',
+              '2',
+              '3',
+              '4',
+              '5',
+              '6',
+              '7',
+              '8',
+              '9',
+            ].map((d) => _DigitButton(digit: d, onTap: () => onDigit(d))),
             const SizedBox.shrink(),
             _DigitButton(digit: '0', onTap: () => onDigit('0')),
             _DeleteButton(onTap: onDelete),
           ],
         ),
         const SizedBox(height: 20),
-        loading
-            ? const CircularProgressIndicator()
-            : AppButton.primary(
-                onPressed: pin.length >= 4 ? onConfirm : null,
-                label: 'Unlock',
-              ),
+        AppButton.primary(
+          onPressed: pin.length >= 4 ? onConfirm : null,
+          label: 'Unlock',
+          isLoading: loading,
+        ),
+        if (kDebugMode) ...[
+          const SizedBox(height: 12),
+          AppButton.destructive(
+            label: 'Skip PIN (debug)',
+            size: AppButtonSize.sm,
+            onPressed: () =>
+                context.read<SessionCubit>().debugSkipPin(employee.id),
+          ),
+        ],
       ],
     );
   }
@@ -295,9 +309,7 @@ class _DigitButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
-        child: Center(
-          child: AppText.headingMd(digit, color: AppPalette.white),
-        ),
+        child: Center(child: AppText.headingMd(digit, color: AppPalette.white)),
       ),
     );
   }
@@ -316,11 +328,7 @@ class _DeleteButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
         child: const Center(
-          child: Icon(
-            Icons.backspace_outlined,
-            color: AppPalette.white,
-            size: 22,
-          ),
+          child: Icon(AgoraIcons.backspace, color: AppPalette.white, size: 22),
         ),
       ),
     );

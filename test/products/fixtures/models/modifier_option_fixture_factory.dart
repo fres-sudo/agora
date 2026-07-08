@@ -2,7 +2,8 @@ import 'package:feature_products/feature_products.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 
 extension ModifierOptionFixture on ModifierOption {
-  static ModifierOptionFixtureFactory factory() => ModifierOptionFixtureFactory();
+  static ModifierOptionFixtureFactory factory() =>
+      ModifierOptionFixtureFactory();
 }
 
 class ModifierOptionFixtureFactory extends FixtureFactory<ModifierOption> {

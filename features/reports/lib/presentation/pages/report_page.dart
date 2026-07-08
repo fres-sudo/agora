@@ -91,11 +91,7 @@ class ReportPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
-            Icons.error_outline,
-            color: AppPalette.error500,
-            size: 48,
-          ),
+          const Icon(AgoraIcons.alert, color: AppPalette.error500, size: 48),
           const SizedBox(height: Sizes.md),
           const AppText.body('Could not load the report.'),
           const SizedBox(height: Sizes.md),
@@ -159,7 +155,7 @@ class ReportPage extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<ReportPeriod>(
           value: state.period,
-          icon: const Icon(Icons.keyboard_arrow_down),
+          icon: const Icon(AgoraIcons.caretDown),
           style: Theme.of(context).textTheme.bodyMedium,
           onChanged: (period) {
             if (period != null) context.reportsCubit.selectPeriod(period);
@@ -186,7 +182,7 @@ class ReportPage extends StatelessWidget {
         );
       },
       label: t.report.download,
-      leadingIcon: const Icon(Icons.download_outlined, size: 20),
+      leadingIcon: const Icon(AgoraIcons.download, size: 20),
       style: OutlinedButton.styleFrom(
         foregroundColor: AppPalette.neutral700,
         side: const BorderSide(color: AppPalette.neutral200),
@@ -213,7 +209,7 @@ class ReportPage extends StatelessWidget {
         trend: '',
         isPositive: true,
         icon: const Icon(
-          Icons.shopping_bag_outlined,
+          AgoraIcons.bag,
           color: AppPalette.primary500,
           size: 20,
         ),
@@ -224,7 +220,7 @@ class ReportPage extends StatelessWidget {
         trend: '',
         isPositive: true,
         icon: const Icon(
-          Icons.attach_money,
+          AgoraIcons.dollarCurrency,
           color: AppPalette.primary500,
           size: 20,
         ),
@@ -235,7 +231,7 @@ class ReportPage extends StatelessWidget {
         trend: '',
         isPositive: true,
         icon: const Icon(
-          Icons.receipt_long_outlined,
+          AgoraIcons.receipt,
           color: AppPalette.primary500,
           size: 20,
         ),
@@ -246,7 +242,7 @@ class ReportPage extends StatelessWidget {
         trend: '',
         isPositive: true,
         icon: const Icon(
-          Icons.inventory_2_outlined,
+          AgoraIcons.box,
           color: AppPalette.primary500,
           size: 20,
         ),
@@ -444,7 +440,8 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'orderType',
             label: t.report.recent_order.order_type,
-            cellBuilder: (item) => AppText.body(_orderTypeLabel(item.orderType)),
+            cellBuilder: (item) =>
+                AppText.body(_orderTypeLabel(item.orderType)),
           ),
           DataTableColumn(
             id: 'payment',
@@ -455,9 +452,7 @@ class ReportPage extends StatelessWidget {
             id: 'qty',
             label: t.report.recent_order.qty,
             cellBuilder: (item) => AppText.body(
-              item.items
-                  .fold<int>(0, (sum, i) => sum + i.quantity)
-                  .toString(),
+              item.items.fold<int>(0, (sum, i) => sum + i.quantity).toString(),
             ),
           ),
           DataTableColumn(
@@ -479,8 +474,18 @@ class ReportPage extends StatelessWidget {
 
   String _formatDateTime(DateTime dt) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     final hour12 = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
     final period = dt.hour < 12 ? 'AM' : 'PM';

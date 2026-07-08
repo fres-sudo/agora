@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
-
 class AppShellSidebar extends StatelessWidget {
   const AppShellSidebar({
     super.key,
@@ -39,9 +38,7 @@ class AppShellSidebar extends StatelessWidget {
       width: isCollapsed ? collapsedWidth : expandedWidth,
       decoration: const BoxDecoration(
         color: AppPalette.neutral900,
-        border: Border(
-          right: BorderSide(color: Color(0xff1f1f1f), width: 1),
-        ),
+        border: Border(right: BorderSide(color: Color(0xff1f1f1f), width: 1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,7 +60,9 @@ class AppShellSidebar extends StatelessWidget {
                   isSelected: index == selectedIndex,
                   isCollapsed: isCollapsed,
                   isEnabled: item.isEnabled,
-                  onTap: item.isEnabled ? () => onItemSelected?.call(index) : null,
+                  onTap: item.isEnabled
+                      ? () => onItemSelected?.call(index)
+                      : null,
                 );
               },
             ),
@@ -82,9 +81,7 @@ class AppShellSidebar extends StatelessWidget {
         vertical: 10,
       ),
       decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: Color(0xff1f1f1f), width: 1),
-        ),
+        border: Border(top: BorderSide(color: Color(0xff1f1f1f), width: 1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,22 +102,24 @@ class AppShellSidebar extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        isCollapsed ? 0 : 20,
-        20,
-        0,
-        12,
-      ),
+      padding: EdgeInsets.fromLTRB(isCollapsed ? 0 : 20, 20, 0, 12),
       child: isCollapsed
           ? Center(
-              child: logo ??
-                  const Icon(Icons.bolt, color: AppPalette.primary500, size: 26),
+              child:
+                  logo ??
+                  const Icon(
+                    AgoraIcons
+                        .trendUp, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bolt
+                    color: AppPalette.primary500,
+                    size: 26,
+                  ),
             )
           : Row(
               children: [
                 logo ??
                     const Icon(
-                      Icons.bolt,
+                      AgoraIcons
+                          .trendUp, // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.bolt
                       color: AppPalette.primary500,
                       size: 26,
                     ),
@@ -128,10 +127,10 @@ class AppShellSidebar extends StatelessWidget {
                 Text(
                   appName,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                        letterSpacing: 0.2,
-                      ),
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    letterSpacing: 0.2,
+                  ),
                 ),
               ],
             ),
@@ -167,7 +166,7 @@ class AppShellSidebar extends StatelessWidget {
                   duration: const Duration(milliseconds: 250),
                   turns: isCollapsed ? 0.5 : 0,
                   child: const Icon(
-                    Icons.chevron_left_rounded,
+                    AgoraIcons.caretLeft,
                     size: 18,
                     color: AppPalette.neutral400,
                   ),
@@ -203,8 +202,8 @@ class _SidebarNavItem extends StatelessWidget {
     final iconColor = !isEnabled
         ? AppPalette.neutral700
         : isSelected
-            ? Colors.white
-            : AppPalette.neutral400;
+        ? Colors.white
+        : AppPalette.neutral400;
 
     return Tooltip(
       message: isCollapsed && isEnabled ? label : '',
@@ -224,15 +223,11 @@ class _SidebarNavItem extends StatelessWidget {
               vertical: 11,
             ),
             decoration: BoxDecoration(
-              color: isSelected
-                  ? const Color(0xff1f1f1f)
-                  : Colors.transparent,
+              color: isSelected ? const Color(0xff1f1f1f) : Colors.transparent,
               borderRadius: BorderRadius.circular(10),
             ),
             child: isCollapsed
-                ? Center(
-                    child: Icon(icon, size: 20, color: iconColor),
-                  )
+                ? Center(child: Icon(icon, size: 20, color: iconColor))
                 : Row(
                     children: [
                       // Left accent indicator
@@ -253,13 +248,13 @@ class _SidebarNavItem extends StatelessWidget {
                       Expanded(
                         child: Text(
                           label,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: isSelected
-                                        ? FontWeight.w600
-                                        : FontWeight.w500,
-                                    color: iconColor,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
+                                color: iconColor,
+                              ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

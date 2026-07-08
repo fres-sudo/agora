@@ -363,6 +363,7 @@ class TranslationsProductsFormEn {
 
 	// Translations
 	late final TranslationsProductsFormStepsEn steps = TranslationsProductsFormStepsEn._(_root);
+	late final TranslationsProductsFormPhotoEn photo = TranslationsProductsFormPhotoEn._(_root);
 
 	/// en: 'Product Name'
 	String get product_name => 'Product Name';
@@ -503,6 +504,42 @@ class TranslationsProductsFormStepsEn {
 	String get ingredients_desc => 'Define ingredients and manage stock';
 }
 
+// Path: products.form.photo
+class TranslationsProductsFormPhotoEn {
+	TranslationsProductsFormPhotoEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Choose a Photo'
+	String get title => 'Choose a Photo';
+
+	/// en: 'Close'
+	String get close => 'Close';
+
+	/// en: 'Add Photo'
+	String get add_photo => 'Add Photo';
+
+	/// en: 'Change Photo'
+	String get change_photo => 'Change Photo';
+
+	/// en: 'Upload from device'
+	String get upload_section => 'Upload from device';
+
+	/// en: 'Take Photo'
+	String get take_photo => 'Take Photo';
+
+	/// en: 'Choose from Gallery'
+	String get choose_from_gallery => 'Choose from Gallery';
+
+	/// en: 'Or choose a stock photo'
+	String get stock_gallery_section => 'Or choose a stock photo';
+
+	/// en: 'Remove Photo'
+	String get remove_photo => 'Remove Photo';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -591,6 +628,15 @@ extension on Translations {
 			'products.form.steps.variants_modifiers_desc' => 'Set variations and add customizable options',
 			'products.form.steps.ingredients' => 'Ingredients',
 			'products.form.steps.ingredients_desc' => 'Define ingredients and manage stock',
+			'products.form.photo.title' => 'Choose a Photo',
+			'products.form.photo.close' => 'Close',
+			'products.form.photo.add_photo' => 'Add Photo',
+			'products.form.photo.change_photo' => 'Change Photo',
+			'products.form.photo.upload_section' => 'Upload from device',
+			'products.form.photo.take_photo' => 'Take Photo',
+			'products.form.photo.choose_from_gallery' => 'Choose from Gallery',
+			'products.form.photo.stock_gallery_section' => 'Or choose a stock photo',
+			'products.form.photo.remove_photo' => 'Remove Photo',
 			'products.form.product_name' => 'Product Name',
 			'products.form.category' => 'Category',
 			'products.form.select_category' => 'Select Category',

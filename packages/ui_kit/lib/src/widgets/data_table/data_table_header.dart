@@ -54,7 +54,10 @@ class DataTableHeader extends StatelessWidget {
               onChanged: onSearch,
               decoration: InputDecoration(
                 hintText: searchHint,
-                prefixIcon: const Icon(Icons.search, size: 20),
+                prefixIcon: const Icon(
+                  AgoraIcons.eye,
+                  size: 20,
+                ), // TODO(agora-icons): placeholder — no AgoraIcons match for Icons.search
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: Sizes.md,
@@ -94,7 +97,7 @@ class DataTableHeader extends StatelessWidget {
             leadingIcon: Badge(
               isLabelVisible: hasActiveFilters,
               smallSize: 8,
-              child: const Icon(Icons.filter_list_rounded, size: 18),
+              child: const Icon(AgoraIcons.filter, size: 18),
             ),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppPalette.neutral700,
@@ -110,7 +113,7 @@ class DataTableHeader extends StatelessWidget {
           AppButton.primary(
             onPressed: onAdd,
             label: addButtonLabel,
-            leadingIcon: const Icon(Icons.add, size: 18),
+            leadingIcon: const Icon(AgoraIcons.plus, size: 18),
             style: FilledButton.styleFrom(
               backgroundColor: AppPalette.primary500,
               foregroundColor: Colors.white,
@@ -158,8 +161,8 @@ class _SortButton extends StatelessWidget {
                 const Spacer(),
                 Icon(
                   currentSort!.direction == SortDirection.ascending
-                      ? Icons.arrow_upward
-                      : Icons.arrow_downward,
+                      ? AgoraIcons.caretUp
+                      : AgoraIcons.caretDown,
                   size: 16,
                   color: AppPalette.primary500,
                 ),
@@ -171,7 +174,7 @@ class _SortButton extends StatelessWidget {
       child: AppButton.outline(
         onPressed: null, // Handled by PopupMenuButton
         label: 'Sort',
-        leadingIcon: const Icon(Icons.sort_rounded, size: 18),
+        leadingIcon: const Icon(AgoraIcons.sort, size: 18),
         style: OutlinedButton.styleFrom(
           foregroundColor: AppPalette.neutral700,
           disabledForegroundColor: AppPalette.neutral700,

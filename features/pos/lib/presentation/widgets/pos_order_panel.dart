@@ -67,7 +67,10 @@ class PosOrderPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final currencySymbol =
-        context.watch<SettingsCubit>().getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
+        context.watch<SettingsCubit>().getString(
+          AppSettingsDao.keyCurrencySymbol,
+        ) ??
+        '€';
 
     return Container(
       color: colors.card,
@@ -102,7 +105,7 @@ class PosOrderPanel extends StatelessWidget {
                     currencySymbol: currencySymbol,
                   )
                 : PosEmptyState(
-                    icon: Icons.shopping_bag_outlined,
+                    icon: AgoraIcons.bag,
                     title: 'No Order',
                     description: 'Tap the product to add into order',
                     iconSize: 40,
@@ -175,7 +178,7 @@ class _DiscountRow extends StatelessWidget {
         child: AppButton.ghost(
           onPressed: onDiscountTap,
           label: 'Add Discount',
-          leadingIcon: const Icon(Icons.local_offer_outlined, size: 18),
+          leadingIcon: const Icon(AgoraIcons.discount, size: 18),
         ),
       );
     }
@@ -192,11 +195,7 @@ class _DiscountRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.local_offer_outlined,
-            size: 18,
-            color: colors.primary,
-          ),
+          Icon(AgoraIcons.discount, size: 18, color: colors.primary),
           const SizedBox(width: 8),
           Expanded(
             child: AppText.titleMd(
@@ -210,7 +209,11 @@ class _DiscountRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Padding(
               padding: const EdgeInsets.all(4),
-              child: Icon(Icons.close, size: 18, color: colors.mutedForeground),
+              child: Icon(
+                AgoraIcons.x,
+                size: 18,
+                color: colors.mutedForeground,
+              ),
             ),
           ),
         ],

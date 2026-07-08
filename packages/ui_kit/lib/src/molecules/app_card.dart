@@ -76,10 +76,7 @@ class AppCard extends StatelessWidget {
             if (child != null) SizedBox(height: tokens.spaceMd),
           ],
           if (child != null) child!,
-          if (footer != null) ...[
-            SizedBox(height: tokens.spaceMd),
-            footer!,
-          ],
+          if (footer != null) ...[SizedBox(height: tokens.spaceMd), footer!],
         ],
       ),
     );

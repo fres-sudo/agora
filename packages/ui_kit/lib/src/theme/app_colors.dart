@@ -243,8 +243,10 @@ class AppColors extends ThemeExtension<AppColors> {
       accent: c(accent, other.accent),
       accentForeground: c(accentForeground, other.accentForeground),
       destructive: c(destructive, other.destructive),
-      destructiveForeground:
-          c(destructiveForeground, other.destructiveForeground),
+      destructiveForeground: c(
+        destructiveForeground,
+        other.destructiveForeground,
+      ),
       success: c(success, other.success),
       successForeground: c(successForeground, other.successForeground),
       warning: c(warning, other.warning),

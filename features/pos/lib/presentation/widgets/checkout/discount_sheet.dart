@@ -103,15 +103,12 @@ class _DiscountSheetState extends State<DiscountSheet> {
                         label: 'Voucher code',
                         textInputAction: TextInputAction.done,
                         textCapitalization: TextCapitalization.characters,
-                        prefix: const Icon(Icons.confirmation_number_outlined),
+                        prefix: const Icon(AgoraIcons.ticket),
                         onSubmitted: (_) => _applyCode(),
                       ),
                     ),
                     const SizedBox(width: Sizes.sm),
-                    AppButton.primary(
-                      label: 'Apply',
-                      onPressed: _applyCode,
-                    ),
+                    AppButton.primary(label: 'Apply', onPressed: _applyCode),
                   ],
                 ),
 
@@ -129,7 +126,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.error_outline,
+                            AgoraIcons.alert,
                             color: colors.destructive,
                             size: 18,
                           ),
@@ -181,8 +178,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                           final discount = available[index];
                           return _DiscountTile(
                             discount: discount,
-                            onTap: () =>
-                                Navigator.of(context).pop(discount),
+                            onTap: () => Navigator.of(context).pop(discount),
                           );
                         },
                       );
@@ -232,7 +228,7 @@ class _DiscountTile extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.local_offer_outlined, color: colors.primary),
+              Icon(AgoraIcons.discount, color: colors.primary),
               const SizedBox(width: Sizes.md),
               Expanded(
                 child: Column(

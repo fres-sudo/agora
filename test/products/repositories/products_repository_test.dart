@@ -43,8 +43,8 @@ void main() {
       status: 'active',
       trackStock: true,
       updatedAt: null, // nullable in table
-      createdAt:
-          DateTime.now(), // will be auto-set by drift usually, but here manually
+      createdAt: DateTime
+          .now(), // will be auto-set by drift usually, but here manually
       deletedAt: null,
       imageUrl: null,
       sku: 'SKU1',
@@ -89,7 +89,8 @@ void main() {
       verify(mockStocksDao.getStockByProductId(1)).called(1);
     });
 
-    test('watchAllProducts hydrates modifierGroups from linked modifiers', () async {
+    test('watchAllProducts hydrates modifierGroups from linked modifiers',
+        () async {
       final modifierEntity = ModifierEntity(
         id: 5,
         name: 'Size',
