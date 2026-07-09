@@ -3,6 +3,7 @@ export 'src/model/outbox_entry.dart';
 export 'src/model/sync_status.dart';
 export 'src/outbox/outbox_dao.dart';
 export 'src/outbox/outbox_queue.dart';
+export 'src/outbox/retry_backoff.dart';
 export 'src/sync_handler.dart';
 export 'src/sync_manager.dart';
 export 'src/syncable_repository.dart';

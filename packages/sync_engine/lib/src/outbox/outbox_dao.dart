@@ -4,6 +4,7 @@ import 'package:database/database.dart';
 import 'package:drift/drift.dart';
 
 import '../model/outbox_entry.dart';
+import 'retry_backoff.dart';
 
 part 'outbox_dao.g.dart';
 
@@ -25,16 +26,31 @@ class OutboxDao extends DatabaseAccessor<AgoraDatabase> with _$OutboxDaoMixin {
         .map((rows) => rows.first.read(count) ?? 0);
   }
 
-  /// Returns pending + failed entries (below retry cap) ordered by creation time.
-  Future<List<OutboxEntity>> getPendingEntities() {
-    return (select(outboxTable)
-          ..where(
-            (t) =>
-                t.status.isIn(['pending', 'failed']) &
-                t.retryCount.isSmallerThanValue(_maxRetries),
-          )
-          ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
-        .get();
+  /// Returns pending + failed entries (below retry cap) ordered by creation
+  /// time, excluding failed entries still within their exponential backoff
+  /// window (see [RetryBackoff]).
+  ///
+  /// [now] is exposed for testability; callers normally leave it unset.
+  Future<List<OutboxEntity>> getPendingEntities({DateTime? now}) async {
+    final rows =
+        await (select(outboxTable)
+              ..where(
+                (t) =>
+                    t.status.isIn(['pending', 'failed']) &
+                    t.retryCount.isSmallerThanValue(_maxRetries),
+              )
+              ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
+            .get();
+
+    return rows
+        .where(
+          (row) => RetryBackoff.isReady(
+            retryCount: row.retryCount,
+            lastAttemptAt: row.processedAt,
+            now: now,
+          ),
+        )
+        .toList();
   }
 
   // ------------------------------------------------------------------ write
