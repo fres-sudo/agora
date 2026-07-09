@@ -6,6 +6,7 @@ import 'package:feature_workforce/data/sources/local/daos/clock_records_dao.dart
 import 'package:feature_workforce/data/sources/local/daos/employees_dao.dart';
 import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
 import 'package:feature_workforce/presentation/blocs/clock_in/clock_in_cubit.dart';
+import 'package:feature_workforce/presentation/blocs/clock_records/clock_records_cubit.dart';
 import 'package:feature_workforce/presentation/blocs/employees/employees_bloc.dart';
 import 'package:feature_workforce/presentation/routes/workforce_router.dart';
 import 'package:talker/talker.dart';
@@ -38,6 +39,11 @@ class WorkforceFeature extends AppFeature {
     BlocProvider<ClockInCubit>(
       create: (ctx) =>
           ClockInCubit(workforceRepository: ctx.read<WorkforceRepository>()),
+    ),
+    BlocProvider<ClockRecordsCubit>(
+      create: (ctx) => ClockRecordsCubit(
+        workforceRepository: ctx.read<WorkforceRepository>(),
+      ),
     ),
   ];
 
