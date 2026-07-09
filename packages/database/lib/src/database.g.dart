@@ -7053,9 +7053,11 @@ class $EmployeesTableTable extends EmployeesTable
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _pinMeta = const VerificationMeta('pin');
+  static const VerificationMeta _pinHashMeta = const VerificationMeta(
+    'pinHash',
+  );
   @override
-  late final GeneratedColumn<String> pin = GeneratedColumn<String>(
+  late final GeneratedColumn<String> pinHash = GeneratedColumn<String>(
     'pin',
     aliasedName,
     false,
@@ -7117,7 +7119,7 @@ class $EmployeesTableTable extends EmployeesTable
     updatedAt,
     deletedAt,
     name,
-    pin,
+    pinHash,
     role,
     isActive,
     hourlyRateCents,
@@ -7166,11 +7168,11 @@ class $EmployeesTableTable extends EmployeesTable
     }
     if (data.containsKey('pin')) {
       context.handle(
-        _pinMeta,
-        pin.isAcceptableOrUnknown(data['pin']!, _pinMeta),
+        _pinHashMeta,
+        pinHash.isAcceptableOrUnknown(data['pin']!, _pinHashMeta),
       );
     } else if (isInserting) {
-      context.missing(_pinMeta);
+      context.missing(_pinHashMeta);
     }
     if (data.containsKey('role')) {
       context.handle(
@@ -7228,7 +7230,7 @@ class $EmployeesTableTable extends EmployeesTable
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
-      pin: attachedDatabase.typeMapping.read(
+      pinHash: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}pin'],
       )!,
@@ -7263,7 +7265,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
   final DateTime? updatedAt;
   final DateTime? deletedAt;
   final String name;
-  final String pin;
+  final String pinHash;
   final String role;
   final bool isActive;
   final int hourlyRateCents;
@@ -7274,7 +7276,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
     this.updatedAt,
     this.deletedAt,
     required this.name,
-    required this.pin,
+    required this.pinHash,
     required this.role,
     required this.isActive,
     required this.hourlyRateCents,
@@ -7292,7 +7294,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
       map['deleted_at'] = Variable<DateTime>(deletedAt);
     }
     map['name'] = Variable<String>(name);
-    map['pin'] = Variable<String>(pin);
+    map['pin'] = Variable<String>(pinHash);
     map['role'] = Variable<String>(role);
     map['is_active'] = Variable<bool>(isActive);
     map['hourly_rate_cents'] = Variable<int>(hourlyRateCents);
@@ -7313,7 +7315,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
           ? const Value.absent()
           : Value(deletedAt),
       name: Value(name),
-      pin: Value(pin),
+      pinHash: Value(pinHash),
       role: Value(role),
       isActive: Value(isActive),
       hourlyRateCents: Value(hourlyRateCents),
@@ -7334,7 +7336,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
       name: serializer.fromJson<String>(json['name']),
-      pin: serializer.fromJson<String>(json['pin']),
+      pinHash: serializer.fromJson<String>(json['pinHash']),
       role: serializer.fromJson<String>(json['role']),
       isActive: serializer.fromJson<bool>(json['isActive']),
       hourlyRateCents: serializer.fromJson<int>(json['hourlyRateCents']),
@@ -7350,7 +7352,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
       'name': serializer.toJson<String>(name),
-      'pin': serializer.toJson<String>(pin),
+      'pinHash': serializer.toJson<String>(pinHash),
       'role': serializer.toJson<String>(role),
       'isActive': serializer.toJson<bool>(isActive),
       'hourlyRateCents': serializer.toJson<int>(hourlyRateCents),
@@ -7364,7 +7366,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
     Value<DateTime?> updatedAt = const Value.absent(),
     Value<DateTime?> deletedAt = const Value.absent(),
     String? name,
-    String? pin,
+    String? pinHash,
     String? role,
     bool? isActive,
     int? hourlyRateCents,
@@ -7375,7 +7377,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
     updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
     deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
     name: name ?? this.name,
-    pin: pin ?? this.pin,
+    pinHash: pinHash ?? this.pinHash,
     role: role ?? this.role,
     isActive: isActive ?? this.isActive,
     hourlyRateCents: hourlyRateCents ?? this.hourlyRateCents,
@@ -7388,7 +7390,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       name: data.name.present ? data.name.value : this.name,
-      pin: data.pin.present ? data.pin.value : this.pin,
+      pinHash: data.pinHash.present ? data.pinHash.value : this.pinHash,
       role: data.role.present ? data.role.value : this.role,
       isActive: data.isActive.present ? data.isActive.value : this.isActive,
       hourlyRateCents: data.hourlyRateCents.present
@@ -7406,7 +7408,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('name: $name, ')
-          ..write('pin: $pin, ')
+          ..write('pinHash: $pinHash, ')
           ..write('role: $role, ')
           ..write('isActive: $isActive, ')
           ..write('hourlyRateCents: $hourlyRateCents, ')
@@ -7422,7 +7424,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
     updatedAt,
     deletedAt,
     name,
-    pin,
+    pinHash,
     role,
     isActive,
     hourlyRateCents,
@@ -7437,7 +7439,7 @@ class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
           other.updatedAt == this.updatedAt &&
           other.deletedAt == this.deletedAt &&
           other.name == this.name &&
-          other.pin == this.pin &&
+          other.pinHash == this.pinHash &&
           other.role == this.role &&
           other.isActive == this.isActive &&
           other.hourlyRateCents == this.hourlyRateCents &&
@@ -7450,7 +7452,7 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
   final Value<DateTime?> updatedAt;
   final Value<DateTime?> deletedAt;
   final Value<String> name;
-  final Value<String> pin;
+  final Value<String> pinHash;
   final Value<String> role;
   final Value<bool> isActive;
   final Value<int> hourlyRateCents;
@@ -7461,7 +7463,7 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
     this.name = const Value.absent(),
-    this.pin = const Value.absent(),
+    this.pinHash = const Value.absent(),
     this.role = const Value.absent(),
     this.isActive = const Value.absent(),
     this.hourlyRateCents = const Value.absent(),
@@ -7473,20 +7475,20 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
     required String name,
-    required String pin,
+    required String pinHash,
     this.role = const Value.absent(),
     this.isActive = const Value.absent(),
     this.hourlyRateCents = const Value.absent(),
     this.avatarUrl = const Value.absent(),
   }) : name = Value(name),
-       pin = Value(pin);
+       pinHash = Value(pinHash);
   static Insertable<EmployeeEntity> custom({
     Expression<int>? id,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? deletedAt,
     Expression<String>? name,
-    Expression<String>? pin,
+    Expression<String>? pinHash,
     Expression<String>? role,
     Expression<bool>? isActive,
     Expression<int>? hourlyRateCents,
@@ -7498,7 +7500,7 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
       if (name != null) 'name': name,
-      if (pin != null) 'pin': pin,
+      if (pinHash != null) 'pin': pinHash,
       if (role != null) 'role': role,
       if (isActive != null) 'is_active': isActive,
       if (hourlyRateCents != null) 'hourly_rate_cents': hourlyRateCents,
@@ -7512,7 +7514,7 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
     Value<DateTime?>? updatedAt,
     Value<DateTime?>? deletedAt,
     Value<String>? name,
-    Value<String>? pin,
+    Value<String>? pinHash,
     Value<String>? role,
     Value<bool>? isActive,
     Value<int>? hourlyRateCents,
@@ -7524,7 +7526,7 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
       name: name ?? this.name,
-      pin: pin ?? this.pin,
+      pinHash: pinHash ?? this.pinHash,
       role: role ?? this.role,
       isActive: isActive ?? this.isActive,
       hourlyRateCents: hourlyRateCents ?? this.hourlyRateCents,
@@ -7550,8 +7552,8 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
-    if (pin.present) {
-      map['pin'] = Variable<String>(pin.value);
+    if (pinHash.present) {
+      map['pin'] = Variable<String>(pinHash.value);
     }
     if (role.present) {
       map['role'] = Variable<String>(role.value);
@@ -7576,7 +7578,7 @@ class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
           ..write('updatedAt: $updatedAt, ')
           ..write('deletedAt: $deletedAt, ')
           ..write('name: $name, ')
-          ..write('pin: $pin, ')
+          ..write('pinHash: $pinHash, ')
           ..write('role: $role, ')
           ..write('isActive: $isActive, ')
           ..write('hourlyRateCents: $hourlyRateCents, ')
@@ -13795,7 +13797,7 @@ typedef $$EmployeesTableTableCreateCompanionBuilder =
       Value<DateTime?> updatedAt,
       Value<DateTime?> deletedAt,
       required String name,
-      required String pin,
+      required String pinHash,
       Value<String> role,
       Value<bool> isActive,
       Value<int> hourlyRateCents,
@@ -13808,7 +13810,7 @@ typedef $$EmployeesTableTableUpdateCompanionBuilder =
       Value<DateTime?> updatedAt,
       Value<DateTime?> deletedAt,
       Value<String> name,
-      Value<String> pin,
+      Value<String> pinHash,
       Value<String> role,
       Value<bool> isActive,
       Value<int> hourlyRateCents,
@@ -13883,8 +13885,8 @@ class $$EmployeesTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get pin => $composableBuilder(
-    column: $table.pin,
+  ColumnFilters<String> get pinHash => $composableBuilder(
+    column: $table.pinHash,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -13968,8 +13970,8 @@ class $$EmployeesTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get pin => $composableBuilder(
-    column: $table.pin,
+  ColumnOrderings<String> get pinHash => $composableBuilder(
+    column: $table.pinHash,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -14018,8 +14020,8 @@ class $$EmployeesTableTableAnnotationComposer
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
-  GeneratedColumn<String> get pin =>
-      $composableBuilder(column: $table.pin, builder: (column) => column);
+  GeneratedColumn<String> get pinHash =>
+      $composableBuilder(column: $table.pinHash, builder: (column) => column);
 
   GeneratedColumn<String> get role =>
       $composableBuilder(column: $table.role, builder: (column) => column);
@@ -14097,7 +14099,7 @@ class $$EmployeesTableTableTableManager
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<String> pin = const Value.absent(),
+                Value<String> pinHash = const Value.absent(),
                 Value<String> role = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
                 Value<int> hourlyRateCents = const Value.absent(),
@@ -14108,7 +14110,7 @@ class $$EmployeesTableTableTableManager
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
                 name: name,
-                pin: pin,
+                pinHash: pinHash,
                 role: role,
                 isActive: isActive,
                 hourlyRateCents: hourlyRateCents,
@@ -14121,7 +14123,7 @@ class $$EmployeesTableTableTableManager
                 Value<DateTime?> updatedAt = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
                 required String name,
-                required String pin,
+                required String pinHash,
                 Value<String> role = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
                 Value<int> hourlyRateCents = const Value.absent(),
@@ -14132,7 +14134,7 @@ class $$EmployeesTableTableTableManager
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
                 name: name,
-                pin: pin,
+                pinHash: pinHash,
                 role: role,
                 isActive: isActive,
                 hourlyRateCents: hourlyRateCents,

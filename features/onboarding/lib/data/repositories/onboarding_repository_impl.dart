@@ -43,19 +43,25 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
             .insert(
               EmployeesTableCompanion.insert(
                 name: s.name,
-                pin: s.pin,
+                pinHash: PinHasher.hash(s.pin),
                 role: Value(s.role),
               ),
             );
       }
       // No auto-login: the PIN screen will let the operator choose who they are.
     } else {
+      // TODO(security): '0000' is a guessable default. Longer-term this
+      // should be replaced with a randomly generated PIN surfaced to the
+      // owner once (or a forced first-login PIN change) — tracked
+      // separately from the plaintext-storage fix (#3), since it needs UI
+      // work in the onboarding flow. It is still hashed at rest here so a
+      // DB read/backup no longer discloses it directly.
       final ownerId = await _db
           .into(_db.employeesTable)
           .insert(
             EmployeesTableCompanion.insert(
               name: draft.businessName.isEmpty ? 'Owner' : draft.businessName,
-              pin: '0000',
+              pinHash: PinHasher.hash('0000'),
               role: const Value('owner'),
             ),
           );
