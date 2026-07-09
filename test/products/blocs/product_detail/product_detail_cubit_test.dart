@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feature_products/feature_products.dart';
 import 'package:result/result.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -112,6 +114,71 @@ void main() {
       verify: (_) {
         verify(mockProductsRepository.updateProduct(product)).called(1);
       },
+    );
+
+    blocTest<ProductDetailCubit, ProductDetailState>(
+      'emits notFound when the watched product stream emits null after being loaded '
+      '(e.g. deleted on another device)',
+      setUp: () {
+        final controller = StreamController<Product?>();
+        addTearDown(controller.close);
+        when(
+          mockProductsRepository.watchProductById(1),
+        ).thenAnswer((_) => controller.stream);
+        when(
+          mockModifiersRepository.watchModifiersByProductId(1),
+        ).thenAnswer((_) => Stream.value([modifierGroup]));
+
+        scheduleMicrotask(() async {
+          controller.add(product);
+          await Future.delayed(Duration.zero);
+          controller.add(null);
+        });
+      },
+      build: () => productDetailCubit,
+      act: (cubit) => cubit.load(1),
+      wait: const Duration(milliseconds: 50),
+      expect: () => [
+        const ProductDetailState.loading(),
+        ProductDetailState.loaded(product: product, modifiers: [modifierGroup]),
+        const ProductDetailState.notFound(),
+      ],
+    );
+
+    late StreamController<Product?> deleteRaceController;
+
+    blocTest<ProductDetailCubit, ProductDetailState>(
+      'does not emit notFound when the product stream re-emits null right after '
+      'a user-initiated delete() completes',
+      setUp: () {
+        deleteRaceController = StreamController<Product?>();
+        addTearDown(deleteRaceController.close);
+        when(
+          mockProductsRepository.watchProductById(1),
+        ).thenAnswer((_) => deleteRaceController.stream);
+        when(
+          mockModifiersRepository.watchModifiersByProductId(1),
+        ).thenAnswer((_) => Stream.value([]));
+        when(
+          mockProductsRepository.deleteProduct(1),
+        ).thenAnswer((_) async => const Result.ok(1));
+
+        scheduleMicrotask(() => deleteRaceController.add(product));
+      },
+      build: () => productDetailCubit,
+      act: (cubit) async {
+        await cubit.load(1);
+        await Future.delayed(Duration.zero);
+        await cubit.delete();
+        // Simulate the watch stream catching up with the deletion.
+        deleteRaceController.add(null);
+        await Future.delayed(Duration.zero);
+      },
+      skip: 2, // Skip loading and loaded
+      expect: () => [
+        ProductDetailState.deleting(product: product),
+        const ProductDetailState.deleted(),
+      ],
     );
 
     blocTest<ProductDetailCubit, ProductDetailState>(

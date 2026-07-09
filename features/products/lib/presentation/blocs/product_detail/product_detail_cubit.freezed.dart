@@ -55,7 +55,7 @@ extension ProductDetailStatePatterns on ProductDetailState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( ProductDetailLoaded value)?  loaded,TResult Function( _Creating value)?  creating,TResult Function( _Saving value)?  saving,TResult Function( _Saved value)?  saved,TResult Function( _Deleting value)?  deleting,TResult Function( _Deleted value)?  deleted,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( ProductDetailLoaded value)?  loaded,TResult Function( _Creating value)?  creating,TResult Function( _Saving value)?  saving,TResult Function( _Saved value)?  saved,TResult Function( _Deleting value)?  deleting,TResult Function( _Deleted value)?  deleted,TResult Function( _NotFound value)?  notFound,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -66,7 +66,8 @@ return creating(_that);case _Saving() when saving != null:
 return saving(_that);case _Saved() when saved != null:
 return saved(_that);case _Deleting() when deleting != null:
 return deleting(_that);case _Deleted() when deleted != null:
-return deleted(_that);case _:
+return deleted(_that);case _NotFound() when notFound != null:
+return notFound(_that);case _:
   return orElse();
 
 }
@@ -84,7 +85,7 @@ return deleted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( ProductDetailLoaded value)  loaded,required TResult Function( _Creating value)  creating,required TResult Function( _Saving value)  saving,required TResult Function( _Saved value)  saved,required TResult Function( _Deleting value)  deleting,required TResult Function( _Deleted value)  deleted,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( ProductDetailLoaded value)  loaded,required TResult Function( _Creating value)  creating,required TResult Function( _Saving value)  saving,required TResult Function( _Saved value)  saved,required TResult Function( _Deleting value)  deleting,required TResult Function( _Deleted value)  deleted,required TResult Function( _NotFound value)  notFound,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -95,7 +96,8 @@ return creating(_that);case _Saving():
 return saving(_that);case _Saved():
 return saved(_that);case _Deleting():
 return deleting(_that);case _Deleted():
-return deleted(_that);}
+return deleted(_that);case _NotFound():
+return notFound(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -109,7 +111,7 @@ return deleted(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( ProductDetailLoaded value)?  loaded,TResult? Function( _Creating value)?  creating,TResult? Function( _Saving value)?  saving,TResult? Function( _Saved value)?  saved,TResult? Function( _Deleting value)?  deleting,TResult? Function( _Deleted value)?  deleted,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( ProductDetailLoaded value)?  loaded,TResult? Function( _Creating value)?  creating,TResult? Function( _Saving value)?  saving,TResult? Function( _Saved value)?  saved,TResult? Function( _Deleting value)?  deleting,TResult? Function( _Deleted value)?  deleted,TResult? Function( _NotFound value)?  notFound,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -120,7 +122,8 @@ return creating(_that);case _Saving() when saving != null:
 return saving(_that);case _Saved() when saved != null:
 return saved(_that);case _Deleting() when deleting != null:
 return deleting(_that);case _Deleted() when deleted != null:
-return deleted(_that);case _:
+return deleted(_that);case _NotFound() when notFound != null:
+return notFound(_that);case _:
   return null;
 
 }
@@ -137,7 +140,7 @@ return deleted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Product product,  List<ModifierGroup> modifiers)?  loaded,TResult Function()?  creating,TResult Function( Product product)?  saving,TResult Function( Product product)?  saved,TResult Function( Product product)?  deleting,TResult Function()?  deleted,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Product product,  List<ModifierGroup> modifiers)?  loaded,TResult Function()?  creating,TResult Function( Product product)?  saving,TResult Function( Product product)?  saved,TResult Function( Product product)?  deleting,TResult Function()?  deleted,TResult Function()?  notFound,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -147,7 +150,8 @@ return creating();case _Saving() when saving != null:
 return saving(_that.product);case _Saved() when saved != null:
 return saved(_that.product);case _Deleting() when deleting != null:
 return deleting(_that.product);case _Deleted() when deleted != null:
-return deleted();case _:
+return deleted();case _NotFound() when notFound != null:
+return notFound();case _:
   return orElse();
 
 }
@@ -165,7 +169,7 @@ return deleted();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Product product,  List<ModifierGroup> modifiers)  loaded,required TResult Function()  creating,required TResult Function( Product product)  saving,required TResult Function( Product product)  saved,required TResult Function( Product product)  deleting,required TResult Function()  deleted,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Product product,  List<ModifierGroup> modifiers)  loaded,required TResult Function()  creating,required TResult Function( Product product)  saving,required TResult Function( Product product)  saved,required TResult Function( Product product)  deleting,required TResult Function()  deleted,required TResult Function()  notFound,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
@@ -175,7 +179,8 @@ return creating();case _Saving():
 return saving(_that.product);case _Saved():
 return saved(_that.product);case _Deleting():
 return deleting(_that.product);case _Deleted():
-return deleted();}
+return deleted();case _NotFound():
+return notFound();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -189,7 +194,7 @@ return deleted();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Product product,  List<ModifierGroup> modifiers)?  loaded,TResult? Function()?  creating,TResult? Function( Product product)?  saving,TResult? Function( Product product)?  saved,TResult? Function( Product product)?  deleting,TResult? Function()?  deleted,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Product product,  List<ModifierGroup> modifiers)?  loaded,TResult? Function()?  creating,TResult? Function( Product product)?  saving,TResult? Function( Product product)?  saved,TResult? Function( Product product)?  deleting,TResult? Function()?  deleted,TResult? Function()?  notFound,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
@@ -199,7 +204,8 @@ return creating();case _Saving() when saving != null:
 return saving(_that.product);case _Saved() when saved != null:
 return saved(_that.product);case _Deleting() when deleting != null:
 return deleting(_that.product);case _Deleted() when deleted != null:
-return deleted();case _:
+return deleted();case _NotFound() when notFound != null:
+return notFound();case _:
   return null;
 
 }
@@ -635,6 +641,38 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
   return 'ProductDetailState.deleted()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _NotFound implements ProductDetailState {
+  const _NotFound();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NotFound);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ProductDetailState.notFound()';
 }
 
 
