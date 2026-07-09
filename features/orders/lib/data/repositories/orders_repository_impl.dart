@@ -243,30 +243,41 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
   @override
   Future<Result<Order>> createOrder(Order order) =>
       safe('createOrder', () async {
-        // Insert order
-        final orderId = await _ordersDao.insertOrder(
-          _modelToInsertCompanion(order),
-        );
-
-        // Insert items and their modifiers
-        for (final item in order.items) {
-          final itemId = await _orderItemsDao.insertOrderItem(
-            _itemToInsertCompanion(orderId, item),
+        // Wrap the whole multi-table insert sequence (order header + line
+        // items + modifiers) in a single transaction so a failure partway
+        // through (crash, thrown exception, etc.) rolls back cleanly instead
+        // of leaving a half-written order in the local DB. `_ordersDao` and
+        // `_orderItemsDao` are both DatabaseAccessors attached to the same
+        // AgoraDatabase instance, so starting the transaction on either DAO
+        // covers writes made through both (Drift propagates the active
+        // transaction via zone-local state to any accessor sharing the same
+        // attached database).
+        return _ordersDao.transaction(() async {
+          // Insert order
+          final orderId = await _ordersDao.insertOrder(
+            _modelToInsertCompanion(order),
           );
 
-          // Insert modifiers for this item
-          for (final modifier in item.selectedModifiers) {
-            await _orderItemsDao.addModifierToOrderItem(
-              orderItemId: itemId,
-              modifierName: modifier.groupName,
-              optionName: modifier.optionName,
-              priceChange: modifier.priceChangeCents,
+          // Insert items and their modifiers
+          for (final item in order.items) {
+            final itemId = await _orderItemsDao.insertOrderItem(
+              _itemToInsertCompanion(orderId, item),
             );
-          }
-        }
 
-        // Return the created order with its new ID
-        return order.copyWith(id: orderId);
+            // Insert modifiers for this item
+            for (final modifier in item.selectedModifiers) {
+              await _orderItemsDao.addModifierToOrderItem(
+                orderItemId: itemId,
+                modifierName: modifier.groupName,
+                optionName: modifier.optionName,
+                priceChange: modifier.priceChangeCents,
+              );
+            }
+          }
+
+          // Return the created order with its new ID
+          return order.copyWith(id: orderId);
+        });
       });
 
   @override
