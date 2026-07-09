@@ -1,37 +1,44 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/domain/models/clock_record.dart';
-import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
+import 'package:feature_workforce/presentation/blocs/clock_records/clock_records_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
-class ClockRecordsPage extends StatelessWidget {
+class ClockRecordsPage extends StatefulWidget {
   const ClockRecordsPage({super.key, this.employeeId});
 
   final int? employeeId;
+
+  @override
+  State<ClockRecordsPage> createState() => _ClockRecordsPageState();
+}
+
+class _ClockRecordsPageState extends State<ClockRecordsPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Subscribed once here (rather than in `build`) so unrelated rebuilds of
+    // this page don't tear down and recreate the underlying stream -- which
+    // previously reset the screen back to a loading state on every rebuild.
+    context.read<ClockRecordsCubit>().watch(employeeId: widget.employeeId);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: const AppShellMenuButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      body: StreamBuilder<List<ClockRecord>>(
-        stream: context.read<WorkforceRepository>().watchClockRecords(
-          employeeId: employeeId,
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: AppText.body('Error: ${snapshot.error}'));
-          }
-          final records = snapshot.data ?? [];
-          if (records.isEmpty) {
-            return const _EmptyState();
-          }
-          return _RecordsList(records: records);
+      body: BlocBuilder<ClockRecordsCubit, ClockRecordsState>(
+        builder: (context, state) {
+          return state.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (message) => Center(child: AppText.body('Error: $message')),
+            loaded: (records) => records.isEmpty
+                ? const _EmptyState()
+                : _RecordsList(records: records),
+          );
         },
       ),
     );
