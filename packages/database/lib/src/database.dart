@@ -51,13 +51,15 @@ class AgoraDatabase extends _$AgoraDatabase {
       onCreate: (m) async {
         await m.createAll();
       },
-      // Not in production: on any schema bump, drop everything and recreate.
-      // Replace with real migrations before shipping.
+      // Incremental, additive migrations only. The local Drift database is
+      // often the only copy of unsynced orders/inventory/workforce data
+      // until it reaches the backend, so schema bumps must never drop
+      // tables or otherwise destroy existing rows.
       onUpgrade: (m, from, to) async {
-        for (final table in allTables) {
-          await m.deleteTable(table.actualTableName);
+        if (from < 2) {
+          // v1 -> v2: add `orderType` to orders (0 = Dine In, 1 = Take Away).
+          await m.addColumn(ordersTable, ordersTable.orderType);
         }
-        await m.createAll();
       },
     );
   }
