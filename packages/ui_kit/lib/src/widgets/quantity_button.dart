@@ -35,6 +35,7 @@ class QuantityButton extends StatelessWidget {
               icon: AgoraIcons.minus,
               onPressed: quantity > min ? () => onChanged(quantity - 1) : null,
               enabled: quantity > min,
+              semanticLabel: 'Decrease quantity',
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -51,6 +52,7 @@ class QuantityButton extends StatelessWidget {
                   ? () => onChanged(quantity + 1)
                   : null,
               enabled: max == null || quantity < max!,
+              semanticLabel: 'Increase quantity',
             ),
           ],
         ),
@@ -63,33 +65,40 @@ class _CircularButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onPressed;
   final bool enabled;
+  final String semanticLabel;
 
   const _CircularButton({
     required this.icon,
     this.onPressed,
     required this.enabled,
+    required this.semanticLabel,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: colorScheme.outline, width: 1),
-        ),
-        child: Icon(
-          icon,
-          size: 18,
-          color: enabled
-              ? colorScheme.onSurface
-              : colorScheme.onSurface.withValues(alpha: 0.3),
+    return Semantics(
+      button: true,
+      enabled: enabled,
+      label: semanticLabel,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: colorScheme.outline, width: 1),
+          ),
+          child: Icon(
+            icon,
+            size: 18,
+            color: enabled
+                ? colorScheme.onSurface
+                : colorScheme.onSurface.withValues(alpha: 0.3),
+          ),
         ),
       ),
     );

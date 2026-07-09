@@ -86,9 +86,13 @@ class DataTableController<T> extends ChangeNotifier {
   set totalItems(int value) {
     if (_totalItems != value) {
       _totalItems = value;
-      // Adjust current page if it's now out of bounds
-      final maxPage = totalPages - 1;
-      if (_currentPage > maxPage && maxPage >= 0) {
+      // Adjust current page if it's now out of bounds. When there are no
+      // items left (e.g. the last item on the last page was deleted or
+      // filtered out), totalPages is 0 and there is no valid "last page" to
+      // clamp to, so floor at page 0 instead of leaving currentPage stuck
+      // out of range.
+      final maxPage = totalPages > 0 ? totalPages - 1 : 0;
+      if (_currentPage > maxPage) {
         _currentPage = maxPage;
       }
       notifyListeners();

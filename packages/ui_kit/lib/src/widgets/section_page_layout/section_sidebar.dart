@@ -43,9 +43,9 @@ class SectionSidebar extends StatelessWidget {
       curve: Curves.easeInOut,
       width: isCollapsed ? collapsedWidth : expandedWidth,
       decoration: BoxDecoration(
-        color: AppPalette.neutral100,
+        color: context.colors.muted,
         border: Border(
-          right: BorderSide(color: AppPalette.neutral200, width: 1),
+          right: BorderSide(color: context.colors.border, width: 1),
         ),
       ),
       child: Column(
@@ -100,14 +100,14 @@ class SectionSidebar extends StatelessWidget {
           ),
           tooltip: isCollapsed ? 'Expand sidebar' : 'Collapse sidebar',
           style: IconButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: AppPalette.neutral600,
+            backgroundColor: context.colors.card,
+            foregroundColor: context.colors.mutedForeground,
             iconSize: 20,
             minimumSize: const Size(36, 36),
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
-              side: const BorderSide(color: AppPalette.neutral200),
+              side: BorderSide(color: context.colors.border),
             ),
           ),
         ),
