@@ -141,20 +141,25 @@ class InventoryRepositoryImpl extends Repository
     required int delta,
     required String reason,
   }) => safe('adjustStock($productId, delta: $delta)', () async {
-    // Get current stock
-    final current = await _stocksDao.getStockByProductId(productId);
-    final currentQty = current?.quantity ?? 0;
-    final newQty = currentQty + delta;
+    // Run the quantity adjustment and the movement record in a single
+    // Drift transaction, using an atomic SQL UPDATE (quantity = quantity +
+    // delta) rather than a Dart-side read-then-write. This prevents lost
+    // updates when two writers (e.g. two POS terminals, or a checkout
+    // racing a manual adjustment) touch the same product concurrently.
+    final newQty = await _stocksDao.transaction(() async {
+      final qty = await _stocksDao.adjustStockQuantityAtomic(
+        productId: productId,
+        delta: delta,
+      );
 
-    // Update or insert stock
-    await _stocksDao.upsertStock(productId: productId, quantity: newQty);
+      await _stockMovementsDao.recordMovement(
+        productId: productId,
+        quantityChange: delta,
+        reason: reason,
+      );
 
-    // Record movement
-    await _stockMovementsDao.recordMovement(
-      productId: productId,
-      quantityChange: delta,
-      reason: reason,
-    );
+      return qty;
+    });
 
     // Return the new stock for optimistic updates
     return (productId: productId, quantity: newQty);
@@ -166,22 +171,26 @@ class InventoryRepositoryImpl extends Repository
     required int quantity,
     required String reason,
   }) => safe('setStock($productId, qty: $quantity)', () async {
-    // Get current stock to calculate delta
-    final current = await _stocksDao.getStockByProductId(productId);
-    final currentQty = current?.quantity ?? 0;
-    final delta = quantity - currentQty;
+    // Read the current quantity, write the new absolute quantity and
+    // record the movement all inside one transaction, so no other writer
+    // can adjust the stock between the read and the write.
+    await _stocksDao.transaction(() async {
+      final current = await _stocksDao.getStockByProductId(productId);
+      final currentQty = current?.quantity ?? 0;
+      final delta = quantity - currentQty;
 
-    // Set absolute quantity
-    await _stocksDao.upsertStock(productId: productId, quantity: quantity);
+      // Set absolute quantity
+      await _stocksDao.upsertStock(productId: productId, quantity: quantity);
 
-    // Record movement with the delta
-    if (delta != 0) {
-      await _stockMovementsDao.recordMovement(
-        productId: productId,
-        quantityChange: delta,
-        reason: reason,
-      );
-    }
+      // Record movement with the delta
+      if (delta != 0) {
+        await _stockMovementsDao.recordMovement(
+          productId: productId,
+          quantityChange: delta,
+          reason: reason,
+        );
+      }
+    });
 
     return (productId: productId, quantity: quantity);
   });

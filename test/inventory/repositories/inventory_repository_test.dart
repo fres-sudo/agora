@@ -275,23 +275,27 @@ void main() {
     });
 
     group('adjustStock', () {
-      test('should adjust stock and record movement', () async {
+      test(
+          'should adjust stock atomically inside a transaction and record movement',
+          () async {
         // Arrange
         const delta = 5;
         const reason = 'restock';
         final updatedQuantity = tStockEntity.quantity + delta;
 
-        // Mock getStockByProductId to return current stock
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => tStockEntity);
+        // The repository now wraps the atomic quantity adjustment and the
+        // movement record in a single `StocksDao.transaction` call. Stub
+        // the transaction to simply invoke the given callback.
+        when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
+          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
+              Function())(),
+        );
 
-        // Mock upsertStock
-        when(mockStocksDao.upsertStock(
+        when(mockStocksDao.adjustStockQuantityAtomic(
           productId: tProductId,
-          quantity: updatedQuantity,
-        )).thenAnswer((_) async {});
+          delta: delta,
+        )).thenAnswer((_) async => updatedQuantity);
 
-        // Mock recordMovement
         when(mockStockMovementsDao.recordMovement(
           productId: tProductId,
           quantityChange: delta,
@@ -310,36 +314,40 @@ void main() {
         final stock = (result as Ok<Stock>).value;
         expect(stock.quantity, updatedQuantity);
 
-        verify(mockStocksDao.getStockByProductId(tProductId)).called(1);
-        verify(mockStocksDao.upsertStock(
+        verify(mockStocksDao.transaction<Object?>(any)).called(1);
+        verify(mockStocksDao.adjustStockQuantityAtomic(
           productId: tProductId,
-          quantity: updatedQuantity,
+          delta: delta,
         )).called(1);
         verify(mockStockMovementsDao.recordMovement(
           productId: tProductId,
           quantityChange: delta,
           reason: reason,
         )).called(1);
+        // The old read-then-write path must no longer be used.
+        verifyNever(mockStocksDao.getStockByProductId(tProductId));
+        verifyNever(mockStocksDao.upsertStock(
+          productId: anyNamed('productId'),
+          quantity: anyNamed('quantity'),
+        ));
       });
 
       test('should handle adjust stock when stock does not exist', () async {
         // Arrange
         const delta = 5;
         const reason = 'initial';
-        const currentQuantity = 0;
-        final updatedQuantity = currentQuantity + delta;
+        const updatedQuantity = delta;
 
-        // Mock getStockByProductId to return null
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => null);
+        when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
+          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
+              Function())(),
+        );
 
-        // Mock upsertStock
-        when(mockStocksDao.upsertStock(
+        when(mockStocksDao.adjustStockQuantityAtomic(
           productId: tProductId,
-          quantity: updatedQuantity,
-        )).thenAnswer((_) async {});
+          delta: delta,
+        )).thenAnswer((_) async => updatedQuantity);
 
-        // Mock recordMovement
         when(mockStockMovementsDao.recordMovement(
           productId: tProductId,
           quantityChange: delta,
@@ -361,11 +369,18 @@ void main() {
     });
 
     group('setStock', () {
-      test('should set stock and record movement if changed', () async {
+      test(
+          'should set stock and record movement if changed, inside a transaction',
+          () async {
         // Arrange
         const newQuantity = 20;
         const reason = 'audit';
         final delta = newQuantity - tStockEntity.quantity;
+
+        when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
+          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
+              Function())(),
+        );
 
         when(mockStocksDao.getStockByProductId(tProductId))
             .thenAnswer((_) async => tStockEntity);
@@ -393,6 +408,7 @@ void main() {
         final stock = (result as Ok<Stock>).value;
         expect(stock.quantity, newQuantity);
 
+        verify(mockStocksDao.transaction<Object?>(any)).called(1);
         verify(mockStocksDao.upsertStock(
           productId: tProductId,
           quantity: newQuantity,
@@ -408,6 +424,11 @@ void main() {
         // Arrange
         final newQuantity = tStockEntity.quantity;
         const reason = 'audit';
+
+        when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
+          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
+              Function())(),
+        );
 
         when(mockStocksDao.getStockByProductId(tProductId))
             .thenAnswer((_) async => tStockEntity);

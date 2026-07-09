@@ -168,6 +168,47 @@ class StocksDao extends DatabaseAccessor<AgoraDatabase> with _$StocksDaoMixin {
     );
   }
 
+  /// Atomically adjusts stock quantity by [delta] using a single SQL
+  /// `UPDATE ... SET quantity = quantity + ?` expression instead of a
+  /// Dart-side read-then-write. This avoids the lost-update race where two
+  /// concurrent adjustments to the same product (e.g. two POS terminals
+  /// selling the last few units) both read the same starting quantity and
+  /// the second write silently clobbers the first.
+  ///
+  /// Callers should invoke this inside a [transaction] together with any
+  /// related writes (e.g. recording a stock movement) so the whole
+  /// operation is atomic.
+  ///
+  /// If no active stock row exists yet for [productId], one is created with
+  /// [delta] as its initial quantity. Returns the resulting quantity.
+  Future<int> adjustStockQuantityAtomic({
+    required int productId,
+    required int delta,
+  }) async {
+    final rowsAffected =
+        await (update(stocksTable)..where(
+              (t) => t.productId.equals(productId) & t.deletedAt.isNull(),
+            ))
+            .write(
+              StocksTableCompanion.custom(
+                quantity: stocksTable.quantity + Variable(delta),
+                updatedAt: Constant(DateTime.now()),
+              ),
+            );
+
+    if (rowsAffected > 0) {
+      final updated = await getStockByProductId(productId);
+      return updated?.quantity ?? delta;
+    }
+
+    // No active stock row yet for this product — create one with the
+    // delta as its initial quantity.
+    await insertStock(
+      StocksTableCompanion.insert(productId: productId, quantity: Value(delta)),
+    );
+    return delta;
+  }
+
   // ============================================================
   // DELETE OPERATIONS
   // ============================================================
