@@ -119,7 +119,7 @@ class SettingsRepositoryImpl extends Repository implements SettingsRepository {
         return (
           key: key,
           value: value.toString(),
-          type: AppSettingsDao.typeString,
+          type: AppSettingsDao.typeDouble,
         );
       });
 
