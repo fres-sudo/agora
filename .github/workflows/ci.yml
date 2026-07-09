@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Format, analyze & test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: .fvmrc
+          channel: stable
+          cache: true
+
+      - name: Link FVM-style SDK path for melos
+        # melos.yaml pins sdkPath to .fvm/flutter_sdk (normally created by `fvm use`);
+        # point it at the SDK installed above so `melos run ...` can find flutter/dart.
+        run: |
+          mkdir -p .fvm
+          ln -s "$FLUTTER_ROOT" .fvm/flutter_sdk
+
+      - name: Resolve workspace dependencies
+        run: flutter pub get
+
+      - name: Bootstrap melos workspace
+        run: dart run melos bootstrap
+
+      - name: Format check
+        run: dart run melos run format
+
+      - name: Analyze
+        run: dart run melos run lint
+
+      - name: Test
+        run: dart run melos run test
