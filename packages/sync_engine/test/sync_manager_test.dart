@@ -37,6 +37,7 @@ void main() {
     when(mockConnectivity.currentStatus).thenAnswer((_) async => true);
     when(mockConnectivity.isOnline).thenAnswer((_) => Stream<bool>.empty());
     when(mockQueue.pendingEntries()).thenAnswer((_) async => []);
+    when(mockQueue.purgeFailed()).thenAnswer((_) async {});
     when(mockWebSocket.messages).thenAnswer((_) => Stream<SyncMessage>.empty());
     when(mockWebSocket.disconnect()).thenAnswer((_) async {});
 
@@ -221,6 +222,19 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       expect(statuses, contains(isA<SyncFailed>()));
+    });
+
+    test('purges permanently-failed entries every drain cycle so they stop '
+        'inflating the pending count', () async {
+      // `pendingEntries()` already excludes entries whose retry count
+      // has hit the cap (that filtering lives in OutboxDao), so a
+      // permanently-failed entry never reaches this loop again — it
+      // would otherwise sit invisible yet still counted by
+      // `watchPendingCount()` forever. Draining must purge it.
+      await manager.start();
+      await Future<void>.delayed(Duration.zero);
+
+      verify(mockQueue.purgeFailed()).called(greaterThanOrEqualTo(1));
     });
   });
 
