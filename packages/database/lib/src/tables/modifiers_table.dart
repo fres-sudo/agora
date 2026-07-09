@@ -26,4 +26,12 @@ class ModifierOptionsTable extends Table with TableMixin {
 class ProductModifierLinksTable extends Table with TableMixin {
   IntColumn get productId => integer().references(ProductsTable, #id)();
   IntColumn get modifierId => integer().references(ModifiersTable, #id)();
+
+  // A product may only be linked to a given modifier once. Without this,
+  // nothing stops the same modifier from being attached to a product more
+  // than once, which surfaces as a duplicated option in the POS/product UI.
+  @override
+  List<Set<Column>> get uniqueKeys => [
+    {productId, modifierId},
+  ];
 }

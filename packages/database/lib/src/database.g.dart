@@ -2309,6 +2309,10 @@ class $ProductModifierLinksTableTable extends ProductModifierLinksTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {productId, modifierId},
+  ];
+  @override
   ProductModifierLinkEntity map(
     Map<String, dynamic> data, {
     String? tablePrefix,
