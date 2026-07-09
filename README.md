@@ -248,7 +248,7 @@ melos run ci
 - [x] 👥 Multi-user support with roles (Cassiere, Admin) & PIN login
 - [x] 🧭 Guided onboarding & business-profile setup
 - [ ] 📊 Sales analytics & reporting dashboard
-- [ ] 🔄 Cloud sync via the Agora backend (Go + PostgreSQL)
+- [ ] 🔄 Cloud sync via the Agora backend (Hono + Bun + PostgreSQL)
 - [ ] 📱 Kitchen display system (KDS) app
 - [ ] 🧍 Self-order totem & customer mobile app
 - [ ] 💳 Payment integration (SumUp, Satispay)
