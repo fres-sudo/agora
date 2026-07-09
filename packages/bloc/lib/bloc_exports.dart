@@ -4,6 +4,7 @@ export 'package:freezed_annotation/freezed_annotation.dart';
 export 'package:pine/pine.dart';
 export 'package:provider/provider.dart';
 export 'package:provider/single_child_widget.dart';
+export 'src/app_feature.dart';
 export 'src/effect_bloc_consumer.dart';
 export 'src/effect_listener.dart';
 export 'src/effect_bloc.dart';

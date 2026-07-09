@@ -6,8 +6,11 @@ import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:talker/talker.dart';
 
-class SettingsFeature {
-  static List<SingleChildWidget> get providers => [
+class SettingsFeature extends AppFeature {
+  const SettingsFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     // DAO
     ProxyProvider<AgoraDatabase, AppSettingsDao>(
       update: (_, db, _) => AppSettingsDao(db),

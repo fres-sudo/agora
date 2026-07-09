@@ -7,8 +7,11 @@ import 'package:feature_discounts/presentation/blocs/discounts/discounts_bloc.da
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:talker/talker.dart';
 
-class DiscountsFeature {
-  static List<SingleChildWidget> get providers => [
+class DiscountsFeature extends AppFeature {
+  const DiscountsFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     // DAO
     ProxyProvider<AgoraDatabase, DiscountsDao>(
       update: (_, db, _) => DiscountsDao(db),

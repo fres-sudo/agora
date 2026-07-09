@@ -7,8 +7,11 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:talker/talker.dart';
 
-class AuthFeature {
-  static List<SingleChildWidget> get providers => [
+class AuthFeature extends AppFeature {
+  const AuthFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     // DAO
     ProxyProvider<AgoraDatabase, AuthDao>(update: (_, db, _) => AuthDao(db)),
     // Repository

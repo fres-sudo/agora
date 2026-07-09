@@ -8,8 +8,11 @@ import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adju
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:talker/talker.dart';
 
-class InventoryFeature {
-  static List<SingleChildWidget> get providers => [
+class InventoryFeature extends AppFeature {
+  const InventoryFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     // DAOs
     ProxyProvider<AgoraDatabase, StocksDao>(
       update: (_, db, _) => StocksDao(db),

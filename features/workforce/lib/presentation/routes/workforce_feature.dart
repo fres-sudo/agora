@@ -10,8 +10,11 @@ import 'package:feature_workforce/presentation/blocs/employees/employees_bloc.da
 import 'package:feature_workforce/presentation/routes/workforce_router.dart';
 import 'package:talker/talker.dart';
 
-class WorkforceFeature {
-  static List<SingleChildWidget> get providers => [
+class WorkforceFeature extends AppFeature {
+  const WorkforceFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     // DAOs
     ProxyProvider<AgoraDatabase, EmployeesDao>(
       update: (_, db, _) => EmployeesDao(db),

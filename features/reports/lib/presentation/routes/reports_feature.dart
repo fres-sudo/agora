@@ -9,8 +9,11 @@ import 'package:talker/talker.dart';
 /// Reports reads from the orders and products repositories registered by those
 /// features, so [providers] must be composed **after** `OrdersFeature` and
 /// `ProductsFeature` in the app shell.
-class ReportsFeature {
-  static List<SingleChildWidget> get providers => [
+class ReportsFeature extends AppFeature {
+  const ReportsFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     RepositoryProvider<ReportsRepository>(
       create: (ctx) => ReportsRepositoryImpl(
         ordersRepository: ctx.read<OrdersRepository>(),

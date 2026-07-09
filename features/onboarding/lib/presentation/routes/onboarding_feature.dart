@@ -8,8 +8,11 @@ import 'package:feature_onboarding/presentation/blocs/onboarding_cubit.dart';
 import 'package:talker/talker.dart';
 import 'package:utils/utils.dart';
 
-class OnboardingFeature {
-  static List<SingleChildWidget> get providers => [
+class OnboardingFeature extends AppFeature {
+  const OnboardingFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     RepositoryProvider<OnboardingRepository>(
       create: (ctx) => OnboardingRepositoryImpl(
         database: ctx.read<AgoraDatabase>(),

@@ -16,8 +16,11 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:printing/printing.dart';
 import 'package:talker/talker.dart';
 
-class OrdersFeature {
-  static List<SingleChildWidget> get providers => [
+class OrdersFeature extends AppFeature {
+  const OrdersFeature();
+
+  @override
+  List<SingleChildWidget> get providers => [
     // DAOs
     ProxyProvider<AgoraDatabase, OrdersDao>(
       update: (_, db, _) => OrdersDao(db),
