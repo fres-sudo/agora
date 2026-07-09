@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_onboarding/onboarding.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,11 +8,21 @@ class _FakeOnboardingRepository implements OnboardingRepository {
   bool completed = false;
   OnboardingDraft? completedDraft;
 
+  /// When set, [complete] and [resetEverything] await this future before
+  /// resolving, letting tests close the cubit mid-operation.
+  Future<void>? delay;
+
+  /// When set, [complete] and [resetEverything] throw this after [delay]
+  /// resolves, exercising the catch-block emit path.
+  Object? failWith;
+
   @override
   bool isCompleted() => completed;
 
   @override
   Future<void> complete(OnboardingDraft draft) async {
+    if (delay != null) await delay;
+    if (failWith != null) throw failWith!;
     completedDraft = draft;
     completed = true;
   }
@@ -66,4 +78,33 @@ void main() {
     expect(repo.completed, isTrue);
     expect(cubit.state.phase, OnboardingPhase.completed);
   });
+
+  test(
+    'finish does not throw when the cubit is closed mid-operation',
+    () async {
+      final gate = Completer<void>();
+      repo.delay = gate.future;
+
+      final future = cubit.finish();
+      await cubit.close();
+      gate.complete();
+
+      await expectLater(future, completes);
+    },
+  );
+
+  test(
+    'finish swallows a repository error after the cubit is closed',
+    () async {
+      final gate = Completer<void>();
+      repo.delay = gate.future;
+      repo.failWith = Exception('boom');
+
+      final future = cubit.finish();
+      await cubit.close();
+      gate.complete();
+
+      await expectLater(future, completes);
+    },
+  );
 }

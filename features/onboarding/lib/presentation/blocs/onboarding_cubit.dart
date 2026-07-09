@@ -84,9 +84,15 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     emit(state.copyWith(phase: OnboardingPhase.submitting));
     try {
       await _repository.complete(state.draft);
-      emit(state.copyWith(phase: OnboardingPhase.completed));
+      if (!isClosed) {
+        emit(state.copyWith(phase: OnboardingPhase.completed));
+      }
     } catch (e) {
-      emit(state.copyWith(phase: OnboardingPhase.editing, error: e.toString()));
+      if (!isClosed) {
+        emit(
+          state.copyWith(phase: OnboardingPhase.editing, error: e.toString()),
+        );
+      }
     }
   }
 }
