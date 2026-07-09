@@ -178,9 +178,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     return Container(
       margin: const EdgeInsets.all(Sizes.lg),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppPalette.neutral300),
+        border: Border.all(color: context.colors.border),
       ),
       child: Column(
         children: [
@@ -210,7 +210,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
             onAdd: widget.showAddButton ? widget.onAdd : null,
           ),
           // Divider
-          const Divider(height: 1, color: AppPalette.neutral200),
+          Divider(height: 1, color: context.colors.border),
           // Content
           Expanded(
             child: widget.isLoading
@@ -225,7 +225,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
           ),
           // Pagination (only show if there are items)
           if (!widget.isLoading && widget.items.isNotEmpty) ...[
-            const Divider(height: 1, color: AppPalette.neutral200),
+            Divider(height: 1, color: context.colors.border),
             DataTablePagination(
               currentPage: _controller.currentPage,
               totalPages: _controller.totalPages,
@@ -263,9 +263,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
         horizontal: Sizes.lg,
         vertical: Sizes.md,
       ),
-      decoration: const BoxDecoration(
-        color: AppPalette.neutral50,
-        border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
+      decoration: BoxDecoration(
+        color: context.colors.muted,
+        border: Border(bottom: BorderSide(color: context.colors.border)),
       ),
       child: Row(
         children: [
@@ -291,7 +291,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       child: Text(
         column.label.toUpperCase(),
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: AppPalette.neutral500,
+          color: context.colors.mutedForeground,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
         ),
@@ -307,8 +307,8 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
           horizontal: Sizes.lg,
           vertical: Sizes.md,
         ),
-        decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: context.colors.border)),
         ),
         child: Row(
           children: [
@@ -338,9 +338,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                 child: PopupMenuButton<DataTableRowAction>(
                   onSelected: (action) =>
                       widget.onRowAction?.call(item, action),
-                  icon: const Icon(
+                  icon: Icon(
                     AgoraIcons.dots_horizontal,
-                    color: AppPalette.neutral500,
+                    color: context.colors.mutedForeground,
                     size: 20,
                   ),
                   padding: EdgeInsets.zero,
@@ -371,19 +371,21 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                         ),
                       ),
                     if (widget.showDeleteAction)
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: DataTableRowAction.delete,
                         child: Row(
                           children: [
                             Icon(
                               AgoraIcons.trash,
                               size: 18,
-                              color: AppPalette.error500,
+                              color: context.colors.destructive,
                             ),
-                            SizedBox(width: Sizes.sm),
+                            const SizedBox(width: Sizes.sm),
                             Text(
                               'Delete',
-                              style: TextStyle(color: AppPalette.error500),
+                              style: TextStyle(
+                                color: context.colors.destructive,
+                              ),
                             ),
                           ],
                         ),
