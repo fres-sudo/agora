@@ -1,3 +1,4 @@
+import 'package:database/database.dart' show PinHasher;
 import 'package:errors/errors.dart';
 import 'package:feature_auth/data/sources/local/daos/auth_dao.dart';
 import 'package:auth_session/models/session_employee.dart';
@@ -36,10 +37,27 @@ class AuthRepositoryImpl extends Repository implements AuthRepository {
   @override
   Future<Result<SessionEmployee>> loginWithPin(int employeeId, String pin) =>
       safe('loginWithPin($employeeId)', () async {
-        final entity = await _authDao.getEmployeeByPin(employeeId, pin);
+        final entity = await _authDao.getActiveEmployeeForLogin(employeeId);
         if (entity == null) {
           throw RepositoryException('Invalid PIN');
         }
+
+        final stored = entity.pinHash;
+        final isHashed = PinHasher.looksHashed(stored);
+        final matches = isHashed
+            ? PinHasher.verify(pin, stored)
+            // Legacy row created before PINs were hashed: fall back to a
+            // constant-time plaintext comparison so existing employees can
+            // still log in, then transparently upgrade the stored value to
+            // a bcrypt hash on this successful login.
+            : PinHasher.constantTimeEquals(stored, pin);
+        if (!matches) {
+          throw RepositoryException('Invalid PIN');
+        }
+        if (!isHashed) {
+          await _authDao.updatePinHash(entity.id, PinHasher.hash(pin));
+        }
+
         final employee = SessionEmployee(
           id: entity.id,
           name: entity.name,

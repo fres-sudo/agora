@@ -1,6 +1,7 @@
 export 'src/color_converter.dart';
 export 'src/database.dart';
 export 'src/database_mixin.dart';
+export 'src/pin_hasher.dart';
 export 'src/seeder/data_seeder.dart';
 export 'src/settings_keys.dart';
 export 'src/tables/categories_table.dart';

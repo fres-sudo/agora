@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.4.0"
+  bcrypt:
+    dependency: transitive
+    description:
+      name: bcrypt
+      sha256: "6073a700cbbc59f1d4ab27cd532755e3de5e676c4941f535f351374df849270b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   bloc:
     dependency: transitive
     description:
