@@ -41,6 +41,7 @@ class AppSettingsDao extends DatabaseAccessor<AgoraDatabase>
   static const String typeString = 'string';
   static const String typeInt = 'int';
   static const String typeBool = 'bool';
+  static const String typeDouble = 'double';
   static const String typeJson = 'json';
 
   // ============================================================
@@ -192,7 +193,7 @@ class AppSettingsDao extends DatabaseAccessor<AgoraDatabase>
 
   /// Sets a double setting.
   Future<void> setDouble(String key, double value) {
-    return upsertSetting(key: key, value: value.toString(), type: typeString);
+    return upsertSetting(key: key, value: value.toString(), type: typeDouble);
   }
 
   // ============================================================

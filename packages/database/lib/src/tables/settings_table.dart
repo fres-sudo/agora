@@ -9,7 +9,7 @@ class AppSettingsTable extends Table {
   TextColumn get value => text()(); // e.g., "192.168.1.50"
   TextColumn get type => text().withDefault(
     const Constant('string'),
-  )(); // 'int', 'bool', 'string', 'json'
+  )(); // 'int', 'bool', 'double', 'string', 'json'
 
   @override
   Set<Column> get primaryKey => {key};
