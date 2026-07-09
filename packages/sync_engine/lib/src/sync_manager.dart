@@ -150,6 +150,13 @@ class SyncManager {
     _draining = true;
 
     try {
+      // Entries that have exhausted their retry budget are already
+      // excluded from `pendingEntries()` (so they're never reprocessed),
+      // but they were still counted by `watchPendingCount()`, which
+      // permanently inflated the pending-sync indicator. Purge them on
+      // every drain cycle so the indicator stays accurate.
+      await _queue.purgeFailed();
+
       final entries = await _queue.pendingEntries();
 
       if (entries.isEmpty) {
