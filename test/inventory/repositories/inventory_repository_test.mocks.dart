@@ -464,6 +464,23 @@ class MockStocksDao extends _i1.Mock implements _i6.StocksDao {
       ) as _i5.Future<bool>);
 
   @override
+  _i5.Future<int> adjustStockQuantityAtomic({
+    required int? productId,
+    required int? delta,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #adjustStockQuantityAtomic,
+          [],
+          {
+            #productId: productId,
+            #delta: delta,
+          },
+        ),
+        returnValue: _i5.Future<int>.value(0),
+      ) as _i5.Future<int>);
+
+  @override
   _i5.Future<bool> softDeleteStock(int? productId) => (super.noSuchMethod(
         Invocation.method(
           #softDeleteStock,
