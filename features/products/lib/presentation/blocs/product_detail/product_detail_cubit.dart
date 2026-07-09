@@ -45,10 +45,23 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
     });
 
     _productSub = _productsRepository.watchProductById(id).listen((product) {
-      if (product == null) return;
+      if (isClosed) return;
+      if (product == null) {
+        _cachedProduct = null;
+        // If the product was already removed via our own delete() flow,
+        // that terminal state takes precedence over the stream re-emitting
+        // null after the row disappears.
+        final isUserInitiatedDelete =
+            state.mapOrNull(deleting: (_) => true, deleted: (_) => true) ??
+            false;
+        if (!isUserInitiatedDelete) {
+          emit(const ProductDetailState.notFound());
+        }
+        return;
+      }
       _cachedProduct = product;
       final mods = _cachedModifiers;
-      if (mods != null && !isClosed) {
+      if (mods != null) {
         emit(ProductDetailState.loaded(product: product, modifiers: mods));
       }
     });

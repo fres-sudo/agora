@@ -14,4 +14,5 @@ sealed class ProductDetailState with _$ProductDetailState {
   const factory ProductDetailState.deleting({required Product product}) =
       _Deleting;
   const factory ProductDetailState.deleted() = _Deleted;
+  const factory ProductDetailState.notFound() = _NotFound;
 }
