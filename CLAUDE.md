@@ -58,16 +58,24 @@ melos run clean          # flutter clean in all packages
 
 ## Architecture
 
-Agora is a **Melos-managed Flutter monorepo** with three scopes and a separate Hono/Bun backend. See `docs/architecture/` for full specs.
+Agora is a **Melos-managed Flutter monorepo** with three scopes. See `docs/architecture/` for full specs.
+
+### Current structure
 
 ```
-apps/         ← Flutter entry points (no business logic)
+apps/         ← Flutter entry points (no business logic) — currently only apps/agora
 features/     ← Domain-isolated packages (restaurant SaaS only)
 packages/     ← Cross-cutting infrastructure (all apps)
-backend/      ← Hono + Bun + PostgreSQL + Drizzle
 ```
 
-**`apps/festival_pos` is intentionally standalone** — it does not import any `features/*` package. All other apps (`pos`, `kitchen`, `totem`, `client_app`, `waiter`) compose features selectively.
+`apps/agora` is the only app that exists today, and it composes all features directly (see "Feature registration pattern" below). There is no `backend/` directory yet — the app is fully offline-first, backed by a local Drift/SQLite database (`package:database`).
+
+### Planned (not yet built)
+
+`docs/architecture/ECOSYSTEM.md` describes a roadmap that splits the current single app apart and adds a shared backend: a standalone `festival_pos` app plus additional restaurant-SaaS apps (`pos`, `kitchen`, `totem`, `client_app`, `waiter`) that would compose `features/*` selectively, all connecting to a `backend/` service. **None of this exists in the repo yet** — do not assume this structure, these directories, or these apps are present. Always check `apps/` and the repo root directly rather than relying on this file or ECOSYSTEM.md for what currently exists.
+
+- `backend/` — planned as Hono + Bun + PostgreSQL + Drizzle; see `docs/architecture/BACKEND.md` for the full spec of the (not-yet-built) service.
+- Additional Flutter apps beyond `apps/agora` — see `docs/architecture/ECOSYSTEM.md` for the full multi-app roadmap and build phases.
 
 ### Dependency direction
 
