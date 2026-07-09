@@ -1,3 +1,4 @@
+import 'package:discounts/discounts.dart';
 import 'package:order_management/order_management.dart';
 import 'package:feature_products/feature_products.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
@@ -364,5 +365,67 @@ void main() {
       skip: 1,
       expect: () => [const ActiveOrderState.empty()],
     );
+
+    group('Discounts', () {
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'clamps a fixed-amount discount larger than the subtotal so the '
+        'grand total floors at 0 instead of going negative',
+        build: () => bloc,
+        act: (bloc) {
+          // testProduct is 1000 cents; the discount below is 2000 cents.
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
+          bloc.add(
+            ActiveOrderEvent.discountApplied(
+              const Discount(
+                id: 1,
+                name: 'Too Big',
+                type: DiscountType.fixedAmount,
+                value: 2000,
+              ),
+            ),
+          );
+        },
+        skip: 1, // Skip the itemAdded state
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.subtotalCents, 1000);
+              expect(s.order.discountCents, 1000);
+              expect(s.order.grandTotalCents, 0);
+            },
+          );
+        },
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'applies a fixed-amount discount smaller than the subtotal in full',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
+          bloc.add(
+            ActiveOrderEvent.discountApplied(
+              const Discount(
+                id: 2,
+                name: 'Small',
+                type: DiscountType.fixedAmount,
+                value: 300,
+              ),
+            ),
+          );
+        },
+        skip: 1,
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.subtotalCents, 1000);
+              expect(s.order.discountCents, 300);
+              expect(s.order.grandTotalCents, 700);
+            },
+          );
+        },
+      );
+    });
   });
 }

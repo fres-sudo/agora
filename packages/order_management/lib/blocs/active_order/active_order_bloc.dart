@@ -300,6 +300,10 @@ class ActiveOrderBloc
       } else {
         discountAmount = _appliedDiscount!.value;
       }
+      // A discount (fixed-amount in particular) can never exceed the order
+      // subtotal, otherwise the grand total would go negative. Clamp it so
+      // the discounted subtotal floors at 0 before tax is applied.
+      discountAmount = discountAmount.clamp(0, subtotal);
     }
 
     // Calculate tax from the persisted tax-rate setting (percentage, e.g. 22.0 = 22%).
