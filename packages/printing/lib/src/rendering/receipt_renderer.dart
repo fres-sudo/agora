@@ -22,6 +22,17 @@ class ReceiptRenderer {
 
     final bytes = <int>[];
 
+    // Tell the printer which code page to interpret the following bytes
+    // with. `_safe` below truncates text to the Latin-1 range (0x00-0xFF),
+    // matching the `Generator`'s default `codec: latin1`. Without this
+    // command many ESC/POS printers default to CP437 (or another code
+    // page) out of the box and render accented characters (à, è, ì, ò, ù)
+    // as the wrong glyphs. CP1252 is a superset of Latin-1/ISO-8859-1 that
+    // agrees with it across the accented-letter range and is the closest
+    // match available in esc_pos_utils_plus's default capability profile
+    // (which has no plain "Latin1"/"ISO-8859-1" entry).
+    bytes.addAll(generator.setGlobalCodeTable('CP1252'));
+
     // Header: store name + optional address / header text.
     bytes.addAll(
       generator.text(
