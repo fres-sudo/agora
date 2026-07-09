@@ -43,7 +43,7 @@ class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -59,6 +59,18 @@ class AgoraDatabase extends _$AgoraDatabase {
         if (from < 2) {
           // v1 -> v2: add `orderType` to orders (0 = Dine In, 1 = Take Away).
           await m.addColumn(ordersTable, ordersTable.orderType);
+        }
+        if (from < 3) {
+          // v2 -> v3: add unique (productId, modifierId) constraint to
+          // ProductModifierLinksTable. De-duplicate any pre-existing links
+          // before the schema change so no constraint violation occurs.
+          await customStatement(
+            'DELETE FROM product_modifier_links_table '
+            'WHERE id NOT IN ('
+            'SELECT MIN(id) FROM product_modifier_links_table '
+            'GROUP BY product_id, modifier_id'
+            ')',
+          );
         }
       },
     );
