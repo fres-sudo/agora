@@ -41,5 +41,6 @@ dependencies:
     path: ../../packages/utils
 
 dev_dependencies:
+  data_fixture_dart: ^3.0.0
   flutter_test:
     sdk: flutter

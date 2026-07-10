@@ -36,9 +36,12 @@ dependencies:
 
 dev_dependencies:
   auto_route_generator: ^10.2.6
+  bloc_test: ^10.0.0
   build_runner: ^2.4.7
+  data_fixture_dart: ^3.0.0
   drift_dev: ^2.30.0
   flutter_test:
     sdk: flutter
   freezed: ^3.2.3
   json_serializable: ^6.11.1
+  mockito: ^5.5.0
