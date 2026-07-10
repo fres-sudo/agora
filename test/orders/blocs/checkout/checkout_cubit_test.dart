@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:feature_discounts/feature_discounts.dart';
+import 'package:discounts/discounts.dart';
 import 'package:feature_inventory/feature_inventory.dart';
-import 'package:feature_orders/feature_orders.dart';
+import 'package:order_management/order_management.dart';
 import 'package:feature_products/feature_products.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

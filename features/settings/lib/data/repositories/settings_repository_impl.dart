@@ -1,6 +1,6 @@
 import 'package:database/database.dart';
 import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
-import 'package:feature_settings/domain/repositories/settings_repository.dart';
+import 'package:app_settings/repositories/settings_repository.dart';
 import 'package:logger/logger.dart';
 import 'package:result/result.dart';
 

@@ -1,7 +1,7 @@
 import 'package:database/database.dart';
 import 'package:feature_discounts/data/sources/local/daos/discounts_dao.dart';
-import 'package:feature_discounts/domain/models/discount.dart';
-import 'package:feature_discounts/domain/repositories/discounts_repository.dart';
+import 'package:discounts/models/discount.dart';
+import 'package:discounts/repositories/discounts_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
 

@@ -1,9 +1,9 @@
 import 'package:database/database.dart';
 import 'package:feature_discounts/data/repositories/discounts_repository_impl.dart';
 import 'package:feature_discounts/data/sources/local/daos/discounts_dao.dart';
-import 'package:feature_discounts/domain/repositories/discounts_repository.dart';
-import 'package:feature_discounts/presentation/blocs/discount_validation/discount_validation_cubit.dart';
-import 'package:feature_discounts/presentation/blocs/discounts/discounts_bloc.dart';
+import 'package:discounts/repositories/discounts_repository.dart';
+import 'package:discounts/blocs/discount_validation/discount_validation_cubit.dart';
+import 'package:discounts/blocs/discounts/discounts_bloc.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:talker/talker.dart';
 

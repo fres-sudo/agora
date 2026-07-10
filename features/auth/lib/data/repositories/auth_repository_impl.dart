@@ -1,7 +1,7 @@
 import 'package:errors/errors.dart';
 import 'package:feature_auth/data/sources/local/daos/auth_dao.dart';
-import 'package:feature_auth/domain/models/session_employee.dart';
-import 'package:feature_auth/domain/repositories/auth_repository.dart';
+import 'package:auth_session/models/session_employee.dart';
+import 'package:auth_session/repositories/auth_repository.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';

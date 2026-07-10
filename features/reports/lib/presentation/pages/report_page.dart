@@ -1,6 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_orders/domain/models/order.dart';
-import 'package:feature_orders/domain/models/order_type.dart';
+import 'package:order_management/models/order.dart';
+import 'package:order_management/models/order_type.dart';
 import 'package:feature_reports/domain/models/report_data.dart';
 import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/presentation/blocs/reports/reports_cubit.dart';

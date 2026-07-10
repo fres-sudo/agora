@@ -1,5 +1,5 @@
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
+import 'package:catalog/models/modifier_group.dart';
 import 'package:feature_settings/presentation/widgets/modifier_form/modifier_form.dart';
 import 'package:flutter/material.dart';
 

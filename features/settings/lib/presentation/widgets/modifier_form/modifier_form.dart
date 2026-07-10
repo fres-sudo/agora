@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
-import 'package:feature_products/domain/models/modifier_option.dart';
+import 'package:catalog/models/modifier_group.dart';
+import 'package:catalog/models/modifier_option.dart';
 
 /// Create/edit form for a [ModifierGroup] and its nested [ModifierOption]s.
 ///

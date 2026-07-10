@@ -1,9 +1,9 @@
 import 'package:database/database.dart';
 import 'package:feature_products/data/sources/local/daos/modifiers_dao.dart';
 import 'package:feature_products/domain/mappers/modifier_mapper.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
-import 'package:feature_products/domain/models/modifier_option.dart';
-import 'package:feature_products/domain/repositories/modifiers_repository.dart';
+import 'package:catalog/models/modifier_group.dart';
+import 'package:catalog/models/modifier_option.dart';
+import 'package:catalog/repositories/modifiers_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
 

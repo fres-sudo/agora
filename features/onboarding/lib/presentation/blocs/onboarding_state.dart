@@ -1,9 +1,10 @@
 part of 'onboarding_cubit.dart';
 
 /// The lifecycle phase of the wizard. The app-level gate listens for
-/// [completed] (proceed into the app) and [needsReonboarding] (a reset happened
-/// mid-session; return to the wizard).
-enum OnboardingPhase { editing, submitting, completed, needsReonboarding }
+/// [completed] to proceed into the app. A full data reset (triggered from
+/// Settings) is handled independently by `AppResetService`
+/// (`package:app_reset`) — see the root `AppRootListener`.
+enum OnboardingPhase { editing, submitting, completed }
 
 /// The ordered steps of the wizard. [team] is only present for staff-login
 /// businesses; the visible list is computed in [OnboardingCubit.steps].

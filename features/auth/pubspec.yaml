@@ -8,6 +8,8 @@ environment:
   flutter: '>=3.38.5'
 
 dependencies:
+  auth_session:
+    path: ../../packages/auth_session
   auto_route: ^11.1.0
   bloc_exports:
     path: ../../packages/bloc

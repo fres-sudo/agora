@@ -1,5 +1,5 @@
 import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_products/domain/models/category.dart';
+import 'package:catalog/models/category.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ui_kit/ui_kit.dart';

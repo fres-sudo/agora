@@ -1,4 +1,4 @@
-import 'package:feature_discounts/domain/models/discount.dart';
+import 'package:discounts/models/discount.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ui_kit/ui_kit.dart';

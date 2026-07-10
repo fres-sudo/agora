@@ -1,9 +1,9 @@
-import 'package:feature_orders/domain/models/order.dart';
-import 'package:feature_orders/domain/models/order_line_item.dart';
-import 'package:feature_orders/domain/models/payment_method.dart';
-import 'package:feature_orders/domain/repositories/orders_repository.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:order_management/models/order.dart';
+import 'package:order_management/models/order_line_item.dart';
+import 'package:order_management/models/payment_method.dart';
+import 'package:order_management/repositories/orders_repository.dart';
+import 'package:catalog/models/product.dart';
+import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_reports/domain/models/report_data.dart';
 import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/domain/repositories/reports_repository.dart';

@@ -1,9 +1,9 @@
 import 'package:result/result.dart';
-import 'package:feature_products/domain/models/product.dart';
+import 'package:catalog/models/product.dart';
 import 'package:feature_products/domain/models/product_form_data.dart';
-import 'package:feature_products/domain/models/product_status.dart';
-import 'package:feature_products/domain/repositories/modifiers_repository.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:catalog/models/product_status.dart';
+import 'package:catalog/repositories/modifiers_repository.dart';
+import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_products/presentation/utils/form_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';

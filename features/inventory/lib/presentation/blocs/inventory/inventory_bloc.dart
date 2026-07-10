@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:inventory_contracts/repositories/inventory_repository.dart';
 
 part 'inventory_bloc.freezed.dart';
 part 'inventory_event.dart';

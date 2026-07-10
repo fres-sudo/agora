@@ -1,5 +1,5 @@
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/domain/models/product.dart';
+import 'package:catalog/models/product.dart';
 import 'package:flutter/material.dart';
 
 /// A product card widget for the POS product grid.

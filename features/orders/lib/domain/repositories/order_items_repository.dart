@@ -1,5 +1,5 @@
-import 'package:feature_orders/domain/models/order_line_item.dart';
-import 'package:feature_orders/domain/models/selected_modifiers.dart';
+import 'package:order_management/models/order_line_item.dart';
+import 'package:order_management/models/selected_modifiers.dart';
 import 'package:result/result.dart';
 
 /// Repository interface for order item operations.

@@ -24,41 +24,42 @@ void main() {
   Order order({
     required OrderStatus status,
     List<OrderLineItem>? items,
-  }) => Order(
-    id: 7,
-    createdAt: DateTime(2026, 1, 1),
-    status: status,
-    orderType: OrderType.dineIn,
-    items: items ??
-        const [
-          OrderLineItem(
-            id: 1,
-            productId: 1,
-            productName: 'Tagliatelle',
-            quantity: 2,
-            unitPriceCents: 500,
-            selectedModifiers: [],
-          ),
-          OrderLineItem(
-            id: 2,
-            productId: 1,
-            productName: 'Tagliatelle',
-            quantity: 1,
-            unitPriceCents: 500,
-            selectedModifiers: [],
-          ),
-        ],
-    note: null,
-    subtotalCents: 1500,
-    taxCents: 0,
-    discountCents: 0,
-    grandTotalCents: 1500,
-  );
+  }) =>
+      Order(
+        id: 7,
+        createdAt: DateTime(2026, 1, 1),
+        status: status,
+        orderType: OrderType.dineIn,
+        items: items ??
+            const [
+              OrderLineItem(
+                id: 1,
+                productId: 1,
+                productName: 'Tagliatelle',
+                quantity: 2,
+                unitPriceCents: 500,
+                selectedModifiers: [],
+              ),
+              OrderLineItem(
+                id: 2,
+                productId: 1,
+                productName: 'Tagliatelle',
+                quantity: 1,
+                unitPriceCents: 500,
+                selectedModifiers: [],
+              ),
+            ],
+        note: null,
+        subtotalCents: 1500,
+        taxCents: 0,
+        discountCents: 0,
+        grandTotalCents: 1500,
+      );
 
   OrderDetailCubit buildCubit() => OrderDetailCubit(
-    ordersRepository: ordersRepository,
-    inventoryRepository: inventoryRepository,
-  );
+        ordersRepository: ordersRepository,
+        inventoryRepository: inventoryRepository,
+      );
 
   group('OrderDetailCubit.voidOrder', () {
     test(

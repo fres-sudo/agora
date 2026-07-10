@@ -1,7 +1,7 @@
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/domain/repositories/modifiers_repository.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:catalog/models/product.dart';
+import 'package:catalog/repositories/modifiers_repository.dart';
+import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_content.dart';
 import 'package:flutter/material.dart';

@@ -4,9 +4,9 @@ import 'package:result/result.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
-import 'package:feature_orders/domain/models/order.dart';
-import 'package:feature_orders/domain/repositories/orders_repository.dart';
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:order_management/models/order.dart';
+import 'package:order_management/repositories/orders_repository.dart';
+import 'package:inventory_contracts/repositories/inventory_repository.dart';
 
 part 'order_detail_cubit.freezed.dart';
 part 'order_detail_state.dart';

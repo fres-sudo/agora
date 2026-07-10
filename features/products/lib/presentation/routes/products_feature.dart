@@ -1,17 +1,17 @@
 import 'package:database/database.dart';
-import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:feature_products/data/repositories/categories_repository_impl.dart';
 import 'package:feature_products/data/repositories/modifiers_repository_impl.dart';
 import 'package:feature_products/data/repositories/products_repository_impl.dart';
 import 'package:feature_products/data/sources/local/daos/categories_dao.dart';
 import 'package:feature_products/data/sources/local/daos/modifiers_dao.dart';
 import 'package:feature_products/data/sources/local/daos/products_dao.dart';
-import 'package:feature_products/domain/repositories/categories_repository.dart';
-import 'package:feature_products/domain/repositories/modifiers_repository.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
-import 'package:feature_products/presentation/blocs/categories/categories_bloc.dart';
-import 'package:feature_products/presentation/blocs/modifiers/modifiers_bloc.dart';
-import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
+import 'package:catalog/repositories/categories_repository.dart';
+import 'package:catalog/repositories/modifiers_repository.dart';
+import 'package:catalog/repositories/products_repository.dart';
+import 'package:catalog/blocs/categories/categories_bloc.dart';
+import 'package:catalog/blocs/modifiers/modifiers_bloc.dart';
+import 'package:catalog/blocs/products/products_bloc.dart';
+import 'package:inventory_contracts/inventory_contracts.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:talker/talker.dart';
 
@@ -30,15 +30,16 @@ class ProductsFeature extends AppFeature {
     ProxyProvider<AgoraDatabase, ModifiersDao>(
       update: (_, db, _) => ModifiersDao(db),
     ),
-    ProxyProvider<AgoraDatabase, StocksDao>(
-      update: (_, db, _) => StocksDao(db),
-    ),
     // Repositories
+    // Stock is owned by `feature_inventory` — read its public
+    // `InventoryRepository` (registered before Products; see
+    // apps/agora/lib/app/app_providers.dart) rather than depending on its
+    // `StocksDao` directly (see GitHub issue #4).
     RepositoryProvider<ProductsRepository>(
       create: (ctx) => ProductsRepositoryImpl(
         logger: ctx.read<Talker>(),
         productsDao: ctx.read(),
-        stocksDao: ctx.read(),
+        inventoryRepository: ctx.read<InventoryRepository>(),
         modifiersDao: ctx.read(),
       ),
     ),

@@ -2,7 +2,7 @@ import 'package:database/database.dart';
 import 'package:feature_inventory/data/repositories/inventory_repository_impl.dart';
 import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.dart';
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:feature_inventory/presentation/blocs/inventory/inventory_bloc.dart';
 import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adjustment_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';

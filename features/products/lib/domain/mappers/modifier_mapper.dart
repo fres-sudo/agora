@@ -1,6 +1,6 @@
 import 'package:database/database.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
-import 'package:feature_products/domain/models/modifier_option.dart';
+import 'package:catalog/models/modifier_group.dart';
+import 'package:catalog/models/modifier_option.dart';
 
 /// Extension on [ModifierEntity] for converting to the [ModifierGroup]
 /// domain model.

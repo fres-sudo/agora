@@ -1,6 +1,6 @@
 import 'package:i18n/i18n.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/presentation/blocs/modifiers/modifiers_bloc.dart';
+import 'package:catalog/blocs/modifiers/modifiers_bloc.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';

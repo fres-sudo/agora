@@ -1,6 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_discounts/domain/models/discount.dart';
-import 'package:feature_orders/feature_orders.dart';
+import 'package:discounts/models/discount.dart';
+import 'package:order_management/order_management.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 import 'package:ui_kit/ui_kit.dart';

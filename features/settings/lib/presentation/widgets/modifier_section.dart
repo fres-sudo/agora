@@ -3,8 +3,8 @@ import 'package:feature_settings/presentation/widgets/modifier_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/presentation/blocs/modifiers/modifiers_bloc.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
+import 'package:catalog/blocs/modifiers/modifiers_bloc.dart';
+import 'package:catalog/models/modifier_group.dart';
 
 /// Modifier settings section for managing modifier groups (Settings ->
 /// Modifier). Mirrors [CategorySection]'s pattern, with the added wrinkle

@@ -1,0 +1,37 @@
+name: order_management
+description: Shared order domain (models, repository interface, receipt mapper, active-order/checkout blocs) for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  app_settings:
+    path: ../app_settings
+  bloc_exports:
+    path: ../bloc
+  catalog:
+    path: ../catalog
+  database:
+    path: ../database
+  discounts:
+    path: ../discounts
+  flutter:
+    sdk: flutter
+  inventory_contracts:
+    path: ../inventory_contracts
+  logger:
+    path: ../logger
+  printing:
+    path: ../printing
+  result:
+    path: ../result
+
+dev_dependencies:
+  bloc_test: ^10.0.0
+  build_runner: ^2.4.7
+  flutter_test:
+    sdk: flutter
+  freezed: ^3.2.3

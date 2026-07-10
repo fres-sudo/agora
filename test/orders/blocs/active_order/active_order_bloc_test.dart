@@ -1,7 +1,6 @@
-
-import 'package:feature_orders/feature_orders.dart';
+import 'package:order_management/order_management.dart';
 import 'package:feature_products/feature_products.dart';
-import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
+import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:result/result.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -97,7 +96,7 @@ void main() {
         },
       );
 
-       blocTest<ActiveOrderBloc, ActiveOrderState>(
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
         'emits building with item and modifiers when ItemAdded is added with modifiers',
         build: () => bloc,
         act: (bloc) => bloc.add(
@@ -174,29 +173,31 @@ void main() {
         build: () => bloc,
         seed: () => ActiveOrderState.building(
             order: Order(
-                id: 0,
-                createdAt: DateTime.now(),
-                status: OrderStatus.pending,
-                items: [],
-                subtotalCents: 0,
-                taxCents: 0,
-                discountCents: 0,
-                grandTotalCents: 0,
-                note: null,
+              id: 0,
+              createdAt: DateTime.now(),
+              status: OrderStatus.pending,
+              items: [],
+              subtotalCents: 0,
+              taxCents: 0,
+              discountCents: 0,
+              grandTotalCents: 0,
+              note: null,
             ),
-            appliedDiscount: null
-        ), // Cannot easily seed private _items, so we rely on acting
+            appliedDiscount:
+                null), // Cannot easily seed private _items, so we rely on acting
         act: (bloc) {
-            bloc.add(ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
-            bloc.add(ActiveOrderEvent.itemQuantityChanged(lineItemId: 1, quantity: 2));
+          bloc.add(
+              ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
+          bloc.add(
+              ActiveOrderEvent.itemQuantityChanged(lineItemId: 1, quantity: 2));
         },
         skip: 1, // Skip the itemAdded state
         verify: (bloc) {
           final state = bloc.state;
           state.mapOrNull(
             building: (s) {
-               expect(s.order.items.first.quantity, 2);
-               expect(s.order.subtotalCents, 2000);
+              expect(s.order.items.first.quantity, 2);
+              expect(s.order.subtotalCents, 2000);
             },
           );
         },
@@ -206,8 +207,10 @@ void main() {
         'emits empty when ItemQuantityChanged drops to 0',
         build: () => bloc,
         act: (bloc) {
-          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
-          bloc.add(ActiveOrderEvent.itemQuantityChanged(lineItemId: 1, quantity: 0));
+          bloc.add(
+              ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
+          bloc.add(
+              ActiveOrderEvent.itemQuantityChanged(lineItemId: 1, quantity: 0));
         },
         skip: 1,
         expect: () => [const ActiveOrderState.empty()],
@@ -245,10 +248,11 @@ void main() {
 
       blocTest<ActiveOrderBloc, ActiveOrderState>(
         'emits empty when last item is removed',
-         build: () => bloc,
+        build: () => bloc,
         act: (bloc) {
-            bloc.add(ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
-            bloc.add(const ActiveOrderEvent.itemRemoved(1));
+          bloc.add(
+              ActiveOrderEvent.itemAdded(product: testProduct, quantity: 1));
+          bloc.add(const ActiveOrderEvent.itemRemoved(1));
         },
         skip: 1,
         expect: () => [const ActiveOrderState.empty()],
@@ -354,8 +358,8 @@ void main() {
       'emits empty when Cleared is added',
       build: () => bloc,
       act: (bloc) {
-          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
-          bloc.add(const ActiveOrderEvent.cleared());
+        bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
+        bloc.add(const ActiveOrderEvent.cleared());
       },
       skip: 1,
       expect: () => [const ActiveOrderState.empty()],

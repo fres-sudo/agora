@@ -1,6 +1,6 @@
 import 'package:i18n/i18n.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/domain/models/product_status.dart';
+import 'package:catalog/models/product_status.dart';
 import 'package:flutter/material.dart';
 
 /// A badge displaying the status of a product (Active, Inactive, Draft).

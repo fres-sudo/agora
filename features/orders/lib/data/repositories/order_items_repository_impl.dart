@@ -1,7 +1,7 @@
 import 'package:database/database.dart';
 import 'package:feature_orders/data/sources/local/daos/order_items_dao.dart';
-import 'package:feature_orders/domain/models/order_line_item.dart';
-import 'package:feature_orders/domain/models/selected_modifiers.dart';
+import 'package:order_management/models/order_line_item.dart';
+import 'package:order_management/models/selected_modifiers.dart';
 import 'package:feature_orders/domain/repositories/order_items_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';

@@ -1,8 +1,8 @@
 import 'package:database/database.dart';
 import 'package:feature_auth/data/repositories/auth_repository_impl.dart';
 import 'package:feature_auth/data/sources/local/daos/auth_dao.dart';
-import 'package:feature_auth/domain/repositories/auth_repository.dart';
-import 'package:feature_auth/presentation/blocs/session/session_cubit.dart';
+import 'package:auth_session/repositories/auth_repository.dart';
+import 'package:auth_session/blocs/session_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:talker/talker.dart';

@@ -1,4 +1,4 @@
-import 'package:feature_products/domain/models/product_status.dart';
+import 'package:catalog/models/product_status.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
 part 'product_form_data.freezed.dart';

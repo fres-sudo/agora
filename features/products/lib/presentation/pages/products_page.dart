@@ -1,8 +1,8 @@
 import 'package:i18n/i18n.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
-import 'package:feature_products/domain/models/category.dart';
-import 'package:feature_products/domain/models/product.dart';
+import 'package:catalog/blocs/products/products_bloc.dart';
+import 'package:catalog/models/category.dart';
+import 'package:catalog/models/product.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form_wrapper.dart';
 import 'package:feature_products/presentation/widgets/product_name_cell.dart';
 import 'package:feature_products/presentation/widgets/product_status_badge.dart';

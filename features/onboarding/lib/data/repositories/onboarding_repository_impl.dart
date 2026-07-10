@@ -1,9 +1,8 @@
+import 'package:auth_session/auth_session.dart';
 import 'package:database/database.dart';
-import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_onboarding/domain/models/onboarding_draft.dart';
 import 'package:feature_onboarding/domain/repositories/onboarding_repository.dart';
-import 'package:talker/talker.dart';
 import 'package:utils/utils.dart';
 
 class OnboardingRepositoryImpl implements OnboardingRepository {
@@ -12,18 +11,15 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     required PersistenceService persistenceService,
     required BusinessProfileRepository businessProfileRepository,
     required AuthRepository authRepository,
-    Talker? logger,
   }) : _db = database,
        _persistence = persistenceService,
        _businessProfile = businessProfileRepository,
-       _auth = authRepository,
-       _logger = logger;
+       _auth = authRepository;
 
   final AgoraDatabase _db;
   final PersistenceService _persistence;
   final BusinessProfileRepository _businessProfile;
   final AuthRepository _auth;
-  final Talker? _logger;
 
   @override
   bool isCompleted() => _persistence.getBool(SPKeys.onboarding) ?? false;
@@ -75,19 +71,6 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
     // 5. Mark onboarding complete (SharedPreferences is the source of truth).
     await _setBool(SettingsKeys.onboardingCompleted, true);
     await _persistence.saveBool(SPKeys.onboarding, true);
-  }
-
-  @override
-  Future<void> resetEverything() async {
-    try {
-      await _db.resetAllData();
-      await _businessProfile.clear();
-      await _auth.signOut();
-      await _persistence.saveBool(SPKeys.onboarding, false);
-    } catch (e) {
-      _logger?.error('resetEverything failed: $e');
-      rethrow;
-    }
   }
 
   Future<void> _writeSettings(OnboardingDraft d, BusinessType type) async {

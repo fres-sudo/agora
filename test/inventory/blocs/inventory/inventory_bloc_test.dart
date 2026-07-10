@@ -34,7 +34,7 @@ void main() {
         when(mockRepository.watchAllStocks())
             .thenAnswer((_) => Stream.value([tStock, tLowStock]));
         when(mockRepository.watchLowStocks(any))
-             .thenAnswer((_) => Stream.value([tLowStock]));
+            .thenAnswer((_) => Stream.value([tLowStock]));
       },
       build: () => bloc,
       act: (bloc) => bloc.add(const InventoryEvent.started()),
@@ -67,7 +67,7 @@ void main() {
         when(mockRepository.watchAllStocks())
             .thenAnswer((_) => Stream.value([tStock, tLowStock]));
         when(mockRepository.watchLowStocks(any))
-             .thenAnswer((_) => Stream.value([tLowStock]));
+            .thenAnswer((_) => Stream.value([tLowStock]));
       },
       build: () => bloc,
       act: (bloc) async {
@@ -106,15 +106,15 @@ void main() {
         when(mockRepository.watchAllStocks())
             .thenAnswer((_) => Stream.value([tStock, tLowStock]));
         when(mockRepository.watchLowStocks(10))
-             .thenAnswer((_) => Stream.value([tLowStock]));
+            .thenAnswer((_) => Stream.value([tLowStock]));
         when(mockRepository.watchLowStocks(5))
-             .thenAnswer((_) => Stream.value([tLowStock]));
+            .thenAnswer((_) => Stream.value([tLowStock]));
       },
       build: () => bloc,
       act: (bloc) async {
-         bloc.add(const InventoryEvent.started());
-         await Future.delayed(Duration.zero);
-         bloc.add(const InventoryEvent.thresholdChanged(5));
+        bloc.add(const InventoryEvent.started());
+        await Future.delayed(Duration.zero);
+        bloc.add(const InventoryEvent.thresholdChanged(5));
       },
       expect: () => [
         const InventoryState.loading(),
@@ -168,24 +168,24 @@ void main() {
     );
 
     blocTest<InventoryBloc, InventoryState>(
-        'triggers reload on Refresh event',
-        setUp: () {
-            when(mockRepository.watchAllStocks())
-                .thenAnswer((_) => Stream.value([tStock]));
-            when(mockRepository.watchLowStocks(any))
-                .thenAnswer((_) => Stream.value([]));
-        },
-        build: () => bloc,
-        act: (bloc) => bloc.add(const InventoryEvent.refresh()),
-        expect: () => [
-            const InventoryState.loading(),
-            const InventoryState.loaded(
-                stocks: [tStock],
-                lowStockCount: 0,
-                threshold: 10,
-                showLowStockOnly: false,
-            ),
-        ],
+      'triggers reload on Refresh event',
+      setUp: () {
+        when(mockRepository.watchAllStocks())
+            .thenAnswer((_) => Stream.value([tStock]));
+        when(mockRepository.watchLowStocks(any))
+            .thenAnswer((_) => Stream.value([]));
+      },
+      build: () => bloc,
+      act: (bloc) => bloc.add(const InventoryEvent.refresh()),
+      expect: () => [
+        const InventoryState.loading(),
+        const InventoryState.loaded(
+          stocks: [tStock],
+          lowStockCount: 0,
+          threshold: 10,
+          showLowStockOnly: false,
+        ),
+      ],
     );
   });
 }

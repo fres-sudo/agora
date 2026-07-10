@@ -1,13 +1,12 @@
 // assets.gen.dart is app-level; logo path inlined below
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_orders/domain/models/order_type.dart';
-import 'package:feature_orders/presentation/blocs/active_order/active_order_bloc.dart';
-import 'package:feature_orders/presentation/utils/receipt_config_builder.dart';
+import 'package:order_management/models/order_type.dart';
+import 'package:order_management/blocs/active_order/active_order_bloc.dart';
 import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
-import 'package:feature_products/domain/models/product.dart';
+import 'package:catalog/blocs/products/products_bloc.dart';
+import 'package:catalog/models/product.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form.dart';
-import 'package:feature_settings/feature_settings.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';

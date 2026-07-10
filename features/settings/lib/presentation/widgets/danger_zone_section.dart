@@ -1,5 +1,5 @@
+import 'package:app_reset/app_reset.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_onboarding/onboarding.dart';
 import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
@@ -38,7 +38,7 @@ class DangerZoneSection extends StatelessWidget {
   }
 
   Future<void> _confirm(BuildContext context) async {
-    final cubit = context.read<OnboardingCubit>();
+    final resetService = context.read<AppResetService>();
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AppDialog(
@@ -60,7 +60,7 @@ class DangerZoneSection extends StatelessWidget {
       ),
     );
     if (confirmed ?? false) {
-      await cubit.resetEverything();
+      await resetService.resetEverything();
     }
   }
 }

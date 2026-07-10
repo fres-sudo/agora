@@ -11,18 +11,20 @@ dependencies:
   auto_route: ^11.1.0
   bloc_exports:
     path: ../../packages/bloc
+  catalog:
+    path: ../../packages/catalog
   database:
     path: ../../packages/database
   drift: ^2.30.0
   errors:
     path: ../../packages/errors
-  feature_inventory:
-    path: ../inventory
   flutter:
     sdk: flutter
   i18n:
     path: ../../packages/i18n
   image_picker: ^1.2.0
+  inventory_contracts:
+    path: ../../packages/inventory_contracts
   logger:
     path: ../../packages/logger
   path_provider: ^2.1.5

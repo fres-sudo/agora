@@ -5,13 +5,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart'
+import 'package:inventory_contracts/repositories/inventory_repository.dart'
     as _i7;
-import 'package:feature_orders/domain/models/order.dart' as _i4;
-import 'package:feature_orders/domain/repositories/orders_repository.dart'
-    as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
+import 'package:order_management/models/order.dart' as _i4;
+import 'package:order_management/repositories/orders_repository.dart' as _i2;
 import 'package:result/result.dart' as _i5;
 
 // ignore_for_file: type=lint
@@ -633,4 +632,66 @@ class MockInventoryRepository extends _i1.Mock
               ),
             )),
           ) as _i3.Future<_i5.Result<({int productId, int quantity})>>);
+
+  @override
+  _i3.Future<_i5.Result<void>> initializeStock({
+    required int? productId,
+    required int? quantity,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #initializeStock,
+          [],
+          {
+            #productId: productId,
+            #quantity: quantity,
+          },
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<void>>.value(_i6.dummyValue<_i5.Result<void>>(
+          this,
+          Invocation.method(
+            #initializeStock,
+            [],
+            {
+              #productId: productId,
+              #quantity: quantity,
+            },
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<void>>);
+
+  @override
+  _i3.Future<_i5.Result<void>> softDeleteStock(int? productId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #softDeleteStock,
+          [productId],
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<void>>.value(_i6.dummyValue<_i5.Result<void>>(
+          this,
+          Invocation.method(
+            #softDeleteStock,
+            [productId],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<void>>);
+
+  @override
+  _i3.Future<_i5.Result<void>> restoreStock(int? productId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #restoreStock,
+          [productId],
+        ),
+        returnValue:
+            _i3.Future<_i5.Result<void>>.value(_i6.dummyValue<_i5.Result<void>>(
+          this,
+          Invocation.method(
+            #restoreStock,
+            [productId],
+          ),
+        )),
+      ) as _i3.Future<_i5.Result<void>>);
 }

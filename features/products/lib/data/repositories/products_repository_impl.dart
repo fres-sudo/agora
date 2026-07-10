@@ -1,27 +1,27 @@
-import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:feature_products/data/sources/local/daos/modifiers_dao.dart';
 import 'package:feature_products/data/sources/local/daos/products_dao.dart';
 import 'package:feature_products/domain/mappers/modifier_mapper.dart';
 import 'package:feature_products/domain/mappers/product_mapper.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:catalog/models/modifier_group.dart';
+import 'package:catalog/models/product.dart';
+import 'package:catalog/repositories/products_repository.dart';
+import 'package:inventory_contracts/inventory_contracts.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
 
 class ProductsRepositoryImpl extends Repository implements ProductsRepository {
   ProductsRepositoryImpl({
     required ProductsDao productsDao,
-    required StocksDao stocksDao,
+    required InventoryRepository inventoryRepository,
     required ModifiersDao modifiersDao,
     Talker? logger,
   }) : _productsDao = productsDao,
-       _stocksDao = stocksDao,
+       _inventoryRepository = inventoryRepository,
        _modifiersDao = modifiersDao,
        super(logger);
 
   final ProductsDao _productsDao;
-  final StocksDao _stocksDao;
+  final InventoryRepository _inventoryRepository;
   final ModifiersDao _modifiersDao;
 
   // ============================================================
@@ -45,6 +45,18 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
     return groups;
   }
 
+  /// Resolves the current stock quantity for [productId] via
+  /// [InventoryRepository] — never `feature_inventory`'s DAO directly (see
+  /// GitHub issue #4). Falls back to 0 on error, matching the old DAO-based
+  /// code's `stock?.quantity ?? 0` null-safety.
+  Future<int> _stockQuantityFor(int productId) async {
+    final result = await _inventoryRepository.getStockByProductId(productId);
+    return result.fold(
+      success: (stock) => stock?.quantity ?? 0,
+      error: (_) => 0,
+    );
+  }
+
   // ============================================================
   // STREAMS
   // ============================================================
@@ -56,11 +68,11 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
         .asyncMap((entities) async {
           final products = <Product>[];
           for (final entity in entities) {
-            final stock = await _stocksDao.getStockByProductId(entity.id);
+            final quantity = await _stockQuantityFor(entity.id);
             final modifierGroups = await _getModifierGroups(entity.id);
             products.add(
               entity.toModel(
-                stockQuantity: stock?.quantity ?? 0,
+                stockQuantity: quantity,
                 modifierGroups: modifierGroups,
               ),
             );
@@ -77,11 +89,11 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
         .asyncMap((entities) async {
           final products = <Product>[];
           for (final entity in entities) {
-            final stock = await _stocksDao.getStockByProductId(entity.id);
+            final quantity = await _stockQuantityFor(entity.id);
             final modifierGroups = await _getModifierGroups(entity.id);
             products.add(
               entity.toModel(
-                stockQuantity: stock?.quantity ?? 0,
+                stockQuantity: quantity,
                 modifierGroups: modifierGroups,
               ),
             );
@@ -97,10 +109,10 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
         .watchProductById(id)
         .asyncMap((entity) async {
           if (entity == null) return null;
-          final stock = await _stocksDao.getStockByProductId(entity.id);
+          final quantity = await _stockQuantityFor(entity.id);
           final modifierGroups = await _getModifierGroups(entity.id);
           return entity.toModel(
-            stockQuantity: stock?.quantity ?? 0,
+            stockQuantity: quantity,
             modifierGroups: modifierGroups,
           );
         })
@@ -116,10 +128,10 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
       safe('getProductById($id)', () async {
         final entity = await _productsDao.getProductById(id);
         if (entity == null) return null;
-        final stock = await _stocksDao.getStockByProductId(entity.id);
+        final quantity = await _stockQuantityFor(entity.id);
         final modifierGroups = await _getModifierGroups(entity.id);
         return entity.toModel(
-          stockQuantity: stock?.quantity ?? 0,
+          stockQuantity: quantity,
           modifierGroups: modifierGroups,
         );
       });
@@ -129,10 +141,10 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
       safe('getProductBySku($sku)', () async {
         final entity = await _productsDao.getProductBySku(sku);
         if (entity == null) return null;
-        final stock = await _stocksDao.getStockByProductId(entity.id);
+        final quantity = await _stockQuantityFor(entity.id);
         final modifierGroups = await _getModifierGroups(entity.id);
         return entity.toModel(
-          stockQuantity: stock?.quantity ?? 0,
+          stockQuantity: quantity,
           modifierGroups: modifierGroups,
         );
       });
@@ -159,7 +171,7 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
       final id = await _productsDao.insertProduct(product.toInsertCompanion());
 
       // Initialize stock
-      await _stocksDao.upsertStock(
+      await _inventoryRepository.initializeStock(
         productId: id,
         quantity: product.stockQuantity,
       );
@@ -177,7 +189,7 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
       await _productsDao.updateProduct(product.id, product.toUpdateCompanion());
 
       // Update stock
-      await _stocksDao.upsertStock(
+      await _inventoryRepository.initializeStock(
         productId: product.id,
         quantity: product.stockQuantity,
       );
@@ -191,7 +203,7 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
   Future<Result<int>> deleteProduct(int id) =>
       safe('deleteProduct($id)', () async {
         await _productsDao.softDeleteProduct(id);
-        await _stocksDao.softDeleteStock(id);
+        await _inventoryRepository.softDeleteStock(id);
         return id;
       });
 
@@ -199,7 +211,7 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
   Future<Result<bool>> restoreProduct(int id) =>
       safe('restoreProduct($id)', () async {
         await _productsDao.restoreProduct(id);
-        await _stocksDao.restoreStock(id);
+        await _inventoryRepository.restoreStock(id);
         return true;
       });
 }

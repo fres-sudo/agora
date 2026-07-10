@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
+import 'package:catalog/models/modifier_group.dart';
 
 /// A list item widget for displaying and editing a modifier group.
 class ModifierListItem extends StatelessWidget {
