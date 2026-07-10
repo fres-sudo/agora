@@ -251,6 +251,8 @@ dependencies:
     path: features/reports
   feature_settings:
     path: features/settings
+  feature_workforce:
+    path: features/workforce
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
