@@ -3,6 +3,8 @@ import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:printing/printing.dart';
+import 'package:result/result.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Printer configuration: the network addresses of the receipt and kitchen
@@ -22,6 +24,7 @@ class _PrinterSectionState extends State<PrinterSection> {
   final _kitchenCtrl = TextEditingController();
   bool _isDirty = false;
   bool _isSaving = false;
+  bool _isPrintingTest = false;
 
   @override
   void initState() {
@@ -69,6 +72,66 @@ class _PrinterSectionState extends State<PrinterSection> {
     );
   }
 
+  /// Builds a small sample [Receipt], renders it to ESC/POS bytes and sends it
+  /// through the configured [PrinterService] so staff can verify a printer
+  /// before relying on it during service.
+  Future<void> _onPrintTestReceipt() async {
+    setState(() => _isPrintingTest = true);
+
+    final cubit = context.read<SettingsCubit>();
+    final printer = context.read<PrinterService>();
+    final receipt = Receipt(
+      storeName:
+          _nullIfEmpty(cubit.getString(AppSettingsDao.keyBusinessName)) ??
+          'Test Store',
+      storeAddress: _nullIfEmpty(
+        cubit.getString(AppSettingsDao.keyBusinessAddress),
+      ),
+      header: 'Test Receipt',
+      footer: 'Printer configuration OK',
+      orderNumber: 'TEST',
+      createdAt: DateTime.now(),
+      lines: const [
+        ReceiptLine(name: 'Sample Item', quantity: 1, unitPriceCents: 500),
+      ],
+      subtotalCents: 500,
+      taxCents: 0,
+      discountCents: 0,
+      totalCents: 500,
+      currencySymbol:
+          _nullIfEmpty(cubit.getString(AppSettingsDao.keyCurrencySymbol)) ??
+          '€',
+      showTax: false,
+    );
+
+    try {
+      final bytes = await const ReceiptRenderer().toEscPos(receipt);
+      final result = await printer.printBytes(bytes);
+      if (!mounted) return;
+      result.when(
+        success: (_) =>
+            showAppSnackBar(context, 'Test receipt sent to printer'),
+        error: (_) => showAppSnackBar(
+          context,
+          'Test print failed — check the printer connection',
+          isError: true,
+        ),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      showAppSnackBar(
+        context,
+        'Test print failed — check the printer connection',
+        isError: true,
+      );
+    } finally {
+      if (mounted) setState(() => _isPrintingTest = false);
+    }
+  }
+
+  static String? _nullIfEmpty(String? value) =>
+      (value == null || value.isEmpty) ? null : value;
+
   @override
   void dispose() {
     _receiptCtrl.removeListener(_onChanged);
@@ -107,7 +170,8 @@ class _PrinterSectionState extends State<PrinterSection> {
             Align(
               alignment: Alignment.centerLeft,
               child: AppButton.outline(
-                onPressed: () {},
+                onPressed: _isPrintingTest ? null : _onPrintTestReceipt,
+                isLoading: _isPrintingTest,
                 label: 'Print Test Receipt',
                 leadingIcon: const Icon(AgoraIcons.printer, size: 20),
               ),
