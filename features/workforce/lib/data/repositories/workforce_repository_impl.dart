@@ -84,14 +84,18 @@ class WorkforceRepositoryImpl extends Repository
   @override
   Future<Result<ClockRecord>> clockIn(int employeeId) =>
       safe('clockIn($employeeId)', () async {
-        // Prevent double clock-in
-        final active = await _clockRecordsDao.getActiveClockRecord(employeeId);
-        if (active != null) {
-          throw RepositoryException('Employee is already clocked in');
-        }
-        final id = await _clockRecordsDao.insertClockRecord(
+        // The check-for-open-shift and the insert happen atomically inside
+        // a single Drift transaction (see ClockRecordsDao.tryClockIn), so
+        // two near-simultaneous clockIn calls for the same employee cannot
+        // both succeed. A partial unique index on the table enforces the
+        // same invariant at the database level as a second line of defense.
+        final id = await _clockRecordsDao.tryClockIn(
+          employeeId,
           clockInCompanion(employeeId),
         );
+        if (id == null) {
+          throw RepositoryException('Employee is already clocked in');
+        }
         final emp = await _employeesDao.getEmployeeById(employeeId);
         return ClockRecord(
           id: id,

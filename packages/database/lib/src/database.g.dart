@@ -8131,6 +8131,10 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
   late final $EmployeesTableTable employeesTable = $EmployeesTableTable(this);
   late final $ClockRecordsTableTable clockRecordsTable =
       $ClockRecordsTableTable(this);
+  late final Index idxClockRecordsOneOpenShift = Index(
+    'idx_clock_records_one_open_shift',
+    'CREATE UNIQUE INDEX idx_clock_records_one_open_shift ON clock_records_table (employee_id) WHERE clocked_out_at IS NULL AND deleted_at IS NULL',
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8151,6 +8155,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     outboxTable,
     employeesTable,
     clockRecordsTable,
+    idxClockRecordsOneOpenShift,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([

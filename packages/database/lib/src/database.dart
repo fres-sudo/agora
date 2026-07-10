@@ -43,7 +43,7 @@ class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {
@@ -70,6 +70,15 @@ class AgoraDatabase extends _$AgoraDatabase {
             'SELECT MIN(id) FROM product_modifier_links_table '
             'GROUP BY product_id, modifier_id'
             ')',
+          );
+        }
+        if (from < 4) {
+          // v3 -> v4: add a partial unique index on clock_records_table so
+          // an employee can only have one open shift at a time.
+          await customStatement(
+            'CREATE UNIQUE INDEX IF NOT EXISTS idx_clock_records_one_open_shift '
+            'ON clock_records_table (employee_id) '
+            'WHERE clocked_out_at IS NULL AND deleted_at IS NULL',
           );
         }
       },

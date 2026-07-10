@@ -50,6 +50,27 @@ class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase> {
     return into(attachedDatabase.clockRecordsTable).insert(companion);
   }
 
+  /// Atomically checks for an existing open shift and inserts [companion] as
+  /// a new clock-in only if none is found, returning the new record's id.
+  ///
+  /// Returns `null` (and inserts nothing) if [employeeId] already has an
+  /// open shift. Wrapping the check and the insert in a single Drift
+  /// transaction closes the check-then-insert race that a bare
+  /// `getActiveClockRecord` + `insertClockRecord` pair would allow between
+  /// two near-simultaneous clock-in calls for the same employee. A partial
+  /// unique index on the table (`idx_clock_records_one_open_shift`) backs
+  /// this up at the database level in case this invariant is ever bypassed.
+  Future<int?> tryClockIn(
+    int employeeId,
+    ClockRecordsTableCompanion companion,
+  ) {
+    return attachedDatabase.transaction(() async {
+      final active = await getActiveClockRecord(employeeId);
+      if (active != null) return null;
+      return insertClockRecord(companion);
+    });
+  }
+
   Future<bool> updateClockRecord(int id, ClockRecordsTableCompanion companion) {
     final table = attachedDatabase.clockRecordsTable;
     return (update(table)..where((t) => t.id.equals(id)))
