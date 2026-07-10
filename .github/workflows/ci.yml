@@ -44,5 +44,17 @@ jobs:
       - name: Analyze
         run: dart run melos run lint
 
+      - name: Design lint (custom_lint)
+        # Plain `dart analyze` (the "Analyze" step above) does not load analyzer
+        # plugins, so this is not redundant with it — see analysis_options.yaml.
+        # `continue-on-error` is temporary: enabling this rule set surfaced a
+        # handful of pre-existing hard-coded colors elsewhere in the repo
+        # (data/seed defaults and a receipt print-preview) that need a design
+        # decision — justified `// ignore:` comment or a token refactor —
+        # rather than being silenced as part of this fix. Flip this to blocking
+        # once that follow-up lands.
+        run: dart run melos run lint:design
+        continue-on-error: true
+
       - name: Test
         run: dart run melos run test

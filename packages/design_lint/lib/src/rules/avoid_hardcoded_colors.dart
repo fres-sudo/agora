@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/ast.dart' show AstNode;
 import 'package:analyzer/error/error.dart' show ErrorSeverity;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
@@ -43,7 +44,7 @@ class AvoidHardcodedColors extends DartLintRule {
       if (type == null) return;
       if (_colorChecker.isExactlyType(type) ||
           _uiColorChecker.isExactlyType(type)) {
-        reporter.atNode(node, _code);
+        _report(reporter, node);
       }
     });
 
@@ -53,10 +54,35 @@ class AvoidHardcodedColors extends DartLintRule {
       final element = node.prefix.element;
       // Only the Flutter `Colors` class, not some unrelated `Colors` symbol.
       if (element == null || element.library?.uri.toString() == _materialUri) {
-        reporter.atNode(node, _code);
+        _report(reporter, node);
       }
     });
   }
 
   static const _materialUri = 'package:flutter/src/material/colors.dart';
+
+  /// Reports [node] via [reporter], guarding against a crash in
+  /// `custom_lint_builder`'s `// ignore:` comment scanner.
+  ///
+  /// `custom_lint_builder`'s `parseIgnoreForLine` (`custom_lint_builder/src/
+  /// ignore.dart`) slices the source text to look for a trailing `// ignore:`
+  /// comment above every reported diagnostic. For certain AST shapes — e.g.
+  /// two violations on one line, both covered by a single `// ignore:` comment
+  /// on the line above, as in `apps/agora/lib/app/app.dart`'s flavor banner
+  /// (`color: isStaging ? Colors.deepOrange : Colors.blue`) — that internal
+  /// bookkeeping throws an uncaught `RangeError`, which previously killed the
+  /// whole plugin isolate and silently suppressed every other diagnostic for
+  /// the run (see the repo's now-removed `custom_lint.log`, which recorded
+  /// this exact crash repeatedly). Reporting is a leaf operation with no
+  /// further side effects we need to protect, so we contain the failure here
+  /// instead of letting one bad node take down the entire lint pass.
+  static void _report(ErrorReporter reporter, AstNode node) {
+    try {
+      reporter.atNode(node, _code);
+    } catch (_) {
+      // Swallow: see the doc comment above. Losing one diagnostic on a
+      // pathological AST shape is far preferable to losing every diagnostic
+      // in the run.
+    }
+  }
 }
