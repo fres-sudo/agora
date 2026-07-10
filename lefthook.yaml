@@ -13,4 +13,4 @@ pre-push:
   commands:
     test:
       glob: "*.dart"
-      run: fvm flutter test
+      run: fvm dart run melos run test
