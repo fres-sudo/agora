@@ -299,11 +299,12 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       });
 
   @override
-  Future<Result<Order>> voidOrder(int id) => safe('voidOrder($id)', () async {
-    await _ordersDao.voidOrder(id);
-    final order = await getOrderById(id);
-    return order.unwrap()!;
-  });
+  Future<Result<VoidOrderResult>> voidOrder(int id) =>
+      safe('voidOrder($id)', () async {
+        final transitioned = await _ordersDao.voidOrder(id);
+        final order = await getOrderById(id);
+        return (order: order.unwrap()!, wasAlreadyVoided: !transitioned);
+      });
 
   @override
   Future<Result<int>> deleteOrder(int id) => safe('deleteOrder($id)', () async {
