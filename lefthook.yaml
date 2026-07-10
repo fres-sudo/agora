@@ -6,7 +6,7 @@ pre-commit:
       run: fvm flutter format --set-exit-if-changed .
     analyze:
       glob: "*.dart"
-      run: fvm flutter analyze
+      run: dart analyze . --fatal-infos
 
 pre-push:
   parallel: true

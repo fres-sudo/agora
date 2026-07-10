@@ -13,8 +13,9 @@ mv android  apps/agora/android
 mv ios      apps/agora/ios
 mv web      apps/agora/web
 mv native_splash.yaml apps/agora/native_splash.yaml
-mv lefthook.yaml      apps/agora/lefthook.yaml
 ```
+
+Note: `lefthook.yaml` must stay at the repo root — lefthook only discovers its config there, so do not move it into `apps/agora/`.
 
 Also move or update these root-level config files that reference the Flutter app:
 - `analysis_options.yaml` — keep at root (shared), add `include:` in each package that needs it
