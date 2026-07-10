@@ -212,8 +212,24 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
   }
 
   /// Marks an order as voided/refunded.
+  ///
+  /// This is an atomic, idempotent compare-and-swap: the underlying SQL
+  /// `UPDATE ... WHERE status <> voided` only ever transitions an order out
+  /// of a non-voided status once. Returns `true` if *this* call performed
+  /// the transition, `false` if the order was already voided (e.g. a retry
+  /// after a previous call already voided it). Callers use this to decide
+  /// whether a one-time side effect — like restoring inventory — should
+  /// run, so retries can't repeat it.
   Future<bool> voidOrder(int id) {
-    return updateOrderStatus(id, statusVoided);
+    return (update(ordersTable)
+          ..where((t) => t.id.equals(id) & t.status.equals(statusVoided).not()))
+        .write(
+          OrdersTableCompanion(
+            status: Value(statusVoided),
+            updatedAt: Value(DateTime.now()),
+          ),
+        )
+        .then((rows) => rows > 0);
   }
 
   // ============================================================

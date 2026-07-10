@@ -1,6 +1,16 @@
 import 'package:order_management/models/order.dart';
 import 'package:result/result.dart';
 
+/// Result of a [OrdersRepository.voidOrder] call.
+///
+/// The completed/pending → voided transition is atomic and idempotent at
+/// the data layer: [wasAlreadyVoided] tells the caller whether *this* call
+/// performed the transition (`false`) or the order was already voided by
+/// an earlier call (`true`). Callers use this to gate one-time side
+/// effects — like restoring inventory — so retrying a void can't repeat
+/// them.
+typedef VoidOrderResult = ({Order order, bool wasAlreadyVoided});
+
 /// Repository interface for order operations.
 ///
 /// All write operations return the affected entity to enable optimistic
@@ -75,8 +85,10 @@ abstract interface class OrdersRepository {
   Future<Result<Order>> completeOrder(int id);
 
   /// Voids/refunds an order.
-  /// Returns the voided [Order] for optimistic updates.
-  Future<Result<Order>> voidOrder(int id);
+  ///
+  /// Atomically transitions the order to voided — a no-op if it is already
+  /// voided. See [VoidOrderResult.wasAlreadyVoided].
+  Future<Result<VoidOrderResult>> voidOrder(int id);
 
   /// Deletes an order (soft delete).
   /// Returns the deleted order ID for optimistic updates.

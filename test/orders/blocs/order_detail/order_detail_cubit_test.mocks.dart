@@ -245,20 +245,24 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
       ) as _i3.Future<_i5.Result<_i4.Order>>);
 
   @override
-  _i3.Future<_i5.Result<_i4.Order>> voidOrder(int? id) => (super.noSuchMethod(
+  _i3.Future<_i5.Result<({_i4.Order order, bool wasAlreadyVoided})>> voidOrder(
+          int? id) =>
+      (super.noSuchMethod(
         Invocation.method(
           #voidOrder,
           [id],
         ),
-        returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
-            _i6.dummyValue<_i5.Result<_i4.Order>>(
+        returnValue: _i3.Future<
+                _i5.Result<({_i4.Order order, bool wasAlreadyVoided})>>.value(
+            _i6.dummyValue<
+                _i5.Result<({_i4.Order order, bool wasAlreadyVoided})>>(
           this,
           Invocation.method(
             #voidOrder,
             [id],
           ),
         )),
-      ) as _i3.Future<_i5.Result<_i4.Order>>);
+      ) as _i3.Future<_i5.Result<({_i4.Order order, bool wasAlreadyVoided})>>);
 
   @override
   _i3.Future<_i5.Result<int>> deleteOrder(int? id) => (super.noSuchMethod(

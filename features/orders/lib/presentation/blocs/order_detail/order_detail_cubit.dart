@@ -85,6 +85,17 @@ class OrderDetailCubit extends Cubit<OrderDetailState> {
   }
 
   /// Void the order.
+  ///
+  /// The completed/pending → voided transition happens first and is
+  /// atomic + idempotent at the repository layer (a single conditional
+  /// UPDATE guarded by "not already voided"). Inventory is only restored
+  /// when *this* call is the one that performed the transition
+  /// (`!wasAlreadyVoided`). That ordering — claim the transition, then act
+  /// on it — is what makes retries safe: if a previous attempt already
+  /// voided the order (even if its own inventory restore failed or never
+  /// ran), a retry sees `wasAlreadyVoided: true` and skips the restore
+  /// loop entirely instead of re-crediting stock that may already have
+  /// been credited.
   Future<void> voidOrder() async {
     final currentOrder = state.maybeMap(
       loaded: (s) => s.order,
@@ -95,46 +106,10 @@ class OrderDetailCubit extends Cubit<OrderDetailState> {
 
     emit(OrderDetailState.voiding(order: currentOrder));
 
-    // Restore inventory before voiding — a completed order already decremented
-    // stock at checkout, so voiding must give it back. (The repository's
-    // voidOrder only flips status; it does not touch inventory.)
-    if (currentOrder.status == OrderStatus.completed) {
-      final restoredQuantities = <int, int>{};
-      for (final item in currentOrder.items) {
-        final productId = item.productId;
-        if (productId == null) continue;
-        restoredQuantities.update(
-          productId,
-          (value) => value + item.quantity,
-          ifAbsent: () => item.quantity,
-        );
-      }
+    final voidResult = await _ordersRepository.voidOrder(currentOrder.id ?? 0);
 
-      for (final entry in restoredQuantities.entries) {
-        final restoreResult = await _inventoryRepository.restoreForVoidedOrder(
-          productId: entry.key,
-          quantity: entry.value,
-          orderId: currentOrder.id ?? 0,
-        );
-        if (restoreResult.isError) {
-          emit(
-            OrderDetailState.error(
-              message:
-                  'Failed to restore inventory for order #${currentOrder.id ?? '-'}',
-              order: currentOrder,
-            ),
-          );
-          return;
-        }
-      }
-    }
-
-    final result = await _ordersRepository.voidOrder(currentOrder.id ?? 0);
-
-    result.when(
-      success: (voidedOrder) {
-        // Stream will automatically update the state
-      },
+    final claimed = voidResult.fold(
+      success: (value) => value,
       error: (error) {
         emit(
           OrderDetailState.error(
@@ -142,8 +117,51 @@ class OrderDetailCubit extends Cubit<OrderDetailState> {
             order: currentOrder,
           ),
         );
+        return null;
       },
     );
+
+    if (claimed == null) return;
+
+    // Already voided by a previous call (e.g. this is a retry) — nothing
+    // left to do; any inventory restore either already ran or is not this
+    // call's responsibility.
+    if (claimed.wasAlreadyVoided) return;
+
+    // A completed order already decremented stock at checkout, so voiding
+    // must give it back. A pending order never touched inventory.
+    if (currentOrder.status != OrderStatus.completed) return;
+
+    final restoredQuantities = <int, int>{};
+    for (final item in currentOrder.items) {
+      final productId = item.productId;
+      if (productId == null) continue;
+      restoredQuantities.update(
+        productId,
+        (value) => value + item.quantity,
+        ifAbsent: () => item.quantity,
+      );
+    }
+
+    for (final entry in restoredQuantities.entries) {
+      final restoreResult = await _inventoryRepository.restoreForVoidedOrder(
+        productId: entry.key,
+        quantity: entry.value,
+        orderId: currentOrder.id ?? 0,
+      );
+      if (restoreResult.isError) {
+        emit(
+          OrderDetailState.error(
+            message:
+                'Order #${currentOrder.id ?? '-'} was voided, but restoring '
+                'inventory failed for one or more items. Please reconcile '
+                'stock manually.',
+            order: currentOrder,
+          ),
+        );
+        return;
+      }
+    }
   }
 
   @override
