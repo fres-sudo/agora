@@ -38,6 +38,9 @@ devtools_options.yaml
 # Dart doc
 **/doc/api/
 
+# custom_lint plugin isolate debug log (written to CWD when a plugin crashes)
+custom_lint.log
+
 # iOS last build id (per-machine artifact)
 **/ios/Flutter/.last_build_id
 
