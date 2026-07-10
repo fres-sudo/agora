@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:result/result.dart';
 
-import 'package:feature_products/domain/models/modifier_group.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/domain/repositories/modifiers_repository.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:catalog/models/modifier_group.dart';
+import 'package:catalog/models/product.dart';
+import 'package:catalog/repositories/modifiers_repository.dart';
+import 'package:catalog/repositories/products_repository.dart';
 
 part 'product_detail_cubit.freezed.dart';
 part 'product_detail_state.dart';

@@ -1,5 +1,5 @@
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_discounts/feature_discounts.dart';
+import 'package:discounts/discounts.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';

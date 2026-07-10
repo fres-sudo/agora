@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:result/result.dart';
 
 part 'stock_adjustment_cubit.freezed.dart';

@@ -1,5 +1,4 @@
-
-import 'package:feature_orders/feature_orders.dart';
+import 'package:order_management/order_management.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -51,14 +50,17 @@ void main() {
   }
 
   testWidgets('PosPage renders and fetches initial data', (tester) async {
-    when(() => mockProductsBloc.state).thenReturn(const ProductsState.initial());
-    when(() => mockActiveOrderBloc.state).thenReturn(const ActiveOrderState.empty());
+    when(() => mockProductsBloc.state)
+        .thenReturn(const ProductsState.initial());
+    when(() => mockActiveOrderBloc.state)
+        .thenReturn(const ActiveOrderState.empty());
 
     await tester.pumpWidget(createWidgetUnderTest());
 
     // Verify initial events
     verify(() => mockProductsBloc.add(const ProductsEvent.started())).called(1);
-    verify(() => mockActiveOrderBloc.add(const ActiveOrderEvent.started())).called(1);
+    verify(() => mockActiveOrderBloc.add(const ActiveOrderEvent.started()))
+        .called(1);
 
     expect(find.text('agora'), findsOneWidget);
   });
@@ -67,7 +69,8 @@ void main() {
     when(() => mockProductsBloc.state).thenReturn(
       ProductsState.loaded(products: [testProduct], categories: []),
     );
-    when(() => mockActiveOrderBloc.state).thenReturn(const ActiveOrderState.empty());
+    when(() => mockActiveOrderBloc.state)
+        .thenReturn(const ActiveOrderState.empty());
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pump(); // Allow build
@@ -79,7 +82,8 @@ void main() {
     when(() => mockProductsBloc.state).thenReturn(
       ProductsState.loaded(products: [testProduct], categories: []),
     );
-    when(() => mockActiveOrderBloc.state).thenReturn(const ActiveOrderState.empty());
+    when(() => mockActiveOrderBloc.state)
+        .thenReturn(const ActiveOrderState.empty());
 
     await tester.pumpWidget(createWidgetUnderTest());
     await tester.pump();
@@ -87,7 +91,8 @@ void main() {
     await tester.tap(find.text('Test Product'));
 
     // Using captureAny might be needed if arguments matter, but verify is simple
-    verify(() => mockActiveOrderBloc.add(any(that: isA<ActiveOrderEvent>()))).called(greaterThan(1));
+    verify(() => mockActiveOrderBloc.add(any(that: isA<ActiveOrderEvent>())))
+        .called(greaterThan(1));
     // greaterThan(1) because started() is also called.
     // To be precise:
     // verify(() => mockActiveOrderBloc.add(ActiveOrderEvent.itemAdded(product: testProduct))).called(1);

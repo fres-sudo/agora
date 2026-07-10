@@ -1,10 +1,9 @@
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_orders/presentation/blocs/orders/orders_bloc.dart';
-import 'package:feature_orders/domain/models/order.dart';
-import 'package:feature_orders/domain/mappers/order_receipt_mapper.dart';
+import 'package:order_management/models/order.dart';
+import 'package:order_management/mappers/order_receipt_mapper.dart';
 import 'package:feature_orders/presentation/routes/orders_router.dart';
-import 'package:feature_orders/presentation/utils/receipt_config_builder.dart';
-import 'package:feature_settings/feature_settings.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';

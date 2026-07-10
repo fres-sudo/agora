@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adjustment_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';

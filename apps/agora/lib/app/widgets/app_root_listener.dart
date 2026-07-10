@@ -1,4 +1,10 @@
+import 'dart:async';
+
 import 'package:agora/app/app_router.dart';
+import 'package:app_reset/app_reset.dart';
+// SessionCubit/SessionState live in package:auth_session; feature_auth's
+// barrel re-exports them alongside `AuthShellRoute` (an AutoRoute page class
+// that stays feature-local), so importing the barrel covers both.
 import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +12,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Owns the top-level routing gate. Onboarding takes precedence over auth: if
 /// first-run setup has not been completed the wizard is shown; otherwise the
-/// existing session logic decides between the PIN login and the main app.
+/// existing session logic decides between the PIN login and the main app. A
+/// full data reset (triggered from Settings' danger zone, via
+/// [AppResetService]) also routes back to onboarding, from anywhere in the
+/// app.
 ///
 /// Installed via `MaterialApp.router`'s `builder`, which places this widget
 /// *above* the `Router`. `context.router` therefore cannot resolve an
@@ -23,6 +32,8 @@ class AppRootListener extends StatefulWidget {
 }
 
 class _AppRootListenerState extends State<AppRootListener> {
+  StreamSubscription<void>? _resetSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +46,17 @@ class _AppRootListenerState extends State<AppRootListener> {
         // Restore any persisted session (single-user businesses auto-restore).
         context.read<SessionCubit>().init();
       }
+
+      _resetSubscription = context.read<AppResetService>().onReset.listen((_) {
+        widget.router.replaceAll([const OnboardingShellRoute()]);
+      });
     });
+  }
+
+  @override
+  void dispose() {
+    _resetSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -51,9 +72,6 @@ class _AppRootListenerState extends State<AppRootListener> {
                 // profiles pre-wrote a session, so this lands on the app;
                 // staff-login profiles land on the PIN screen.
                 context.read<SessionCubit>().init();
-              case OnboardingPhase.needsReonboarding:
-                widget.router.replaceAll([const OnboardingShellRoute()]);
-                context.read<OnboardingCubit>().acknowledgeReonboarding();
               case OnboardingPhase.editing:
               case OnboardingPhase.submitting:
                 break;

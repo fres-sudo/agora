@@ -1,8 +1,8 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_pos/feature_pos.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
-import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
+import 'package:catalog/models/product.dart';
+import 'package:database/database.dart';
+import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ui_kit/ui_kit.dart';
@@ -45,9 +45,7 @@ class PosProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currencySymbol =
-        context.watch<SettingsCubit>().getString(
-          AppSettingsDao.keyCurrencySymbol,
-        ) ??
+        context.watch<SettingsCubit>().getString(SettingsKeys.currencySymbol) ??
         '€';
 
     if (products.isEmpty) {

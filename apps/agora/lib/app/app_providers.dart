@@ -1,4 +1,6 @@
 import 'package:app_info/app_info.dart';
+import 'package:app_reset/app_reset.dart';
+import 'package:auth_session/auth_session.dart';
 import 'package:bloc_exports/bloc_exports.dart' show AppFeature;
 import 'package:config/config.dart';
 import 'package:database/database.dart';
@@ -170,13 +172,31 @@ List<SingleChildWidget> _buildProviders({
   // ---------------------------------------------------------------------------
   // Feature providers (each feature registers its own DAOs, repos and BLoCs)
   // ---------------------------------------------------------------------------
-  for (final feature in _features) ...feature.providers,
+  ...const AuthFeature().providers,
+
+  // Cross-cutting "wipe everything + return to onboarding" service (see
+  // package:app_reset). Registered here — after Auth (AuthRepository) and
+  // above (BusinessProfileRepository, PersistenceService) — so both
+  // `feature_settings` (danger zone) and the root `AppRootListener` can read
+  // it without either depending on `feature_onboarding`.
+  RepositoryProvider<AppResetService>(
+    create: (ctx) => AppResetServiceImpl(
+      database: ctx.read<AgoraDatabase>(),
+      businessProfileRepository: ctx.read<BusinessProfileRepository>(),
+      authRepository: ctx.read<AuthRepository>(),
+      persistenceService: ctx.read<PersistenceService>(),
+      logger: ctx.read<Talker>(),
+    ),
+  ),
+
+  for (final feature in _remainingFeatures) ...feature.providers,
 ];
 
 // Order matters — some features read repositories registered by others, so
-// this list must stay in dependency order (see inline comments).
-const List<AppFeature> _features = [
-  AuthFeature(),
+// this list must stay in dependency order (see inline comments). AuthFeature
+// is registered separately above (before AppResetService); the rest follow
+// in the same relative order they always have.
+const List<AppFeature> _remainingFeatures = [
   OnboardingFeature(), // after Auth (reads AuthRepository) + profile repo
   WorkforceFeature(),
   SettingsFeature(),

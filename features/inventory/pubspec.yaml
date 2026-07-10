@@ -18,6 +18,8 @@ dependencies:
     path: ../../packages/errors
   flutter:
     sdk: flutter
+  inventory_contracts:
+    path: ../../packages/inventory_contracts
   logger:
     path: ../../packages/logger
   result:

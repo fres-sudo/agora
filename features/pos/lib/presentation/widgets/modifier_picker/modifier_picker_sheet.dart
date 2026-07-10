@@ -1,9 +1,9 @@
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
-import 'package:feature_orders/domain/models/selected_modifiers.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
-import 'package:feature_products/domain/models/modifier_option.dart';
-import 'package:feature_products/domain/models/product.dart';
+import 'package:order_management/models/selected_modifiers.dart';
+import 'package:catalog/models/modifier_group.dart';
+import 'package:catalog/models/modifier_option.dart';
+import 'package:catalog/models/product.dart';
 import 'package:flutter/material.dart';
 
 /// Presented before adding a product with modifier groups to the cart

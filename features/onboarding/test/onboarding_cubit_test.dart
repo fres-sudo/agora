@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 class _FakeOnboardingRepository implements OnboardingRepository {
   bool completed = false;
   OnboardingDraft? completedDraft;
-  bool resetCalled = false;
 
   @override
   bool isCompleted() => completed;
@@ -14,12 +13,6 @@ class _FakeOnboardingRepository implements OnboardingRepository {
   Future<void> complete(OnboardingDraft draft) async {
     completedDraft = draft;
     completed = true;
-  }
-
-  @override
-  Future<void> resetEverything() async {
-    resetCalled = true;
-    completed = false;
   }
 }
 
@@ -72,13 +65,5 @@ void main() {
     expect(repo.completedDraft, isNotNull);
     expect(repo.completed, isTrue);
     expect(cubit.state.phase, OnboardingPhase.completed);
-  });
-
-  test('resetEverything wipes and flags re-onboarding', () async {
-    await cubit.resetEverything();
-    expect(repo.resetCalled, isTrue);
-    expect(cubit.state.phase, OnboardingPhase.needsReonboarding);
-    cubit.acknowledgeReonboarding();
-    expect(cubit.state.phase, OnboardingPhase.editing);
   });
 }

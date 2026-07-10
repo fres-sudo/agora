@@ -2,7 +2,7 @@ import 'package:database/database.dart';
 import 'package:drift/native.dart';
 import 'package:feature_discounts/data/repositories/discounts_repository_impl.dart';
 import 'package:feature_discounts/data/sources/local/daos/discounts_dao.dart';
-import 'package:feature_discounts/domain/models/discount.dart';
+import 'package:discounts/models/discount.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:result/result.dart';
 
@@ -42,7 +42,8 @@ void main() {
     expect(fetched.usageCount, 0);
   });
 
-  test('incrementUsage grows usageCount and drives isValid to false at the '
+  test(
+      'incrementUsage grows usageCount and drives isValid to false at the '
       'limit', () async {
     final created = await create(base);
 

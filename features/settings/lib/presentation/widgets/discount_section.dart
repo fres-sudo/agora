@@ -1,4 +1,4 @@
-import 'package:feature_discounts/feature_discounts.dart';
+import 'package:discounts/discounts.dart';
 import 'package:feature_settings/presentation/widgets/discount_form/discount_form_wrapper.dart';
 import 'package:feature_settings/presentation/widgets/discount_list_item.dart';
 import 'package:flutter/material.dart';

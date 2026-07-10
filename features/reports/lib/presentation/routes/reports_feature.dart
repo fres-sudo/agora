@@ -1,6 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_orders/domain/repositories/orders_repository.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:order_management/repositories/orders_repository.dart';
+import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_reports/data/repositories/reports_repository_impl.dart';
 import 'package:feature_reports/domain/repositories/reports_repository.dart';
 import 'package:feature_reports/presentation/blocs/reports/reports_cubit.dart';

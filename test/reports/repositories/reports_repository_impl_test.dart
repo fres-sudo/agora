@@ -1,10 +1,10 @@
-import 'package:feature_orders/domain/models/order.dart';
-import 'package:feature_orders/domain/models/order_line_item.dart';
-import 'package:feature_orders/domain/models/selected_modifiers.dart';
-import 'package:feature_orders/domain/repositories/orders_repository.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/domain/models/product_status.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
+import 'package:order_management/models/order.dart';
+import 'package:order_management/models/order_line_item.dart';
+import 'package:order_management/models/selected_modifiers.dart';
+import 'package:order_management/repositories/orders_repository.dart';
+import 'package:catalog/models/product.dart';
+import 'package:catalog/models/product_status.dart';
+import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/data/repositories/reports_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,22 +32,23 @@ void main() {
       required int qty,
       required int priceCents,
       int modifierCents = 0,
-    }) => OrderLineItem(
-      id: name.hashCode,
-      productId: name.hashCode,
-      productName: name,
-      quantity: qty,
-      unitPriceCents: priceCents,
-      selectedModifiers: modifierCents == 0
-          ? const []
-          : [
-              SelectedModifiers(
-                groupName: 'Extra',
-                optionName: 'Cheese',
-                priceChangeCents: modifierCents,
-              ),
-            ],
-    );
+    }) =>
+        OrderLineItem(
+          id: name.hashCode,
+          productId: name.hashCode,
+          productName: name,
+          quantity: qty,
+          unitPriceCents: priceCents,
+          selectedModifiers: modifierCents == 0
+              ? const []
+              : [
+                  SelectedModifiers(
+                    groupName: 'Extra',
+                    optionName: 'Cheese',
+                    priceChangeCents: modifierCents,
+                  ),
+                ],
+        );
 
     Order order({
       required int id,
@@ -57,18 +58,19 @@ void main() {
       int discountCents = 0,
       int grandTotalCents = 0,
       DateTime? createdAt,
-    }) => Order(
-      id: id,
-      createdAt: createdAt ?? DateTime(2026, 7, 2, 12),
-      status: status,
-      items: items,
-      note: null,
-      paymentMethod: paymentMethod,
-      subtotalCents: grandTotalCents,
-      taxCents: 0,
-      discountCents: discountCents,
-      grandTotalCents: grandTotalCents,
-    );
+    }) =>
+        Order(
+          id: id,
+          createdAt: createdAt ?? DateTime(2026, 7, 2, 12),
+          status: status,
+          items: items,
+          note: null,
+          paymentMethod: paymentMethod,
+          subtotalCents: grandTotalCents,
+          taxCents: 0,
+          discountCents: discountCents,
+          grandTotalCents: grandTotalCents,
+        );
 
     test('aggregates only completed orders into the summary', () async {
       orders.orders = [
@@ -125,7 +127,8 @@ void main() {
       final data = (await repository.getReport(
         ReportPeriod.all,
         now: now,
-      )).unwrap();
+      ))
+          .unwrap();
 
       expect(data.statusBreakdown.completed, 2);
       expect(data.statusBreakdown.pending, 1);
@@ -155,7 +158,8 @@ void main() {
       final data = (await repository.getReport(
         ReportPeriod.all,
         now: now,
-      )).unwrap();
+      ))
+          .unwrap();
 
       expect(data.topProducts.first.name, 'Panino'); // 1 + 3 = 4 units
       expect(data.topProducts.first.quantitySold, 4);
@@ -176,7 +180,8 @@ void main() {
       final data = (await repository.getReport(
         ReportPeriod.all,
         now: now,
-      )).unwrap();
+      ))
+          .unwrap();
 
       expect(data.stockBreakdown.inStock, 2);
       expect(data.stockBreakdown.lowStock, 1);
@@ -187,7 +192,8 @@ void main() {
       final data = (await repository.getReport(
         ReportPeriod.today,
         now: now,
-      )).unwrap();
+      ))
+          .unwrap();
 
       expect(data.summary.totalOrders, 0);
       expect(data.summary.totalRevenueCents, 0);
@@ -201,16 +207,17 @@ Product _product({
   required int id,
   required int stock,
   required bool trackStock,
-}) => Product(
-  id: id,
-  name: 'Product $id',
-  categoryId: 1,
-  priceCents: 500,
-  costCents: 200,
-  stockQuantity: stock,
-  trackStock: trackStock,
-  status: ProductStatus.active,
-);
+}) =>
+    Product(
+      id: id,
+      name: 'Product $id',
+      categoryId: 1,
+      priceCents: 500,
+      costCents: 200,
+      stockQuantity: stock,
+      trackStock: trackStock,
+      status: ProductStatus.active,
+    );
 
 class _FakeOrdersRepository implements OrdersRepository {
   List<Order> orders = [];
@@ -219,15 +226,16 @@ class _FakeOrdersRepository implements OrdersRepository {
   Stream<List<Order>> watchOrdersByDateRange({
     DateTime? startDate,
     DateTime? endDate,
-  }) => Stream.value(
-    orders
-        .where(
-          (o) =>
-              (startDate == null || !o.createdAt.isBefore(startDate)) &&
-              (endDate == null || !o.createdAt.isAfter(endDate)),
-        )
-        .toList(),
-  );
+  }) =>
+      Stream.value(
+        orders
+            .where(
+              (o) =>
+                  (startDate == null || !o.createdAt.isBefore(startDate)) &&
+                  (endDate == null || !o.createdAt.isAfter(endDate)),
+            )
+            .toList(),
+      );
 
   @override
   dynamic noSuchMethod(Invocation invocation) =>

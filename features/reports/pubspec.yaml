@@ -11,10 +11,8 @@ dependencies:
   auto_route: ^11.1.0
   bloc_exports:
     path: ../../packages/bloc
-  feature_orders:
-    path: ../orders
-  feature_products:
-    path: ../products
+  catalog:
+    path: ../../packages/catalog
   fl_chart: ^1.1.1
   flutter:
     sdk: flutter
@@ -22,6 +20,8 @@ dependencies:
     path: ../../packages/i18n
   logger:
     path: ../../packages/logger
+  order_management:
+    path: ../../packages/order_management
   result:
     path: ../../packages/result
   talker: ^5.1.9

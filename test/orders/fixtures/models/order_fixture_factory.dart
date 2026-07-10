@@ -1,4 +1,4 @@
-import 'package:feature_orders/feature_orders.dart';
+import 'package:order_management/order_management.dart';
 import 'package:data_fixture_dart/data_fixture_dart.dart';
 import 'order_line_item_fixture_factory.dart';
 
@@ -27,7 +27,8 @@ class OrderFixtureFactory extends FixtureFactory<Order> {
             createdAt: faker.date.dateTime(),
             status: OrderStatus.values[faker.randomGenerator.integer(3)],
             items: items,
-            note: faker.randomGenerator.boolean() ? faker.lorem.sentence() : null,
+            note:
+                faker.randomGenerator.boolean() ? faker.lorem.sentence() : null,
             subtotalCents: subtotal,
             taxCents: tax,
             discountCents: discount,

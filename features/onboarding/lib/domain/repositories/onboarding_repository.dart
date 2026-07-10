@@ -9,8 +9,4 @@ abstract interface class OnboardingRepository {
   /// staff (or a single-user session), optionally seed a starter catalog, and
   /// mark onboarding done.
   Future<void> complete(OnboardingDraft draft);
-
-  /// Wipe all data, clear the profile + session, and reset the completion flag
-  /// so the app returns to onboarding.
-  Future<void> resetEverything();
 }

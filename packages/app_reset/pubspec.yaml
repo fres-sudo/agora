@@ -1,0 +1,25 @@
+name: app_reset
+description: Cross-cutting "wipe all data and return to onboarding" service for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  auth_session:
+    path: ../auth_session
+  database:
+    path: ../database
+  feature_flags:
+    path: ../feature_flags
+  flutter:
+    sdk: flutter
+  talker: ^5.1.9
+  utils:
+    path: ../utils
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

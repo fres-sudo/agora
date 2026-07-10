@@ -1,6 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
-import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
+import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';

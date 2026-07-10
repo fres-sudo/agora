@@ -1,19 +1,10 @@
+export 'package:catalog/catalog.dart';
+
 export 'domain/mappers/category_mapper.dart';
 export 'domain/mappers/product_mapper.dart';
-export 'domain/models/category.dart';
-export 'domain/models/modifier_group.dart';
-export 'domain/models/modifier_option.dart';
-export 'domain/models/product.dart';
 export 'domain/models/product_form_data.dart';
-export 'domain/models/product_status.dart';
-export 'domain/repositories/categories_repository.dart';
-export 'domain/repositories/modifiers_repository.dart';
-export 'domain/repositories/products_repository.dart';
-export 'presentation/blocs/categories/categories_bloc.dart';
 export 'presentation/blocs/product_detail/product_detail_cubit.dart';
-export 'presentation/blocs/modifiers/modifiers_bloc.dart';
 export 'presentation/blocs/product_form/product_form_cubit.dart';
-export 'presentation/blocs/products/products_bloc.dart';
 export 'presentation/pages/products_page.dart';
 export 'presentation/routes/products_feature.dart';
 export 'presentation/routes/products_router.dart';

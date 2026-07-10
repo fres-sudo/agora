@@ -1,14 +1,14 @@
+import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_orders/feature_orders.dart';
-import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
-import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
+import 'package:database/database.dart';
+import 'package:order_management/order_management.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Segmented selector for the order's [PaymentMethod] (Cash / Card).
 ///
-/// Reads [AppSettingsDao.keyPaymentMethodCashEnabled] /
-/// [AppSettingsDao.keyPaymentMethodCardEnabled] from [SettingsCubit] to filter
+/// Reads [SettingsKeys.paymentMethodCashEnabled] /
+/// [SettingsKeys.paymentMethodCardEnabled] from [SettingsCubit] to filter
 /// the displayed methods. Both default to enabled when not yet persisted.
 class PaymentMethodSelector extends StatelessWidget {
   const PaymentMethodSelector({
@@ -28,11 +28,11 @@ class PaymentMethodSelector extends StatelessWidget {
     final enabledMethods = PaymentMethod.values.where((m) {
       return switch (m) {
         PaymentMethod.cash => cubit.getBool(
-          AppSettingsDao.keyPaymentMethodCashEnabled,
+          SettingsKeys.paymentMethodCashEnabled,
           defaultValue: true,
         ),
         PaymentMethod.card => cubit.getBool(
-          AppSettingsDao.keyPaymentMethodCardEnabled,
+          SettingsKeys.paymentMethodCardEnabled,
           defaultValue: true,
         ),
       };

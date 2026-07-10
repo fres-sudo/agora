@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/domain/models/category.dart';
+import 'package:catalog/models/category.dart';
 
 /// A list item widget for displaying and editing a category.
 class CategoryListItem extends StatelessWidget {

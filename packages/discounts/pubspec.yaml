@@ -1,0 +1,25 @@
+name: discounts
+description: Shared discount domain (model, repository interface, CRUD/validation blocs) for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  bloc_exports:
+    path: ../bloc
+  flutter:
+    sdk: flutter
+  json_annotation: ^4.9.0
+  result:
+    path: ../result
+
+dev_dependencies:
+  bloc_test: ^10.0.0
+  build_runner: ^2.4.7
+  flutter_test:
+    sdk: flutter
+  freezed: ^3.2.3
+  json_serializable: ^6.11.1

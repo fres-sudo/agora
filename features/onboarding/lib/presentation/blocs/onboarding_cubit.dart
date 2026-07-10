@@ -89,23 +89,4 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       emit(state.copyWith(phase: OnboardingPhase.editing, error: e.toString()));
     }
   }
-
-  /// Wipe everything and return to a fresh wizard. Invoked from Settings.
-  Future<void> resetEverything() async {
-    emit(state.copyWith(phase: OnboardingPhase.submitting));
-    try {
-      await _repository.resetEverything();
-      emit(const OnboardingState(phase: OnboardingPhase.needsReonboarding));
-    } catch (e) {
-      emit(state.copyWith(phase: OnboardingPhase.editing, error: e.toString()));
-    }
-  }
-
-  /// After the gate has navigated to the wizard following a reset, drop back to
-  /// the neutral editing phase.
-  void acknowledgeReonboarding() {
-    if (state.phase == OnboardingPhase.needsReonboarding) {
-      emit(const OnboardingState());
-    }
-  }
 }

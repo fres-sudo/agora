@@ -1,6 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_flags/feature_flags.dart';
-import 'package:feature_orders/domain/models/order_type.dart';
+import 'package:order_management/models/order_type.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 

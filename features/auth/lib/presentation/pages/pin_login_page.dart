@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_auth/domain/models/session_employee.dart';
-import 'package:feature_auth/domain/repositories/auth_repository.dart';
-import 'package:feature_auth/presentation/blocs/session/session_cubit.dart';
+import 'package:auth_session/models/session_employee.dart';
+import 'package:auth_session/repositories/auth_repository.dart';
+import 'package:auth_session/blocs/session_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';

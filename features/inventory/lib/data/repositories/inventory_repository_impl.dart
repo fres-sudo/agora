@@ -1,7 +1,7 @@
 import 'package:database/database.dart';
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.dart';
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
 
@@ -206,5 +206,30 @@ class InventoryRepositoryImpl extends Repository
     productId: productId,
     delta: quantity,
     reason: 'Voided Order #$orderId',
+  );
+
+  // ============================================================
+  // PRODUCT LIFECYCLE
+  // ============================================================
+
+  @override
+  Future<Result<void>> initializeStock({
+    required int productId,
+    required int quantity,
+  }) => safe(
+    'initializeStock($productId, qty: $quantity)',
+    () => _stocksDao.upsertStock(productId: productId, quantity: quantity),
+  );
+
+  @override
+  Future<Result<void>> softDeleteStock(int productId) => safe(
+    'softDeleteStock($productId)',
+    () => _stocksDao.softDeleteStock(productId),
+  );
+
+  @override
+  Future<Result<void>> restoreStock(int productId) => safe(
+    'restoreStock($productId)',
+    () => _stocksDao.restoreStock(productId),
   );
 }

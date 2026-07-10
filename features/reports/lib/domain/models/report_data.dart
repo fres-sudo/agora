@@ -1,5 +1,5 @@
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_orders/domain/models/order.dart';
+import 'package:order_management/models/order.dart';
 
 part 'report_data.freezed.dart';
 

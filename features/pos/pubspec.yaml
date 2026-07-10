@@ -8,23 +8,31 @@ environment:
   flutter: '>=3.38.5'
 
 dependencies:
+  app_settings:
+    path: ../../packages/app_settings
   auto_route: ^11.1.0
   bloc_exports:
     path: ../../packages/bloc
-  feature_discounts:
-    path: ../discounts
+  catalog:
+    path: ../../packages/catalog
+  database:
+    path: ../../packages/database
+  discounts:
+    path: ../../packages/discounts
   feature_flags:
     path: ../../packages/feature_flags
-  feature_orders:
-    path: ../orders
+  # feature_products is still a direct feature-to-feature dependency, used
+  # only for the product create/edit form widget (`ProductFormWrapper`).
+  # This is a known, documented follow-up violation — see GitHub issue #4 /
+  # the PR that introduced this comment for details.
   feature_products:
     path: ../products
-  feature_settings:
-    path: ../settings
   flutter:
     sdk: flutter
   i18n:
     path: ../../packages/i18n
+  order_management:
+    path: ../../packages/order_management
   printing:
     path: ../../packages/printing
   ui_kit:

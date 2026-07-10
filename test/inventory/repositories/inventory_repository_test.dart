@@ -96,8 +96,10 @@ void main() {
         // Assert
         expect(
           stream,
-          emits(
-              (productId: tStockEntity.productId, quantity: tStockEntity.quantity)),
+          emits((
+            productId: tStockEntity.productId,
+            quantity: tStockEntity.quantity
+          )),
         );
         verify(mockStocksDao.watchStockByProductId(tProductId)).called(1);
       });
@@ -403,7 +405,7 @@ void main() {
       });
 
       test('should not record movement if quantity is same', () async {
-         // Arrange
+        // Arrange
         final newQuantity = tStockEntity.quantity;
         const reason = 'audit';
 

@@ -3,7 +3,7 @@
 // theme tokens, so the hard-coded-color rule does not apply here.
 // ignore_for_file: avoid_hardcoded_colors
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_products/domain/models/category.dart';
+import 'package:catalog/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryForm extends StatefulWidget {

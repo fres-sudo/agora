@@ -1,5 +1,5 @@
 import 'package:ui_kit/ui_kit.dart';
-import 'package:feature_orders/domain/models/order_line_item.dart';
+import 'package:order_management/models/order_line_item.dart';
 import 'package:flutter/material.dart';
 
 /// A single item row in the order list.

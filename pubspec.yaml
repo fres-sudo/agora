@@ -18,16 +18,23 @@ workspace:
   - features/settings
   - features/workforce
   - packages/app_info
+  - packages/app_reset
+  - packages/app_settings
+  - packages/auth_session
   - packages/bloc
+  - packages/catalog
   - packages/config
   - packages/database
   - packages/design_lint
+  - packages/discounts
   - packages/errors
   - packages/feature_flags
   - packages/i18n
+  - packages/inventory_contracts
   - packages/launcher
   - packages/logger
   - packages/observer
+  - packages/order_management
   - packages/printing
   - packages/remote_config
   - packages/result
@@ -221,8 +228,14 @@ melos:
         concurrency: 6
 
 dependencies:
+  app_settings:
+    path: packages/app_settings
+  catalog:
+    path: packages/catalog
   database:
     path: packages/database
+  discounts:
+    path: packages/discounts
   drift: ^2.30.0
   feature_discounts:
     path: features/discounts
@@ -241,7 +254,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  inventory_contracts:
+    path: packages/inventory_contracts
   mocktail: ^1.0.4
+  order_management:
+    path: packages/order_management
   printing:
     path: packages/printing
   result:

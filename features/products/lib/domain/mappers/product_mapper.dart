@@ -1,7 +1,7 @@
 import 'package:database/database.dart';
-import 'package:feature_products/domain/models/modifier_group.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/domain/models/product_status.dart';
+import 'package:catalog/models/modifier_group.dart';
+import 'package:catalog/models/product.dart';
+import 'package:catalog/models/product_status.dart';
 
 /// Extension on [ProductEntity] for converting to domain models.
 extension ProductEntityMapper on ProductEntity {

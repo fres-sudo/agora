@@ -1,0 +1,25 @@
+name: app_settings
+description: Shared app-settings domain (repository interface, cubit, receipt-config helper) for Agora
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  bloc_exports:
+    path: ../bloc
+  flutter:
+    sdk: flutter
+  printing:
+    path: ../printing
+  result:
+    path: ../result
+
+dev_dependencies:
+  bloc_test: ^10.0.0
+  build_runner: ^2.4.7
+  flutter_test:
+    sdk: flutter
+  freezed: ^3.2.3

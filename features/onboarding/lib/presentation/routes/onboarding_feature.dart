@@ -1,11 +1,10 @@
+import 'package:auth_session/auth_session.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:database/database.dart';
-import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:feature_onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:feature_onboarding/presentation/blocs/onboarding_cubit.dart';
-import 'package:talker/talker.dart';
 import 'package:utils/utils.dart';
 
 class OnboardingFeature extends AppFeature {
@@ -19,7 +18,6 @@ class OnboardingFeature extends AppFeature {
         persistenceService: ctx.read<PersistenceService>(),
         businessProfileRepository: ctx.read<BusinessProfileRepository>(),
         authRepository: ctx.read<AuthRepository>(),
-        logger: ctx.read<Talker>(),
       ),
     ),
     BlocProvider<OnboardingCubit>(
