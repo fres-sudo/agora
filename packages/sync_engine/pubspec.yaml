@@ -16,7 +16,6 @@ dependencies:
     sdk: flutter
   logger:
     path: ../logger
-  mockito: ^5.6.4
   result:
     path: ../result
   talker: ^5.1.9
@@ -26,3 +25,4 @@ dev_dependencies:
   build_runner: ^2.4.7
   flutter_test:
     sdk: flutter
+  mockito: ^5.6.4
