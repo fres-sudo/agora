@@ -31,8 +31,14 @@ class ProductsBloc
   ProductsBloc({
     required ProductsRepository productsRepository,
     required CategoriesRepository categoriesRepository,
+    int maxCategoryRetryAttempts = 5,
+    Duration categoryRetryBaseDelay = const Duration(milliseconds: 500),
+    Duration categoryRetryMaxDelay = const Duration(seconds: 8),
   }) : _productsRepository = productsRepository,
        _categoriesRepository = categoriesRepository,
+       _maxCategoryRetryAttempts = maxCategoryRetryAttempts,
+       _categoryRetryBaseDelay = categoryRetryBaseDelay,
+       _categoryRetryMaxDelay = categoryRetryMaxDelay,
        super(const ProductsState.initial()) {
     on<_Started>(_onStarted);
     on<_Refresh>(_onRefresh);
@@ -44,8 +50,18 @@ class ProductsBloc
   final ProductsRepository _productsRepository;
   final CategoriesRepository _categoriesRepository;
 
+  // Bounded retry-with-backoff configuration for the categories stream.
+  // Without this, a persistently erroring stream (e.g. genuine DB
+  // corruption) would retry immediately and forever, burning CPU/battery on
+  // a POS device with no circuit breaker and no user-visible error state.
+  final int _maxCategoryRetryAttempts;
+  final Duration _categoryRetryBaseDelay;
+  final Duration _categoryRetryMaxDelay;
+
   StreamSubscription<List<Product>>? _productsSubscription;
   StreamSubscription<List<Category>>? _categoriesSubscription;
+  Timer? _categoryRetryTimer;
+  int _categoryRetryAttempt = 0;
 
   // Current filter state
   int? _selectedCategoryId;
@@ -62,17 +78,10 @@ class ProductsBloc
 
     await _productsSubscription?.cancel();
     await _categoriesSubscription?.cancel();
+    _categoryRetryTimer?.cancel();
+    _categoryRetryAttempt = 0;
 
-    // Subscribe to categories stream
-    _categoriesSubscription = _categoriesRepository.watchAllCategories().listen(
-      (categories) {
-        _categories = categories.where((c) => c.isEnabled).toList();
-        _emitLoaded();
-      },
-      onError: (error) {
-        add(const ProductsEvent.refresh());
-      },
-    );
+    _subscribeToCategories();
 
     // Subscribe to products stream
     _productsSubscription = _productsRepository.watchAllProducts().listen(
@@ -133,6 +142,62 @@ class ProductsBloc
   // HELPERS
   // ============================================================
 
+  /// Subscribes to the categories stream, resetting the retry counter on
+  /// every successful emission. On error, delegates to
+  /// [_handleCategoriesError] instead of retrying immediately.
+  void _subscribeToCategories() {
+    _categoriesSubscription = _categoriesRepository.watchAllCategories().listen(
+      (categories) {
+        _categoryRetryAttempt = 0;
+        _categoryRetryTimer?.cancel();
+        _categories = categories.where((c) => c.isEnabled).toList();
+        _emitLoaded();
+      },
+      onError: _handleCategoriesError,
+    );
+  }
+
+  /// Handles a categories-stream error with a bounded, exponentially
+  /// backed-off retry. Once [_maxCategoryRetryAttempts] is exhausted, a
+  /// terminal error state is emitted instead of retrying again, so the UI
+  /// can surface a persistent failure instead of looping silently forever.
+  void _handleCategoriesError(Object error) {
+    _categoryRetryAttempt++;
+
+    if (_categoryRetryAttempt > _maxCategoryRetryAttempts) {
+      if (!isClosed) {
+        // Uses the bloc-level `emit` (safe to call outside an active event
+        // handler), not the per-handler `Emitter` — see `_emitLoaded`.
+        // ignore: invalid_use_of_visible_for_testing_member
+        emit(
+          ProductsState.error(
+            message:
+                'Failed to load categories after $_maxCategoryRetryAttempts '
+                'attempts: $error',
+            previousState: state is ProductsLoaded
+                ? state as ProductsLoaded
+                : null,
+          ),
+        );
+      }
+      return;
+    }
+
+    final delay = _backoffDelay(_categoryRetryAttempt);
+    _categoryRetryTimer?.cancel();
+    _categoryRetryTimer = Timer(delay, () {
+      if (isClosed) return;
+      unawaited(_categoriesSubscription?.cancel());
+      _subscribeToCategories();
+    });
+  }
+
+  /// Exponential backoff capped at [_categoryRetryMaxDelay].
+  Duration _backoffDelay(int attempt) {
+    final scaled = _categoryRetryBaseDelay * (1 << (attempt - 1));
+    return scaled > _categoryRetryMaxDelay ? _categoryRetryMaxDelay : scaled;
+  }
+
   void _emitLoaded() {
     var filteredProducts = _allProducts;
 
@@ -167,6 +232,7 @@ class ProductsBloc
 
   @override
   Future<void> close() {
+    _categoryRetryTimer?.cancel();
     _productsSubscription?.cancel();
     _categoriesSubscription?.cancel();
     return super.close();
