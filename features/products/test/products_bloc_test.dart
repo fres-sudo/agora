@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:feature_products/domain/models/category.dart';
-import 'package:feature_products/domain/models/product.dart';
-import 'package:feature_products/domain/repositories/categories_repository.dart';
-import 'package:feature_products/domain/repositories/products_repository.dart';
-import 'package:feature_products/presentation/blocs/products/products_bloc.dart';
+import 'package:catalog/models/category.dart';
+import 'package:catalog/models/product.dart';
+import 'package:catalog/repositories/categories_repository.dart';
+import 'package:catalog/repositories/products_repository.dart';
+import 'package:catalog/blocs/products/products_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:result/result.dart';
 
