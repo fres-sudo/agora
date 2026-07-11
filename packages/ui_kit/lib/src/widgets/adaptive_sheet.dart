@@ -124,9 +124,7 @@ class _AdaptiveSideSheet extends StatelessWidget {
         ),
         child: Material(
           elevation: 0,
-          borderRadius: const BorderRadius.horizontal(
-            left: Radius.circular(6),
-          ),
+          borderRadius: const BorderRadius.horizontal(left: Radius.circular(6)),
           clipBehavior: Clip.antiAlias,
           child: SizedBox(
             width: width,
