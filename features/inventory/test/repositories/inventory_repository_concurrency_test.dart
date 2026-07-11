@@ -17,7 +17,7 @@ import 'package:drift/native.dart';
 import 'package:feature_inventory/data/repositories/inventory_repository_impl.dart';
 import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.dart';
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart';
+import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:result/result.dart';
 
