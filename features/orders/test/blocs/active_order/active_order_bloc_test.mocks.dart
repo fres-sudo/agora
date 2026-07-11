@@ -7,10 +7,8 @@ import 'dart:async' as _i4;
 
 import 'package:bloc_exports/bloc_exports.dart' as _i8;
 import 'package:order_management/models/order.dart' as _i5;
-import 'package:order_management/repositories/orders_repository.dart'
-    as _i3;
-import 'package:app_settings/blocs/settings_cubit.dart'
-    as _i2;
+import 'package:order_management/repositories/orders_repository.dart' as _i3;
+import 'package:app_settings/blocs/settings_cubit.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
 import 'package:result/result.dart' as _i6;

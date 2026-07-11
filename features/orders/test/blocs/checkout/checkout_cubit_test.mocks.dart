@@ -6,16 +6,13 @@
 import 'dart:async' as _i3;
 
 import 'package:discounts/models/discount.dart' as _i11;
-import 'package:discounts/repositories/discounts_repository.dart'
-    as _i10;
+import 'package:discounts/repositories/discounts_repository.dart' as _i10;
 import 'package:inventory_contracts/repositories/inventory_repository.dart'
     as _i7;
 import 'package:order_management/models/order.dart' as _i4;
-import 'package:order_management/repositories/orders_repository.dart'
-    as _i2;
+import 'package:order_management/repositories/orders_repository.dart' as _i2;
 import 'package:catalog/models/product.dart' as _i9;
-import 'package:catalog/repositories/products_repository.dart'
-    as _i8;
+import 'package:catalog/repositories/products_repository.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:result/result.dart' as _i5;
