@@ -79,7 +79,8 @@ void main() {
       expect(
         finalQuantity,
         startingQuantity - concurrentDecrements,
-        reason: 'every concurrent decrement must be reflected in the final '
+        reason:
+            'every concurrent decrement must be reflected in the final '
             'quantity; a value higher than expected means an update was '
             'lost to a race between concurrent adjustStock calls',
       );

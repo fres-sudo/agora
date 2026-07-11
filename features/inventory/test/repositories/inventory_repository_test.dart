@@ -67,8 +67,9 @@ void main() {
     group('watchAllStocks', () {
       test('should emit list of stocks from dao', () {
         // Arrange
-        when(mockStocksDao.watchAllStocks())
-            .thenAnswer((_) => Stream.value([tStockEntity]));
+        when(
+          mockStocksDao.watchAllStocks(),
+        ).thenAnswer((_) => Stream.value([tStockEntity]));
 
         // Act
         final stream = repository.watchAllStocks();
@@ -77,7 +78,10 @@ void main() {
         expect(
           stream,
           emits([
-            (productId: tStockEntity.productId, quantity: tStockEntity.quantity)
+            (
+              productId: tStockEntity.productId,
+              quantity: tStockEntity.quantity,
+            ),
           ]),
         );
         verify(mockStocksDao.watchAllStocks()).called(1);
@@ -87,8 +91,9 @@ void main() {
     group('watchStockByProductId', () {
       test('should emit stock from dao when exists', () {
         // Arrange
-        when(mockStocksDao.watchStockByProductId(tProductId))
-            .thenAnswer((_) => Stream.value(tStockEntity));
+        when(
+          mockStocksDao.watchStockByProductId(tProductId),
+        ).thenAnswer((_) => Stream.value(tStockEntity));
 
         // Act
         final stream = repository.watchStockByProductId(tProductId);
@@ -98,7 +103,7 @@ void main() {
           stream,
           emits((
             productId: tStockEntity.productId,
-            quantity: tStockEntity.quantity
+            quantity: tStockEntity.quantity,
           )),
         );
         verify(mockStocksDao.watchStockByProductId(tProductId)).called(1);
@@ -106,8 +111,9 @@ void main() {
 
       test('should emit null from dao when does not exist', () {
         // Arrange
-        when(mockStocksDao.watchStockByProductId(tProductId))
-            .thenAnswer((_) => Stream.value(null));
+        when(
+          mockStocksDao.watchStockByProductId(tProductId),
+        ).thenAnswer((_) => Stream.value(null));
 
         // Act
         final stream = repository.watchStockByProductId(tProductId);
@@ -122,8 +128,9 @@ void main() {
       test('should emit low stocks from dao', () {
         // Arrange
         const threshold = 5;
-        when(mockStocksDao.watchLowStocks(threshold))
-            .thenAnswer((_) => Stream.value([tStockEntity]));
+        when(
+          mockStocksDao.watchLowStocks(threshold),
+        ).thenAnswer((_) => Stream.value([tStockEntity]));
 
         // Act
         final stream = repository.watchLowStocks(threshold);
@@ -132,7 +139,10 @@ void main() {
         expect(
           stream,
           emits([
-            (productId: tStockEntity.productId, quantity: tStockEntity.quantity)
+            (
+              productId: tStockEntity.productId,
+              quantity: tStockEntity.quantity,
+            ),
           ]),
         );
         verify(mockStocksDao.watchLowStocks(threshold)).called(1);
@@ -142,8 +152,9 @@ void main() {
     group('watchMovementsByProductId', () {
       test('should emit movements from dao', () {
         // Arrange
-        when(mockStockMovementsDao.watchMovementsByProductId(tProductId))
-            .thenAnswer((_) => Stream.value([tStockMovementEntity]));
+        when(
+          mockStockMovementsDao.watchMovementsByProductId(tProductId),
+        ).thenAnswer((_) => Stream.value([tStockMovementEntity]));
 
         // Act
         final stream = repository.watchMovementsByProductId(tProductId);
@@ -158,19 +169,21 @@ void main() {
               quantityChange: tStockMovementEntity.quantityChange,
               reason: tStockMovementEntity.reason,
               timestamp: tStockMovementEntity.timestamp,
-            )
+            ),
           ]),
         );
-        verify(mockStockMovementsDao.watchMovementsByProductId(tProductId))
-            .called(1);
+        verify(
+          mockStockMovementsDao.watchMovementsByProductId(tProductId),
+        ).called(1);
       });
     });
 
     group('getStockQuantity', () {
       test('should return quantity from dao when stock exists', () async {
         // Arrange
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => tStockEntity);
+        when(
+          mockStocksDao.getStockByProductId(tProductId),
+        ).thenAnswer((_) async => tStockEntity);
 
         // Act
         final result = await repository.getStockQuantity(tProductId);
@@ -183,8 +196,9 @@ void main() {
 
       test('should return 0 from dao when stock does not exist', () async {
         // Arrange
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => null);
+        when(
+          mockStocksDao.getStockByProductId(tProductId),
+        ).thenAnswer((_) async => null);
 
         // Act
         final result = await repository.getStockQuantity(tProductId);
@@ -199,8 +213,9 @@ void main() {
     group('getStockByProductId', () {
       test('should return stock from dao when exists', () async {
         // Arrange
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => tStockEntity);
+        when(
+          mockStocksDao.getStockByProductId(tProductId),
+        ).thenAnswer((_) async => tStockEntity);
 
         // Act
         final result = await repository.getStockByProductId(tProductId);
@@ -215,8 +230,9 @@ void main() {
 
       test('should return null from dao when does not exist', () async {
         // Arrange
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => null);
+        when(
+          mockStocksDao.getStockByProductId(tProductId),
+        ).thenAnswer((_) async => null);
 
         // Act
         final result = await repository.getStockByProductId(tProductId);
@@ -244,24 +260,29 @@ void main() {
     });
 
     group('getMovementHistory', () {
-      test('should return movements from dao when productId is provided',
-          () async {
-        // Arrange
-        when(mockStockMovementsDao.getMovementsByProductId(tProductId))
-            .thenAnswer((_) async => [tStockMovementEntity]);
+      test(
+        'should return movements from dao when productId is provided',
+        () async {
+          // Arrange
+          when(
+            mockStockMovementsDao.getMovementsByProductId(tProductId),
+          ).thenAnswer((_) async => [tStockMovementEntity]);
 
-        // Act
-        final result =
-            await repository.getMovementHistory(productId: tProductId);
+          // Act
+          final result = await repository.getMovementHistory(
+            productId: tProductId,
+          );
 
-        // Assert
-        expect(result, isA<Ok<List<StockMovement>>>());
-        final movements = (result as Ok<List<StockMovement>>).value;
-        expect(movements.length, 1);
-        expect(movements.first.id, tStockMovementEntity.id);
-        verify(mockStockMovementsDao.getMovementsByProductId(tProductId))
-            .called(1);
-      });
+          // Assert
+          expect(result, isA<Ok<List<StockMovement>>>());
+          final movements = (result as Ok<List<StockMovement>>).value;
+          expect(movements.length, 1);
+          expect(movements.first.id, tStockMovementEntity.id);
+          verify(
+            mockStockMovementsDao.getMovementsByProductId(tProductId),
+          ).called(1);
+        },
+      );
 
       test('should return empty list when productId is not provided', () async {
         // Act
@@ -276,61 +297,73 @@ void main() {
 
     group('adjustStock', () {
       test(
-          'should adjust stock atomically inside a transaction and record movement',
-          () async {
-        // Arrange
-        const delta = 5;
-        const reason = 'restock';
-        final updatedQuantity = tStockEntity.quantity + delta;
+        'should adjust stock atomically inside a transaction and record movement',
+        () async {
+          // Arrange
+          const delta = 5;
+          const reason = 'restock';
+          final updatedQuantity = tStockEntity.quantity + delta;
 
-        // The repository now wraps the atomic quantity adjustment and the
-        // movement record in a single `StocksDao.transaction` call. Stub
-        // the transaction to simply invoke the given callback.
-        when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
-          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
-              Function())(),
-        );
+          // The repository now wraps the atomic quantity adjustment and the
+          // movement record in a single `StocksDao.transaction` call. Stub
+          // the transaction to simply invoke the given callback.
+          when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
+            (invocation) =>
+                (invocation.positionalArguments[0]
+                    as Future<Object?> Function())(),
+          );
 
-        when(mockStocksDao.adjustStockQuantityAtomic(
-          productId: tProductId,
-          delta: delta,
-        )).thenAnswer((_) async => updatedQuantity);
+          when(
+            mockStocksDao.adjustStockQuantityAtomic(
+              productId: tProductId,
+              delta: delta,
+            ),
+          ).thenAnswer((_) async => updatedQuantity);
 
-        when(mockStockMovementsDao.recordMovement(
-          productId: tProductId,
-          quantityChange: delta,
-          reason: reason,
-        )).thenAnswer((_) async => 1);
+          when(
+            mockStockMovementsDao.recordMovement(
+              productId: tProductId,
+              quantityChange: delta,
+              reason: reason,
+            ),
+          ).thenAnswer((_) async => 1);
 
-        // Act
-        final result = await repository.adjustStock(
-          productId: tProductId,
-          delta: delta,
-          reason: reason,
-        );
+          // Act
+          final result = await repository.adjustStock(
+            productId: tProductId,
+            delta: delta,
+            reason: reason,
+          );
 
-        // Assert
-        expect(result, isA<Ok<Stock>>());
-        final stock = (result as Ok<Stock>).value;
-        expect(stock.quantity, updatedQuantity);
+          // Assert
+          expect(result, isA<Ok<Stock>>());
+          final stock = (result as Ok<Stock>).value;
+          expect(stock.quantity, updatedQuantity);
 
-        verify(mockStocksDao.transaction<Object?>(any)).called(1);
-        verify(mockStocksDao.adjustStockQuantityAtomic(
-          productId: tProductId,
-          delta: delta,
-        )).called(1);
-        verify(mockStockMovementsDao.recordMovement(
-          productId: tProductId,
-          quantityChange: delta,
-          reason: reason,
-        )).called(1);
-        // The old read-then-write path must no longer be used.
-        verifyNever(mockStocksDao.getStockByProductId(tProductId));
-        verifyNever(mockStocksDao.upsertStock(
-          productId: anyNamed('productId'),
-          quantity: anyNamed('quantity'),
-        ));
-      });
+          verify(mockStocksDao.transaction<Object?>(any)).called(1);
+          verify(
+            mockStocksDao.adjustStockQuantityAtomic(
+              productId: tProductId,
+              delta: delta,
+            ),
+          ).called(1);
+          verify(
+            mockStockMovementsDao.recordMovement(
+              productId: tProductId,
+              quantityChange: delta,
+              reason: reason,
+            ),
+          ).called(1);
+          // The old read-then-write path must no longer be used.
+          verifyNever(mockStocksDao.getStockByProductId(tProductId));
+          verifyNever(
+            mockStocksDao.upsertStock(
+              productId: anyNamed('productId'),
+              quantity: anyNamed('quantity'),
+            ),
+          );
+        },
+      );
 
       test('should handle adjust stock when stock does not exist', () async {
         // Arrange
@@ -339,20 +372,25 @@ void main() {
         const updatedQuantity = delta;
 
         when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
-          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
-              Function())(),
+          (invocation) =>
+              (invocation.positionalArguments[0]
+                  as Future<Object?> Function())(),
         );
 
-        when(mockStocksDao.adjustStockQuantityAtomic(
-          productId: tProductId,
-          delta: delta,
-        )).thenAnswer((_) async => updatedQuantity);
+        when(
+          mockStocksDao.adjustStockQuantityAtomic(
+            productId: tProductId,
+            delta: delta,
+          ),
+        ).thenAnswer((_) async => updatedQuantity);
 
-        when(mockStockMovementsDao.recordMovement(
-          productId: tProductId,
-          quantityChange: delta,
-          reason: reason,
-        )).thenAnswer((_) async => 1);
+        when(
+          mockStockMovementsDao.recordMovement(
+            productId: tProductId,
+            quantityChange: delta,
+            reason: reason,
+          ),
+        ).thenAnswer((_) async => 1);
 
         // Act
         final result = await repository.adjustStock(
@@ -370,55 +408,66 @@ void main() {
 
     group('setStock', () {
       test(
-          'should set stock and record movement if changed, inside a transaction',
-          () async {
-        // Arrange
-        const newQuantity = 20;
-        const reason = 'audit';
-        final delta = newQuantity - tStockEntity.quantity;
+        'should set stock and record movement if changed, inside a transaction',
+        () async {
+          // Arrange
+          const newQuantity = 20;
+          const reason = 'audit';
+          final delta = newQuantity - tStockEntity.quantity;
 
-        when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
-          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
-              Function())(),
-        );
+          when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
+            (invocation) =>
+                (invocation.positionalArguments[0]
+                    as Future<Object?> Function())(),
+          );
 
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => tStockEntity);
+          when(
+            mockStocksDao.getStockByProductId(tProductId),
+          ).thenAnswer((_) async => tStockEntity);
 
-        when(mockStocksDao.upsertStock(
-          productId: tProductId,
-          quantity: newQuantity,
-        )).thenAnswer((_) async {});
+          when(
+            mockStocksDao.upsertStock(
+              productId: tProductId,
+              quantity: newQuantity,
+            ),
+          ).thenAnswer((_) async {});
 
-        when(mockStockMovementsDao.recordMovement(
-          productId: tProductId,
-          quantityChange: delta,
-          reason: reason,
-        )).thenAnswer((_) async => 1);
+          when(
+            mockStockMovementsDao.recordMovement(
+              productId: tProductId,
+              quantityChange: delta,
+              reason: reason,
+            ),
+          ).thenAnswer((_) async => 1);
 
-        // Act
-        final result = await repository.setStock(
-          productId: tProductId,
-          quantity: newQuantity,
-          reason: reason,
-        );
+          // Act
+          final result = await repository.setStock(
+            productId: tProductId,
+            quantity: newQuantity,
+            reason: reason,
+          );
 
-        // Assert
-        expect(result, isA<Ok<Stock>>());
-        final stock = (result as Ok<Stock>).value;
-        expect(stock.quantity, newQuantity);
+          // Assert
+          expect(result, isA<Ok<Stock>>());
+          final stock = (result as Ok<Stock>).value;
+          expect(stock.quantity, newQuantity);
 
-        verify(mockStocksDao.transaction<Object?>(any)).called(1);
-        verify(mockStocksDao.upsertStock(
-          productId: tProductId,
-          quantity: newQuantity,
-        )).called(1);
-        verify(mockStockMovementsDao.recordMovement(
-          productId: tProductId,
-          quantityChange: delta,
-          reason: reason,
-        )).called(1);
-      });
+          verify(mockStocksDao.transaction<Object?>(any)).called(1);
+          verify(
+            mockStocksDao.upsertStock(
+              productId: tProductId,
+              quantity: newQuantity,
+            ),
+          ).called(1);
+          verify(
+            mockStockMovementsDao.recordMovement(
+              productId: tProductId,
+              quantityChange: delta,
+              reason: reason,
+            ),
+          ).called(1);
+        },
+      );
 
       test('should not record movement if quantity is same', () async {
         // Arrange
@@ -426,17 +475,21 @@ void main() {
         const reason = 'audit';
 
         when(mockStocksDao.transaction<Object?>(any)).thenAnswer(
-          (invocation) => (invocation.positionalArguments[0] as Future<Object?>
-              Function())(),
+          (invocation) =>
+              (invocation.positionalArguments[0]
+                  as Future<Object?> Function())(),
         );
 
-        when(mockStocksDao.getStockByProductId(tProductId))
-            .thenAnswer((_) async => tStockEntity);
+        when(
+          mockStocksDao.getStockByProductId(tProductId),
+        ).thenAnswer((_) async => tStockEntity);
 
-        when(mockStocksDao.upsertStock(
-          productId: tProductId,
-          quantity: newQuantity,
-        )).thenAnswer((_) async {});
+        when(
+          mockStocksDao.upsertStock(
+            productId: tProductId,
+            quantity: newQuantity,
+          ),
+        ).thenAnswer((_) async {});
 
         // Act
         final result = await repository.setStock(
@@ -447,15 +500,19 @@ void main() {
 
         // Assert
         expect(result, isA<Ok<Stock>>());
-        verify(mockStocksDao.upsertStock(
-          productId: tProductId,
-          quantity: newQuantity,
-        )).called(1);
-        verifyNever(mockStockMovementsDao.recordMovement(
-          productId: anyNamed('productId'),
-          quantityChange: anyNamed('quantityChange'),
-          reason: anyNamed('reason'),
-        ));
+        verify(
+          mockStocksDao.upsertStock(
+            productId: tProductId,
+            quantity: newQuantity,
+          ),
+        ).called(1);
+        verifyNever(
+          mockStockMovementsDao.recordMovement(
+            productId: anyNamed('productId'),
+            quantityChange: anyNamed('quantityChange'),
+            reason: anyNamed('reason'),
+          ),
+        );
       });
     });
   });

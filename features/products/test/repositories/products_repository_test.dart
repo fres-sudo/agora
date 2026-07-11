@@ -46,8 +46,8 @@ void main() {
       status: 'active',
       trackStock: true,
       updatedAt: null, // nullable in table
-      createdAt: DateTime
-          .now(), // will be auto-set by drift usually, but here manually
+      createdAt:
+          DateTime.now(), // will be auto-set by drift usually, but here manually
       deletedAt: null,
       imageUrl: null,
       sku: 'SKU1',
@@ -85,51 +85,53 @@ void main() {
       verify(mockInventoryRepository.getStockByProductId(1)).called(1);
     });
 
-    test('watchAllProducts hydrates modifierGroups from linked modifiers',
-        () async {
-      final modifierEntity = ModifierEntity(
-        id: 5,
-        name: 'Size',
-        isMultiSelect: false,
-        updatedAt: null,
-        createdAt: DateTime.now(),
-        deletedAt: null,
-      );
-      final optionEntity = ModifierOptionEntity(
-        id: 9,
-        modifierId: 5,
-        name: 'Large',
-        priceChange: 100,
-        updatedAt: null,
-        createdAt: DateTime.now(),
-        deletedAt: null,
-      );
+    test(
+      'watchAllProducts hydrates modifierGroups from linked modifiers',
+      () async {
+        final modifierEntity = ModifierEntity(
+          id: 5,
+          name: 'Size',
+          isMultiSelect: false,
+          updatedAt: null,
+          createdAt: DateTime.now(),
+          deletedAt: null,
+        );
+        final optionEntity = ModifierOptionEntity(
+          id: 9,
+          modifierId: 5,
+          name: 'Large',
+          priceChange: 100,
+          updatedAt: null,
+          createdAt: DateTime.now(),
+          deletedAt: null,
+        );
 
-      when(
-        mockProductsDao.watchAllProducts(),
-      ).thenAnswer((_) => Stream.value([productEntity]));
-      when(
-        mockInventoryRepository.getStockByProductId(1),
-      ).thenAnswer((_) async => const Result.ok(stock));
-      when(
-        mockModifiersDao.getModifiersByProductId(1),
-      ).thenAnswer((_) async => [modifierEntity]);
-      when(
-        mockModifiersDao.getOptionsByModifierId(5),
-      ).thenAnswer((_) async => [optionEntity]);
+        when(
+          mockProductsDao.watchAllProducts(),
+        ).thenAnswer((_) => Stream.value([productEntity]));
+        when(
+          mockInventoryRepository.getStockByProductId(1),
+        ).thenAnswer((_) async => const Result.ok(stock));
+        when(
+          mockModifiersDao.getModifiersByProductId(1),
+        ).thenAnswer((_) async => [modifierEntity]);
+        when(
+          mockModifiersDao.getOptionsByModifierId(5),
+        ).thenAnswer((_) async => [optionEntity]);
 
-      final stream = repository.watchAllProducts();
-      final products = await stream.first;
+        final stream = repository.watchAllProducts();
+        final products = await stream.first;
 
-      expect(products.first.modifierGroups, hasLength(1));
-      expect(products.first.modifierGroups.first.id, 5);
-      expect(products.first.modifierGroups.first.name, 'Size');
-      expect(products.first.modifierGroups.first.options, hasLength(1));
-      expect(
-        products.first.modifierGroups.first.options.first.priceChangeCents,
-        100,
-      );
-    });
+        expect(products.first.modifierGroups, hasLength(1));
+        expect(products.first.modifierGroups.first.id, 5);
+        expect(products.first.modifierGroups.first.name, 'Size');
+        expect(products.first.modifierGroups.first.options, hasLength(1));
+        expect(
+          products.first.modifierGroups.first.options.first.priceChangeCents,
+          100,
+        );
+      },
+    );
 
     test('watchProductsByCategory emits filtered products', () async {
       when(

@@ -42,8 +42,7 @@ void main() {
     expect(fetched.usageCount, 0);
   });
 
-  test(
-      'incrementUsage grows usageCount and drives isValid to false at the '
+  test('incrementUsage grows usageCount and drives isValid to false at the '
       'limit', () async {
     final created = await create(base);
 
