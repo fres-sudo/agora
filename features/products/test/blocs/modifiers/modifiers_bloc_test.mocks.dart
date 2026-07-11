@@ -5,10 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:feature_products/domain/models/modifier_group.dart' as _i4;
-import 'package:feature_products/domain/models/modifier_option.dart' as _i7;
-import 'package:feature_products/domain/repositories/modifiers_repository.dart'
-    as _i2;
+import 'package:catalog/models/modifier_group.dart' as _i4;
+import 'package:catalog/models/modifier_option.dart' as _i7;
+import 'package:catalog/repositories/modifiers_repository.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:result/result.dart' as _i5;
