@@ -4,10 +4,10 @@ import 'package:drift/native.dart';
 import 'package:feature_orders/data/repositories/orders_repository_impl.dart';
 import 'package:feature_orders/data/sources/local/daos/order_items_dao.dart';
 import 'package:feature_orders/data/sources/local/daos/orders_dao.dart';
-import 'package:feature_orders/domain/models/order.dart';
-import 'package:feature_orders/domain/models/order_line_item.dart';
-import 'package:feature_orders/domain/models/order_type.dart';
-import 'package:feature_orders/domain/models/selected_modifiers.dart';
+import 'package:order_management/models/order.dart';
+import 'package:order_management/models/order_line_item.dart';
+import 'package:order_management/models/order_type.dart';
+import 'package:order_management/models/selected_modifiers.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:result/result.dart';
 

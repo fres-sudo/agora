@@ -5,10 +5,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:feature_inventory/domain/repositories/inventory_repository.dart'
+import 'package:inventory_contracts/repositories/inventory_repository.dart'
     as _i7;
-import 'package:feature_orders/domain/models/order.dart' as _i4;
-import 'package:feature_orders/domain/repositories/orders_repository.dart'
+import 'package:order_management/models/order.dart' as _i4;
+import 'package:order_management/repositories/orders_repository.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
