@@ -110,9 +110,13 @@ class AppColors extends ThemeExtension<AppColors> {
     cardForeground: AppPalette.neutral900,
     popover: AppPalette.white,
     popoverForeground: AppPalette.neutral900,
-    primary: AppPalette.primary500,
-    // Dark text on the vivid brand green — meets WCAG AA (white would not).
-    primaryForeground: AppPalette.neutral900,
+    // shadcn "zinc" convention: primary is near-black ink, not a brand hue —
+    // color is reserved for feedback states, not actions. AppPalette.primary*
+    // (brand green) is intentionally unused here; it remains available as a
+    // raw ramp for callers that need a decorative accent outside the token
+    // system.
+    primary: AppPalette.neutral900,
+    primaryForeground: AppPalette.white,
     secondary: AppPalette.neutral100,
     secondaryForeground: AppPalette.neutral900,
     muted: AppPalette.neutral100,
@@ -133,7 +137,8 @@ class AppColors extends ThemeExtension<AppColors> {
     // drawn with borders, not shadows, so it needs to actually read.
     border: AppPalette.neutral300,
     input: AppPalette.neutral300,
-    ring: AppPalette.primary500,
+    // Distinct from border so a focus ring is still legible against it.
+    ring: AppPalette.neutral400,
     overlay: Color(0x80000000),
   );
 
@@ -145,7 +150,9 @@ class AppColors extends ThemeExtension<AppColors> {
     cardForeground: AppPalette.neutral50,
     popover: AppPalette.neutral800,
     popoverForeground: AppPalette.neutral50,
-    primary: AppPalette.primary500,
+    // Mirrors light: primary flips to near-white ink on dark canvases so it
+    // still reads as "the darkest/lightest thing on screen", shadcn-style.
+    primary: AppPalette.neutral50,
     primaryForeground: AppPalette.neutral900,
     secondary: AppPalette.neutral800,
     secondaryForeground: AppPalette.neutral50,
@@ -163,7 +170,7 @@ class AppColors extends ThemeExtension<AppColors> {
     infoForeground: AppPalette.neutral950,
     border: AppPalette.neutral700,
     input: AppPalette.neutral700,
-    ring: AppPalette.primary500,
+    ring: AppPalette.neutral500,
     overlay: Color(0x99000000),
   );
 

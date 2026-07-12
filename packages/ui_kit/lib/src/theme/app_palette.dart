@@ -14,7 +14,9 @@ abstract final class AppPalette {
   static const Color black = Color(0xff000000);
   static const Color transparent = Color(0x00000000);
 
-  // Primary (brand green)
+  // Brand green — kept for callers that want a decorative accent outside the
+  // token system. Not the semantic "primary" (see AppColors), which resolves
+  // to a neutral shade for the shadcn/Notion-style grey look.
   static const Color primary50 = Color(0xffF2FAF7);
   static const Color primary100 = Color(0xffDAF4E6);
   static const Color primary200 = Color(0xffBEEDD2);
