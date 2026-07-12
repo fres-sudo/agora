@@ -173,52 +173,40 @@ class MockOrdersRepository extends _i1.Mock implements _i3.OrdersRepository {
   _i4.Future<_i6.Result<_i5.Order>> createOrder(_i5.Order? order) =>
       (super.noSuchMethod(
             Invocation.method(#createOrder, [order]),
-            returnValue:
-                _i4.Future<
-                  _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-                >.value(
-                  _i7.dummyValue<
-                    _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-                  >(this, Invocation.method(#createOrder, [order])),
-                ),
+            returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+              _i7.dummyValue<_i6.Result<_i5.Order>>(
+                this,
+                Invocation.method(#createOrder, [order]),
+              ),
+            ),
           )
-          as _i4.Future<
-            _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-          >);
+          as _i4.Future<_i6.Result<_i5.Order>>);
 
   @override
   _i4.Future<_i6.Result<_i5.Order>> updateOrder(_i5.Order? order) =>
       (super.noSuchMethod(
             Invocation.method(#updateOrder, [order]),
-            returnValue:
-                _i4.Future<
-                  _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-                >.value(
-                  _i7.dummyValue<
-                    _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-                  >(this, Invocation.method(#updateOrder, [order])),
-                ),
+            returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+              _i7.dummyValue<_i6.Result<_i5.Order>>(
+                this,
+                Invocation.method(#updateOrder, [order]),
+              ),
+            ),
           )
-          as _i4.Future<
-            _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-          >);
+          as _i4.Future<_i6.Result<_i5.Order>>);
 
   @override
   _i4.Future<_i6.Result<_i5.Order>> completeOrder(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#completeOrder, [id]),
-            returnValue:
-                _i4.Future<
-                  _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-                >.value(
-                  _i7.dummyValue<
-                    _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-                  >(this, Invocation.method(#completeOrder, [id])),
-                ),
+            returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+              _i7.dummyValue<_i6.Result<_i5.Order>>(
+                this,
+                Invocation.method(#completeOrder, [id]),
+              ),
+            ),
           )
-          as _i4.Future<
-            _i6.Result<({_i5.Order order, bool wasAlreadyVoided})>
-          >);
+          as _i4.Future<_i6.Result<_i5.Order>>);
 
   @override
   _i4.Future<_i6.Result<({_i5.Order order, bool wasAlreadyVoided})>> voidOrder(

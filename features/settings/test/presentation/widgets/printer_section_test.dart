@@ -1,6 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
-import 'package:feature_settings/domain/repositories/settings_repository.dart';
-import 'package:feature_settings/presentation/blocs/settings/settings_cubit.dart';
+import 'package:app_settings/repositories/settings_repository.dart';
+import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:feature_settings/presentation/widgets/printer_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
