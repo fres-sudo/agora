@@ -19,7 +19,7 @@ void main() {
     employeeId = await employeesDao.insertEmployee(
       const EmployeesTableCompanion(
         name: Value('Alice'),
-        pin: Value('1234'),
+        pinHash: Value('1234'),
       ),
     );
   });

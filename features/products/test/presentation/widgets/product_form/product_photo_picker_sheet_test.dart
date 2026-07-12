@@ -22,11 +22,15 @@ Future<String?> _pumpSheetAndAct(
             body: Center(
               child: ElevatedButton(
                 onPressed: () async {
-                  result = await Navigator.of(context).push<String?>(
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          ProductPhotoPickerSheet(initialValue: initialValue),
-                    ),
+                  // Mirrors production usage (product_info_step.dart), which
+                  // opens this widget via AdaptiveSheet.show, not a bare
+                  // Navigator.push — that's what gives it a Material
+                  // ancestor (for the stock-tile InkWells) and a bounded
+                  // height (avoiding a RenderFlex overflow).
+                  result = await AdaptiveSheet.show<String?>(
+                    context: context,
+                    builder: (ctx, _) =>
+                        ProductPhotoPickerSheet(initialValue: initialValue),
                   );
                 },
                 child: const Text('open'),

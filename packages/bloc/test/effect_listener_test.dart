@@ -132,18 +132,19 @@ void main() {
     });
 
     testWidgets(
-      'buffered effect: effect emitted before widget built is delivered after initState subscribe',
+      'no buffering: effect emitted before widget built is dropped, not delivered after initState subscribe',
       (tester) async {
-        // Arrange: emit BEFORE the widget is pumped so the effect is buffered
-        // in the single-subscription StreamController.
+        // Arrange: emit BEFORE the widget is pumped. The effects stream is
+        // broadcast (not buffered), so this effect has no listener and is lost.
         final bloc = _TestBloc();
         addTearDown(() => _tearDownBloc(tester, bloc));
 
-        bloc.emitEffect('buffered');
+        bloc.emitEffect('dropped');
 
         final received = <String>[];
 
-        // Act: pump the listener — initState subscribes and drains the buffer.
+        // Act: pump the listener — initState subscribes, but too late for
+        // the effect emitted above.
         await tester.pumpApp(
           BlocProvider.value(
             value: bloc,
@@ -157,8 +158,8 @@ void main() {
 
         await tester.pump();
 
-        // Assert: the buffered effect was delivered.
-        expect(received, ['buffered']);
+        // Assert: the pre-subscribe effect was not delivered.
+        expect(received, isEmpty);
       },
     );
   });

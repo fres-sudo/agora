@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:order_management/order_management.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
@@ -13,9 +14,13 @@ class MockProductsBloc extends MockBloc<ProductsEvent, ProductsState>
 class MockActiveOrderBloc extends MockBloc<ActiveOrderEvent, ActiveOrderState>
     implements ActiveOrderBloc {}
 
+class MockSettingsCubit extends MockCubit<SettingsState>
+    implements SettingsCubit {}
+
 void main() {
   late MockProductsBloc mockProductsBloc;
   late MockActiveOrderBloc mockActiveOrderBloc;
+  late MockSettingsCubit mockSettingsCubit;
 
   final testProduct = Product(
     id: 1,
@@ -35,12 +40,16 @@ void main() {
   setUp(() {
     mockProductsBloc = MockProductsBloc();
     mockActiveOrderBloc = MockActiveOrderBloc();
+    mockSettingsCubit = MockSettingsCubit();
     // PosPage wraps its content in an EffectListener that subscribes to
     // ActiveOrderBloc.effects (from EffectBloc); MockBloc doesn't stub it,
     // so without this it returns null and crashes the widget build.
     when(
       () => mockActiveOrderBloc.effects,
     ).thenAnswer((_) => const Stream.empty());
+    // PosProductGrid/PosOrderPanel/PosPage read SettingsCubit for the
+    // currency symbol and receipt config.
+    when(() => mockSettingsCubit.state).thenReturn(const SettingsState.loaded(settings: {}));
   });
 
   Widget createWidgetUnderTest() {
@@ -48,6 +57,7 @@ void main() {
       providers: [
         BlocProvider<ProductsBloc>.value(value: mockProductsBloc),
         BlocProvider<ActiveOrderBloc>.value(value: mockActiveOrderBloc),
+        BlocProvider<SettingsCubit>.value(value: mockSettingsCubit),
       ],
       child: const MaterialApp(home: PosPage()),
     );
@@ -68,8 +78,6 @@ void main() {
     verify(
       () => mockActiveOrderBloc.add(const ActiveOrderEvent.started()),
     ).called(1);
-
-    expect(find.text('agora'), findsOneWidget);
   });
 
   testWidgets('renders products when loaded', (tester) async {

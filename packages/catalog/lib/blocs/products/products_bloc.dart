@@ -69,6 +69,16 @@ class ProductsBloc
   List<Product> _allProducts = [];
   List<Category> _categories = [];
 
+  // Products and categories are independent streams subscribed together in
+  // _onStarted. Without these, whichever stream's first value lands first
+  // triggers an intermediate `loaded` state with the other list still at its
+  // stale/empty default — a visible flicker (e.g. "no products" for a beat
+  // before the real list appears). Suppress emission until both streams have
+  // delivered at least one value; after that, either stream updating emits
+  // normally.
+  bool _hasInitialProducts = false;
+  bool _hasInitialCategories = false;
+
   // ============================================================
   // EVENT HANDLERS
   // ============================================================
@@ -80,6 +90,8 @@ class ProductsBloc
     await _categoriesSubscription?.cancel();
     _categoryRetryTimer?.cancel();
     _categoryRetryAttempt = 0;
+    _hasInitialProducts = false;
+    _hasInitialCategories = false;
 
     _subscribeToCategories();
 
@@ -87,7 +99,8 @@ class ProductsBloc
     _productsSubscription = _productsRepository.watchAllProducts().listen(
       (products) {
         _allProducts = products;
-        _emitLoaded();
+        _hasInitialProducts = true;
+        if (_hasInitialCategories) _emitLoaded();
       },
       onError: (error) {
         emit(
@@ -151,7 +164,8 @@ class ProductsBloc
         _categoryRetryAttempt = 0;
         _categoryRetryTimer?.cancel();
         _categories = categories.where((c) => c.isEnabled).toList();
-        _emitLoaded();
+        _hasInitialCategories = true;
+        if (_hasInitialProducts) _emitLoaded();
       },
       onError: _handleCategoriesError,
     );

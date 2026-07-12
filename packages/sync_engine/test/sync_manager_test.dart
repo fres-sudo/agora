@@ -73,6 +73,7 @@ void main() {
       manager.status.listen(statuses.add);
 
       await manager.start();
+      await Future<void>.delayed(Duration.zero);
 
       expect(statuses.last, isA<SyncPaused>());
       verifyNever(mockQueue.pendingEntries());

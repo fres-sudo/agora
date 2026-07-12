@@ -19,6 +19,9 @@ void main() {
     inventoryRepository = MockInventoryRepository();
     provideDummy<Result<Order>>(Result.error(Exception('dummy')));
     provideDummy<Result<Stock>>(Result.error(Exception('dummy')));
+    provideDummy<Result<({Order order, bool wasAlreadyVoided})>>(
+      Result.error(Exception('dummy')),
+    );
   });
 
   Order order({required OrderStatus status, List<OrderLineItem>? items}) =>
@@ -120,25 +123,38 @@ void main() {
       await cubit.close();
     });
 
-    test('does NOT void when inventory restore fails', () async {
-      final completed = order(status: OrderStatus.completed);
-      when(
-        ordersRepository.watchOrderById(7),
-      ).thenAnswer((_) => Stream.value(completed));
-      when(
-        inventoryRepository.restoreForVoidedOrder(
-          productId: anyNamed('productId'),
-          quantity: anyNamed('quantity'),
-          orderId: anyNamed('orderId'),
-        ),
-      ).thenAnswer((_) async => Result.error(Exception('stock down')));
+    test(
+      'still voids (order already claimed) but surfaces an error when inventory restore fails',
+      () async {
+        final completed = order(status: OrderStatus.completed);
+        when(
+          ordersRepository.watchOrderById(7),
+        ).thenAnswer((_) => Stream.value(completed));
+        when(ordersRepository.voidOrder(7)).thenAnswer(
+          (_) async => Result.ok((order: completed, wasAlreadyVoided: false)),
+        );
+        when(
+          inventoryRepository.restoreForVoidedOrder(
+            productId: anyNamed('productId'),
+            quantity: anyNamed('quantity'),
+            orderId: anyNamed('orderId'),
+          ),
+        ).thenAnswer((_) async => Result.error(Exception('stock down')));
 
-      final cubit = buildCubit()..load(7);
-      await Future<void>.delayed(Duration.zero);
-      await cubit.voidOrder();
+        final cubit = buildCubit()..load(7);
+        await Future<void>.delayed(Duration.zero);
+        await cubit.voidOrder();
 
-      verifyNever(ordersRepository.voidOrder(7));
-      await cubit.close();
-    });
+        // The void itself already committed (claim-then-restore ordering
+        // prevents a race where two callers both see "not yet voided"), so
+        // it is called exactly once even though the restore step fails.
+        verify(ordersRepository.voidOrder(7)).called(1);
+        expect(
+          cubit.state.maybeMap(error: (_) => true, orElse: () => false),
+          isTrue,
+        );
+        await cubit.close();
+      },
+    );
   });
 }

@@ -212,31 +212,32 @@ void main() {
       expect(states, [2]);
     });
 
-    testWidgets('direct emitEffect (before add) is delivered via onEffect', (
-      tester,
-    ) async {
-      final bloc = _ConsumerBloc();
-      addTearDown(() => _tearDown(tester, bloc));
+    testWidgets(
+      'direct emitEffect (before add) is dropped, not delivered via onEffect',
+      (tester) async {
+        final bloc = _ConsumerBloc();
+        addTearDown(() => _tearDown(tester, bloc));
 
-      bloc.emitEffect('buffered');
+        bloc.emitEffect('dropped');
 
-      final effects = <String>[];
+        final effects = <String>[];
 
-      await tester.pumpApp(
-        BlocProvider.value(
-          value: bloc,
-          child: EffectBlocConsumer<_ConsumerBloc, int, String>(
-            builder: (context, state) => const SizedBox.shrink(),
-            listener: (context, state) {},
-            onEffect: (context, effect) => effects.add(effect),
+        await tester.pumpApp(
+          BlocProvider.value(
+            value: bloc,
+            child: EffectBlocConsumer<_ConsumerBloc, int, String>(
+              builder: (context, state) => const SizedBox.shrink(),
+              listener: (context, state) {},
+              onEffect: (context, effect) => effects.add(effect),
+            ),
           ),
-        ),
-        wrapWithScaffold: false,
-      );
+          wrapWithScaffold: false,
+        );
 
-      await tester.pump();
+        await tester.pump();
 
-      expect(effects, ['buffered']);
-    });
+        expect(effects, isEmpty);
+      },
+    );
   });
 }

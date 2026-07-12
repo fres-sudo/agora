@@ -26,7 +26,11 @@ void main() {
 
       // Hand-build a schema v1 database on disk: `orders_table` without the
       // `order_type` column that was introduced in v2, pre-populated with a
-      // row representing real, unsynced local data.
+      // row representing real, unsynced local data. `product_modifier_links_table`
+      // and `clock_records_table` already existed as of v1 too (they only
+      // gained a dedup pass / unique index in later versions), so they're
+      // included here empty — otherwise the v1->v4 onUpgrade chain below
+      // would hit "no such table" on its v3/v4 steps.
       final legacyDb = sqlite3.sqlite3.open(dbFile.path);
       legacyDb.execute('''
           CREATE TABLE orders_table (
@@ -48,6 +52,28 @@ void main() {
             (created_at, status, subtotal, discount_total, tax_total, grand_total, payment_method, note)
           VALUES
             (1700000000, 1, 1500, 0, 150, 1650, 'Cash', 'unsynced order');
+        ''');
+      legacyDb.execute('''
+          CREATE TABLE product_modifier_links_table (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            created_at INTEGER NOT NULL,
+            updated_at INTEGER NULL,
+            deleted_at INTEGER NULL,
+            product_id INTEGER NOT NULL,
+            modifier_id INTEGER NOT NULL
+          );
+        ''');
+      legacyDb.execute('''
+          CREATE TABLE clock_records_table (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            created_at INTEGER NOT NULL,
+            updated_at INTEGER NULL,
+            deleted_at INTEGER NULL,
+            employee_id INTEGER NOT NULL,
+            clocked_in_at INTEGER NOT NULL,
+            clocked_out_at INTEGER NULL,
+            note TEXT NULL
+          );
         ''');
       legacyDb.execute('PRAGMA user_version = 1;');
       legacyDb.dispose();

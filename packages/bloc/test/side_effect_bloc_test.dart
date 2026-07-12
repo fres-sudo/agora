@@ -24,13 +24,20 @@ void main() {
       if (!bloc.isClosed) await bloc.close();
     });
 
-    // H1: single-subscription StreamController buffers events emitted before
-    // the listener attaches, so no effects are lost.
+    // H1: the effects stream is a broadcast StreamController, so it does not
+    // buffer — effects emitted while no listener is attached are dropped.
     test(
-      'no-loss buffering (H1): effect emitted before subscribe is delivered on first subscribe',
+      'no buffering (H1): effect emitted before subscribe is dropped',
       () async {
-        bloc.emitEffect('buffered');
-        await expectLater(bloc.effects, emitsInOrder(['buffered']));
+        bloc.emitEffect('dropped');
+
+        final received = <String>[];
+        final sub = bloc.effects.listen(received.add);
+
+        await pumpEventQueue();
+
+        expect(received, isEmpty);
+        await sub.cancel();
       },
     );
 

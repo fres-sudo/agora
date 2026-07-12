@@ -39,7 +39,6 @@ class ModifiersBloc
   }
 
   final ModifiersRepository _modifiersRepository;
-  StreamSubscription<List<ModifierGroup>>? _subscription;
 
   // ============================================================
   // EVENT HANDLERS
@@ -48,28 +47,15 @@ class ModifiersBloc
   Future<void> _onStarted(_Started event, Emitter<ModifiersState> emit) async {
     emit(const ModifiersState.loading());
 
-    await _subscription?.cancel();
-
-    _subscription = _modifiersRepository.watchAllModifiers().listen(
-      (modifiers) {
-        if (!isClosed) {
-          // ignore: invalid_use_of_visible_for_testing_member
-          emit(ModifiersState.loaded(modifiers: modifiers));
-        }
-      },
-      onError: (error) {
-        if (!isClosed) {
-          // ignore: invalid_use_of_visible_for_testing_member
-          emit(
-            ModifiersState.error(
-              message: error.toString(),
-              previousState: state is ModifiersLoaded
-                  ? state as ModifiersLoaded
-                  : null,
-            ),
-          );
-        }
-      },
+    await emit.forEach<List<ModifierGroup>>(
+      _modifiersRepository.watchAllModifiers(),
+      onData: (modifiers) => ModifiersState.loaded(modifiers: modifiers),
+      onError: (error, stackTrace) => ModifiersState.error(
+        message: error.toString(),
+        previousState: state is ModifiersLoaded
+            ? state as ModifiersLoaded
+            : null,
+      ),
     );
   }
 
@@ -229,11 +215,6 @@ class ModifiersBloc
     );
   }
 
-  @override
-  Future<void> close() {
-    _subscription?.cancel();
-    return super.close();
-  }
 }
 
 // ============================================================
