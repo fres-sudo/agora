@@ -74,9 +74,9 @@ void main() {
             orderId: anyNamed('orderId'),
           ),
         ).thenAnswer((_) async => Result.ok((productId: 1, quantity: 3)));
-        when(
-          ordersRepository.voidOrder(7),
-        ).thenAnswer((_) async => Result.ok(completed));
+        when(ordersRepository.voidOrder(7)).thenAnswer(
+          (_) async => Result.ok((order: completed, wasAlreadyVoided: false)),
+        );
 
         final cubit = buildCubit()..load(7);
         await Future<void>.delayed(Duration.zero);
@@ -101,9 +101,9 @@ void main() {
       when(
         ordersRepository.watchOrderById(7),
       ).thenAnswer((_) => Stream.value(pending));
-      when(
-        ordersRepository.voidOrder(7),
-      ).thenAnswer((_) async => Result.ok(pending));
+      when(ordersRepository.voidOrder(7)).thenAnswer(
+        (_) async => Result.ok((order: pending, wasAlreadyVoided: false)),
+      );
 
       final cubit = buildCubit()..load(7);
       await Future<void>.delayed(Duration.zero);
@@ -137,7 +137,7 @@ void main() {
       await Future<void>.delayed(Duration.zero);
       await cubit.voidOrder();
 
-      verifyNever(ordersRepository.voidOrder(any));
+      verifyNever(ordersRepository.voidOrder(7));
       await cubit.close();
     });
   });
