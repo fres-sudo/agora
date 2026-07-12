@@ -316,7 +316,7 @@ class _PosCartButton extends StatelessWidget {
                           right: 6,
                           top: 6,
                           child: Container(
-                            padding: const EdgeInsets.all(4),
+                            padding: EdgeInsets.all(context.tokens.spaceXxs),
                             decoration: BoxDecoration(
                               color: context.colors.primary,
                               shape: BoxShape.circle,
@@ -401,7 +401,7 @@ class _TabletLayout extends StatelessWidget {
             children: [
               // Search bar
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(context.tokens.spaceMd),
                 child: PosSearchBar(onSearch: onSearch),
               ),
               // Product grid
@@ -488,7 +488,7 @@ class _MobileLayout extends StatelessWidget {
       children: [
         // Search bar
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(context.tokens.spaceMd),
           child: PosSearchBar(onSearch: onSearch),
         ),
         // Horizontal category scroll
@@ -549,11 +549,11 @@ class _HorizontalCategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: context.tokens.spaceMd),
       children: [
         // All Menu chip
         Padding(
-          padding: const EdgeInsets.only(right: 8),
+          padding: EdgeInsets.only(right: context.tokens.spaceXs),
           child: _CategoryChip(
             label: 'All Menu',
             isSelected: selectedCategoryId == null,
@@ -563,7 +563,7 @@ class _HorizontalCategoryList extends StatelessWidget {
         // Category chips
         ...categories.map(
           (category) => Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: EdgeInsets.only(right: context.tokens.spaceXs),
             child: _CategoryChip(
               label: category.name,
               isSelected: selectedCategoryId == category.id,
@@ -593,10 +593,13 @@ class _CategoryChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.tokens.spaceMd,
+          vertical: context.tokens.spaceXs,
+        ),
         decoration: BoxDecoration(
           color: isSelected ? colors.primary : colors.card,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: context.tokens.borderRadiusFull,
           border: Border.all(
             color: isSelected ? colors.primary : colors.border,
           ),

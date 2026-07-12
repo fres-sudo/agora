@@ -85,13 +85,13 @@ class PosOrderPanel extends StatelessWidget {
           ),
           // Order type selector
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: context.tokens.spaceMd),
             child: PosOrderTypeSelector(
               selected: orderType,
               onChanged: onOrderTypeChanged,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: context.tokens.spaceXs),
           // Order items list or empty state
           Expanded(
             child: _hasItems
@@ -111,7 +111,7 @@ class PosOrderPanel extends StatelessWidget {
           ),
           // Order summary and process button
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(context.tokens.spaceMd),
             decoration: BoxDecoration(
               border: Border(top: BorderSide(color: colors.border)),
             ),
@@ -125,7 +125,7 @@ class PosOrderPanel extends StatelessWidget {
                     onRemoveDiscount: onRemoveDiscount,
                     currencySymbol: currencySymbol,
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: context.tokens.spaceXs),
                 ],
                 PosOrderSummary(
                   subtotalCents: currentOrder?.subtotalCents ?? 0,
@@ -134,7 +134,7 @@ class PosOrderPanel extends StatelessWidget {
                   grandTotalCents: currentOrder?.grandTotalCents ?? 0,
                   currencySymbol: currencySymbol,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: context.tokens.spaceMd),
                 AppButton.primary(
                   onPressed: _hasItems ? onProcessTransaction : null,
                   label: 'Process Transaction',
@@ -186,15 +186,18 @@ class _DiscountRow extends StatelessWidget {
         : formatCents(discount.value, symbol: currencySymbol);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spaceSm,
+        vertical: context.tokens.spaceXs,
+      ),
       decoration: BoxDecoration(
         color: colors.primary.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: context.tokens.borderRadiusLg,
       ),
       child: Row(
         children: [
           Icon(AgoraIcons.discount, size: 18, color: colors.primary),
-          const SizedBox(width: 8),
+          SizedBox(width: context.tokens.spaceXs),
           Expanded(
             child: AppText.titleMd(
               '${discount.name} ($valueLabel)',
@@ -204,9 +207,9 @@ class _DiscountRow extends StatelessWidget {
           ),
           InkWell(
             onTap: onRemoveDiscount,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: context.tokens.borderRadiusFull,
             child: Padding(
-              padding: const EdgeInsets.all(4),
+              padding: EdgeInsets.all(context.tokens.spaceXxs),
               child: Icon(
                 AgoraIcons.x_mark,
                 size: 18,
@@ -241,7 +244,7 @@ class _OrderItemsList extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: context.tokens.spaceMd),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
@@ -257,7 +260,10 @@ class _OrderItemsList extends StatelessWidget {
         ),
         // Clear All Order button
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.tokens.spaceMd,
+            vertical: context.tokens.spaceXs,
+          ),
           child: SizedBox(
             child: AppButton.outline(
               onPressed: onClearAll,

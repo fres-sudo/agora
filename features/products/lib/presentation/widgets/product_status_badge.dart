@@ -37,7 +37,10 @@ class ProductStatusBadge extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: Sizes.sm,
+        vertical: context.tokens.spaceXxs,
+      ),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(Sizes.xs),

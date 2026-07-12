@@ -34,12 +34,15 @@ class PosCategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXs),
       child: Column(
         children: [
           // "All Menu" option
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.tokens.spaceXs,
+              vertical: context.tokens.spaceXxs,
+            ),
             child: MenuCategoryItem(
               title: allMenuLabel,
               icon: AgoraIcons.restaurant,
@@ -51,7 +54,10 @@ class PosCategoryList extends StatelessWidget {
           // Category items
           ...categories.map(
             (category) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.tokens.spaceXs,
+                vertical: context.tokens.spaceXxs,
+              ),
               child: MenuCategoryItem(
                 title: category.name,
                 icon: category.icon ?? AgoraIcons.categories,

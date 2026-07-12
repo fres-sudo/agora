@@ -38,7 +38,7 @@ class PosOrderTypeSelector extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: context.colors.muted,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: context.tokens.borderRadiusLg,
       ),
       child: Row(
         children: [
@@ -75,7 +75,7 @@ class _OrderTypeTab extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: EdgeInsets.symmetric(vertical: context.tokens.spaceSm),
         decoration: BoxDecoration(
           border: isSelected
               ? Border(bottom: BorderSide(color: colors.primary, width: 3))

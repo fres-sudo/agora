@@ -257,7 +257,10 @@ class _Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: Sizes.sm,
+        vertical: context.tokens.spaceXxs,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),
@@ -267,7 +270,7 @@ class _Tag extends StatelessWidget {
         children: [
           if (icon != null) ...[
             Icon(icon, size: 14, color: color),
-            const SizedBox(width: 4),
+            SizedBox(width: context.tokens.spaceXxs),
           ],
           AppText.label(label, color: color),
         ],

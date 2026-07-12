@@ -83,7 +83,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(32),
+              padding: EdgeInsets.all(context.tokens.spaceXl),
               child: _selected == null
                   ? _EmployeeSelector(
                       employees: _employees,
@@ -125,14 +125,14 @@ class _EmployeeSelector extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset('assets/brand/logo.png', width: 48, height: 48),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         const AppText.headingMd('agora', color: AppPalette.white),
-        const SizedBox(height: 8),
+        SizedBox(height: context.tokens.spaceXs),
         const AppText.body(
           'Select your profile to continue',
           color: AppPalette.neutral400,
         ),
-        const SizedBox(height: 32),
+        SizedBox(height: context.tokens.spaceXl),
         if (employees.isEmpty)
           const AppText.body(
             'No employees found.\nPlease set up staff in Settings first.',
@@ -172,7 +172,7 @@ class _AvatarTile extends StatelessWidget {
               color: AppPalette.primary700,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: context.tokens.spaceXs),
           AppText.bodySm(employee.name, color: AppPalette.white),
         ],
       ),
@@ -215,7 +215,7 @@ class _PinPad extends StatelessWidget {
             icon: const Icon(AgoraIcons.chevron_left, color: AppPalette.white),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: context.tokens.spaceXs),
         CircleAvatar(
           radius: 32,
           backgroundColor: AppPalette.primary100,
@@ -224,18 +224,18 @@ class _PinPad extends StatelessWidget {
             color: AppPalette.primary700,
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         AppText.headingSm(employee.name, color: AppPalette.white),
-        const SizedBox(height: 4),
+        SizedBox(height: context.tokens.spaceXxs),
         const AppText.body('Enter your PIN', color: AppPalette.neutral400),
-        const SizedBox(height: 24),
+        SizedBox(height: context.tokens.spaceLg),
         // PIN dots
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
             6,
             (i) => Container(
-              margin: const EdgeInsets.symmetric(horizontal: 6),
+              margin: EdgeInsets.symmetric(horizontal: context.tokens.spaceXxs),
               width: 14,
               height: 14,
               decoration: BoxDecoration(
@@ -248,10 +248,10 @@ class _PinPad extends StatelessWidget {
           ),
         ),
         if (error != null) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: context.tokens.spaceSm),
           AppText.bodySm(error!, color: AppPalette.error400),
         ],
-        const SizedBox(height: 24),
+        SizedBox(height: context.tokens.spaceLg),
         GridView.count(
           crossAxisCount: 3,
           shrinkWrap: true,
@@ -276,14 +276,14 @@ class _PinPad extends StatelessWidget {
             _DeleteButton(onTap: onDelete),
           ],
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: context.tokens.spaceLg),
         AppButton.primary(
           onPressed: pin.length >= 4 ? onConfirm : null,
           label: 'Unlock',
           isLoading: loading,
         ),
         if (kDebugMode) ...[
-          const SizedBox(height: 12),
+          SizedBox(height: context.tokens.spaceSm),
           AppButton.destructive(
             label: 'Skip PIN (debug)',
             size: AppButtonSize.sm,
@@ -305,10 +305,10 @@ class _DigitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppPalette.neutral800,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: context.tokens.borderRadiusLg,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: context.tokens.borderRadiusLg,
         child: Center(child: AppText.headingMd(digit, color: AppPalette.white)),
       ),
     );
@@ -323,10 +323,10 @@ class _DeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppPalette.neutral800,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: context.tokens.borderRadiusLg,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: context.tokens.borderRadiusLg,
         child: const Center(
           child: Icon(AgoraIcons.eraser, color: AppPalette.white, size: 22),
         ),

@@ -101,7 +101,7 @@ class _CheckoutBody extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: Sizes.md),
             decoration: BoxDecoration(
               color: AppPalette.neutral300,
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: context.tokens.borderRadiusFull,
             ),
           ),
         ),
@@ -175,7 +175,7 @@ class _ReceiptStage extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: Sizes.md),
             decoration: BoxDecoration(
               color: AppPalette.neutral300,
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: context.tokens.borderRadiusFull,
             ),
           ),
         ),

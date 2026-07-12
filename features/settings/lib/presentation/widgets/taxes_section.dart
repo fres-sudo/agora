@@ -94,7 +94,7 @@ class _TaxesSectionState extends State<TaxesSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const AppText.label('Tax Rate (%)'),
-              const SizedBox(height: 8),
+              SizedBox(height: context.tokens.spaceXs),
               SizedBox(
                 width: 220,
                 child: AppTextField(
@@ -116,7 +116,7 @@ class _TaxesSectionState extends State<TaxesSection> {
                   },
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: context.tokens.spaceSm),
               AppText.bodySm(
                 'Applied to each order total. Set to 0 to disable tax.',
                 color: context.colors.mutedForeground,

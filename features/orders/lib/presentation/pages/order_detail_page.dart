@@ -215,7 +215,10 @@ class _LineItemTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 32, child: AppText.titleMd('${item.quantity}×')),
+          SizedBox(
+            width: context.tokens.spaceXl,
+            child: AppText.titleMd('${item.quantity}×'),
+          ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +259,7 @@ class _TotalRow extends StatelessWidget {
         : AppText.body(text, color: colors.mutedForeground);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXxs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [cell(label), cell(formatCents(cents))],
@@ -274,7 +277,7 @@ class _InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXxs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -300,7 +303,10 @@ class _StatusBadge extends StatelessWidget {
     };
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: 6),
+      padding: EdgeInsets.symmetric(
+        horizontal: Sizes.md,
+        vertical: context.tokens.spaceXxs,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),

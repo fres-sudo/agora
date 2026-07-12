@@ -122,25 +122,25 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _FormField(label: 'Store Name', controller: _nameCtrl),
-              const SizedBox(height: 16),
+              SizedBox(height: context.tokens.spaceMd),
               Row(
                 children: [
                   Expanded(
                     child: _FormField(label: 'Phone', controller: _phoneCtrl),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: context.tokens.spaceMd),
                   Expanded(
                     child: _FormField(label: 'Email', controller: _emailCtrl),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.tokens.spaceMd),
               Row(
                 children: [
                   Expanded(
                     child: _FormField(label: 'City', controller: _cityCtrl),
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: context.tokens.spaceMd),
                   Expanded(
                     child: _FormField(
                       label: 'Country',
@@ -149,7 +149,7 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.tokens.spaceMd),
               _FormField(
                 label: 'Full Address',
                 controller: _addressCtrl,
@@ -161,7 +161,7 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
                 controller: _currencyCtrl,
                 hint: 'e.g. € or \$',
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: context.tokens.spaceXxs),
               AppText.bodySm(
                 'Symbol shown on prices and receipts across the app.',
                 color: context.colors.mutedForeground,

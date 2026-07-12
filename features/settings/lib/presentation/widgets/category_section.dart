@@ -62,7 +62,7 @@ class _CategorySectionState extends State<CategorySection> {
         children: [
           // Header
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(context.tokens.spaceLg),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -102,7 +102,7 @@ class _CategorySectionState extends State<CategorySection> {
     }
 
     return ListView.separated(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(context.tokens.spaceLg),
       itemCount: categories.length,
       separatorBuilder: (context, index) => const SizedBox(height: Sizes.md),
       itemBuilder: (context, index) {

@@ -111,7 +111,7 @@ class _ModifierSectionState extends State<ModifierSection> {
           children: [
             // Header
             Padding(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(context.tokens.spaceLg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -152,7 +152,7 @@ class _ModifierSectionState extends State<ModifierSection> {
     }
 
     return ListView.separated(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(context.tokens.spaceLg),
       itemCount: modifiers.length,
       separatorBuilder: (context, index) => const SizedBox(height: Sizes.md),
       itemBuilder: (context, index) {

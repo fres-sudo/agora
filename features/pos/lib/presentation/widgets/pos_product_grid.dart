@@ -68,7 +68,7 @@ class PosProductGrid extends StatelessWidget {
             .clamp(2, 6);
 
         return GridView.builder(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(context.tokens.spaceMd),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
             crossAxisSpacing: 16,

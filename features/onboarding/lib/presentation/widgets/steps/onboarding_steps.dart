@@ -18,9 +18,9 @@ class _StepHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppText.headingLg(title),
-        const SizedBox(height: 8),
+        SizedBox(height: context.tokens.spaceXs),
         AppText.body(subtitle, color: context.colors.mutedForeground),
-        const SizedBox(height: 24),
+        SizedBox(height: context.tokens.spaceLg),
       ],
     );
   }
@@ -47,17 +47,17 @@ class _SelectableTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: context.tokens.spaceSm),
       child: Material(
         color: selected ? colors.accent : colors.card,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: context.tokens.borderRadiusLg,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: context.tokens.borderRadiusLg,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(context.tokens.spaceMd),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: context.tokens.borderRadiusLg,
               border: Border.all(
                 color: selected ? colors.primary : colors.border,
                 width: selected ? 2 : 1,
@@ -69,13 +69,13 @@ class _SelectableTile extends StatelessWidget {
                   icon,
                   color: selected ? colors.primary : colors.mutedForeground,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: context.tokens.spaceMd),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText.titleMd(title),
-                      const SizedBox(height: 2),
+                      SizedBox(height: context.tokens.spaceXxs),
                       AppText.bodySm(
                         description,
                         color: colors.mutedForeground,
@@ -122,11 +122,11 @@ class WelcomeStep extends StatelessWidget {
   }
 
   Widget _bullet(BuildContext context, IconData icon, String text) => Padding(
-    padding: const EdgeInsets.only(bottom: 14),
+    padding: EdgeInsets.only(bottom: context.tokens.spaceSm),
     child: Row(
       children: [
         Icon(icon, size: 20, color: context.colors.primary),
-        const SizedBox(width: 12),
+        SizedBox(width: context.tokens.spaceSm),
         Expanded(child: AppText.body(text)),
       ],
     ),
@@ -237,13 +237,13 @@ class _BusinessDetailsStepState extends State<BusinessDetailsStep> {
           textCapitalization: TextCapitalization.words,
           onChanged: (_) => _sync(),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         AppTextField(
           controller: _address,
           label: 'Address',
           onChanged: (_) => _sync(),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         Row(
           children: [
             Expanded(
@@ -253,7 +253,7 @@ class _BusinessDetailsStepState extends State<BusinessDetailsStep> {
                 onChanged: (_) => _sync(),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: context.tokens.spaceSm),
             Expanded(
               child: AppTextField(
                 controller: _country,
@@ -263,14 +263,14 @@ class _BusinessDetailsStepState extends State<BusinessDetailsStep> {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         AppTextField(
           controller: _phone,
           label: 'Phone',
           keyboardType: TextInputType.phone,
           onChanged: (_) => _sync(),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         AppTextField(
           controller: _email,
           label: 'Email',
@@ -333,7 +333,7 @@ class _TaxCurrencyStepState extends State<TaxCurrencyStep> {
           hintText: '€',
           onChanged: (_) => _sync(),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         AppTextField(
           controller: _tax,
           label: 'Tax rate',
@@ -394,11 +394,11 @@ class PaymentsStep extends StatelessWidget {
     required ValueChanged<bool> onChanged,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: context.tokens.spaceSm),
       child: Row(
         children: [
           Icon(icon, color: context.colors.mutedForeground),
-          const SizedBox(width: 12),
+          SizedBox(width: context.tokens.spaceSm),
           Expanded(child: AppText.titleMd(title)),
           AppSwitch(value: value, onChanged: onChanged),
         ],
@@ -456,11 +456,11 @@ class _TeamStepState extends State<TeamStep> {
         ),
         for (var i = 0; i < widget.draft.staff.length; i++)
           Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: EdgeInsets.only(bottom: context.tokens.spaceXs),
             child: Row(
               children: [
                 const Icon(AgoraIcons.user_circle, size: 20),
-                const SizedBox(width: 12),
+                SizedBox(width: context.tokens.spaceSm),
                 Expanded(child: AppText.body(widget.draft.staff[i].name)),
                 AppText.bodySm(
                   widget.draft.staff[i].role,
@@ -473,14 +473,14 @@ class _TeamStepState extends State<TeamStep> {
               ],
             ),
           ),
-        const SizedBox(height: 8),
+        SizedBox(height: context.tokens.spaceXs),
         AppTextField(
           controller: _name,
           label: 'Name',
           textCapitalization: TextCapitalization.words,
           onChanged: (_) => setState(() {}),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         Row(
           children: [
             Expanded(
@@ -494,7 +494,7 @@ class _TeamStepState extends State<TeamStep> {
                 onChanged: (_) => setState(() {}),
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: context.tokens.spaceSm),
             SizedBox(
               width: 140,
               child: DropdownButtonFormField<String>(
@@ -519,7 +519,7 @@ class _TeamStepState extends State<TeamStep> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: context.tokens.spaceXs),
         AppButton.secondary(
           label: 'Add team member',
           leadingIcon: const Icon(AgoraIcons.plus),
@@ -617,7 +617,7 @@ class ReviewStep extends StatelessWidget {
   }
 
   Widget _row(BuildContext context, String label, String value) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
+    padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXs),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

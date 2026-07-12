@@ -98,7 +98,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                 validator: (v) =>
                     (v == null || v.trim().isEmpty) ? 'Name is required' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.tokens.spaceMd),
               AppTextField(
                 controller: _pinCtrl,
                 label: _isEditing
@@ -122,7 +122,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.tokens.spaceMd),
               DropdownButtonFormField<EmployeeRole>(
                 initialValue: _role,
                 decoration: const InputDecoration(labelText: 'Role'),
@@ -136,7 +136,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                     .toList(),
                 onChanged: (v) => setState(() => _role = v!),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.tokens.spaceMd),
               AppTextField(
                 controller: _rateCtrl,
                 label: 'Hourly Rate',
@@ -145,7 +145,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                   decimal: true,
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: context.tokens.spaceXs),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const AppText.body('Active'),

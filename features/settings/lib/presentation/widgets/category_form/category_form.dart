@@ -93,7 +93,7 @@ class _CategoryFormState extends State<CategoryForm> {
       children: [
         // Header
         Padding(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(context.tokens.spaceLg),
           child: AppText.headingSm(
             isEditing ? 'Edit Category' : 'New Category',
             textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class _CategoryFormState extends State<CategoryForm> {
         // Form Content
         Flexible(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(context.tokens.spaceLg),
             child: Form(
               key: _formKey,
               child: Column(
@@ -123,7 +123,7 @@ class _CategoryFormState extends State<CategoryForm> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: context.tokens.spaceLg),
 
                   // Enabled Switch
                   SwitchListTile(
@@ -133,11 +133,11 @@ class _CategoryFormState extends State<CategoryForm> {
                     value: _isEnabled,
                     onChanged: (value) => setState(() => _isEnabled = value),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: context.tokens.spaceLg),
 
                   // Icons Section
                   const AppText.titleMd('Icon'),
-                  const SizedBox(height: 12),
+                  SizedBox(height: context.tokens.spaceSm),
                   Wrap(
                     spacing: 12,
                     runSpacing: 12,
@@ -157,16 +157,16 @@ class _CategoryFormState extends State<CategoryForm> {
                         },
                         showCheckmark: false,
                         selectedColor: theme.primaryColor,
-                        padding: const EdgeInsets.all(12),
+                        padding: EdgeInsets.all(context.tokens.spaceSm),
                         shape: const CircleBorder(),
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: context.tokens.spaceLg),
 
                   // Colors Section
                   const AppText.titleMd('Color'),
-                  const SizedBox(height: 12),
+                  SizedBox(height: context.tokens.spaceSm),
                   Wrap(
                     spacing: 12,
                     runSpacing: 12,
@@ -215,7 +215,7 @@ class _CategoryFormState extends State<CategoryForm> {
 
         // Actions
         Padding(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(context.tokens.spaceLg),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -223,7 +223,7 @@ class _CategoryFormState extends State<CategoryForm> {
                 onPressed: () => Navigator.of(context).pop(),
                 label: 'Cancel',
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: context.tokens.spaceMd),
               AppButton.primary(onPressed: _onSave, label: 'Save'),
             ],
           ),

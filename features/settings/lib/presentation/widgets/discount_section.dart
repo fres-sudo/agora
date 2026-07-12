@@ -79,7 +79,7 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(context.tokens.spaceLg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -117,7 +117,7 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
     if (discounts.isEmpty) return _buildEmptyState();
 
     return ListView.separated(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(context.tokens.spaceLg),
       itemCount: discounts.length,
       separatorBuilder: (_, _) => const SizedBox(height: Sizes.md),
       itemBuilder: (context, index) {

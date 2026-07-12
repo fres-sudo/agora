@@ -49,12 +49,12 @@ class PosOrderItem extends StatelessWidget {
       onDismissed: (_) => onRemove(),
       background: Container(
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 16),
+        padding: EdgeInsets.only(right: context.tokens.spaceMd),
         color: colors.destructive,
         child: Icon(AgoraIcons.trash, color: colors.destructiveForeground),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXs),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -69,7 +69,7 @@ class PosOrderItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (item.selectedModifiers.isNotEmpty) ...[
-                    const SizedBox(height: 2),
+                    SizedBox(height: context.tokens.spaceXxs),
                     AppText.bodySm(
                       item.selectedModifiers
                           .map((m) => m.optionName)
@@ -79,7 +79,7 @@ class PosOrderItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
-                  const SizedBox(height: 2),
+                  SizedBox(height: context.tokens.spaceXxs),
                   AppText.bodySm(
                     '${_formatCents(item.unitPriceCents)} each',
                     color: colors.mutedForeground,
@@ -87,13 +87,13 @@ class PosOrderItem extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: context.tokens.spaceXs),
             // Quantity stepper + total (right)
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 AppText.titleMd(_formatCents(_itemTotal)),
-                const SizedBox(height: 4),
+                SizedBox(height: context.tokens.spaceXxs),
                 QuantityButton(
                   quantity: item.quantity,
                   min: 1,

@@ -152,7 +152,7 @@ class SalesOverviewChart extends StatelessWidget {
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
             getTooltipColor: (touchedSpot) => colors.popover,
-            tooltipBorderRadius: BorderRadius.circular(8),
+            tooltipBorderRadius: context.tokens.borderRadiusLg,
             getTooltipItems: (touchedBarSpots) => touchedBarSpots.map((
               barSpot,
             ) {

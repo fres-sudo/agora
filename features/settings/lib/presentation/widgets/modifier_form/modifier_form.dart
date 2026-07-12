@@ -95,7 +95,7 @@ class _ModifierFormState extends State<ModifierForm> {
       children: [
         // Header
         Padding(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(context.tokens.spaceLg),
           child: AppText.headingSm(
             isEditing ? 'Edit Modifier' : 'New Modifier',
             textAlign: TextAlign.center,
@@ -106,7 +106,7 @@ class _ModifierFormState extends State<ModifierForm> {
         // Form Content
         Flexible(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(context.tokens.spaceLg),
             child: Form(
               key: _formKey,
               child: Column(
@@ -126,7 +126,7 @@ class _ModifierFormState extends State<ModifierForm> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: context.tokens.spaceLg),
 
                   // Single vs multi select
                   SwitchListTile(
@@ -140,7 +140,7 @@ class _ModifierFormState extends State<ModifierForm> {
                     onChanged: (value) =>
                         setState(() => _isMultiSelect = value),
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: context.tokens.spaceLg),
 
                   // Options section
                   Row(
@@ -154,7 +154,7 @@ class _ModifierFormState extends State<ModifierForm> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: context.tokens.spaceSm),
 
                   if (_options.isEmpty)
                     Container(
@@ -198,7 +198,7 @@ class _ModifierFormState extends State<ModifierForm> {
 
         // Actions
         Padding(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(context.tokens.spaceLg),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -206,7 +206,7 @@ class _ModifierFormState extends State<ModifierForm> {
                 onPressed: () => Navigator.of(context).pop(),
                 label: 'Cancel',
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: context.tokens.spaceMd),
               AppButton.primary(onPressed: _onSave, label: 'Save'),
             ],
           ),

@@ -59,7 +59,7 @@ class DiscountListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText.titleMd(discount.name),
-                  const SizedBox(height: 2),
+                  SizedBox(height: context.tokens.spaceXxs),
                   AppText.bodySm(_subtitle(), color: colors.mutedForeground),
                 ],
               ),

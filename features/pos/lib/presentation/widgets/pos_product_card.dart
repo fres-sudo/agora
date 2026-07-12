@@ -32,7 +32,7 @@ class PosProductCard extends StatelessWidget {
 
     return Material(
       color: colors.card,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: context.tokens.borderRadiusLg,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
@@ -41,7 +41,7 @@ class PosProductCard extends StatelessWidget {
             border: quantityInCart > 0
                 ? Border.all(color: colors.primary, width: 2)
                 : Border.all(color: colors.border, width: 1),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: context.tokens.borderRadiusLg,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class PosProductCard extends StatelessWidget {
               ),
               // Info section
               Padding(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(context.tokens.spaceSm),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -89,7 +89,7 @@ class PosProductCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: context.tokens.spaceXxs),
                     // Price row
                     Row(
                       children: [
@@ -98,17 +98,17 @@ class PosProductCard extends StatelessWidget {
                           color: colors.mutedForeground,
                         ),
                         if (quantityInCart > 0) ...[
-                          const SizedBox(width: 8),
+                          SizedBox(width: context.tokens.spaceXs),
                           AppText.bodySm('x', color: colors.mutedForeground),
-                          const SizedBox(width: 4),
+                          SizedBox(width: context.tokens.spaceXxs),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: context.tokens.spaceXs,
+                              vertical: context.tokens.spaceXxs,
                             ),
                             decoration: BoxDecoration(
                               color: colors.primary,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: context.tokens.borderRadiusLg,
                             ),
                             child: AppText.label(
                               '$quantityInCart',
@@ -138,10 +138,13 @@ class _QuantityBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spaceXs,
+        vertical: context.tokens.spaceXxs,
+      ),
       decoration: BoxDecoration(
         color: colors.primary,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: context.tokens.borderRadiusLg,
       ),
       child: AppText.label('$quantity', color: colors.primaryForeground),
     );

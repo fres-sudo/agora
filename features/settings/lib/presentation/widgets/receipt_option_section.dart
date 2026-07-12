@@ -106,14 +106,14 @@ class _ReceiptOptionSectionState extends State<ReceiptOptionSection> {
               hint: 'Shown above the items (e.g. a greeting)',
               controller: _headerCtrl,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: context.tokens.spaceMd),
             _ReceiptField(
               label: 'Receipt Footer',
               hint: 'Shown at the bottom (e.g. "Thank you!")',
               controller: _footerCtrl,
               maxLines: 3,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: context.tokens.spaceLg),
             _ReceiptToggle(
               label: 'Show store logo',
               description: 'Print the store logo at the top of the receipt.',
@@ -181,7 +181,7 @@ class _ReceiptToggle extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText.titleMd(label),
-              const SizedBox(height: 2),
+              SizedBox(height: context.tokens.spaceXxs),
               AppText.bodySm(
                 description,
                 color: context.colors.mutedForeground,

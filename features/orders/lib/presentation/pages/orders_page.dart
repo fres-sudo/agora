@@ -400,7 +400,10 @@ class _StatusBadge extends StatelessWidget {
     };
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: Sizes.sm,
+        vertical: context.tokens.spaceXxs,
+      ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),

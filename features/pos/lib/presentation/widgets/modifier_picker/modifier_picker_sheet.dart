@@ -140,7 +140,7 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                   margin: const EdgeInsets.only(bottom: Sizes.md),
                   decoration: BoxDecoration(
                     color: colors.border,
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: context.tokens.borderRadiusFull,
                   ),
                 ),
               ),

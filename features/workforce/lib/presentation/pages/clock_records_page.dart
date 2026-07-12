@@ -91,12 +91,15 @@ class _RecordTile extends StatelessWidget {
         color: colors.mutedForeground,
       ),
       trailing: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.tokens.spaceXs,
+          vertical: context.tokens.spaceXxs,
+        ),
         decoration: BoxDecoration(
           color: record.isActive
               ? colors.success.withValues(alpha: 0.12)
               : colors.muted,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: context.tokens.borderRadiusLg,
         ),
         child: AppText.label(record.formattedDuration, color: statusColor),
       ),
@@ -122,7 +125,7 @@ class _EmptyState extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(AgoraIcons.clock, size: 64, color: AppPalette.neutral300),
-          const SizedBox(height: 16),
+          SizedBox(height: context.tokens.spaceMd),
           AppText.titleMd(
             'No clock records yet',
             color: context.colors.mutedForeground,

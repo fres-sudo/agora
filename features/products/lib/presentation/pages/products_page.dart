@@ -99,9 +99,9 @@ class _ProductsView extends StatelessWidget {
                 orElse: () => Category(id: 0, name: 'Unknown'),
               );
               return Container(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: Sizes.sm,
-                  vertical: 4,
+                  vertical: context.tokens.spaceXxs,
                 ),
                 decoration: BoxDecoration(
                   color: context.colors.muted,

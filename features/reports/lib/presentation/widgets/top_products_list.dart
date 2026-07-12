@@ -111,7 +111,7 @@ class TopProductsList extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: context.tokens.borderRadiusFull,
         border: Border.all(color: color.withValues(alpha: 0.5)),
       ),
       child: Center(

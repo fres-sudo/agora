@@ -38,7 +38,7 @@ class PosActionButtons extends StatelessWidget {
                 onTap: onCustomerTap,
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: context.tokens.spaceSm),
             Expanded(
               child: _ActionButton(
                 icon: AgoraIcons.map,
@@ -48,7 +48,7 @@ class PosActionButtons extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: context.tokens.spaceSm),
         Row(
           children: [
             Expanded(
@@ -58,7 +58,7 @@ class PosActionButtons extends StatelessWidget {
                 onTap: onDiscountTap,
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: context.tokens.spaceSm),
             Expanded(
               child: _ActionButton(
                 icon: AgoraIcons.receipt,
@@ -88,21 +88,21 @@ class _ActionButton extends StatelessWidget {
 
     return Material(
       color: colors.card,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: context.tokens.borderRadiusLg,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.symmetric(vertical: context.tokens.spaceMd),
           decoration: BoxDecoration(
             border: Border.all(color: colors.border),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: context.tokens.borderRadiusLg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, size: 24, color: contentColor),
-              const SizedBox(height: 4),
+              SizedBox(height: context.tokens.spaceXxs),
               AppText.bodySm(label, color: contentColor),
             ],
           ),

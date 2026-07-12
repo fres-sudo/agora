@@ -38,7 +38,7 @@ class PaymentMethodSection extends StatelessWidget {
                 'Enable the payment methods operators can use at checkout.',
                 color: context.colors.mutedForeground,
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: context.tokens.spaceLg),
               _MethodTile(
                 icon: AgoraIcons.money,
                 label: 'Cash',
@@ -60,13 +60,13 @@ class PaymentMethodSection extends StatelessWidget {
                   value,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.tokens.spaceMd),
               if (!cashEnabled && !cardEnabled)
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(context.tokens.spaceSm),
                   decoration: BoxDecoration(
                     color: AppPalette.warning100,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: context.tokens.borderRadiusLg,
                     border: Border.all(color: AppPalette.warning300),
                   ),
                   child: Row(
@@ -76,7 +76,7 @@ class PaymentMethodSection extends StatelessWidget {
                         color: AppPalette.warning600,
                         size: 18,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: context.tokens.spaceXs),
                       Expanded(
                         child: AppText.bodySm(
                           'At least one payment method must be enabled.',
@@ -115,10 +115,10 @@ class _MethodTile extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(context.tokens.spaceXs),
           decoration: BoxDecoration(
             color: isEnabled ? AppPalette.primary100 : AppPalette.neutral100,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: context.tokens.borderRadiusLg,
           ),
           child: Icon(
             icon,
@@ -126,13 +126,13 @@ class _MethodTile extends StatelessWidget {
             color: isEnabled ? AppPalette.primary500 : AppPalette.neutral400,
           ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(width: context.tokens.spaceMd),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText.titleMd(label),
-              const SizedBox(height: 2),
+              SizedBox(height: context.tokens.spaceXxs),
               AppText.bodySm(description, color: colors.mutedForeground),
             ],
           ),

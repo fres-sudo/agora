@@ -160,13 +160,13 @@ class _PrinterSectionState extends State<PrinterSection> {
               hint: 'e.g. 192.168.1.50',
               controller: _receiptCtrl,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: context.tokens.spaceMd),
             _PrinterField(
               label: 'Kitchen Printer IP',
               hint: 'e.g. 192.168.1.51',
               controller: _kitchenCtrl,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: context.tokens.spaceLg),
             Align(
               alignment: Alignment.centerLeft,
               child: AppButton.outline(

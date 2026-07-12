@@ -217,11 +217,16 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 12, 8),
+              padding: EdgeInsets.fromLTRB(
+                context.tokens.spaceLg,
+                context.tokens.spaceMd,
+                context.tokens.spaceSm,
+                context.tokens.spaceXs,
+              ),
               child: Row(
                 children: [
                   Image.asset('assets/brand/logo.png', width: 26, height: 26),
-                  const SizedBox(width: 10),
+                  SizedBox(width: context.tokens.spaceXs),
                   const AppText.titleLg('agora', color: AppPalette.white),
                   const Spacer(),
                   AppIconButton.ghost(

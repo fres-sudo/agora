@@ -58,7 +58,7 @@ class ModifierListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText.titleMd(modifierGroup.name),
-                  const SizedBox(height: 2),
+                  SizedBox(height: context.tokens.spaceXxs),
                   AppText.bodySm(
                     modifierGroup.isMultiSelect
                         ? 'Multi-select'

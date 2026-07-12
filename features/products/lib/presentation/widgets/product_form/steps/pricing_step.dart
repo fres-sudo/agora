@@ -125,7 +125,7 @@ class _FormLabel extends StatelessWidget {
       children: [
         AppText.label(label),
         if (required) ...[
-          const SizedBox(width: 4),
+          SizedBox(width: context.tokens.spaceXxs),
           AppText.label('*', color: context.colors.destructive),
         ],
       ],

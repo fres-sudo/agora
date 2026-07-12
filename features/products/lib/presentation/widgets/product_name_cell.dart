@@ -37,7 +37,7 @@ class ProductNameCell extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               if (description != null && description!.isNotEmpty) ...[
-                const SizedBox(height: 2),
+                SizedBox(height: context.tokens.spaceXxs),
                 AppText.bodySm(
                   description!,
                   color: context.colors.mutedForeground,
