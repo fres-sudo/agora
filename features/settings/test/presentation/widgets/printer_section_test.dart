@@ -10,7 +10,7 @@ import 'package:result/result.dart';
 /// Minimal in-memory [SettingsRepository] fake — only what [SettingsCubit]
 /// needs to reach a `loaded` state and back reads/writes.
 class _FakeSettingsRepository implements SettingsRepository {
-  final Map<String, String> _alues = {};
+  final Map<String, String> _values = {};
 
   @override
   Stream<List<AppSetting>> watchAllSettings() => const Stream.empty();
@@ -19,26 +19,32 @@ class _FakeSettingsRepository implements SettingsRepository {
   Stream<String?> watchSettingValue(String key) => const Stream.empty();
 
   @override
-  Stream<List<AppSetting>> watchSettingsByPrefix(String prefix) => const Stream.empty();
+  Stream<List<AppSetting>> watchSettingsByPrefix(String prefix) =>
+      const Stream.empty();
 
   @override
-  Future<Result<String?>> getString(String key) async => Result.ok(_values[key]);
+  Future<Result<String?>> getString(String key) async =>
+      Result.ok(_values[key]);
 
   @override
-  Future<Result<int?>> getInt(String key) async => Result.ok(int.tryParse(_values[key] ?? ''));
+  Future<Result<int?>> getInt(String key) async =>
+      Result.ok(int.tryParse(_values[key] ?? ''));
 
   @override
-  Future<Result<bool?>> getBool(String key) async => Result.ok(_values[key] == 'true');
+  Future<Result<bool?>> getBool(String key) async =>
+      Result.ok(_values[key] == 'true');
 
   @override
   Future<Result<double?>> getDouble(String key) async =>
       Result.ok(double.tryParse(_values[key] ?? ''));
 
   @override
-  Future<Result<List<AppSetting>>> getPrinterSettings() async => const Result.ok([]);
+  Future<Result<List<AppSetting>>> getPrinterSettings() async =>
+      const Result.ok([]);
 
   @override
-  Future<Result<List<AppSetting>>> getReceiptSettings() async => const Result.ok([]);
+  Future<Result<List<AppSetting>>> getReceiptSettings() async =>
+      const Result.ok([]);
 
   @override
   Future<Result<AppSetting>> setString(String key, String value) async {
@@ -120,7 +126,9 @@ void main() {
       expect(find.text('Test receipt sent to printer'), findsOneWidget);
     });
 
-    testWidgets('surfaces an error snackbar when the printer fails', (tester) async {
+    testWidgets('surfaces an error snackbar when the printer fails', (
+      tester,
+    ) async {
       printerService.failPrint = true;
       await pumpPrinterSection(tester);
 
@@ -129,7 +137,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(printerService.printedJobs, isEmpty);
-      expect(find.text('Test print failed — check the printer connection'), findsOneWidget);
+      expect(
+        find.text('Test print failed — check the printer connection'),
+        findsOneWidget,
+      );
     });
   });
 }

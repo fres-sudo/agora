@@ -112,7 +112,10 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
     return BlocBuilder<ClockInCubit, ClockInState>(
       builder: (context, clockState) {
-        final isClockedIn = clockState.maybeWhen(clockedIn: (_) => true, orElse: () => false);
+        final isClockedIn = clockState.maybeWhen(
+          clockedIn: (_) => true,
+          orElse: () => false,
+        );
 
         return AutoTabsRouter(
           homeIndex: 0,
@@ -120,7 +123,9 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
           builder: (context, child) {
             final tabsRouter = AutoTabsRouter.of(context);
             final currentRouteName = tabsRouter.current.name;
-            var activeIndex = entries.indexWhere((e) => e.route.routeName == currentRouteName);
+            var activeIndex = entries.indexWhere(
+              (e) => e.route.routeName == currentRouteName,
+            );
             if (activeIndex < 0) {
               activeIndex = _selectedIndex.clamp(0, entries.length - 1);
             }
@@ -136,7 +141,13 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
               currentOperator: 'Main Counter',
               onOperatorSwitchTap: () {},
               openSidebar: () => _scaffoldKey.currentState?.openDrawer(),
-              child: _buildLayout(context, child, tabsRouter, activeIndex, entries),
+              child: _buildLayout(
+                context,
+                child,
+                tabsRouter,
+                activeIndex,
+                entries,
+              ),
             );
           },
         );
@@ -171,7 +182,8 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
               items: [for (final e in entries) e.item],
               selectedIndex: activeIndex,
               isCollapsed: _isSidebarCollapsed,
-              onCollapsedChanged: (v) => setState(() => _isSidebarCollapsed = v),
+              onCollapsedChanged: (v) =>
+                  setState(() => _isSidebarCollapsed = v),
               onItemSelected: (index) {
                 setState(() => _selectedIndex = index);
                 tabsRouter.navigate(entries[index].route);
@@ -214,7 +226,10 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                   const Spacer(),
                   AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(AgoraIcons.x_mark, color: AppPalette.neutral400),
+                    icon: const Icon(
+                      AgoraIcons.x_mark,
+                      color: AppPalette.neutral400,
+                    ),
                     style: IconButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: const Size(40, 40),

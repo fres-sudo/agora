@@ -1,4 +1,3 @@
-import 'package:discounts/discounts.dart';
 import 'package:order_management/order_management.dart';
 import 'package:feature_products/feature_products.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
