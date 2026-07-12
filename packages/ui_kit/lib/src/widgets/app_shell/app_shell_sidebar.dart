@@ -46,10 +46,7 @@ class AppShellSidebar extends StatelessWidget {
           if (showHeader) _buildHeader(context),
           Expanded(
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(
-                horizontal: isCollapsed ? 8 : 12,
-                vertical: 8,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 8 : 12, vertical: 8),
               itemCount: items.length,
               separatorBuilder: (_, _) => const SizedBox(height: 2),
               itemBuilder: (context, index) {
@@ -61,9 +58,7 @@ class AppShellSidebar extends StatelessWidget {
                   isSelected: index == selectedIndex,
                   isCollapsed: isCollapsed,
                   isEnabled: item.isEnabled,
-                  onTap: item.isEnabled
-                      ? () => onItemSelected?.call(index)
-                      : null,
+                  onTap: item.isEnabled ? () => onItemSelected?.call(index) : null,
                 );
               },
             ),
@@ -77,10 +72,7 @@ class AppShellSidebar extends StatelessWidget {
 
   Widget _buildUserFooter(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: isCollapsed ? 8 : 12,
-        vertical: 10,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 8 : 12, vertical: 10),
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: Color(0xff1f1f1f), width: 1)),
       ),
@@ -101,36 +93,18 @@ class AppShellSidebar extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, {bool showCollapseToggle = true}) {
     return Padding(
       padding: EdgeInsets.fromLTRB(isCollapsed ? 0 : 20, 20, 0, 12),
       child: isCollapsed
           ? Center(
-              child:
-                  logo ??
-                  const Icon(
-                    AgoraIcons.zap,
-                    color: AppPalette.primary500,
-                    size: 26,
-                  ),
+              child: logo ?? const Icon(AgoraIcons.zap, color: AppPalette.primary500, size: 26),
             )
           : Row(
               children: [
-                logo ??
-                    const Icon(
-                      AgoraIcons.zap,
-                      color: AppPalette.primary500,
-                      size: 26,
-                    ),
+                logo ?? Icon(AgoraIcons.zap, color: context.colors.primary, size: 26),
                 const SizedBox(width: 10),
-                Text(
-                  appName,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                    letterSpacing: 0.2,
-                  ),
-                ),
+                AppText.titleMd(appName, color: context.colors.background),
               ],
             ),
     );
@@ -138,12 +112,7 @@ class AppShellSidebar extends StatelessWidget {
 
   Widget _buildCollapseToggle(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        isCollapsed ? 8 : 12,
-        0,
-        isCollapsed ? 8 : 12,
-        20,
-      ),
+      padding: EdgeInsets.fromLTRB(isCollapsed ? 8 : 12, 0, isCollapsed ? 8 : 12, 20),
       child: Align(
         alignment: isCollapsed ? Alignment.center : Alignment.centerRight,
         child: Tooltip(
@@ -220,10 +189,7 @@ class _SidebarNavItem extends StatelessWidget {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeInOut,
-            padding: EdgeInsets.symmetric(
-              horizontal: isCollapsed ? 0 : 10,
-              vertical: 11,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 0 : 10, vertical: 11),
             decoration: BoxDecoration(
               color: isSelected ? const Color(0xff1f1f1f) : Colors.transparent,
               borderRadius: BorderRadius.circular(6),
@@ -239,9 +205,7 @@ class _SidebarNavItem extends StatelessWidget {
                         height: 18,
                         margin: const EdgeInsets.only(right: 10),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppPalette.primary500
-                              : Colors.transparent,
+                          color: isSelected ? AppPalette.primary500 : Colors.transparent,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -250,13 +214,10 @@ class _SidebarNavItem extends StatelessWidget {
                       Expanded(
                         child: Text(
                           label,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                fontWeight: isSelected
-                                    ? FontWeight.w600
-                                    : FontWeight.w500,
-                                color: iconColor,
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                            color: iconColor,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
