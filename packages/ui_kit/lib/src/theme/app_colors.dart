@@ -111,10 +111,7 @@ class AppColors extends ThemeExtension<AppColors> {
     popover: AppPalette.white,
     popoverForeground: AppPalette.neutral900,
     // shadcn "zinc" convention: primary is near-black ink, not a brand hue —
-    // color is reserved for feedback states, not actions. AppPalette.primary*
-    // (brand green) is intentionally unused here; it remains available as a
-    // raw ramp for callers that need a decorative accent outside the token
-    // system.
+    // color is reserved for feedback states, not actions.
     primary: AppPalette.neutral900,
     primaryForeground: AppPalette.white,
     secondary: AppPalette.neutral100,

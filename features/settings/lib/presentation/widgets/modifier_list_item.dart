@@ -83,7 +83,7 @@ class ModifierListItem extends StatelessWidget {
             // Delete Button
             AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(AgoraIcons.trash, color: AppPalette.neutral500),
+              icon: Icon(AgoraIcons.trash, color: colors.mutedForeground),
               tooltip: 'Delete modifier',
             ),
           ],

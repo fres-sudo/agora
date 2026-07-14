@@ -5,7 +5,7 @@ import 'package:ui_kit/ui_kit.dart';
 ///
 /// Use this instead of building `SnackBar`s ad-hoc so success/error surfacing
 /// is consistent across the app (checkout, inventory, order detail, printing).
-/// Errors use [AppPalette.error500]; successes use the default surface.
+/// Errors use `context.colors.destructive`; successes use the default surface.
 void showAppSnackBar(
   BuildContext context,
   String message, {
@@ -17,7 +17,7 @@ void showAppSnackBar(
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: isError ? AppPalette.error500 : null,
+        backgroundColor: isError ? context.colors.destructive : null,
       ),
     );
 }

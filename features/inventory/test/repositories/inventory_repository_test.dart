@@ -5,21 +5,35 @@ import 'package:result/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:sync_engine/sync_engine.dart';
 
 import 'inventory_repository_test.mocks.dart';
 
-@GenerateMocks([StocksDao, StockMovementsDao])
+@GenerateMocks([StocksDao, StockMovementsDao, SyncManager])
 void main() {
   late MockStocksDao mockStocksDao;
   late MockStockMovementsDao mockStockMovementsDao;
+  late MockSyncManager mockSyncManager;
   late InventoryRepositoryImpl repository;
 
   setUp(() {
     mockStocksDao = MockStocksDao();
     mockStockMovementsDao = MockStockMovementsDao();
+    mockSyncManager = MockSyncManager();
+    when(
+      mockSyncManager.enqueue(
+        entityType: anyNamed('entityType'),
+        operation: anyNamed('operation'),
+        entityLocalId: anyNamed('entityLocalId'),
+        payload: anyNamed('payload'),
+        remoteId: anyNamed('remoteId'),
+      ),
+    ).thenAnswer((_) async {});
     repository = InventoryRepositoryImpl(
       stocksDao: mockStocksDao,
       stockMovementsDao: mockStockMovementsDao,
+      syncManager: mockSyncManager,
+      deviceId: const DeviceId('test-device'),
     );
   });
 
@@ -325,6 +339,7 @@ void main() {
               productId: tProductId,
               quantityChange: delta,
               reason: reason,
+              syncId: anyNamed('syncId'),
             ),
           ).thenAnswer((_) async => 1);
 
@@ -347,11 +362,16 @@ void main() {
               delta: delta,
             ),
           ).called(1);
+          // adjustStock is now sync-eligible (see docs/features/01-lan-sync.md)
+          // and stamps every movement with a freshly-generated syncId, so
+          // the exact value is a wildcard here — the important thing is
+          // that exactly one movement was recorded for this adjustment.
           verify(
             mockStockMovementsDao.recordMovement(
               productId: tProductId,
               quantityChange: delta,
               reason: reason,
+              syncId: anyNamed('syncId'),
             ),
           ).called(1);
           // The old read-then-write path must no longer be used.
@@ -389,6 +409,7 @@ void main() {
             productId: tProductId,
             quantityChange: delta,
             reason: reason,
+            syncId: anyNamed('syncId'),
           ),
         ).thenAnswer((_) async => 1);
 

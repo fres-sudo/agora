@@ -7,6 +7,7 @@ import 'package:feature_settings/presentation/widgets/discount_section.dart';
 import 'package:feature_settings/presentation/widgets/printer_section.dart';
 import 'package:feature_settings/presentation/widgets/receipt_option_section.dart';
 import 'package:feature_settings/presentation/widgets/store_setting_section.dart';
+import 'package:feature_settings/presentation/widgets/sync_section.dart';
 import 'package:feature_settings/presentation/widgets/taxes_section.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
@@ -76,6 +77,12 @@ class _SettingsPageState extends State<SettingsPage> {
             selectedIcon: AgoraIcons.printer_solid,
             label: 'Printer',
             child: const PrinterSection(),
+          ),
+          SectionSidebarItemData(
+            icon: AgoraIcons.wifi,
+            selectedIcon: AgoraIcons.wifi_solid,
+            label: 'Sync',
+            child: const SyncSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.alert_triangle,

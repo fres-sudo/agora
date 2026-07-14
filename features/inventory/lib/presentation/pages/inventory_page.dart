@@ -110,7 +110,7 @@ class _InventoryPageState extends State<InventoryPage> {
                           const SizedBox(width: Sizes.sm),
                           _Tag(
                             label: 'Not tracked',
-                            color: AppPalette.neutral500,
+                            color: context.colors.mutedForeground,
                           ),
                         ],
                       ],
@@ -126,8 +126,8 @@ class _InventoryPageState extends State<InventoryPage> {
                       return _Tag(
                         label: '${level.quantity}',
                         color: low
-                            ? AppPalette.error500
-                            : AppPalette.primary500,
+                            ? context.colors.destructive
+                            : context.colors.success,
                         icon: low ? AgoraIcons.alert_triangle : null,
                       );
                     },

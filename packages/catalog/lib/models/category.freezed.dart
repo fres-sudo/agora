@@ -210,7 +210,7 @@ return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case
 
 
 class _Category extends Category {
-  const _Category({required this.id, required this.name, this.color = AppPalette.primary500, this.icon = AgoraIcons.categories, this.isEnabled = true}): super._();
+  const _Category({required this.id, required this.name, this.color = const Color(0xff34CB6F), this.icon = AgoraIcons.categories, this.isEnabled = true}): super._();
   
 
 @override final  int id;

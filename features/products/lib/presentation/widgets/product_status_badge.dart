@@ -20,18 +20,18 @@ class ProductStatusBadge extends StatelessWidget {
 
     switch (status) {
       case ProductStatus.active:
-        backgroundColor = AppPalette.success100;
-        foregroundColor = AppPalette.success700;
+        backgroundColor = context.colors.success.withValues(alpha: 0.12);
+        foregroundColor = context.colors.success;
         label = t.products.status.active;
         break;
       case ProductStatus.inactive:
-        backgroundColor = AppPalette.error100;
-        foregroundColor = AppPalette.error700;
+        backgroundColor = context.colors.destructive.withValues(alpha: 0.12);
+        foregroundColor = context.colors.destructive;
         label = t.products.status.inactive;
         break;
       case ProductStatus.draft:
-        backgroundColor = AppPalette.neutral100;
-        foregroundColor = AppPalette.neutral700;
+        backgroundColor = context.colors.muted;
+        foregroundColor = context.colors.foreground;
         label = t.products.status.draft;
         break;
     }

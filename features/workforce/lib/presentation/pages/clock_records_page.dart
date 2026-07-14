@@ -124,7 +124,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(AgoraIcons.clock, size: 64, color: AppPalette.neutral300),
+          Icon(AgoraIcons.clock, size: 64, color: context.colors.border),
           SizedBox(height: context.tokens.spaceMd),
           AppText.titleMd(
             'No clock records yet',

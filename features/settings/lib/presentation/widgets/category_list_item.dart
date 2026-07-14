@@ -46,10 +46,10 @@ class CategoryListItem extends StatelessWidget {
             Switch(
               value: category.isEnabled,
               onChanged: onToggle,
-              activeTrackColor: AppPalette.primary500.withValues(alpha: 0.5),
+              activeTrackColor: colors.primary.withValues(alpha: 0.5),
               thumbColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AppPalette.primary500;
+                  return colors.primary;
                 }
                 return null;
               }),
@@ -61,13 +61,13 @@ class CategoryListItem extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: category.color ?? AppPalette.white,
+                color: category.color ?? colors.muted,
                 borderRadius: BorderRadius.circular(Sizes.xs),
                 border: Border.all(color: colors.border),
               ),
               child: Icon(
                 category.icon ?? AgoraIcons.categories,
-                color: _getIconColor(category.color),
+                color: _getIconColor(colors, category.color),
                 size: 20,
               ),
             ),
@@ -90,7 +90,7 @@ class CategoryListItem extends StatelessWidget {
             // Delete Button
             AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(AgoraIcons.trash, color: AppPalette.neutral500),
+              icon: Icon(AgoraIcons.trash, color: colors.mutedForeground),
               tooltip: 'Delete category',
             ),
           ],
@@ -99,8 +99,8 @@ class CategoryListItem extends StatelessWidget {
     );
   }
 
-  Color _getIconColor(Color? backgroundColor) {
-    if (backgroundColor == null) return AppPalette.neutral600;
+  Color _getIconColor(AppColors colors, Color? backgroundColor) {
+    if (backgroundColor == null) return colors.mutedForeground;
     // Contrast the icon against the category's (data) color, not the theme.
     final luminance = backgroundColor.computeLuminance();
     return luminance > 0.5 ? AppPalette.neutral800 : AppPalette.white;

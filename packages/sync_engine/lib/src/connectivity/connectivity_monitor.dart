@@ -9,7 +9,8 @@ abstract interface class ConnectivityMonitor {
 }
 
 class ConnectivityMonitorImpl implements ConnectivityMonitor {
-  ConnectivityMonitorImpl() : _connectivity = Connectivity();
+  ConnectivityMonitorImpl({Connectivity? connectivity})
+    : _connectivity = connectivity ?? Connectivity();
 
   final Connectivity _connectivity;
 

@@ -26,7 +26,7 @@ class MenuDrawerItem extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
-            color: isSelected ? AppPalette.neutral700 : Colors.transparent,
+            color: isSelected ? context.colors.primary : Colors.transparent,
             borderRadius: BorderRadius.circular(6),
           ),
           child: Row(
@@ -34,14 +34,18 @@ class MenuDrawerItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 22,
-                color: isSelected ? Colors.white : AppPalette.neutral600,
+                color: isSelected
+                    ? context.colors.primaryForeground
+                    : context.colors.mutedForeground,
               ),
               const SizedBox(width: 14),
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  color: isSelected ? Colors.white : AppPalette.neutral800,
+                  color: isSelected
+                      ? context.colors.primaryForeground
+                      : context.colors.foreground,
                 ),
               ),
             ],

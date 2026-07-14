@@ -297,9 +297,9 @@ class _StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      OrderStatus.pending => (AppPalette.warning500, 'Pending'),
-      OrderStatus.completed => (AppPalette.primary500, 'Completed'),
-      OrderStatus.voided => (AppPalette.error500, 'Voided'),
+      OrderStatus.pending => (context.colors.warning, 'Pending'),
+      OrderStatus.completed => (context.colors.success, 'Completed'),
+      OrderStatus.voided => (context.colors.destructive, 'Voided'),
     };
 
     return Container(

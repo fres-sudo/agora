@@ -177,10 +177,10 @@ class _EmployeeTile extends StatelessWidget {
     final colors = context.colors;
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: AppPalette.primary500.withValues(alpha: 0.12),
+        backgroundColor: colors.primary.withValues(alpha: 0.12),
         child: AppText.titleMd(
           employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-          color: AppPalette.primary500,
+          color: colors.primary,
         ),
       ),
       title: AppText.body(employee.name),
@@ -213,24 +213,25 @@ class _RoleBadge extends StatelessWidget {
   const _RoleBadge({required this.role});
   final EmployeeRole role;
 
-  Color get _color => switch (role) {
-    EmployeeRole.owner => AppPalette.primary500,
-    EmployeeRole.manager => AppPalette.warning500,
-    EmployeeRole.cashier => AppPalette.neutral500,
+  Color _color(BuildContext context) => switch (role) {
+    EmployeeRole.owner => context.colors.primary,
+    EmployeeRole.manager => context.colors.warning,
+    EmployeeRole.cashier => context.colors.mutedForeground,
   };
 
   @override
   Widget build(BuildContext context) {
+    final color = _color(context);
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: context.tokens.spaceXs,
         vertical: context.tokens.spaceXxs,
       ),
       decoration: BoxDecoration(
-        color: _color.withValues(alpha: 0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: context.tokens.borderRadiusLg,
       ),
-      child: AppText.label(role.label, color: _color),
+      child: AppText.label(role.label, color: color),
     );
   }
 }
@@ -269,7 +270,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(AgoraIcons.user_group, size: 64, color: AppPalette.neutral300),
+          Icon(AgoraIcons.user_group, size: 64, color: context.colors.border),
           SizedBox(height: context.tokens.spaceMd),
           AppText.titleMd(
             'No employees yet',

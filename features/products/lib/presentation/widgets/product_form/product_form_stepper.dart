@@ -50,7 +50,7 @@ class _StepDot extends StatelessWidget {
       decoration: BoxDecoration(
         color: isActive
             ? Theme.of(context).primaryColor
-            : AppPalette.neutral200,
+            : context.colors.border,
         shape: BoxShape.circle,
       ),
     );
@@ -68,7 +68,7 @@ class _StepConnector extends StatelessWidget {
       height: 2,
       color: isCompleted
           ? Theme.of(context).primaryColor
-          : AppPalette.neutral200,
+          : context.colors.border,
     );
   }
 }

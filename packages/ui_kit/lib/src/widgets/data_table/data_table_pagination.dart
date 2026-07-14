@@ -37,9 +37,9 @@ class DataTablePagination extends StatelessWidget {
             children: [
               Text(
                 'Rows per page',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: AppPalette.neutral500),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: context.colors.mutedForeground,
+                ),
               ),
               const SizedBox(width: Sizes.sm),
               DropdownButton<int>(
@@ -122,7 +122,7 @@ class DataTablePagination extends StatelessWidget {
 
       // Add ellipsis if needed
       if (start > 1) {
-        pageButtons.add(_buildEllipsis());
+        pageButtons.add(_buildEllipsis(context));
       }
 
       // Add middle pages
@@ -132,7 +132,7 @@ class DataTablePagination extends StatelessWidget {
 
       // Add ellipsis if needed
       if (end < totalPages - 2) {
-        pageButtons.add(_buildEllipsis());
+        pageButtons.add(_buildEllipsis(context));
       }
 
       // Show last page
@@ -147,7 +147,7 @@ class DataTablePagination extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: Material(
-        color: isSelected ? AppPalette.primary500 : Colors.transparent,
+        color: isSelected ? context.colors.primary : Colors.transparent,
         borderRadius: BorderRadius.circular(Sizes.xs),
         child: InkWell(
           onTap: isSelected ? null : () => onPageChanged?.call(page),
@@ -159,7 +159,9 @@ class DataTablePagination extends StatelessWidget {
             child: Text(
               '${page + 1}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: isSelected ? Colors.white : AppPalette.neutral600,
+                color: isSelected
+                    ? context.colors.primaryForeground
+                    : context.colors.mutedForeground,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
@@ -169,10 +171,13 @@ class DataTablePagination extends StatelessWidget {
     );
   }
 
-  Widget _buildEllipsis() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4),
-      child: Text('...', style: TextStyle(color: AppPalette.neutral400)),
+  Widget _buildEllipsis(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Text(
+        '...',
+        style: TextStyle(color: context.colors.mutedForeground),
+      ),
     );
   }
 }

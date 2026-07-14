@@ -64,18 +64,17 @@ Agora is a **Melos-managed Flutter monorepo** with three scopes. See `docs/archi
 
 ```
 apps/         ← Flutter entry points (no business logic) — currently only apps/agora
-features/     ← Domain-isolated packages (restaurant SaaS only)
+features/     ← Domain-isolated packages (sagra/festival POS only)
 packages/     ← Cross-cutting infrastructure (all apps)
 ```
 
-`apps/agora` is the only app that exists today, and it composes all features directly (see "Feature registration pattern" below). There is no `backend/` directory yet — the app is fully offline-first, backed by a local Drift/SQLite database (`package:database`).
+`apps/agora` is the only app that exists today and the only one planned — it composes all features directly (see "Feature registration pattern" below), and is scoped to Italian sagre, village festivals, and small pop-up events (not restaurants, bars, or ticketed commercial venues — see `docs/architecture/ECOSYSTEM.md`). There is no `backend/` directory yet — the app is fully offline-first, backed by a local Drift/SQLite database (`package:database`).
 
 ### Planned (not yet built)
 
-`docs/architecture/ECOSYSTEM.md` describes a roadmap that splits the current single app apart and adds a shared backend: a standalone `festival_pos` app plus additional restaurant-SaaS apps (`pos`, `kitchen`, `totem`, `client_app`, `waiter`) that would compose `features/*` selectively, all connecting to a `backend/` service. **None of this exists in the repo yet** — do not assume this structure, these directories, or these apps are present. Always check `apps/` and the repo root directly rather than relying on this file or ECOSYSTEM.md for what currently exists.
+`docs/architecture/ECOSYSTEM.md` describes a roadmap that keeps the single `apps/agora` app and adds a **local LAN sync hub** (no cloud) so multiple stands at the same event can share a live order queue, stock count, and kitchen tickets. **None of this exists in the repo yet** — do not assume the hub is present. Always check `apps/` and the repo root directly rather than relying on this file or ECOSYSTEM.md for what currently exists.
 
-- `backend/` — planned as Hono + Bun + PostgreSQL + Drizzle; see `docs/architecture/BACKEND.md` for the full spec of the (not-yet-built) service.
-- Additional Flutter apps beyond `apps/agora` — see `docs/architecture/ECOSYSTEM.md` for the full multi-app roadmap and build phases.
+- `sync_hub/` — planned as Hono + Bun + SQLite, run locally by the organiser on the event's own LAN (not a hosted cloud service); see `docs/architecture/BACKEND.md` for the full spec of the (not-yet-built) hub.
 
 ### Dependency direction
 

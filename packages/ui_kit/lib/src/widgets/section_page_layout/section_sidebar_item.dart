@@ -75,10 +75,10 @@ class SectionSidebarItem extends StatelessWidget {
             vertical: 14,
           ),
           decoration: BoxDecoration(
-            color: isSelected ? Colors.white : Colors.transparent,
+            color: isSelected ? context.colors.card : Colors.transparent,
             borderRadius: BorderRadius.circular(6),
             border: isSelected
-                ? Border.all(color: AppPalette.neutral200, width: 1)
+                ? Border.all(color: context.colors.border, width: 1)
                 : null,
           ),
           child: Row(
@@ -100,8 +100,8 @@ class SectionSidebarItem extends StatelessWidget {
                 isSelected ? (selectedIcon ?? icon) : icon,
                 size: 22,
                 color: isSelected
-                    ? AppPalette.neutral800
-                    : AppPalette.neutral500,
+                    ? context.colors.foreground
+                    : context.colors.mutedForeground,
               ),
               // Label (hidden when collapsed)
               if (!isCollapsed) ...[
@@ -114,8 +114,8 @@ class SectionSidebarItem extends StatelessWidget {
                           ? FontWeight.w600
                           : FontWeight.w500,
                       color: isSelected
-                          ? AppPalette.neutral800
-                          : AppPalette.neutral600,
+                          ? context.colors.foreground
+                          : context.colors.mutedForeground,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -20,10 +20,14 @@ dependencies:
     sdk: flutter
   inventory_contracts:
     path: ../../packages/inventory_contracts
+  lan_hub:
+    path: ../../packages/lan_hub
   logger:
     path: ../../packages/logger
   result:
     path: ../../packages/result
+  sync_engine:
+    path: ../../packages/sync_engine
   talker: ^5.1.9
   ui_kit:
     path: ../../packages/ui_kit

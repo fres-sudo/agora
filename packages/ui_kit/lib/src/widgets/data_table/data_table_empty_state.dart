@@ -27,7 +27,7 @@ class DataTableEmptyState extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppPalette.neutral200,
+                color: context.colors.muted,
                 shape: BoxShape.circle,
               ),
               child: Stack(
@@ -36,7 +36,7 @@ class DataTableEmptyState extends StatelessWidget {
                   Icon(
                     AgoraIcons.inbox,
                     size: 36,
-                    color: AppPalette.neutral400,
+                    color: context.colors.mutedForeground,
                   ),
                   Positioned(
                     right: 14,
@@ -44,17 +44,17 @@ class DataTableEmptyState extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                        color: AppPalette.neutral200,
+                        color: context.colors.muted,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppPalette.neutral200,
+                          color: context.colors.muted,
                           width: 2,
                         ),
                       ),
                       child: Icon(
                         AgoraIcons.help_circle,
                         size: 20,
-                        color: AppPalette.neutral500,
+                        color: context.colors.mutedForeground,
                       ),
                     ),
                   ),
@@ -73,9 +73,9 @@ class DataTableEmptyState extends StatelessWidget {
             // Subtitle
             Text(
               subtitle,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: context.colors.mutedForeground,
+              ),
               textAlign: TextAlign.center,
             ),
           ],

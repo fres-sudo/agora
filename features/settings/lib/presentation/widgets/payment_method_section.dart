@@ -65,15 +65,17 @@ class PaymentMethodSection extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(context.tokens.spaceSm),
                   decoration: BoxDecoration(
-                    color: AppPalette.warning100,
+                    color: context.colors.warning.withValues(alpha: 0.12),
                     borderRadius: context.tokens.borderRadiusLg,
-                    border: Border.all(color: AppPalette.warning300),
+                    border: Border.all(
+                      color: context.colors.warning.withValues(alpha: 0.4),
+                    ),
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         AgoraIcons.alert_triangle,
-                        color: AppPalette.warning600,
+                        color: context.colors.warning,
                         size: 18,
                       ),
                       SizedBox(width: context.tokens.spaceXs),
@@ -117,13 +119,15 @@ class _MethodTile extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(context.tokens.spaceXs),
           decoration: BoxDecoration(
-            color: isEnabled ? AppPalette.primary100 : AppPalette.neutral100,
+            color: isEnabled
+                ? colors.primary.withValues(alpha: 0.1)
+                : colors.muted,
             borderRadius: context.tokens.borderRadiusLg,
           ),
           child: Icon(
             icon,
             size: 20,
-            color: isEnabled ? AppPalette.primary500 : AppPalette.neutral400,
+            color: isEnabled ? colors.primary : colors.mutedForeground,
           ),
         ),
         SizedBox(width: context.tokens.spaceMd),

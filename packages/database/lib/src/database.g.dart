@@ -3083,6 +3083,15 @@ class $StockMovementsTableTable extends StockMovementsTable
     requiredDuringInsert: false,
     defaultValue: currentDateAndTime,
   );
+  static const VerificationMeta _syncIdMeta = const VerificationMeta('syncId');
+  @override
+  late final GeneratedColumn<String> syncId = GeneratedColumn<String>(
+    'sync_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3093,6 +3102,7 @@ class $StockMovementsTableTable extends StockMovementsTable
     quantityChange,
     reason,
     timestamp,
+    syncId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3160,6 +3170,12 @@ class $StockMovementsTableTable extends StockMovementsTable
         timestamp.isAcceptableOrUnknown(data['timestamp']!, _timestampMeta),
       );
     }
+    if (data.containsKey('sync_id')) {
+      context.handle(
+        _syncIdMeta,
+        syncId.isAcceptableOrUnknown(data['sync_id']!, _syncIdMeta),
+      );
+    }
     return context;
   }
 
@@ -3201,6 +3217,10 @@ class $StockMovementsTableTable extends StockMovementsTable
         DriftSqlType.dateTime,
         data['${effectivePrefix}timestamp'],
       )!,
+      syncId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sync_id'],
+      ),
     );
   }
 
@@ -3220,6 +3240,7 @@ class StockMovementEntity extends DataClass
   final int quantityChange;
   final String reason;
   final DateTime timestamp;
+  final String? syncId;
   const StockMovementEntity({
     required this.id,
     required this.createdAt,
@@ -3229,6 +3250,7 @@ class StockMovementEntity extends DataClass
     required this.quantityChange,
     required this.reason,
     required this.timestamp,
+    this.syncId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3245,6 +3267,9 @@ class StockMovementEntity extends DataClass
     map['quantity_change'] = Variable<int>(quantityChange);
     map['reason'] = Variable<String>(reason);
     map['timestamp'] = Variable<DateTime>(timestamp);
+    if (!nullToAbsent || syncId != null) {
+      map['sync_id'] = Variable<String>(syncId);
+    }
     return map;
   }
 
@@ -3262,6 +3287,9 @@ class StockMovementEntity extends DataClass
       quantityChange: Value(quantityChange),
       reason: Value(reason),
       timestamp: Value(timestamp),
+      syncId: syncId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncId),
     );
   }
 
@@ -3279,6 +3307,7 @@ class StockMovementEntity extends DataClass
       quantityChange: serializer.fromJson<int>(json['quantityChange']),
       reason: serializer.fromJson<String>(json['reason']),
       timestamp: serializer.fromJson<DateTime>(json['timestamp']),
+      syncId: serializer.fromJson<String?>(json['syncId']),
     );
   }
   @override
@@ -3293,6 +3322,7 @@ class StockMovementEntity extends DataClass
       'quantityChange': serializer.toJson<int>(quantityChange),
       'reason': serializer.toJson<String>(reason),
       'timestamp': serializer.toJson<DateTime>(timestamp),
+      'syncId': serializer.toJson<String?>(syncId),
     };
   }
 
@@ -3305,6 +3335,7 @@ class StockMovementEntity extends DataClass
     int? quantityChange,
     String? reason,
     DateTime? timestamp,
+    Value<String?> syncId = const Value.absent(),
   }) => StockMovementEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -3314,6 +3345,7 @@ class StockMovementEntity extends DataClass
     quantityChange: quantityChange ?? this.quantityChange,
     reason: reason ?? this.reason,
     timestamp: timestamp ?? this.timestamp,
+    syncId: syncId.present ? syncId.value : this.syncId,
   );
   StockMovementEntity copyWithCompanion(StockMovementsTableCompanion data) {
     return StockMovementEntity(
@@ -3327,6 +3359,7 @@ class StockMovementEntity extends DataClass
           : this.quantityChange,
       reason: data.reason.present ? data.reason.value : this.reason,
       timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      syncId: data.syncId.present ? data.syncId.value : this.syncId,
     );
   }
 
@@ -3340,7 +3373,8 @@ class StockMovementEntity extends DataClass
           ..write('productId: $productId, ')
           ..write('quantityChange: $quantityChange, ')
           ..write('reason: $reason, ')
-          ..write('timestamp: $timestamp')
+          ..write('timestamp: $timestamp, ')
+          ..write('syncId: $syncId')
           ..write(')'))
         .toString();
   }
@@ -3355,6 +3389,7 @@ class StockMovementEntity extends DataClass
     quantityChange,
     reason,
     timestamp,
+    syncId,
   );
   @override
   bool operator ==(Object other) =>
@@ -3367,7 +3402,8 @@ class StockMovementEntity extends DataClass
           other.productId == this.productId &&
           other.quantityChange == this.quantityChange &&
           other.reason == this.reason &&
-          other.timestamp == this.timestamp);
+          other.timestamp == this.timestamp &&
+          other.syncId == this.syncId);
 }
 
 class StockMovementsTableCompanion
@@ -3380,6 +3416,7 @@ class StockMovementsTableCompanion
   final Value<int> quantityChange;
   final Value<String> reason;
   final Value<DateTime> timestamp;
+  final Value<String?> syncId;
   const StockMovementsTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -3389,6 +3426,7 @@ class StockMovementsTableCompanion
     this.quantityChange = const Value.absent(),
     this.reason = const Value.absent(),
     this.timestamp = const Value.absent(),
+    this.syncId = const Value.absent(),
   });
   StockMovementsTableCompanion.insert({
     this.id = const Value.absent(),
@@ -3399,6 +3437,7 @@ class StockMovementsTableCompanion
     required int quantityChange,
     required String reason,
     this.timestamp = const Value.absent(),
+    this.syncId = const Value.absent(),
   }) : productId = Value(productId),
        quantityChange = Value(quantityChange),
        reason = Value(reason);
@@ -3411,6 +3450,7 @@ class StockMovementsTableCompanion
     Expression<int>? quantityChange,
     Expression<String>? reason,
     Expression<DateTime>? timestamp,
+    Expression<String>? syncId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3421,6 +3461,7 @@ class StockMovementsTableCompanion
       if (quantityChange != null) 'quantity_change': quantityChange,
       if (reason != null) 'reason': reason,
       if (timestamp != null) 'timestamp': timestamp,
+      if (syncId != null) 'sync_id': syncId,
     });
   }
 
@@ -3433,6 +3474,7 @@ class StockMovementsTableCompanion
     Value<int>? quantityChange,
     Value<String>? reason,
     Value<DateTime>? timestamp,
+    Value<String?>? syncId,
   }) {
     return StockMovementsTableCompanion(
       id: id ?? this.id,
@@ -3443,6 +3485,7 @@ class StockMovementsTableCompanion
       quantityChange: quantityChange ?? this.quantityChange,
       reason: reason ?? this.reason,
       timestamp: timestamp ?? this.timestamp,
+      syncId: syncId ?? this.syncId,
     );
   }
 
@@ -3473,6 +3516,9 @@ class StockMovementsTableCompanion
     if (timestamp.present) {
       map['timestamp'] = Variable<DateTime>(timestamp.value);
     }
+    if (syncId.present) {
+      map['sync_id'] = Variable<String>(syncId.value);
+    }
     return map;
   }
 
@@ -3486,7 +3532,8 @@ class StockMovementsTableCompanion
           ..write('productId: $productId, ')
           ..write('quantityChange: $quantityChange, ')
           ..write('reason: $reason, ')
-          ..write('timestamp: $timestamp')
+          ..write('timestamp: $timestamp, ')
+          ..write('syncId: $syncId')
           ..write(')'))
         .toString();
   }
@@ -3633,6 +3680,15 @@ class $OrdersTableTable extends OrdersTable
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _syncIdMeta = const VerificationMeta('syncId');
+  @override
+  late final GeneratedColumn<String> syncId = GeneratedColumn<String>(
+    'sync_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3647,6 +3703,7 @@ class $OrdersTableTable extends OrdersTable
     grandTotal,
     paymentMethod,
     note,
+    syncId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3739,6 +3796,12 @@ class $OrdersTableTable extends OrdersTable
         note.isAcceptableOrUnknown(data['note']!, _noteMeta),
       );
     }
+    if (data.containsKey('sync_id')) {
+      context.handle(
+        _syncIdMeta,
+        syncId.isAcceptableOrUnknown(data['sync_id']!, _syncIdMeta),
+      );
+    }
     return context;
   }
 
@@ -3796,6 +3859,10 @@ class $OrdersTableTable extends OrdersTable
         DriftSqlType.string,
         data['${effectivePrefix}note'],
       ),
+      syncId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sync_id'],
+      ),
     );
   }
 
@@ -3818,6 +3885,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
   final int grandTotal;
   final String? paymentMethod;
   final String? note;
+  final String? syncId;
   const OrderEntity({
     required this.id,
     required this.createdAt,
@@ -3831,6 +3899,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     required this.grandTotal,
     this.paymentMethod,
     this.note,
+    this.syncId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3855,6 +3924,9 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     if (!nullToAbsent || note != null) {
       map['note'] = Variable<String>(note);
     }
+    if (!nullToAbsent || syncId != null) {
+      map['sync_id'] = Variable<String>(syncId);
+    }
     return map;
   }
 
@@ -3878,6 +3950,9 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           ? const Value.absent()
           : Value(paymentMethod),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      syncId: syncId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncId),
     );
   }
 
@@ -3899,6 +3974,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       grandTotal: serializer.fromJson<int>(json['grandTotal']),
       paymentMethod: serializer.fromJson<String?>(json['paymentMethod']),
       note: serializer.fromJson<String?>(json['note']),
+      syncId: serializer.fromJson<String?>(json['syncId']),
     );
   }
   @override
@@ -3917,6 +3993,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       'grandTotal': serializer.toJson<int>(grandTotal),
       'paymentMethod': serializer.toJson<String?>(paymentMethod),
       'note': serializer.toJson<String?>(note),
+      'syncId': serializer.toJson<String?>(syncId),
     };
   }
 
@@ -3933,6 +4010,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     int? grandTotal,
     Value<String?> paymentMethod = const Value.absent(),
     Value<String?> note = const Value.absent(),
+    Value<String?> syncId = const Value.absent(),
   }) => OrderEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -3948,6 +4026,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
         ? paymentMethod.value
         : this.paymentMethod,
     note: note.present ? note.value : this.note,
+    syncId: syncId.present ? syncId.value : this.syncId,
   );
   OrderEntity copyWithCompanion(OrdersTableCompanion data) {
     return OrderEntity(
@@ -3969,6 +4048,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           ? data.paymentMethod.value
           : this.paymentMethod,
       note: data.note.present ? data.note.value : this.note,
+      syncId: data.syncId.present ? data.syncId.value : this.syncId,
     );
   }
 
@@ -3986,7 +4066,8 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           ..write('taxTotal: $taxTotal, ')
           ..write('grandTotal: $grandTotal, ')
           ..write('paymentMethod: $paymentMethod, ')
-          ..write('note: $note')
+          ..write('note: $note, ')
+          ..write('syncId: $syncId')
           ..write(')'))
         .toString();
   }
@@ -4005,6 +4086,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     grandTotal,
     paymentMethod,
     note,
+    syncId,
   );
   @override
   bool operator ==(Object other) =>
@@ -4021,7 +4103,8 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           other.taxTotal == this.taxTotal &&
           other.grandTotal == this.grandTotal &&
           other.paymentMethod == this.paymentMethod &&
-          other.note == this.note);
+          other.note == this.note &&
+          other.syncId == this.syncId);
 }
 
 class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
@@ -4037,6 +4120,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
   final Value<int> grandTotal;
   final Value<String?> paymentMethod;
   final Value<String?> note;
+  final Value<String?> syncId;
   const OrdersTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -4050,6 +4134,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     this.grandTotal = const Value.absent(),
     this.paymentMethod = const Value.absent(),
     this.note = const Value.absent(),
+    this.syncId = const Value.absent(),
   });
   OrdersTableCompanion.insert({
     this.id = const Value.absent(),
@@ -4064,6 +4149,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     required int grandTotal,
     this.paymentMethod = const Value.absent(),
     this.note = const Value.absent(),
+    this.syncId = const Value.absent(),
   }) : subtotal = Value(subtotal),
        grandTotal = Value(grandTotal);
   static Insertable<OrderEntity> custom({
@@ -4079,6 +4165,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Expression<int>? grandTotal,
     Expression<String>? paymentMethod,
     Expression<String>? note,
+    Expression<String>? syncId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4093,6 +4180,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       if (grandTotal != null) 'grand_total': grandTotal,
       if (paymentMethod != null) 'payment_method': paymentMethod,
       if (note != null) 'note': note,
+      if (syncId != null) 'sync_id': syncId,
     });
   }
 
@@ -4109,6 +4197,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Value<int>? grandTotal,
     Value<String?>? paymentMethod,
     Value<String?>? note,
+    Value<String?>? syncId,
   }) {
     return OrdersTableCompanion(
       id: id ?? this.id,
@@ -4123,6 +4212,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       grandTotal: grandTotal ?? this.grandTotal,
       paymentMethod: paymentMethod ?? this.paymentMethod,
       note: note ?? this.note,
+      syncId: syncId ?? this.syncId,
     );
   }
 
@@ -4165,6 +4255,9 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     if (note.present) {
       map['note'] = Variable<String>(note.value);
     }
+    if (syncId.present) {
+      map['sync_id'] = Variable<String>(syncId.value);
+    }
     return map;
   }
 
@@ -4182,7 +4275,8 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
           ..write('taxTotal: $taxTotal, ')
           ..write('grandTotal: $grandTotal, ')
           ..write('paymentMethod: $paymentMethod, ')
-          ..write('note: $note')
+          ..write('note: $note, ')
+          ..write('syncId: $syncId')
           ..write(')'))
         .toString();
   }
@@ -8133,6 +8227,14 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
   late final $EmployeesTableTable employeesTable = $EmployeesTableTable(this);
   late final $ClockRecordsTableTable clockRecordsTable =
       $ClockRecordsTableTable(this);
+  late final Index idxStockMovementsSyncId = Index(
+    'idx_stock_movements_sync_id',
+    'CREATE UNIQUE INDEX idx_stock_movements_sync_id ON stock_movements_table (sync_id)',
+  );
+  late final Index idxOrdersSyncId = Index(
+    'idx_orders_sync_id',
+    'CREATE UNIQUE INDEX idx_orders_sync_id ON orders_table (sync_id)',
+  );
   late final Index idxClockRecordsOneOpenShift = Index(
     'idx_clock_records_one_open_shift',
     'CREATE UNIQUE INDEX idx_clock_records_one_open_shift ON clock_records_table (employee_id) WHERE clocked_out_at IS NULL AND deleted_at IS NULL',
@@ -8157,6 +8259,8 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     outboxTable,
     employeesTable,
     clockRecordsTable,
+    idxStockMovementsSyncId,
+    idxOrdersSyncId,
     idxClockRecordsOneOpenShift,
   ];
   @override
@@ -11085,6 +11189,7 @@ typedef $$StockMovementsTableTableCreateCompanionBuilder =
       required int quantityChange,
       required String reason,
       Value<DateTime> timestamp,
+      Value<String?> syncId,
     });
 typedef $$StockMovementsTableTableUpdateCompanionBuilder =
     StockMovementsTableCompanion Function({
@@ -11096,6 +11201,7 @@ typedef $$StockMovementsTableTableUpdateCompanionBuilder =
       Value<int> quantityChange,
       Value<String> reason,
       Value<DateTime> timestamp,
+      Value<String?> syncId,
     });
 
 final class $$StockMovementsTableTableReferences
@@ -11178,6 +11284,11 @@ class $$StockMovementsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get syncId => $composableBuilder(
+    column: $table.syncId,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$ProductsTableTableFilterComposer get productId {
     final $$ProductsTableTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -11246,6 +11357,11 @@ class $$StockMovementsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get syncId => $composableBuilder(
+    column: $table.syncId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$ProductsTableTableOrderingComposer get productId {
     final $$ProductsTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -11301,6 +11417,9 @@ class $$StockMovementsTableTableAnnotationComposer
 
   GeneratedColumn<DateTime> get timestamp =>
       $composableBuilder(column: $table.timestamp, builder: (column) => column);
+
+  GeneratedColumn<String> get syncId =>
+      $composableBuilder(column: $table.syncId, builder: (column) => column);
 
   $$ProductsTableTableAnnotationComposer get productId {
     final $$ProductsTableTableAnnotationComposer composer = $composerBuilder(
@@ -11370,6 +11489,7 @@ class $$StockMovementsTableTableTableManager
                 Value<int> quantityChange = const Value.absent(),
                 Value<String> reason = const Value.absent(),
                 Value<DateTime> timestamp = const Value.absent(),
+                Value<String?> syncId = const Value.absent(),
               }) => StockMovementsTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -11379,6 +11499,7 @@ class $$StockMovementsTableTableTableManager
                 quantityChange: quantityChange,
                 reason: reason,
                 timestamp: timestamp,
+                syncId: syncId,
               ),
           createCompanionCallback:
               ({
@@ -11390,6 +11511,7 @@ class $$StockMovementsTableTableTableManager
                 required int quantityChange,
                 required String reason,
                 Value<DateTime> timestamp = const Value.absent(),
+                Value<String?> syncId = const Value.absent(),
               }) => StockMovementsTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -11399,6 +11521,7 @@ class $$StockMovementsTableTableTableManager
                 quantityChange: quantityChange,
                 reason: reason,
                 timestamp: timestamp,
+                syncId: syncId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -11483,6 +11606,7 @@ typedef $$OrdersTableTableCreateCompanionBuilder =
       required int grandTotal,
       Value<String?> paymentMethod,
       Value<String?> note,
+      Value<String?> syncId,
     });
 typedef $$OrdersTableTableUpdateCompanionBuilder =
     OrdersTableCompanion Function({
@@ -11498,6 +11622,7 @@ typedef $$OrdersTableTableUpdateCompanionBuilder =
       Value<int> grandTotal,
       Value<String?> paymentMethod,
       Value<String?> note,
+      Value<String?> syncId,
     });
 
 final class $$OrdersTableTableReferences
@@ -11598,6 +11723,11 @@ class $$OrdersTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get syncId => $composableBuilder(
+    column: $table.syncId,
+    builder: (column) => ColumnFilters(column),
+  );
+
   Expression<bool> orderItemsTableRefs(
     Expression<bool> Function($$OrderItemsTableTableFilterComposer f) f,
   ) {
@@ -11692,6 +11822,11 @@ class $$OrdersTableTableOrderingComposer
     column: $table.note,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get syncId => $composableBuilder(
+    column: $table.syncId,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$OrdersTableTableAnnotationComposer
@@ -11744,6 +11879,9 @@ class $$OrdersTableTableAnnotationComposer
 
   GeneratedColumn<String> get note =>
       $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get syncId =>
+      $composableBuilder(column: $table.syncId, builder: (column) => column);
 
   Expression<T> orderItemsTableRefs<T extends Object>(
     Expression<T> Function($$OrderItemsTableTableAnnotationComposer a) f,
@@ -11811,6 +11949,7 @@ class $$OrdersTableTableTableManager
                 Value<int> grandTotal = const Value.absent(),
                 Value<String?> paymentMethod = const Value.absent(),
                 Value<String?> note = const Value.absent(),
+                Value<String?> syncId = const Value.absent(),
               }) => OrdersTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -11824,6 +11963,7 @@ class $$OrdersTableTableTableManager
                 grandTotal: grandTotal,
                 paymentMethod: paymentMethod,
                 note: note,
+                syncId: syncId,
               ),
           createCompanionCallback:
               ({
@@ -11839,6 +11979,7 @@ class $$OrdersTableTableTableManager
                 required int grandTotal,
                 Value<String?> paymentMethod = const Value.absent(),
                 Value<String?> note = const Value.absent(),
+                Value<String?> syncId = const Value.absent(),
               }) => OrdersTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -11852,6 +11993,7 @@ class $$OrdersTableTableTableManager
                 grandTotal: grandTotal,
                 paymentMethod: paymentMethod,
                 note: note,
+                syncId: syncId,
               ),
           withReferenceMapper: (p0) => p0
               .map(

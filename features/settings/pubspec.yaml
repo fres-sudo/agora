@@ -28,12 +28,16 @@ dependencies:
     sdk: flutter
   i18n:
     path: ../../packages/i18n
+  lan_hub:
+    path: ../../packages/lan_hub
   logger:
     path: ../../packages/logger
   printing:
     path: ../../packages/printing
   result:
     path: ../../packages/result
+  sync_engine:
+    path: ../../packages/sync_engine
   talker: ^5.1.9
   ui_kit:
     path: ../../packages/ui_kit

@@ -27,9 +27,9 @@ class SectionTabBar extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: AppPalette.neutral300, width: 1)),
+      decoration: BoxDecoration(
+        color: context.colors.card,
+        border: Border(top: BorderSide(color: context.colors.border, width: 1)),
       ),
       child: SafeArea(
         top: false,
@@ -85,7 +85,9 @@ class SectionTabBar extends StatelessWidget {
             Icon(
               isSelected ? (item.selectedIcon ?? item.icon) : item.icon,
               size: 24,
-              color: isSelected ? theme.primaryColor : AppPalette.neutral400,
+              color: isSelected
+                  ? theme.primaryColor
+                  : context.colors.mutedForeground,
             ),
             const SizedBox(height: 4),
             // Label
@@ -93,7 +95,9 @@ class SectionTabBar extends StatelessWidget {
               item.label,
               style: theme.textTheme.labelSmall?.copyWith(
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? theme.primaryColor : AppPalette.neutral500,
+                color: isSelected
+                    ? theme.primaryColor
+                    : context.colors.mutedForeground,
                 fontSize: 10,
               ),
               maxLines: 1,

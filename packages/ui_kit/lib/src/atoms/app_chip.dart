@@ -6,7 +6,13 @@ import 'package:ui_kit/ui_kit.dart';
 ///
 /// TODO(design-system): add leading avatar, deletable variant and chip groups.
 class AppChip extends StatelessWidget {
-  const AppChip({super.key, required this.label, this.selected = false, this.onTap, this.icon});
+  const AppChip({
+    super.key,
+    required this.label,
+    this.selected = false,
+    this.onTap,
+    this.icon,
+  });
 
   final String label;
   final bool selected;
@@ -31,7 +37,10 @@ class AppChip extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(tokens.radiusFull),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: tokens.spaceMd, vertical: tokens.spaceSm),
+            padding: EdgeInsets.symmetric(
+              horizontal: tokens.spaceMd,
+              vertical: tokens.spaceSm,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [

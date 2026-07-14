@@ -122,7 +122,7 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(AgoraIcons.categories, size: 64, color: AppPalette.neutral300),
+          Icon(AgoraIcons.categories, size: 64, color: context.colors.border),
           const SizedBox(height: Sizes.md),
           AppText.titleMd(
             'No categories yet',
@@ -143,7 +143,11 @@ class _CategorySectionState extends State<CategorySection> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(AgoraIcons.alert_triangle, size: 48, color: AppPalette.error500),
+          Icon(
+            AgoraIcons.alert_triangle,
+            size: 48,
+            color: context.colors.destructive,
+          ),
           const SizedBox(height: Sizes.md),
           const AppText.titleMd('Failed to load categories'),
           const SizedBox(height: Sizes.sm),

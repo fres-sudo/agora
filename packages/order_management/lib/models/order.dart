@@ -24,6 +24,11 @@ abstract class Order with _$Order {
     required List<OrderLineItem> items,
     required String? note,
 
+    // Cross-station identity for LAN sync (uuid v4). Null for orders never
+    // synced (pre-migration, or a station that has never paired) — see
+    // OrdersTable.syncId and docs/features/01-lan-sync.md.
+    String? syncId,
+
     // Payment
     String? paymentMethod, // "Cash", "Card", etc. Null until paid.
     // Financials

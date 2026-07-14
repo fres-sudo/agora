@@ -77,7 +77,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppPalette.neutral900,
+      backgroundColor: AppColors.dark.background,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -126,17 +126,17 @@ class _EmployeeSelector extends StatelessWidget {
       children: [
         Image.asset('assets/brand/logo.png', width: 48, height: 48),
         SizedBox(height: context.tokens.spaceSm),
-        const AppText.headingMd('agora', color: AppPalette.white),
+        AppText.headingMd('agora', color: AppColors.dark.foreground),
         SizedBox(height: context.tokens.spaceXs),
-        const AppText.body(
+        AppText.body(
           'Select your profile to continue',
-          color: AppPalette.neutral400,
+          color: AppColors.dark.mutedForeground,
         ),
         SizedBox(height: context.tokens.spaceXl),
         if (employees.isEmpty)
-          const AppText.body(
+          AppText.body(
             'No employees found.\nPlease set up staff in Settings first.',
-            color: AppPalette.neutral400,
+            color: AppColors.dark.mutedForeground,
             textAlign: TextAlign.center,
           )
         else
@@ -166,14 +166,14 @@ class _AvatarTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 32,
-            backgroundColor: AppPalette.primary100,
+            backgroundColor: AppColors.dark.secondary,
             child: AppText.headingLg(
               employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-              color: AppPalette.primary700,
+              color: AppColors.dark.secondaryForeground,
             ),
           ),
           SizedBox(height: context.tokens.spaceXs),
-          AppText.bodySm(employee.name, color: AppPalette.white),
+          AppText.bodySm(employee.name, color: AppColors.dark.foreground),
         ],
       ),
     );
@@ -212,22 +212,25 @@ class _PinPad extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: IconButton(
             onPressed: onBack,
-            icon: const Icon(AgoraIcons.chevron_left, color: AppPalette.white),
+            icon: Icon(
+              AgoraIcons.chevron_left,
+              color: AppColors.dark.foreground,
+            ),
           ),
         ),
         SizedBox(height: context.tokens.spaceXs),
         CircleAvatar(
           radius: 32,
-          backgroundColor: AppPalette.primary100,
+          backgroundColor: AppColors.dark.secondary,
           child: AppText.headingLg(
             employee.name.isNotEmpty ? employee.name[0].toUpperCase() : '?',
-            color: AppPalette.primary700,
+            color: AppColors.dark.secondaryForeground,
           ),
         ),
         SizedBox(height: context.tokens.spaceSm),
-        AppText.headingSm(employee.name, color: AppPalette.white),
+        AppText.headingSm(employee.name, color: AppColors.dark.foreground),
         SizedBox(height: context.tokens.spaceXxs),
-        const AppText.body('Enter your PIN', color: AppPalette.neutral400),
+        AppText.body('Enter your PIN', color: AppColors.dark.mutedForeground),
         SizedBox(height: context.tokens.spaceLg),
         // PIN dots
         Row(
@@ -241,15 +244,15 @@ class _PinPad extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: i < pin.length
-                    ? AppPalette.primary500
-                    : AppPalette.neutral600,
+                    ? AppColors.dark.primary
+                    : AppColors.dark.muted,
               ),
             ),
           ),
         ),
         if (error != null) ...[
           SizedBox(height: context.tokens.spaceSm),
-          AppText.bodySm(error!, color: AppPalette.error400),
+          AppText.bodySm(error!, color: AppColors.dark.destructive),
         ],
         SizedBox(height: context.tokens.spaceLg),
         GridView.count(
@@ -304,12 +307,14 @@ class _DigitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppPalette.neutral800,
+      color: AppColors.dark.card,
       borderRadius: context.tokens.borderRadiusLg,
       child: InkWell(
         onTap: onTap,
         borderRadius: context.tokens.borderRadiusLg,
-        child: Center(child: AppText.headingMd(digit, color: AppPalette.white)),
+        child: Center(
+          child: AppText.headingMd(digit, color: AppColors.dark.foreground),
+        ),
       ),
     );
   }
@@ -322,13 +327,17 @@ class _DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppPalette.neutral800,
+      color: AppColors.dark.card,
       borderRadius: context.tokens.borderRadiusLg,
       child: InkWell(
         onTap: onTap,
         borderRadius: context.tokens.borderRadiusLg,
-        child: const Center(
-          child: Icon(AgoraIcons.eraser, color: AppPalette.white, size: 22),
+        child: Center(
+          child: Icon(
+            AgoraIcons.eraser,
+            color: AppColors.dark.foreground,
+            size: 22,
+          ),
         ),
       ),
     );

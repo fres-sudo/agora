@@ -43,7 +43,7 @@ class DataTableDeleteDialog extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
-        side: const BorderSide(color: AppPalette.neutral300),
+        side: BorderSide(color: context.colors.border),
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),
@@ -57,12 +57,12 @@ class DataTableDeleteDialog extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: AppPalette.error100,
+                  color: context.colors.destructive.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   AgoraIcons.x_mark,
-                  color: AppPalette.error500,
+                  color: context.colors.destructive,
                   size: 32,
                 ),
               ),
@@ -79,9 +79,9 @@ class DataTableDeleteDialog extends StatelessWidget {
               // Message
               Text(
                 message,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: AppPalette.neutral500),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: context.colors.mutedForeground,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: Sizes.xl),
@@ -93,8 +93,8 @@ class DataTableDeleteDialog extends StatelessWidget {
                       onPressed: () => Navigator.of(context).pop(false),
                       label: cancelButtonLabel,
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppPalette.neutral700,
-                        side: const BorderSide(color: AppPalette.neutral300),
+                        foregroundColor: context.colors.foreground,
+                        side: BorderSide(color: context.colors.border),
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),
@@ -105,7 +105,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                       onPressed: () => Navigator.of(context).pop(true),
                       label: deleteButtonLabel,
                       style: FilledButton.styleFrom(
-                        backgroundColor: AppPalette.error500,
+                        backgroundColor: context.colors.destructive,
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),

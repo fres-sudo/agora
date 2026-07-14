@@ -72,6 +72,15 @@ class StockMovementsDao extends DatabaseAccessor<AgoraDatabase>
     )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).getSingleOrNull();
   }
 
+  /// Gets a single movement by its cross-station sync identity. Used by
+  /// LAN sync to dedupe an inbound `stock.adjusted` event against a
+  /// redelivery or the host's own loopback broadcast.
+  Future<StockMovementEntity?> getMovementBySyncId(String syncId) {
+    return (select(
+      stockMovementsTable,
+    )..where((t) => t.syncId.equals(syncId))).getSingleOrNull();
+  }
+
   /// Gets the total count of movements with optional filters.
   Future<int> getMovementsCount({
     int? productId,
@@ -132,6 +141,7 @@ class StockMovementsDao extends DatabaseAccessor<AgoraDatabase>
     required int quantityChange,
     required String reason,
     DateTime? timestamp,
+    String? syncId,
   }) {
     return into(stockMovementsTable).insert(
       StockMovementsTableCompanion.insert(
@@ -139,6 +149,7 @@ class StockMovementsDao extends DatabaseAccessor<AgoraDatabase>
         quantityChange: quantityChange,
         reason: reason,
         timestamp: timestamp != null ? Value(timestamp) : const Value.absent(),
+        syncId: syncId != null ? Value(syncId) : const Value.absent(),
       ),
     );
   }

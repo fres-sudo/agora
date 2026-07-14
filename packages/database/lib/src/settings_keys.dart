@@ -26,4 +26,16 @@ abstract class SettingsKeys {
   static const String onboardingCompleted = 'onboarding_completed';
   static const String singleUserMode = 'single_user_mode';
   static const String defaultOrderType = 'default_order_type';
+
+  // LAN sync (docs/features/01-lan-sync.md). Lives here rather than on
+  // AppSettingsDao because the app shell (device identity, at startup,
+  // before feature_settings is necessarily relevant) and feature_settings
+  // (the pairing/hosting UI) both need these without depending on
+  // each other.
+  static const String syncDeviceId = 'sync_device_id';
+  static const String syncRole = 'sync_role'; // 'standalone'|'host'|'client'
+  static const String syncHubAddress = 'sync_hub_address'; // "ip:port"
+  static const String syncHubToken = 'sync_hub_token';
+  static const String syncStationName = 'sync_station_name';
+  static const String syncPairingPin = 'sync_pairing_pin';
 }

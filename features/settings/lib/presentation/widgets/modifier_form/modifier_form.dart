@@ -301,10 +301,10 @@ class _OptionRow extends StatelessWidget {
         ),
         AppIconButton.ghost(
           onPressed: onRemove,
-          icon: const Icon(
+          icon: Icon(
             AgoraIcons.x_mark,
             size: 18,
-            color: AppPalette.neutral500,
+            color: context.colors.mutedForeground,
           ),
           tooltip: 'Remove option',
         ),

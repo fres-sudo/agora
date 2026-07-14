@@ -19,8 +19,14 @@ import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.da
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:result/result.dart';
+import 'package:sync_engine/sync_engine.dart';
 
+import 'inventory_repository_concurrency_test.mocks.dart';
+
+@GenerateMocks([SyncManager])
 void main() {
   late AgoraDatabase db;
   late InventoryRepositoryImpl repository;
@@ -29,9 +35,21 @@ void main() {
 
   setUp(() async {
     db = AgoraDatabase(NativeDatabase.memory());
+    final syncManager = MockSyncManager();
+    when(
+      syncManager.enqueue(
+        entityType: anyNamed('entityType'),
+        operation: anyNamed('operation'),
+        entityLocalId: anyNamed('entityLocalId'),
+        payload: anyNamed('payload'),
+        remoteId: anyNamed('remoteId'),
+      ),
+    ).thenAnswer((_) async {});
     repository = InventoryRepositoryImpl(
       stocksDao: StocksDao(db),
       stockMovementsDao: StockMovementsDao(db),
+      syncManager: syncManager,
+      deviceId: const DeviceId('test-device'),
     );
 
     // Seed a product row (stocks.productId has a FK to products.id).

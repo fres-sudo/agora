@@ -1,197 +1,159 @@
-# Agora — Backend Architecture
+# Agora — Local Sync Hub
+
+> Scope: this is **not** a cloud backend. There is no hosting, no multi-tenancy,
+> no subscription gating, and no internet dependency anywhere in this design.
+> It is a small local server one station runs on the event's own LAN so that
+> 3–5 sagra stands can share a live order queue, stock count, and kitchen
+> tickets — the #1 gap versus the desktop incumbents (see `ECOSYSTEM.md`).
+
+## Why this exists
+
+A single `apps/agora` install is already a complete, self-contained POS
+against its own local Drift/SQLite database — no server required for one
+station. The hub only exists to let **multiple stations at the same event**
+see the same order queue and stock count in real time, without any internet
+connection. Nothing else in the product needs a server.
 
 ## Technology stack
 
 | Concern | Choice | Rationale |
 |---|---|---|
-| Runtime | **Bun** | Fast startup, built-in SQLite for local dev, native WebSocket, TypeScript out of the box |
-| Framework | **Hono** | Lightweight, edge-compatible, first-class WebSocket support, familiar to the team |
-| Database | **PostgreSQL** | ACID transactions, row-level security, `LISTEN/NOTIFY` for pub/sub |
-| ORM | **Drizzle** | TypeScript-first, zero-overhead query builder, pairs naturally with Hono/Bun |
-| Auth | **Better Auth** | TypeScript-native, works with Hono middleware, handles JWT + sessions + roles |
-| Real-time | **Hono WebSockets** | Native in Bun, no extra dependency, sufficient for the kitchen/POS use case |
+| Runtime | **Bun** | Fast startup on modest hardware (a Pi or an old laptop), built-in SQLite, native WebSocket |
+| Framework | **Hono** | Lightweight, first-class WebSocket support |
+| Database | **SQLite** (Bun's built-in driver) | One event, one machine, no need for a managed database server |
+| ORM | **Drizzle** | Same schema-definition style as a future cloud target, if ever needed |
+| Real-time | **Hono WebSockets** | Native in Bun, sufficient for a handful of stations |
 
-The same codebase runs locally (festival paid tier) and deployed to a VPS or Cloudflare Workers (restaurant SaaS). No rewrite needed between environments.
+There is no PostgreSQL, no multi-tenant row-level security, and no auth
+provider — the hub only needs to exist for the duration of one event, on one
+local network, run by one organiser.
 
 ---
 
-## Architecture: modular monolith
+## Where it runs
 
-The backend is a **single deployable process** divided into well-bounded modules. Microservices are not used.
+The hub runs on **whichever machine the organiser designates** — typically a
+laptop, or a Raspberry Pi brought specifically for this purpose — connected to
+the same WiFi/LAN as the tablets running `apps/agora`. It is started once at
+the beginning of the event and stopped at the end. There is no deployment, no
+domain, no TLS certificate to manage — stations connect to it by local IP
+address (or a broadcast/mDNS name) over plain LAN WebSocket.
 
-**Why not microservices:** Order creation touches catalog (validate products), inventory (decrement stock), tables (update table state), and kitchen (push to queue) — all in one database transaction. Splitting these across services introduces distributed transactions, saga patterns, and network failure modes that add complexity without benefit at this scale.
+```bash
+bun run start   # runs on the organiser's laptop/Pi on the local WiFi
+```
 
-**The escape hatch:** Each module has a clean public interface (exported functions/types only, no cross-module database queries). If a module like `reporting` needs independent scaling in the future, it can be extracted with surgical effort. That decision is deferred until there is evidence it is needed.
+A single-station event needs no hub at all: the app works identically with
+zero stations synced, one, or five. Pairing a station with the hub is a
+one-time "connect to this event" action in the app (enter/scan the hub's LAN
+address), not an account signup.
 
 ---
 
 ## Repository layout
 
 ```
-backend/
+sync_hub/
 ├── src/
-│   ├── index.ts                  ← Hono app entry point, route mounting
-│   ├── middleware/
-│   │   ├── auth.ts               ← JWT validation, session middleware
-│   │   └── tenant.ts             ← resolves tenant from JWT, sets context
+│   ├── index.ts               ← Hono app entry point
 │   ├── modules/
-│   │   ├── auth/                 ← signup, login, password reset, JWT
-│   │   ├── tenants/              ← tenant + location management
-│   │   ├── catalog/              ← products, categories, modifiers, pricing
-│   │   ├── ordering/             ← orders, order items, order lifecycle
-│   │   ├── inventory/            ← stock levels, depletion on order confirm
-│   │   ├── tables/               ← table layout, sessions, reservations
-│   │   ├── kitchen/              ← order queue, item status, station routing
-│   │   ├── discounts/            ← promo codes, happy hour rules, loyalty
-│   │   ├── payments/             ← payment recording (cash, card, split)
-│   │   ├── reporting/            ← daily summaries, top products, revenue
-│   │   └── realtime/             ← WebSocket hub, topic broadcasting
+│   │   ├── catalog/           ← products, categories, modifiers (mirrors what stations sync)
+│   │   ├── ordering/          ← orders, order items, order lifecycle
+│   │   ├── inventory/         ← shared stock count across stations
+│   │   ├── kitchen/           ← ticket queue, per-stand routing, item status
+│   │   └── realtime/          ← WebSocket hub, topic broadcasting
 │   ├── db/
-│   │   ├── schema.ts             ← Drizzle schema (all tables)
-│   │   └── migrations/           ← SQL migration files
+│   │   ├── schema.ts          ← Drizzle schema
+│   │   └── migrations/
 │   └── lib/
-│       ├── errors.ts             ← typed error classes
-│       └── result.ts             ← Result<T, E> pattern
+│       ├── errors.ts
+│       └── result.ts
 ├── package.json
 ├── bun.lockb
 └── drizzle.config.ts
 ```
 
-### Module structure
-
-Each module follows the same internal layout:
-
-```
-modules/ordering/
-├── router.ts       ← Hono routes for this module
-├── service.ts      ← business logic (no HTTP, no DB)
-├── repository.ts   ← Drizzle queries (no business logic)
-├── schema.ts       ← Zod validation schemas for request/response
-└── index.ts        ← public exports (router + any shared types)
-```
-
-The `service.ts` layer is the only place business rules live. Routers call services; services call repositories. Services never touch the HTTP layer; repositories never contain business logic.
+Each module follows the same internal layout as a Flutter feature: a router,
+a service (business logic), a repository (Drizzle queries), and a schema
+(Zod validation) — router calls service, service calls repository, no layer
+skipping.
 
 ---
 
-## Multi-tenancy
+## No tenancy, no roles
 
-**Strategy: row-level isolation with `tenant_id`**
+There is exactly one event running on the hub at a time. Every station that
+pairs with it is equivalent — there is no `owner`/`manager`/`waiter`/
+`customer` role split, because there is no restaurant staff hierarchy to
+model. Volunteer identity and shift accountability (PIN login, per-shift cash
+reconciliation) are handled entirely client-side in `apps/agora`, not by the
+hub — the hub only reconciles orders, stock, and kitchen tickets between
+stations, it doesn't authenticate people.
 
-Every table that holds tenant-specific data carries a `tenant_id` column. PostgreSQL Row Level Security (RLS) enforces this at the database level as a second line of defence.
-
-```sql
--- example: orders table
-CREATE TABLE orders (
-  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  tenant_id   UUID NOT NULL REFERENCES tenants(id),
-  location_id UUID NOT NULL REFERENCES locations(id),
-  status      TEXT NOT NULL,
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY tenant_isolation ON orders
-  USING (tenant_id = current_setting('app.current_tenant')::uuid);
-```
-
-The `tenant.ts` middleware resolves the tenant from the JWT on every request and sets `app.current_tenant` on the database connection. All downstream queries are automatically scoped — no manual `WHERE tenant_id = ?` is required in application code.
-
-**Why row-level over schema-per-tenant:** Schema-per-tenant requires running migrations N times (once per tenant) and complicates connection pooling. At early scale, row-level with RLS is simpler to operate, easier to query across tenants for platform analytics, and sufficient for isolation.
-
-**Tenant model:**
-
-```
-Tenant (restaurant group / festival organiser)
-  └── Location (restaurant branch / festival stand)
-        └── User
-              └── Role: owner | manager | waiter | kitchen | customer
-```
-
-A JWT carries `tenantId`, `locationId`, and `role`. The middleware resolves all three before any route handler runs.
+A station is identified by a short-lived pairing token issued when it
+connects, scoped to that one event's session on the hub. There is nothing to
+log into and nothing that persists past the event unless the organiser
+chooses to keep the hub's SQLite file (e.g. to seed next year's catalog —
+see "season-to-season catalog reuse" in `ECOSYSTEM.md`).
 
 ---
 
 ## Real-time
 
-All real-time features use WebSockets via Hono's native WebSocket support (Bun's built-in `WebSocketHandler`).
+All cross-station state uses WebSockets via Hono's native WebSocket support.
 
 **Topic structure:**
 
 ```
-order:{locationId}          ← new orders, order status changes
-table:{locationId}          ← table state changes
-kitchen:{locationId}:{station}  ← per-station item updates
+orders            ← new orders, order status changes, from any station
+stock             ← stock count changes, from any station
+kitchen:{stand}   ← ticket queue for a given prep stand
 ```
 
-Clients subscribe to the topics they care about:
-
-| Client | Subscribes to |
-|---|---|
-| Kitchen display | `kitchen:{locationId}:{station}` |
-| POS terminal | `order:{locationId}`, `table:{locationId}` |
-| Waiter app | `order:{locationId}`, `table:{locationId}` |
-| Customer app | `order:{locationId}:{orderId}` (their order only) |
-
-The `realtime/` module is the only place that manages WebSocket connections and broadcasts. Other modules emit domain events; the realtime module listens and routes them to connected clients.
+Every paired station subscribes to `orders` and `stock`; a station acting as
+a prep stand additionally subscribes to its `kitchen:{stand}` topic. The
+`realtime` module is the only place that manages WebSocket connections and
+broadcasts — other modules emit domain events and the realtime module routes
+them to connected stations.
 
 ---
 
-## Auth
+## Sync model
 
-**Better Auth** handles authentication. It runs as Hono middleware.
+Each station keeps working against its own local Drift database even when
+disconnected from the hub — this is not optional, it's the baseline (see
+`packages/sync_engine`, already built: outbox queue + connectivity monitor +
+managed WebSocket with reconnect). When paired:
 
-**Roles and permissions:**
+1. A station action (new order, stock adjustment, ticket bumped) writes
+   locally first, then enqueues to the outbox.
+2. `sync_engine` pushes the outbox entry to the hub over the LAN WebSocket.
+3. The hub applies it and broadcasts the resulting state to every other
+   paired station on the relevant topic.
+4. If the hub is unreachable, the outbox queue simply grows and drains once
+   reconnected — no sale is ever lost or blocked on connectivity.
 
-| Role | Scope | Can do |
-|---|---|---|
-| `owner` | tenant | everything including billing, user management |
-| `manager` | location | configure catalog, view reports, manage staff |
-| `waiter` | location | create/update orders, view table state |
-| `kitchen` | location | update item status in kitchen queue |
-| `customer` | — | view menu, place orders on their own table session |
-
-Role is encoded in the JWT. Route handlers check it via middleware:
-
-```typescript
-// middleware check example
-app.use('/api/reports/*', requireRole('manager', 'owner'))
-```
-
----
-
-## Deployment
-
-**Festival paid tier (local):**
-```bash
-bun run start   # runs on organiser's MacBook/Pi on local network
-```
-- SQLite via Bun's built-in driver (no PostgreSQL setup needed for local-only events)
-- POS tablets and kitchen display connect via local WiFi
-
-**Restaurant SaaS (cloud):**
-- Single VPS (e.g. Hetzner) running PostgreSQL + Bun process behind a reverse proxy
-- Or Cloudflare Workers for the HTTP layer + Neon/Supabase for PostgreSQL
-- No Docker required for the Bun process; PostgreSQL can be managed or self-hosted
-
-The switch between local (SQLite) and cloud (PostgreSQL) is handled by a `DATABASE_URL` environment variable. Drizzle supports both dialects with minimal adapter changes.
+Conflict resolution is intentionally simple for this scope: orders are
+append-only (no cross-station edit conflicts), and stock adjustments are
+applied as deltas, not absolute writes, so concurrent decrements from two
+stations both apply correctly.
 
 ---
 
 ## Build order
 
-Modules should be built in dependency order:
+1. `db/schema.ts` — orders, order items, stock, kitchen tickets
+2. `catalog/` — read-only mirror, seeded from whichever station starts the hub
+3. `ordering/` — order lifecycle, append-only
+4. `realtime/` — WebSocket hub wired to ordering events
+5. `inventory/` — stock delta sync, depends on ordering
+6. `kitchen/` — ticket queue + per-stand routing, depends on ordering + realtime
 
-1. `db/schema.ts` — define all tables, run initial migration
-2. `auth/` — signup, login, JWT issuance
-3. `tenants/` — tenant and location CRUD, role assignment
-4. `catalog/` — products, categories, modifiers (no tenant needed to seed)
-5. `ordering/` — core order lifecycle
-6. `realtime/` — WebSocket hub wired to ordering events
-7. `kitchen/` — order queue + item status, depends on ordering + realtime
-8. `tables/` — table sessions and reservations
-9. `inventory/` — stock depletion, depends on ordering
-10. `discounts/` — promo logic, depends on ordering and catalog
-11. `payments/` — payment recording, depends on ordering
-12. `reporting/` — aggregations, depends on ordering, payments, inventory
+---
+
+## Related docs
+
+- [ECOSYSTEM.md](./ECOSYSTEM.md) — product scope and why LAN sync is the
+  top-priority feature.
+- `docs/FESTIVAL_POS_TASKS.md` — Phase 9 tracks the client-side wiring of
+  `packages/sync_engine` against this hub.

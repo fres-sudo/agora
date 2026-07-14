@@ -189,6 +189,25 @@ class MockSyncWebSocket extends _i1.Mock implements _i6.SyncWebSocket {
   );
 
   @override
+  _i3.Future<void> publish({
+    required String? topic,
+    required String? event,
+    required Map<String, dynamic>? data,
+    Duration? timeout = const Duration(seconds: 3),
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#publish, [], {
+              #topic: topic,
+              #event: event,
+              #data: data,
+              #timeout: timeout,
+            }),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+
+  @override
   _i3.Future<void> disconnect() =>
       (super.noSuchMethod(
             Invocation.method(#disconnect, []),

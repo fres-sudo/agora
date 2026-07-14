@@ -8,10 +8,10 @@ void main() {
     });
 
     test('doubles the base delay with every recorded failure', () {
-      expect(RetryBackoff.delayFor(1), const Duration(seconds: 30));
-      expect(RetryBackoff.delayFor(2), const Duration(seconds: 60));
-      expect(RetryBackoff.delayFor(3), const Duration(seconds: 120));
-      expect(RetryBackoff.delayFor(4), const Duration(seconds: 240));
+      expect(RetryBackoff.delayFor(1), const Duration(seconds: 5));
+      expect(RetryBackoff.delayFor(2), const Duration(seconds: 10));
+      expect(RetryBackoff.delayFor(3), const Duration(seconds: 20));
+      expect(RetryBackoff.delayFor(4), const Duration(seconds: 40));
     });
 
     test('caps the delay at maxDelay for large retry counts', () {
@@ -33,9 +33,9 @@ void main() {
     test('is not ready before the backoff window elapses', () {
       final lastAttempt = DateTime(2026, 1, 1, 12);
       final ready = RetryBackoff.isReady(
-        retryCount: 2, // 60s backoff
+        retryCount: 2, // 10s backoff
         lastAttemptAt: lastAttempt,
-        now: lastAttempt.add(const Duration(seconds: 59)),
+        now: lastAttempt.add(const Duration(seconds: 9)),
       );
       expect(ready, isFalse);
     });
@@ -43,18 +43,18 @@ void main() {
     test('is ready once the backoff window elapses', () {
       final lastAttempt = DateTime(2026, 1, 1, 12);
       final ready = RetryBackoff.isReady(
-        retryCount: 2, // 60s backoff
+        retryCount: 2, // 10s backoff
         lastAttemptAt: lastAttempt,
-        now: lastAttempt.add(const Duration(seconds: 60)),
+        now: lastAttempt.add(const Duration(seconds: 10)),
       );
       expect(ready, isTrue);
     });
 
     test('later retries wait progressively longer', () {
       final lastAttempt = DateTime(2026, 1, 1, 12);
-      final justAfterFirstDelay = lastAttempt.add(const Duration(seconds: 31));
+      final justAfterFirstDelay = lastAttempt.add(const Duration(seconds: 6));
 
-      // Ready to retry after failure #1 (30s window).
+      // Ready to retry after failure #1 (5s window).
       expect(
         RetryBackoff.isReady(
           retryCount: 1,
@@ -64,7 +64,7 @@ void main() {
         isTrue,
       );
 
-      // Not yet ready to retry after failure #3 (120s window).
+      // Not yet ready to retry after failure #3 (20s window).
       expect(
         RetryBackoff.isReady(
           retryCount: 3,

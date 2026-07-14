@@ -43,7 +43,7 @@ class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {
@@ -79,6 +79,26 @@ class AgoraDatabase extends _$AgoraDatabase {
             'CREATE UNIQUE INDEX IF NOT EXISTS idx_clock_records_one_open_shift '
             'ON clock_records_table (employee_id) '
             'WHERE clocked_out_at IS NULL AND deleted_at IS NULL',
+          );
+        }
+        if (from < 5) {
+          // v4 -> v5: add a nullable syncId (uuid v4) to orders and stock
+          // movements, for LAN multi-station sync
+          // (docs/features/01-lan-sync.md). Pre-existing rows keep
+          // syncId == null and are never synced retroactively. The unique
+          // index can't be added inline via ALTER TABLE ADD COLUMN (SQLite
+          // limitation), so it's created separately here — mirrors the
+          // `@TableIndex.sql` annotation on each table, which covers fresh
+          // installs via `m.createAll()`.
+          await m.addColumn(ordersTable, ordersTable.syncId);
+          await customStatement(
+            'CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_sync_id '
+            'ON orders_table (sync_id)',
+          );
+          await m.addColumn(stockMovementsTable, stockMovementsTable.syncId);
+          await customStatement(
+            'CREATE UNIQUE INDEX IF NOT EXISTS idx_stock_movements_sync_id '
+            'ON stock_movements_table (sync_id)',
           );
         }
       },

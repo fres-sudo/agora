@@ -135,7 +135,9 @@ class _ProductFormHeader extends StatelessWidget {
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(false),
             icon: const Icon(AgoraIcons.x_mark),
-            style: IconButton.styleFrom(foregroundColor: AppPalette.neutral500),
+            style: IconButton.styleFrom(
+              foregroundColor: context.colors.mutedForeground,
+            ),
           ),
         ],
       ),

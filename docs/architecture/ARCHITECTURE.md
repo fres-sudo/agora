@@ -6,15 +6,14 @@ Agora is structured as a **Melos-managed Dart monorepo** with three top-level sc
 
 | Scope | Path | Purpose |
 |---|---|---|
-| Apps | `apps/<name>/` | Flutter entry points; each assembles a subset of features and packages |
-| Features | `features/<name>/` | Domain-isolated feature packages (restaurant SaaS only) |
+| Apps | `apps/<name>/` | Flutter entry points; `apps/agora` composes a subset of features and packages |
+| Features | `features/<name>/` | Domain-isolated feature packages (sagra/festival POS only) |
 | Packages | `packages/<name>/` | Cross-cutting shared packages (all apps) |
 
 The guiding principle is **feature isolation**: each feature package contains everything it needs (data, domain, presentation) and communicates outward only through its domain interfaces. The app shell assembles them. Packages provide the building blocks but own no business logic.
 
-For the full product scope, apps inventory, and build phases see [ECOSYSTEM.md](./ECOSYSTEM.md).  
-For the backend architecture and technology decisions see [BACKEND.md](./BACKEND.md).  
-For the AI integration strategy and feature specifications see [AI_INTEGRATION.md](./AI_INTEGRATION.md).
+For the full product scope and build phases see [ECOSYSTEM.md](./ECOSYSTEM.md).  
+For the local LAN sync hub architecture see [BACKEND.md](./BACKEND.md).
 
 ---
 
@@ -25,21 +24,15 @@ agora/                              ← monorepo root
 ├── melos.yaml                      ← melos workspace config
 ├── analysis_options.yaml           ← shared lint rules
 ├── apps/
-│   ├── festival_pos/               ← offline POS for events (free) + cloud features (paid)
-│   ├── pos/                        ← restaurant POS (cloud, full features)
-│   ├── kitchen/                    ← kitchen display system
-│   ├── totem/                      ← self-order kiosk for customers
-│   ├── client_app/                 ← customer mobile app (orders, reservations)
-│   └── waiter/                     ← waiter handheld app
-│       (each app follows the same internal structure as shown below)
+│   └── agora/                      ← sagra/festival POS (offline, LAN sync — no cloud)
 │       ├── pubspec.yaml
 │       └── lib/
 │           ├── main.dart           ← bootstrap (init, run)
 │           └── app/
 │               ├── app.dart        ← MaterialApp.router setup
-│               ├── app_providers.dart   ← assembles the features this app uses
-│               └── app_router.dart      ← assembles routes for this app
-├── features/                       ← restaurant SaaS features only
+│               ├── app_providers.dart   ← assembles all features
+│               └── app_router.dart      ← assembles all routes
+├── features/                       ← sagra/festival POS features
 │   ├── auth/
 │   ├── products/
 │   ├── orders/
@@ -48,7 +41,7 @@ agora/                              ← monorepo root
 │   ├── settings/
 │   ├── pos/
 │   └── reports/
-└── packages/                       ← shared by all apps (festival + restaurant)
+└── packages/                       ← shared infrastructure
     ├── ui_kit/
     ├── utils/
     ├── logger/
@@ -66,9 +59,7 @@ agora/                              ← monorepo root
 
 ### Which apps use which features
 
-`apps/festival_pos` is intentionally standalone — it does **not** import any `features/*` package. It is simple enough to be self-contained and must not acquire restaurant-SaaS complexity.
-
-All other apps (`pos`, `kitchen`, `totem`, `client_app`, `waiter`) import from `features/*` selectively. Each app only imports the features it needs — see [ECOSYSTEM.md](./ECOSYSTEM.md) for the full feature-to-app matrix.
+`apps/agora` is the only app and imports every `features/*` package directly — there is no per-app feature subset to manage. See [ECOSYSTEM.md](./ECOSYSTEM.md) for the full product scope.
 
 ---
 

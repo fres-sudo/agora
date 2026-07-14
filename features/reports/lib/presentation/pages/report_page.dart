@@ -91,9 +91,9 @@ class ReportPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             AgoraIcons.alert_triangle,
-            color: AppPalette.error500,
+            color: context.colors.destructive,
             size: 48,
           ),
           const SizedBox(height: Sizes.md),
@@ -188,8 +188,8 @@ class ReportPage extends StatelessWidget {
       label: t.report.download,
       leadingIcon: const Icon(AgoraIcons.download, size: 20),
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppPalette.neutral700,
-        side: const BorderSide(color: AppPalette.neutral200),
+        foregroundColor: context.colors.foreground,
+        side: BorderSide(color: context.colors.border),
         padding: const EdgeInsets.symmetric(
           horizontal: Sizes.lg,
           vertical: Sizes.md,
@@ -212,20 +212,16 @@ class ReportPage extends StatelessWidget {
         value: summary.totalOrders.toString(),
         trend: '',
         isPositive: true,
-        icon: const Icon(
-          AgoraIcons.cart,
-          color: AppPalette.primary500,
-          size: 20,
-        ),
+        icon: Icon(AgoraIcons.cart, color: context.colors.primary, size: 20),
       ),
       SummaryCard(
         title: t.report.total_revenue,
         value: formatCents(summary.totalRevenueCents),
         trend: '',
         isPositive: true,
-        icon: const Icon(
+        icon: Icon(
           AgoraIcons.coin_alt,
-          color: AppPalette.primary500,
+          color: context.colors.primary,
           size: 20,
         ),
       ),
@@ -234,22 +230,14 @@ class ReportPage extends StatelessWidget {
         value: formatCents(summary.averageTicketCents),
         trend: '',
         isPositive: true,
-        icon: const Icon(
-          AgoraIcons.receipt,
-          color: AppPalette.primary500,
-          size: 20,
-        ),
+        icon: Icon(AgoraIcons.receipt, color: context.colors.primary, size: 20),
       ),
       SummaryCard(
         title: 'Items Sold',
         value: summary.itemsSold.toString(),
         trend: '',
         isPositive: true,
-        icon: const Icon(
-          AgoraIcons.package,
-          color: AppPalette.primary500,
-          size: 20,
-        ),
+        icon: Icon(AgoraIcons.package, color: context.colors.primary, size: 20),
       ),
     ];
 
@@ -340,17 +328,17 @@ class ReportPage extends StatelessWidget {
           DonutData(
             label: 'Completed',
             value: status.completed,
-            color: AppPalette.primary500,
+            color: context.colors.success,
           ),
           DonutData(
             label: 'Pending',
             value: status.pending,
-            color: AppPalette.warning500,
+            color: context.colors.warning,
           ),
           DonutData(
             label: 'Voided',
             value: status.voided,
-            color: AppPalette.error500,
+            color: context.colors.destructive,
           ),
         ],
       ),
@@ -366,17 +354,17 @@ class ReportPage extends StatelessWidget {
           DonutData(
             label: t.report.stock_status.in_stock,
             value: stock.inStock,
-            color: AppPalette.primary500,
+            color: context.colors.primary,
           ),
           DonutData(
             label: t.report.stock_status.low_stock,
             value: stock.lowStock,
-            color: AppPalette.warning500,
+            color: context.colors.warning,
           ),
           DonutData(
             label: t.report.stock_status.out_of_stock,
             value: stock.outOfStock,
-            color: AppPalette.error500,
+            color: context.colors.destructive,
           ),
         ],
       ),
@@ -431,7 +419,7 @@ class ReportPage extends StatelessWidget {
           DataTableColumn(
             id: 'status',
             label: t.report.recent_order.status,
-            cellBuilder: (item) => _buildStatusBadge(item.status),
+            cellBuilder: (item) => _buildStatusBadge(context, item.status),
           ),
           DataTableColumn(
             id: 'orderDate',
@@ -498,11 +486,11 @@ class ReportPage extends StatelessWidget {
         '$hour12:$minute $period';
   }
 
-  Widget _buildStatusBadge(OrderStatus status) {
+  Widget _buildStatusBadge(BuildContext context, OrderStatus status) {
     final (color, label) = switch (status) {
-      OrderStatus.pending => (AppPalette.warning500, 'Pending'),
-      OrderStatus.completed => (AppPalette.primary500, 'Completed'),
-      OrderStatus.voided => (AppPalette.error500, 'Voided'),
+      OrderStatus.pending => (context.colors.warning, 'Pending'),
+      OrderStatus.completed => (context.colors.success, 'Completed'),
+      OrderStatus.voided => (context.colors.destructive, 'Voided'),
     };
 
     return Container(

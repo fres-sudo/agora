@@ -24,12 +24,16 @@ class AppShellOperatorChip extends StatelessWidget {
     final operator = scope?.currentOperator;
     if (operator == null) return const SizedBox.shrink();
 
-    final bgColor = onDark ? const Color(0xff1f1f1f) : AppPalette.neutral100;
+    final bgColor = onDark ? const Color(0xff1f1f1f) : context.colors.muted;
     final borderColor = onDark
         ? const Color(0xff2b2b2b)
-        : AppPalette.neutral200;
-    final iconColor = onDark ? AppPalette.neutral400 : AppPalette.neutral500;
-    final textColor = onDark ? Colors.white : AppPalette.neutral700;
+        : context.colors.border;
+    final iconColor = onDark
+        ? AppColors.dark.mutedForeground
+        : context.colors.mutedForeground;
+    final textColor = onDark
+        ? AppColors.dark.foreground
+        : context.colors.foreground;
 
     return GestureDetector(
       onTap: scope?.onOperatorSwitchTap,
@@ -45,8 +49,10 @@ class AppShellOperatorChip extends StatelessWidget {
         ),
         child: isCompact
             ? Icon(AgoraIcons.building, size: 16, color: iconColor)
-            : Row(
+            : Flex(
+                direction: Axis.horizontal,
                 mainAxisSize: onDark ? MainAxisSize.max : MainAxisSize.min,
+                clipBehavior: Clip.hardEdge,
                 spacing: 6,
                 children: [
                   Icon(AgoraIcons.building, size: 14, color: iconColor),
@@ -60,8 +66,8 @@ class AppShellOperatorChip extends StatelessWidget {
                       AgoraIcons.chevron_up_down,
                       size: 14,
                       color: onDark
-                          ? AppPalette.neutral500
-                          : AppPalette.neutral400,
+                          ? AppColors.dark.mutedForeground
+                          : context.colors.mutedForeground,
                     ),
                 ],
               ),
@@ -164,7 +170,7 @@ class AppShellUserMenu extends StatelessWidget {
       offset: const Offset(0, 10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
-        side: const BorderSide(color: AppPalette.neutral300),
+        side: BorderSide(color: context.colors.border),
       ),
       elevation: 0,
       itemBuilder: (context) => _buildMenuItems(context, scope!),
@@ -210,7 +216,7 @@ class AppShellUserMenu extends StatelessWidget {
                   scope.userName!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppPalette.neutral900,
+                    color: context.colors.popoverForeground,
                   ),
                 ),
                 if (scope.userSubtitle != null) ...[
@@ -218,7 +224,7 @@ class AppShellUserMenu extends StatelessWidget {
                   Text(
                     scope.userSubtitle!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppPalette.primary600,
+                      color: context.colors.mutedForeground,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -240,15 +246,19 @@ class AppShellUserMenu extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: isClockedIn ? AppPalette.error100 : AppPalette.primary50,
+                color:
+                    (isClockedIn
+                            ? context.colors.destructive
+                            : context.colors.success)
+                        .withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Icon(
                 isClockedIn ? AgoraIcons.logout : AgoraIcons.login,
                 size: 16,
                 color: isClockedIn
-                    ? AppPalette.error500
-                    : AppPalette.primary600,
+                    ? context.colors.destructive
+                    : context.colors.success,
               ),
             ),
             Text(
@@ -256,8 +266,8 @@ class AppShellUserMenu extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
                 color: isClockedIn
-                    ? AppPalette.error700
-                    : AppPalette.neutral800,
+                    ? context.colors.destructive
+                    : context.colors.popoverForeground,
               ),
             ),
           ],
@@ -275,20 +285,20 @@ class AppShellUserMenu extends StatelessWidget {
               width: 32,
               height: 32,
               decoration: BoxDecoration(
-                color: AppPalette.error100,
+                color: context.colors.destructive.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Icon(
+              child: Icon(
                 AgoraIcons.logout,
                 size: 16,
-                color: AppPalette.error500,
+                color: context.colors.destructive,
               ),
             ),
             Text(
               'Logout',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: AppPalette.error500,
+                color: context.colors.destructive,
               ),
             ),
           ],
@@ -313,10 +323,12 @@ class _AvatarChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nameColor = onDark ? Colors.white : AppPalette.neutral900;
+    final nameColor = onDark
+        ? AppColors.dark.foreground
+        : context.colors.foreground;
     final subtitleColor = onDark
-        ? AppPalette.neutral400
-        : AppPalette.neutral500;
+        ? AppColors.dark.mutedForeground
+        : context.colors.mutedForeground;
 
     final labels = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,10 +355,12 @@ class _AvatarChip extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-      child: Row(
+      child: Flex(
+        direction: Axis.horizontal,
         // On a dark surface the chip lives in the fixed-width sidebar, so the
         // labels flex to fill and ellipsize. In the app bar the row shrink-wraps.
         mainAxisSize: onDark ? MainAxisSize.max : MainAxisSize.min,
+        clipBehavior: Clip.hardEdge,
         spacing: 8,
         children: [
           _Avatar(name: name, avatarUrl: avatarUrl, radius: 16),
@@ -354,7 +368,9 @@ class _AvatarChip extends StatelessWidget {
           Icon(
             AgoraIcons.chevron_down,
             size: 16,
-            color: onDark ? AppPalette.neutral500 : AppPalette.neutral400,
+            color: onDark
+                ? AppColors.dark.mutedForeground
+                : context.colors.mutedForeground,
           ),
         ],
       ),
@@ -371,22 +387,25 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // No [onDark] context here — this avatar renders on both the fixed-dark
+    // sidebar and the light app bar, so it stays pinned to the light tokens
+    // for contrast against either surface rather than following app theme.
     if (avatarUrl != null) {
       return CircleAvatar(
         radius: radius,
         backgroundImage: NetworkImage(avatarUrl!),
-        backgroundColor: AppPalette.neutral200,
+        backgroundColor: AppColors.light.secondary,
       );
     }
 
     final initials = _initials(name);
     return CircleAvatar(
       radius: radius,
-      backgroundColor: AppPalette.primary100,
+      backgroundColor: AppColors.light.secondary,
       child: Text(
         initials,
         style: TextStyle(
-          color: AppPalette.primary700,
+          color: AppColors.light.secondaryForeground,
           fontSize: radius * 0.65,
           fontWeight: FontWeight.w700,
         ),

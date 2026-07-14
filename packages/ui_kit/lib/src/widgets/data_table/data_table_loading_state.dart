@@ -26,8 +26,8 @@ class DataTableLoadingState extends StatelessWidget {
               vertical: Sizes.md,
             ),
             decoration: BoxDecoration(
-              color: AppPalette.neutral100,
-              border: Border(bottom: BorderSide(color: AppPalette.neutral200)),
+              color: context.colors.muted,
+              border: Border(bottom: BorderSide(color: context.colors.border)),
             ),
             child: Row(
               children: List.generate(
@@ -39,7 +39,7 @@ class DataTableLoadingState extends StatelessWidget {
                       height: 16,
                       margin: const EdgeInsets.only(right: Sizes.lg),
                       decoration: BoxDecoration(
-                        color: AppPalette.neutral300,
+                        color: context.colors.border,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -58,7 +58,7 @@ class DataTableLoadingState extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: AppPalette.neutral200),
+                  bottom: BorderSide(color: context.colors.border),
                 ),
               ),
               child: Row(
@@ -69,12 +69,12 @@ class DataTableLoadingState extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: Sizes.lg),
                       child: colIndex == 1
-                          ? _buildProductCell()
+                          ? _buildProductCell(context)
                           : Skeleton.leaf(
                               child: Container(
                                 height: 14,
                                 decoration: BoxDecoration(
-                                  color: AppPalette.neutral200,
+                                  color: context.colors.muted,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                               ),
@@ -90,7 +90,7 @@ class DataTableLoadingState extends StatelessWidget {
     );
   }
 
-  Widget _buildProductCell() {
+  Widget _buildProductCell(BuildContext context) {
     return Row(
       children: [
         // Image placeholder
@@ -99,7 +99,7 @@ class DataTableLoadingState extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppPalette.neutral200,
+              color: context.colors.muted,
               borderRadius: BorderRadius.circular(Sizes.borderRadius),
             ),
           ),
@@ -115,7 +115,7 @@ class DataTableLoadingState extends StatelessWidget {
                   height: 14,
                   width: 120,
                   decoration: BoxDecoration(
-                    color: AppPalette.neutral200,
+                    color: context.colors.muted,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -126,7 +126,7 @@ class DataTableLoadingState extends StatelessWidget {
                   height: 12,
                   width: 200,
                   decoration: BoxDecoration(
-                    color: AppPalette.neutral100,
+                    color: context.colors.muted,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

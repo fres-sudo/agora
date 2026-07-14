@@ -6,6 +6,7 @@ import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:feature_inventory/presentation/blocs/inventory/inventory_bloc.dart';
 import 'package:feature_inventory/presentation/blocs/stock_adjustment/stock_adjustment_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
 
 class InventoryFeature extends AppFeature {
@@ -26,6 +27,8 @@ class InventoryFeature extends AppFeature {
         logger: ctx.read<Talker>(),
         stocksDao: ctx.read(),
         stockMovementsDao: ctx.read(),
+        syncManager: ctx.read<SyncManager>(),
+        deviceId: ctx.read<DeviceId>(),
       ),
     ),
     // BLoCs

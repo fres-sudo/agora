@@ -7,36 +7,28 @@
 
 ## Project type
 
-- **Melos monorepo** — multiple Flutter apps + feature packages + shared packages + Hono/Bun backend
+- **Melos monorepo** — one Flutter app + feature packages + shared packages, plus a planned local LAN sync hub (not a cloud backend)
 - Core libraries: flutter_bloc, bloc, provider (pine) for DI and state management
 - Persistence: Drift (local SQLite) with DAOs and generated code
 - Routing: AutoRoute
 - I18n: Slang
-- Backend: Hono + Bun + PostgreSQL + Drizzle (see BACKEND.md)
+- Sync hub (planned, not built): Hono + Bun + local SQLite, run by the organiser on the event's own LAN — no cloud, no multi-tenancy (see BACKEND.md)
 
-## Product lines
+## Product scope
 
-**Festival POS** (`apps/festival_pos`): offline-first, no backend required. Free tier prints receipts locally. Paid tier connects to the cloud for kitchen sync and multi-terminal sync.
-
-**Restaurant SaaS**: full-featured cloud platform. Apps: `pos`, `kitchen`, `totem`, `client_app`, `waiter`. All connect to the shared Hono/Bun backend.
+**Agora** (`apps/agora`): offline-first POS for Italian sagre, village festivals, and small pop-up events — not restaurants, bars, or ticketed commercial venues. No backend required to operate a single station. A planned local LAN sync hub lets multiple stands at one event share a live order queue, stock, and kitchen tickets, with no internet connection. See `docs/architecture/ECOSYSTEM.md`.
 
 ## Repository layout
 
 ```
 agora/                     ← monorepo root (melos.yaml)
 ├── apps/
-│   ├── festival_pos/      ← offline event POS (free) + cloud add-ons (paid)
-│   ├── pos/               ← restaurant POS
-│   ├── kitchen/           ← kitchen display
-│   ├── totem/             ← self-order kiosk
-│   ├── client_app/        ← customer mobile app
-│   └── waiter/            ← waiter handheld
-├── features/<name>/       ← Domain-isolated feature packages (restaurant apps only)
-└── packages/<name>/       ← Cross-cutting shared packages (all apps)
+│   └── agora/              ← sagra/festival POS (offline, LAN sync — no cloud)
+├── features/<name>/       ← Domain-isolated feature packages (sagra POS only)
+└── packages/<name>/       ← Cross-cutting shared packages
 ```
 
-`apps/festival_pos` does NOT import any `features/*` package — it is self-contained.
-All restaurant apps import only the features they need.
+`apps/agora` imports every `features/*` package directly — there is no per-app feature subset.
 
 ## Feature structure (`features/<name>/`)
 

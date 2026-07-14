@@ -6,19 +6,32 @@ import 'package:talker/talker.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'sync_message.dart';
+import 'sync_protocol.dart';
+import 'sync_publish_exception.dart';
 
 /// Managed WebSocket client with topic-based subscriptions and exponential-backoff reconnection.
 ///
 /// Protocol (JSON over WebSocket):
-///   Client → Server: {"type":"subscribe","topic":"order:loc123"}
-///   Client → Server: {"type":"unsubscribe","topic":"order:loc123"}
+///   Client → Server: {"type":"subscribe","topic":"orders"}
+///   Client → Server: {"type":"unsubscribe","topic":"orders"}
 ///   Client → Server: {"type":"ping"}
-///   Server → Client: {"type":"message","topic":"order:loc123","event":"order.created","data":{...}}
+///   Client → Server: {"type":"publish","id":"(correlation id)","topic":"orders","event":"order.created","data":{...}}
+///   Server → Client: {"type":"message","topic":"orders","event":"order.created","data":{...}}
 ///   Server → Client: {"type":"pong"}
+///   Server → Client: {"type":"ack","id":"(correlation id)"}
+///   Server → Client: {"type":"error","id":"(correlation id)","message":"..."}
 class SyncWebSocket {
-  SyncWebSocket({required Talker logger}) : _logger = logger;
+  SyncWebSocket({
+    required Talker logger,
+    Duration pingInterval = const Duration(seconds: 30),
+    int maxReconnectDelaySecs = 30,
+  }) : _logger = logger,
+       _pingInterval = pingInterval,
+       _maxReconnectDelaySecs = maxReconnectDelaySecs;
 
   final Talker _logger;
+  final Duration _pingInterval;
+  final int _maxReconnectDelaySecs;
 
   WebSocketChannel? _channel;
   StreamSubscription<dynamic>? _messageSub;
@@ -28,9 +41,6 @@ class SyncWebSocket {
   String? _currentUrl;
   String? _currentToken;
   int _reconnectAttempts = 0;
-
-  static const _pingInterval = Duration(seconds: 30);
-  static const _maxReconnectDelaySecs = 30;
 
   final _statusController =
       StreamController<WebSocketConnectionStatus>.broadcast();
@@ -45,6 +55,9 @@ class SyncWebSocket {
 
   final Set<String> _subscribedTopics = {};
 
+  final Map<String, Completer<void>> _pendingPublishes = {};
+  int _correlationSeq = 0;
+
   // ------------------------------------------------------------------ public
 
   Future<void> connect(String url, String token) async {
@@ -57,12 +70,49 @@ class SyncWebSocket {
   /// Subscribe to a backend topic. Re-sent automatically on reconnection.
   void subscribe(String topic) {
     _subscribedTopics.add(topic);
-    _send({'type': 'subscribe', 'topic': topic});
+    _send({'type': SyncFrameType.subscribe, 'topic': topic});
   }
 
   void unsubscribe(String topic) {
     _subscribedTopics.remove(topic);
-    _send({'type': 'unsubscribe', 'topic': topic});
+    _send({'type': SyncFrameType.unsubscribe, 'topic': topic});
+  }
+
+  /// Pushes a local write to the hub and waits for its `ack`/`error` reply.
+  ///
+  /// Resolves once the hub acknowledges the write; throws
+  /// [SyncPublishException] if the hub rejects it, or [TimeoutException] if
+  /// no reply arrives within [timeout]. Both are ordinary exceptions from
+  /// [SyncHandler.handle]'s point of view — [SyncManager]'s drain loop
+  /// catches them and retries via [RetryBackoff] like any other failure.
+  Future<void> publish({
+    required String topic,
+    required String event,
+    required Map<String, dynamic> data,
+    Duration timeout = const Duration(seconds: 3),
+  }) {
+    final id = '${DateTime.now().microsecondsSinceEpoch}_${_correlationSeq++}';
+    final completer = Completer<void>();
+    _pendingPublishes[id] = completer;
+
+    _send({
+      'type': SyncFrameType.publish,
+      'id': id,
+      'topic': topic,
+      'event': event,
+      'data': data,
+    });
+
+    return completer.future.timeout(
+      timeout,
+      onTimeout: () {
+        _pendingPublishes.remove(id);
+        throw TimeoutException(
+          'publish($topic/$event) timed out waiting for ack',
+          timeout,
+        );
+      },
+    );
   }
 
   Future<void> disconnect() async {
@@ -94,7 +144,7 @@ class SyncWebSocket {
 
       // Resubscribe to all active topics after (re)connection.
       for (final topic in _subscribedTopics) {
-        _send({'type': 'subscribe', 'topic': topic});
+        _send({'type': SyncFrameType.subscribe, 'topic': topic});
       }
 
       _startPing();
@@ -119,9 +169,27 @@ class SyncWebSocket {
       final data = jsonDecode(raw as String) as Map<String, dynamic>;
       final type = data['type'] as String?;
 
-      if (type == 'pong') return;
+      if (type == SyncFrameType.pong) return;
 
-      if (type == 'message') {
+      if (type == SyncFrameType.ack) {
+        final id = data['id'] as String?;
+        _pendingPublishes.remove(id)?.complete();
+        return;
+      }
+
+      if (type == SyncFrameType.error) {
+        final id = data['id'] as String?;
+        _pendingPublishes
+            .remove(id)
+            ?.completeError(
+              SyncPublishException(
+                data['message'] as String? ?? 'unknown error',
+              ),
+            );
+        return;
+      }
+
+      if (type == SyncFrameType.message) {
         final topic = data['topic'] as String?;
         final event = data['event'] as String?;
         final payload = (data['data'] as Map?)?.cast<String, dynamic>() ?? {};
@@ -140,7 +208,7 @@ class SyncWebSocket {
   void _startPing() {
     _pingTimer?.cancel();
     _pingTimer = Timer.periodic(_pingInterval, (_) {
-      _send({'type': 'ping'});
+      _send({'type': SyncFrameType.ping});
     });
   }
 
@@ -149,6 +217,7 @@ class SyncWebSocket {
     _pingTimer?.cancel();
     _messageSub = null;
     _statusController.add(WebSocketConnectionStatus.disconnected);
+    _failAllPending(StateError('WebSocket disconnected'));
 
     if (_currentUrl == null) return;
 
@@ -183,6 +252,13 @@ class SyncWebSocket {
     _currentToken = null;
   }
 
+  void _failAllPending(Object error) {
+    for (final completer in _pendingPublishes.values) {
+      if (!completer.isCompleted) completer.completeError(error);
+    }
+    _pendingPublishes.clear();
+  }
+
   Future<void> _tearDown() async {
     _reconnectTimer?.cancel();
     _pingTimer?.cancel();
@@ -190,6 +266,7 @@ class SyncWebSocket {
     _reconnectTimer = null;
     _pingTimer = null;
     _messageSub = null;
+    _failAllPending(StateError('WebSocket disconnected'));
     await _channel?.sink.close();
     _channel = null;
   }

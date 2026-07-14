@@ -49,32 +49,11 @@ class DataTableHeader extends StatelessWidget {
           // Search field
           SizedBox(
             width: 240,
-            child: TextField(
+            child: AppTextField(
               controller: searchController,
               onChanged: onSearch,
-              decoration: InputDecoration(
-                hintText: searchHint,
-                prefixIcon: const Icon(AgoraIcons.search, size: 20),
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.md,
-                  vertical: Sizes.sm,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                  borderSide: const BorderSide(color: AppPalette.neutral300),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                  borderSide: const BorderSide(color: AppPalette.neutral300),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                  borderSide: const BorderSide(color: AppPalette.primary500),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-              ),
+              hintText: searchHint,
+              prefix: const Icon(AgoraIcons.search),
             ),
           ),
           const SizedBox(width: Sizes.sm),
@@ -97,8 +76,8 @@ class DataTableHeader extends StatelessWidget {
               child: const Icon(AgoraIcons.filter, size: 18),
             ),
             style: OutlinedButton.styleFrom(
-              foregroundColor: AppPalette.neutral700,
-              side: const BorderSide(color: AppPalette.neutral300),
+              foregroundColor: context.colors.foreground,
+              side: BorderSide(color: context.colors.border),
               padding: const EdgeInsets.symmetric(
                 horizontal: Sizes.md,
                 vertical: Sizes.sm,
@@ -112,8 +91,8 @@ class DataTableHeader extends StatelessWidget {
             label: addButtonLabel,
             leadingIcon: const Icon(AgoraIcons.plus, size: 18),
             style: FilledButton.styleFrom(
-              backgroundColor: AppPalette.primary500,
-              foregroundColor: Colors.white,
+              backgroundColor: context.colors.primary,
+              foregroundColor: context.colors.primaryForeground,
               padding: const EdgeInsets.symmetric(
                 horizontal: Sizes.md,
                 vertical: Sizes.sm,
@@ -151,7 +130,7 @@ class _SortButton extends StatelessWidget {
                 option.label,
                 style: TextStyle(
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  color: isSelected ? AppPalette.primary500 : null,
+                  color: isSelected ? context.colors.primary : null,
                 ),
               ),
               if (isSelected) ...[
@@ -161,7 +140,7 @@ class _SortButton extends StatelessWidget {
                       ? AgoraIcons.chevron_up
                       : AgoraIcons.chevron_down,
                   size: 16,
-                  color: AppPalette.primary500,
+                  color: context.colors.primary,
                 ),
               ],
             ],
@@ -173,9 +152,9 @@ class _SortButton extends StatelessWidget {
         label: 'Sort',
         leadingIcon: const Icon(AgoraIcons.chevron_up_down, size: 18),
         style: OutlinedButton.styleFrom(
-          foregroundColor: AppPalette.neutral700,
-          disabledForegroundColor: AppPalette.neutral700,
-          side: const BorderSide(color: AppPalette.neutral300),
+          foregroundColor: context.colors.foreground,
+          disabledForegroundColor: context.colors.foreground,
+          side: BorderSide(color: context.colors.border),
           padding: const EdgeInsets.symmetric(
             horizontal: Sizes.md,
             vertical: Sizes.sm,

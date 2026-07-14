@@ -1,3 +1,4 @@
+import 'package:agora/app/sync_feature.dart';
 import 'package:app_info/app_info.dart';
 import 'package:app_reset/app_reset.dart';
 import 'package:auth_session/auth_session.dart';
@@ -8,8 +9,10 @@ import 'package:dio/dio.dart';
 import 'package:feature_auth/presentation/routes/auth_feature.dart';
 import 'package:feature_discounts/presentation/routes/discounts_feature.dart';
 import 'package:feature_flags/feature_flags.dart';
+import 'package:feature_inventory/data/sync/stock_sync_handler.dart';
 import 'package:feature_inventory/presentation/routes/inventory_feature.dart';
 import 'package:feature_onboarding/presentation/routes/onboarding_feature.dart';
+import 'package:feature_orders/data/sync/order_sync_handler.dart';
 import 'package:feature_orders/presentation/routes/orders_feature.dart';
 import 'package:feature_products/presentation/routes/products_feature.dart';
 import 'package:feature_reports/presentation/routes/reports_feature.dart';
@@ -24,6 +27,7 @@ import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:remote_config/remote_config.dart';
+import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
@@ -35,6 +39,7 @@ class AppProviders extends StatelessWidget {
     required this.config,
     required this.database,
     required this.talker,
+    required this.deviceId,
     required this.child,
     super.key,
   });
@@ -42,6 +47,7 @@ class AppProviders extends StatelessWidget {
   final AppConfig config;
   final AgoraDatabase database;
   final Talker talker;
+  final DeviceId deviceId;
   final Widget child;
 
   @override
@@ -50,6 +56,7 @@ class AppProviders extends StatelessWidget {
       config: config,
       database: database,
       talker: talker,
+      deviceId: deviceId,
     ),
     child: child,
   );
@@ -59,6 +66,7 @@ List<SingleChildWidget> _buildProviders({
   required AppConfig config,
   required AgoraDatabase database,
   required Talker talker,
+  required DeviceId deviceId,
 }) => [
   // ---------------------------------------------------------------------------
   // Configuration (single source of truth for env-driven values)
@@ -110,6 +118,40 @@ List<SingleChildWidget> _buildProviders({
   // Database — the single, app-owned instance created in main() and disposed
   // here when the provider tree is torn down.
   Provider<AgoraDatabase>.value(value: database),
+
+  // ---------------------------------------------------------------------------
+  // LAN sync core infra (docs/features/01-lan-sync.md). Registered here —
+  // same tier as AgoraDatabase/PrinterService — so OrdersFeature/
+  // InventoryFeature can read SyncManager/DeviceId when they build their
+  // repositories below. Harmless for a station that never pairs: SyncManager
+  // is never `.start()`-ed, so nothing here opens a socket or a server.
+  // ---------------------------------------------------------------------------
+  Provider<DeviceId>.value(value: deviceId),
+  Provider<SyncWebSocket>(
+    create: (ctx) => SyncWebSocket(logger: ctx.read<Talker>()),
+    dispose: (_, ws) => ws.dispose(),
+  ),
+  Provider<OutboxDao>(create: (ctx) => OutboxDao(ctx.read<AgoraDatabase>())),
+  Provider<OutboxQueue>(create: (ctx) => OutboxQueue(dao: ctx.read())),
+  Provider<ConnectivityMonitor>(create: (_) => ConnectivityMonitorImpl()),
+  Provider<SyncManager>(
+    create: (ctx) {
+      final manager = SyncManager(
+        outboxQueue: ctx.read<OutboxQueue>(),
+        connectivity: ctx.read<ConnectivityMonitor>(),
+        webSocket: ctx.read<SyncWebSocket>(),
+        logger: ctx.read<Talker>(),
+      );
+      manager.registerHandler(
+        OrderSyncHandler(webSocket: ctx.read<SyncWebSocket>()),
+      );
+      manager.registerHandler(
+        StockSyncHandler(webSocket: ctx.read<SyncWebSocket>()),
+      );
+      return manager;
+    },
+    dispose: (_, manager) => manager.stop(),
+  ),
 
   // ---------------------------------------------------------------------------
   // App-level repositories + BLoCs
@@ -205,4 +247,6 @@ const List<AppFeature> _remainingFeatures = [
   DiscountsFeature(), // must be before Orders (CheckoutCubit reads DiscountsRepository)
   OrdersFeature(),
   ReportsFeature(), // must be after Orders + Products (reads both)
+  SyncFeature(), // must be last — reads OrdersDao/OrderItemsDao (Orders)
+  // and StocksDao/StockMovementsDao (Inventory), both registered above
 ];

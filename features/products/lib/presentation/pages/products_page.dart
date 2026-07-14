@@ -120,11 +120,11 @@ class _ProductsView extends StatelessWidget {
               final isLowStock = product.stockQuantity <= 10;
               final isOutOfStock = product.stockQuantity <= 0;
 
-              Color color = AppPalette.neutral700;
+              Color color = context.colors.foreground;
               if (isOutOfStock) {
-                color = AppPalette.error500;
+                color = context.colors.destructive;
               } else if (isLowStock) {
-                color = AppPalette.warning600;
+                color = context.colors.warning;
               }
 
               return AppText.titleMd('${product.stockQuantity}', color: color);

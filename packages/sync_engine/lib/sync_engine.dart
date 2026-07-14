@@ -1,4 +1,6 @@
 export 'src/connectivity/connectivity_monitor.dart';
+export 'src/device_id.dart';
+export 'src/device_identity_service.dart';
 export 'src/model/outbox_entry.dart';
 export 'src/model/sync_status.dart';
 export 'src/outbox/outbox_dao.dart';
@@ -8,4 +10,6 @@ export 'src/sync_handler.dart';
 export 'src/sync_manager.dart';
 export 'src/syncable_repository.dart';
 export 'src/websocket/sync_message.dart';
+export 'src/websocket/sync_protocol.dart';
+export 'src/websocket/sync_publish_exception.dart';
 export 'src/websocket/sync_web_socket.dart';

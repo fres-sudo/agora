@@ -100,7 +100,7 @@ class _CheckoutBody extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(bottom: Sizes.md),
             decoration: BoxDecoration(
-              color: AppPalette.neutral300,
+              color: context.colors.border,
               borderRadius: context.tokens.borderRadiusFull,
             ),
           ),
@@ -174,7 +174,7 @@ class _ReceiptStage extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(bottom: Sizes.md),
             decoration: BoxDecoration(
-              color: AppPalette.neutral300,
+              color: context.colors.border,
               borderRadius: context.tokens.borderRadiusFull,
             ),
           ),
@@ -182,7 +182,7 @@ class _ReceiptStage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(AgoraIcons.check, color: AppPalette.success700),
+            Icon(AgoraIcons.check, color: context.colors.success),
             const SizedBox(width: Sizes.sm),
             const AppText.headingSm('Payment complete'),
           ],
@@ -195,15 +195,15 @@ class _ReceiptStage extends StatelessWidget {
         const SizedBox(height: Sizes.lg),
 
         if (state.printStatus == PrintStatus.printed)
-          const _PrintStatusBanner(
+          _PrintStatusBanner(
             icon: AgoraIcons.check,
-            color: AppPalette.success700,
+            color: context.colors.success,
             message: 'Receipt printed',
           ),
         if (state.printStatus == PrintStatus.failed)
-          const _PrintStatusBanner(
+          _PrintStatusBanner(
             icon: AgoraIcons.alert_triangle,
-            color: AppPalette.error500,
+            color: context.colors.destructive,
             message: 'Print failed — the sale is still recorded',
           ),
         if (state.printStatus != PrintStatus.idle)
@@ -383,18 +383,20 @@ class _ErrorBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Sizes.md),
       decoration: BoxDecoration(
-        color: AppPalette.error500.withValues(alpha: 0.1),
+        color: context.colors.destructive.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(Sizes.sm),
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             AgoraIcons.alert_triangle,
-            color: AppPalette.error500,
+            color: context.colors.destructive,
             size: 20,
           ),
           const SizedBox(width: Sizes.sm),
-          Expanded(child: AppText.body(message, color: AppPalette.error500)),
+          Expanded(
+            child: AppText.body(message, color: context.colors.destructive),
+          ),
         ],
       ),
     );

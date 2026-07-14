@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:agora/app/app_router.dart';
+import 'package:agora/app/sync_bootstrap.dart';
 import 'package:app_reset/app_reset.dart';
 // SessionCubit/SessionState live in package:auth_session; feature_auth's
 // barrel re-exports them alongside `AuthShellRoute` (an AutoRoute page class
@@ -37,6 +38,11 @@ class _AppRootListenerState extends State<AppRootListener> {
   @override
   void initState() {
     super.initState();
+    // Safe unconditionally regardless of this station's sync role — see
+    // SyncBootstrap's doc comment. Started once, here, rather than gated
+    // behind onboarding/session state below.
+    context.read<SyncBootstrap>().start();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final onboarded = context.read<OnboardingRepository>().isCompleted();

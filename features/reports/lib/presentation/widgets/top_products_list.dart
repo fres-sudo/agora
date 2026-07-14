@@ -47,12 +47,12 @@ class TopProductsList extends StatelessWidget {
                   ],
                 ),
               ),
-              const Divider(color: AppPalette.neutral200),
+              Divider(color: colors.border),
               Expanded(
                 child: ListView.separated(
                   itemCount: products.length,
                   separatorBuilder: (context, index) =>
-                      const Divider(color: AppPalette.neutral200, height: 1),
+                      Divider(color: colors.border, height: 1),
                   itemBuilder: (context, index) {
                     final product = products[index];
                     return Padding(
@@ -100,7 +100,7 @@ class TopProductsList extends StatelessWidget {
       1 => colors.primary,
       2 => colors.warning,
       3 => colors.info,
-      _ => AppPalette.neutral300,
+      _ => colors.border,
     };
 
     final width = isCompact ? 26.0 : 32.0;

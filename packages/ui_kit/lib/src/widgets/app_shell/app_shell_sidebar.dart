@@ -36,8 +36,8 @@ class AppShellSidebar extends StatelessWidget {
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeInOut,
       width: isCollapsed ? collapsedWidth : expandedWidth,
-      decoration: const BoxDecoration(
-        color: AppPalette.neutral900,
+      decoration: BoxDecoration(
+        color: AppColors.dark.background,
         border: Border(right: BorderSide(color: Color(0xff1f1f1f), width: 1)),
       ),
       child: Column(
@@ -46,7 +46,10 @@ class AppShellSidebar extends StatelessWidget {
           if (showHeader) _buildHeader(context),
           Expanded(
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 8 : 12, vertical: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: isCollapsed ? 8 : 12,
+                vertical: 8,
+              ),
               itemCount: items.length,
               separatorBuilder: (_, _) => const SizedBox(height: 2),
               itemBuilder: (context, index) {
@@ -58,7 +61,9 @@ class AppShellSidebar extends StatelessWidget {
                   isSelected: index == selectedIndex,
                   isCollapsed: isCollapsed,
                   isEnabled: item.isEnabled,
-                  onTap: item.isEnabled ? () => onItemSelected?.call(index) : null,
+                  onTap: item.isEnabled
+                      ? () => onItemSelected?.call(index)
+                      : null,
                 );
               },
             ),
@@ -72,7 +77,10 @@ class AppShellSidebar extends StatelessWidget {
 
   Widget _buildUserFooter(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 8 : 12, vertical: 10),
+      padding: EdgeInsets.symmetric(
+        horizontal: isCollapsed ? 8 : 12,
+        vertical: 10,
+      ),
       decoration: const BoxDecoration(
         border: Border(top: BorderSide(color: Color(0xff1f1f1f), width: 1)),
       ),
@@ -98,19 +106,18 @@ class AppShellSidebar extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(isCollapsed ? 0 : 20, 20, 0, 12),
       child: isCollapsed
           ? Center(child: logo)
-          : Row(
-              mainAxisAlignment: .spaceBetween,
-              children: [
-                AppText.titleMd(appName, color: context.colors.background),
-                AppChip(label: 'Vet'),
-              ],
-            ),
+          : AppText.titleMd(appName, color: context.colors.background),
     );
   }
 
   Widget _buildCollapseToggle(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(isCollapsed ? 8 : 12, 0, isCollapsed ? 8 : 12, 20),
+      padding: EdgeInsets.fromLTRB(
+        isCollapsed ? 8 : 12,
+        0,
+        isCollapsed ? 8 : 12,
+        20,
+      ),
       child: Align(
         alignment: isCollapsed ? Alignment.center : Alignment.centerRight,
         child: Tooltip(
@@ -131,10 +138,10 @@ class AppShellSidebar extends StatelessWidget {
                 child: AnimatedRotation(
                   duration: const Duration(milliseconds: 250),
                   turns: isCollapsed ? 0.5 : 0,
-                  child: const Icon(
+                  child: Icon(
                     AgoraIcons.chevron_left,
                     size: 18,
-                    color: AppPalette.neutral400,
+                    color: AppColors.dark.mutedForeground,
                   ),
                 ),
               ),
@@ -168,10 +175,10 @@ class _SidebarNavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconColor = !isEnabled
-        ? AppPalette.neutral700
+        ? AppColors.dark.muted
         : isSelected
-        ? Colors.white
-        : AppPalette.neutral400;
+        ? AppColors.dark.foreground
+        : AppColors.dark.mutedForeground;
     final displayIcon = isSelected ? (selectedIcon ?? icon) : icon;
 
     return Tooltip(
@@ -187,14 +194,19 @@ class _SidebarNavItem extends StatelessWidget {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeInOut,
-            padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 0 : 10, vertical: 11),
+            padding: EdgeInsets.symmetric(
+              horizontal: isCollapsed ? 0 : 10,
+              vertical: 11,
+            ),
             decoration: BoxDecoration(
               color: isSelected ? const Color(0xff1f1f1f) : Colors.transparent,
               borderRadius: BorderRadius.circular(6),
             ),
             child: isCollapsed
                 ? Center(child: Icon(displayIcon, size: 20, color: iconColor))
-                : Row(
+                : Flex(
+                    direction: Axis.horizontal,
+                    clipBehavior: Clip.hardEdge,
                     children: [
                       // Left accent indicator
                       AnimatedContainer(
@@ -203,7 +215,9 @@ class _SidebarNavItem extends StatelessWidget {
                         height: 18,
                         margin: const EdgeInsets.only(right: 10),
                         decoration: BoxDecoration(
-                          color: isSelected ? AppPalette.primary500 : Colors.transparent,
+                          color: isSelected
+                              ? AppColors.dark.primary
+                              : Colors.transparent,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -212,10 +226,13 @@ class _SidebarNavItem extends StatelessWidget {
                       Expanded(
                         child: Text(
                           label,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                            color: iconColor,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w500,
+                                color: iconColor,
+                              ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

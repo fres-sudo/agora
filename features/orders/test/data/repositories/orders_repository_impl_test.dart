@@ -9,7 +9,12 @@ import 'package:order_management/models/order_line_item.dart';
 import 'package:order_management/models/order_type.dart';
 import 'package:order_management/models/selected_modifiers.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:result/result.dart';
+import 'package:sync_engine/sync_engine.dart';
+
+import 'orders_repository_impl_test.mocks.dart';
 
 /// A DAO that behaves exactly like [OrderItemsDao] except it throws after a
 /// configurable number of successful `insertOrderItem` calls, simulating a
@@ -58,11 +63,23 @@ OrderLineItem _item(int id, {List<SelectedModifiers> modifiers = const []}) {
   );
 }
 
+@GenerateMocks([SyncManager])
 void main() {
   late AgoraDatabase db;
+  late MockSyncManager syncManager;
 
   setUp(() {
     db = AgoraDatabase(NativeDatabase.memory());
+    syncManager = MockSyncManager();
+    when(
+      syncManager.enqueue(
+        entityType: anyNamed('entityType'),
+        operation: anyNamed('operation'),
+        entityLocalId: anyNamed('entityLocalId'),
+        payload: anyNamed('payload'),
+        remoteId: anyNamed('remoteId'),
+      ),
+    ).thenAnswer((_) async {});
   });
 
   tearDown(() async {
@@ -76,6 +93,8 @@ void main() {
       final repo = OrdersRepositoryImpl(
         ordersDao: ordersDao,
         orderItemsDao: orderItemsDao,
+        syncManager: syncManager,
+        deviceId: const DeviceId('test-device'),
       );
 
       final order = _buildOrder(
@@ -125,6 +144,8 @@ void main() {
       final repo = OrdersRepositoryImpl(
         ordersDao: ordersDao,
         orderItemsDao: flakyItemsDao,
+        syncManager: syncManager,
+        deviceId: const DeviceId('test-device'),
       );
 
       final order = _buildOrder(items: [_item(1), _item(2), _item(3)]);

@@ -98,10 +98,10 @@ class _MetricTile extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(Sizes.sm),
           decoration: BoxDecoration(
-            color: AppPalette.primary500.withValues(alpha: 0.1),
+            color: context.colors.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
-          child: Icon(metric.icon, color: AppPalette.primary500, size: 18),
+          child: Icon(metric.icon, color: context.colors.primary, size: 18),
         ),
         const SizedBox(width: Sizes.sm),
         Expanded(

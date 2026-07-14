@@ -7,6 +7,7 @@ import 'model/outbox_entry.dart';
 import 'model/sync_status.dart';
 import 'outbox/outbox_queue.dart';
 import 'sync_handler.dart';
+import 'websocket/sync_message.dart';
 import 'websocket/sync_web_socket.dart';
 
 /// Orchestrates the offline-first sync loop.
@@ -62,7 +63,7 @@ class SyncManager {
   Stream<SyncStatus> get status => _statusController.stream;
 
   /// Emits inbound real-time messages from the backend.
-  Stream<dynamic> get inboundMessages => _webSocket.messages;
+  Stream<SyncMessage> get inboundMessages => _webSocket.messages;
 
   /// Register a handler for a specific entity type.
   /// Call before [start].

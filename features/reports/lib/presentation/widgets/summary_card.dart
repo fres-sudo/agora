@@ -43,11 +43,8 @@ class SummaryCard extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(isNarrow ? Sizes.xs : Sizes.sm),
                     decoration: BoxDecoration(
-                      color:
-                          (isPositive
-                                  ? AppPalette.primary500
-                                  : AppPalette.error500)
-                              .withValues(alpha: 0.1),
+                      color: (isPositive ? colors.success : colors.destructive)
+                          .withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: SizedBox(
@@ -78,7 +75,7 @@ class SummaryCard extends StatelessWidget {
                           child: AppText.headingMd(value),
                         ),
                         const SizedBox(height: Sizes.xxs),
-                        _buildTrendBadge(),
+                        _buildTrendBadge(context),
                       ],
                     )
                   : Row(
@@ -92,7 +89,7 @@ class SummaryCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: Sizes.sm),
-                        _buildTrendBadge(),
+                        _buildTrendBadge(context),
                       ],
                     ),
             ],
@@ -102,18 +99,19 @@ class SummaryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTrendBadge() {
+  Widget _buildTrendBadge(BuildContext context) {
+    final colors = context.colors;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         AppText.label(
           trend,
-          color: isPositive ? AppPalette.primary500 : AppPalette.error500,
+          color: isPositive ? colors.success : colors.destructive,
         ),
         const SizedBox(width: Sizes.xxs),
         Icon(
           isPositive ? AgoraIcons.arrow_up_right : AgoraIcons.arrow_down_right,
-          color: isPositive ? AppPalette.primary500 : AppPalette.error500,
+          color: isPositive ? colors.success : colors.destructive,
           size: 16,
         ),
       ],

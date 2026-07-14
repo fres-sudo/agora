@@ -2,16 +2,19 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:agora/app/app.dart';
+import 'package:agora/app/device_identity_store_impl.dart';
 import 'package:agora/flavors.dart';
 import 'package:bloc/bloc.dart';
 import 'package:config/config.dart';
 import 'package:database/database.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:i18n/i18n.dart';
 import 'package:observer/observer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
 import 'package:utils/utils.dart';
 
@@ -49,6 +52,14 @@ void main() async {
       // whether to seed a starter catalog on first run.
       final database = AgoraDatabase(driftDatabase(name: K.dbName));
 
+      // Resolved once per install and persisted — every LAN-sync payload
+      // this station ever sends is stamped with it (see
+      // docs/features/01-lan-sync.md). Cheap enough to do unconditionally
+      // even for stations that never pair.
+      final deviceId = await DeviceIdentityService(
+        store: AppSettingsDeviceIdentityStore(AppSettingsDao(database)),
+      ).getOrCreateDeviceId();
+
       if (config.bootstrapMode.isHybrid) {
         talker.info(
           '[bootstrap] hybrid mode — api: ${config.apiBaseUrl}, '
@@ -64,7 +75,12 @@ void main() async {
       FlutterNativeSplash.remove();
       runApp(
         TranslationProvider(
-          child: AgoraApp(config: config, database: database, talker: talker),
+          child: AgoraApp(
+            config: config,
+            database: database,
+            talker: talker,
+            deviceId: deviceId,
+          ),
         ),
       );
     },

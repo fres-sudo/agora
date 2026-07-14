@@ -76,7 +76,7 @@ class DiscountListItem extends StatelessWidget {
             // Delete
             AppIconButton.ghost(
               onPressed: onDelete,
-              icon: const Icon(AgoraIcons.trash, color: AppPalette.neutral500),
+              icon: Icon(AgoraIcons.trash, color: colors.mutedForeground),
               tooltip: 'Delete discount',
             ),
           ],

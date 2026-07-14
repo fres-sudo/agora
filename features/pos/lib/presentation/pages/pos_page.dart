@@ -432,7 +432,7 @@ class _TabletLayout extends StatelessWidget {
         Container(
           width: 320,
           decoration: BoxDecoration(
-            border: Border(left: BorderSide(color: AppPalette.neutral200)),
+            border: Border(left: BorderSide(color: context.colors.border)),
           ),
           child: BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
             builder: (context, state) {

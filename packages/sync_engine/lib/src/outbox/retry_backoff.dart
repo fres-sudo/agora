@@ -5,20 +5,24 @@
 /// failed and "schedules a retry with exponential backoff" — this is where
 /// that schedule is defined and evaluated.
 ///
-/// The delay doubles with every failed attempt, starting at [baseDelay] and
-/// capped at [maxDelay]:
-///   retryCount=1 -> 30s
-///   retryCount=2 -> 1m
-///   retryCount=3 -> 2m
-///   retryCount=4 -> 4m
+/// Tuned for same-LAN round-trip time, not a cloud backend — `sync_engine`
+/// has exactly one consumer (LAN sync, see docs/features/01-lan-sync.md)
+/// and never a cloud one, so the curve favors surfacing cross-station
+/// visibility within seconds over the wide cloud-RTT margins a hosted
+/// backend would need. The delay doubles with every failed attempt,
+/// starting at [baseDelay] and capped at [maxDelay]:
+///   retryCount=1 -> 5s
+///   retryCount=2 -> 10s
+///   retryCount=3 -> 20s
+///   retryCount=4 -> 40s
 class RetryBackoff {
   const RetryBackoff._();
 
   /// Delay before the first retry (i.e. after a single failure).
-  static const Duration baseDelay = Duration(seconds: 30);
+  static const Duration baseDelay = Duration(seconds: 5);
 
   /// Upper bound on the computed delay, regardless of [retryCount].
-  static const Duration maxDelay = Duration(minutes: 30);
+  static const Duration maxDelay = Duration(minutes: 2);
 
   /// The delay to wait, after the [retryCount]-th recorded failure, before
   /// the entry is eligible to be retried again.

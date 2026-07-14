@@ -6,6 +6,7 @@ import 'package:agora/app/widgets/app_root_listener.dart';
 import 'package:i18n/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
@@ -15,12 +16,14 @@ class AgoraApp extends StatefulWidget {
     required this.config,
     required this.database,
     required this.talker,
+    required this.deviceId,
     super.key,
   });
 
   final AppConfig config;
   final AgoraDatabase database;
   final Talker talker;
+  final DeviceId deviceId;
 
   @override
   State<AgoraApp> createState() => _AgoraAppState();
@@ -35,6 +38,7 @@ class _AgoraAppState extends State<AgoraApp> {
       config: widget.config,
       database: widget.database,
       talker: widget.talker,
+      deviceId: widget.deviceId,
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           _router ??= AppRouter(

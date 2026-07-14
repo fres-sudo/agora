@@ -7,19 +7,22 @@ import 'package:order_management/models/order_type.dart';
 import 'package:order_management/models/selected_modifiers.dart';
 import 'package:order_management/repositories/orders_repository.dart';
 import 'package:result/result.dart';
-import 'package:talker/talker.dart';
+import 'package:sync_engine/sync_engine.dart';
 
-class OrdersRepositoryImpl extends Repository implements OrdersRepository {
+class OrdersRepositoryImpl extends SyncableRepository
+    implements OrdersRepository {
   OrdersRepositoryImpl({
     required OrdersDao ordersDao,
     required OrderItemsDao orderItemsDao,
-    Talker? logger,
+    required this.deviceId,
+    required super.syncManager,
+    super.logger,
   }) : _ordersDao = ordersDao,
-       _orderItemsDao = orderItemsDao,
-       super(logger);
+       _orderItemsDao = orderItemsDao;
 
   final OrdersDao _ordersDao;
   final OrderItemsDao _orderItemsDao;
+  final DeviceId deviceId;
 
   // ============================================================
   // HELPERS - Entity to Model conversion
@@ -65,6 +68,7 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       taxCents: entity.taxTotal,
       discountCents: entity.discountTotal,
       grandTotalCents: entity.grandTotal,
+      syncId: entity.syncId,
     );
   }
 
@@ -82,6 +86,7 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       paymentMethod: order.paymentMethod,
       updatedAt: DateTime.now(),
       deletedAt: null,
+      syncId: order.syncId,
     );
   }
 
@@ -96,8 +101,42 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       grandTotal: order.grandTotalCents,
       note: Value(order.note),
       paymentMethod: Value(order.paymentMethod),
+      syncId: Value(order.syncId),
     );
   }
+
+  Map<String, dynamic> _orderCreatedPayload(Order order, String syncId) => {
+    'syncId': syncId,
+    'originDeviceId': deviceId.value,
+    'createdAt': order.createdAt.toIso8601String(),
+    'status': order.status.value,
+    'orderType': order.orderType.value,
+    'subtotalCents': order.subtotalCents,
+    'taxCents': order.taxCents,
+    'discountCents': order.discountCents,
+    'grandTotalCents': order.grandTotalCents,
+    'paymentMethod': order.paymentMethod,
+    'note': order.note,
+    'items': order.items
+        .map(
+          (item) => {
+            'productId': item.productId,
+            'productName': item.productName,
+            'quantity': item.quantity,
+            'unitPriceCents': item.unitPriceCents,
+            'modifiers': item.selectedModifiers
+                .map(
+                  (m) => {
+                    'groupName': m.groupName,
+                    'optionName': m.optionName,
+                    'priceChangeCents': m.priceChangeCents,
+                  },
+                )
+                .toList(),
+          },
+        )
+        .toList(),
+  };
 
   OrderItemsTableCompanion _itemToInsertCompanion(
     int orderId,
@@ -241,8 +280,17 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
   // ============================================================
 
   @override
-  Future<Result<Order>> createOrder(Order order) =>
-      safe('createOrder', () async {
+  Future<Result<Order>> createOrder(Order order) {
+    final syncId = order.syncId ?? generateSyncId();
+    final orderWithSyncId = order.copyWith(syncId: syncId);
+
+    return safeSync<Order>(
+      operation: 'createOrder',
+      entityType: 'order',
+      outboxOperation: OutboxOperation.create,
+      entityLocalId: syncId,
+      payload: _orderCreatedPayload(orderWithSyncId, syncId),
+      localWrite: () async {
         // Wrap the whole multi-table insert sequence (order header + line
         // items + modifiers) in a single transaction so a failure partway
         // through (crash, thrown exception, etc.) rolls back cleanly instead
@@ -255,7 +303,7 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
         return _ordersDao.transaction(() async {
           // Insert order
           final orderId = await _ordersDao.insertOrder(
-            _modelToInsertCompanion(order),
+            _modelToInsertCompanion(orderWithSyncId),
           );
 
           // Insert items and their modifiers
@@ -276,9 +324,11 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
           }
 
           // Return the created order with its new ID
-          return order.copyWith(id: orderId);
+          return orderWithSyncId.copyWith(id: orderId);
         });
-      });
+      },
+    );
+  }
 
   @override
   Future<Result<Order>> updateOrder(Order order) =>
@@ -299,12 +349,32 @@ class OrdersRepositoryImpl extends Repository implements OrdersRepository {
       });
 
   @override
-  Future<Result<VoidOrderResult>> voidOrder(int id) =>
-      safe('voidOrder($id)', () async {
-        final transitioned = await _ordersDao.voidOrder(id);
-        final order = await getOrderById(id);
-        return (order: order.unwrap()!, wasAlreadyVoided: !transitioned);
-      });
+  Future<Result<VoidOrderResult>> voidOrder(int id) async {
+    Future<VoidOrderResult> localWrite() async {
+      final transitioned = await _ordersDao.voidOrder(id);
+      final order = await getOrderById(id);
+      return (order: order.unwrap()!, wasAlreadyVoided: !transitioned);
+    }
+
+    // A legacy order created before this station ever synced has no
+    // syncId — never attempt to sync its void either (nothing to
+    // reconcile against on other stations, since they never saw it
+    // created).
+    final existing = await _ordersDao.getOrderById(id);
+    final syncId = existing?.syncId;
+    if (syncId == null) {
+      return safe('voidOrder($id)', localWrite);
+    }
+
+    return safeSync<VoidOrderResult>(
+      operation: 'voidOrder($id)',
+      entityType: 'order',
+      outboxOperation: OutboxOperation.update,
+      entityLocalId: syncId,
+      payload: {'syncId': syncId, 'originDeviceId': deviceId.value},
+      localWrite: localWrite,
+    );
+  }
 
   @override
   Future<Result<int>> deleteOrder(int id) => safe('deleteOrder($id)', () async {

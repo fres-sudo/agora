@@ -36,8 +36,8 @@ class ProductFormActions extends StatelessWidget {
                     : () => Navigator.of(context).pop(false),
                 label: t.cancel,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppPalette.neutral700,
-                  side: const BorderSide(color: AppPalette.neutral300),
+                  foregroundColor: context.colors.foreground,
+                  side: BorderSide(color: context.colors.border),
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.lg,
                     vertical: Sizes.md,
@@ -50,8 +50,8 @@ class ProductFormActions extends StatelessWidget {
                 onPressed: isSubmitting ? null : cubit.saveAsDraft,
                 label: t.products.actions.save_as_draft,
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppPalette.neutral700,
-                  side: const BorderSide(color: AppPalette.neutral300),
+                  foregroundColor: context.colors.foreground,
+                  side: BorderSide(color: context.colors.border),
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.lg,
                     vertical: Sizes.md,

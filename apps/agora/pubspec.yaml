@@ -61,6 +61,8 @@ dependencies:
   freezed_annotation: ^3.1.0
   i18n:
     path: ../../packages/i18n
+  lan_hub:
+    path: ../../packages/lan_hub
   launcher:
     path: ../../packages/launcher
   logger:
@@ -78,6 +80,8 @@ dependencies:
   result:
     path: ../../packages/result
   shared_preferences: ^2.5.2
+  sync_engine:
+    path: ../../packages/sync_engine
   talker: ^5.1.9
   talker_dio_logger: ^5.1.9
   ui_kit:

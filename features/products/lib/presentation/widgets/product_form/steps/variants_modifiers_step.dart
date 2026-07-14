@@ -92,10 +92,10 @@ class _ModifierGroupTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: Sizes.sm),
       decoration: BoxDecoration(
-        color: AppPalette.neutral50,
+        color: context.colors.muted,
         borderRadius: BorderRadius.circular(Sizes.sm),
         border: Border.all(
-          color: isSelected ? theme.primaryColor : AppPalette.neutral200,
+          color: isSelected ? theme.primaryColor : context.colors.border,
         ),
       ),
       child: CheckboxListTile(

@@ -25,13 +25,13 @@ class MenuDrawerUserTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.colors.card,
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppPalette.neutral300),
+        border: Border.all(color: context.colors.border),
       ),
       child: Row(
         children: [
-          _buildAvatar(),
+          _buildAvatar(context),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -42,7 +42,7 @@ class MenuDrawerUserTile extends StatelessWidget {
                   name,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: AppPalette.neutral900,
+                    color: context.colors.foreground,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -52,7 +52,7 @@ class MenuDrawerUserTile extends StatelessWidget {
                   Text(
                     subtitle!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppPalette.primary500,
+                      color: context.colors.mutedForeground,
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
@@ -68,12 +68,12 @@ class MenuDrawerUserTile extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
     if (avatarUrl != null) {
       return CircleAvatar(
         radius: 20,
         backgroundImage: NetworkImage(avatarUrl!),
-        backgroundColor: AppPalette.neutral200,
+        backgroundColor: context.colors.muted,
       );
     }
 
@@ -81,27 +81,30 @@ class MenuDrawerUserTile extends StatelessWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: AppPalette.neutral200,
+        color: context.colors.muted,
         shape: BoxShape.circle,
       ),
-      child: const Icon(
+      child: Icon(
         AgoraIcons.user_circle,
-        color: AppPalette.neutral500,
+        color: context.colors.mutedForeground,
         size: 24,
       ),
     );
   }
 
   Widget _buildClockInButton(BuildContext context) {
+    final statusColor = isClockedIn
+        ? context.colors.destructive
+        : context.colors.success;
     return GestureDetector(
       onTap: onClockInTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isClockedIn ? AppPalette.error100 : AppPalette.primary50,
+          color: statusColor.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(6),
           border: Border.all(
-            color: isClockedIn ? AppPalette.error300 : AppPalette.primary300,
+            color: statusColor.withValues(alpha: 0.4),
             width: 1,
           ),
         ),
@@ -112,9 +115,7 @@ class MenuDrawerUserTile extends StatelessWidget {
               width: 6,
               height: 6,
               decoration: BoxDecoration(
-                color: isClockedIn
-                    ? AppPalette.error500
-                    : AppPalette.primary500,
+                color: statusColor,
                 shape: BoxShape.circle,
               ),
             ),
@@ -123,9 +124,7 @@ class MenuDrawerUserTile extends StatelessWidget {
               isClockedIn ? 'Clock Out' : 'Clock In',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: isClockedIn
-                    ? AppPalette.error500
-                    : AppPalette.primary600,
+                color: statusColor,
               ),
             ),
           ],

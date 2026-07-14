@@ -3,20 +3,22 @@ import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.dart';
 import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:result/result.dart';
-import 'package:talker/talker.dart';
+import 'package:sync_engine/sync_engine.dart';
 
-class InventoryRepositoryImpl extends Repository
+class InventoryRepositoryImpl extends SyncableRepository
     implements InventoryRepository {
   InventoryRepositoryImpl({
     required StocksDao stocksDao,
     required StockMovementsDao stockMovementsDao,
-    Talker? logger,
+    required this.deviceId,
+    required super.syncManager,
+    super.logger,
   }) : _stocksDao = stocksDao,
-       _stockMovementsDao = stockMovementsDao,
-       super(logger);
+       _stockMovementsDao = stockMovementsDao;
 
   final StocksDao _stocksDao;
   final StockMovementsDao _stockMovementsDao;
+  final DeviceId deviceId;
 
   // ============================================================
   // HELPERS
@@ -140,31 +142,56 @@ class InventoryRepositoryImpl extends Repository
     required int productId,
     required int delta,
     required String reason,
-  }) => safe('adjustStock($productId, delta: $delta)', () async {
-    // Run the quantity adjustment and the movement record in a single
-    // Drift transaction, using an atomic SQL UPDATE (quantity = quantity +
-    // delta) rather than a Dart-side read-then-write. This prevents lost
-    // updates when two writers (e.g. two POS terminals, or a checkout
-    // racing a manual adjustment) touch the same product concurrently.
-    final newQty = await _stocksDao.transaction(() async {
-      final qty = await _stocksDao.adjustStockQuantityAtomic(
-        productId: productId,
-        delta: delta,
-      );
+  }) {
+    final syncId = generateSyncId();
 
-      await _stockMovementsDao.recordMovement(
-        productId: productId,
-        quantityChange: delta,
-        reason: reason,
-      );
+    return safeSync<Stock>(
+      operation: 'adjustStock($productId, delta: $delta)',
+      entityType: 'stock_movement',
+      outboxOperation: OutboxOperation.create,
+      entityLocalId: syncId,
+      payload: {
+        'syncId': syncId,
+        'originDeviceId': deviceId.value,
+        'productId': productId,
+        'delta': delta,
+        'reason': reason,
+      },
+      localWrite: () async {
+        // Run the quantity adjustment and the movement record in a single
+        // Drift transaction, using an atomic SQL UPDATE (quantity = quantity
+        // + delta) rather than a Dart-side read-then-write. This prevents
+        // lost updates when two writers (e.g. two POS terminals, or a
+        // checkout racing a manual adjustment) touch the same product
+        // concurrently.
+        final newQty = await _stocksDao.transaction(() async {
+          final qty = await _stocksDao.adjustStockQuantityAtomic(
+            productId: productId,
+            delta: delta,
+          );
 
-      return qty;
-    });
+          await _stockMovementsDao.recordMovement(
+            productId: productId,
+            quantityChange: delta,
+            reason: reason,
+            syncId: syncId,
+          );
 
-    // Return the new stock for optimistic updates
-    return (productId: productId, quantity: newQty);
-  });
+          return qty;
+        });
 
+        // Return the new stock for optimistic updates
+        return (productId: productId, quantity: newQty);
+      },
+    );
+  }
+
+  // `setStock` is an ABSOLUTE write (sets stock to a target quantity), not
+  // a delta — per docs/features/01-lan-sync.md's conflict model, only
+  // delta-based writes (`adjustStock` above) are safe to sync, since two
+  // stations concurrently applying two different absolute corrections
+  // would silently clobber one another. This stays on plain `safe(...)`
+  // deliberately — do not convert it to `safeSync` in a future refactor.
   @override
   Future<Result<Stock>> setStock({
     required int productId,
@@ -221,6 +248,8 @@ class InventoryRepositoryImpl extends Repository
   // PRODUCT LIFECYCLE
   // ============================================================
 
+  // Absolute write, product-create-time only, deliberately not synced —
+  // same reasoning as `setStock` above.
   @override
   Future<Result<void>> initializeStock({
     required int productId,

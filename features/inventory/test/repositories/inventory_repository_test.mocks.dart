@@ -14,6 +14,11 @@ import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart'
     as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:sync_engine/src/model/outbox_entry.dart' as _i13;
+import 'package:sync_engine/src/model/sync_status.dart' as _i10;
+import 'package:sync_engine/src/sync_handler.dart' as _i12;
+import 'package:sync_engine/src/sync_manager.dart' as _i9;
+import 'package:sync_engine/src/websocket/sync_message.dart' as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -993,6 +998,14 @@ class MockStockMovementsDao extends _i1.Mock implements _i8.StockMovementsDao {
           as _i5.Future<_i2.StockMovementEntity?>);
 
   @override
+  _i5.Future<_i2.StockMovementEntity?> getMovementBySyncId(String? syncId) =>
+      (super.noSuchMethod(
+            Invocation.method(#getMovementBySyncId, [syncId]),
+            returnValue: _i5.Future<_i2.StockMovementEntity?>.value(),
+          )
+          as _i5.Future<_i2.StockMovementEntity?>);
+
+  @override
   _i5.Future<int> getMovementsCount({
     int? productId,
     DateTime? startDate,
@@ -1036,6 +1049,7 @@ class MockStockMovementsDao extends _i1.Mock implements _i8.StockMovementsDao {
     required int? quantityChange,
     required String? reason,
     DateTime? timestamp,
+    String? syncId,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#recordMovement, [], {
@@ -1043,6 +1057,7 @@ class MockStockMovementsDao extends _i1.Mock implements _i8.StockMovementsDao {
               #quantityChange: quantityChange,
               #reason: reason,
               #timestamp: timestamp,
+              #syncId: syncId,
             }),
             returnValue: _i5.Future<int>.value(0),
           )
@@ -1491,4 +1506,89 @@ class MockStockMovementsDao extends _i1.Mock implements _i8.StockMovementsDao {
             returnValueForMissingStub: _i5.Future<void>.value(),
           )
           as _i5.Future<void>);
+}
+
+/// A class which mocks [SyncManager].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSyncManager extends _i1.Mock implements _i9.SyncManager {
+  MockSyncManager() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Stream<_i10.SyncStatus> get status =>
+      (super.noSuchMethod(
+            Invocation.getter(#status),
+            returnValue: _i5.Stream<_i10.SyncStatus>.empty(),
+          )
+          as _i5.Stream<_i10.SyncStatus>);
+
+  @override
+  _i5.Stream<_i11.SyncMessage> get inboundMessages =>
+      (super.noSuchMethod(
+            Invocation.getter(#inboundMessages),
+            returnValue: _i5.Stream<_i11.SyncMessage>.empty(),
+          )
+          as _i5.Stream<_i11.SyncMessage>);
+
+  @override
+  void registerHandler(_i12.SyncHandler? handler) => super.noSuchMethod(
+    Invocation.method(#registerHandler, [handler]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i5.Future<void> start({String? webSocketUrl, String? authToken}) =>
+      (super.noSuchMethod(
+            Invocation.method(#start, [], {
+              #webSocketUrl: webSocketUrl,
+              #authToken: authToken,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> stop() =>
+      (super.noSuchMethod(
+            Invocation.method(#stop, []),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> enqueue({
+    required String? entityType,
+    required _i13.OutboxOperation? operation,
+    required String? entityLocalId,
+    required Map<String, dynamic>? payload,
+    String? remoteId,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#enqueue, [], {
+              #entityType: entityType,
+              #operation: operation,
+              #entityLocalId: entityLocalId,
+              #payload: payload,
+              #remoteId: remoteId,
+            }),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
+
+  @override
+  void subscribe(String? topic) => super.noSuchMethod(
+    Invocation.method(#subscribe, [topic]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void unsubscribe(String? topic) => super.noSuchMethod(
+    Invocation.method(#unsubscribe, [topic]),
+    returnValueForMissingStub: null,
+  );
 }

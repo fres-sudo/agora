@@ -47,9 +47,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
   final double spaceXxl; // 32
 
   // Corner radii (dp)
-  final double radiusSm; // 6
-  final double radiusMd; // 8
-  final double radiusLg; // 12
+  final double radiusSm; // 8
+  final double radiusMd; // 12
+  final double radiusLg; // 16
   final double radiusFull; // pill
 
   // Border widths (dp)
@@ -89,9 +89,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
     spaceLg: 20,
     spaceXl: 28,
     spaceXxl: 40,
-    radiusSm: 4,
-    radiusMd: 5,
-    radiusLg: 6,
+    radiusSm: 8,
+    radiusMd: 12,
+    radiusLg: 16,
     radiusFull: 6,
     borderHairline: 1,
     borderThin: 1,
@@ -119,9 +119,9 @@ class AppTokens extends ThemeExtension<AppTokens> {
     spaceLg: 20,
     spaceXl: 28,
     spaceXxl: 40,
-    radiusSm: 4,
-    radiusMd: 5,
-    radiusLg: 6,
+    radiusSm: 8,
+    radiusMd: 12,
+    radiusLg: 16,
     radiusFull: 6,
     borderHairline: 1,
     borderThin: 1,

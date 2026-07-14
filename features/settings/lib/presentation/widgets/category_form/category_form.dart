@@ -41,7 +41,7 @@ class _CategoryFormState extends State<CategoryForm> {
 
   // Helper list of colors to choose from
   static const List<Color> _availableColors = [
-    AppPalette.primary500,
+    Color(0xff34CB6F),
     AppPalette.error500,
     AppPalette.warning500,
     AppPalette.info500,
@@ -59,7 +59,7 @@ class _CategoryFormState extends State<CategoryForm> {
     final category = widget.initialCategory;
     _nameController = TextEditingController(text: category?.name ?? '');
     _selectedIcon = category?.icon ?? AgoraIcons.burger;
-    _selectedColor = category?.color ?? AppPalette.primary500;
+    _selectedColor = category?.color ?? const Color(0xff34CB6F);
     _isEnabled = category?.isEnabled ?? true;
   }
 

@@ -14,6 +14,7 @@ import 'package:catalog/repositories/products_repository.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:printing/printing.dart';
+import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
 
 class OrdersFeature extends AppFeature {
@@ -34,6 +35,8 @@ class OrdersFeature extends AppFeature {
         logger: ctx.read<Talker>(),
         ordersDao: ctx.read(),
         orderItemsDao: ctx.read(),
+        syncManager: ctx.read<SyncManager>(),
+        deviceId: ctx.read<DeviceId>(),
       ),
     ),
     RepositoryProvider<OrderItemsRepository>(

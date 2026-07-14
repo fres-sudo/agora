@@ -21,6 +21,9 @@ class ProtectedShellPage extends StatefulWidget {
 }
 
 class _ProtectedShellPageState extends State<ProtectedShellPage> {
+  static const double _outerRadius = 24;
+  static const double _innerRadius = 16;
+
   int _selectedIndex = 0;
   bool _isSidebarCollapsed = false;
 
@@ -135,9 +138,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
               userSubtitle: employee?.role ?? '',
               isClockedIn: isClockedIn,
               onClockInTap: () => _onClockInTap(employee?.id),
-              onLogout: profile.requiresStaffLogin
-                  ? () => context.read<SessionCubit>().signOut()
-                  : null,
+              onLogout: () => context.read<SessionCubit>().signOut(),
               currentOperator: 'Main Counter',
               onOperatorSwitchTap: () {},
               openSidebar: () => _scaffoldKey.currentState?.openDrawer(),
@@ -176,22 +177,46 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
     if (isTablet) {
       return Scaffold(
-        body: Row(
-          children: [
-            AppShellSidebar(
-              items: [for (final e in entries) e.item],
-              selectedIndex: activeIndex,
-              isCollapsed: _isSidebarCollapsed,
-              onCollapsedChanged: (v) =>
-                  setState(() => _isSidebarCollapsed = v),
-              onItemSelected: (index) {
-                setState(() => _selectedIndex = index);
-                tabsRouter.navigate(entries[index].route);
-              },
-              logo: Image.asset('assets/brand/logo.png', width: 26, height: 26),
+        backgroundColor: AppColors.dark.background,
+        body: ClipRRect(
+          borderRadius: BorderRadius.circular(_outerRadius),
+          child: ColoredBox(
+            color: AppColors.dark.background,
+            child: Row(
+              children: [
+                AppShellSidebar(
+                  items: [for (final e in entries) e.item],
+                  selectedIndex: activeIndex,
+                  isCollapsed: _isSidebarCollapsed,
+                  onCollapsedChanged: (v) =>
+                      setState(() => _isSidebarCollapsed = v),
+                  onItemSelected: (index) {
+                    setState(() => _selectedIndex = index);
+                    tabsRouter.navigate(entries[index].route);
+                  },
+                  logo: Image.asset(
+                    'assets/brand/logo.png',
+                    width: 26,
+                    height: 26,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      0,
+                      context.tokens.spaceSm,
+                      context.tokens.spaceSm,
+                      context.tokens.spaceSm,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(_innerRadius),
+                      child: child,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Expanded(child: child),
-          ],
+          ),
         ),
       );
     }
@@ -210,7 +235,7 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     List<_NavEntry> entries,
   ) {
     return Drawer(
-      backgroundColor: AppPalette.neutral900,
+      backgroundColor: AppColors.dark.background,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
         child: Column(
@@ -227,13 +252,13 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                 children: [
                   Image.asset('assets/brand/logo.png', width: 26, height: 26),
                   SizedBox(width: context.tokens.spaceXs),
-                  const AppText.titleLg('agora', color: AppPalette.white),
+                  AppText.titleLg('agora', color: AppColors.dark.foreground),
                   const Spacer(),
                   AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(
+                    icon: Icon(
                       AgoraIcons.x_mark,
-                      color: AppPalette.neutral400,
+                      color: AppColors.dark.mutedForeground,
                     ),
                     style: IconButton.styleFrom(
                       padding: EdgeInsets.zero,

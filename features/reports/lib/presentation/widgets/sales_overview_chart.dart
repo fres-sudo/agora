@@ -66,15 +66,15 @@ class SalesOverviewChart extends StatelessWidget {
           show: true,
           drawVerticalLine: !isCompact,
           horizontalInterval: horizontalInterval,
-          getDrawingHorizontalLine: (value) => const FlLine(
-            color: AppPalette.neutral200,
+          getDrawingHorizontalLine: (value) => FlLine(
+            color: colors.border,
             strokeWidth: 1,
-            dashArray: [5, 5],
+            dashArray: const [5, 5],
           ),
-          getDrawingVerticalLine: (value) => const FlLine(
-            color: AppPalette.neutral200,
+          getDrawingVerticalLine: (value) => FlLine(
+            color: colors.border,
             strokeWidth: 1,
-            dashArray: [5, 5],
+            dashArray: const [5, 5],
           ),
         ),
         titlesData: FlTitlesData(
@@ -130,9 +130,7 @@ class SalesOverviewChart extends StatelessWidget {
           LineChartBarData(
             spots: spots,
             isCurved: true,
-            gradient: const LinearGradient(
-              colors: [AppPalette.primary500, AppPalette.primary300],
-            ),
+            gradient: LinearGradient(colors: [colors.primary, colors.primary]),
             barWidth: isCompact ? 3 : 4,
             isStrokeCapRound: true,
             dotData: FlDotData(show: points.length <= 12),
@@ -140,8 +138,8 @@ class SalesOverviewChart extends StatelessWidget {
               show: true,
               gradient: LinearGradient(
                 colors: [
-                  AppPalette.primary500.withValues(alpha: 0.3),
-                  AppPalette.primary300.withValues(alpha: 0.0),
+                  colors.primary.withValues(alpha: 0.3),
+                  colors.primary.withValues(alpha: 0.0),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

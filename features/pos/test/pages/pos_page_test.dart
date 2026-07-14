@@ -49,7 +49,9 @@ void main() {
     ).thenAnswer((_) => const Stream.empty());
     // PosProductGrid/PosOrderPanel/PosPage read SettingsCubit for the
     // currency symbol and receipt config.
-    when(() => mockSettingsCubit.state).thenReturn(const SettingsState.loaded(settings: {}));
+    when(
+      () => mockSettingsCubit.state,
+    ).thenReturn(const SettingsState.loaded(settings: {}));
   });
 
   Widget createWidgetUnderTest() {

@@ -2,7 +2,7 @@
 
 > **App:** `apps/agora` (this *is* the Festival POS — the free/open-source POS for Italian sagre & fiere described in `README.md`).
 > **Goal of this plan:** take the current codebase to a **shippable, fully-offline free-tier POS**, then prepare clean seams for the paid/cloud tier once the backend exists.
-> **Architecture decision (confirmed):** keep the existing Melos feature-based architecture (`apps/agora` composes `features/*`). We are **not** creating a separate standalone `apps/festival_pos`, despite what `docs/architecture/ECOSYSTEM.md` / `ARCHITECTURE.md` describe. Those docs treat `festival_pos` as a feature-less app; reality has diverged and `agora` is the festival app. See [Appendix C](#appendix-c--doc-vs-reality-discrepancies).
+> **Architecture decision (confirmed):** keep the existing Melos feature-based architecture (`apps/agora` composes `features/*`). There is no separate standalone `apps/festival_pos` — `apps/agora` *is* the sagra/festival POS. `docs/architecture/ECOSYSTEM.md` / `ARCHITECTURE.md` were updated 2026-07-14 to reflect this; see [Appendix C](#appendix-c--doc-vs-reality-discrepancies) for the remaining (unrelated) doc-drift items.
 
 ---
 
@@ -40,7 +40,7 @@ The **data + domain + bloc layers are largely real**; the **presentation/wiring 
 | Discounts | 🟡 | Repo + bloc real; **no UI** anywhere; checkout discount button is commented out. |
 | Auth / operator login | 🟡 → ❌ removed | `SessionCubit`/`AuthRepository` are empty stubs. **DECIDED: free tier has no auth/login/operator at all** — strip it (P7-5/P7-6). |
 | Inventory management | 🟡 | Repo + bloc + adjust-cubit are real, but there's **no page** and the nav item is disabled. In scope ("very basic") — build the page (P7-8). |
-| Backend / paid tier | 🔴 | No `backend/`, no `ai_engine`. `sync_engine` package is real and ready to wire later. |
+| LAN sync hub | 🔴 | No `sync_hub/`. `sync_engine` package is real and ready to wire later. |
 
 > **Critical-path to "an operator can take money and hand over a receipt":**
 > `Cart → Checkout/Payment → Mark Completed → Decrement Stock → Print Receipt`.
@@ -61,7 +61,7 @@ The **data + domain + bloc layers are largely real**; the **presentation/wiring 
 | **Phase 6** | Discounts UX | Apply discounts at checkout; manage them. |
 | **Phase 7** | Polish, UX, i18n, errors | Remove auth (no-login standalone), add inventory page, shippable quality. |
 | **Phase 8** | Testing & release | Confidence + buildable artifacts. |
-| **Phase 9** | Backend wiring (DEFERRED) | Paid-tier seams; placeholder until backend spec lands. |
+| **Phase 9** | LAN sync hub wiring (DEFERRED) | Local multi-station sync seams; placeholder until the sync hub spec lands. |
 
 ---
 
@@ -358,7 +358,7 @@ The **data + domain + bloc layers are largely real**; the **presentation/wiring 
   - ✅ **Done.** The app-bar dropdown is now bound to `ReportPeriod` (`Today` / `This Week` / `This Month` / `All Time`); selecting a period calls `ReportsCubit.selectPeriod(...)` which recomputes the range (`ReportPeriod.range()`, week starts Monday) and reloads. Sales-trend granularity follows the period (hourly for Today, daily for week/month, monthly for All Time). Pull-to-refresh also reloads the current period. (Free-form custom date range deferred — the four presets cover the festival flow; a custom picker can slot into the same enum later.)
 
 - [x] **P5-3 — End-of-day / Z-report summary screen** · _Effort: M_
-  - A festival-operator-friendly summary: total revenue, order count, average ticket, cash vs card split, top products, items that hit zero stock, peak hour. This mirrors the (future, paid) AI "event wrap-up" but with raw numbers only — see `AI_INTEGRATION.md` Feature 7 ("free tier shows the raw numbers only").
+  - A festival-operator-friendly summary: total revenue, order count, average ticket, cash vs card split, top products, items that hit zero stock, peak hour — raw numbers only, no narrative/AI layer.
   - **Files:** `features/reports/lib/presentation/pages/` (new `end_of_day_page.dart` or section), reports bloc.
   - **Acceptance:** one screen summarises an event/day from local data; reachable from the report area.
   - **Deps:** P5-1.
@@ -401,7 +401,7 @@ The **data + domain + bloc layers are largely real**; the **presentation/wiring 
 
 # Phase 7 — Polish, UX, i18n, errors
 
-**Goal:** shippable quality for non-technical festival operators (per `AI_INTEGRATION.md` user profile: low technical literacy, busy event, zero downtime).
+**Goal:** shippable quality for non-technical seasonal volunteers running a sagra stand — low technical literacy, busy event, zero downtime.
 
 - [ ] **P7-1 — Remove/route dead code** · _Effort: S_
   - 💀 cubits never provided/used: `OrderDetailCubit` (→ adopt in P7-2), `ProductDetailCubit`, `StockAdjustmentCubit` (→ adopt in P7-8), `DiscountValidationCubit` (→ adopt in P6-1). Dead types: `ImageFileOrderLineItem` (reports), unused `PosSettings` model (superseded by `packages/printing` receipt model + settings keys). `OrdersPage` edit action is a no-op `case ...edit: break;` (→ wire in P7-2). (`session_state_utils.dart` and the rest of `feature_auth` are removed in P7-6.)
@@ -510,38 +510,32 @@ The **data + domain + bloc layers are largely real**; the **presentation/wiring 
 
 ---
 
-# Phase 9 — Backend / paid-tier wiring (DEFERRED — placeholders only)
+# Phase 9 — LAN sync hub wiring (DEFERRED — placeholders only)
 
-> **Status:** the `backend/` directory and `packages/ai_engine` **do not exist yet**. Per direction, these are **placeholder seams** only. Do **not** implement against invented API contracts; fill in once the backend spec lands. The good news: `packages/sync_engine` is **already real and tested** (outbox queue + connectivity monitor + managed WebSocket with reconnect), so the client seam is mostly about wiring, not building.
+> **Status:** the `sync_hub/` directory **does not exist yet**. Per direction, these are **placeholder seams** only. Do **not** implement against invented API contracts; fill in once the hub spec lands (`docs/architecture/BACKEND.md`). The good news: `packages/sync_engine` is **already real and tested** (outbox queue + connectivity monitor + managed WebSocket with reconnect), so the client seam is mostly about wiring, not building. There is no free/paid split any more — LAN sync is a core roadmap feature (`ECOSYSTEM.md` Phase 2), gated only by whether a station is paired with a hub, not by a subscription.
 
-- [ ] **P9-1 — Subscription/feature-flag seam (free vs paid)** · _Effort: M_
-  - Introduce a `FeatureFlags`/`SubscriptionService` abstraction with a **local default = free tier**. Gate paid features (kitchen sync, multi-terminal, cloud reports, AI) behind it. Per `ECOSYSTEM.md`: "Offline mode remains available as a fallback even when a subscription is active."
-  - **Acceptance:** a single switch flips the app between free and (future) paid behaviour; defaults to free with no backend present.
+- [ ] **P9-1 — Pairing seam (standalone vs hub-paired)** · _Effort: M_
+  - Introduce a `SyncPairingService` abstraction with a **local default = standalone** (no hub). When a station pairs with a hub's LAN address, sync activates; otherwise the app behaves exactly as it does today.
+  - **Acceptance:** a station works fully standalone with no hub present; pairing is additive, not a purchase gate.
   - **Deps:** none (pure abstraction).
 
 - [ ] **P9-2 — Wire `sync_engine` into the order write path (outbox)** · _Effort: M_
-  - `sync_engine` provides `SyncableRepository.safeSync(...)` (local write + outbox enqueue) and `OutboxTable`/`OutboxDao`. Make order/catalog repositories enqueue mutations to the outbox **when paid** (no-op when free). Register a `SyncManager` and per-entity `SyncHandler`s (handlers do the actual HTTP push — **left blank until the API exists**).
-  - **Acceptance:** with the flag on, completing an order enqueues an outbox entry; with it off, nothing is enqueued. Handlers are stubs that clearly TODO the network call.
+  - `sync_engine` provides `SyncableRepository.safeSync(...)` (local write + outbox enqueue) and `OutboxTable`/`OutboxDao`. Make order/catalog repositories enqueue mutations to the outbox **whenever paired with a hub** (no-op when standalone). Register a `SyncManager` and per-entity `SyncHandler`s (handlers do the actual LAN push — **left blank until the hub API exists**).
+  - **Acceptance:** when paired, completing an order enqueues an outbox entry; standalone, nothing is enqueued. Handlers are stubs that clearly TODO the network call.
   - **Deps:** P9-1, Phase 1.
 
-- [ ] **P9-3 — Kitchen sync (paid) — placeholder** · _Effort: L (deferred)_
-  - Per `ECOSYSTEM.md`: completed orders should appear on a kitchen display via WebSocket (`SyncWebSocket` exists). Define the client subscription seam and a `SyncHandler` for orders. **Topic/payload contracts TBD by backend** (`BACKEND.md` suggests `order:{locationId}` / `kitchen:{locationId}:{station}`).
-  - **Acceptance:** documented seam + stubbed handler; no behaviour until backend spec.
+- [ ] **P9-3 — Kitchen/stand ticket routing — placeholder** · _Effort: L (deferred)_
+  - Per `ECOSYSTEM.md` Phase 2: a completed order should route to the right prep stand via WebSocket. Define the client subscription seam and a `SyncHandler` for orders. **Topic/payload contracts TBD by the hub** (`BACKEND.md` proposes `orders`, `stock`, `kitchen:{stand}`).
+  - **Acceptance:** documented seam + stubbed handler; no behaviour until the hub spec lands.
   - **Deps:** P9-2.
 
-- [ ] **P9-4 — Multi-terminal order sync (paid) — placeholder** · _Effort: L (deferred)_
-  - Shared order queue across POS tablets over LAN/internet. Reuse outbox + WebSocket inbound messages. **Conflict resolution is explicitly NOT implemented in `sync_engine`** — design needed when specced.
+- [ ] **P9-4 — Multi-station order/stock sync — placeholder** · _Effort: L (deferred)_
+  - Shared order queue and stock count across POS tablets over the event's LAN. Reuse outbox + WebSocket inbound messages. **Conflict resolution is explicitly NOT implemented in `sync_engine`** — `BACKEND.md` proposes append-only orders + delta stock adjustments to sidestep most conflicts; validate that design when specced.
   - **Acceptance:** documented design note + seam; deferred.
   - **Deps:** P9-2.
 
-- [ ] **P9-5 — Cloud reports & AI event wrap-up (paid) — placeholder** · _Effort: L (deferred)_
-  - Per `AI_INTEGRATION.md` Feature 7, the paid tier adds a narrative "event wrap-up"; the **free tier shows raw numbers only** (already covered by P5-3). When the backend + `packages/ai_engine` exist, add a `ReportSummaryCubit`/`EventWrapUpPage` calling `/api/ai/report-summary` (gated by subscription; backend returns 403 when not entitled).
-  - **Acceptance:** documented seam; free-tier numeric summary (P5-3) ships now; AI deferred.
-  - **Deps:** P5-3, P9-1, backend.
-
-- [ ] **P9-6 — Reconcile architecture docs with reality** · _Effort: S_
-  - Update `docs/architecture/ECOSYSTEM.md` / `ARCHITECTURE.md` to reflect that `apps/agora` is the festival POS (feature-based), or formally plan the split. Also fix doc drift noted in [Appendix C](#appendix-c--doc-vs-reality-discrepancies) (`AppException` doesn't exist; `apps/festival_pos` doesn't exist; `safe()` is a method not a free function; `AGENT_MANIFEST.json` paths reference the pre-migration `lib/<feature>/` layout).
-  - **Acceptance:** docs no longer contradict the codebase.
+- [ ] **P9-5 — Reconcile architecture docs with reality** · _Effort: S_
+  - ✅ **Done (2026-07-14).** `docs/architecture/ECOSYSTEM.md`, `ARCHITECTURE.md`, `BACKEND.md`, `PAYMENTS_AND_FISCAL.md`, `docs/marketing/PRODUCT_BRIEF.md`, `docs/llm/ARCHITECTURE.md`, and root `CLAUDE.md` were rewritten to scope the product to sagra/village-festival/small-event use only (dropping the restaurant-SaaS multi-app roadmap and the cloud multi-tenant backend), and now correctly describe `apps/agora` as the sole app. `docs/architecture/BUSINESS_PROFILES.md` and `docs/architecture/AI_INTEGRATION.md` were deleted (vertical-switching and cloud-AI-subscription concepts no longer apply). Remaining stale items from the old Appendix C below (`AppException`, `safe()` as free function, `AGENT_MANIFEST.json` paths) are unrelated code/doc drift, not scope drift — still open.
   - **Deps:** none.
 
 ---
@@ -584,12 +578,13 @@ Everything else (Phase 3 modifiers, Phase 4 settings, Phase 6 discounts, Phase 7
 
 | Doc claim | Reality |
 |---|---|
-| `apps/festival_pos` is a separate standalone app that does **not** import `features/*` (`ECOSYSTEM.md`, `ARCHITECTURE.md`). | No such app exists. `apps/agora` is the festival POS and imports **all 8** features. (Plan keeps `agora`.) |
 | `package:errors` exposes `AppException` (`CLAUDE.md`, `ARCHITECTURE.md`). | Only `RepositoryException` exists; no `AppException` anywhere. |
 | `safe()` helper / `result` "free function". | `safe`/`safeSync` are **methods** on `Repository`/`SyncableRepository`; no top-level `safe()`. |
 | `AgoraDatabase` exposes DAOs (`db.productsDao`) in some older notes. | DAOs are **not** registered on the DB; constructed as `SomeDao(db)` in each feature. (`NEXT_STEPS.md` already corrects this.) |
 | `docs/AGENT_MANIFEST.json` paths like `lib/products/...`. | Pre-migration layout; real paths are `features/products/lib/...`. Manifest is stale. |
-| Backend exists / paid tier ready (Phase 4 of `ECOSYSTEM.md`). | No `backend/`, no `packages/ai_engine`. `packages/sync_engine` **is** real and ready to wire. |
+| LAN sync hub exists / ready (Phase 2 of `ECOSYSTEM.md`). | No `sync_hub/`. `packages/sync_engine` **is** real and ready to wire. |
+
+*(The `apps/festival_pos`-as-separate-app and restaurant-SaaS/cloud-backend discrepancies that used to live here were resolved by the 2026-07-14 doc rewrite — see P9-5 above — not just noted.)*
 
 ---
 

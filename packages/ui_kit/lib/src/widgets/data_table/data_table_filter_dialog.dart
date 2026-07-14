@@ -45,7 +45,7 @@ class DataTableFilterDialog extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
-        side: const BorderSide(color: AppPalette.neutral300),
+        side: BorderSide(color: context.colors.border),
       ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 400, maxHeight: 500),
@@ -75,8 +75,8 @@ class DataTableFilterDialog extends StatelessWidget {
                       onPressed: onCancel,
                       label: 'Cancel',
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: AppPalette.neutral700,
-                        side: const BorderSide(color: AppPalette.neutral300),
+                        foregroundColor: context.colors.foreground,
+                        side: BorderSide(color: context.colors.border),
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),
@@ -87,7 +87,7 @@ class DataTableFilterDialog extends StatelessWidget {
                       onPressed: onApply,
                       label: 'Apply',
                       style: FilledButton.styleFrom(
-                        backgroundColor: AppPalette.primary500,
+                        backgroundColor: context.colors.primary,
                         padding: const EdgeInsets.symmetric(vertical: Sizes.md),
                       ),
                     ),

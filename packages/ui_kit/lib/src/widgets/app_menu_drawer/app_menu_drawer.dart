@@ -60,7 +60,7 @@ class AppMenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AppPalette.neutral100,
+      backgroundColor: context.colors.muted,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
         child: Column(
@@ -81,21 +81,21 @@ class AppMenuDrawer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 12, 0),
       child: Row(
         children: [
-          logo ?? Icon(AgoraIcons.zap, color: AppPalette.primary500, size: 28),
+          logo ?? Icon(AgoraIcons.zap, color: context.colors.primary, size: 28),
           const SizedBox(width: 8),
           Text(
             appName,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
-              color: AppPalette.neutral900,
+              color: context.colors.foreground,
             ),
           ),
           const Spacer(),
           AppIconButton.ghost(
             onPressed: () => Navigator.of(context).pop(),
-            icon: const Icon(
+            icon: Icon(
               AgoraIcons.x_mark,
-              color: AppPalette.neutral600,
+              color: context.colors.mutedForeground,
               size: 24,
             ),
             style: IconButton.styleFrom(

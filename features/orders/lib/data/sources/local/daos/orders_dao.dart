@@ -71,6 +71,15 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
     )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).getSingleOrNull();
   }
 
+  /// Gets a single order by its cross-station sync identity. Used by LAN
+  /// sync to dedupe an inbound `order.created`/`order.voided` event
+  /// against a redelivery or the host's own loopback broadcast.
+  Future<OrderEntity?> getOrderBySyncId(String syncId) {
+    return (select(
+      ordersTable,
+    )..where((t) => t.syncId.equals(syncId))).getSingleOrNull();
+  }
+
   /// Watches orders filtered by status.
   Stream<List<OrderEntity>> watchOrdersByStatus(int status) {
     return (select(ordersTable)
