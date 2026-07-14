@@ -134,6 +134,13 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         // 2b. Count the discount usage (best-effort; never fail the sale).
         await _recordDiscountUsage();
 
+        // 2c. Print a kitchen ticket per station represented in the order
+        // (best-effort, same reasoning as stock/discount above — a printer
+        // failure must never lose the recorded sale). Unrouted items never
+        // reach here — see Order.toStationTickets
+        // (docs/features/02-kitchen-ticket-routing.md).
+        await _printStationTickets(value);
+
         // 3. Build the receipt for the preview/print stage.
         final changeDue = current.changeDueCents;
         final receipt = value.toReceipt(
@@ -193,6 +200,26 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         emit(
           (state as CheckoutSuccess).copyWith(printStatus: PrintStatus.failed),
         );
+      }
+    }
+  }
+
+  /// Prints one ticket per prep station represented in [order]
+  /// (docs/features/02-kitchen-ticket-routing.md). Best-effort, same
+  /// reasoning as [_decrementStock]/[_recordDiscountUsage]: a printer
+  /// failure must never undo or fail the recorded sale.
+  Future<void> _printStationTickets(Order order) async {
+    for (final ticket in order.toStationTickets()) {
+      try {
+        final bytes = await _renderer.toEscPos(ticket);
+        final result = await _printerService.printBytes(bytes);
+        if (result.isError) {
+          _logger?.error(
+            '[Checkout] Failed to print ${ticket.storeName} ticket for order #${order.id}',
+          );
+        }
+      } catch (error, stack) {
+        _logger?.handle(error, stack, '[Checkout] printStationTickets failed');
       }
     }
   }

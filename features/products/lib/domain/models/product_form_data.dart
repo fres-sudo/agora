@@ -43,6 +43,11 @@ abstract class ProductFormData with _$ProductFormData {
 
     /// Selected modifier group IDs.
     @Default([]) List<int> selectedModifierIds,
+
+    /// Free-text kitchen prep-station label (e.g. "Griglia"). Null = this
+    /// product's line items stay on the customer receipt only, never
+    /// ticketed (docs/features/02-kitchen-ticket-routing.md).
+    String? prepStation,
   }) = _ProductFormData;
 
   const ProductFormData._();

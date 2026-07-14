@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:feature_inventory/data/sync/stock_inbound_applier.dart';
+import 'package:feature_kitchen/data/sync/ticket_inbound_applier.dart';
 import 'package:feature_orders/data/sync/order_inbound_applier.dart';
 import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
 
 /// Listens to `SyncManager.inboundMessages` and dispatches each broadcast
 /// to the applier for its topic. Lives in the app shell (not a feature)
-/// because it needs appliers from both `feature_orders` and
-/// `feature_inventory` — a third `features/` package importing both would
-/// violate the `features ↛ features` rule.
+/// because it needs appliers from `feature_orders`, `feature_inventory`
+/// and `feature_kitchen` — a fourth `features/` package importing all
+/// three would violate the `features ↛ features` rule.
 ///
 /// Safe to start unconditionally at app boot regardless of this station's
 /// sync role: `subscribe()` on an unconnected `SyncWebSocket` is a no-op
@@ -22,15 +23,18 @@ class SyncBootstrap {
     required SyncManager syncManager,
     required OrderInboundApplier orderApplier,
     required StockInboundApplier stockApplier,
+    required TicketInboundApplier ticketApplier,
     required Talker logger,
   }) : _syncManager = syncManager,
        _orderApplier = orderApplier,
        _stockApplier = stockApplier,
+       _ticketApplier = ticketApplier,
        _logger = logger;
 
   final SyncManager _syncManager;
   final OrderInboundApplier _orderApplier;
   final StockInboundApplier _stockApplier;
+  final TicketInboundApplier _ticketApplier;
   final Talker _logger;
 
   StreamSubscription<SyncMessage>? _sub;
@@ -43,6 +47,8 @@ class SyncBootstrap {
             await _orderApplier.apply(message);
           case 'stock':
             await _stockApplier.apply(message);
+          case 'tickets':
+            await _ticketApplier.apply(message);
           default:
             _logger.warning('[SyncBootstrap] unknown topic "${message.topic}"');
         }
@@ -56,6 +62,7 @@ class SyncBootstrap {
     });
     _syncManager.subscribe('orders');
     _syncManager.subscribe('stock');
+    _syncManager.subscribe('tickets');
   }
 
   Future<void> stop() async {

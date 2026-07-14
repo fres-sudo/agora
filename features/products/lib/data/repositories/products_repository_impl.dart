@@ -200,6 +200,10 @@ class ProductsRepositoryImpl extends Repository implements ProductsRepository {
   );
 
   @override
+  Future<Result<List<String>>> getPrepStations() =>
+      safe('getPrepStations', () => _productsDao.distinctPrepStations());
+
+  @override
   Future<Result<int>> deleteProduct(int id) =>
       safe('deleteProduct($id)', () async {
         await _productsDao.softDeleteProduct(id);

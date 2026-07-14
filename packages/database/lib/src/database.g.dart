@@ -677,6 +677,17 @@ class $ProductsTableTable extends ProductsTable
     requiredDuringInsert: false,
     defaultValue: const Constant('draft'),
   );
+  static const VerificationMeta _prepStationMeta = const VerificationMeta(
+    'prepStation',
+  );
+  @override
+  late final GeneratedColumn<String> prepStation = GeneratedColumn<String>(
+    'prep_station',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -693,6 +704,7 @@ class $ProductsTableTable extends ProductsTable
     cost,
     taxPercent,
     status,
+    prepStation,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -792,6 +804,15 @@ class $ProductsTableTable extends ProductsTable
         status.isAcceptableOrUnknown(data['status']!, _statusMeta),
       );
     }
+    if (data.containsKey('prep_station')) {
+      context.handle(
+        _prepStationMeta,
+        prepStation.isAcceptableOrUnknown(
+          data['prep_station']!,
+          _prepStationMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -857,6 +878,10 @@ class $ProductsTableTable extends ProductsTable
         DriftSqlType.string,
         data['${effectivePrefix}status'],
       )!,
+      prepStation: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prep_station'],
+      ),
     );
   }
 
@@ -881,6 +906,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
   final int cost;
   final int taxPercent;
   final String status;
+  final String? prepStation;
   const ProductEntity({
     required this.id,
     required this.createdAt,
@@ -896,6 +922,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     required this.cost,
     required this.taxPercent,
     required this.status,
+    this.prepStation,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -924,6 +951,9 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     map['cost'] = Variable<int>(cost);
     map['tax_percent'] = Variable<int>(taxPercent);
     map['status'] = Variable<String>(status);
+    if (!nullToAbsent || prepStation != null) {
+      map['prep_station'] = Variable<String>(prepStation);
+    }
     return map;
   }
 
@@ -951,6 +981,9 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
       cost: Value(cost),
       taxPercent: Value(taxPercent),
       status: Value(status),
+      prepStation: prepStation == null && nullToAbsent
+          ? const Value.absent()
+          : Value(prepStation),
     );
   }
 
@@ -974,6 +1007,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
       cost: serializer.fromJson<int>(json['cost']),
       taxPercent: serializer.fromJson<int>(json['taxPercent']),
       status: serializer.fromJson<String>(json['status']),
+      prepStation: serializer.fromJson<String?>(json['prepStation']),
     );
   }
   @override
@@ -994,6 +1028,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
       'cost': serializer.toJson<int>(cost),
       'taxPercent': serializer.toJson<int>(taxPercent),
       'status': serializer.toJson<String>(status),
+      'prepStation': serializer.toJson<String?>(prepStation),
     };
   }
 
@@ -1012,6 +1047,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     int? cost,
     int? taxPercent,
     String? status,
+    Value<String?> prepStation = const Value.absent(),
   }) => ProductEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -1027,6 +1063,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     cost: cost ?? this.cost,
     taxPercent: taxPercent ?? this.taxPercent,
     status: status ?? this.status,
+    prepStation: prepStation.present ? prepStation.value : this.prepStation,
   );
   ProductEntity copyWithCompanion(ProductsTableCompanion data) {
     return ProductEntity(
@@ -1052,6 +1089,9 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           ? data.taxPercent.value
           : this.taxPercent,
       status: data.status.present ? data.status.value : this.status,
+      prepStation: data.prepStation.present
+          ? data.prepStation.value
+          : this.prepStation,
     );
   }
 
@@ -1071,7 +1111,8 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           ..write('price: $price, ')
           ..write('cost: $cost, ')
           ..write('taxPercent: $taxPercent, ')
-          ..write('status: $status')
+          ..write('status: $status, ')
+          ..write('prepStation: $prepStation')
           ..write(')'))
         .toString();
   }
@@ -1092,6 +1133,7 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
     cost,
     taxPercent,
     status,
+    prepStation,
   );
   @override
   bool operator ==(Object other) =>
@@ -1110,7 +1152,8 @@ class ProductEntity extends DataClass implements Insertable<ProductEntity> {
           other.price == this.price &&
           other.cost == this.cost &&
           other.taxPercent == this.taxPercent &&
-          other.status == this.status);
+          other.status == this.status &&
+          other.prepStation == this.prepStation);
 }
 
 class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
@@ -1128,6 +1171,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
   final Value<int> cost;
   final Value<int> taxPercent;
   final Value<String> status;
+  final Value<String?> prepStation;
   const ProductsTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -1143,6 +1187,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     this.cost = const Value.absent(),
     this.taxPercent = const Value.absent(),
     this.status = const Value.absent(),
+    this.prepStation = const Value.absent(),
   });
   ProductsTableCompanion.insert({
     this.id = const Value.absent(),
@@ -1159,6 +1204,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     this.cost = const Value.absent(),
     this.taxPercent = const Value.absent(),
     this.status = const Value.absent(),
+    this.prepStation = const Value.absent(),
   }) : name = Value(name);
   static Insertable<ProductEntity> custom({
     Expression<int>? id,
@@ -1175,6 +1221,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     Expression<int>? cost,
     Expression<int>? taxPercent,
     Expression<String>? status,
+    Expression<String>? prepStation,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1191,6 +1238,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
       if (cost != null) 'cost': cost,
       if (taxPercent != null) 'tax_percent': taxPercent,
       if (status != null) 'status': status,
+      if (prepStation != null) 'prep_station': prepStation,
     });
   }
 
@@ -1209,6 +1257,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     Value<int>? cost,
     Value<int>? taxPercent,
     Value<String>? status,
+    Value<String?>? prepStation,
   }) {
     return ProductsTableCompanion(
       id: id ?? this.id,
@@ -1225,6 +1274,7 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
       cost: cost ?? this.cost,
       taxPercent: taxPercent ?? this.taxPercent,
       status: status ?? this.status,
+      prepStation: prepStation ?? this.prepStation,
     );
   }
 
@@ -1273,6 +1323,9 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
     if (status.present) {
       map['status'] = Variable<String>(status.value);
     }
+    if (prepStation.present) {
+      map['prep_station'] = Variable<String>(prepStation.value);
+    }
     return map;
   }
 
@@ -1292,7 +1345,8 @@ class ProductsTableCompanion extends UpdateCompanion<ProductEntity> {
           ..write('price: $price, ')
           ..write('cost: $cost, ')
           ..write('taxPercent: $taxPercent, ')
-          ..write('status: $status')
+          ..write('status: $status, ')
+          ..write('prepStation: $prepStation')
           ..write(')'))
         .toString();
   }
@@ -4420,6 +4474,29 @@ class $OrderItemsTableTable extends OrderItemsTable
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _prepStationMeta = const VerificationMeta(
+    'prepStation',
+  );
+  @override
+  late final GeneratedColumn<String> prepStation = GeneratedColumn<String>(
+    'prep_station',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _ticketStatusMeta = const VerificationMeta(
+    'ticketStatus',
+  );
+  @override
+  late final GeneratedColumn<int> ticketStatus = GeneratedColumn<int>(
+    'ticket_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4433,6 +4510,8 @@ class $OrderItemsTableTable extends OrderItemsTable
     costPrice,
     quantity,
     discountAmount,
+    prepStation,
+    ticketStatus,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4523,6 +4602,24 @@ class $OrderItemsTableTable extends OrderItemsTable
         ),
       );
     }
+    if (data.containsKey('prep_station')) {
+      context.handle(
+        _prepStationMeta,
+        prepStation.isAcceptableOrUnknown(
+          data['prep_station']!,
+          _prepStationMeta,
+        ),
+      );
+    }
+    if (data.containsKey('ticket_status')) {
+      context.handle(
+        _ticketStatusMeta,
+        ticketStatus.isAcceptableOrUnknown(
+          data['ticket_status']!,
+          _ticketStatusMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4576,6 +4673,14 @@ class $OrderItemsTableTable extends OrderItemsTable
         DriftSqlType.int,
         data['${effectivePrefix}discount_amount'],
       )!,
+      prepStation: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prep_station'],
+      ),
+      ticketStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}ticket_status'],
+      )!,
     );
   }
 
@@ -4597,6 +4702,8 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   final int costPrice;
   final int quantity;
   final int discountAmount;
+  final String? prepStation;
+  final int ticketStatus;
   const OrderItemEntity({
     required this.id,
     required this.createdAt,
@@ -4609,6 +4716,8 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     required this.costPrice,
     required this.quantity,
     required this.discountAmount,
+    this.prepStation,
+    required this.ticketStatus,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4630,6 +4739,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     map['cost_price'] = Variable<int>(costPrice);
     map['quantity'] = Variable<int>(quantity);
     map['discount_amount'] = Variable<int>(discountAmount);
+    if (!nullToAbsent || prepStation != null) {
+      map['prep_station'] = Variable<String>(prepStation);
+    }
+    map['ticket_status'] = Variable<int>(ticketStatus);
     return map;
   }
 
@@ -4652,6 +4765,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       costPrice: Value(costPrice),
       quantity: Value(quantity),
       discountAmount: Value(discountAmount),
+      prepStation: prepStation == null && nullToAbsent
+          ? const Value.absent()
+          : Value(prepStation),
+      ticketStatus: Value(ticketStatus),
     );
   }
 
@@ -4672,6 +4789,8 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       costPrice: serializer.fromJson<int>(json['costPrice']),
       quantity: serializer.fromJson<int>(json['quantity']),
       discountAmount: serializer.fromJson<int>(json['discountAmount']),
+      prepStation: serializer.fromJson<String?>(json['prepStation']),
+      ticketStatus: serializer.fromJson<int>(json['ticketStatus']),
     );
   }
   @override
@@ -4689,6 +4808,8 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       'costPrice': serializer.toJson<int>(costPrice),
       'quantity': serializer.toJson<int>(quantity),
       'discountAmount': serializer.toJson<int>(discountAmount),
+      'prepStation': serializer.toJson<String?>(prepStation),
+      'ticketStatus': serializer.toJson<int>(ticketStatus),
     };
   }
 
@@ -4704,6 +4825,8 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     int? costPrice,
     int? quantity,
     int? discountAmount,
+    Value<String?> prepStation = const Value.absent(),
+    int? ticketStatus,
   }) => OrderItemEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -4716,6 +4839,8 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     costPrice: costPrice ?? this.costPrice,
     quantity: quantity ?? this.quantity,
     discountAmount: discountAmount ?? this.discountAmount,
+    prepStation: prepStation.present ? prepStation.value : this.prepStation,
+    ticketStatus: ticketStatus ?? this.ticketStatus,
   );
   OrderItemEntity copyWithCompanion(OrderItemsTableCompanion data) {
     return OrderItemEntity(
@@ -4734,6 +4859,12 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       discountAmount: data.discountAmount.present
           ? data.discountAmount.value
           : this.discountAmount,
+      prepStation: data.prepStation.present
+          ? data.prepStation.value
+          : this.prepStation,
+      ticketStatus: data.ticketStatus.present
+          ? data.ticketStatus.value
+          : this.ticketStatus,
     );
   }
 
@@ -4750,7 +4881,9 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
           ..write('unitPrice: $unitPrice, ')
           ..write('costPrice: $costPrice, ')
           ..write('quantity: $quantity, ')
-          ..write('discountAmount: $discountAmount')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('prepStation: $prepStation, ')
+          ..write('ticketStatus: $ticketStatus')
           ..write(')'))
         .toString();
   }
@@ -4768,6 +4901,8 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     costPrice,
     quantity,
     discountAmount,
+    prepStation,
+    ticketStatus,
   );
   @override
   bool operator ==(Object other) =>
@@ -4783,7 +4918,9 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
           other.unitPrice == this.unitPrice &&
           other.costPrice == this.costPrice &&
           other.quantity == this.quantity &&
-          other.discountAmount == this.discountAmount);
+          other.discountAmount == this.discountAmount &&
+          other.prepStation == this.prepStation &&
+          other.ticketStatus == this.ticketStatus);
 }
 
 class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
@@ -4798,6 +4935,8 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
   final Value<int> costPrice;
   final Value<int> quantity;
   final Value<int> discountAmount;
+  final Value<String?> prepStation;
+  final Value<int> ticketStatus;
   const OrderItemsTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -4810,6 +4949,8 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     this.costPrice = const Value.absent(),
     this.quantity = const Value.absent(),
     this.discountAmount = const Value.absent(),
+    this.prepStation = const Value.absent(),
+    this.ticketStatus = const Value.absent(),
   });
   OrderItemsTableCompanion.insert({
     this.id = const Value.absent(),
@@ -4823,6 +4964,8 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     required int costPrice,
     this.quantity = const Value.absent(),
     this.discountAmount = const Value.absent(),
+    this.prepStation = const Value.absent(),
+    this.ticketStatus = const Value.absent(),
   }) : orderId = Value(orderId),
        productName = Value(productName),
        unitPrice = Value(unitPrice),
@@ -4839,6 +4982,8 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     Expression<int>? costPrice,
     Expression<int>? quantity,
     Expression<int>? discountAmount,
+    Expression<String>? prepStation,
+    Expression<int>? ticketStatus,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4852,6 +4997,8 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
       if (costPrice != null) 'cost_price': costPrice,
       if (quantity != null) 'quantity': quantity,
       if (discountAmount != null) 'discount_amount': discountAmount,
+      if (prepStation != null) 'prep_station': prepStation,
+      if (ticketStatus != null) 'ticket_status': ticketStatus,
     });
   }
 
@@ -4867,6 +5014,8 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     Value<int>? costPrice,
     Value<int>? quantity,
     Value<int>? discountAmount,
+    Value<String?>? prepStation,
+    Value<int>? ticketStatus,
   }) {
     return OrderItemsTableCompanion(
       id: id ?? this.id,
@@ -4880,6 +5029,8 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
       costPrice: costPrice ?? this.costPrice,
       quantity: quantity ?? this.quantity,
       discountAmount: discountAmount ?? this.discountAmount,
+      prepStation: prepStation ?? this.prepStation,
+      ticketStatus: ticketStatus ?? this.ticketStatus,
     );
   }
 
@@ -4919,6 +5070,12 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     if (discountAmount.present) {
       map['discount_amount'] = Variable<int>(discountAmount.value);
     }
+    if (prepStation.present) {
+      map['prep_station'] = Variable<String>(prepStation.value);
+    }
+    if (ticketStatus.present) {
+      map['ticket_status'] = Variable<int>(ticketStatus.value);
+    }
     return map;
   }
 
@@ -4935,7 +5092,9 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
           ..write('unitPrice: $unitPrice, ')
           ..write('costPrice: $costPrice, ')
           ..write('quantity: $quantity, ')
-          ..write('discountAmount: $discountAmount')
+          ..write('discountAmount: $discountAmount, ')
+          ..write('prepStation: $prepStation, ')
+          ..write('ticketStatus: $ticketStatus')
           ..write(')'))
         .toString();
   }
@@ -8665,6 +8824,7 @@ typedef $$ProductsTableTableCreateCompanionBuilder =
       Value<int> cost,
       Value<int> taxPercent,
       Value<String> status,
+      Value<String?> prepStation,
     });
 typedef $$ProductsTableTableUpdateCompanionBuilder =
     ProductsTableCompanion Function({
@@ -8682,6 +8842,7 @@ typedef $$ProductsTableTableUpdateCompanionBuilder =
       Value<int> cost,
       Value<int> taxPercent,
       Value<String> status,
+      Value<String?> prepStation,
     });
 
 final class $$ProductsTableTableReferences
@@ -8890,6 +9051,11 @@ class $$ProductsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get prepStation => $composableBuilder(
+    column: $table.prepStation,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$CategoriesTableTableFilterComposer get categoryId {
     final $$CategoriesTableTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -9090,6 +9256,11 @@ class $$ProductsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get prepStation => $composableBuilder(
+    column: $table.prepStation,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$CategoriesTableTableOrderingComposer get categoryId {
     final $$CategoriesTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -9167,6 +9338,11 @@ class $$ProductsTableTableAnnotationComposer
 
   GeneratedColumn<String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get prepStation => $composableBuilder(
+    column: $table.prepStation,
+    builder: (column) => column,
+  );
 
   $$CategoriesTableTableAnnotationComposer get categoryId {
     final $$CategoriesTableTableAnnotationComposer composer = $composerBuilder(
@@ -9345,6 +9521,7 @@ class $$ProductsTableTableTableManager
                 Value<int> cost = const Value.absent(),
                 Value<int> taxPercent = const Value.absent(),
                 Value<String> status = const Value.absent(),
+                Value<String?> prepStation = const Value.absent(),
               }) => ProductsTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -9360,6 +9537,7 @@ class $$ProductsTableTableTableManager
                 cost: cost,
                 taxPercent: taxPercent,
                 status: status,
+                prepStation: prepStation,
               ),
           createCompanionCallback:
               ({
@@ -9377,6 +9555,7 @@ class $$ProductsTableTableTableManager
                 Value<int> cost = const Value.absent(),
                 Value<int> taxPercent = const Value.absent(),
                 Value<String> status = const Value.absent(),
+                Value<String?> prepStation = const Value.absent(),
               }) => ProductsTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -9392,6 +9571,7 @@ class $$ProductsTableTableTableManager
                 cost: cost,
                 taxPercent: taxPercent,
                 status: status,
+                prepStation: prepStation,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -12066,6 +12246,8 @@ typedef $$OrderItemsTableTableCreateCompanionBuilder =
       required int costPrice,
       Value<int> quantity,
       Value<int> discountAmount,
+      Value<String?> prepStation,
+      Value<int> ticketStatus,
     });
 typedef $$OrderItemsTableTableUpdateCompanionBuilder =
     OrderItemsTableCompanion Function({
@@ -12080,6 +12262,8 @@ typedef $$OrderItemsTableTableUpdateCompanionBuilder =
       Value<int> costPrice,
       Value<int> quantity,
       Value<int> discountAmount,
+      Value<String?> prepStation,
+      Value<int> ticketStatus,
     });
 
 final class $$OrderItemsTableTableReferences
@@ -12215,6 +12399,16 @@ class $$OrderItemsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get prepStation => $composableBuilder(
+    column: $table.prepStation,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get ticketStatus => $composableBuilder(
+    column: $table.ticketStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$OrdersTableTableFilterComposer get orderId {
     final $$OrdersTableTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -12341,6 +12535,16 @@ class $$OrderItemsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get prepStation => $composableBuilder(
+    column: $table.prepStation,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get ticketStatus => $composableBuilder(
+    column: $table.ticketStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$OrdersTableTableOrderingComposer get orderId {
     final $$OrdersTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -12425,6 +12629,16 @@ class $$OrderItemsTableTableAnnotationComposer
 
   GeneratedColumn<int> get discountAmount => $composableBuilder(
     column: $table.discountAmount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get prepStation => $composableBuilder(
+    column: $table.prepStation,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get ticketStatus => $composableBuilder(
+    column: $table.ticketStatus,
     builder: (column) => column,
   );
 
@@ -12546,6 +12760,8 @@ class $$OrderItemsTableTableTableManager
                 Value<int> costPrice = const Value.absent(),
                 Value<int> quantity = const Value.absent(),
                 Value<int> discountAmount = const Value.absent(),
+                Value<String?> prepStation = const Value.absent(),
+                Value<int> ticketStatus = const Value.absent(),
               }) => OrderItemsTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -12558,6 +12774,8 @@ class $$OrderItemsTableTableTableManager
                 costPrice: costPrice,
                 quantity: quantity,
                 discountAmount: discountAmount,
+                prepStation: prepStation,
+                ticketStatus: ticketStatus,
               ),
           createCompanionCallback:
               ({
@@ -12572,6 +12790,8 @@ class $$OrderItemsTableTableTableManager
                 required int costPrice,
                 Value<int> quantity = const Value.absent(),
                 Value<int> discountAmount = const Value.absent(),
+                Value<String?> prepStation = const Value.absent(),
+                Value<int> ticketStatus = const Value.absent(),
               }) => OrderItemsTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -12584,6 +12804,8 @@ class $$OrderItemsTableTableTableManager
                 costPrice: costPrice,
                 quantity: quantity,
                 discountAmount: discountAmount,
+                prepStation: prepStation,
+                ticketStatus: ticketStatus,
               ),
           withReferenceMapper: (p0) => p0
               .map(

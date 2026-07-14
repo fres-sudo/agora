@@ -11,6 +11,8 @@ import 'package:feature_discounts/presentation/routes/discounts_feature.dart';
 import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_inventory/data/sync/stock_sync_handler.dart';
 import 'package:feature_inventory/presentation/routes/inventory_feature.dart';
+import 'package:feature_kitchen/data/sync/ticket_status_sync_handler.dart';
+import 'package:feature_kitchen/presentation/routes/kitchen_feature.dart';
 import 'package:feature_onboarding/presentation/routes/onboarding_feature.dart';
 import 'package:feature_orders/data/sync/order_sync_handler.dart';
 import 'package:feature_orders/presentation/routes/orders_feature.dart';
@@ -148,6 +150,9 @@ List<SingleChildWidget> _buildProviders({
       manager.registerHandler(
         StockSyncHandler(webSocket: ctx.read<SyncWebSocket>()),
       );
+      manager.registerHandler(
+        TicketStatusSyncHandler(webSocket: ctx.read<SyncWebSocket>()),
+      );
       return manager;
     },
     dispose: (_, manager) => manager.stop(),
@@ -247,6 +252,8 @@ const List<AppFeature> _remainingFeatures = [
   DiscountsFeature(), // must be before Orders (CheckoutCubit reads DiscountsRepository)
   OrdersFeature(),
   ReportsFeature(), // must be after Orders + Products (reads both)
-  SyncFeature(), // must be last — reads OrdersDao/OrderItemsDao (Orders)
-  // and StocksDao/StockMovementsDao (Inventory), both registered above
+  KitchenFeature(), // before Sync (reads TicketsDao)
+  SyncFeature(), // must be last — reads OrdersDao/OrderItemsDao (Orders),
+  // StocksDao/StockMovementsDao (Inventory) and TicketsDao (Kitchen), all
+  // registered above
 ];

@@ -52,6 +52,7 @@ class OrdersRepositoryImpl extends SyncableRepository
                 ),
               )
               .toList(),
+          prepStation: itemEntity.prepStation,
         ),
       );
     }
@@ -124,6 +125,7 @@ class OrdersRepositoryImpl extends SyncableRepository
             'productName': item.productName,
             'quantity': item.quantity,
             'unitPriceCents': item.unitPriceCents,
+            'prepStation': item.prepStation,
             'modifiers': item.selectedModifiers
                 .map(
                   (m) => {
@@ -150,6 +152,7 @@ class OrdersRepositoryImpl extends SyncableRepository
       costPrice: 0, // Cost price not tracked in OrderLineItem model
       quantity: Value(item.quantity),
       discountAmount: Value(0), // Discount applied at order level
+      prepStation: Value(item.prepStation),
     );
   }
 

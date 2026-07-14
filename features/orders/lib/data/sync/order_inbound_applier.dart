@@ -81,6 +81,7 @@ class OrderInboundApplier {
             costPrice: 0,
             quantity: Value(item['quantity'] as int),
             discountAmount: const Value(0),
+            prepStation: Value(item['prepStation'] as String?),
           ),
         );
 

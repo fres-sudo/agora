@@ -22,4 +22,9 @@ class ProductsTable extends Table with TableMixin {
   IntColumn get taxPercent =>
       integer().withDefault(const Constant(0))(); // Tax percentage
   TextColumn get status => text().withDefault(const Constant('draft'))();
+
+  // Free-text prep-station label (e.g. "Griglia", "Bar") used to route this
+  // product's order items to a kitchen ticket queue. Null means the item
+  // never leaves the regular customer receipt (docs/features/02-kitchen-ticket-routing.md).
+  TextColumn get prepStation => text().nullable()();
 }

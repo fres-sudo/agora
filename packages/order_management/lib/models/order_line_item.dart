@@ -18,6 +18,11 @@ abstract class OrderLineItem with _$OrderLineItem {
     required int quantity,
     required int unitPriceCents, // Snapshot price
     required List<SelectedModifiers> selectedModifiers,
+
+    /// Prep-station snapshot (from `Product.prepStation` at the moment this
+    /// line was added). Null = never ticketed, stays on the customer
+    /// receipt only (docs/features/02-kitchen-ticket-routing.md).
+    String? prepStation,
   }) = _OrderLineItem;
 
   const OrderLineItem._();

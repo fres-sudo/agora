@@ -23,7 +23,10 @@ mixin _$OrderLineItem {
  int get id; int? get productId;// Nullable in case product was deleted later
  String get productName;// Snapshot name
  int get quantity; int get unitPriceCents;// Snapshot price
- List<SelectedModifiers> get selectedModifiers;
+ List<SelectedModifiers> get selectedModifiers;/// Prep-station snapshot (from `Product.prepStation` at the moment this
+/// line was added). Null = never ticketed, stays on the customer
+/// receipt only (docs/features/02-kitchen-ticket-routing.md).
+ String? get prepStation;
 /// Create a copy of OrderLineItem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -34,16 +37,16 @@ $OrderLineItemCopyWith<OrderLineItem> get copyWith => _$OrderLineItemCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderLineItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceCents, unitPriceCents) || other.unitPriceCents == unitPriceCents)&&const DeepCollectionEquality().equals(other.selectedModifiers, selectedModifiers));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OrderLineItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceCents, unitPriceCents) || other.unitPriceCents == unitPriceCents)&&const DeepCollectionEquality().equals(other.selectedModifiers, selectedModifiers)&&(identical(other.prepStation, prepStation) || other.prepStation == prepStation));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,productName,quantity,unitPriceCents,const DeepCollectionEquality().hash(selectedModifiers));
+int get hashCode => Object.hash(runtimeType,id,productId,productName,quantity,unitPriceCents,const DeepCollectionEquality().hash(selectedModifiers),prepStation);
 
 @override
 String toString() {
-  return 'OrderLineItem(id: $id, productId: $productId, productName: $productName, quantity: $quantity, unitPriceCents: $unitPriceCents, selectedModifiers: $selectedModifiers)';
+  return 'OrderLineItem(id: $id, productId: $productId, productName: $productName, quantity: $quantity, unitPriceCents: $unitPriceCents, selectedModifiers: $selectedModifiers, prepStation: $prepStation)';
 }
 
 
@@ -54,7 +57,7 @@ abstract mixin class $OrderLineItemCopyWith<$Res>  {
   factory $OrderLineItemCopyWith(OrderLineItem value, $Res Function(OrderLineItem) _then) = _$OrderLineItemCopyWithImpl;
 @useResult
 $Res call({
- int id, int? productId, String productName, int quantity, int unitPriceCents, List<SelectedModifiers> selectedModifiers
+ int id, int? productId, String productName, int quantity, int unitPriceCents, List<SelectedModifiers> selectedModifiers, String? prepStation
 });
 
 
@@ -71,7 +74,7 @@ class _$OrderLineItemCopyWithImpl<$Res>
 
 /// Create a copy of OrderLineItem
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productId = freezed,Object? productName = null,Object? quantity = null,Object? unitPriceCents = null,Object? selectedModifiers = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? productId = freezed,Object? productName = null,Object? quantity = null,Object? unitPriceCents = null,Object? selectedModifiers = null,Object? prepStation = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
@@ -79,7 +82,8 @@ as int?,productName: null == productName ? _self.productName : productName // ig
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,unitPriceCents: null == unitPriceCents ? _self.unitPriceCents : unitPriceCents // ignore: cast_nullable_to_non_nullable
 as int,selectedModifiers: null == selectedModifiers ? _self.selectedModifiers : selectedModifiers // ignore: cast_nullable_to_non_nullable
-as List<SelectedModifiers>,
+as List<SelectedModifiers>,prepStation: freezed == prepStation ? _self.prepStation : prepStation // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -164,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int? productId,  String productName,  int quantity,  int unitPriceCents,  List<SelectedModifiers> selectedModifiers)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int? productId,  String productName,  int quantity,  int unitPriceCents,  List<SelectedModifiers> selectedModifiers,  String? prepStation)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OrderLineItem() when $default != null:
-return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.unitPriceCents,_that.selectedModifiers);case _:
+return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.unitPriceCents,_that.selectedModifiers,_that.prepStation);case _:
   return orElse();
 
 }
@@ -185,10 +189,10 @@ return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int? productId,  String productName,  int quantity,  int unitPriceCents,  List<SelectedModifiers> selectedModifiers)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int? productId,  String productName,  int quantity,  int unitPriceCents,  List<SelectedModifiers> selectedModifiers,  String? prepStation)  $default,) {final _that = this;
 switch (_that) {
 case _OrderLineItem():
-return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.unitPriceCents,_that.selectedModifiers);case _:
+return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.unitPriceCents,_that.selectedModifiers,_that.prepStation);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +209,10 @@ return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int? productId,  String productName,  int quantity,  int unitPriceCents,  List<SelectedModifiers> selectedModifiers)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int? productId,  String productName,  int quantity,  int unitPriceCents,  List<SelectedModifiers> selectedModifiers,  String? prepStation)?  $default,) {final _that = this;
 switch (_that) {
 case _OrderLineItem() when $default != null:
-return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.unitPriceCents,_that.selectedModifiers);case _:
+return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.unitPriceCents,_that.selectedModifiers,_that.prepStation);case _:
   return null;
 
 }
@@ -220,7 +224,7 @@ return $default(_that.id,_that.productId,_that.productName,_that.quantity,_that.
 
 
 class _OrderLineItem extends OrderLineItem {
-  const _OrderLineItem({required this.id, this.productId, required this.productName, required this.quantity, required this.unitPriceCents, required final  List<SelectedModifiers> selectedModifiers}): _selectedModifiers = selectedModifiers,super._();
+  const _OrderLineItem({required this.id, this.productId, required this.productName, required this.quantity, required this.unitPriceCents, required final  List<SelectedModifiers> selectedModifiers, this.prepStation}): _selectedModifiers = selectedModifiers,super._();
   
 
 /// Cart-local unique identifier (assigned by [ActiveOrderBloc] when the
@@ -245,6 +249,10 @@ class _OrderLineItem extends OrderLineItem {
   return EqualUnmodifiableListView(_selectedModifiers);
 }
 
+/// Prep-station snapshot (from `Product.prepStation` at the moment this
+/// line was added). Null = never ticketed, stays on the customer
+/// receipt only (docs/features/02-kitchen-ticket-routing.md).
+@override final  String? prepStation;
 
 /// Create a copy of OrderLineItem
 /// with the given fields replaced by the non-null parameter values.
@@ -256,16 +264,16 @@ _$OrderLineItemCopyWith<_OrderLineItem> get copyWith => __$OrderLineItemCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderLineItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceCents, unitPriceCents) || other.unitPriceCents == unitPriceCents)&&const DeepCollectionEquality().equals(other._selectedModifiers, _selectedModifiers));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OrderLineItem&&(identical(other.id, id) || other.id == id)&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.unitPriceCents, unitPriceCents) || other.unitPriceCents == unitPriceCents)&&const DeepCollectionEquality().equals(other._selectedModifiers, _selectedModifiers)&&(identical(other.prepStation, prepStation) || other.prepStation == prepStation));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,productId,productName,quantity,unitPriceCents,const DeepCollectionEquality().hash(_selectedModifiers));
+int get hashCode => Object.hash(runtimeType,id,productId,productName,quantity,unitPriceCents,const DeepCollectionEquality().hash(_selectedModifiers),prepStation);
 
 @override
 String toString() {
-  return 'OrderLineItem(id: $id, productId: $productId, productName: $productName, quantity: $quantity, unitPriceCents: $unitPriceCents, selectedModifiers: $selectedModifiers)';
+  return 'OrderLineItem(id: $id, productId: $productId, productName: $productName, quantity: $quantity, unitPriceCents: $unitPriceCents, selectedModifiers: $selectedModifiers, prepStation: $prepStation)';
 }
 
 
@@ -276,7 +284,7 @@ abstract mixin class _$OrderLineItemCopyWith<$Res> implements $OrderLineItemCopy
   factory _$OrderLineItemCopyWith(_OrderLineItem value, $Res Function(_OrderLineItem) _then) = __$OrderLineItemCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int? productId, String productName, int quantity, int unitPriceCents, List<SelectedModifiers> selectedModifiers
+ int id, int? productId, String productName, int quantity, int unitPriceCents, List<SelectedModifiers> selectedModifiers, String? prepStation
 });
 
 
@@ -293,7 +301,7 @@ class __$OrderLineItemCopyWithImpl<$Res>
 
 /// Create a copy of OrderLineItem
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productId = freezed,Object? productName = null,Object? quantity = null,Object? unitPriceCents = null,Object? selectedModifiers = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? productId = freezed,Object? productName = null,Object? quantity = null,Object? unitPriceCents = null,Object? selectedModifiers = null,Object? prepStation = freezed,}) {
   return _then(_OrderLineItem(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,productId: freezed == productId ? _self.productId : productId // ignore: cast_nullable_to_non_nullable
@@ -301,7 +309,8 @@ as int?,productName: null == productName ? _self.productName : productName // ig
 as String,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,unitPriceCents: null == unitPriceCents ? _self.unitPriceCents : unitPriceCents // ignore: cast_nullable_to_non_nullable
 as int,selectedModifiers: null == selectedModifiers ? _self._selectedModifiers : selectedModifiers // ignore: cast_nullable_to_non_nullable
-as List<SelectedModifiers>,
+as List<SelectedModifiers>,prepStation: freezed == prepStation ? _self.prepStation : prepStation // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

@@ -5,6 +5,9 @@ import 'package:feature_inventory/data/sources/local/daos/stock_movements_dao.da
 import 'package:feature_inventory/data/sources/local/daos/stocks_dao.dart';
 import 'package:feature_inventory/data/sync/stock_apply_handler.dart';
 import 'package:feature_inventory/data/sync/stock_inbound_applier.dart';
+import 'package:feature_kitchen/data/sources/local/daos/tickets_dao.dart';
+import 'package:feature_kitchen/data/sync/ticket_apply_handler.dart';
+import 'package:feature_kitchen/data/sync/ticket_inbound_applier.dart';
 import 'package:feature_orders/data/sources/local/daos/order_items_dao.dart';
 import 'package:feature_orders/data/sources/local/daos/orders_dao.dart';
 import 'package:feature_orders/data/sync/order_apply_handler.dart';
@@ -19,16 +22,17 @@ import 'sync_bootstrap.dart';
 
 /// Cross-feature glue for LAN sync (docs/features/01-lan-sync.md): the
 /// pairing/hosting infrastructure (`packages/lan_hub`) combined with
-/// per-topic handlers that live inside `features/orders` and
-/// `features/inventory`. This lives in the app shell rather than as its
-/// own `features/` package because it needs DAOs from both of those
-/// features at once — a third feature importing two others would violate
-/// the `features ↛ features` rule.
+/// per-topic handlers that live inside `features/orders`,
+/// `features/inventory` and `features/kitchen`
+/// (docs/features/02-kitchen-ticket-routing.md). This lives in the app
+/// shell rather than as its own `features/` package because it needs DAOs
+/// from multiple features at once — a third feature importing the others
+/// would violate the `features ↛ features` rule.
 ///
 /// Registered **last** in `_remainingFeatures` (see app_providers.dart):
 /// every provider it reads (`OrdersDao`, `OrderItemsDao`, `StocksDao`,
-/// `StockMovementsDao`, plus the core sync infra registered earlier in
-/// `_buildProviders`) must already exist in the tree.
+/// `StockMovementsDao`, `TicketsDao`, plus the core sync infra registered
+/// earlier in `_buildProviders`) must already exist in the tree.
 class SyncFeature extends AppFeature {
   const SyncFeature();
 
@@ -52,6 +56,10 @@ class SyncFeature extends AppFeature {
           'stock': StockApplyHandler(
             stocksDao: ctx.read<StocksDao>(),
             stockMovementsDao: ctx.read<StockMovementsDao>(),
+            logger: ctx.read<Talker>(),
+          ),
+          'tickets': TicketApplyHandler(
+            ticketsDao: ctx.read<TicketsDao>(),
             logger: ctx.read<Talker>(),
           ),
         },
@@ -89,6 +97,10 @@ class SyncFeature extends AppFeature {
         stockApplier: StockInboundApplier(
           stocksDao: ctx.read<StocksDao>(),
           stockMovementsDao: ctx.read<StockMovementsDao>(),
+          logger: ctx.read<Talker>(),
+        ),
+        ticketApplier: TicketInboundApplier(
+          ticketsDao: ctx.read<TicketsDao>(),
           logger: ctx.read<Talker>(),
         ),
         logger: ctx.read<Talker>(),

@@ -26,7 +26,10 @@ mixin _$ProductFormData {
  int get taxPercent;/// Stock quantity.
  int get stockQuantity;/// Product status.
  ProductStatus get status;/// Selected modifier group IDs.
- List<int> get selectedModifierIds;
+ List<int> get selectedModifierIds;/// Free-text kitchen prep-station label (e.g. "Griglia"). Null = this
+/// product's line items stay on the customer receipt only, never
+/// ticketed (docs/features/02-kitchen-ticket-routing.md).
+ String? get prepStation;
 /// Create a copy of ProductFormData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,16 +40,16 @@ $ProductFormDataCopyWith<ProductFormData> get copyWith => _$ProductFormDataCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductFormData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.selectedModifierIds, selectedModifierIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductFormData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.selectedModifierIds, selectedModifierIds)&&(identical(other.prepStation, prepStation) || other.prepStation == prepStation));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,status,const DeepCollectionEquality().hash(selectedModifierIds));
+int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,status,const DeepCollectionEquality().hash(selectedModifierIds),prepStation);
 
 @override
 String toString() {
-  return 'ProductFormData(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, status: $status, selectedModifierIds: $selectedModifierIds)';
+  return 'ProductFormData(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, status: $status, selectedModifierIds: $selectedModifierIds, prepStation: $prepStation)';
 }
 
 
@@ -57,7 +60,7 @@ abstract mixin class $ProductFormDataCopyWith<$Res>  {
   factory $ProductFormDataCopyWith(ProductFormData value, $Res Function(ProductFormData) _then) = _$ProductFormDataCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String description, String sku, String? imageUrl, int? categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, ProductStatus status, List<int> selectedModifierIds
+ int id, String name, String description, String sku, String? imageUrl, int? categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, ProductStatus status, List<int> selectedModifierIds, String? prepStation
 });
 
 
@@ -74,7 +77,7 @@ class _$ProductFormDataCopyWithImpl<$Res>
 
 /// Create a copy of ProductFormData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? sku = null,Object? imageUrl = freezed,Object? categoryId = freezed,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? status = null,Object? selectedModifierIds = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? sku = null,Object? imageUrl = freezed,Object? categoryId = freezed,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? status = null,Object? selectedModifierIds = null,Object? prepStation = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -88,7 +91,8 @@ as int,taxPercent: null == taxPercent ? _self.taxPercent : taxPercent // ignore:
 as int,stockQuantity: null == stockQuantity ? _self.stockQuantity : stockQuantity // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ProductStatus,selectedModifierIds: null == selectedModifierIds ? _self.selectedModifierIds : selectedModifierIds // ignore: cast_nullable_to_non_nullable
-as List<int>,
+as List<int>,prepStation: freezed == prepStation ? _self.prepStation : prepStation // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -173,10 +177,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String description,  String sku,  String? imageUrl,  int? categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<int> selectedModifierIds)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String description,  String sku,  String? imageUrl,  int? categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<int> selectedModifierIds,  String? prepStation)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProductFormData() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.selectedModifierIds);case _:
+return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.selectedModifierIds,_that.prepStation);case _:
   return orElse();
 
 }
@@ -194,10 +198,10 @@ return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String description,  String sku,  String? imageUrl,  int? categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<int> selectedModifierIds)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String description,  String sku,  String? imageUrl,  int? categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<int> selectedModifierIds,  String? prepStation)  $default,) {final _that = this;
 switch (_that) {
 case _ProductFormData():
-return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.selectedModifierIds);case _:
+return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.selectedModifierIds,_that.prepStation);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -214,10 +218,10 @@ return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String description,  String sku,  String? imageUrl,  int? categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<int> selectedModifierIds)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String description,  String sku,  String? imageUrl,  int? categoryId,  int priceCents,  int costCents,  int taxPercent,  int stockQuantity,  ProductStatus status,  List<int> selectedModifierIds,  String? prepStation)?  $default,) {final _that = this;
 switch (_that) {
 case _ProductFormData() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.selectedModifierIds);case _:
+return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_that.categoryId,_that.priceCents,_that.costCents,_that.taxPercent,_that.stockQuantity,_that.status,_that.selectedModifierIds,_that.prepStation);case _:
   return null;
 
 }
@@ -229,7 +233,7 @@ return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_
 
 
 class _ProductFormData extends ProductFormData {
-  const _ProductFormData({this.id = 0, this.name = '', this.description = '', this.sku = '', this.imageUrl, this.categoryId, this.priceCents = 0, this.costCents = 0, this.taxPercent = 0, this.stockQuantity = 0, this.status = ProductStatus.draft, final  List<int> selectedModifierIds = const []}): _selectedModifierIds = selectedModifierIds,super._();
+  const _ProductFormData({this.id = 0, this.name = '', this.description = '', this.sku = '', this.imageUrl, this.categoryId, this.priceCents = 0, this.costCents = 0, this.taxPercent = 0, this.stockQuantity = 0, this.status = ProductStatus.draft, final  List<int> selectedModifierIds = const [], this.prepStation}): _selectedModifierIds = selectedModifierIds,super._();
   
 
 /// The product ID (0 for new products).
@@ -263,6 +267,10 @@ class _ProductFormData extends ProductFormData {
   return EqualUnmodifiableListView(_selectedModifierIds);
 }
 
+/// Free-text kitchen prep-station label (e.g. "Griglia"). Null = this
+/// product's line items stay on the customer receipt only, never
+/// ticketed (docs/features/02-kitchen-ticket-routing.md).
+@override final  String? prepStation;
 
 /// Create a copy of ProductFormData
 /// with the given fields replaced by the non-null parameter values.
@@ -274,16 +282,16 @@ _$ProductFormDataCopyWith<_ProductFormData> get copyWith => __$ProductFormDataCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductFormData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._selectedModifierIds, _selectedModifierIds));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductFormData&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._selectedModifierIds, _selectedModifierIds)&&(identical(other.prepStation, prepStation) || other.prepStation == prepStation));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,status,const DeepCollectionEquality().hash(_selectedModifierIds));
+int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,status,const DeepCollectionEquality().hash(_selectedModifierIds),prepStation);
 
 @override
 String toString() {
-  return 'ProductFormData(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, status: $status, selectedModifierIds: $selectedModifierIds)';
+  return 'ProductFormData(id: $id, name: $name, description: $description, sku: $sku, imageUrl: $imageUrl, categoryId: $categoryId, priceCents: $priceCents, costCents: $costCents, taxPercent: $taxPercent, stockQuantity: $stockQuantity, status: $status, selectedModifierIds: $selectedModifierIds, prepStation: $prepStation)';
 }
 
 
@@ -294,7 +302,7 @@ abstract mixin class _$ProductFormDataCopyWith<$Res> implements $ProductFormData
   factory _$ProductFormDataCopyWith(_ProductFormData value, $Res Function(_ProductFormData) _then) = __$ProductFormDataCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String description, String sku, String? imageUrl, int? categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, ProductStatus status, List<int> selectedModifierIds
+ int id, String name, String description, String sku, String? imageUrl, int? categoryId, int priceCents, int costCents, int taxPercent, int stockQuantity, ProductStatus status, List<int> selectedModifierIds, String? prepStation
 });
 
 
@@ -311,7 +319,7 @@ class __$ProductFormDataCopyWithImpl<$Res>
 
 /// Create a copy of ProductFormData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? sku = null,Object? imageUrl = freezed,Object? categoryId = freezed,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? status = null,Object? selectedModifierIds = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? sku = null,Object? imageUrl = freezed,Object? categoryId = freezed,Object? priceCents = null,Object? costCents = null,Object? taxPercent = null,Object? stockQuantity = null,Object? status = null,Object? selectedModifierIds = null,Object? prepStation = freezed,}) {
   return _then(_ProductFormData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -325,7 +333,8 @@ as int,taxPercent: null == taxPercent ? _self.taxPercent : taxPercent // ignore:
 as int,stockQuantity: null == stockQuantity ? _self.stockQuantity : stockQuantity // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as ProductStatus,selectedModifierIds: null == selectedModifierIds ? _self._selectedModifierIds : selectedModifierIds // ignore: cast_nullable_to_non_nullable
-as List<int>,
+as List<int>,prepStation: freezed == prepStation ? _self.prepStation : prepStation // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

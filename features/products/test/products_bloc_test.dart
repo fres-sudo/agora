@@ -122,6 +122,9 @@ class _FakeProductsRepository implements ProductsRepository {
   Future<Result<int>> deleteProduct(int id) => throw UnimplementedError();
 
   @override
+  Future<Result<List<String>>> getPrepStations() => throw UnimplementedError();
+
+  @override
   Future<Result<bool>> restoreProduct(int id) => throw UnimplementedError();
 }
 

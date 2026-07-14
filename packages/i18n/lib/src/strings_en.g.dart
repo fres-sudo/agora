@@ -386,6 +386,12 @@ class TranslationsProductsFormEn {
 	/// en: 'Enter SKU or barcode...'
 	String get sku_hint => 'Enter SKU or barcode...';
 
+	/// en: 'Prep station'
+	String get prep_station => 'Prep station';
+
+	/// en: 'e.g. Griglia, Bar, Dolci (leave empty for no kitchen ticket)'
+	String get prep_station_hint => 'e.g. Griglia, Bar, Dolci (leave empty for no kitchen ticket)';
+
 	/// en: 'Price'
 	String get price => 'Price';
 
@@ -644,6 +650,8 @@ extension on Translations {
 			'products.form.description_hint' => 'Enter product description...',
 			'products.form.sku' => 'SKU',
 			'products.form.sku_hint' => 'Enter SKU or barcode...',
+			'products.form.prep_station' => 'Prep station',
+			'products.form.prep_station_hint' => 'e.g. Griglia, Bar, Dolci (leave empty for no kitchen ticket)',
 			'products.form.price' => 'Price',
 			'products.form.tax' => 'Tax',
 			'products.form.qty' => 'Qty',

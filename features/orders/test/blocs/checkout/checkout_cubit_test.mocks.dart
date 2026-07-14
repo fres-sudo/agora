@@ -705,6 +705,19 @@ class MockProductsRepository extends _i1.Mock
           as _i3.Future<_i5.Result<int>>);
 
   @override
+  _i3.Future<_i5.Result<List<String>>> getPrepStations() =>
+      (super.noSuchMethod(
+            Invocation.method(#getPrepStations, []),
+            returnValue: _i3.Future<_i5.Result<List<String>>>.value(
+              _i6.dummyValue<_i5.Result<List<String>>>(
+                this,
+                Invocation.method(#getPrepStations, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<List<String>>>);
+
+  @override
   _i3.Future<_i5.Result<_i9.Product>> createProduct(_i9.Product? product) =>
       (super.noSuchMethod(
             Invocation.method(#createProduct, [product]),

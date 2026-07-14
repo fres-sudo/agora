@@ -20,6 +20,15 @@ class OrderItemsTable extends Table with TableMixin {
 
   IntColumn get quantity => integer().withDefault(const Constant(1))();
   IntColumn get discountAmount => integer().withDefault(const Constant(0))();
+
+  // Prep-station snapshot (from ProductsTable.prepStation at sale time, same
+  // reasoning as productName/unitPrice above). Null = never ticketed, stays
+  // on the customer receipt only (docs/features/02-kitchen-ticket-routing.md).
+  TextColumn get prepStation => text().nullable()();
+
+  // Kitchen ticket status: 0=pending, 1=inProgress, 2=ready, 3=bumped.
+  // Meaningless for items with a null prepStation.
+  IntColumn get ticketStatus => integer().withDefault(const Constant(0))();
 }
 
 // Tracks specific choices made for a line item (e.g., "No Sugar")

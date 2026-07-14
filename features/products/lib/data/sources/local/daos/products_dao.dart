@@ -76,6 +76,18 @@ class ProductsDao extends DatabaseAccessor<AgoraDatabase>
         .getSingleOrNull();
   }
 
+  /// Distinct non-null prep-station labels already used on other products,
+  /// for autocompleting the product form's "Prep station" field — there is
+  /// no separate stations table (docs/features/02-kitchen-ticket-routing.md).
+  Future<List<String>> distinctPrepStations() async {
+    final query = selectOnly(productsTable, distinct: true)
+      ..addColumns([productsTable.prepStation])
+      ..where(productsTable.prepStation.isNotNull());
+    final rows = await query.get();
+    return rows.map((row) => row.read(productsTable.prepStation)!).toList()
+      ..sort();
+  }
+
   /// Gets the total count of active products with optional filters.
   Future<int> getProductsCount({int? categoryId, String? searchTerm}) async {
     final count = productsTable.id.count();

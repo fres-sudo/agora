@@ -117,6 +117,7 @@ class ActiveOrderBloc
         unitPriceCents: event.product.priceCents,
         quantity: event.quantity,
         selectedModifiers: event.modifiers,
+        prepStation: event.product.prepStation,
       );
       _items = [..._items, lineItem];
     }

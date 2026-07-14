@@ -35,6 +35,40 @@ extension OrderReceiptMapper on Order {
     );
   }
 
+  /// Groups this order's line items by prep station and builds one ticket
+  /// [Receipt] per station — a simpler receipt variant with no
+  /// totals/payment block that matters to the kitchen. Items with no
+  /// station are never ticketed; they stay on the customer receipt only
+  /// (docs/features/02-kitchen-ticket-routing.md).
+  List<Receipt> toStationTickets() {
+    final byStation = <String, List<OrderLineItem>>{};
+    for (final item in items) {
+      final station = item.prepStation;
+      if (station == null) continue;
+      (byStation[station] ??= []).add(item);
+    }
+
+    return byStation.entries.map((entry) {
+      final lines = entry.value.map(_lineFor).toList();
+      final totalCents = lines.fold(
+        0,
+        (sum, line) => sum + line.lineTotalCents,
+      );
+      return Receipt(
+        storeName: entry.key.toUpperCase(),
+        header: 'KITCHEN TICKET',
+        orderNumber: (id ?? 0).toString(),
+        createdAt: createdAt,
+        lines: lines,
+        subtotalCents: totalCents,
+        taxCents: 0,
+        discountCents: 0,
+        totalCents: totalCents,
+        showTax: false,
+      );
+    }).toList();
+  }
+
   ReceiptLine _lineFor(OrderLineItem item) => ReceiptLine(
     name: item.productName,
     quantity: item.quantity,

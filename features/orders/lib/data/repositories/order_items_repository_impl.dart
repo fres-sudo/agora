@@ -39,6 +39,7 @@ class OrderItemsRepositoryImpl extends Repository
             ),
           )
           .toList(),
+      prepStation: entity.prepStation,
     );
   }
 
@@ -54,6 +55,7 @@ class OrderItemsRepositoryImpl extends Repository
       costPrice: 0, // Cost price not tracked in OrderLineItem model
       quantity: Value(item.quantity),
       discountAmount: Value(0), // Discount applied at order level
+      prepStation: Value(item.prepStation),
     );
   }
 

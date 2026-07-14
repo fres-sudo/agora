@@ -56,6 +56,7 @@ class ProductFormCubit extends Cubit<ProductFormState> {
           selectedModifierIds: product.modifierGroups
               .map((group) => group.id)
               .toList(),
+          prepStation: product.prepStation,
         ),
         isEditing: true,
       ),
@@ -165,6 +166,14 @@ class ProductFormCubit extends Cubit<ProductFormState> {
   void updateImageUrl(String? imageUrl) =>
       updateFormData((d) => d.copyWith(imageUrl: imageUrl));
 
+  void updatePrepStation(String? prepStation) => updateFormData(
+    (d) => d.copyWith(
+      prepStation: (prepStation == null || prepStation.trim().isEmpty)
+          ? null
+          : prepStation.trim(),
+    ),
+  );
+
   void toggleModifier(int modifierId) {
     updateFormData((data) {
       final modifiers = List<int>.from(data.selectedModifierIds);
@@ -215,6 +224,7 @@ class ProductFormCubit extends Cubit<ProductFormState> {
       taxPercent: formData.taxPercent,
       stockQuantity: formData.stockQuantity,
       status: asDraft ? ProductStatus.draft : formData.status,
+      prepStation: formData.prepStation,
     );
 
     final isNew = formData.id == 0;

@@ -267,6 +267,14 @@ class MockProductsDao extends _i1.Mock implements _i6.ProductsDao {
           as _i5.Future<_i2.ProductEntity?>);
 
   @override
+  _i5.Future<List<String>> distinctPrepStations() =>
+      (super.noSuchMethod(
+            Invocation.method(#distinctPrepStations, []),
+            returnValue: _i5.Future<List<String>>.value(<String>[]),
+          )
+          as _i5.Future<List<String>>);
+
+  @override
   _i5.Future<int> getProductsCount({int? categoryId, String? searchTerm}) =>
       (super.noSuchMethod(
             Invocation.method(#getProductsCount, [], {

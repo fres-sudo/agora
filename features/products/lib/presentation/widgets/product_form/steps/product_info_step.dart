@@ -1,10 +1,12 @@
 import 'package:i18n/i18n.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/blocs/categories/categories_bloc.dart';
+import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_photo_picker_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:result/result.dart';
 
 /// Step 1: Product Info - name, category, description, SKU.
 class ProductInfoStep extends StatefulWidget {
@@ -18,6 +20,8 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _skuController;
+  late String _initialPrepStation;
+  List<String> _prepStationSuggestions = const [];
 
   @override
   void initState() {
@@ -33,6 +37,13 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
       text: formData?.description ?? '',
     );
     _skuController = TextEditingController(text: formData?.sku ?? '');
+    _initialPrepStation = formData?.prepStation ?? '';
+    context.read<ProductsRepository>().getPrepStations().then((result) {
+      if (!mounted) return;
+      if (result case Ok<List<String>>(:final value)) {
+        setState(() => _prepStationSuggestions = value);
+      }
+    });
   }
 
   @override
@@ -154,6 +165,34 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                 onChanged: cubit.updateSku,
                 hintText: t.products.form.sku_hint,
                 errorText: errors['sku'],
+              ),
+              const SizedBox(height: Sizes.lg),
+
+              // Prep station (kitchen ticket routing)
+              _FormLabel(label: t.products.form.prep_station),
+              const SizedBox(height: Sizes.sm),
+              Autocomplete<String>(
+                initialValue: TextEditingValue(text: _initialPrepStation),
+                optionsBuilder: (textEditingValue) {
+                  if (textEditingValue.text.isEmpty) {
+                    return _prepStationSuggestions;
+                  }
+                  return _prepStationSuggestions.where(
+                    (station) => station.toLowerCase().contains(
+                      textEditingValue.text.toLowerCase(),
+                    ),
+                  );
+                },
+                onSelected: cubit.updatePrepStation,
+                fieldViewBuilder:
+                    (context, controller, focusNode, onFieldSubmitted) {
+                      return AppTextField(
+                        controller: controller,
+                        focusNode: focusNode,
+                        onChanged: cubit.updatePrepStation,
+                        hintText: t.products.form.prep_station_hint,
+                      );
+                    },
               ),
             ],
           ),

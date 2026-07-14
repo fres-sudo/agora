@@ -29,6 +29,7 @@ extension ProductEntityMapper on ProductEntity {
       trackStock: trackStock,
       status: _parseStatus(status),
       modifierGroups: modifierGroups,
+      prepStation: prepStation,
     );
   }
 
@@ -60,6 +61,7 @@ extension ProductModelMapper on Product {
       taxPercent: Value(taxPercent),
       trackStock: Value(trackStock),
       status: Value(_statusToString(status)),
+      prepStation: Value(prepStation),
     );
   }
 
@@ -76,6 +78,7 @@ extension ProductModelMapper on Product {
       taxPercent: Value(taxPercent),
       trackStock: Value(trackStock),
       status: Value(_statusToString(status)),
+      prepStation: Value(prepStation),
     );
   }
 

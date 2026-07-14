@@ -43,7 +43,7 @@ class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration {
@@ -100,6 +100,15 @@ class AgoraDatabase extends _$AgoraDatabase {
             'CREATE UNIQUE INDEX IF NOT EXISTS idx_stock_movements_sync_id '
             'ON stock_movements_table (sync_id)',
           );
+        }
+        if (from < 6) {
+          // v5 -> v6: kitchen/stand ticket routing
+          // (docs/features/02-kitchen-ticket-routing.md). A product may be
+          // labelled with a free-text prep station; order items snapshot
+          // that label plus a per-item ticket status at sale time.
+          await m.addColumn(productsTable, productsTable.prepStation);
+          await m.addColumn(orderItemsTable, orderItemsTable.prepStation);
+          await m.addColumn(orderItemsTable, orderItemsTable.ticketStatus);
         }
       },
     );

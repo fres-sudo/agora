@@ -1,0 +1,44 @@
+name: feature_kitchen
+description: Kitchen/stand ticket routing feature
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: '>=3.38.5'
+
+dependencies:
+  app_settings:
+    path: ../../packages/app_settings
+  auto_route: ^11.1.0
+  bloc_exports:
+    path: ../../packages/bloc
+  database:
+    path: ../../packages/database
+  drift: ^2.30.0
+  errors:
+    path: ../../packages/errors
+  flutter:
+    sdk: flutter
+  kitchen:
+    path: ../../packages/kitchen
+  lan_hub:
+    path: ../../packages/lan_hub
+  logger:
+    path: ../../packages/logger
+  result:
+    path: ../../packages/result
+  sync_engine:
+    path: ../../packages/sync_engine
+  talker: ^5.1.9
+  ui_kit:
+    path: ../../packages/ui_kit
+
+dev_dependencies:
+  auto_route_generator: ^10.2.6
+  bloc_test: ^10.0.0
+  build_runner: ^2.4.7
+  drift_dev: ^2.30.0
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.5.0

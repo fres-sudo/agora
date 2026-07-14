@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_inventory/feature_inventory.dart';
+import 'package:feature_kitchen/feature_kitchen.dart';
 import 'package:feature_onboarding/onboarding.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_pos/feature_pos.dart';
@@ -52,6 +53,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: SettingsRoute.page),
         AutoRoute(page: ProductsRoute.page),
         AutoRoute(page: InventoryRoute.page),
+        AutoRoute(page: StationQueueRoute.page),
         AutoRoute(page: EmployeesRoute.page),
         AutoRoute(page: ClockRecordsRoute.page),
       ],

@@ -32,6 +32,11 @@ abstract interface class ProductsRepository {
   /// Gets the total count of products.
   Future<Result<int>> getProductsCount({int? categoryId, String? searchTerm});
 
+  /// Distinct prep-station labels already used by other products, for
+  /// autocompleting the "Prep station" field
+  /// (docs/features/02-kitchen-ticket-routing.md).
+  Future<Result<List<String>>> getPrepStations();
+
   // ============================================================
   // WRITE OPERATIONS - Returns entity for optimistic updates
   // ============================================================

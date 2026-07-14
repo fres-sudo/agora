@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:feature_auth/feature_auth.dart';
 import 'package:feature_flags/feature_flags.dart';
 import 'package:feature_inventory/feature_inventory.dart';
+import 'package:feature_kitchen/feature_kitchen.dart';
 import 'package:feature_orders/feature_orders.dart';
 import 'package:feature_pos/feature_pos.dart';
 import 'package:feature_products/feature_products.dart';
@@ -74,6 +75,15 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
           label: 'Inventory',
         ),
         InventoryRoute(),
+      ),
+    if (profile.has(Capability.kitchenRouting))
+      const _NavEntry(
+        AppShellNavItem(
+          icon: AgoraIcons.chef_hat,
+          selectedIcon: AgoraIcons.chef_hat_solid,
+          label: 'Kitchen',
+        ),
+        StationQueueRoute(),
       ),
     const _NavEntry(
       AppShellNavItem(

@@ -20,6 +20,10 @@ abstract class Product with _$Product {
     @Default(true) bool trackStock, // Whether sales decrement stock
     @Default(ProductStatus.draft) ProductStatus status,
     @Default([]) List<ModifierGroup> modifierGroups,
+    // Free-text kitchen prep-station label (e.g. "Griglia"). Null = this
+    // product's line items stay on the customer receipt only, never
+    // ticketed (docs/features/02-kitchen-ticket-routing.md).
+    String? prepStation,
   }) = _Product;
 
   const Product._();

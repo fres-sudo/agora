@@ -388,6 +388,145 @@ void main() {
         await cubit.close();
       });
     });
+
+    group(
+      'kitchen ticket printing (docs/features/02-kitchen-ticket-routing.md)',
+      () {
+        void stubSuccessfulSale() {
+          when(ordersRepository.createOrder(any)).thenAnswer((
+            invocation,
+          ) async {
+            final order = invocation.positionalArguments.first as Order;
+            return Result.ok(order.copyWith(id: 42));
+          });
+          when(
+            productsRepository.getProductById(any),
+          ).thenAnswer((_) async => Result.ok(product(id: 1)));
+          when(
+            inventoryRepository.decrementForOrder(
+              productId: anyNamed('productId'),
+              quantity: anyNamed('quantity'),
+              orderId: anyNamed('orderId'),
+            ),
+          ).thenAnswer((_) async => Result.ok((productId: 1, quantity: 98)));
+        }
+
+        test(
+          'confirm() prints a ticket for an item routed to a station',
+          () async {
+            stubSuccessfulSale();
+            final cubit = buildCubit();
+            cubit.start(
+              buildCart(
+                items: const [
+                  OrderLineItem(
+                    id: 1,
+                    productId: 1,
+                    productName: 'Bruschette',
+                    quantity: 2,
+                    unitPriceCents: 400,
+                    selectedModifiers: [],
+                    prepStation: 'Griglia',
+                  ),
+                ],
+              ),
+            );
+            cubit.setTendered(1000);
+            await cubit.confirm();
+
+            // The kitchen ticket prints automatically on confirm(); the
+            // customer receipt only prints on an explicit printReceipt()
+            // call — so exactly one job exists at this point.
+            expect(printerService.printedJobs, hasLength(1));
+            await cubit.close();
+          },
+        );
+
+        test('confirm() prints one ticket per distinct station, and none for '
+            'unrouted items', () async {
+          stubSuccessfulSale();
+          final cubit = buildCubit();
+          cubit.start(
+            buildCart(
+              items: const [
+                OrderLineItem(
+                  id: 1,
+                  productId: 1,
+                  productName: 'Bruschette',
+                  quantity: 1,
+                  unitPriceCents: 400,
+                  selectedModifiers: [],
+                  prepStation: 'Griglia',
+                ),
+                OrderLineItem(
+                  id: 2,
+                  productId: 1,
+                  productName: 'Acqua',
+                  quantity: 1,
+                  unitPriceCents: 100,
+                  selectedModifiers: [],
+                  prepStation: 'Bar',
+                ),
+                OrderLineItem(
+                  id: 3,
+                  productId: 1,
+                  productName: 'Tovagliolo',
+                  quantity: 1,
+                  unitPriceCents: 0,
+                  selectedModifiers: [],
+                  // No station — stays on the receipt only.
+                ),
+              ],
+            ),
+          );
+          cubit.setTendered(1000);
+          await cubit.confirm();
+
+          expect(printerService.printedJobs, hasLength(2));
+          await cubit.close();
+        });
+
+        test(
+          'confirm() prints nothing when no item is routed to a station',
+          () async {
+            stubSuccessfulSale();
+            final cubit = buildCubit();
+            cubit.start(buildCart()); // default cart item has no prepStation
+            cubit.setTendered(1000);
+            await cubit.confirm();
+
+            expect(printerService.printedJobs, isEmpty);
+            await cubit.close();
+          },
+        );
+
+        test('a ticket print failure does NOT fail the sale', () async {
+          stubSuccessfulSale();
+          printerService.failPrint = true;
+          final cubit = buildCubit();
+          cubit.start(
+            buildCart(
+              items: const [
+                OrderLineItem(
+                  id: 1,
+                  productId: 1,
+                  productName: 'Bruschette',
+                  quantity: 1,
+                  unitPriceCents: 400,
+                  selectedModifiers: [],
+                  prepStation: 'Griglia',
+                ),
+              ],
+            ),
+          );
+          cubit.setTendered(1000);
+          await cubit.confirm();
+
+          expect(cubit.state, isA<CheckoutSuccess>());
+          await cubit.close();
+        });
+      },
+    );
   });
 
   // Keep the completedFrom helper referenced to avoid unused warnings if the

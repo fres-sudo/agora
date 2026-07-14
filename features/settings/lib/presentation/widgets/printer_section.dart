@@ -8,7 +8,7 @@ import 'package:result/result.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Printer configuration: the network addresses of the receipt and kitchen
-/// thermal printers.
+/// thermal printers, plus this device's kitchen prep station.
 ///
 /// Persists the `printer_ip_*` keys via [SettingsCubit]. The actual transport
 /// is wired by the app via the `printing` package's `PrinterService`.
@@ -20,8 +20,16 @@ class PrinterSection extends StatefulWidget {
 }
 
 class _PrinterSectionState extends State<PrinterSection> {
+  // Mirrors `kitchenStationDeviceSettingKey` in
+  // `feature_kitchen/presentation/pages/station_queue_page.dart` — a plain
+  // string literal, not a shared constant, since `feature_settings` and
+  // `feature_kitchen` must not import each other
+  // (docs/features/02-kitchen-ticket-routing.md; `features ↛ features`).
+  static const _keyKitchenStationDevice = 'kitchen_station_device';
+
   final _receiptCtrl = TextEditingController();
   final _kitchenCtrl = TextEditingController();
+  final _stationCtrl = TextEditingController();
   bool _isDirty = false;
   bool _isSaving = false;
   bool _isPrintingTest = false;
@@ -32,6 +40,7 @@ class _PrinterSectionState extends State<PrinterSection> {
     _loadFromSettings();
     _receiptCtrl.addListener(_onChanged);
     _kitchenCtrl.addListener(_onChanged);
+    _stationCtrl.addListener(_onChanged);
   }
 
   void _loadFromSettings() {
@@ -40,6 +49,7 @@ class _PrinterSectionState extends State<PrinterSection> {
         cubit.getString(AppSettingsDao.keyPrinterIpReceipt) ?? '';
     _kitchenCtrl.text =
         cubit.getString(AppSettingsDao.keyPrinterIpKitchen) ?? '';
+    _stationCtrl.text = cubit.getString(_keyKitchenStationDevice) ?? '';
   }
 
   void _onChanged() {
@@ -59,6 +69,7 @@ class _PrinterSectionState extends State<PrinterSection> {
         AppSettingsDao.keyPrinterIpKitchen,
         _kitchenCtrl.text.trim(),
       ),
+      cubit.update(_keyKitchenStationDevice, _stationCtrl.text.trim()),
     ]);
 
     if (!mounted) return;
@@ -136,8 +147,10 @@ class _PrinterSectionState extends State<PrinterSection> {
   void dispose() {
     _receiptCtrl.removeListener(_onChanged);
     _kitchenCtrl.removeListener(_onChanged);
+    _stationCtrl.removeListener(_onChanged);
     _receiptCtrl.dispose();
     _kitchenCtrl.dispose();
+    _stationCtrl.dispose();
     super.dispose();
   }
 
@@ -165,6 +178,12 @@ class _PrinterSectionState extends State<PrinterSection> {
               label: 'Kitchen Printer IP',
               hint: 'e.g. 192.168.1.51',
               controller: _kitchenCtrl,
+            ),
+            SizedBox(height: context.tokens.spaceMd),
+            AppTextField(
+              label: "This device's station",
+              hintText: 'e.g. Griglia (leave empty if this is the cash stand)',
+              controller: _stationCtrl,
             ),
             SizedBox(height: context.tokens.spaceLg),
             Align(
