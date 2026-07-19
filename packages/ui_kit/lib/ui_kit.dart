@@ -45,6 +45,12 @@ export 'src/molecules/app_empty_state.dart';
 export 'src/molecules/app_search_field.dart';
 export 'src/molecules/app_segmented_control.dart';
 
+// -- Overlays ------------------------------------------------------------
+export 'src/overlays/app_select.dart';
+export 'src/overlays/app_multi_select.dart';
+export 'src/overlays/app_combobox.dart';
+export 'src/overlays/app_creatable_combobox.dart';
+
 // -- Organisms ---------------------------------------------------------------
 export 'src/organisms/app_dialog.dart';
 export 'src/organisms/app_app_bar.dart';

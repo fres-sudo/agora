@@ -11,6 +11,9 @@ import 'package:mocktail/mocktail.dart'; // Using mocktail for widget tests ofte
 class MockProductsBloc extends MockBloc<ProductsEvent, ProductsState>
     implements ProductsBloc {}
 
+class MockCombosBloc extends MockBloc<CombosEvent, CombosState>
+    implements CombosBloc {}
+
 class MockActiveOrderBloc extends MockBloc<ActiveOrderEvent, ActiveOrderState>
     implements ActiveOrderBloc {}
 
@@ -19,6 +22,7 @@ class MockSettingsCubit extends MockCubit<SettingsState>
 
 void main() {
   late MockProductsBloc mockProductsBloc;
+  late MockCombosBloc mockCombosBloc;
   late MockActiveOrderBloc mockActiveOrderBloc;
   late MockSettingsCubit mockSettingsCubit;
 
@@ -39,6 +43,7 @@ void main() {
 
   setUp(() {
     mockProductsBloc = MockProductsBloc();
+    mockCombosBloc = MockCombosBloc();
     mockActiveOrderBloc = MockActiveOrderBloc();
     mockSettingsCubit = MockSettingsCubit();
     // PosPage wraps its content in an EffectListener that subscribes to
@@ -47,6 +52,12 @@ void main() {
     when(
       () => mockActiveOrderBloc.effects,
     ).thenAnswer((_) => const Stream.empty());
+    // The POS grid merges in enabled combos alongside products
+    // (docs/features/03-combo-modifier-pricing.md); default to none so
+    // existing product-only assertions are unaffected.
+    when(
+      () => mockCombosBloc.state,
+    ).thenReturn(const CombosState.loaded(combos: []));
     // PosProductGrid/PosOrderPanel/PosPage read SettingsCubit for the
     // currency symbol and receipt config.
     when(
@@ -58,6 +69,7 @@ void main() {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ProductsBloc>.value(value: mockProductsBloc),
+        BlocProvider<CombosBloc>.value(value: mockCombosBloc),
         BlocProvider<ActiveOrderBloc>.value(value: mockActiveOrderBloc),
         BlocProvider<SettingsCubit>.value(value: mockSettingsCubit),
       ],
@@ -77,6 +89,7 @@ void main() {
 
     // Verify initial events
     verify(() => mockProductsBloc.add(const ProductsEvent.started())).called(1);
+    verify(() => mockCombosBloc.add(const CombosEvent.started())).called(1);
     verify(
       () => mockActiveOrderBloc.add(const ActiveOrderEvent.started()),
     ).called(1);

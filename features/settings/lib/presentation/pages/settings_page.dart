@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:feature_settings/presentation/widgets/category_section.dart';
+import 'package:feature_settings/presentation/widgets/combo_section.dart';
 import 'package:feature_settings/presentation/widgets/danger_zone_section.dart';
 import 'package:feature_settings/presentation/widgets/modifier_section.dart';
 import 'package:feature_settings/presentation/widgets/payment_method_section.dart';
@@ -47,6 +48,12 @@ class _SettingsPageState extends State<SettingsPage> {
             selectedIcon: AgoraIcons.filter_solid,
             label: 'Modifier',
             child: const ModifierSection(),
+          ),
+          SectionSidebarItemData(
+            icon: AgoraIcons.gift,
+            selectedIcon: AgoraIcons.gift_solid,
+            label: 'Combo',
+            child: const ComboSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.card,

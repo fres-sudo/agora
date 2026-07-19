@@ -55,12 +55,13 @@ extension ActiveOrderEventPatterns on ActiveOrderEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _ItemAdded value)?  itemAdded,TResult Function( _ItemRemoved value)?  itemRemoved,TResult Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult Function( _OrderTypeChanged value)?  orderTypeChanged,TResult Function( _DiscountApplied value)?  discountApplied,TResult Function( _DiscountRemoved value)?  discountRemoved,TResult Function( _NoteUpdated value)?  noteUpdated,TResult Function( _Submitted value)?  submitted,TResult Function( _Cleared value)?  cleared,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _ItemAdded value)?  itemAdded,TResult Function( _ComboAdded value)?  comboAdded,TResult Function( _ItemRemoved value)?  itemRemoved,TResult Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult Function( _OrderTypeChanged value)?  orderTypeChanged,TResult Function( _DiscountApplied value)?  discountApplied,TResult Function( _DiscountRemoved value)?  discountRemoved,TResult Function( _NoteUpdated value)?  noteUpdated,TResult Function( _Submitted value)?  submitted,TResult Function( _Cleared value)?  cleared,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _ItemAdded() when itemAdded != null:
-return itemAdded(_that);case _ItemRemoved() when itemRemoved != null:
+return itemAdded(_that);case _ComboAdded() when comboAdded != null:
+return comboAdded(_that);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that);case _ItemQuantityChanged() when itemQuantityChanged != null:
 return itemQuantityChanged(_that);case _OrderTypeChanged() when orderTypeChanged != null:
 return orderTypeChanged(_that);case _DiscountApplied() when discountApplied != null:
@@ -86,12 +87,13 @@ return cleared(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _ItemAdded value)  itemAdded,required TResult Function( _ItemRemoved value)  itemRemoved,required TResult Function( _ItemQuantityChanged value)  itemQuantityChanged,required TResult Function( _OrderTypeChanged value)  orderTypeChanged,required TResult Function( _DiscountApplied value)  discountApplied,required TResult Function( _DiscountRemoved value)  discountRemoved,required TResult Function( _NoteUpdated value)  noteUpdated,required TResult Function( _Submitted value)  submitted,required TResult Function( _Cleared value)  cleared,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _ItemAdded value)  itemAdded,required TResult Function( _ComboAdded value)  comboAdded,required TResult Function( _ItemRemoved value)  itemRemoved,required TResult Function( _ItemQuantityChanged value)  itemQuantityChanged,required TResult Function( _OrderTypeChanged value)  orderTypeChanged,required TResult Function( _DiscountApplied value)  discountApplied,required TResult Function( _DiscountRemoved value)  discountRemoved,required TResult Function( _NoteUpdated value)  noteUpdated,required TResult Function( _Submitted value)  submitted,required TResult Function( _Cleared value)  cleared,}){
 final _that = this;
 switch (_that) {
 case _Started():
 return started(_that);case _ItemAdded():
-return itemAdded(_that);case _ItemRemoved():
+return itemAdded(_that);case _ComboAdded():
+return comboAdded(_that);case _ItemRemoved():
 return itemRemoved(_that);case _ItemQuantityChanged():
 return itemQuantityChanged(_that);case _OrderTypeChanged():
 return orderTypeChanged(_that);case _DiscountApplied():
@@ -113,12 +115,13 @@ return cleared(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _ItemAdded value)?  itemAdded,TResult? Function( _ItemRemoved value)?  itemRemoved,TResult? Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult? Function( _OrderTypeChanged value)?  orderTypeChanged,TResult? Function( _DiscountApplied value)?  discountApplied,TResult? Function( _DiscountRemoved value)?  discountRemoved,TResult? Function( _NoteUpdated value)?  noteUpdated,TResult? Function( _Submitted value)?  submitted,TResult? Function( _Cleared value)?  cleared,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _ItemAdded value)?  itemAdded,TResult? Function( _ComboAdded value)?  comboAdded,TResult? Function( _ItemRemoved value)?  itemRemoved,TResult? Function( _ItemQuantityChanged value)?  itemQuantityChanged,TResult? Function( _OrderTypeChanged value)?  orderTypeChanged,TResult? Function( _DiscountApplied value)?  discountApplied,TResult? Function( _DiscountRemoved value)?  discountRemoved,TResult? Function( _NoteUpdated value)?  noteUpdated,TResult? Function( _Submitted value)?  submitted,TResult? Function( _Cleared value)?  cleared,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _ItemAdded() when itemAdded != null:
-return itemAdded(_that);case _ItemRemoved() when itemRemoved != null:
+return itemAdded(_that);case _ComboAdded() when comboAdded != null:
+return comboAdded(_that);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that);case _ItemQuantityChanged() when itemQuantityChanged != null:
 return itemQuantityChanged(_that);case _OrderTypeChanged() when orderTypeChanged != null:
 return orderTypeChanged(_that);case _DiscountApplied() when discountApplied != null:
@@ -143,11 +146,12 @@ return cleared(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)?  itemAdded,TResult Function( int lineItemId)?  itemRemoved,TResult Function( int lineItemId,  int quantity)?  itemQuantityChanged,TResult Function( OrderType orderType)?  orderTypeChanged,TResult Function( Discount discount)?  discountApplied,TResult Function()?  discountRemoved,TResult Function( String note)?  noteUpdated,TResult Function()?  submitted,TResult Function()?  cleared,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)?  itemAdded,TResult Function( Combo combo,  List<ComboLineComponent> components,  int quantity)?  comboAdded,TResult Function( int lineItemId)?  itemRemoved,TResult Function( int lineItemId,  int quantity)?  itemQuantityChanged,TResult Function( OrderType orderType)?  orderTypeChanged,TResult Function( Discount discount)?  discountApplied,TResult Function()?  discountRemoved,TResult Function( String note)?  noteUpdated,TResult Function()?  submitted,TResult Function()?  cleared,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _ItemAdded() when itemAdded != null:
-return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved() when itemRemoved != null:
+return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ComboAdded() when comboAdded != null:
+return comboAdded(_that.combo,_that.components,_that.quantity);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that.lineItemId);case _ItemQuantityChanged() when itemQuantityChanged != null:
 return itemQuantityChanged(_that.lineItemId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
 return orderTypeChanged(_that.orderType);case _DiscountApplied() when discountApplied != null:
@@ -173,11 +177,12 @@ return cleared();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)  itemAdded,required TResult Function( int lineItemId)  itemRemoved,required TResult Function( int lineItemId,  int quantity)  itemQuantityChanged,required TResult Function( OrderType orderType)  orderTypeChanged,required TResult Function( Discount discount)  discountApplied,required TResult Function()  discountRemoved,required TResult Function( String note)  noteUpdated,required TResult Function()  submitted,required TResult Function()  cleared,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)  itemAdded,required TResult Function( Combo combo,  List<ComboLineComponent> components,  int quantity)  comboAdded,required TResult Function( int lineItemId)  itemRemoved,required TResult Function( int lineItemId,  int quantity)  itemQuantityChanged,required TResult Function( OrderType orderType)  orderTypeChanged,required TResult Function( Discount discount)  discountApplied,required TResult Function()  discountRemoved,required TResult Function( String note)  noteUpdated,required TResult Function()  submitted,required TResult Function()  cleared,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _ItemAdded():
-return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved():
+return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ComboAdded():
+return comboAdded(_that.combo,_that.components,_that.quantity);case _ItemRemoved():
 return itemRemoved(_that.lineItemId);case _ItemQuantityChanged():
 return itemQuantityChanged(_that.lineItemId,_that.quantity);case _OrderTypeChanged():
 return orderTypeChanged(_that.orderType);case _DiscountApplied():
@@ -199,11 +204,12 @@ return cleared();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)?  itemAdded,TResult? Function( int lineItemId)?  itemRemoved,TResult? Function( int lineItemId,  int quantity)?  itemQuantityChanged,TResult? Function( OrderType orderType)?  orderTypeChanged,TResult? Function( Discount discount)?  discountApplied,TResult? Function()?  discountRemoved,TResult? Function( String note)?  noteUpdated,TResult? Function()?  submitted,TResult? Function()?  cleared,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( Product product,  int quantity,  List<SelectedModifiers> modifiers)?  itemAdded,TResult? Function( Combo combo,  List<ComboLineComponent> components,  int quantity)?  comboAdded,TResult? Function( int lineItemId)?  itemRemoved,TResult? Function( int lineItemId,  int quantity)?  itemQuantityChanged,TResult? Function( OrderType orderType)?  orderTypeChanged,TResult? Function( Discount discount)?  discountApplied,TResult? Function()?  discountRemoved,TResult? Function( String note)?  noteUpdated,TResult? Function()?  submitted,TResult? Function()?  cleared,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _ItemAdded() when itemAdded != null:
-return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ItemRemoved() when itemRemoved != null:
+return itemAdded(_that.product,_that.quantity,_that.modifiers);case _ComboAdded() when comboAdded != null:
+return comboAdded(_that.combo,_that.components,_that.quantity);case _ItemRemoved() when itemRemoved != null:
 return itemRemoved(_that.lineItemId);case _ItemQuantityChanged() when itemQuantityChanged != null:
 return itemQuantityChanged(_that.lineItemId,_that.quantity);case _OrderTypeChanged() when orderTypeChanged != null:
 return orderTypeChanged(_that.orderType);case _DiscountApplied() when discountApplied != null:
@@ -332,6 +338,91 @@ $ProductCopyWith<$Res> get product {
   
   return $ProductCopyWith<$Res>(_self.product, (value) {
     return _then(_self.copyWith(product: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class _ComboAdded implements ActiveOrderEvent {
+  const _ComboAdded({required this.combo, required final  List<ComboLineComponent> components, this.quantity = 1}): _components = components;
+  
+
+ final  Combo combo;
+ final  List<ComboLineComponent> _components;
+ List<ComboLineComponent> get components {
+  if (_components is EqualUnmodifiableListView) return _components;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_components);
+}
+
+@JsonKey() final  int quantity;
+
+/// Create a copy of ActiveOrderEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ComboAddedCopyWith<_ComboAdded> get copyWith => __$ComboAddedCopyWithImpl<_ComboAdded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ComboAdded&&(identical(other.combo, combo) || other.combo == combo)&&const DeepCollectionEquality().equals(other._components, _components)&&(identical(other.quantity, quantity) || other.quantity == quantity));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,combo,const DeepCollectionEquality().hash(_components),quantity);
+
+@override
+String toString() {
+  return 'ActiveOrderEvent.comboAdded(combo: $combo, components: $components, quantity: $quantity)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ComboAddedCopyWith<$Res> implements $ActiveOrderEventCopyWith<$Res> {
+  factory _$ComboAddedCopyWith(_ComboAdded value, $Res Function(_ComboAdded) _then) = __$ComboAddedCopyWithImpl;
+@useResult
+$Res call({
+ Combo combo, List<ComboLineComponent> components, int quantity
+});
+
+
+$ComboCopyWith<$Res> get combo;
+
+}
+/// @nodoc
+class __$ComboAddedCopyWithImpl<$Res>
+    implements _$ComboAddedCopyWith<$Res> {
+  __$ComboAddedCopyWithImpl(this._self, this._then);
+
+  final _ComboAdded _self;
+  final $Res Function(_ComboAdded) _then;
+
+/// Create a copy of ActiveOrderEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? combo = null,Object? components = null,Object? quantity = null,}) {
+  return _then(_ComboAdded(
+combo: null == combo ? _self.combo : combo // ignore: cast_nullable_to_non_nullable
+as Combo,components: null == components ? _self._components : components // ignore: cast_nullable_to_non_nullable
+as List<ComboLineComponent>,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+/// Create a copy of ActiveOrderEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ComboCopyWith<$Res> get combo {
+  
+  return $ComboCopyWith<$Res>(_self.combo, (value) {
+    return _then(_self.copyWith(combo: value));
   });
 }
 }

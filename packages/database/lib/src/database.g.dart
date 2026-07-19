@@ -4336,6 +4336,450 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
   }
 }
 
+class $CombosTableTable extends CombosTable
+    with TableInfo<$CombosTableTable, ComboEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CombosTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _priceMeta = const VerificationMeta('price');
+  @override
+  late final GeneratedColumn<int> price = GeneratedColumn<int>(
+    'price',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isEnabledMeta = const VerificationMeta(
+    'isEnabled',
+  );
+  @override
+  late final GeneratedColumn<bool> isEnabled = GeneratedColumn<bool>(
+    'is_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    name,
+    price,
+    isEnabled,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'combos_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ComboEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('price')) {
+      context.handle(
+        _priceMeta,
+        price.isAcceptableOrUnknown(data['price']!, _priceMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_priceMeta);
+    }
+    if (data.containsKey('is_enabled')) {
+      context.handle(
+        _isEnabledMeta,
+        isEnabled.isAcceptableOrUnknown(data['is_enabled']!, _isEnabledMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ComboEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ComboEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      price: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}price'],
+      )!,
+      isEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_enabled'],
+      )!,
+    );
+  }
+
+  @override
+  $CombosTableTable createAlias(String alias) {
+    return $CombosTableTable(attachedDatabase, alias);
+  }
+}
+
+class ComboEntity extends DataClass implements Insertable<ComboEntity> {
+  final int id;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final String name;
+  final int price;
+  final bool isEnabled;
+  const ComboEntity({
+    required this.id,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    required this.name,
+    required this.price,
+    required this.isEnabled,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['name'] = Variable<String>(name);
+    map['price'] = Variable<int>(price);
+    map['is_enabled'] = Variable<bool>(isEnabled);
+    return map;
+  }
+
+  CombosTableCompanion toCompanion(bool nullToAbsent) {
+    return CombosTableCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      name: Value(name),
+      price: Value(price),
+      isEnabled: Value(isEnabled),
+    );
+  }
+
+  factory ComboEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ComboEntity(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      name: serializer.fromJson<String>(json['name']),
+      price: serializer.fromJson<int>(json['price']),
+      isEnabled: serializer.fromJson<bool>(json['isEnabled']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'name': serializer.toJson<String>(name),
+      'price': serializer.toJson<int>(price),
+      'isEnabled': serializer.toJson<bool>(isEnabled),
+    };
+  }
+
+  ComboEntity copyWith({
+    int? id,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
+    String? name,
+    int? price,
+    bool? isEnabled,
+  }) => ComboEntity(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    name: name ?? this.name,
+    price: price ?? this.price,
+    isEnabled: isEnabled ?? this.isEnabled,
+  );
+  ComboEntity copyWithCompanion(CombosTableCompanion data) {
+    return ComboEntity(
+      id: data.id.present ? data.id.value : this.id,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      name: data.name.present ? data.name.value : this.name,
+      price: data.price.present ? data.price.value : this.price,
+      isEnabled: data.isEnabled.present ? data.isEnabled.value : this.isEnabled,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ComboEntity(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('name: $name, ')
+          ..write('price: $price, ')
+          ..write('isEnabled: $isEnabled')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, createdAt, updatedAt, deletedAt, name, price, isEnabled);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ComboEntity &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.name == this.name &&
+          other.price == this.price &&
+          other.isEnabled == this.isEnabled);
+}
+
+class CombosTableCompanion extends UpdateCompanion<ComboEntity> {
+  final Value<int> id;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<String> name;
+  final Value<int> price;
+  final Value<bool> isEnabled;
+  const CombosTableCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.name = const Value.absent(),
+    this.price = const Value.absent(),
+    this.isEnabled = const Value.absent(),
+  });
+  CombosTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    required String name,
+    required int price,
+    this.isEnabled = const Value.absent(),
+  }) : name = Value(name),
+       price = Value(price);
+  static Insertable<ComboEntity> custom({
+    Expression<int>? id,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<String>? name,
+    Expression<int>? price,
+    Expression<bool>? isEnabled,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (name != null) 'name': name,
+      if (price != null) 'price': price,
+      if (isEnabled != null) 'is_enabled': isEnabled,
+    });
+  }
+
+  CombosTableCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<String>? name,
+    Value<int>? price,
+    Value<bool>? isEnabled,
+  }) {
+    return CombosTableCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      isEnabled: isEnabled ?? this.isEnabled,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (price.present) {
+      map['price'] = Variable<int>(price.value);
+    }
+    if (isEnabled.present) {
+      map['is_enabled'] = Variable<bool>(isEnabled.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CombosTableCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('name: $name, ')
+          ..write('price: $price, ')
+          ..write('isEnabled: $isEnabled')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $OrderItemsTableTable extends OrderItemsTable
     with TableInfo<$OrderItemsTableTable, OrderItemEntity> {
   @override
@@ -4497,6 +4941,53 @@ class $OrderItemsTableTable extends OrderItemsTable
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _comboIdMeta = const VerificationMeta(
+    'comboId',
+  );
+  @override
+  late final GeneratedColumn<int> comboId = GeneratedColumn<int>(
+    'combo_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES combos_table (id)',
+    ),
+  );
+  static const VerificationMeta _comboNameMeta = const VerificationMeta(
+    'comboName',
+  );
+  @override
+  late final GeneratedColumn<String> comboName = GeneratedColumn<String>(
+    'combo_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _comboLineIdMeta = const VerificationMeta(
+    'comboLineId',
+  );
+  @override
+  late final GeneratedColumn<int> comboLineId = GeneratedColumn<int>(
+    'combo_line_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _comboSaleQuantityMeta = const VerificationMeta(
+    'comboSaleQuantity',
+  );
+  @override
+  late final GeneratedColumn<int> comboSaleQuantity = GeneratedColumn<int>(
+    'combo_sale_quantity',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4512,6 +5003,10 @@ class $OrderItemsTableTable extends OrderItemsTable
     discountAmount,
     prepStation,
     ticketStatus,
+    comboId,
+    comboName,
+    comboLineId,
+    comboSaleQuantity,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4620,6 +5115,36 @@ class $OrderItemsTableTable extends OrderItemsTable
         ),
       );
     }
+    if (data.containsKey('combo_id')) {
+      context.handle(
+        _comboIdMeta,
+        comboId.isAcceptableOrUnknown(data['combo_id']!, _comboIdMeta),
+      );
+    }
+    if (data.containsKey('combo_name')) {
+      context.handle(
+        _comboNameMeta,
+        comboName.isAcceptableOrUnknown(data['combo_name']!, _comboNameMeta),
+      );
+    }
+    if (data.containsKey('combo_line_id')) {
+      context.handle(
+        _comboLineIdMeta,
+        comboLineId.isAcceptableOrUnknown(
+          data['combo_line_id']!,
+          _comboLineIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('combo_sale_quantity')) {
+      context.handle(
+        _comboSaleQuantityMeta,
+        comboSaleQuantity.isAcceptableOrUnknown(
+          data['combo_sale_quantity']!,
+          _comboSaleQuantityMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4681,6 +5206,22 @@ class $OrderItemsTableTable extends OrderItemsTable
         DriftSqlType.int,
         data['${effectivePrefix}ticket_status'],
       )!,
+      comboId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}combo_id'],
+      ),
+      comboName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}combo_name'],
+      ),
+      comboLineId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}combo_line_id'],
+      ),
+      comboSaleQuantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}combo_sale_quantity'],
+      ),
     );
   }
 
@@ -4704,6 +5245,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
   final int discountAmount;
   final String? prepStation;
   final int ticketStatus;
+  final int? comboId;
+  final String? comboName;
+  final int? comboLineId;
+  final int? comboSaleQuantity;
   const OrderItemEntity({
     required this.id,
     required this.createdAt,
@@ -4718,6 +5263,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     required this.discountAmount,
     this.prepStation,
     required this.ticketStatus,
+    this.comboId,
+    this.comboName,
+    this.comboLineId,
+    this.comboSaleQuantity,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4743,6 +5292,18 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       map['prep_station'] = Variable<String>(prepStation);
     }
     map['ticket_status'] = Variable<int>(ticketStatus);
+    if (!nullToAbsent || comboId != null) {
+      map['combo_id'] = Variable<int>(comboId);
+    }
+    if (!nullToAbsent || comboName != null) {
+      map['combo_name'] = Variable<String>(comboName);
+    }
+    if (!nullToAbsent || comboLineId != null) {
+      map['combo_line_id'] = Variable<int>(comboLineId);
+    }
+    if (!nullToAbsent || comboSaleQuantity != null) {
+      map['combo_sale_quantity'] = Variable<int>(comboSaleQuantity);
+    }
     return map;
   }
 
@@ -4769,6 +5330,18 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
           ? const Value.absent()
           : Value(prepStation),
       ticketStatus: Value(ticketStatus),
+      comboId: comboId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(comboId),
+      comboName: comboName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(comboName),
+      comboLineId: comboLineId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(comboLineId),
+      comboSaleQuantity: comboSaleQuantity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(comboSaleQuantity),
     );
   }
 
@@ -4791,6 +5364,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       discountAmount: serializer.fromJson<int>(json['discountAmount']),
       prepStation: serializer.fromJson<String?>(json['prepStation']),
       ticketStatus: serializer.fromJson<int>(json['ticketStatus']),
+      comboId: serializer.fromJson<int?>(json['comboId']),
+      comboName: serializer.fromJson<String?>(json['comboName']),
+      comboLineId: serializer.fromJson<int?>(json['comboLineId']),
+      comboSaleQuantity: serializer.fromJson<int?>(json['comboSaleQuantity']),
     );
   }
   @override
@@ -4810,6 +5387,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       'discountAmount': serializer.toJson<int>(discountAmount),
       'prepStation': serializer.toJson<String?>(prepStation),
       'ticketStatus': serializer.toJson<int>(ticketStatus),
+      'comboId': serializer.toJson<int?>(comboId),
+      'comboName': serializer.toJson<String?>(comboName),
+      'comboLineId': serializer.toJson<int?>(comboLineId),
+      'comboSaleQuantity': serializer.toJson<int?>(comboSaleQuantity),
     };
   }
 
@@ -4827,6 +5408,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     int? discountAmount,
     Value<String?> prepStation = const Value.absent(),
     int? ticketStatus,
+    Value<int?> comboId = const Value.absent(),
+    Value<String?> comboName = const Value.absent(),
+    Value<int?> comboLineId = const Value.absent(),
+    Value<int?> comboSaleQuantity = const Value.absent(),
   }) => OrderItemEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -4841,6 +5426,12 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     discountAmount: discountAmount ?? this.discountAmount,
     prepStation: prepStation.present ? prepStation.value : this.prepStation,
     ticketStatus: ticketStatus ?? this.ticketStatus,
+    comboId: comboId.present ? comboId.value : this.comboId,
+    comboName: comboName.present ? comboName.value : this.comboName,
+    comboLineId: comboLineId.present ? comboLineId.value : this.comboLineId,
+    comboSaleQuantity: comboSaleQuantity.present
+        ? comboSaleQuantity.value
+        : this.comboSaleQuantity,
   );
   OrderItemEntity copyWithCompanion(OrderItemsTableCompanion data) {
     return OrderItemEntity(
@@ -4865,6 +5456,14 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
       ticketStatus: data.ticketStatus.present
           ? data.ticketStatus.value
           : this.ticketStatus,
+      comboId: data.comboId.present ? data.comboId.value : this.comboId,
+      comboName: data.comboName.present ? data.comboName.value : this.comboName,
+      comboLineId: data.comboLineId.present
+          ? data.comboLineId.value
+          : this.comboLineId,
+      comboSaleQuantity: data.comboSaleQuantity.present
+          ? data.comboSaleQuantity.value
+          : this.comboSaleQuantity,
     );
   }
 
@@ -4883,7 +5482,11 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
           ..write('quantity: $quantity, ')
           ..write('discountAmount: $discountAmount, ')
           ..write('prepStation: $prepStation, ')
-          ..write('ticketStatus: $ticketStatus')
+          ..write('ticketStatus: $ticketStatus, ')
+          ..write('comboId: $comboId, ')
+          ..write('comboName: $comboName, ')
+          ..write('comboLineId: $comboLineId, ')
+          ..write('comboSaleQuantity: $comboSaleQuantity')
           ..write(')'))
         .toString();
   }
@@ -4903,6 +5506,10 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
     discountAmount,
     prepStation,
     ticketStatus,
+    comboId,
+    comboName,
+    comboLineId,
+    comboSaleQuantity,
   );
   @override
   bool operator ==(Object other) =>
@@ -4920,7 +5527,11 @@ class OrderItemEntity extends DataClass implements Insertable<OrderItemEntity> {
           other.quantity == this.quantity &&
           other.discountAmount == this.discountAmount &&
           other.prepStation == this.prepStation &&
-          other.ticketStatus == this.ticketStatus);
+          other.ticketStatus == this.ticketStatus &&
+          other.comboId == this.comboId &&
+          other.comboName == this.comboName &&
+          other.comboLineId == this.comboLineId &&
+          other.comboSaleQuantity == this.comboSaleQuantity);
 }
 
 class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
@@ -4937,6 +5548,10 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
   final Value<int> discountAmount;
   final Value<String?> prepStation;
   final Value<int> ticketStatus;
+  final Value<int?> comboId;
+  final Value<String?> comboName;
+  final Value<int?> comboLineId;
+  final Value<int?> comboSaleQuantity;
   const OrderItemsTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -4951,6 +5566,10 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     this.discountAmount = const Value.absent(),
     this.prepStation = const Value.absent(),
     this.ticketStatus = const Value.absent(),
+    this.comboId = const Value.absent(),
+    this.comboName = const Value.absent(),
+    this.comboLineId = const Value.absent(),
+    this.comboSaleQuantity = const Value.absent(),
   });
   OrderItemsTableCompanion.insert({
     this.id = const Value.absent(),
@@ -4966,6 +5585,10 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     this.discountAmount = const Value.absent(),
     this.prepStation = const Value.absent(),
     this.ticketStatus = const Value.absent(),
+    this.comboId = const Value.absent(),
+    this.comboName = const Value.absent(),
+    this.comboLineId = const Value.absent(),
+    this.comboSaleQuantity = const Value.absent(),
   }) : orderId = Value(orderId),
        productName = Value(productName),
        unitPrice = Value(unitPrice),
@@ -4984,6 +5607,10 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     Expression<int>? discountAmount,
     Expression<String>? prepStation,
     Expression<int>? ticketStatus,
+    Expression<int>? comboId,
+    Expression<String>? comboName,
+    Expression<int>? comboLineId,
+    Expression<int>? comboSaleQuantity,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4999,6 +5626,10 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
       if (discountAmount != null) 'discount_amount': discountAmount,
       if (prepStation != null) 'prep_station': prepStation,
       if (ticketStatus != null) 'ticket_status': ticketStatus,
+      if (comboId != null) 'combo_id': comboId,
+      if (comboName != null) 'combo_name': comboName,
+      if (comboLineId != null) 'combo_line_id': comboLineId,
+      if (comboSaleQuantity != null) 'combo_sale_quantity': comboSaleQuantity,
     });
   }
 
@@ -5016,6 +5647,10 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     Value<int>? discountAmount,
     Value<String?>? prepStation,
     Value<int>? ticketStatus,
+    Value<int?>? comboId,
+    Value<String?>? comboName,
+    Value<int?>? comboLineId,
+    Value<int?>? comboSaleQuantity,
   }) {
     return OrderItemsTableCompanion(
       id: id ?? this.id,
@@ -5031,6 +5666,10 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
       discountAmount: discountAmount ?? this.discountAmount,
       prepStation: prepStation ?? this.prepStation,
       ticketStatus: ticketStatus ?? this.ticketStatus,
+      comboId: comboId ?? this.comboId,
+      comboName: comboName ?? this.comboName,
+      comboLineId: comboLineId ?? this.comboLineId,
+      comboSaleQuantity: comboSaleQuantity ?? this.comboSaleQuantity,
     );
   }
 
@@ -5076,6 +5715,18 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
     if (ticketStatus.present) {
       map['ticket_status'] = Variable<int>(ticketStatus.value);
     }
+    if (comboId.present) {
+      map['combo_id'] = Variable<int>(comboId.value);
+    }
+    if (comboName.present) {
+      map['combo_name'] = Variable<String>(comboName.value);
+    }
+    if (comboLineId.present) {
+      map['combo_line_id'] = Variable<int>(comboLineId.value);
+    }
+    if (comboSaleQuantity.present) {
+      map['combo_sale_quantity'] = Variable<int>(comboSaleQuantity.value);
+    }
     return map;
   }
 
@@ -5094,7 +5745,11 @@ class OrderItemsTableCompanion extends UpdateCompanion<OrderItemEntity> {
           ..write('quantity: $quantity, ')
           ..write('discountAmount: $discountAmount, ')
           ..write('prepStation: $prepStation, ')
-          ..write('ticketStatus: $ticketStatus')
+          ..write('ticketStatus: $ticketStatus, ')
+          ..write('comboId: $comboId, ')
+          ..write('comboName: $comboName, ')
+          ..write('comboLineId: $comboLineId, ')
+          ..write('comboSaleQuantity: $comboSaleQuantity')
           ..write(')'))
         .toString();
   }
@@ -8357,6 +9012,517 @@ class ClockRecordsTableCompanion extends UpdateCompanion<ClockRecordEntity> {
   }
 }
 
+class $ComboItemsTableTable extends ComboItemsTable
+    with TableInfo<$ComboItemsTableTable, ComboItemEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ComboItemsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _comboIdMeta = const VerificationMeta(
+    'comboId',
+  );
+  @override
+  late final GeneratedColumn<int> comboId = GeneratedColumn<int>(
+    'combo_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES combos_table (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _productIdMeta = const VerificationMeta(
+    'productId',
+  );
+  @override
+  late final GeneratedColumn<int> productId = GeneratedColumn<int>(
+    'product_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES products_table (id)',
+    ),
+  );
+  static const VerificationMeta _productNameMeta = const VerificationMeta(
+    'productName',
+  );
+  @override
+  late final GeneratedColumn<String> productName = GeneratedColumn<String>(
+    'product_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _quantityMeta = const VerificationMeta(
+    'quantity',
+  );
+  @override
+  late final GeneratedColumn<int> quantity = GeneratedColumn<int>(
+    'quantity',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    comboId,
+    productId,
+    productName,
+    quantity,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'combo_items_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ComboItemEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('combo_id')) {
+      context.handle(
+        _comboIdMeta,
+        comboId.isAcceptableOrUnknown(data['combo_id']!, _comboIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_comboIdMeta);
+    }
+    if (data.containsKey('product_id')) {
+      context.handle(
+        _productIdMeta,
+        productId.isAcceptableOrUnknown(data['product_id']!, _productIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_productIdMeta);
+    }
+    if (data.containsKey('product_name')) {
+      context.handle(
+        _productNameMeta,
+        productName.isAcceptableOrUnknown(
+          data['product_name']!,
+          _productNameMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_productNameMeta);
+    }
+    if (data.containsKey('quantity')) {
+      context.handle(
+        _quantityMeta,
+        quantity.isAcceptableOrUnknown(data['quantity']!, _quantityMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ComboItemEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ComboItemEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      comboId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}combo_id'],
+      )!,
+      productId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}product_id'],
+      )!,
+      productName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}product_name'],
+      )!,
+      quantity: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}quantity'],
+      )!,
+    );
+  }
+
+  @override
+  $ComboItemsTableTable createAlias(String alias) {
+    return $ComboItemsTableTable(attachedDatabase, alias);
+  }
+}
+
+class ComboItemEntity extends DataClass implements Insertable<ComboItemEntity> {
+  final int id;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final int comboId;
+  final int productId;
+  final String productName;
+  final int quantity;
+  const ComboItemEntity({
+    required this.id,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    required this.comboId,
+    required this.productId,
+    required this.productName,
+    required this.quantity,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['combo_id'] = Variable<int>(comboId);
+    map['product_id'] = Variable<int>(productId);
+    map['product_name'] = Variable<String>(productName);
+    map['quantity'] = Variable<int>(quantity);
+    return map;
+  }
+
+  ComboItemsTableCompanion toCompanion(bool nullToAbsent) {
+    return ComboItemsTableCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      comboId: Value(comboId),
+      productId: Value(productId),
+      productName: Value(productName),
+      quantity: Value(quantity),
+    );
+  }
+
+  factory ComboItemEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ComboItemEntity(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      comboId: serializer.fromJson<int>(json['comboId']),
+      productId: serializer.fromJson<int>(json['productId']),
+      productName: serializer.fromJson<String>(json['productName']),
+      quantity: serializer.fromJson<int>(json['quantity']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'comboId': serializer.toJson<int>(comboId),
+      'productId': serializer.toJson<int>(productId),
+      'productName': serializer.toJson<String>(productName),
+      'quantity': serializer.toJson<int>(quantity),
+    };
+  }
+
+  ComboItemEntity copyWith({
+    int? id,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? comboId,
+    int? productId,
+    String? productName,
+    int? quantity,
+  }) => ComboItemEntity(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    comboId: comboId ?? this.comboId,
+    productId: productId ?? this.productId,
+    productName: productName ?? this.productName,
+    quantity: quantity ?? this.quantity,
+  );
+  ComboItemEntity copyWithCompanion(ComboItemsTableCompanion data) {
+    return ComboItemEntity(
+      id: data.id.present ? data.id.value : this.id,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      comboId: data.comboId.present ? data.comboId.value : this.comboId,
+      productId: data.productId.present ? data.productId.value : this.productId,
+      productName: data.productName.present
+          ? data.productName.value
+          : this.productName,
+      quantity: data.quantity.present ? data.quantity.value : this.quantity,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ComboItemEntity(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('comboId: $comboId, ')
+          ..write('productId: $productId, ')
+          ..write('productName: $productName, ')
+          ..write('quantity: $quantity')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    comboId,
+    productId,
+    productName,
+    quantity,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ComboItemEntity &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.comboId == this.comboId &&
+          other.productId == this.productId &&
+          other.productName == this.productName &&
+          other.quantity == this.quantity);
+}
+
+class ComboItemsTableCompanion extends UpdateCompanion<ComboItemEntity> {
+  final Value<int> id;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> comboId;
+  final Value<int> productId;
+  final Value<String> productName;
+  final Value<int> quantity;
+  const ComboItemsTableCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.comboId = const Value.absent(),
+    this.productId = const Value.absent(),
+    this.productName = const Value.absent(),
+    this.quantity = const Value.absent(),
+  });
+  ComboItemsTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    required int comboId,
+    required int productId,
+    required String productName,
+    this.quantity = const Value.absent(),
+  }) : comboId = Value(comboId),
+       productId = Value(productId),
+       productName = Value(productName);
+  static Insertable<ComboItemEntity> custom({
+    Expression<int>? id,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? comboId,
+    Expression<int>? productId,
+    Expression<String>? productName,
+    Expression<int>? quantity,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (comboId != null) 'combo_id': comboId,
+      if (productId != null) 'product_id': productId,
+      if (productName != null) 'product_name': productName,
+      if (quantity != null) 'quantity': quantity,
+    });
+  }
+
+  ComboItemsTableCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? comboId,
+    Value<int>? productId,
+    Value<String>? productName,
+    Value<int>? quantity,
+  }) {
+    return ComboItemsTableCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      comboId: comboId ?? this.comboId,
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
+      quantity: quantity ?? this.quantity,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (comboId.present) {
+      map['combo_id'] = Variable<int>(comboId.value);
+    }
+    if (productId.present) {
+      map['product_id'] = Variable<int>(productId.value);
+    }
+    if (productName.present) {
+      map['product_name'] = Variable<String>(productName.value);
+    }
+    if (quantity.present) {
+      map['quantity'] = Variable<int>(quantity.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ComboItemsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('comboId: $comboId, ')
+          ..write('productId: $productId, ')
+          ..write('productName: $productName, ')
+          ..write('quantity: $quantity')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AgoraDatabase extends GeneratedDatabase {
   _$AgoraDatabase(QueryExecutor e) : super(e);
   $AgoraDatabaseManager get managers => $AgoraDatabaseManager(this);
@@ -8373,6 +9539,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
   late final $StockMovementsTableTable stockMovementsTable =
       $StockMovementsTableTable(this);
   late final $OrdersTableTable ordersTable = $OrdersTableTable(this);
+  late final $CombosTableTable combosTable = $CombosTableTable(this);
   late final $OrderItemsTableTable orderItemsTable = $OrderItemsTableTable(
     this,
   );
@@ -8386,6 +9553,9 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
   late final $EmployeesTableTable employeesTable = $EmployeesTableTable(this);
   late final $ClockRecordsTableTable clockRecordsTable =
       $ClockRecordsTableTable(this);
+  late final $ComboItemsTableTable comboItemsTable = $ComboItemsTableTable(
+    this,
+  );
   late final Index idxStockMovementsSyncId = Index(
     'idx_stock_movements_sync_id',
     'CREATE UNIQUE INDEX idx_stock_movements_sync_id ON stock_movements_table (sync_id)',
@@ -8411,6 +9581,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     stocksTable,
     stockMovementsTable,
     ordersTable,
+    combosTable,
     orderItemsTable,
     orderItemModifiers,
     discountsTable,
@@ -8418,6 +9589,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     outboxTable,
     employeesTable,
     clockRecordsTable,
+    comboItemsTable,
     idxStockMovementsSyncId,
     idxOrdersSyncId,
     idxClockRecordsOneOpenShift,
@@ -8437,6 +9609,13 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
         limitUpdateKind: UpdateKind.delete,
       ),
       result: [TableUpdate('order_item_modifiers', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'combos_table',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('combo_items_table', kind: UpdateKind.delete)],
     ),
   ]);
 }
@@ -8975,6 +10154,30 @@ final class $$ProductsTableTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$ComboItemsTableTable, List<ComboItemEntity>>
+  _comboItemsTableRefsTable(_$AgoraDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.comboItemsTable,
+        aliasName: $_aliasNameGenerator(
+          db.productsTable.id,
+          db.comboItemsTable.productId,
+        ),
+      );
+
+  $$ComboItemsTableTableProcessedTableManager get comboItemsTableRefs {
+    final manager = $$ComboItemsTableTableTableManager(
+      $_db,
+      $_db.comboItemsTable,
+    ).filter((f) => f.productId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _comboItemsTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$ProductsTableTableFilterComposer
@@ -9172,6 +10375,31 @@ class $$ProductsTableTableFilterComposer
           }) => $$OrderItemsTableTableFilterComposer(
             $db: $db,
             $table: $db.orderItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> comboItemsTableRefs(
+    Expression<bool> Function($$ComboItemsTableTableFilterComposer f) f,
+  ) {
+    final $$ComboItemsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.comboItemsTable,
+      getReferencedColumn: (t) => t.productId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ComboItemsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.comboItemsTable,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -9469,6 +10697,31 @@ class $$ProductsTableTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> comboItemsTableRefs<T extends Object>(
+    Expression<T> Function($$ComboItemsTableTableAnnotationComposer a) f,
+  ) {
+    final $$ComboItemsTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.comboItemsTable,
+      getReferencedColumn: (t) => t.productId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ComboItemsTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.comboItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$ProductsTableTableTableManager
@@ -9490,6 +10743,7 @@ class $$ProductsTableTableTableManager
             bool stocksTableRefs,
             bool stockMovementsTableRefs,
             bool orderItemsTableRefs,
+            bool comboItemsTableRefs,
           })
         > {
   $$ProductsTableTableTableManager(
@@ -9588,6 +10842,7 @@ class $$ProductsTableTableTableManager
                 stocksTableRefs = false,
                 stockMovementsTableRefs = false,
                 orderItemsTableRefs = false,
+                comboItemsTableRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -9597,6 +10852,7 @@ class $$ProductsTableTableTableManager
                     if (stocksTableRefs) db.stocksTable,
                     if (stockMovementsTableRefs) db.stockMovementsTable,
                     if (orderItemsTableRefs) db.orderItemsTable,
+                    if (comboItemsTableRefs) db.comboItemsTable,
                   ],
                   addJoins:
                       <
@@ -9718,6 +10974,27 @@ class $$ProductsTableTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (comboItemsTableRefs)
+                        await $_getPrefetchedData<
+                          ProductEntity,
+                          $ProductsTableTable,
+                          ComboItemEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ProductsTableTableReferences
+                              ._comboItemsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ProductsTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).comboItemsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.productId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -9744,6 +11021,7 @@ typedef $$ProductsTableTableProcessedTableManager =
         bool stocksTableRefs,
         bool stockMovementsTableRefs,
         bool orderItemsTableRefs,
+        bool comboItemsTableRefs,
       })
     >;
 typedef $$ModifiersTableTableCreateCompanionBuilder =
@@ -12233,6 +13511,452 @@ typedef $$OrdersTableTableProcessedTableManager =
       OrderEntity,
       PrefetchHooks Function({bool orderItemsTableRefs})
     >;
+typedef $$CombosTableTableCreateCompanionBuilder =
+    CombosTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      required String name,
+      required int price,
+      Value<bool> isEnabled,
+    });
+typedef $$CombosTableTableUpdateCompanionBuilder =
+    CombosTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<String> name,
+      Value<int> price,
+      Value<bool> isEnabled,
+    });
+
+final class $$CombosTableTableReferences
+    extends BaseReferences<_$AgoraDatabase, $CombosTableTable, ComboEntity> {
+  $$CombosTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$OrderItemsTableTable, List<OrderItemEntity>>
+  _orderItemsTableRefsTable(_$AgoraDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.orderItemsTable,
+        aliasName: $_aliasNameGenerator(
+          db.combosTable.id,
+          db.orderItemsTable.comboId,
+        ),
+      );
+
+  $$OrderItemsTableTableProcessedTableManager get orderItemsTableRefs {
+    final manager = $$OrderItemsTableTableTableManager(
+      $_db,
+      $_db.orderItemsTable,
+    ).filter((f) => f.comboId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _orderItemsTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ComboItemsTableTable, List<ComboItemEntity>>
+  _comboItemsTableRefsTable(_$AgoraDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.comboItemsTable,
+        aliasName: $_aliasNameGenerator(
+          db.combosTable.id,
+          db.comboItemsTable.comboId,
+        ),
+      );
+
+  $$ComboItemsTableTableProcessedTableManager get comboItemsTableRefs {
+    final manager = $$ComboItemsTableTableTableManager(
+      $_db,
+      $_db.comboItemsTable,
+    ).filter((f) => f.comboId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _comboItemsTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$CombosTableTableFilterComposer
+    extends Composer<_$AgoraDatabase, $CombosTableTable> {
+  $$CombosTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get price => $composableBuilder(
+    column: $table.price,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isEnabled => $composableBuilder(
+    column: $table.isEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> orderItemsTableRefs(
+    Expression<bool> Function($$OrderItemsTableTableFilterComposer f) f,
+  ) {
+    final $$OrderItemsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.orderItemsTable,
+      getReferencedColumn: (t) => t.comboId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderItemsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.orderItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> comboItemsTableRefs(
+    Expression<bool> Function($$ComboItemsTableTableFilterComposer f) f,
+  ) {
+    final $$ComboItemsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.comboItemsTable,
+      getReferencedColumn: (t) => t.comboId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ComboItemsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.comboItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$CombosTableTableOrderingComposer
+    extends Composer<_$AgoraDatabase, $CombosTableTable> {
+  $$CombosTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get price => $composableBuilder(
+    column: $table.price,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isEnabled => $composableBuilder(
+    column: $table.isEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CombosTableTableAnnotationComposer
+    extends Composer<_$AgoraDatabase, $CombosTableTable> {
+  $$CombosTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get price =>
+      $composableBuilder(column: $table.price, builder: (column) => column);
+
+  GeneratedColumn<bool> get isEnabled =>
+      $composableBuilder(column: $table.isEnabled, builder: (column) => column);
+
+  Expression<T> orderItemsTableRefs<T extends Object>(
+    Expression<T> Function($$OrderItemsTableTableAnnotationComposer a) f,
+  ) {
+    final $$OrderItemsTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.orderItemsTable,
+      getReferencedColumn: (t) => t.comboId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrderItemsTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.orderItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> comboItemsTableRefs<T extends Object>(
+    Expression<T> Function($$ComboItemsTableTableAnnotationComposer a) f,
+  ) {
+    final $$ComboItemsTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.comboItemsTable,
+      getReferencedColumn: (t) => t.comboId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ComboItemsTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.comboItemsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$CombosTableTableTableManager
+    extends
+        RootTableManager<
+          _$AgoraDatabase,
+          $CombosTableTable,
+          ComboEntity,
+          $$CombosTableTableFilterComposer,
+          $$CombosTableTableOrderingComposer,
+          $$CombosTableTableAnnotationComposer,
+          $$CombosTableTableCreateCompanionBuilder,
+          $$CombosTableTableUpdateCompanionBuilder,
+          (ComboEntity, $$CombosTableTableReferences),
+          ComboEntity,
+          PrefetchHooks Function({
+            bool orderItemsTableRefs,
+            bool comboItemsTableRefs,
+          })
+        > {
+  $$CombosTableTableTableManager(_$AgoraDatabase db, $CombosTableTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CombosTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CombosTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CombosTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> price = const Value.absent(),
+                Value<bool> isEnabled = const Value.absent(),
+              }) => CombosTableCompanion(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                name: name,
+                price: price,
+                isEnabled: isEnabled,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                required String name,
+                required int price,
+                Value<bool> isEnabled = const Value.absent(),
+              }) => CombosTableCompanion.insert(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                name: name,
+                price: price,
+                isEnabled: isEnabled,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CombosTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({orderItemsTableRefs = false, comboItemsTableRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (orderItemsTableRefs) db.orderItemsTable,
+                    if (comboItemsTableRefs) db.comboItemsTable,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (orderItemsTableRefs)
+                        await $_getPrefetchedData<
+                          ComboEntity,
+                          $CombosTableTable,
+                          OrderItemEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CombosTableTableReferences
+                              ._orderItemsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CombosTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).orderItemsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.comboId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (comboItemsTableRefs)
+                        await $_getPrefetchedData<
+                          ComboEntity,
+                          $CombosTableTable,
+                          ComboItemEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CombosTableTableReferences
+                              ._comboItemsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CombosTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).comboItemsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.comboId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$CombosTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AgoraDatabase,
+      $CombosTableTable,
+      ComboEntity,
+      $$CombosTableTableFilterComposer,
+      $$CombosTableTableOrderingComposer,
+      $$CombosTableTableAnnotationComposer,
+      $$CombosTableTableCreateCompanionBuilder,
+      $$CombosTableTableUpdateCompanionBuilder,
+      (ComboEntity, $$CombosTableTableReferences),
+      ComboEntity,
+      PrefetchHooks Function({
+        bool orderItemsTableRefs,
+        bool comboItemsTableRefs,
+      })
+    >;
 typedef $$OrderItemsTableTableCreateCompanionBuilder =
     OrderItemsTableCompanion Function({
       Value<int> id,
@@ -12248,6 +13972,10 @@ typedef $$OrderItemsTableTableCreateCompanionBuilder =
       Value<int> discountAmount,
       Value<String?> prepStation,
       Value<int> ticketStatus,
+      Value<int?> comboId,
+      Value<String?> comboName,
+      Value<int?> comboLineId,
+      Value<int?> comboSaleQuantity,
     });
 typedef $$OrderItemsTableTableUpdateCompanionBuilder =
     OrderItemsTableCompanion Function({
@@ -12264,6 +13992,10 @@ typedef $$OrderItemsTableTableUpdateCompanionBuilder =
       Value<int> discountAmount,
       Value<String?> prepStation,
       Value<int> ticketStatus,
+      Value<int?> comboId,
+      Value<String?> comboName,
+      Value<int?> comboLineId,
+      Value<int?> comboSaleQuantity,
     });
 
 final class $$OrderItemsTableTableReferences
@@ -12311,6 +14043,25 @@ final class $$OrderItemsTableTableReferences
       $_db.productsTable,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_productIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $CombosTableTable _comboIdTable(_$AgoraDatabase db) =>
+      db.combosTable.createAlias(
+        $_aliasNameGenerator(db.orderItemsTable.comboId, db.combosTable.id),
+      );
+
+  $$CombosTableTableProcessedTableManager? get comboId {
+    final $_column = $_itemColumn<int>('combo_id');
+    if ($_column == null) return null;
+    final manager = $$CombosTableTableTableManager(
+      $_db,
+      $_db.combosTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_comboIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -12409,6 +14160,21 @@ class $$OrderItemsTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get comboName => $composableBuilder(
+    column: $table.comboName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get comboLineId => $composableBuilder(
+    column: $table.comboLineId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get comboSaleQuantity => $composableBuilder(
+    column: $table.comboSaleQuantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$OrdersTableTableFilterComposer get orderId {
     final $$OrdersTableTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -12446,6 +14212,29 @@ class $$OrderItemsTableTableFilterComposer
           }) => $$ProductsTableTableFilterComposer(
             $db: $db,
             $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CombosTableTableFilterComposer get comboId {
+    final $$CombosTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.comboId,
+      referencedTable: $db.combosTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombosTableTableFilterComposer(
+            $db: $db,
+            $table: $db.combosTable,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -12545,6 +14334,21 @@ class $$OrderItemsTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get comboName => $composableBuilder(
+    column: $table.comboName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get comboLineId => $composableBuilder(
+    column: $table.comboLineId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get comboSaleQuantity => $composableBuilder(
+    column: $table.comboSaleQuantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$OrdersTableTableOrderingComposer get orderId {
     final $$OrdersTableTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -12582,6 +14386,29 @@ class $$OrderItemsTableTableOrderingComposer
           }) => $$ProductsTableTableOrderingComposer(
             $db: $db,
             $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CombosTableTableOrderingComposer get comboId {
+    final $$CombosTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.comboId,
+      referencedTable: $db.combosTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombosTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.combosTable,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -12642,6 +14469,19 @@ class $$OrderItemsTableTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get comboName =>
+      $composableBuilder(column: $table.comboName, builder: (column) => column);
+
+  GeneratedColumn<int> get comboLineId => $composableBuilder(
+    column: $table.comboLineId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get comboSaleQuantity => $composableBuilder(
+    column: $table.comboSaleQuantity,
+    builder: (column) => column,
+  );
+
   $$OrdersTableTableAnnotationComposer get orderId {
     final $$OrdersTableTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -12679,6 +14519,29 @@ class $$OrderItemsTableTableAnnotationComposer
           }) => $$ProductsTableTableAnnotationComposer(
             $db: $db,
             $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CombosTableTableAnnotationComposer get comboId {
+    final $$CombosTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.comboId,
+      referencedTable: $db.combosTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombosTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.combosTable,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -12731,6 +14594,7 @@ class $$OrderItemsTableTableTableManager
           PrefetchHooks Function({
             bool orderId,
             bool productId,
+            bool comboId,
             bool orderItemModifiersRefs,
           })
         > {
@@ -12762,6 +14626,10 @@ class $$OrderItemsTableTableTableManager
                 Value<int> discountAmount = const Value.absent(),
                 Value<String?> prepStation = const Value.absent(),
                 Value<int> ticketStatus = const Value.absent(),
+                Value<int?> comboId = const Value.absent(),
+                Value<String?> comboName = const Value.absent(),
+                Value<int?> comboLineId = const Value.absent(),
+                Value<int?> comboSaleQuantity = const Value.absent(),
               }) => OrderItemsTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -12776,6 +14644,10 @@ class $$OrderItemsTableTableTableManager
                 discountAmount: discountAmount,
                 prepStation: prepStation,
                 ticketStatus: ticketStatus,
+                comboId: comboId,
+                comboName: comboName,
+                comboLineId: comboLineId,
+                comboSaleQuantity: comboSaleQuantity,
               ),
           createCompanionCallback:
               ({
@@ -12792,6 +14664,10 @@ class $$OrderItemsTableTableTableManager
                 Value<int> discountAmount = const Value.absent(),
                 Value<String?> prepStation = const Value.absent(),
                 Value<int> ticketStatus = const Value.absent(),
+                Value<int?> comboId = const Value.absent(),
+                Value<String?> comboName = const Value.absent(),
+                Value<int?> comboLineId = const Value.absent(),
+                Value<int?> comboSaleQuantity = const Value.absent(),
               }) => OrderItemsTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -12806,6 +14682,10 @@ class $$OrderItemsTableTableTableManager
                 discountAmount: discountAmount,
                 prepStation: prepStation,
                 ticketStatus: ticketStatus,
+                comboId: comboId,
+                comboName: comboName,
+                comboLineId: comboLineId,
+                comboSaleQuantity: comboSaleQuantity,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -12819,6 +14699,7 @@ class $$OrderItemsTableTableTableManager
               ({
                 orderId = false,
                 productId = false,
+                comboId = false,
                 orderItemModifiersRefs = false,
               }) {
                 return PrefetchHooks(
@@ -12872,6 +14753,21 @@ class $$OrderItemsTableTableTableManager
                                   )
                                   as T;
                         }
+                        if (comboId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.comboId,
+                                    referencedTable:
+                                        $$OrderItemsTableTableReferences
+                                            ._comboIdTable(db),
+                                    referencedColumn:
+                                        $$OrderItemsTableTableReferences
+                                            ._comboIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -12921,6 +14817,7 @@ typedef $$OrderItemsTableTableProcessedTableManager =
       PrefetchHooks Function({
         bool orderId,
         bool productId,
+        bool comboId,
         bool orderItemModifiersRefs,
       })
     >;
@@ -14955,6 +16852,481 @@ typedef $$ClockRecordsTableTableProcessedTableManager =
       ClockRecordEntity,
       PrefetchHooks Function({bool employeeId})
     >;
+typedef $$ComboItemsTableTableCreateCompanionBuilder =
+    ComboItemsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      required int comboId,
+      required int productId,
+      required String productName,
+      Value<int> quantity,
+    });
+typedef $$ComboItemsTableTableUpdateCompanionBuilder =
+    ComboItemsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> comboId,
+      Value<int> productId,
+      Value<String> productName,
+      Value<int> quantity,
+    });
+
+final class $$ComboItemsTableTableReferences
+    extends
+        BaseReferences<
+          _$AgoraDatabase,
+          $ComboItemsTableTable,
+          ComboItemEntity
+        > {
+  $$ComboItemsTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $CombosTableTable _comboIdTable(_$AgoraDatabase db) =>
+      db.combosTable.createAlias(
+        $_aliasNameGenerator(db.comboItemsTable.comboId, db.combosTable.id),
+      );
+
+  $$CombosTableTableProcessedTableManager get comboId {
+    final $_column = $_itemColumn<int>('combo_id')!;
+
+    final manager = $$CombosTableTableTableManager(
+      $_db,
+      $_db.combosTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_comboIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $ProductsTableTable _productIdTable(_$AgoraDatabase db) =>
+      db.productsTable.createAlias(
+        $_aliasNameGenerator(db.comboItemsTable.productId, db.productsTable.id),
+      );
+
+  $$ProductsTableTableProcessedTableManager get productId {
+    final $_column = $_itemColumn<int>('product_id')!;
+
+    final manager = $$ProductsTableTableTableManager(
+      $_db,
+      $_db.productsTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_productIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ComboItemsTableTableFilterComposer
+    extends Composer<_$AgoraDatabase, $ComboItemsTableTable> {
+  $$ComboItemsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CombosTableTableFilterComposer get comboId {
+    final $$CombosTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.comboId,
+      referencedTable: $db.combosTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombosTableTableFilterComposer(
+            $db: $db,
+            $table: $db.combosTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ProductsTableTableFilterComposer get productId {
+    final $$ProductsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.productId,
+      referencedTable: $db.productsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ComboItemsTableTableOrderingComposer
+    extends Composer<_$AgoraDatabase, $ComboItemsTableTable> {
+  $$ComboItemsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get quantity => $composableBuilder(
+    column: $table.quantity,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CombosTableTableOrderingComposer get comboId {
+    final $$CombosTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.comboId,
+      referencedTable: $db.combosTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombosTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.combosTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ProductsTableTableOrderingComposer get productId {
+    final $$ProductsTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.productId,
+      referencedTable: $db.productsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductsTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ComboItemsTableTableAnnotationComposer
+    extends Composer<_$AgoraDatabase, $ComboItemsTableTable> {
+  $$ComboItemsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get productName => $composableBuilder(
+    column: $table.productName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get quantity =>
+      $composableBuilder(column: $table.quantity, builder: (column) => column);
+
+  $$CombosTableTableAnnotationComposer get comboId {
+    final $$CombosTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.comboId,
+      referencedTable: $db.combosTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CombosTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.combosTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$ProductsTableTableAnnotationComposer get productId {
+    final $$ProductsTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.productId,
+      referencedTable: $db.productsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ProductsTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.productsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ComboItemsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AgoraDatabase,
+          $ComboItemsTableTable,
+          ComboItemEntity,
+          $$ComboItemsTableTableFilterComposer,
+          $$ComboItemsTableTableOrderingComposer,
+          $$ComboItemsTableTableAnnotationComposer,
+          $$ComboItemsTableTableCreateCompanionBuilder,
+          $$ComboItemsTableTableUpdateCompanionBuilder,
+          (ComboItemEntity, $$ComboItemsTableTableReferences),
+          ComboItemEntity,
+          PrefetchHooks Function({bool comboId, bool productId})
+        > {
+  $$ComboItemsTableTableTableManager(
+    _$AgoraDatabase db,
+    $ComboItemsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ComboItemsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ComboItemsTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ComboItemsTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> comboId = const Value.absent(),
+                Value<int> productId = const Value.absent(),
+                Value<String> productName = const Value.absent(),
+                Value<int> quantity = const Value.absent(),
+              }) => ComboItemsTableCompanion(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                comboId: comboId,
+                productId: productId,
+                productName: productName,
+                quantity: quantity,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                required int comboId,
+                required int productId,
+                required String productName,
+                Value<int> quantity = const Value.absent(),
+              }) => ComboItemsTableCompanion.insert(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                comboId: comboId,
+                productId: productId,
+                productName: productName,
+                quantity: quantity,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ComboItemsTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({comboId = false, productId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (comboId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.comboId,
+                                referencedTable:
+                                    $$ComboItemsTableTableReferences
+                                        ._comboIdTable(db),
+                                referencedColumn:
+                                    $$ComboItemsTableTableReferences
+                                        ._comboIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (productId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.productId,
+                                referencedTable:
+                                    $$ComboItemsTableTableReferences
+                                        ._productIdTable(db),
+                                referencedColumn:
+                                    $$ComboItemsTableTableReferences
+                                        ._productIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ComboItemsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AgoraDatabase,
+      $ComboItemsTableTable,
+      ComboItemEntity,
+      $$ComboItemsTableTableFilterComposer,
+      $$ComboItemsTableTableOrderingComposer,
+      $$ComboItemsTableTableAnnotationComposer,
+      $$ComboItemsTableTableCreateCompanionBuilder,
+      $$ComboItemsTableTableUpdateCompanionBuilder,
+      (ComboItemEntity, $$ComboItemsTableTableReferences),
+      ComboItemEntity,
+      PrefetchHooks Function({bool comboId, bool productId})
+    >;
 
 class $AgoraDatabaseManager {
   final _$AgoraDatabase _db;
@@ -14978,6 +17350,8 @@ class $AgoraDatabaseManager {
       $$StockMovementsTableTableTableManager(_db, _db.stockMovementsTable);
   $$OrdersTableTableTableManager get ordersTable =>
       $$OrdersTableTableTableManager(_db, _db.ordersTable);
+  $$CombosTableTableTableManager get combosTable =>
+      $$CombosTableTableTableManager(_db, _db.combosTable);
   $$OrderItemsTableTableTableManager get orderItemsTable =>
       $$OrderItemsTableTableTableManager(_db, _db.orderItemsTable);
   $$OrderItemModifiersTableTableManager get orderItemModifiers =>
@@ -14992,4 +17366,6 @@ class $AgoraDatabaseManager {
       $$EmployeesTableTableTableManager(_db, _db.employeesTable);
   $$ClockRecordsTableTableTableManager get clockRecordsTable =>
       $$ClockRecordsTableTableTableManager(_db, _db.clockRecordsTable);
+  $$ComboItemsTableTableTableManager get comboItemsTable =>
+      $$ComboItemsTableTableTableManager(_db, _db.comboItemsTable);
 }

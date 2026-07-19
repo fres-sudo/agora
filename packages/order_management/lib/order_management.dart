@@ -8,6 +8,7 @@
 /// own order-list/order-detail pages, so those stay feature-local).
 library;
 
+export 'models/combo_line_component.dart';
 export 'models/order.dart';
 export 'models/order_line_item.dart';
 export 'models/order_type.dart';

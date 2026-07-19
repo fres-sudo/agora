@@ -89,6 +89,16 @@ class OrderItemsDao extends DatabaseAccessor<AgoraDatabase>
         .then((rows) => rows > 0);
   }
 
+  /// Points a combo lead row's own `comboLineId` at itself, marking it as
+  /// the group anchor for its sibling constituent rows (called right after
+  /// inserting the lead row, once its Drift-assigned id is known — see
+  /// `OrdersRepositoryImpl._insertComboLine`).
+  Future<bool> setOrderItemComboLineId(int id, int comboLineId) {
+    return (update(orderItemsTable)..where((t) => t.id.equals(id)))
+        .write(OrderItemsTableCompanion(comboLineId: Value(comboLineId)))
+        .then((rows) => rows > 0);
+  }
+
   // ============================================================
   // ORDER ITEMS - DELETE OPERATIONS
   // ============================================================

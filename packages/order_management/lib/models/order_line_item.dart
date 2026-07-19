@@ -1,3 +1,4 @@
+import 'package:order_management/models/combo_line_component.dart';
 import 'package:order_management/models/selected_modifiers.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
@@ -23,6 +24,22 @@ abstract class OrderLineItem with _$OrderLineItem {
     /// line was added). Null = never ticketed, stays on the customer
     /// receipt only (docs/features/02-kitchen-ticket-routing.md).
     String? prepStation,
+
+    // Combo support (docs/features/03-combo-modifier-pricing.md). A combo
+    // is one cart line pre-persist (productId null, comboComponents
+    // populated) that fans out into one OrderItemsTable row per constituent
+    // at persist time — see OrdersRepositoryImpl._insertComboLine. Once
+    // persisted/rehydrated, each constituent is its own OrderLineItem with
+    // a real productId, comboComponents empty, and a shared comboLineId.
+    int? comboId,
+    String? comboName, // Snapshot of the combo's name
+    @Default([]) List<ComboLineComponent> comboComponents, // Pre-persist only
+    int? comboLineId, // Non-null only post-persist; groups sibling rows
+    // Lead row only, non-null only post-persist: how many combo units were
+    // sold on this line, as opposed to `quantity` (how many of *this*
+    // constituent to make) — the two diverge once a combo's own constituent
+    // quantities aren't all 1. Read by the receipt mapper's grouping pass.
+    int? comboSaleQuantity,
   }) = _OrderLineItem;
 
   const OrderLineItem._();

@@ -5,6 +5,7 @@ import 'package:drift/drift.dart';
 import 'color_converter.dart';
 import 'tables/categories_table.dart';
 import 'tables/clock_records_table.dart';
+import 'tables/combos_table.dart';
 import 'tables/discounts_table.dart';
 import 'tables/employees_table.dart';
 import 'tables/modifiers_table.dart';
@@ -37,13 +38,15 @@ part 'database.g.dart';
     OutboxTable,
     EmployeesTable,
     ClockRecordsTable,
+    CombosTable,
+    ComboItemsTable,
   ],
 )
 class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration {
@@ -109,6 +112,19 @@ class AgoraDatabase extends _$AgoraDatabase {
           await m.addColumn(productsTable, productsTable.prepStation);
           await m.addColumn(orderItemsTable, orderItemsTable.prepStation);
           await m.addColumn(orderItemsTable, orderItemsTable.ticketStatus);
+        }
+        if (from < 7) {
+          // v6 -> v7: combo/modifier pricing
+          // (docs/features/03-combo-modifier-pricing.md). A combo bundles
+          // several products at one flat price. First migration to add
+          // brand-new tables rather than just columns/indexes — uses
+          // drift's standard `m.createTable` API.
+          await m.createTable(combosTable);
+          await m.createTable(comboItemsTable);
+          await m.addColumn(orderItemsTable, orderItemsTable.comboId);
+          await m.addColumn(orderItemsTable, orderItemsTable.comboName);
+          await m.addColumn(orderItemsTable, orderItemsTable.comboLineId);
+          await m.addColumn(orderItemsTable, orderItemsTable.comboSaleQuantity);
         }
       },
     );

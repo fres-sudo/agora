@@ -3,8 +3,11 @@ import 'package:ui_kit/ui_kit.dart';
 import 'package:order_management/models/order_type.dart';
 import 'package:order_management/blocs/active_order/active_order_bloc.dart';
 import 'package:feature_pos/feature_pos.dart';
+import 'package:catalog/blocs/combos/combos_bloc.dart';
 import 'package:catalog/blocs/products/products_bloc.dart';
+import 'package:catalog/models/combo.dart';
 import 'package:catalog/models/product.dart';
+import 'package:order_management/models/combo_line_component.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
@@ -27,6 +30,8 @@ class _PosPageState extends State<PosPage> {
     super.initState();
     // Start the products bloc
     context.read<ProductsBloc>().add(const ProductsEvent.started());
+    // Start the combos bloc
+    context.read<CombosBloc>().add(const CombosEvent.started());
     // Start the active order bloc
     context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.started());
   }
@@ -43,6 +48,30 @@ class _PosPageState extends State<PosPage> {
         ActiveOrderEvent.itemAdded(product: product),
       );
     }
+  }
+
+  /// Resolves each of [combo]'s constituent products against the live
+  /// catalog (same liveness convention [_onProductTap] uses for a plain
+  /// product's price/prepStation) before adding the combo to the cart. If a
+  /// constituent product was soft-deleted, degrade gracefully rather than
+  /// blocking the add — prepStation stays unticketed and cost falls back to
+  /// 0, falling back to the combo definition's denormalized name
+  /// (docs/features/03-combo-modifier-pricing.md).
+  void _onComboTap(Combo combo) {
+    final products = context.read<ProductsBloc>().state.products;
+    final components = combo.items.map((item) {
+      final product = products.where((p) => p.id == item.productId).firstOrNull;
+      return ComboLineComponent(
+        productId: item.productId,
+        productName: product?.name ?? item.productName,
+        quantity: item.quantity,
+        unitCostPriceCents: product?.costCents ?? 0,
+        prepStation: product?.prepStation,
+      );
+    }).toList();
+    context.read<ActiveOrderBloc>().add(
+      ActiveOrderEvent.comboAdded(combo: combo, components: components),
+    );
   }
 
   void _onCategorySelected(int? categoryId) {
@@ -143,16 +172,36 @@ class _PosPageState extends State<PosPage> {
     );
   }
 
-  /// Build cart quantities map from order items
+  /// Build product-tile cart quantities map from order items, keyed by
+  /// productId. Combo lines (comboId != null) are excluded — see
+  /// [_buildComboQuantities].
   Map<int, int> _buildCartQuantities(ActiveOrderState state) {
     final Map<int, int> quantities = {};
     final order = state.currentOrder;
     if (order == null) return quantities;
 
     for (final item in order.items) {
-      if (item.productId != null) {
+      if (item.productId != null && item.comboId == null) {
         quantities[item.productId!] =
             (quantities[item.productId!] ?? 0) + item.quantity;
+      }
+    }
+    return quantities;
+  }
+
+  /// Build combo-tile cart quantities map from order items, keyed by
+  /// comboId. Reads pre-persist cart lines (one line per combo add, per
+  /// docs/features/03-combo-modifier-pricing.md's cart-UX decision), so
+  /// there's exactly one matching item per combo in the cart.
+  Map<int, int> _buildComboQuantities(ActiveOrderState state) {
+    final Map<int, int> quantities = {};
+    final order = state.currentOrder;
+    if (order == null) return quantities;
+
+    for (final item in order.items) {
+      if (item.comboId != null) {
+        quantities[item.comboId!] =
+            (quantities[item.comboId!] ?? 0) + item.quantity;
       }
     }
     return quantities;
@@ -193,6 +242,7 @@ class _PosPageState extends State<PosPage> {
                 orderType: _orderType,
                 onOrderTypeChanged: _onOrderTypeChanged,
                 onProductTap: _onProductTap,
+                onComboTap: _onComboTap,
                 onCategorySelected: _onCategorySelected,
                 onSearch: _onSearch,
                 onClearOrder: _onClearOrder,
@@ -202,6 +252,7 @@ class _PosPageState extends State<PosPage> {
                 onDiscountTap: _onDiscountTap,
                 onRemoveDiscount: _onRemoveDiscount,
                 buildCartQuantities: _buildCartQuantities,
+                buildComboQuantities: _buildComboQuantities,
               )
             : Stack(
                 children: [
@@ -209,6 +260,7 @@ class _PosPageState extends State<PosPage> {
                     orderType: _orderType,
                     onOrderTypeChanged: _onOrderTypeChanged,
                     onProductTap: _onProductTap,
+                    onComboTap: _onComboTap,
                     onCategorySelected: _onCategorySelected,
                     onSearch: _onSearch,
                     onClearOrder: _onClearOrder,
@@ -216,6 +268,7 @@ class _PosPageState extends State<PosPage> {
                     onItemRemoved: _onItemRemoved,
                     onItemQuantityChanged: _onItemQuantityChanged,
                     buildCartQuantities: _buildCartQuantities,
+                    buildComboQuantities: _buildComboQuantities,
                   ),
                   // Cart access moves off the (removed) app bar into a floating
                   // button mirroring the menu button on the opposite side.
@@ -349,6 +402,7 @@ class _TabletLayout extends StatelessWidget {
   final OrderType orderType;
   final ValueChanged<OrderType> onOrderTypeChanged;
   final ValueChanged<Product> onProductTap;
+  final ValueChanged<Combo> onComboTap;
   final ValueChanged<int?> onCategorySelected;
   final ValueChanged<String> onSearch;
   final VoidCallback onClearOrder;
@@ -358,11 +412,13 @@ class _TabletLayout extends StatelessWidget {
   final VoidCallback onDiscountTap;
   final VoidCallback onRemoveDiscount;
   final Map<int, int> Function(ActiveOrderState) buildCartQuantities;
+  final Map<int, int> Function(ActiveOrderState) buildComboQuantities;
 
   const _TabletLayout({
     required this.orderType,
     required this.onOrderTypeChanged,
     required this.onProductTap,
+    required this.onComboTap,
     required this.onCategorySelected,
     required this.onSearch,
     required this.onClearOrder,
@@ -372,6 +428,7 @@ class _TabletLayout extends StatelessWidget {
     required this.onDiscountTap,
     required this.onRemoveDiscount,
     required this.buildCartQuantities,
+    required this.buildComboQuantities,
   });
 
   @override
@@ -408,17 +465,40 @@ class _TabletLayout extends StatelessWidget {
               Expanded(
                 child: BlocBuilder<ProductsBloc, ProductsState>(
                   builder: (context, productsState) {
-                    return BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
-                      builder: (context, orderState) {
-                        return PosProductGrid(
-                          products: productsState.products,
-                          cartQuantities: buildCartQuantities(orderState),
-                          onProductTap: onProductTap,
-                          emptyDescription:
-                              'Product from your store will show here. Tap button below to add your product now',
-                          emptyActionLabel: 'Add Product',
-                          onEmptyAction: () =>
-                              ProductFormWrapper.showCreate(context),
+                    return BlocBuilder<CombosBloc, CombosState>(
+                      builder: (context, combosState) {
+                        return BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
+                          builder: (context, orderState) {
+                            final selectedCategoryId =
+                                productsState is ProductsLoaded
+                                ? productsState.selectedCategoryId
+                                : null;
+                            final entries = <PosMenuEntry>[
+                              ...productsState.products.map(
+                                PosMenuProductEntry.new,
+                              ),
+                              // Combos have no categoryId in v1 — only show
+                              // them under the unfiltered "All" view.
+                              if (selectedCategoryId == null)
+                                ...combosState.combos
+                                    .where((c) => c.isEnabled)
+                                    .map(PosMenuComboEntry.new),
+                            ];
+                            return PosProductGrid(
+                              entries: entries,
+                              productQuantities: buildCartQuantities(
+                                orderState,
+                              ),
+                              comboQuantities: buildComboQuantities(orderState),
+                              onProductTap: onProductTap,
+                              onComboTap: onComboTap,
+                              emptyDescription:
+                                  'Product from your store will show here. Tap button below to add your product now',
+                              emptyActionLabel: 'Add Product',
+                              onEmptyAction: () =>
+                                  ProductFormWrapper.showCreate(context),
+                            );
+                          },
                         );
                       },
                     );
@@ -461,6 +541,7 @@ class _MobileLayout extends StatelessWidget {
   final OrderType orderType;
   final ValueChanged<OrderType> onOrderTypeChanged;
   final ValueChanged<Product> onProductTap;
+  final ValueChanged<Combo> onComboTap;
   final ValueChanged<int?> onCategorySelected;
   final ValueChanged<String> onSearch;
   final VoidCallback onClearOrder;
@@ -468,11 +549,13 @@ class _MobileLayout extends StatelessWidget {
   final ValueChanged<int> onItemRemoved;
   final void Function(int lineItemId, int quantity) onItemQuantityChanged;
   final Map<int, int> Function(ActiveOrderState) buildCartQuantities;
+  final Map<int, int> Function(ActiveOrderState) buildComboQuantities;
 
   const _MobileLayout({
     required this.orderType,
     required this.onOrderTypeChanged,
     required this.onProductTap,
+    required this.onComboTap,
     required this.onCategorySelected,
     required this.onSearch,
     required this.onClearOrder,
@@ -480,6 +563,7 @@ class _MobileLayout extends StatelessWidget {
     required this.onItemRemoved,
     required this.onItemQuantityChanged,
     required this.buildCartQuantities,
+    required this.buildComboQuantities,
   });
 
   @override
@@ -512,16 +596,35 @@ class _MobileLayout extends StatelessWidget {
         Expanded(
           child: BlocBuilder<ProductsBloc, ProductsState>(
             builder: (context, productsState) {
-              return BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
-                builder: (context, orderState) {
-                  return PosProductGrid(
-                    products: productsState.products,
-                    cartQuantities: buildCartQuantities(orderState),
-                    onProductTap: onProductTap,
-                    emptyDescription:
-                        'Product from your store will show here. Tap button below to add your product now',
-                    emptyActionLabel: 'Add Product',
-                    onEmptyAction: () => ProductFormWrapper.showCreate(context),
+              return BlocBuilder<CombosBloc, CombosState>(
+                builder: (context, combosState) {
+                  return BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
+                    builder: (context, orderState) {
+                      final selectedCategoryId = productsState is ProductsLoaded
+                          ? productsState.selectedCategoryId
+                          : null;
+                      final entries = <PosMenuEntry>[
+                        ...productsState.products.map(PosMenuProductEntry.new),
+                        // Combos have no categoryId in v1 — only show them
+                        // under the unfiltered "All" view.
+                        if (selectedCategoryId == null)
+                          ...combosState.combos
+                              .where((c) => c.isEnabled)
+                              .map(PosMenuComboEntry.new),
+                      ];
+                      return PosProductGrid(
+                        entries: entries,
+                        productQuantities: buildCartQuantities(orderState),
+                        comboQuantities: buildComboQuantities(orderState),
+                        onProductTap: onProductTap,
+                        onComboTap: onComboTap,
+                        emptyDescription:
+                            'Product from your store will show here. Tap button below to add your product now',
+                        emptyActionLabel: 'Add Product',
+                        onEmptyAction: () =>
+                            ProductFormWrapper.showCreate(context),
+                      );
+                    },
                   );
                 },
               );

@@ -1,5 +1,6 @@
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_pos/feature_pos.dart';
+import 'package:catalog/models/combo.dart';
 import 'package:catalog/models/product.dart';
 import 'package:database/database.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
@@ -7,17 +8,23 @@ import 'package:flutter/material.dart';
 
 import 'package:ui_kit/ui_kit.dart';
 
-/// A responsive grid of product cards for the POS view.
+/// A responsive grid of product/combo cards for the POS view.
 /// Automatically adjusts column count based on available width.
 class PosProductGrid extends StatelessWidget {
-  /// List of products to display.
-  final List<Product> products;
+  /// List of products/combos to display, in order.
+  final List<PosMenuEntry> entries;
 
   /// Map of productId to quantity in cart.
-  final Map<int, int> cartQuantities;
+  final Map<int, int> productQuantities;
 
-  /// Callback when a product is tapped.
+  /// Map of comboId to quantity in cart.
+  final Map<int, int> comboQuantities;
+
+  /// Callback when a product tile is tapped.
   final ValueChanged<Product> onProductTap;
+
+  /// Callback when a combo tile is tapped.
+  final ValueChanged<Combo> onComboTap;
 
   /// Empty state title text.
   final String emptyTitle;
@@ -33,9 +40,11 @@ class PosProductGrid extends StatelessWidget {
 
   const PosProductGrid({
     super.key,
-    required this.products,
-    required this.cartQuantities,
+    required this.entries,
+    required this.productQuantities,
+    required this.comboQuantities,
     required this.onProductTap,
+    required this.onComboTap,
     this.emptyTitle = 'No Product Found',
     this.emptyDescription,
     this.emptyActionLabel,
@@ -48,7 +57,7 @@ class PosProductGrid extends StatelessWidget {
         context.watch<SettingsCubit>().getString(SettingsKeys.currencySymbol) ??
         '€';
 
-    if (products.isEmpty) {
+    if (entries.isEmpty) {
       return PosEmptyState(
         icon: AgoraIcons.package,
         title: emptyTitle,
@@ -75,17 +84,23 @@ class PosProductGrid extends StatelessWidget {
             mainAxisSpacing: 16,
             childAspectRatio: 0.8, // Slightly taller than wide
           ),
-          itemCount: products.length,
+          itemCount: entries.length,
           itemBuilder: (context, index) {
-            final product = products[index];
-            final quantity = cartQuantities[product.id] ?? 0;
-
-            return PosProductCard(
-              product: product,
-              quantityInCart: quantity,
-              onTap: () => onProductTap(product),
-              currencySymbol: currencySymbol,
-            );
+            final entry = entries[index];
+            return switch (entry) {
+              PosMenuProductEntry(:final product) => PosProductCard(
+                product: product,
+                quantityInCart: productQuantities[product.id] ?? 0,
+                onTap: () => onProductTap(product),
+                currencySymbol: currencySymbol,
+              ),
+              PosMenuComboEntry(:final combo) => PosComboCard(
+                combo: combo,
+                quantityInCart: comboQuantities[combo.id] ?? 0,
+                onTap: () => onComboTap(combo),
+                currencySymbol: currencySymbol,
+              ),
+            };
           },
         );
       },

@@ -4,6 +4,7 @@ import 'package:drift/native.dart';
 import 'package:feature_orders/data/repositories/orders_repository_impl.dart';
 import 'package:feature_orders/data/sources/local/daos/order_items_dao.dart';
 import 'package:feature_orders/data/sources/local/daos/orders_dao.dart';
+import 'package:order_management/models/combo_line_component.dart';
 import 'package:order_management/models/order.dart';
 import 'package:order_management/models/order_line_item.dart';
 import 'package:order_management/models/order_type.dart';
@@ -166,6 +167,115 @@ void main() {
 
       final allItems = await db.select(db.orderItemsTable).get();
       expect(allItems, isEmpty);
+    });
+  });
+
+  group('OrdersRepositoryImpl.createOrder — combo fan-out', () {
+    test('fans a combo line out into one row per constituent, sharing one '
+        'comboLineId, with the full price on the lead row only '
+        '(docs/features/03-combo-modifier-pricing.md)', () async {
+      final ordersDao = OrdersDao(db);
+      final orderItemsDao = OrderItemsDao(db);
+      final repo = OrdersRepositoryImpl(
+        ordersDao: ordersDao,
+        orderItemsDao: orderItemsDao,
+        syncManager: syncManager,
+        deviceId: const DeviceId('test-device'),
+      );
+
+      final paninoId = await db
+          .into(db.productsTable)
+          .insert(
+            ProductsTableCompanion.insert(
+              name: 'Panino',
+              prepStation: const Value('Griglia'),
+            ),
+          );
+      final patatineId = await db
+          .into(db.productsTable)
+          .insert(
+            ProductsTableCompanion.insert(
+              name: 'Patatine',
+              prepStation: const Value('Fritti'),
+            ),
+          );
+      final bibitaId = await db
+          .into(db.productsTable)
+          .insert(ProductsTableCompanion.insert(name: 'Bibita'));
+
+      final comboLine = OrderLineItem(
+        id: 1,
+        productId: null,
+        comboId: 42,
+        comboName: 'Menu Completo',
+        productName: 'Menu Completo',
+        unitPriceCents: 1000,
+        quantity: 2, // 2 combo units sold on this cart line
+        selectedModifiers: const [],
+        comboComponents: [
+          ComboLineComponent(
+            productId: paninoId,
+            productName: 'Panino',
+            unitCostPriceCents: 200,
+            prepStation: 'Griglia',
+          ),
+          ComboLineComponent(
+            productId: patatineId,
+            productName: 'Patatine',
+            unitCostPriceCents: 150,
+            prepStation: 'Fritti',
+          ),
+          ComboLineComponent(
+            productId: bibitaId,
+            productName: 'Bibita',
+            unitCostPriceCents: 80,
+          ),
+        ],
+      );
+
+      final order = _buildOrder(items: [comboLine]);
+      final result = await repo.createOrder(order);
+
+      expect(result.isSuccess, isTrue);
+      final persisted = result.unwrap();
+
+      // The returned Order carries the fanned-out rows, not the original
+      // single cart-level combo line — this is what lets stock decrement/
+      // kitchen tickets/receipt read `order.items` unmodified.
+      expect(persisted.items, hasLength(3));
+
+      final rows = await db.select(db.orderItemsTable).get();
+      expect(rows, hasLength(3));
+
+      final comboLineIds = rows.map((r) => r.comboLineId).toSet();
+      expect(comboLineIds, hasLength(1));
+      expect(comboLineIds.single != null, isTrue);
+
+      final leadRows = rows.where((r) => r.unitPrice > 0).toList();
+      expect(leadRows, hasLength(1));
+      final lead = leadRows.single;
+      expect(lead.unitPrice, 1000);
+      expect(lead.comboSaleQuantity, 2);
+      expect(lead.productId, paninoId);
+      expect(lead.quantity, 2); // constituent qty (1) * cart qty (2)
+      expect(lead.prepStation, 'Griglia');
+      expect(lead.comboId, 42);
+      expect(lead.comboName, 'Menu Completo');
+
+      final siblingRows = rows.where((r) => r.unitPrice == 0).toList();
+      expect(siblingRows, hasLength(2));
+      for (final row in siblingRows) {
+        expect(row.comboLineId, comboLineIds.single);
+        expect(row.comboSaleQuantity, null);
+      }
+      final siblingProductIds = siblingRows.map((r) => r.productId).toSet();
+      expect(siblingProductIds, {patatineId, bibitaId});
+
+      // Each row's own productId/prepStation/costPrice matches its own
+      // constituent — never a shared/combo-level value.
+      final bibitaRow = rows.firstWhere((r) => r.productId == bibitaId);
+      expect(bibitaRow.prepStation, null);
+      expect(bibitaRow.costPrice, 80 * 1 * 2); // unitCost * qty * cartQty
     });
   });
 }

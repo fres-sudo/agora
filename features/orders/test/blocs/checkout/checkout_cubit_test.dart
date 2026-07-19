@@ -536,4 +536,183 @@ void main() {
     expect(done.status, OrderStatus.completed);
     expect(done.id, 42);
   });
+
+  group('combo checkout (docs/features/03-combo-modifier-pricing.md)', () {
+    // CheckoutCubit never fans a combo line out itself — that's
+    // OrdersRepositoryImpl's job (see orders_repository_impl_test.dart).
+    // This stub returns createOrder's result exactly as the real
+    // repository would: 3 rows sharing one comboLineId, full price on the
+    // lead row only, each with its own real productId/prepStation.
+    const fannedOutItems = [
+      OrderLineItem(
+        id: 101,
+        productId: 10,
+        productName: 'Panino',
+        quantity: 1,
+        unitPriceCents: 1000, // Full combo price on the lead row
+        selectedModifiers: [],
+        prepStation: 'Griglia',
+        comboId: 1,
+        comboName: 'Menu Completo',
+        comboLineId: 101,
+        comboSaleQuantity: 1,
+      ),
+      OrderLineItem(
+        id: 102,
+        productId: 11,
+        productName: 'Patatine',
+        quantity: 1,
+        unitPriceCents: 0,
+        selectedModifiers: [],
+        prepStation: 'Fritti',
+        comboId: 1,
+        comboName: 'Menu Completo',
+        comboLineId: 101,
+      ),
+      OrderLineItem(
+        id: 103,
+        productId: 12,
+        productName: 'Bibita',
+        quantity: 1,
+        unitPriceCents: 0,
+        selectedModifiers: [],
+        comboId: 1,
+        comboName: 'Menu Completo',
+        comboLineId: 101,
+      ),
+    ];
+
+    void stubComboSale() {
+      when(ordersRepository.createOrder(any)).thenAnswer(
+        (_) async => Result.ok(
+          buildCart(
+            items: fannedOutItems,
+            grandTotalCents: 1000,
+          ).copyWith(id: 42, status: OrderStatus.completed),
+        ),
+      );
+      when(
+        productsRepository.getProductById(10),
+      ).thenAnswer((_) async => Result.ok(product(id: 10)));
+      when(
+        productsRepository.getProductById(11),
+      ).thenAnswer((_) async => Result.ok(product(id: 11)));
+      when(
+        productsRepository.getProductById(12),
+      ).thenAnswer((_) async => Result.ok(product(id: 12)));
+      when(
+        inventoryRepository.decrementForOrder(
+          productId: anyNamed('productId'),
+          quantity: anyNamed('quantity'),
+          orderId: anyNamed('orderId'),
+        ),
+      ).thenAnswer(
+        (invocation) async => Result.ok((
+          productId: invocation.namedArguments[#productId] as int,
+          quantity: 99,
+        )),
+      );
+    }
+
+    blocTest<CheckoutCubit, CheckoutState>(
+      'confirm() decrements stock for each fanned-out constituent product, '
+      'not a comboId',
+      build: buildCubit,
+      setUp: stubComboSale,
+      act: (cubit) {
+        cubit.start(
+          buildCart(
+            items: [
+              const OrderLineItem(
+                id: 1,
+                comboId: 1,
+                comboName: 'Menu Completo',
+                productName: 'Menu Completo',
+                quantity: 1,
+                unitPriceCents: 1000,
+                selectedModifiers: [],
+              ),
+            ],
+          ),
+        );
+        cubit.setTendered(1000);
+        return cubit.confirm();
+      },
+      verify: (_) {
+        for (final productId in [10, 11, 12]) {
+          verify(
+            inventoryRepository.decrementForOrder(
+              productId: productId,
+              quantity: 1,
+              orderId: 42,
+            ),
+          ).called(1);
+        }
+      },
+    );
+
+    test(
+      'confirm() prints one kitchen ticket per distinct station represented '
+      'among the combo constituents (Bibita has none, stays receipt-only)',
+      () async {
+        stubComboSale();
+        final cubit = buildCubit();
+        cubit.start(
+          buildCart(
+            items: [
+              const OrderLineItem(
+                id: 1,
+                comboId: 1,
+                comboName: 'Menu Completo',
+                productName: 'Menu Completo',
+                quantity: 1,
+                unitPriceCents: 1000,
+                selectedModifiers: [],
+              ),
+            ],
+          ),
+        );
+        cubit.setTendered(1000);
+        await cubit.confirm();
+
+        // Griglia (Panino) + Fritti (Patatine) = 2 tickets; Bibita has no
+        // prepStation so it never gets its own ticket.
+        expect(printerService.printedJobs, hasLength(2));
+        await cubit.close();
+      },
+    );
+
+    test('success receipt groups the 3 fanned-out rows back into one priced '
+        'line with the constituent breakdown underneath', () async {
+      stubComboSale();
+      final cubit = buildCubit();
+      cubit.start(
+        buildCart(
+          items: [
+            const OrderLineItem(
+              id: 1,
+              comboId: 1,
+              comboName: 'Menu Completo',
+              productName: 'Menu Completo',
+              quantity: 1,
+              unitPriceCents: 1000,
+              selectedModifiers: [],
+            ),
+          ],
+        ),
+        receiptConfig: const ReceiptConfig(storeName: 'Sagra'),
+      );
+      cubit.setTendered(1000);
+      await cubit.confirm();
+
+      final state = cubit.state as CheckoutSuccess;
+      final receipt = state.receipt!;
+      expect(receipt.lines, hasLength(1));
+      final line = receipt.lines.single;
+      expect(line.name, 'Menu Completo');
+      expect(line.unitPriceCents, 1000);
+      expect(line.modifiers, containsAll(['1x Patatine', '1x Bibita']));
+      await cubit.close();
+    });
+  });
 }

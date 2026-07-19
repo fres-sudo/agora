@@ -122,9 +122,7 @@ class AppButton extends StatelessWidget {
     AppButtonSize.lg => context.tokens.spaceXl,
   };
 
-  ({Color bg, Color fg, Color? border, Color overlay}) _palette(
-    BuildContext context,
-  ) {
+  ({Color bg, Color fg, Color? border, Color overlay}) _palette(BuildContext context) {
     final c = context.colors;
     return switch (variant) {
       AppButtonVariant.primary => (
@@ -168,9 +166,9 @@ class AppButton extends StatelessWidget {
     final p = _palette(context);
     final enabled = onPressed != null && !isLoading;
 
-    final textStyle =
-        (size == AppButtonSize.sm ? typography.label : typography.titleMd)
-            .copyWith(color: p.fg);
+    final textStyle = (size == AppButtonSize.sm ? typography.label : typography.titleMd).copyWith(
+      color: p.fg,
+    );
 
     final baseStyle = ButtonStyle(
       minimumSize: WidgetStatePropertyAll(Size(0, _height)),
@@ -195,23 +193,18 @@ class AppButton extends StatelessWidget {
         if (states.contains(WidgetState.pressed)) {
           return p.overlay.withValues(alpha: 0.16);
         }
-        if (states.contains(WidgetState.hovered) ||
-            states.contains(WidgetState.focused)) {
+        if (states.contains(WidgetState.hovered) || states.contains(WidgetState.focused)) {
           return p.overlay.withValues(alpha: 0.08);
         }
         return null;
       }),
       textStyle: WidgetStatePropertyAll(textStyle),
-      iconColor: WidgetStatePropertyAll(p.fg),
-      shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: tokens.borderRadiusMd),
-      ),
+      iconColor: WidgetStatePropertyAll(p.bg),
+      shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: tokens.borderRadiusMd)),
       side: p.border == null
           ? null
           : WidgetStateProperty.resolveWith((states) {
-              final color = states.contains(WidgetState.disabled)
-                  ? colors.border
-                  : p.border!;
+              final color = states.contains(WidgetState.disabled) ? colors.border : p.border!;
               return BorderSide(color: color, width: tokens.borderHairline);
             }),
       elevation: const WidgetStatePropertyAll(0),
@@ -232,15 +225,9 @@ class AppButton extends StatelessWidget {
       content = Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (leadingIcon != null) ...[
-            leadingIcon!,
-            SizedBox(width: tokens.spaceSm),
-          ],
+          if (leadingIcon != null) ...[leadingIcon!, SizedBox(width: tokens.spaceSm)],
           Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
-          if (trailingIcon != null) ...[
-            SizedBox(width: tokens.spaceSm),
-            trailingIcon!,
-          ],
+          if (trailingIcon != null) ...[SizedBox(width: tokens.spaceSm), trailingIcon!],
         ],
       );
     }

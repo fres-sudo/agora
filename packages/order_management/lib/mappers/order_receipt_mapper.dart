@@ -22,7 +22,7 @@ extension OrderReceiptMapper on Order {
       footer: config.footer,
       orderNumber: (id ?? 0).toString(),
       createdAt: createdAt,
-      lines: items.map(_lineFor).toList(),
+      lines: _receiptLines(),
       subtotalCents: subtotalCents,
       taxCents: taxCents,
       discountCents: discountCents,
@@ -67,6 +67,44 @@ extension OrderReceiptMapper on Order {
         showTax: false,
       );
     }).toList();
+  }
+
+  /// Builds the customer-receipt line list, re-grouping fanned-out combo
+  /// constituent rows (see `OrdersRepositoryImpl._insertComboLine`) back
+  /// into one [ReceiptLine] per combo sale, keyed by [OrderLineItem.comboLineId].
+  /// Non-combo rows go through [_lineFor] unchanged. Kitchen tickets
+  /// ([toStationTickets]) intentionally do NOT group — each constituent
+  /// should appear as its own ticket item routed to its own station.
+  List<ReceiptLine> _receiptLines() {
+    final lines = <ReceiptLine>[];
+    final seenComboLineIds = <int>{};
+    for (final item in items) {
+      final comboLineId = item.comboLineId;
+      if (comboLineId != null) {
+        if (!seenComboLineIds.add(comboLineId)) {
+          continue; // Already emitted this combo sale's grouped line.
+        }
+        final siblings = items.where((i) => i.comboLineId == comboLineId);
+        final lead = siblings.firstWhere(
+          (i) => i.unitPriceCents > 0,
+          orElse: () => siblings.first,
+        );
+        lines.add(
+          ReceiptLine(
+            name: lead.comboName ?? lead.productName,
+            quantity: lead.comboSaleQuantity ?? 1,
+            unitPriceCents: lead.unitPriceCents,
+            modifiers: [
+              for (final sibling in siblings)
+                '${sibling.quantity}x ${sibling.productName}',
+            ],
+          ),
+        );
+      } else {
+        lines.add(_lineFor(item));
+      }
+    }
+    return lines;
   }
 
   ReceiptLine _lineFor(OrderLineItem item) => ReceiptLine(

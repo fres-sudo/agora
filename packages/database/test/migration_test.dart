@@ -474,5 +474,185 @@ void main() {
       expect(reloadedItem.prepStation, 'Griglia');
       expect(reloadedItem.ticketStatus, 1);
     });
+
+    test('upgrading from schema v6 to v7 backfills combo columns as null on '
+        'existing order items, creates the combo tables, and lets new '
+        'combos/order items use them '
+        '(docs/features/03-combo-modifier-pricing.md)', () async {
+      final dbFile = File('${tempDir.path}/agora_v6_to_v7.sqlite');
+
+      // Hand-build a schema v6 database: order_items_table as it was before
+      // the combo columns were added, and no combos_table/combo_items_table
+      // at all, pre-populated with a row of real, unsynced local data.
+      final legacyDb = sqlite3.sqlite3.open(dbFile.path);
+      legacyDb.execute('''
+            CREATE TABLE orders_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              status INTEGER NOT NULL DEFAULT 0,
+              order_type INTEGER NOT NULL DEFAULT 0,
+              subtotal INTEGER NOT NULL,
+              discount_total INTEGER NOT NULL DEFAULT 0,
+              tax_total INTEGER NOT NULL DEFAULT 0,
+              grand_total INTEGER NOT NULL,
+              payment_method TEXT NULL,
+              note TEXT NULL,
+              sync_id TEXT NULL
+            );
+          ''');
+      legacyDb.execute('''
+            CREATE UNIQUE INDEX idx_orders_sync_id ON orders_table (sync_id);
+          ''');
+      legacyDb.execute('''
+            INSERT INTO orders_table
+              (created_at, status, subtotal, discount_total, tax_total, grand_total, payment_method, note)
+            VALUES
+              (1700000000, 1, 1500, 0, 150, 1650, 'Cash', 'unsynced order');
+          ''');
+      legacyDb.execute('''
+            CREATE TABLE products_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              name TEXT NOT NULL,
+              description TEXT NOT NULL DEFAULT '',
+              image_url TEXT NULL,
+              track_stock INTEGER NOT NULL DEFAULT 1,
+              sku TEXT NULL,
+              category_id INTEGER NULL,
+              price INTEGER NOT NULL DEFAULT 0,
+              cost INTEGER NOT NULL DEFAULT 0,
+              tax_percent INTEGER NOT NULL DEFAULT 0,
+              status TEXT NOT NULL DEFAULT 'draft',
+              prep_station TEXT NULL
+            );
+          ''');
+      legacyDb.execute('''
+            INSERT INTO products_table (created_at, name, price)
+            VALUES (1700000000, 'Panino', 500);
+          ''');
+      legacyDb.execute('''
+            CREATE TABLE order_items_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              order_id INTEGER NOT NULL,
+              product_id INTEGER NULL,
+              product_name TEXT NOT NULL,
+              unit_price INTEGER NOT NULL,
+              cost_price INTEGER NOT NULL,
+              quantity INTEGER NOT NULL DEFAULT 1,
+              discount_amount INTEGER NOT NULL DEFAULT 0,
+              prep_station TEXT NULL,
+              ticket_status INTEGER NOT NULL DEFAULT 0
+            );
+          ''');
+      legacyDb.execute('''
+            INSERT INTO order_items_table
+              (created_at, order_id, product_id, product_name, unit_price, cost_price)
+            VALUES
+              (1700000000, 1, 1, 'Panino', 500, 0);
+          ''');
+      legacyDb.execute('''
+            CREATE TABLE stock_movements_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              product_id INTEGER NOT NULL,
+              quantity_change INTEGER NOT NULL,
+              reason TEXT NOT NULL,
+              timestamp INTEGER NOT NULL,
+              sync_id TEXT NULL
+            );
+          ''');
+      legacyDb.execute('''
+            CREATE UNIQUE INDEX idx_stock_movements_sync_id ON stock_movements_table (sync_id);
+          ''');
+      legacyDb.execute('PRAGMA user_version = 6;');
+      legacyDb.dispose();
+
+      final db = AgoraDatabase(NativeDatabase(dbFile));
+      addTearDown(db.close);
+
+      final items = await db.select(db.orderItemsTable).get();
+      expect(items, hasLength(1));
+      expect(
+        items.single.comboId,
+        isNull,
+        reason: 'pre-migration order items were never part of a combo',
+      );
+      expect(items.single.comboName, isNull);
+      expect(items.single.comboLineId, isNull);
+      expect(items.single.comboSaleQuantity, isNull);
+
+      // combos_table/combo_items_table didn't exist pre-migration; the
+      // migration must create them (first use of m.createTable in this
+      // codebase) so a fresh combo can be defined and sold post-migration.
+      final now = Value(DateTime.now());
+
+      final comboId = await db
+          .into(db.combosTable)
+          .insert(
+            CombosTableCompanion.insert(
+              createdAt: now,
+              name: 'Menu Completo',
+              price: 1000,
+            ),
+          );
+      final reloadedCombo = await (db.select(
+        db.combosTable,
+      )..where((t) => t.id.equals(comboId))).getSingle();
+      expect(reloadedCombo.name, 'Menu Completo');
+      expect(reloadedCombo.price, 1000);
+      expect(reloadedCombo.isEnabled, isTrue);
+
+      final comboItemId = await db
+          .into(db.comboItemsTable)
+          .insert(
+            ComboItemsTableCompanion.insert(
+              createdAt: now,
+              comboId: comboId,
+              productId: 1,
+              productName: 'Panino',
+            ),
+          );
+      final reloadedComboItem = await (db.select(
+        db.comboItemsTable,
+      )..where((t) => t.id.equals(comboItemId))).getSingle();
+      expect(reloadedComboItem.comboId, comboId);
+      expect(reloadedComboItem.productId, 1);
+      expect(reloadedComboItem.quantity, 1);
+
+      final leadItemId = await db
+          .into(db.orderItemsTable)
+          .insert(
+            OrderItemsTableCompanion.insert(
+              createdAt: now,
+              orderId: 1,
+              productId: const Value(1),
+              productName: 'Panino',
+              unitPrice: 1000,
+              costPrice: 0,
+              comboId: Value(comboId),
+              comboName: const Value('Menu Completo'),
+              comboSaleQuantity: const Value(1),
+            ),
+          );
+      await (db.update(db.orderItemsTable)
+            ..where((t) => t.id.equals(leadItemId)))
+          .write(OrderItemsTableCompanion(comboLineId: Value(leadItemId)));
+      final reloadedLeadItem = await (db.select(
+        db.orderItemsTable,
+      )..where((t) => t.id.equals(leadItemId))).getSingle();
+      expect(reloadedLeadItem.comboId, comboId);
+      expect(reloadedLeadItem.comboName, 'Menu Completo');
+      expect(reloadedLeadItem.comboLineId, leadItemId);
+      expect(reloadedLeadItem.comboSaleQuantity, 1);
+    });
   });
 }

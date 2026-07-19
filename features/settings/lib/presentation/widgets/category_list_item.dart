@@ -31,29 +31,16 @@ class CategoryListItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(Sizes.sm),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.lg,
-          vertical: Sizes.md,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
         decoration: BoxDecoration(
           color: colors.card,
-          borderRadius: BorderRadius.circular(Sizes.sm),
+          borderRadius: BorderRadius.circular(context.tokens.radiusLg),
           border: Border.all(color: colors.border),
         ),
         child: Row(
           children: [
             // Toggle Switch
-            Switch(
-              value: category.isEnabled,
-              onChanged: onToggle,
-              activeTrackColor: colors.primary.withValues(alpha: 0.5),
-              thumbColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return colors.primary;
-                }
-                return null;
-              }),
-            ),
+            AppSwitch(value: category.isEnabled, onChanged: onToggle),
             const SizedBox(width: Sizes.md),
 
             // Icon

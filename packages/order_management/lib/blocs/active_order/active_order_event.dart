@@ -16,6 +16,20 @@ sealed class ActiveOrderEvent with _$ActiveOrderEvent {
     @Default([]) List<SelectedModifiers> modifiers,
   }) = _ItemAdded;
 
+  /// Add a combo to the cart as one line (fixed contents, no modifier
+  /// picker — v1 combos don't support modifiers on top).
+  ///
+  /// [components] must already be resolved by the caller (POS UI) against
+  /// the live product catalog, mirroring how [itemAdded] snapshots a live
+  /// [Product]'s price/prepStation rather than storing them on the combo
+  /// definition. If a combo with the same [combo] id is already in the
+  /// cart, its quantity is incremented instead of creating a duplicate line.
+  const factory ActiveOrderEvent.comboAdded({
+    required Combo combo,
+    required List<ComboLineComponent> components,
+    @Default(1) int quantity,
+  }) = _ComboAdded;
+
   /// Remove a specific line item from the cart, by its cart-local
   /// [OrderLineItem.id].
   const factory ActiveOrderEvent.itemRemoved(int lineItemId) = _ItemRemoved;

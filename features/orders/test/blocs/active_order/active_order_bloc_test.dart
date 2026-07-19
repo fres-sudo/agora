@@ -33,6 +33,21 @@ void main() {
     priceChangeCents: 100,
   );
 
+  const testCombo = Combo(
+    id: 1,
+    name: 'Menu Completo',
+    priceCents: 1000,
+    items: [
+      ComboItem(productId: 1, productName: 'Panino', quantity: 1),
+      ComboItem(productId: 2, productName: 'Patatine', quantity: 1),
+    ],
+  );
+
+  const testComboComponents = [
+    ComboLineComponent(productId: 1, productName: 'Panino'),
+    ComboLineComponent(productId: 2, productName: 'Patatine'),
+  ];
+
   setUpAll(() {
     provideDummy<Result<Order>>(
       Result.ok(
@@ -284,6 +299,90 @@ void main() {
             building: (s) {
               expect(s.order.items.length, 1);
               expect(s.order.items.first.id, 2);
+            },
+          );
+        },
+      );
+    });
+
+    group('Combo Management', () {
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'emits building with one combo line at the flat combo price when '
+        'ComboAdded is added',
+        build: () => bloc,
+        act: (bloc) => bloc.add(
+          ActiveOrderEvent.comboAdded(
+            combo: testCombo,
+            components: testComboComponents,
+          ),
+        ),
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.items.length, 1);
+              expect(s.order.items.first.comboId, testCombo.id);
+              expect(s.order.items.first.comboComponents, testComboComponents);
+              expect(s.order.items.first.productId, isNull);
+              // No modifier-delta math for combos: subtotal is just the
+              // flat price, same as the itemAdded subtotal loop.
+              expect(s.order.subtotalCents, 1000);
+            },
+          );
+        },
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'merges into the existing combo line instead of duplicating it when '
+        'the same combo is added again',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(
+            ActiveOrderEvent.comboAdded(
+              combo: testCombo,
+              components: testComboComponents,
+            ),
+          );
+          bloc.add(
+            ActiveOrderEvent.comboAdded(
+              combo: testCombo,
+              components: testComboComponents,
+            ),
+          );
+        },
+        skip: 1,
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.items.length, 1);
+              expect(s.order.items.first.quantity, 2);
+              expect(s.order.subtotalCents, 2000);
+            },
+          );
+        },
+      );
+
+      blocTest<ActiveOrderBloc, ActiveOrderState>(
+        'keeps a product line and a combo line separate even though the '
+        'combo has no productId to collide on',
+        build: () => bloc,
+        act: (bloc) {
+          bloc.add(ActiveOrderEvent.itemAdded(product: testProduct));
+          bloc.add(
+            ActiveOrderEvent.comboAdded(
+              combo: testCombo,
+              components: testComboComponents,
+            ),
+          );
+        },
+        skip: 1,
+        verify: (bloc) {
+          final state = bloc.state;
+          state.mapOrNull(
+            building: (s) {
+              expect(s.order.items.length, 2);
+              expect(s.order.subtotalCents, 2000); // 1000 product + 1000 combo
             },
           );
         },

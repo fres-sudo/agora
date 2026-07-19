@@ -9,6 +9,13 @@ import 'package:order_management/repositories/orders_repository.dart';
 import 'package:result/result.dart';
 import 'package:sync_engine/sync_engine.dart';
 
+/// Synthetic per-line grouping token used only in the outbound/inbound sync
+/// wire payload (never persisted as-is) to tie a combo cart line's fanned-out
+/// JSON item entries back together — two different stations assign
+/// different local DB ids to "the same" combo line, so the wire format
+/// can't reuse the local `comboLineId` integer scheme.
+String _comboWireGroup(String syncId, int lineIndex) => '$syncId#$lineIndex';
+
 class OrdersRepositoryImpl extends SyncableRepository
     implements OrdersRepository {
   OrdersRepositoryImpl({
@@ -53,6 +60,10 @@ class OrdersRepositoryImpl extends SyncableRepository
               )
               .toList(),
           prepStation: itemEntity.prepStation,
+          comboId: itemEntity.comboId,
+          comboName: itemEntity.comboName,
+          comboLineId: itemEntity.comboLineId,
+          comboSaleQuantity: itemEntity.comboSaleQuantity,
         ),
       );
     }
@@ -118,27 +129,80 @@ class OrdersRepositoryImpl extends SyncableRepository
     'grandTotalCents': order.grandTotalCents,
     'paymentMethod': order.paymentMethod,
     'note': order.note,
-    'items': order.items
+    'items': [
+      for (final entry in order.items.asMap().entries)
+        ..._itemPayloads(entry.value, syncId, entry.key),
+    ],
+  };
+
+  Map<String, dynamic> _plainItemPayload(OrderLineItem item) => {
+    'productId': item.productId,
+    'productName': item.productName,
+    'quantity': item.quantity,
+    'unitPriceCents': item.unitPriceCents,
+    'prepStation': item.prepStation,
+    'modifiers': item.selectedModifiers
         .map(
-          (item) => {
-            'productId': item.productId,
-            'productName': item.productName,
-            'quantity': item.quantity,
-            'unitPriceCents': item.unitPriceCents,
-            'prepStation': item.prepStation,
-            'modifiers': item.selectedModifiers
-                .map(
-                  (m) => {
-                    'groupName': m.groupName,
-                    'optionName': m.optionName,
-                    'priceChangeCents': m.priceChangeCents,
-                  },
-                )
-                .toList(),
+          (m) => {
+            'groupName': m.groupName,
+            'optionName': m.optionName,
+            'priceChangeCents': m.priceChangeCents,
           },
         )
         .toList(),
+    'comboId': null,
+    'comboName': null,
+    'comboWireGroup': null,
+    'comboSaleQuantity': null,
   };
+
+  /// One cart-level [OrderLineItem] becomes one JSON entry for a plain
+  /// product line, or N entries (one per constituent) for a combo line —
+  /// mirroring the local fan-out in [_insertComboLine], so a peer station
+  /// receives the already-split rows directly and doesn't need to resolve
+  /// the combo definition itself.
+  List<Map<String, dynamic>> _itemPayloads(
+    OrderLineItem item,
+    String syncId,
+    int lineIndex,
+  ) {
+    if (item.comboId == null || item.comboComponents.isEmpty) {
+      return [_plainItemPayload(item)];
+    }
+
+    final wireGroup = _comboWireGroup(syncId, lineIndex);
+    final components = item.comboComponents;
+    final lead = components.first;
+    final payloads = <Map<String, dynamic>>[
+      {
+        'productId': lead.productId,
+        'productName': lead.productName,
+        'quantity': lead.quantity * item.quantity,
+        'unitPriceCents': item.unitPriceCents, // Full combo price on lead
+        'prepStation': lead.prepStation,
+        'modifiers': const [],
+        'comboId': item.comboId,
+        'comboName': item.comboName,
+        'comboWireGroup': wireGroup,
+        'comboSaleQuantity': item.quantity, // Lead-only marker
+      },
+    ];
+    for (final sibling in components.skip(1)) {
+      payloads.add({
+        'productId': sibling.productId,
+        'productName': sibling.productName,
+        'quantity': sibling.quantity * item.quantity,
+        'unitPriceCents': 0,
+        'prepStation': sibling.prepStation,
+        'modifiers': const [],
+        'comboId': item.comboId,
+        'comboName': item.comboName,
+        'comboWireGroup': wireGroup,
+        'comboSaleQuantity': null,
+      });
+    }
+    return payloads;
+  }
 
   OrderItemsTableCompanion _itemToInsertCompanion(
     int orderId,
@@ -154,6 +218,87 @@ class OrdersRepositoryImpl extends SyncableRepository
       discountAmount: Value(0), // Discount applied at order level
       prepStation: Value(item.prepStation),
     );
+  }
+
+  /// Fans a combo cart line out into one `OrderItemsTable` row per
+  /// constituent product (docs/features/03-combo-modifier-pricing.md), so
+  /// kitchen ticket routing (per-row prepStation) and stock decrement
+  /// (per-row productId) work unmodified — see [CheckoutCubit._decrementStock]
+  /// and `TicketsDao`. The first component is the "lead" row: it carries
+  /// the full flat combo price and `comboSaleQuantity` (how many combo
+  /// units were sold); siblings get `unitPrice = 0` but keep their own real
+  /// cost snapshot for margin accuracy. All rows share `comboLineId` (set to
+  /// the lead row's own id) so the receipt mapper can regroup them.
+  Future<List<OrderLineItem>> _insertComboLine(
+    int orderId,
+    OrderLineItem item,
+  ) async {
+    final components = item.comboComponents;
+    if (components.isEmpty) return const []; // Defensive; should never happen
+
+    final lead = components.first;
+    final leadId = await _orderItemsDao.insertOrderItem(
+      OrderItemsTableCompanion.insert(
+        orderId: orderId,
+        productId: Value(lead.productId),
+        productName: lead.productName,
+        unitPrice: item.unitPriceCents, // Full combo price on the lead row
+        costPrice: lead.unitCostPriceCents * lead.quantity * item.quantity,
+        quantity: Value(lead.quantity * item.quantity),
+        discountAmount: const Value(0),
+        prepStation: Value(lead.prepStation),
+        comboId: Value(item.comboId),
+        comboName: Value(item.comboName),
+        comboSaleQuantity: Value(item.quantity),
+      ),
+    );
+    await _orderItemsDao.setOrderItemComboLineId(leadId, leadId);
+
+    final inserted = <OrderLineItem>[
+      item.copyWith(
+        id: leadId,
+        productId: lead.productId,
+        productName: lead.productName,
+        quantity: lead.quantity * item.quantity,
+        prepStation: lead.prepStation,
+        comboLineId: leadId,
+        comboSaleQuantity: item.quantity,
+        comboComponents: const [],
+      ),
+    ];
+
+    for (final sibling in components.skip(1)) {
+      final siblingId = await _orderItemsDao.insertOrderItem(
+        OrderItemsTableCompanion.insert(
+          orderId: orderId,
+          productId: Value(sibling.productId),
+          productName: sibling.productName,
+          unitPrice: 0,
+          costPrice:
+              sibling.unitCostPriceCents * sibling.quantity * item.quantity,
+          quantity: Value(sibling.quantity * item.quantity),
+          discountAmount: const Value(0),
+          prepStation: Value(sibling.prepStation),
+          comboId: Value(item.comboId),
+          comboName: Value(item.comboName),
+          comboLineId: Value(leadId),
+        ),
+      );
+      inserted.add(
+        item.copyWith(
+          id: siblingId,
+          productId: sibling.productId,
+          productName: sibling.productName,
+          unitPriceCents: 0,
+          quantity: sibling.quantity * item.quantity,
+          prepStation: sibling.prepStation,
+          comboLineId: leadId,
+          comboComponents: const [],
+        ),
+      );
+    }
+
+    return inserted;
   }
 
   // ============================================================
@@ -309,25 +454,34 @@ class OrdersRepositoryImpl extends SyncableRepository
             _modelToInsertCompanion(orderWithSyncId),
           );
 
-          // Insert items and their modifiers
+          // Insert items (and their modifiers), fanning combo lines out
+          // into one row per constituent — see [_insertComboLine].
+          final insertedItems = <OrderLineItem>[];
           for (final item in order.items) {
-            final itemId = await _orderItemsDao.insertOrderItem(
-              _itemToInsertCompanion(orderId, item),
-            );
-
-            // Insert modifiers for this item
-            for (final modifier in item.selectedModifiers) {
-              await _orderItemsDao.addModifierToOrderItem(
-                orderItemId: itemId,
-                modifierName: modifier.groupName,
-                optionName: modifier.optionName,
-                priceChange: modifier.priceChangeCents,
+            if (item.comboId == null) {
+              final itemId = await _orderItemsDao.insertOrderItem(
+                _itemToInsertCompanion(orderId, item),
               );
+
+              for (final modifier in item.selectedModifiers) {
+                await _orderItemsDao.addModifierToOrderItem(
+                  orderItemId: itemId,
+                  modifierName: modifier.groupName,
+                  optionName: modifier.optionName,
+                  priceChange: modifier.priceChangeCents,
+                );
+              }
+              insertedItems.add(item.copyWith(id: itemId));
+            } else {
+              insertedItems.addAll(await _insertComboLine(orderId, item));
             }
           }
 
-          // Return the created order with its new ID
-          return orderWithSyncId.copyWith(id: orderId);
+          // Return the created order with its new ID and fanned-out items —
+          // downstream consumers (stock decrement, kitchen tickets,
+          // receipt) all read `order.items` and expect the persisted,
+          // per-row shape, not the cart-level combo line.
+          return orderWithSyncId.copyWith(id: orderId, items: insertedItems);
         });
       },
     );

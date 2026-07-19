@@ -2,6 +2,7 @@
 import 'package:drift/drift.dart';
 
 import '../database_mixin.dart';
+import 'combos_table.dart';
 import 'orders_table.dart';
 import 'products_table.dart';
 
@@ -29,6 +30,21 @@ class OrderItemsTable extends Table with TableMixin {
   // Kitchen ticket status: 0=pending, 1=inProgress, 2=ready, 3=bumped.
   // Meaningless for items with a null prepStation.
   IntColumn get ticketStatus => integer().withDefault(const Constant(0))();
+
+  // Combo support (docs/features/03-combo-modifier-pricing.md): a combo
+  // cart line is fanned out into one row per constituent product at persist
+  // time, so kitchen ticket routing (per-row prepStation) and stock
+  // decrement (per-row productId) work unmodified. The rows are tied back
+  // together for receipt rendering via comboLineId.
+  IntColumn get comboId => integer().nullable().references(CombosTable, #id)();
+  TextColumn get comboName => text().nullable()(); // Snapshot of combo name
+  // Groups sibling rows of one combo sale. Set to the lead row's own id
+  // (not a real FK) right after that row is inserted.
+  IntColumn get comboLineId => integer().nullable()();
+  // Lead row only: how many combo units were sold on this cart line (as
+  // opposed to `quantity`, which is how many of *this* constituent to make —
+  // the two diverge once a combo's own constituent quantities aren't all 1).
+  IntColumn get comboSaleQuantity => integer().nullable()();
 }
 
 // Tracks specific choices made for a line item (e.g., "No Sugar")

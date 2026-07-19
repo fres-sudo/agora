@@ -70,8 +70,27 @@ class OrderInboundApplier {
         ),
       );
 
-      for (final rawItem in data['items'] as List) {
-        final item = (rawItem as Map).cast<String, dynamic>();
+      final rawItems = (data['items'] as List)
+          .map((rawItem) => (rawItem as Map).cast<String, dynamic>())
+          .toList();
+
+      // Combo lines arrive as N JSON entries sharing one comboWireGroup
+      // token (see `OrdersRepositoryImpl._itemPayloads`) — group them so
+      // sibling rows can share a locally-assigned comboLineId, the same way
+      // `_insertComboLine` does for a locally-created order. Plain items
+      // (comboWireGroup null) insert individually, exactly as before.
+      final grouped = <String, List<Map<String, dynamic>>>{};
+      final plain = <Map<String, dynamic>>[];
+      for (final item in rawItems) {
+        final wireGroup = item['comboWireGroup'] as String?;
+        if (wireGroup == null) {
+          plain.add(item);
+        } else {
+          (grouped[wireGroup] ??= []).add(item);
+        }
+      }
+
+      for (final item in plain) {
         final itemId = await _orderItemsDao.insertOrderItem(
           OrderItemsTableCompanion.insert(
             orderId: orderId,
@@ -92,6 +111,47 @@ class OrderInboundApplier {
             modifierName: modifier['groupName'] as String,
             optionName: modifier['optionName'] as String,
             priceChange: modifier['priceChangeCents'] as int,
+          );
+        }
+      }
+
+      for (final group in grouped.values) {
+        final leadItem = group.firstWhere(
+          (item) => item['comboSaleQuantity'] != null,
+          orElse: () => group.first,
+        );
+        final leadId = await _orderItemsDao.insertOrderItem(
+          OrderItemsTableCompanion.insert(
+            orderId: orderId,
+            productId: Value(leadItem['productId'] as int?),
+            productName: leadItem['productName'] as String,
+            unitPrice: leadItem['unitPriceCents'] as int,
+            costPrice: 0,
+            quantity: Value(leadItem['quantity'] as int),
+            discountAmount: const Value(0),
+            prepStation: Value(leadItem['prepStation'] as String?),
+            comboId: Value(leadItem['comboId'] as int?),
+            comboName: Value(leadItem['comboName'] as String?),
+            comboSaleQuantity: Value(leadItem['comboSaleQuantity'] as int?),
+          ),
+        );
+        await _orderItemsDao.setOrderItemComboLineId(leadId, leadId);
+
+        for (final sibling in group.where((item) => item != leadItem)) {
+          await _orderItemsDao.insertOrderItem(
+            OrderItemsTableCompanion.insert(
+              orderId: orderId,
+              productId: Value(sibling['productId'] as int?),
+              productName: sibling['productName'] as String,
+              unitPrice: sibling['unitPriceCents'] as int,
+              costPrice: 0,
+              quantity: Value(sibling['quantity'] as int),
+              discountAmount: const Value(0),
+              prepStation: Value(sibling['prepStation'] as String?),
+              comboId: Value(sibling['comboId'] as int?),
+              comboName: Value(sibling['comboName'] as String?),
+              comboLineId: Value(leadId),
+            ),
           );
         }
       }

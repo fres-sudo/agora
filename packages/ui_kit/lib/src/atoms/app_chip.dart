@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/theme/context_extensions.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// A selectable, token-aware chip (filters, tags, quick-select).
 ///
-/// TODO(design-system): add leading avatar, deletable variant and chip groups.
+/// TODO(design-system): add leading avatar and chip groups.
 class AppChip extends StatelessWidget {
   const AppChip({
     super.key,
@@ -12,12 +11,19 @@ class AppChip extends StatelessWidget {
     this.selected = false,
     this.onTap,
     this.icon,
+    this.onDeleted,
+    this.deleteIcon = AgoraIcons.x_mark,
   });
 
   final String label;
   final bool selected;
   final VoidCallback? onTap;
   final IconData? icon;
+
+  /// When set, renders a trailing delete affordance and makes this a
+  /// removable tag (e.g. a selected value in a multi-select trigger).
+  final VoidCallback? onDeleted;
+  final IconData deleteIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +55,19 @@ class AppChip extends StatelessWidget {
                   SizedBox(width: tokens.spaceXs),
                 ],
                 AppText.label(label, color: fg),
+                if (onDeleted != null) ...[
+                  SizedBox(width: tokens.spaceXs),
+                  Semantics(
+                    container: true,
+                    button: true,
+                    label: 'Remove $label',
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: onDeleted,
+                      child: Icon(deleteIcon, size: tokens.iconSm, color: fg),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

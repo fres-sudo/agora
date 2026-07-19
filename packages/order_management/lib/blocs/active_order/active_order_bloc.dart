@@ -9,7 +9,9 @@ import 'package:order_management/models/order.dart';
 import 'package:order_management/models/order_line_item.dart';
 import 'package:order_management/models/order_type.dart';
 import 'package:order_management/models/selected_modifiers.dart';
+import 'package:order_management/models/combo_line_component.dart';
 import 'package:order_management/repositories/orders_repository.dart';
+import 'package:catalog/models/combo.dart';
 import 'package:catalog/models/product.dart';
 import 'package:database/database.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
@@ -48,6 +50,7 @@ class ActiveOrderBloc
        super(const ActiveOrderState.empty()) {
     on<_Started>(_onStarted);
     on<_ItemAdded>(_onItemAdded);
+    on<_ComboAdded>(_onComboAdded);
     on<_ItemRemoved>(_onItemRemoved);
     on<_ItemQuantityChanged>(_onItemQuantityChanged);
     on<_OrderTypeChanged>(_onOrderTypeChanged);
@@ -127,6 +130,45 @@ class ActiveOrderBloc
 
     // No async operation needed for local cart state
     // The actual order is created on submit
+  }
+
+  Future<void> _onComboAdded(
+    _ComboAdded event,
+    Emitter<ActiveOrderState> emit,
+  ) async {
+    // If the same combo is already in the cart, merge into it instead of
+    // adding a duplicate line (mirrors _onItemAdded's merge-by-identity).
+    final existingIndex = _items.indexWhere(
+      (item) => item.comboId == event.combo.id,
+    );
+
+    if (existingIndex != -1) {
+      final existing = _items[existingIndex];
+      final merged = existing.copyWith(
+        quantity: existing.quantity + event.quantity,
+      );
+      _items = [
+        ..._items.sublist(0, existingIndex),
+        merged,
+        ..._items.sublist(existingIndex + 1),
+      ];
+    } else {
+      final lineItem = OrderLineItem(
+        id: _nextLineItemId++,
+        productId: null,
+        comboId: event.combo.id,
+        comboName: event.combo.name,
+        comboComponents: event.components,
+        productName: event.combo.name,
+        unitPriceCents: event.combo.priceCents,
+        quantity: event.quantity,
+        selectedModifiers: const [],
+      );
+      _items = [..._items, lineItem];
+    }
+
+    // Optimistic update: cart reflects the change immediately.
+    _emitBuilding(emit);
   }
 
   Future<void> _onItemRemoved(
