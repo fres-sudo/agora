@@ -211,7 +211,6 @@ class _AppPopoverAnchorState extends State<AppPopoverAnchor>
                           color: colors.border,
                           width: tokens.borderHairline,
                         ),
-                        boxShadow: tokens.shadowMd,
                       ),
                       child: ClipRRect(
                         borderRadius: tokens.borderRadiusMd,

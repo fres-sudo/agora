@@ -323,30 +323,15 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        DropdownButtonFormField<OrderStatus?>(
-          initialValue: _status,
-          decoration: const InputDecoration(
-            labelText: 'Order status',
-            border: OutlineInputBorder(),
-          ),
+        AppSelect<OrderStatus?>(
           items: const [
-            DropdownMenuItem<OrderStatus?>(
-              value: null,
-              child: AppText.body('Any status'),
-            ),
-            DropdownMenuItem<OrderStatus?>(
-              value: OrderStatus.pending,
-              child: AppText.body('Pending'),
-            ),
-            DropdownMenuItem<OrderStatus?>(
-              value: OrderStatus.completed,
-              child: AppText.body('Completed'),
-            ),
-            DropdownMenuItem<OrderStatus?>(
-              value: OrderStatus.voided,
-              child: AppText.body('Voided'),
-            ),
+            AppSelectItem(value: null, label: 'Any status'),
+            AppSelectItem(value: OrderStatus.pending, label: 'Pending'),
+            AppSelectItem(value: OrderStatus.completed, label: 'Completed'),
+            AppSelectItem(value: OrderStatus.voided, label: 'Voided'),
           ],
+          value: _status,
+          label: 'Order status',
           onChanged: (value) {
             setState(() => _status = value);
             widget.onStatusChanged(value);

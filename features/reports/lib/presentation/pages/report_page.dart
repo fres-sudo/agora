@@ -149,29 +149,17 @@ class ReportPage extends StatelessWidget {
   }
 
   Widget _buildPeriodDropdown(BuildContext context, ReportsState state) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.md),
-      decoration: BoxDecoration(
-        color: context.colors.card,
-        borderRadius: BorderRadius.circular(Sizes.borderRadius),
-        border: Border.all(color: context.colors.border),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<ReportPeriod>(
-          value: state.period,
-          icon: const Icon(AgoraIcons.chevron_down),
-          style: Theme.of(context).textTheme.bodyMedium,
-          onChanged: (period) {
-            if (period != null) context.reportsCubit.selectPeriod(period);
-          },
-          items: [
-            for (final period in ReportPeriod.values)
-              DropdownMenuItem(
-                value: period,
-                child: AppText.body(period.label),
-              ),
-          ],
-        ),
+    return SizedBox(
+      width: 180,
+      child: AppSelect<ReportPeriod>(
+        items: [
+          for (final period in ReportPeriod.values)
+            AppSelectItem(value: period, label: period.label),
+        ],
+        value: state.period,
+        onChanged: (period) {
+          if (period != null) context.reportsCubit.selectPeriod(period);
+        },
       ),
     );
   }

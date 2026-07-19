@@ -20,7 +20,7 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _skuController;
-  late String _initialPrepStation;
+  late String _prepStation;
   List<String> _prepStationSuggestions = const [];
 
   @override
@@ -37,7 +37,7 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
       text: formData?.description ?? '',
     );
     _skuController = TextEditingController(text: formData?.sku ?? '');
-    _initialPrepStation = formData?.prepStation ?? '';
+    _prepStation = formData?.prepStation ?? '';
     context.read<ProductsRepository>().getPrepStations().then((result) {
       if (!mounted) return;
       if (result case Ok<List<String>>(:final value)) {
@@ -124,21 +124,17 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
               const SizedBox(height: Sizes.sm),
               BlocBuilder<CategoriesBloc, CategoriesState>(
                 builder: (context, categoriesState) {
-                  return DropdownButtonFormField<int>(
-                    initialValue: selectedCategoryId,
-                    decoration: InputDecoration(
-                      hintText: t.products.form.select_category,
-                      errorText: errors['category'],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(Sizes.sm),
-                      ),
-                    ),
-                    items: categoriesState.categories.map((category) {
-                      return DropdownMenuItem(
-                        value: category.id,
-                        child: AppText.body(category.name),
-                      );
-                    }).toList(),
+                  return AppSelect<int>(
+                    items: [
+                      for (final category in categoriesState.categories)
+                        AppSelectItem(
+                          value: category.id,
+                          label: category.name,
+                        ),
+                    ],
+                    value: selectedCategoryId,
+                    placeholder: t.products.form.select_category,
+                    errorText: errors['category'],
                     onChanged: (value) => cubit.updateCategory(value),
                   );
                 },
@@ -171,28 +167,29 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
               // Prep station (kitchen ticket routing)
               _FormLabel(label: t.products.form.prep_station),
               const SizedBox(height: Sizes.sm),
-              Autocomplete<String>(
-                initialValue: TextEditingValue(text: _initialPrepStation),
-                optionsBuilder: (textEditingValue) {
-                  if (textEditingValue.text.isEmpty) {
-                    return _prepStationSuggestions;
-                  }
-                  return _prepStationSuggestions.where(
-                    (station) => station.toLowerCase().contains(
-                      textEditingValue.text.toLowerCase(),
-                    ),
-                  );
+              AppCreatableCombobox<String>(
+                items: [
+                  for (final station in _prepStationSuggestions)
+                    AppComboboxItem(value: station, label: station),
+                ],
+                value: _prepStation.isEmpty ? null : _prepStation,
+                placeholder: t.products.form.prep_station_hint,
+                optimisticValueBuilder: (query) => query,
+                onCreate: (query) async {
+                  setState(() {
+                    if (!_prepStationSuggestions.contains(query)) {
+                      _prepStationSuggestions = [
+                        ..._prepStationSuggestions,
+                        query,
+                      ];
+                    }
+                  });
+                  return query;
                 },
-                onSelected: cubit.updatePrepStation,
-                fieldViewBuilder:
-                    (context, controller, focusNode, onFieldSubmitted) {
-                      return AppTextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        onChanged: cubit.updatePrepStation,
-                        hintText: t.products.form.prep_station_hint,
-                      );
-                    },
+                onChanged: (value) {
+                  setState(() => _prepStation = value ?? '');
+                  cubit.updatePrepStation(value ?? '');
+                },
               ),
             ],
           ),

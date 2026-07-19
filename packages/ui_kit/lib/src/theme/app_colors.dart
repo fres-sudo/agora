@@ -216,8 +216,7 @@ class AppColors extends ThemeExtension<AppColors> {
       accent: accent ?? this.accent,
       accentForeground: accentForeground ?? this.accentForeground,
       destructive: destructive ?? this.destructive,
-      destructiveForeground:
-          destructiveForeground ?? this.destructiveForeground,
+      destructiveForeground: destructiveForeground ?? this.destructiveForeground,
       success: success ?? this.success,
       successForeground: successForeground ?? this.successForeground,
       warning: warning ?? this.warning,
@@ -251,10 +250,7 @@ class AppColors extends ThemeExtension<AppColors> {
       accent: c(accent, other.accent),
       accentForeground: c(accentForeground, other.accentForeground),
       destructive: c(destructive, other.destructive),
-      destructiveForeground: c(
-        destructiveForeground,
-        other.destructiveForeground,
-      ),
+      destructiveForeground: c(destructiveForeground, other.destructiveForeground),
       success: c(success, other.success),
       successForeground: c(successForeground, other.successForeground),
       warning: c(warning, other.warning),

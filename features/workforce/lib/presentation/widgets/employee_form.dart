@@ -123,18 +123,14 @@ class _EmployeeFormState extends State<EmployeeForm> {
                 },
               ),
               SizedBox(height: context.tokens.spaceMd),
-              DropdownButtonFormField<EmployeeRole>(
-                initialValue: _role,
-                decoration: const InputDecoration(labelText: 'Role'),
-                items: EmployeeRole.values
-                    .map(
-                      (r) => DropdownMenuItem(
-                        value: r,
-                        child: AppText.body(r.label),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (v) => setState(() => _role = v!),
+              AppSelect<EmployeeRole>(
+                items: [
+                  for (final r in EmployeeRole.values)
+                    AppSelectItem(value: r, label: r.label),
+                ],
+                value: _role,
+                label: 'Role',
+                onChanged: (v) => setState(() => _role = v ?? _role),
               ),
               SizedBox(height: context.tokens.spaceMd),
               AppTextField(

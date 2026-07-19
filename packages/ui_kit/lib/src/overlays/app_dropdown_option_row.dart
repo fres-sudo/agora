@@ -36,55 +36,64 @@ class AppDropdownOptionRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final tokens = context.tokens;
-    final fg = !enabled
-        ? colors.mutedForeground
-        : highlighted
-        ? colors.accentForeground
-        : colors.foreground;
+    final fg = !enabled ? colors.mutedForeground : colors.foreground;
 
     return Semantics(
       button: true,
       enabled: enabled,
       selected: selected,
       label: label,
-      child: Material(
-        color: highlighted ? colors.accent : Colors.transparent,
-        child: InkWell(
-          onTap: enabled ? onTap : null,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: tokens.spaceSm,
-              vertical: tokens.spaceXs,
-            ),
-            child: Row(
-              children: [
-                if (multiSelect) ...[
-                  ExcludeSemantics(
-                    child: AppCheckbox(
-                      value: selected,
-                      onChanged: enabled ? (_) => onTap?.call() : null,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: tokens.spaceXxs,
+          vertical: tokens.spaceXxs / 2,
+        ),
+        child: Material(
+          color: highlighted ? colors.accent : Colors.transparent,
+          borderRadius: tokens.borderRadiusSm,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            borderRadius: tokens.borderRadiusSm,
+            onTap: enabled ? onTap : null,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: tokens.spaceSm,
+                vertical: tokens.spaceXs,
+              ),
+              child: Row(
+                children: [
+                  if (multiSelect) ...[
+                    ExcludeSemantics(
+                      child: AppCheckbox(
+                        value: selected,
+                        onChanged: enabled ? (_) => onTap?.call() : null,
+                      ),
+                    ),
+                    SizedBox(width: tokens.spaceXs),
+                  ] else ...[
+                    SizedBox(
+                      width: tokens.iconMd,
+                      child: selected
+                          ? Icon(
+                              AgoraIcons.check,
+                              size: tokens.iconSm,
+                              color: fg,
+                            )
+                          : null,
+                    ),
+                    SizedBox(width: tokens.spaceXs),
+                  ],
+                  if (leadingIcon != null) ...[
+                    Icon(leadingIcon, size: tokens.iconSm, color: fg),
+                    SizedBox(width: tokens.spaceXs),
+                  ],
+                  Expanded(
+                    child: ExcludeSemantics(
+                      child: AppText.body(label, color: fg),
                     ),
                   ),
-                  SizedBox(width: tokens.spaceXs),
-                ] else ...[
-                  SizedBox(
-                    width: tokens.iconMd,
-                    child: selected
-                        ? Icon(AgoraIcons.check, size: tokens.iconSm, color: fg)
-                        : null,
-                  ),
-                  SizedBox(width: tokens.spaceXs),
                 ],
-                if (leadingIcon != null) ...[
-                  Icon(leadingIcon, size: tokens.iconSm, color: fg),
-                  SizedBox(width: tokens.spaceXs),
-                ],
-                Expanded(
-                  child: ExcludeSemantics(
-                    child: AppText.body(label, color: fg),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

@@ -288,15 +288,13 @@ class _ComboItemRow extends StatelessWidget {
       children: [
         Expanded(
           flex: 3,
-          child: DropdownButtonFormField<int>(
-            initialValue: item.productId,
-            isExpanded: true,
-            hint: const AppText.bodySm('Select a product'),
-            decoration: const InputDecoration(border: OutlineInputBorder()),
+          child: AppCombobox<int>.single(
             items: [
               for (final product in products)
-                DropdownMenuItem(value: product.id, child: Text(product.name)),
+                AppComboboxItem(value: product.id, label: product.name),
             ],
+            value: item.productId,
+            placeholder: 'Select a product',
             onChanged: (productId) {
               final product = products
                   .where((p) => p.id == productId)

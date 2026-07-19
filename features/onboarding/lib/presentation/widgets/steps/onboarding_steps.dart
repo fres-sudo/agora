@@ -497,23 +497,14 @@ class _TeamStepState extends State<TeamStep> {
             SizedBox(width: context.tokens.spaceSm),
             SizedBox(
               width: 140,
-              child: DropdownButtonFormField<String>(
-                initialValue: _role,
-                decoration: const InputDecoration(labelText: 'Role'),
+              child: AppSelect<String>(
                 items: const [
-                  DropdownMenuItem(
-                    value: 'owner',
-                    child: AppText.body('Owner'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'manager',
-                    child: AppText.body('Manager'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'cashier',
-                    child: AppText.body('Cashier'),
-                  ),
+                  AppSelectItem(value: 'owner', label: 'Owner'),
+                  AppSelectItem(value: 'manager', label: 'Manager'),
+                  AppSelectItem(value: 'cashier', label: 'Cashier'),
                 ],
+                value: _role,
+                label: 'Role',
                 onChanged: (v) => setState(() => _role = v ?? 'owner'),
               ),
             ),
