@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:auth_session/auth_session.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:feature_workforce/domain/models/cash_reconciliation.dart';
 import 'package:feature_workforce/domain/models/clock_record.dart';
 import 'package:feature_workforce/domain/models/employee.dart';
 import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
@@ -10,6 +12,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:result/result.dart';
 import 'package:ui_kit/ui_kit.dart';
+
+class _FakeAuthRepository implements AuthRepository {
+  _FakeAuthRepository(this._employee);
+  final SessionEmployee? _employee;
+
+  @override
+  Future<SessionEmployee?> loadSession() async => _employee;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) =>
+      throw UnimplementedError('${invocation.memberName} not stubbed');
+}
 
 /// Fake repository that counts how many times [watchClockRecords] is
 /// invoked, so tests can assert the stream is only ever subscribed once.
@@ -54,6 +68,24 @@ class _FakeWorkforceRepository implements WorkforceRepository {
   @override
   Future<Result<ClockRecord>> clockOut(int employeeId) =>
       throw UnimplementedError();
+
+  @override
+  Future<Result<int>> expectedCashCentsForShift(int clockRecordId) =>
+      throw UnimplementedError();
+
+  @override
+  Future<Result<CashReconciliation>> recordCashReconciliation({
+    required int clockRecordId,
+    required int expectedCents,
+    required int countedCents,
+    String? note,
+  }) => throw UnimplementedError();
+
+  @override
+  Future<Result<int>> getTotalCashVarianceForRange({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) => throw UnimplementedError();
 }
 
 /// Wraps [child] and exposes a way to force a rebuild of [child]'s parent,
@@ -95,7 +127,11 @@ void main() {
     await controller.close();
   });
 
-  Future<void> pumpPage(WidgetTester tester) {
+  Future<void> pumpPage(WidgetTester tester, {SessionEmployee? viewer}) async {
+    final sessionCubit = SessionCubit(_FakeAuthRepository(viewer));
+    await sessionCubit.init();
+    addTearDown(sessionCubit.close);
+
     return tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light,
@@ -103,7 +139,10 @@ void main() {
           value: repository,
           child: BlocProvider<ClockRecordsCubit>.value(
             value: cubit,
-            child: const _RebuildHost(child: ClockRecordsPage()),
+            child: BlocProvider<SessionCubit>.value(
+              value: sessionCubit,
+              child: const _RebuildHost(child: ClockRecordsPage()),
+            ),
           ),
         ),
       ),
@@ -145,6 +184,74 @@ void main() {
       expect(repository.watchClockRecordsCallCount, 1);
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(find.text('Ada Lovelace'), findsOneWidget);
+    },
+  );
+
+  group(
+    'variance badge (docs/features/04-volunteer-shift-accountability.md)',
+    () {
+      const manager = SessionEmployee(id: 9, name: 'Manager', role: 'manager');
+      const cashier = SessionEmployee(id: 9, name: 'Cashier', role: 'cashier');
+
+      final closedShift = ClockRecord(
+        id: 1,
+        employeeId: 1,
+        employeeName: 'Ada Lovelace',
+        clockedInAt: DateTime(2026, 1, 1, 9),
+        clockedOutAt: DateTime(2026, 1, 1, 17),
+      );
+
+      testWidgets('unreconciled shift shows "Unreconciled" to everyone', (
+        tester,
+      ) async {
+        await pumpPage(tester, viewer: cashier);
+        controller.add([closedShift]);
+        await tester.pump();
+
+        expect(find.text('Unreconciled'), findsOneWidget);
+      });
+
+      testWidgets('reconciled shift hides the amount from a non-manager', (
+        tester,
+      ) async {
+        await pumpPage(tester, viewer: cashier);
+        controller.add([
+          closedShift.copyWith(
+            reconciliation: const CashReconciliation(
+              id: 1,
+              clockRecordId: 1,
+              expectedCents: 1000,
+              countedCents: 1000,
+              varianceCents: 0,
+            ),
+          ),
+        ]);
+        await tester.pump();
+
+        expect(find.text('Reconciled'), findsOneWidget);
+        expect(find.textContaining('€'), findsNothing);
+      });
+
+      testWidgets('reconciled shift shows the variance amount to a manager', (
+        tester,
+      ) async {
+        await pumpPage(tester, viewer: manager);
+        controller.add([
+          closedShift.copyWith(
+            reconciliation: const CashReconciliation(
+              id: 1,
+              clockRecordId: 1,
+              expectedCents: 1000,
+              countedCents: 950,
+              varianceCents: -50,
+            ),
+          ),
+        ]);
+        await tester.pump();
+
+        expect(find.textContaining('€'), findsOneWidget);
+        expect(find.text('Reconciled'), findsNothing);
+      });
     },
   );
 }

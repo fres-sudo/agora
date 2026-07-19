@@ -63,12 +63,15 @@ void main() {
     trackStock: trackStock,
   );
 
+  int? currentEmployeeId;
+
   CheckoutCubit buildCubit() => CheckoutCubit(
     ordersRepository: ordersRepository,
     inventoryRepository: inventoryRepository,
     productsRepository: productsRepository,
     discountsRepository: discountsRepository,
     printerService: printerService,
+    getCurrentEmployeeId: () => currentEmployeeId,
   );
 
   setUpAll(() {
@@ -84,6 +87,7 @@ void main() {
     productsRepository = MockProductsRepository();
     discountsRepository = MockDiscountsRepository();
     printerService = FakePrinterService();
+    currentEmployeeId = null;
   });
 
   tearDown(() => printerService.dispose());
@@ -178,6 +182,74 @@ void main() {
         final persisted = captured.single as Order;
         expect(persisted.status, OrderStatus.completed);
         expect(persisted.paymentMethod, 'Cash');
+        expect(cubit.state, isA<CheckoutSuccess>());
+      },
+    );
+
+    blocTest<CheckoutCubit, CheckoutState>(
+      'confirm() sets employeeId from getCurrentEmployeeId '
+      '(docs/features/04-volunteer-shift-accountability.md)',
+      build: buildCubit,
+      setUp: () {
+        currentEmployeeId = 7;
+        when(ordersRepository.createOrder(any)).thenAnswer((invocation) async {
+          final order = invocation.positionalArguments.first as Order;
+          return Result.ok(order.copyWith(id: 42));
+        });
+        when(
+          productsRepository.getProductById(any),
+        ).thenAnswer((_) async => Result.ok(product(id: 1)));
+        when(
+          inventoryRepository.decrementForOrder(
+            productId: anyNamed('productId'),
+            quantity: anyNamed('quantity'),
+            orderId: anyNamed('orderId'),
+          ),
+        ).thenAnswer((_) async => Result.ok((productId: 1, quantity: 98)));
+      },
+      act: (cubit) {
+        cubit.start(buildCart(grandTotalCents: 1000));
+        cubit.setTendered(1000);
+        return cubit.confirm();
+      },
+      verify: (_) {
+        final captured = verify(
+          ordersRepository.createOrder(captureAny),
+        ).captured;
+        expect((captured.single as Order).employeeId, 7);
+      },
+    );
+
+    blocTest<CheckoutCubit, CheckoutState>(
+      'confirm() leaves employeeId null when there is no current session',
+      build: buildCubit,
+      setUp: () {
+        currentEmployeeId = null;
+        when(ordersRepository.createOrder(any)).thenAnswer((invocation) async {
+          final order = invocation.positionalArguments.first as Order;
+          return Result.ok(order.copyWith(id: 42));
+        });
+        when(
+          productsRepository.getProductById(any),
+        ).thenAnswer((_) async => Result.ok(product(id: 1)));
+        when(
+          inventoryRepository.decrementForOrder(
+            productId: anyNamed('productId'),
+            quantity: anyNamed('quantity'),
+            orderId: anyNamed('orderId'),
+          ),
+        ).thenAnswer((_) async => Result.ok((productId: 1, quantity: 98)));
+      },
+      act: (cubit) {
+        cubit.start(buildCart(grandTotalCents: 1000));
+        cubit.setTendered(1000);
+        return cubit.confirm();
+      },
+      verify: (cubit) {
+        final captured = verify(
+          ordersRepository.createOrder(captureAny),
+        ).captured;
+        expect((captured.single as Order).employeeId, isNull);
         expect(cubit.state, isA<CheckoutSuccess>());
       },
     );

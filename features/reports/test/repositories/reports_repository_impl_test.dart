@@ -7,12 +7,15 @@ import 'package:catalog/models/product_status.dart';
 import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/data/repositories/reports_repository_impl.dart';
+import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:result/result.dart';
 
 void main() {
   group('ReportsRepositoryImpl.getReport', () {
     late _FakeOrdersRepository orders;
     late _FakeProductsRepository products;
+    late _FakeWorkforceRepository workforce;
     late ReportsRepositoryImpl repository;
 
     // A fixed "now" so ReportPeriod.all always covers the seeded orders.
@@ -21,9 +24,11 @@ void main() {
     setUp(() {
       orders = _FakeOrdersRepository();
       products = _FakeProductsRepository();
+      workforce = _FakeWorkforceRepository();
       repository = ReportsRepositoryImpl(
         ordersRepository: orders,
         productsRepository: products,
+        workforceRepository: workforce,
       );
     });
 
@@ -194,6 +199,21 @@ void main() {
       expect(data.topProducts, isEmpty);
       expect(data.recentOrders, isEmpty);
     });
+
+    test(
+      'folds the workforce cash-variance rollup into the summary '
+      '(docs/features/04-volunteer-shift-accountability.md)',
+      () async {
+        workforce.totalVarianceCents = -350;
+
+        final data = (await repository.getReport(
+          ReportPeriod.all,
+          now: now,
+        )).unwrap();
+
+        expect(data.summary.cashVarianceCents, -350);
+      },
+    );
   });
 }
 
@@ -239,6 +259,20 @@ class _FakeProductsRepository implements ProductsRepository {
 
   @override
   Stream<List<Product>> watchAllProducts() => Stream.value(products);
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) =>
+      throw UnimplementedError('${invocation.memberName} not stubbed');
+}
+
+class _FakeWorkforceRepository implements WorkforceRepository {
+  int totalVarianceCents = 0;
+
+  @override
+  Future<Result<int>> getTotalCashVarianceForRange({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async => Result.ok(totalVarianceCents);
 
   @override
   dynamic noSuchMethod(Invocation invocation) =>

@@ -278,4 +278,72 @@ void main() {
       expect(bibitaRow.costPrice, 80 * 1 * 2); // unitCost * qty * cartQty
     });
   });
+
+  group(
+    'OrdersRepositoryImpl — employeeId '
+    '(docs/features/04-volunteer-shift-accountability.md)',
+    () {
+      test('round-trips through createOrder / getOrderById', () async {
+        final employeeId = await db
+            .into(db.employeesTable)
+            .insert(
+              EmployeesTableCompanion.insert(
+                name: 'Ada',
+                pinHash: 'hash',
+              ),
+            );
+        final ordersDao = OrdersDao(db);
+        final orderItemsDao = OrderItemsDao(db);
+        final repo = OrdersRepositoryImpl(
+          ordersDao: ordersDao,
+          orderItemsDao: orderItemsDao,
+          syncManager: syncManager,
+          deviceId: const DeviceId('test-device'),
+        );
+
+        final order = _buildOrder(
+          items: [_item(1)],
+        ).copyWith(employeeId: employeeId);
+        final result = await repo.createOrder(order);
+        expect(result.isSuccess, isTrue);
+        expect(result.unwrap().employeeId, employeeId);
+
+        final fetched = await repo.getOrderById(result.unwrap().id!);
+        expect(fetched.unwrap()!.employeeId, employeeId);
+      });
+
+      test(
+        'never appears in the LAN-sync outbound payload — employee records '
+        "aren't synced cross-station, so a raw local id would be meaningless "
+        '(or wrong) on a peer',
+        () async {
+          final ordersDao = OrdersDao(db);
+          final orderItemsDao = OrderItemsDao(db);
+          final repo = OrdersRepositoryImpl(
+            ordersDao: ordersDao,
+            orderItemsDao: orderItemsDao,
+            syncManager: syncManager,
+            deviceId: const DeviceId('test-device'),
+          );
+
+          final order = _buildOrder(
+            items: [_item(1)],
+          ).copyWith(employeeId: 7);
+          await repo.createOrder(order);
+
+          final captured = verify(
+            syncManager.enqueue(
+              entityType: anyNamed('entityType'),
+              operation: anyNamed('operation'),
+              entityLocalId: anyNamed('entityLocalId'),
+              payload: captureAnyNamed('payload'),
+              remoteId: anyNamed('remoteId'),
+            ),
+          ).captured;
+          final payload = captured.single as Map<String, dynamic>;
+          expect(payload.containsKey('employeeId'), isFalse);
+        },
+      );
+    },
+  );
 }
