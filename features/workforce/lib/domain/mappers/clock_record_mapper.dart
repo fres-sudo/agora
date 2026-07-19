@@ -1,6 +1,7 @@
 import 'package:database/database.dart';
 import '../../../data/sources/local/daos/clock_records_dao.dart';
 import '../models/clock_record.dart';
+import 'cash_reconciliation_mapper.dart';
 
 extension ClockRecordWithEmployeeMapper on ClockRecordWithEmployee {
   ClockRecord toModel() => ClockRecord(
@@ -10,6 +11,7 @@ extension ClockRecordWithEmployeeMapper on ClockRecordWithEmployee {
     clockedInAt: record.clockedInAt,
     clockedOutAt: record.clockedOutAt,
     note: record.note,
+    reconciliation: reconciliation?.toModel(),
   );
 }
 

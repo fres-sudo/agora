@@ -187,6 +187,30 @@ class OrdersDao extends DatabaseAccessor<AgoraDatabase> with _$OrdersDaoMixin {
     return result.read(sum) ?? 0;
   }
 
+  /// Sum of completed cash-order revenue for one employee, from [startDate]
+  /// up to [endDate] (open-ended if null — covers a still-open shift).
+  Future<int> getCashRevenueForEmployeeShift({
+    required int employeeId,
+    required DateTime startDate,
+    DateTime? endDate,
+  }) async {
+    final sum = ordersTable.grandTotal.sum();
+    final query = selectOnly(ordersTable)
+      ..addColumns([sum])
+      ..where(
+        ordersTable.deletedAt.isNull() &
+            ordersTable.status.equals(statusCompleted) &
+            ordersTable.employeeId.equals(employeeId) &
+            ordersTable.paymentMethod.equals('Cash') &
+            ordersTable.createdAt.isBiggerOrEqualValue(startDate) &
+            (endDate != null
+                ? ordersTable.createdAt.isSmallerOrEqualValue(endDate)
+                : const Constant(true)),
+      );
+    final result = await query.getSingle();
+    return result.read(sum) ?? 0;
+  }
+
   // ============================================================
   // WRITE OPERATIONS
   // ============================================================

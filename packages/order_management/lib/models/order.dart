@@ -31,6 +31,12 @@ abstract class Order with _$Order {
 
     // Payment
     String? paymentMethod, // "Cash", "Card", etc. Null until paid.
+    // Volunteer who took the order, for shift cash reconciliation
+    // (docs/features/04-volunteer-shift-accountability.md). Nullable
+    // defensively — checkout shouldn't crash if session state is ever
+    // momentarily absent — and never populated on orders applied from a
+    // peer station via LAN sync (employee records aren't synced).
+    int? employeeId,
     // Financials
     required int subtotalCents,
     required int taxCents,

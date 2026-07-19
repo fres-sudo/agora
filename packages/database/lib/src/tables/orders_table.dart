@@ -1,4 +1,5 @@
 import '../database_mixin.dart';
+import 'employees_table.dart';
 
 import 'package:drift/drift.dart';
 
@@ -33,4 +34,13 @@ class OrdersTable extends Table with TableMixin {
   // one and are never synced retroactively. Uniqueness enforced by the
   // idx_orders_sync_id index above, not an inline column constraint.
   TextColumn get syncId => text().nullable()();
+
+  // Volunteer who took the order, for shift cash reconciliation
+  // (docs/features/04-volunteer-shift-accountability.md). Nullable
+  // defensively — checkout shouldn't crash if session state is ever
+  // momentarily absent — and never populated on orders applied from a peer
+  // station via LAN sync, since employee records aren't synced cross-station
+  // and a raw local id would be meaningless (or wrong) on another machine.
+  IntColumn get employeeId =>
+      integer().nullable().references(EmployeesTable, #id)();
 }

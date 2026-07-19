@@ -14,7 +14,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Employee {
 
- int get id; String get name; String get pin; EmployeeRole get role; bool get isActive; int get hourlyRateCents; String? get avatarUrl; DateTime? get createdAt;
+ int get id; String get name;// Write-only: a new plaintext PIN to hash on create/update. Always
+// empty when this model is populated from a stored EmployeeEntity
+// (list/detail views never see the PIN, hashed or otherwise) — see
+// EmployeeEntityMapper.toModel and EmployeeModelMapper.
+ String get pin; EmployeeRole get role; bool get isActive; int get hourlyRateCents; String? get avatarUrl; DateTime? get createdAt;
 /// Create a copy of Employee
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -218,6 +222,10 @@ class _Employee extends Employee {
 
 @override final  int id;
 @override final  String name;
+// Write-only: a new plaintext PIN to hash on create/update. Always
+// empty when this model is populated from a stored EmployeeEntity
+// (list/detail views never see the PIN, hashed or otherwise) — see
+// EmployeeEntityMapper.toModel and EmployeeModelMapper.
 @override final  String pin;
 @override final  EmployeeRole role;
 @override final  bool isActive;

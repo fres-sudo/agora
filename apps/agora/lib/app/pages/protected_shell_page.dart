@@ -170,10 +170,50 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
     if (employeeId == null) return;
     final cubit = context.read<ClockInCubit>();
     if (cubit.isClockedIn) {
-      await cubit.clockOut(employeeId);
+      await _handleClockOut(employeeId);
     } else {
       await cubit.clockIn(employeeId);
     }
+  }
+
+  /// Shows the skippable cash-count sheet before clocking out
+  /// (docs/features/04-volunteer-shift-accountability.md). The count step
+  /// never blocks clocking out: `clockOut` fires unconditionally regardless
+  /// of whether the volunteer confirms a count, skips it, or the
+  /// expected-cash lookup itself errors.
+  Future<void> _handleClockOut(int employeeId) async {
+    final cubit = context.read<ClockInCubit>();
+    final activeRecord = cubit.state.maybeWhen(
+      clockedIn: (record) => record,
+      orElse: () => null,
+    );
+
+    if (activeRecord != null) {
+      final workforceRepo = context.read<WorkforceRepository>();
+      final expectedResult = await workforceRepo.expectedCashCentsForShift(
+        activeRecord.id,
+      );
+      final expectedCents = expectedResult.isSuccess
+          ? expectedResult.unwrap()
+          : 0;
+
+      if (!mounted) return;
+      final count = await CashCountSheet.show(
+        context,
+        expectedCents: expectedCents,
+      );
+      if (count != null) {
+        await workforceRepo.recordCashReconciliation(
+          clockRecordId: activeRecord.id,
+          expectedCents: expectedCents,
+          countedCents: count.countedCents,
+          note: count.note,
+        );
+      }
+    }
+
+    if (!mounted) return;
+    await context.read<ClockInCubit>().clockOut(employeeId);
   }
 
   Widget _buildLayout(

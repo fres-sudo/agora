@@ -1,9 +1,11 @@
+import 'package:auth_session/auth_session.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/domain/models/clock_record.dart';
 import 'package:feature_workforce/presentation/blocs/clock_records/clock_records_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
+import 'package:utils/utils.dart';
 
 @RoutePage()
 class ClockRecordsPage extends StatefulWidget {
@@ -27,6 +29,12 @@ class _ClockRecordsPageState extends State<ClockRecordsPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Variance gating reflects the *viewer's* role (whoever is looking at
+    // this screen right now), not the role of the employee on each row —
+    // see docs/features/04-volunteer-shift-accountability.md.
+    final canViewVariance =
+        context.watch<SessionCubit>().currentEmployee?.isManager ?? false;
+
     return Scaffold(
       floatingActionButton: const AppShellMenuButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -37,7 +45,10 @@ class _ClockRecordsPageState extends State<ClockRecordsPage> {
             error: (message) => Center(child: AppText.body('Error: $message')),
             loaded: (records) => records.isEmpty
                 ? const _EmptyState()
-                : _RecordsList(records: records),
+                : _RecordsList(
+                    records: records,
+                    canViewVariance: canViewVariance,
+                  ),
           );
         },
       ),
@@ -46,22 +57,27 @@ class _ClockRecordsPageState extends State<ClockRecordsPage> {
 }
 
 class _RecordsList extends StatelessWidget {
-  const _RecordsList({required this.records});
+  const _RecordsList({required this.records, required this.canViewVariance});
   final List<ClockRecord> records;
+  final bool canViewVariance;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: records.length,
       separatorBuilder: (_, _) => const Divider(height: 1),
-      itemBuilder: (context, index) => _RecordTile(record: records[index]),
+      itemBuilder: (context, index) => _RecordTile(
+        record: records[index],
+        canViewVariance: canViewVariance,
+      ),
     );
   }
 }
 
 class _RecordTile extends StatelessWidget {
-  const _RecordTile({required this.record});
+  const _RecordTile({required this.record, required this.canViewVariance});
   final ClockRecord record;
+  final bool canViewVariance;
 
   @override
   Widget build(BuildContext context) {
@@ -90,18 +106,30 @@ class _RecordTile extends StatelessWidget {
         '$timeIn${timeOut != null ? ' → $timeOut' : ''}',
         color: colors.mutedForeground,
       ),
-      trailing: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: context.tokens.spaceXs,
-          vertical: context.tokens.spaceXxs,
-        ),
-        decoration: BoxDecoration(
-          color: record.isActive
-              ? colors.success.withValues(alpha: 0.12)
-              : colors.muted,
-          borderRadius: context.tokens.borderRadiusLg,
-        ),
-        child: AppText.label(record.formattedDuration, color: statusColor),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (!record.isActive) ...[
+            _VarianceBadge(
+              record: record,
+              canViewVariance: canViewVariance,
+            ),
+            SizedBox(width: context.tokens.spaceXs),
+          ],
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: context.tokens.spaceXs,
+              vertical: context.tokens.spaceXxs,
+            ),
+            decoration: BoxDecoration(
+              color: record.isActive
+                  ? colors.success.withValues(alpha: 0.12)
+                  : colors.muted,
+              borderRadius: context.tokens.borderRadiusLg,
+            ),
+            child: AppText.label(record.formattedDuration, color: statusColor),
+          ),
+        ],
       ),
     );
   }
@@ -112,6 +140,60 @@ class _RecordTile extends StatelessWidget {
     final period = dt.hour < 12 ? 'AM' : 'PM';
     final day = '${dt.month}/${dt.day}/${dt.year.toString().substring(2)}';
     return '$day $h:$m $period';
+  }
+}
+
+/// Three states, per docs/features/04-volunteer-shift-accountability.md:
+/// no reconciliation row means the count was skipped (visible to everyone —
+/// this is a shift-integrity signal, not the number); a reconciliation row
+/// with the viewer not a manager shows only that it happened; a manager/
+/// owner viewer sees the actual variance amount and its balanced/flagged
+/// color.
+class _VarianceBadge extends StatelessWidget {
+  const _VarianceBadge({required this.record, required this.canViewVariance});
+  final ClockRecord record;
+  final bool canViewVariance;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final reconciliation = record.reconciliation;
+
+    final (label, color, icon) = switch (reconciliation) {
+      null => ('Unreconciled', colors.mutedForeground, null),
+      _ when !canViewVariance => ('Reconciled', colors.mutedForeground, null),
+      _ when reconciliation.isBalanced => (
+        formatCents(reconciliation.varianceCents),
+        colors.success,
+        null,
+      ),
+      _ => (
+        formatCents(reconciliation.varianceCents),
+        colors.destructive,
+        AgoraIcons.alert_circle,
+      ),
+    };
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spaceXs,
+        vertical: context.tokens.spaceXxs,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: context.tokens.borderRadiusLg,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, size: 14, color: color),
+            SizedBox(width: context.tokens.spaceXxs),
+          ],
+          AppText.label(label, color: color),
+        ],
+      ),
+    );
   }
 }
 

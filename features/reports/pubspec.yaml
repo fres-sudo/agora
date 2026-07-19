@@ -13,6 +13,8 @@ dependencies:
     path: ../../packages/bloc
   catalog:
     path: ../../packages/catalog
+  feature_workforce:
+    path: ../workforce
   fl_chart: ^1.1.1
   flutter:
     sdk: flutter

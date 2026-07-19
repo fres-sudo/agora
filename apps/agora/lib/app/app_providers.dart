@@ -245,13 +245,14 @@ List<SingleChildWidget> _buildProviders({
 // in the same relative order they always have.
 const List<AppFeature> _remainingFeatures = [
   OnboardingFeature(), // after Auth (reads AuthRepository) + profile repo
-  WorkforceFeature(),
   SettingsFeature(),
   InventoryFeature(), // must be before Products (StocksDao)
   ProductsFeature(),
   DiscountsFeature(), // must be before Orders (CheckoutCubit reads DiscountsRepository)
   OrdersFeature(),
-  ReportsFeature(), // must be after Orders + Products (reads both)
+  WorkforceFeature(), // must be after Orders (WorkforceRepository reads OrdersRepository
+  // for expected-cash-per-shift; docs/features/04-volunteer-shift-accountability.md)
+  ReportsFeature(), // must be after Orders + Products (reads both) and Workforce (variance rollup)
   KitchenFeature(), // before Sync (reads TicketsDao)
   SyncFeature(), // must be last — reads OrdersDao/OrderItemsDao (Orders),
   // StocksDao/StockMovementsDao (Inventory) and TicketsDao (Kitchen), all

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:drift/drift.dart';
 
 import 'color_converter.dart';
+import 'tables/cash_reconciliations_table.dart';
 import 'tables/categories_table.dart';
 import 'tables/clock_records_table.dart';
 import 'tables/combos_table.dart';
@@ -40,13 +41,14 @@ part 'database.g.dart';
     ClockRecordsTable,
     CombosTable,
     ComboItemsTable,
+    CashReconciliationsTable,
   ],
 )
 class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration {
@@ -125,6 +127,15 @@ class AgoraDatabase extends _$AgoraDatabase {
           await m.addColumn(orderItemsTable, orderItemsTable.comboName);
           await m.addColumn(orderItemsTable, orderItemsTable.comboLineId);
           await m.addColumn(orderItemsTable, orderItemsTable.comboSaleQuantity);
+        }
+        if (from < 8) {
+          // v7 -> v8: cash reconciliation at shift close
+          // (docs/features/04-volunteer-shift-accountability.md). Orders
+          // gain an employeeId link so cash sales can be attributed to the
+          // volunteer who took them; a new table records the expected-vs-
+          // counted cash variance when a shift closes.
+          await m.addColumn(ordersTable, ordersTable.employeeId);
+          await m.createTable(cashReconciliationsTable);
         }
       },
     );

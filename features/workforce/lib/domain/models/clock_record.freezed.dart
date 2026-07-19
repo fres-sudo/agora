@@ -14,7 +14,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ClockRecord {
 
- int get id; int get employeeId; String get employeeName; DateTime get clockedInAt; DateTime? get clockedOutAt; String? get note;
+ int get id; int get employeeId; String get employeeName; DateTime get clockedInAt; DateTime? get clockedOutAt; String? get note;// Null means the cash count was skipped at clock-out, not that it
+// balanced (docs/features/04-volunteer-shift-accountability.md).
+ CashReconciliation? get reconciliation;
 /// Create a copy of ClockRecord
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +27,16 @@ $ClockRecordCopyWith<ClockRecord> get copyWith => _$ClockRecordCopyWithImpl<Cloc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClockRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.clockedInAt, clockedInAt) || other.clockedInAt == clockedInAt)&&(identical(other.clockedOutAt, clockedOutAt) || other.clockedOutAt == clockedOutAt)&&(identical(other.note, note) || other.note == note));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClockRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.clockedInAt, clockedInAt) || other.clockedInAt == clockedInAt)&&(identical(other.clockedOutAt, clockedOutAt) || other.clockedOutAt == clockedOutAt)&&(identical(other.note, note) || other.note == note)&&(identical(other.reconciliation, reconciliation) || other.reconciliation == reconciliation));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,clockedInAt,clockedOutAt,note);
+int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,clockedInAt,clockedOutAt,note,reconciliation);
 
 @override
 String toString() {
-  return 'ClockRecord(id: $id, employeeId: $employeeId, employeeName: $employeeName, clockedInAt: $clockedInAt, clockedOutAt: $clockedOutAt, note: $note)';
+  return 'ClockRecord(id: $id, employeeId: $employeeId, employeeName: $employeeName, clockedInAt: $clockedInAt, clockedOutAt: $clockedOutAt, note: $note, reconciliation: $reconciliation)';
 }
 
 
@@ -45,11 +47,11 @@ abstract mixin class $ClockRecordCopyWith<$Res>  {
   factory $ClockRecordCopyWith(ClockRecord value, $Res Function(ClockRecord) _then) = _$ClockRecordCopyWithImpl;
 @useResult
 $Res call({
- int id, int employeeId, String employeeName, DateTime clockedInAt, DateTime? clockedOutAt, String? note
+ int id, int employeeId, String employeeName, DateTime clockedInAt, DateTime? clockedOutAt, String? note, CashReconciliation? reconciliation
 });
 
 
-
+$CashReconciliationCopyWith<$Res>? get reconciliation;
 
 }
 /// @nodoc
@@ -62,7 +64,7 @@ class _$ClockRecordCopyWithImpl<$Res>
 
 /// Create a copy of ClockRecord
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? clockedInAt = null,Object? clockedOutAt = freezed,Object? note = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? clockedInAt = null,Object? clockedOutAt = freezed,Object? note = freezed,Object? reconciliation = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
@@ -70,10 +72,23 @@ as int,employeeName: null == employeeName ? _self.employeeName : employeeName //
 as String,clockedInAt: null == clockedInAt ? _self.clockedInAt : clockedInAt // ignore: cast_nullable_to_non_nullable
 as DateTime,clockedOutAt: freezed == clockedOutAt ? _self.clockedOutAt : clockedOutAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,reconciliation: freezed == reconciliation ? _self.reconciliation : reconciliation // ignore: cast_nullable_to_non_nullable
+as CashReconciliation?,
   ));
 }
+/// Create a copy of ClockRecord
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CashReconciliationCopyWith<$Res>? get reconciliation {
+    if (_self.reconciliation == null) {
+    return null;
+  }
 
+  return $CashReconciliationCopyWith<$Res>(_self.reconciliation!, (value) {
+    return _then(_self.copyWith(reconciliation: value));
+  });
+}
 }
 
 
@@ -155,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int employeeId,  String employeeName,  DateTime clockedInAt,  DateTime? clockedOutAt,  String? note)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int employeeId,  String employeeName,  DateTime clockedInAt,  DateTime? clockedOutAt,  String? note,  CashReconciliation? reconciliation)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ClockRecord() when $default != null:
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_that.clockedOutAt,_that.note);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_that.clockedOutAt,_that.note,_that.reconciliation);case _:
   return orElse();
 
 }
@@ -176,10 +191,10 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int employeeId,  String employeeName,  DateTime clockedInAt,  DateTime? clockedOutAt,  String? note)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int employeeId,  String employeeName,  DateTime clockedInAt,  DateTime? clockedOutAt,  String? note,  CashReconciliation? reconciliation)  $default,) {final _that = this;
 switch (_that) {
 case _ClockRecord():
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_that.clockedOutAt,_that.note);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_that.clockedOutAt,_that.note,_that.reconciliation);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +211,10 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int employeeId,  String employeeName,  DateTime clockedInAt,  DateTime? clockedOutAt,  String? note)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int employeeId,  String employeeName,  DateTime clockedInAt,  DateTime? clockedOutAt,  String? note,  CashReconciliation? reconciliation)?  $default,) {final _that = this;
 switch (_that) {
 case _ClockRecord() when $default != null:
-return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_that.clockedOutAt,_that.note);case _:
+return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_that.clockedOutAt,_that.note,_that.reconciliation);case _:
   return null;
 
 }
@@ -211,7 +226,7 @@ return $default(_that.id,_that.employeeId,_that.employeeName,_that.clockedInAt,_
 
 
 class _ClockRecord extends ClockRecord {
-  const _ClockRecord({required this.id, required this.employeeId, required this.employeeName, required this.clockedInAt, this.clockedOutAt, this.note}): super._();
+  const _ClockRecord({required this.id, required this.employeeId, required this.employeeName, required this.clockedInAt, this.clockedOutAt, this.note, this.reconciliation}): super._();
   
 
 @override final  int id;
@@ -220,6 +235,9 @@ class _ClockRecord extends ClockRecord {
 @override final  DateTime clockedInAt;
 @override final  DateTime? clockedOutAt;
 @override final  String? note;
+// Null means the cash count was skipped at clock-out, not that it
+// balanced (docs/features/04-volunteer-shift-accountability.md).
+@override final  CashReconciliation? reconciliation;
 
 /// Create a copy of ClockRecord
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +249,16 @@ _$ClockRecordCopyWith<_ClockRecord> get copyWith => __$ClockRecordCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClockRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.clockedInAt, clockedInAt) || other.clockedInAt == clockedInAt)&&(identical(other.clockedOutAt, clockedOutAt) || other.clockedOutAt == clockedOutAt)&&(identical(other.note, note) || other.note == note));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClockRecord&&(identical(other.id, id) || other.id == id)&&(identical(other.employeeId, employeeId) || other.employeeId == employeeId)&&(identical(other.employeeName, employeeName) || other.employeeName == employeeName)&&(identical(other.clockedInAt, clockedInAt) || other.clockedInAt == clockedInAt)&&(identical(other.clockedOutAt, clockedOutAt) || other.clockedOutAt == clockedOutAt)&&(identical(other.note, note) || other.note == note)&&(identical(other.reconciliation, reconciliation) || other.reconciliation == reconciliation));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,clockedInAt,clockedOutAt,note);
+int get hashCode => Object.hash(runtimeType,id,employeeId,employeeName,clockedInAt,clockedOutAt,note,reconciliation);
 
 @override
 String toString() {
-  return 'ClockRecord(id: $id, employeeId: $employeeId, employeeName: $employeeName, clockedInAt: $clockedInAt, clockedOutAt: $clockedOutAt, note: $note)';
+  return 'ClockRecord(id: $id, employeeId: $employeeId, employeeName: $employeeName, clockedInAt: $clockedInAt, clockedOutAt: $clockedOutAt, note: $note, reconciliation: $reconciliation)';
 }
 
 
@@ -251,11 +269,11 @@ abstract mixin class _$ClockRecordCopyWith<$Res> implements $ClockRecordCopyWith
   factory _$ClockRecordCopyWith(_ClockRecord value, $Res Function(_ClockRecord) _then) = __$ClockRecordCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int employeeId, String employeeName, DateTime clockedInAt, DateTime? clockedOutAt, String? note
+ int id, int employeeId, String employeeName, DateTime clockedInAt, DateTime? clockedOutAt, String? note, CashReconciliation? reconciliation
 });
 
 
-
+@override $CashReconciliationCopyWith<$Res>? get reconciliation;
 
 }
 /// @nodoc
@@ -268,7 +286,7 @@ class __$ClockRecordCopyWithImpl<$Res>
 
 /// Create a copy of ClockRecord
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? clockedInAt = null,Object? clockedOutAt = freezed,Object? note = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? employeeId = null,Object? employeeName = null,Object? clockedInAt = null,Object? clockedOutAt = freezed,Object? note = freezed,Object? reconciliation = freezed,}) {
   return _then(_ClockRecord(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,employeeId: null == employeeId ? _self.employeeId : employeeId // ignore: cast_nullable_to_non_nullable
@@ -276,11 +294,24 @@ as int,employeeName: null == employeeName ? _self.employeeName : employeeName //
 as String,clockedInAt: null == clockedInAt ? _self.clockedInAt : clockedInAt // ignore: cast_nullable_to_non_nullable
 as DateTime,clockedOutAt: freezed == clockedOutAt ? _self.clockedOutAt : clockedOutAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,note: freezed == note ? _self.note : note // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,reconciliation: freezed == reconciliation ? _self.reconciliation : reconciliation // ignore: cast_nullable_to_non_nullable
+as CashReconciliation?,
   ));
 }
 
+/// Create a copy of ClockRecord
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CashReconciliationCopyWith<$Res>? get reconciliation {
+    if (_self.reconciliation == null) {
+    return null;
+  }
 
+  return $CashReconciliationCopyWith<$Res>(_self.reconciliation!, (value) {
+    return _then(_self.copyWith(reconciliation: value));
+  });
+}
 }
 
 // dart format on

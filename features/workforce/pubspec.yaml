@@ -8,6 +8,8 @@ environment:
   flutter: '>=3.38.5'
 
 dependencies:
+  auth_session:
+    path: ../../packages/auth_session
   auto_route: ^11.1.0
   bloc_exports:
     path: ../../packages/bloc
@@ -20,11 +22,15 @@ dependencies:
     sdk: flutter
   logger:
     path: ../../packages/logger
+  order_management:
+    path: ../../packages/order_management
   result:
     path: ../../packages/result
   talker: ^5.1.9
   ui_kit:
     path: ../../packages/ui_kit
+  utils:
+    path: ../../packages/utils
 
 dev_dependencies:
   auto_route_generator: ^10.2.6

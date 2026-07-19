@@ -81,6 +81,7 @@ class OrdersRepositoryImpl extends SyncableRepository
       discountCents: entity.discountTotal,
       grandTotalCents: entity.grandTotal,
       syncId: entity.syncId,
+      employeeId: entity.employeeId,
     );
   }
 
@@ -99,6 +100,7 @@ class OrdersRepositoryImpl extends SyncableRepository
       updatedAt: DateTime.now(),
       deletedAt: null,
       syncId: order.syncId,
+      employeeId: Value(order.employeeId),
     );
   }
 
@@ -114,6 +116,7 @@ class OrdersRepositoryImpl extends SyncableRepository
       note: Value(order.note),
       paymentMethod: Value(order.paymentMethod),
       syncId: Value(order.syncId),
+      employeeId: Value(order.employeeId),
     );
   }
 
@@ -421,6 +424,20 @@ class OrdersRepositoryImpl extends SyncableRepository
   }) => safe(
     'getTotalDiscounts',
     () => _ordersDao.getTotalDiscounts(startDate: startDate, endDate: endDate),
+  );
+
+  @override
+  Future<Result<int>> getCashRevenueForEmployeeShift({
+    required int employeeId,
+    required DateTime startDate,
+    DateTime? endDate,
+  }) => safe(
+    'getCashRevenueForEmployeeShift($employeeId)',
+    () => _ordersDao.getCashRevenueForEmployeeShift(
+      employeeId: employeeId,
+      startDate: startDate,
+      endDate: endDate,
+    ),
   );
 
   // ============================================================

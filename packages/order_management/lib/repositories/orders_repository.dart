@@ -68,6 +68,17 @@ abstract interface class OrdersRepository {
     required DateTime endDate,
   });
 
+  /// Sum of completed cash-order revenue for one employee's shift, from
+  /// [startDate] (shift clock-in) up to [endDate] (clock-out), or open-ended
+  /// if the shift hasn't closed yet. Backs
+  /// `WorkforceRepository.expectedCashCentsForShift`
+  /// (docs/features/04-volunteer-shift-accountability.md).
+  Future<Result<int>> getCashRevenueForEmployeeShift({
+    required int employeeId,
+    required DateTime startDate,
+    DateTime? endDate,
+  });
+
   // ============================================================
   // WRITE OPERATIONS - Returns entity for optimistic updates
   // ============================================================

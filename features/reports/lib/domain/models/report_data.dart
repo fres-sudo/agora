@@ -28,6 +28,11 @@ abstract class ReportSummary with _$ReportSummary {
     /// Revenue taken by card, in cents.
     @Default(0) int cardRevenueCents,
 
+    /// Sum of cash-reconciliation varianceCents across shifts closed within
+    /// the period (docs/features/04-volunteer-shift-accountability.md).
+    /// Negative means a net shortfall, positive a net overage.
+    @Default(0) int cashVarianceCents,
+
     /// Hour of day (0–23) with the most completed orders, or null if none.
     int? peakHour,
   }) = _ReportSummary;

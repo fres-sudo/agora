@@ -7,26 +7,33 @@ import 'package:catalog/repositories/products_repository.dart';
 import 'package:feature_reports/domain/models/report_data.dart';
 import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/domain/repositories/reports_repository.dart';
+import 'package:feature_workforce/domain/repositories/workforce_repository.dart';
 import 'package:result/result.dart';
 import 'package:talker/talker.dart';
 
 /// Aggregates local order + product data into a [ReportData].
 ///
-/// Composes the already-registered [OrdersRepository] and [ProductsRepository]
-/// (reports depends on those features; they never depend on reports). All
-/// aggregation happens in-memory over the period's orders — no new DAO queries
-/// are required.
+/// Composes the already-registered [OrdersRepository], [ProductsRepository]
+/// and [WorkforceRepository] (reports depends on those features; they never
+/// depend on reports). All order/product aggregation happens in-memory over
+/// the period's orders — no new DAO queries are required. The cash-variance
+/// rollup is the exception: it delegates to
+/// `WorkforceRepository.getTotalCashVarianceForRange`, which does its own
+/// DAO-level sum (docs/features/04-volunteer-shift-accountability.md).
 class ReportsRepositoryImpl extends Repository implements ReportsRepository {
   ReportsRepositoryImpl({
     required OrdersRepository ordersRepository,
     required ProductsRepository productsRepository,
+    required WorkforceRepository workforceRepository,
     Talker? logger,
   }) : _ordersRepository = ordersRepository,
        _productsRepository = productsRepository,
+       _workforceRepository = workforceRepository,
        super(logger);
 
   final OrdersRepository _ordersRepository;
   final ProductsRepository _productsRepository;
+  final WorkforceRepository _workforceRepository;
 
   /// Products at or below this stock level (but > 0) count as "low stock".
   static const int _lowStockThreshold = 5;
@@ -51,8 +58,19 @@ class ReportsRepositoryImpl extends Repository implements ReportsRepository {
             .where((o) => o.status == OrderStatus.completed)
             .toList();
 
+        final varianceResult = await _workforceRepository
+            .getTotalCashVarianceForRange(
+              startDate: range.start,
+              endDate: range.end,
+            );
+        final cashVarianceCents = varianceResult.isSuccess
+            ? varianceResult.unwrap()
+            : 0;
+
         return ReportData(
-          summary: _buildSummary(completed),
+          summary: _buildSummary(
+            completed,
+          ).copyWith(cashVarianceCents: cashVarianceCents),
           statusBreakdown: _buildStatusBreakdown(orders),
           stockBreakdown: _buildStockBreakdown(products),
           salesTrend: _buildSalesTrend(completed, period),

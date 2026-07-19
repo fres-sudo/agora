@@ -1,4 +1,5 @@
 import 'package:bloc_exports/bloc_exports.dart';
+import 'cash_reconciliation.dart';
 
 part 'clock_record.freezed.dart';
 
@@ -11,9 +12,14 @@ abstract class ClockRecord with _$ClockRecord {
     required DateTime clockedInAt,
     DateTime? clockedOutAt,
     String? note,
+    // Null means the cash count was skipped at clock-out, not that it
+    // balanced (docs/features/04-volunteer-shift-accountability.md).
+    CashReconciliation? reconciliation,
   }) = _ClockRecord;
 
   const ClockRecord._();
+
+  bool get isReconciled => reconciliation != null;
 
   bool get isActive => clockedOutAt == null;
 

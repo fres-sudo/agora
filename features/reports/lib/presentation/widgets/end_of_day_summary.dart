@@ -34,6 +34,11 @@ class EndOfDaySummary extends StatelessWidget {
         label: 'Peak Hour',
         value: _formatPeakHour(summary.peakHour),
       ),
+      _Metric(
+        icon: AgoraIcons.alert_circle,
+        label: 'Cash Variance',
+        value: formatCents(summary.cashVarianceCents),
+      ),
     ];
 
     return Container(

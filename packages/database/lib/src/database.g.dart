@@ -3593,6 +3593,603 @@ class StockMovementsTableCompanion
   }
 }
 
+class $EmployeesTableTable extends EmployeesTable
+    with TableInfo<$EmployeesTableTable, EmployeeEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EmployeesTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pinHashMeta = const VerificationMeta(
+    'pinHash',
+  );
+  @override
+  late final GeneratedColumn<String> pinHash = GeneratedColumn<String>(
+    'pin',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _roleMeta = const VerificationMeta('role');
+  @override
+  late final GeneratedColumn<String> role = GeneratedColumn<String>(
+    'role',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('cashier'),
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _hourlyRateCentsMeta = const VerificationMeta(
+    'hourlyRateCents',
+  );
+  @override
+  late final GeneratedColumn<int> hourlyRateCents = GeneratedColumn<int>(
+    'hourly_rate_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _avatarUrlMeta = const VerificationMeta(
+    'avatarUrl',
+  );
+  @override
+  late final GeneratedColumn<String> avatarUrl = GeneratedColumn<String>(
+    'avatar_url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    name,
+    pinHash,
+    role,
+    isActive,
+    hourlyRateCents,
+    avatarUrl,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'employees_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EmployeeEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('pin')) {
+      context.handle(
+        _pinHashMeta,
+        pinHash.isAcceptableOrUnknown(data['pin']!, _pinHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pinHashMeta);
+    }
+    if (data.containsKey('role')) {
+      context.handle(
+        _roleMeta,
+        role.isAcceptableOrUnknown(data['role']!, _roleMeta),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('hourly_rate_cents')) {
+      context.handle(
+        _hourlyRateCentsMeta,
+        hourlyRateCents.isAcceptableOrUnknown(
+          data['hourly_rate_cents']!,
+          _hourlyRateCentsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('avatar_url')) {
+      context.handle(
+        _avatarUrlMeta,
+        avatarUrl.isAcceptableOrUnknown(data['avatar_url']!, _avatarUrlMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EmployeeEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EmployeeEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      pinHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pin'],
+      )!,
+      role: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}role'],
+      )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      hourlyRateCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}hourly_rate_cents'],
+      )!,
+      avatarUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}avatar_url'],
+      ),
+    );
+  }
+
+  @override
+  $EmployeesTableTable createAlias(String alias) {
+    return $EmployeesTableTable(attachedDatabase, alias);
+  }
+}
+
+class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
+  final int id;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final String name;
+  final String pinHash;
+  final String role;
+  final bool isActive;
+  final int hourlyRateCents;
+  final String? avatarUrl;
+  const EmployeeEntity({
+    required this.id,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    required this.name,
+    required this.pinHash,
+    required this.role,
+    required this.isActive,
+    required this.hourlyRateCents,
+    this.avatarUrl,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['name'] = Variable<String>(name);
+    map['pin'] = Variable<String>(pinHash);
+    map['role'] = Variable<String>(role);
+    map['is_active'] = Variable<bool>(isActive);
+    map['hourly_rate_cents'] = Variable<int>(hourlyRateCents);
+    if (!nullToAbsent || avatarUrl != null) {
+      map['avatar_url'] = Variable<String>(avatarUrl);
+    }
+    return map;
+  }
+
+  EmployeesTableCompanion toCompanion(bool nullToAbsent) {
+    return EmployeesTableCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      name: Value(name),
+      pinHash: Value(pinHash),
+      role: Value(role),
+      isActive: Value(isActive),
+      hourlyRateCents: Value(hourlyRateCents),
+      avatarUrl: avatarUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(avatarUrl),
+    );
+  }
+
+  factory EmployeeEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EmployeeEntity(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      name: serializer.fromJson<String>(json['name']),
+      pinHash: serializer.fromJson<String>(json['pinHash']),
+      role: serializer.fromJson<String>(json['role']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      hourlyRateCents: serializer.fromJson<int>(json['hourlyRateCents']),
+      avatarUrl: serializer.fromJson<String?>(json['avatarUrl']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'name': serializer.toJson<String>(name),
+      'pinHash': serializer.toJson<String>(pinHash),
+      'role': serializer.toJson<String>(role),
+      'isActive': serializer.toJson<bool>(isActive),
+      'hourlyRateCents': serializer.toJson<int>(hourlyRateCents),
+      'avatarUrl': serializer.toJson<String?>(avatarUrl),
+    };
+  }
+
+  EmployeeEntity copyWith({
+    int? id,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
+    String? name,
+    String? pinHash,
+    String? role,
+    bool? isActive,
+    int? hourlyRateCents,
+    Value<String?> avatarUrl = const Value.absent(),
+  }) => EmployeeEntity(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    name: name ?? this.name,
+    pinHash: pinHash ?? this.pinHash,
+    role: role ?? this.role,
+    isActive: isActive ?? this.isActive,
+    hourlyRateCents: hourlyRateCents ?? this.hourlyRateCents,
+    avatarUrl: avatarUrl.present ? avatarUrl.value : this.avatarUrl,
+  );
+  EmployeeEntity copyWithCompanion(EmployeesTableCompanion data) {
+    return EmployeeEntity(
+      id: data.id.present ? data.id.value : this.id,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      name: data.name.present ? data.name.value : this.name,
+      pinHash: data.pinHash.present ? data.pinHash.value : this.pinHash,
+      role: data.role.present ? data.role.value : this.role,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      hourlyRateCents: data.hourlyRateCents.present
+          ? data.hourlyRateCents.value
+          : this.hourlyRateCents,
+      avatarUrl: data.avatarUrl.present ? data.avatarUrl.value : this.avatarUrl,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EmployeeEntity(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('name: $name, ')
+          ..write('pinHash: $pinHash, ')
+          ..write('role: $role, ')
+          ..write('isActive: $isActive, ')
+          ..write('hourlyRateCents: $hourlyRateCents, ')
+          ..write('avatarUrl: $avatarUrl')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    name,
+    pinHash,
+    role,
+    isActive,
+    hourlyRateCents,
+    avatarUrl,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EmployeeEntity &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.name == this.name &&
+          other.pinHash == this.pinHash &&
+          other.role == this.role &&
+          other.isActive == this.isActive &&
+          other.hourlyRateCents == this.hourlyRateCents &&
+          other.avatarUrl == this.avatarUrl);
+}
+
+class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
+  final Value<int> id;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<String> name;
+  final Value<String> pinHash;
+  final Value<String> role;
+  final Value<bool> isActive;
+  final Value<int> hourlyRateCents;
+  final Value<String?> avatarUrl;
+  const EmployeesTableCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.name = const Value.absent(),
+    this.pinHash = const Value.absent(),
+    this.role = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.hourlyRateCents = const Value.absent(),
+    this.avatarUrl = const Value.absent(),
+  });
+  EmployeesTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    required String name,
+    required String pinHash,
+    this.role = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.hourlyRateCents = const Value.absent(),
+    this.avatarUrl = const Value.absent(),
+  }) : name = Value(name),
+       pinHash = Value(pinHash);
+  static Insertable<EmployeeEntity> custom({
+    Expression<int>? id,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<String>? name,
+    Expression<String>? pinHash,
+    Expression<String>? role,
+    Expression<bool>? isActive,
+    Expression<int>? hourlyRateCents,
+    Expression<String>? avatarUrl,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (name != null) 'name': name,
+      if (pinHash != null) 'pin': pinHash,
+      if (role != null) 'role': role,
+      if (isActive != null) 'is_active': isActive,
+      if (hourlyRateCents != null) 'hourly_rate_cents': hourlyRateCents,
+      if (avatarUrl != null) 'avatar_url': avatarUrl,
+    });
+  }
+
+  EmployeesTableCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<String>? name,
+    Value<String>? pinHash,
+    Value<String>? role,
+    Value<bool>? isActive,
+    Value<int>? hourlyRateCents,
+    Value<String?>? avatarUrl,
+  }) {
+    return EmployeesTableCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      name: name ?? this.name,
+      pinHash: pinHash ?? this.pinHash,
+      role: role ?? this.role,
+      isActive: isActive ?? this.isActive,
+      hourlyRateCents: hourlyRateCents ?? this.hourlyRateCents,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (pinHash.present) {
+      map['pin'] = Variable<String>(pinHash.value);
+    }
+    if (role.present) {
+      map['role'] = Variable<String>(role.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (hourlyRateCents.present) {
+      map['hourly_rate_cents'] = Variable<int>(hourlyRateCents.value);
+    }
+    if (avatarUrl.present) {
+      map['avatar_url'] = Variable<String>(avatarUrl.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EmployeesTableCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('name: $name, ')
+          ..write('pinHash: $pinHash, ')
+          ..write('role: $role, ')
+          ..write('isActive: $isActive, ')
+          ..write('hourlyRateCents: $hourlyRateCents, ')
+          ..write('avatarUrl: $avatarUrl')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $OrdersTableTable extends OrdersTable
     with TableInfo<$OrdersTableTable, OrderEntity> {
   @override
@@ -3743,6 +4340,20 @@ class $OrdersTableTable extends OrdersTable
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _employeeIdMeta = const VerificationMeta(
+    'employeeId',
+  );
+  @override
+  late final GeneratedColumn<int> employeeId = GeneratedColumn<int>(
+    'employee_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES employees_table (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3758,6 +4369,7 @@ class $OrdersTableTable extends OrdersTable
     paymentMethod,
     note,
     syncId,
+    employeeId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3856,6 +4468,12 @@ class $OrdersTableTable extends OrdersTable
         syncId.isAcceptableOrUnknown(data['sync_id']!, _syncIdMeta),
       );
     }
+    if (data.containsKey('employee_id')) {
+      context.handle(
+        _employeeIdMeta,
+        employeeId.isAcceptableOrUnknown(data['employee_id']!, _employeeIdMeta),
+      );
+    }
     return context;
   }
 
@@ -3917,6 +4535,10 @@ class $OrdersTableTable extends OrdersTable
         DriftSqlType.string,
         data['${effectivePrefix}sync_id'],
       ),
+      employeeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}employee_id'],
+      ),
     );
   }
 
@@ -3940,6 +4562,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
   final String? paymentMethod;
   final String? note;
   final String? syncId;
+  final int? employeeId;
   const OrderEntity({
     required this.id,
     required this.createdAt,
@@ -3954,6 +4577,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     this.paymentMethod,
     this.note,
     this.syncId,
+    this.employeeId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3981,6 +4605,9 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     if (!nullToAbsent || syncId != null) {
       map['sync_id'] = Variable<String>(syncId);
     }
+    if (!nullToAbsent || employeeId != null) {
+      map['employee_id'] = Variable<int>(employeeId);
+    }
     return map;
   }
 
@@ -4007,6 +4634,9 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       syncId: syncId == null && nullToAbsent
           ? const Value.absent()
           : Value(syncId),
+      employeeId: employeeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(employeeId),
     );
   }
 
@@ -4029,6 +4659,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       paymentMethod: serializer.fromJson<String?>(json['paymentMethod']),
       note: serializer.fromJson<String?>(json['note']),
       syncId: serializer.fromJson<String?>(json['syncId']),
+      employeeId: serializer.fromJson<int?>(json['employeeId']),
     );
   }
   @override
@@ -4048,6 +4679,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       'paymentMethod': serializer.toJson<String?>(paymentMethod),
       'note': serializer.toJson<String?>(note),
       'syncId': serializer.toJson<String?>(syncId),
+      'employeeId': serializer.toJson<int?>(employeeId),
     };
   }
 
@@ -4065,6 +4697,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     Value<String?> paymentMethod = const Value.absent(),
     Value<String?> note = const Value.absent(),
     Value<String?> syncId = const Value.absent(),
+    Value<int?> employeeId = const Value.absent(),
   }) => OrderEntity(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -4081,6 +4714,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
         : this.paymentMethod,
     note: note.present ? note.value : this.note,
     syncId: syncId.present ? syncId.value : this.syncId,
+    employeeId: employeeId.present ? employeeId.value : this.employeeId,
   );
   OrderEntity copyWithCompanion(OrdersTableCompanion data) {
     return OrderEntity(
@@ -4103,6 +4737,9 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           : this.paymentMethod,
       note: data.note.present ? data.note.value : this.note,
       syncId: data.syncId.present ? data.syncId.value : this.syncId,
+      employeeId: data.employeeId.present
+          ? data.employeeId.value
+          : this.employeeId,
     );
   }
 
@@ -4121,7 +4758,8 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           ..write('grandTotal: $grandTotal, ')
           ..write('paymentMethod: $paymentMethod, ')
           ..write('note: $note, ')
-          ..write('syncId: $syncId')
+          ..write('syncId: $syncId, ')
+          ..write('employeeId: $employeeId')
           ..write(')'))
         .toString();
   }
@@ -4141,6 +4779,7 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     paymentMethod,
     note,
     syncId,
+    employeeId,
   );
   @override
   bool operator ==(Object other) =>
@@ -4158,7 +4797,8 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           other.grandTotal == this.grandTotal &&
           other.paymentMethod == this.paymentMethod &&
           other.note == this.note &&
-          other.syncId == this.syncId);
+          other.syncId == this.syncId &&
+          other.employeeId == this.employeeId);
 }
 
 class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
@@ -4175,6 +4815,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
   final Value<String?> paymentMethod;
   final Value<String?> note;
   final Value<String?> syncId;
+  final Value<int?> employeeId;
   const OrdersTableCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -4189,6 +4830,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     this.paymentMethod = const Value.absent(),
     this.note = const Value.absent(),
     this.syncId = const Value.absent(),
+    this.employeeId = const Value.absent(),
   });
   OrdersTableCompanion.insert({
     this.id = const Value.absent(),
@@ -4204,6 +4846,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     this.paymentMethod = const Value.absent(),
     this.note = const Value.absent(),
     this.syncId = const Value.absent(),
+    this.employeeId = const Value.absent(),
   }) : subtotal = Value(subtotal),
        grandTotal = Value(grandTotal);
   static Insertable<OrderEntity> custom({
@@ -4220,6 +4863,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Expression<String>? paymentMethod,
     Expression<String>? note,
     Expression<String>? syncId,
+    Expression<int>? employeeId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4235,6 +4879,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       if (paymentMethod != null) 'payment_method': paymentMethod,
       if (note != null) 'note': note,
       if (syncId != null) 'sync_id': syncId,
+      if (employeeId != null) 'employee_id': employeeId,
     });
   }
 
@@ -4252,6 +4897,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Value<String?>? paymentMethod,
     Value<String?>? note,
     Value<String?>? syncId,
+    Value<int?>? employeeId,
   }) {
     return OrdersTableCompanion(
       id: id ?? this.id,
@@ -4267,6 +4913,7 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       paymentMethod: paymentMethod ?? this.paymentMethod,
       note: note ?? this.note,
       syncId: syncId ?? this.syncId,
+      employeeId: employeeId ?? this.employeeId,
     );
   }
 
@@ -4312,6 +4959,9 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     if (syncId.present) {
       map['sync_id'] = Variable<String>(syncId.value);
     }
+    if (employeeId.present) {
+      map['employee_id'] = Variable<int>(employeeId.value);
+    }
     return map;
   }
 
@@ -4330,7 +4980,8 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
           ..write('grandTotal: $grandTotal, ')
           ..write('paymentMethod: $paymentMethod, ')
           ..write('note: $note, ')
-          ..write('syncId: $syncId')
+          ..write('syncId: $syncId, ')
+          ..write('employeeId: $employeeId')
           ..write(')'))
         .toString();
   }
@@ -7899,603 +8550,6 @@ class OutboxTableCompanion extends UpdateCompanion<OutboxEntity> {
   }
 }
 
-class $EmployeesTableTable extends EmployeesTable
-    with TableInfo<$EmployeesTableTable, EmployeeEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $EmployeesTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: currentDateAndTime,
-  );
-  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
-    'updatedAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-    'updated_at',
-    aliasedName,
-    true,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
-    'deletedAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
-    'deleted_at',
-    aliasedName,
-    true,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _pinHashMeta = const VerificationMeta(
-    'pinHash',
-  );
-  @override
-  late final GeneratedColumn<String> pinHash = GeneratedColumn<String>(
-    'pin',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _roleMeta = const VerificationMeta('role');
-  @override
-  late final GeneratedColumn<String> role = GeneratedColumn<String>(
-    'role',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('cashier'),
-  );
-  static const VerificationMeta _isActiveMeta = const VerificationMeta(
-    'isActive',
-  );
-  @override
-  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
-    'is_active',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("is_active" IN (0, 1))',
-    ),
-    defaultValue: const Constant(true),
-  );
-  static const VerificationMeta _hourlyRateCentsMeta = const VerificationMeta(
-    'hourlyRateCents',
-  );
-  @override
-  late final GeneratedColumn<int> hourlyRateCents = GeneratedColumn<int>(
-    'hourly_rate_cents',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0),
-  );
-  static const VerificationMeta _avatarUrlMeta = const VerificationMeta(
-    'avatarUrl',
-  );
-  @override
-  late final GeneratedColumn<String> avatarUrl = GeneratedColumn<String>(
-    'avatar_url',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    createdAt,
-    updatedAt,
-    deletedAt,
-    name,
-    pinHash,
-    role,
-    isActive,
-    hourlyRateCents,
-    avatarUrl,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'employees_table';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<EmployeeEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(
-        _updatedAtMeta,
-        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
-      );
-    }
-    if (data.containsKey('deleted_at')) {
-      context.handle(
-        _deletedAtMeta,
-        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
-      );
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('pin')) {
-      context.handle(
-        _pinHashMeta,
-        pinHash.isAcceptableOrUnknown(data['pin']!, _pinHashMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_pinHashMeta);
-    }
-    if (data.containsKey('role')) {
-      context.handle(
-        _roleMeta,
-        role.isAcceptableOrUnknown(data['role']!, _roleMeta),
-      );
-    }
-    if (data.containsKey('is_active')) {
-      context.handle(
-        _isActiveMeta,
-        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
-      );
-    }
-    if (data.containsKey('hourly_rate_cents')) {
-      context.handle(
-        _hourlyRateCentsMeta,
-        hourlyRateCents.isAcceptableOrUnknown(
-          data['hourly_rate_cents']!,
-          _hourlyRateCentsMeta,
-        ),
-      );
-    }
-    if (data.containsKey('avatar_url')) {
-      context.handle(
-        _avatarUrlMeta,
-        avatarUrl.isAcceptableOrUnknown(data['avatar_url']!, _avatarUrlMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  EmployeeEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return EmployeeEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-      updatedAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}updated_at'],
-      ),
-      deletedAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}deleted_at'],
-      ),
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      pinHash: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}pin'],
-      )!,
-      role: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}role'],
-      )!,
-      isActive: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}is_active'],
-      )!,
-      hourlyRateCents: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}hourly_rate_cents'],
-      )!,
-      avatarUrl: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}avatar_url'],
-      ),
-    );
-  }
-
-  @override
-  $EmployeesTableTable createAlias(String alias) {
-    return $EmployeesTableTable(attachedDatabase, alias);
-  }
-}
-
-class EmployeeEntity extends DataClass implements Insertable<EmployeeEntity> {
-  final int id;
-  final DateTime createdAt;
-  final DateTime? updatedAt;
-  final DateTime? deletedAt;
-  final String name;
-  final String pinHash;
-  final String role;
-  final bool isActive;
-  final int hourlyRateCents;
-  final String? avatarUrl;
-  const EmployeeEntity({
-    required this.id,
-    required this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    required this.name,
-    required this.pinHash,
-    required this.role,
-    required this.isActive,
-    required this.hourlyRateCents,
-    this.avatarUrl,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    if (!nullToAbsent || updatedAt != null) {
-      map['updated_at'] = Variable<DateTime>(updatedAt);
-    }
-    if (!nullToAbsent || deletedAt != null) {
-      map['deleted_at'] = Variable<DateTime>(deletedAt);
-    }
-    map['name'] = Variable<String>(name);
-    map['pin'] = Variable<String>(pinHash);
-    map['role'] = Variable<String>(role);
-    map['is_active'] = Variable<bool>(isActive);
-    map['hourly_rate_cents'] = Variable<int>(hourlyRateCents);
-    if (!nullToAbsent || avatarUrl != null) {
-      map['avatar_url'] = Variable<String>(avatarUrl);
-    }
-    return map;
-  }
-
-  EmployeesTableCompanion toCompanion(bool nullToAbsent) {
-    return EmployeesTableCompanion(
-      id: Value(id),
-      createdAt: Value(createdAt),
-      updatedAt: updatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(updatedAt),
-      deletedAt: deletedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deletedAt),
-      name: Value(name),
-      pinHash: Value(pinHash),
-      role: Value(role),
-      isActive: Value(isActive),
-      hourlyRateCents: Value(hourlyRateCents),
-      avatarUrl: avatarUrl == null && nullToAbsent
-          ? const Value.absent()
-          : Value(avatarUrl),
-    );
-  }
-
-  factory EmployeeEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return EmployeeEntity(
-      id: serializer.fromJson<int>(json['id']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
-      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
-      name: serializer.fromJson<String>(json['name']),
-      pinHash: serializer.fromJson<String>(json['pinHash']),
-      role: serializer.fromJson<String>(json['role']),
-      isActive: serializer.fromJson<bool>(json['isActive']),
-      hourlyRateCents: serializer.fromJson<int>(json['hourlyRateCents']),
-      avatarUrl: serializer.fromJson<String?>(json['avatarUrl']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
-      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
-      'name': serializer.toJson<String>(name),
-      'pinHash': serializer.toJson<String>(pinHash),
-      'role': serializer.toJson<String>(role),
-      'isActive': serializer.toJson<bool>(isActive),
-      'hourlyRateCents': serializer.toJson<int>(hourlyRateCents),
-      'avatarUrl': serializer.toJson<String?>(avatarUrl),
-    };
-  }
-
-  EmployeeEntity copyWith({
-    int? id,
-    DateTime? createdAt,
-    Value<DateTime?> updatedAt = const Value.absent(),
-    Value<DateTime?> deletedAt = const Value.absent(),
-    String? name,
-    String? pinHash,
-    String? role,
-    bool? isActive,
-    int? hourlyRateCents,
-    Value<String?> avatarUrl = const Value.absent(),
-  }) => EmployeeEntity(
-    id: id ?? this.id,
-    createdAt: createdAt ?? this.createdAt,
-    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
-    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
-    name: name ?? this.name,
-    pinHash: pinHash ?? this.pinHash,
-    role: role ?? this.role,
-    isActive: isActive ?? this.isActive,
-    hourlyRateCents: hourlyRateCents ?? this.hourlyRateCents,
-    avatarUrl: avatarUrl.present ? avatarUrl.value : this.avatarUrl,
-  );
-  EmployeeEntity copyWithCompanion(EmployeesTableCompanion data) {
-    return EmployeeEntity(
-      id: data.id.present ? data.id.value : this.id,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
-      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
-      name: data.name.present ? data.name.value : this.name,
-      pinHash: data.pinHash.present ? data.pinHash.value : this.pinHash,
-      role: data.role.present ? data.role.value : this.role,
-      isActive: data.isActive.present ? data.isActive.value : this.isActive,
-      hourlyRateCents: data.hourlyRateCents.present
-          ? data.hourlyRateCents.value
-          : this.hourlyRateCents,
-      avatarUrl: data.avatarUrl.present ? data.avatarUrl.value : this.avatarUrl,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('EmployeeEntity(')
-          ..write('id: $id, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('name: $name, ')
-          ..write('pinHash: $pinHash, ')
-          ..write('role: $role, ')
-          ..write('isActive: $isActive, ')
-          ..write('hourlyRateCents: $hourlyRateCents, ')
-          ..write('avatarUrl: $avatarUrl')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    createdAt,
-    updatedAt,
-    deletedAt,
-    name,
-    pinHash,
-    role,
-    isActive,
-    hourlyRateCents,
-    avatarUrl,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is EmployeeEntity &&
-          other.id == this.id &&
-          other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt &&
-          other.deletedAt == this.deletedAt &&
-          other.name == this.name &&
-          other.pinHash == this.pinHash &&
-          other.role == this.role &&
-          other.isActive == this.isActive &&
-          other.hourlyRateCents == this.hourlyRateCents &&
-          other.avatarUrl == this.avatarUrl);
-}
-
-class EmployeesTableCompanion extends UpdateCompanion<EmployeeEntity> {
-  final Value<int> id;
-  final Value<DateTime> createdAt;
-  final Value<DateTime?> updatedAt;
-  final Value<DateTime?> deletedAt;
-  final Value<String> name;
-  final Value<String> pinHash;
-  final Value<String> role;
-  final Value<bool> isActive;
-  final Value<int> hourlyRateCents;
-  final Value<String?> avatarUrl;
-  const EmployeesTableCompanion({
-    this.id = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-    this.deletedAt = const Value.absent(),
-    this.name = const Value.absent(),
-    this.pinHash = const Value.absent(),
-    this.role = const Value.absent(),
-    this.isActive = const Value.absent(),
-    this.hourlyRateCents = const Value.absent(),
-    this.avatarUrl = const Value.absent(),
-  });
-  EmployeesTableCompanion.insert({
-    this.id = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-    this.deletedAt = const Value.absent(),
-    required String name,
-    required String pinHash,
-    this.role = const Value.absent(),
-    this.isActive = const Value.absent(),
-    this.hourlyRateCents = const Value.absent(),
-    this.avatarUrl = const Value.absent(),
-  }) : name = Value(name),
-       pinHash = Value(pinHash);
-  static Insertable<EmployeeEntity> custom({
-    Expression<int>? id,
-    Expression<DateTime>? createdAt,
-    Expression<DateTime>? updatedAt,
-    Expression<DateTime>? deletedAt,
-    Expression<String>? name,
-    Expression<String>? pinHash,
-    Expression<String>? role,
-    Expression<bool>? isActive,
-    Expression<int>? hourlyRateCents,
-    Expression<String>? avatarUrl,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-      if (deletedAt != null) 'deleted_at': deletedAt,
-      if (name != null) 'name': name,
-      if (pinHash != null) 'pin': pinHash,
-      if (role != null) 'role': role,
-      if (isActive != null) 'is_active': isActive,
-      if (hourlyRateCents != null) 'hourly_rate_cents': hourlyRateCents,
-      if (avatarUrl != null) 'avatar_url': avatarUrl,
-    });
-  }
-
-  EmployeesTableCompanion copyWith({
-    Value<int>? id,
-    Value<DateTime>? createdAt,
-    Value<DateTime?>? updatedAt,
-    Value<DateTime?>? deletedAt,
-    Value<String>? name,
-    Value<String>? pinHash,
-    Value<String>? role,
-    Value<bool>? isActive,
-    Value<int>? hourlyRateCents,
-    Value<String?>? avatarUrl,
-  }) {
-    return EmployeesTableCompanion(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      deletedAt: deletedAt ?? this.deletedAt,
-      name: name ?? this.name,
-      pinHash: pinHash ?? this.pinHash,
-      role: role ?? this.role,
-      isActive: isActive ?? this.isActive,
-      hourlyRateCents: hourlyRateCents ?? this.hourlyRateCents,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime>(updatedAt.value);
-    }
-    if (deletedAt.present) {
-      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (pinHash.present) {
-      map['pin'] = Variable<String>(pinHash.value);
-    }
-    if (role.present) {
-      map['role'] = Variable<String>(role.value);
-    }
-    if (isActive.present) {
-      map['is_active'] = Variable<bool>(isActive.value);
-    }
-    if (hourlyRateCents.present) {
-      map['hourly_rate_cents'] = Variable<int>(hourlyRateCents.value);
-    }
-    if (avatarUrl.present) {
-      map['avatar_url'] = Variable<String>(avatarUrl.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('EmployeesTableCompanion(')
-          ..write('id: $id, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('name: $name, ')
-          ..write('pinHash: $pinHash, ')
-          ..write('role: $role, ')
-          ..write('isActive: $isActive, ')
-          ..write('hourlyRateCents: $hourlyRateCents, ')
-          ..write('avatarUrl: $avatarUrl')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $ClockRecordsTableTable extends ClockRecordsTable
     with TableInfo<$ClockRecordsTableTable, ClockRecordEntity> {
   @override
@@ -9523,6 +9577,583 @@ class ComboItemsTableCompanion extends UpdateCompanion<ComboItemEntity> {
   }
 }
 
+class $CashReconciliationsTableTable extends CashReconciliationsTable
+    with TableInfo<$CashReconciliationsTableTable, CashReconciliationEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CashReconciliationsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _clockRecordIdMeta = const VerificationMeta(
+    'clockRecordId',
+  );
+  @override
+  late final GeneratedColumn<int> clockRecordId = GeneratedColumn<int>(
+    'clock_record_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'UNIQUE REFERENCES clock_records_table (id)',
+    ),
+  );
+  static const VerificationMeta _expectedCentsMeta = const VerificationMeta(
+    'expectedCents',
+  );
+  @override
+  late final GeneratedColumn<int> expectedCents = GeneratedColumn<int>(
+    'expected_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _countedCentsMeta = const VerificationMeta(
+    'countedCents',
+  );
+  @override
+  late final GeneratedColumn<int> countedCents = GeneratedColumn<int>(
+    'counted_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _varianceCentsMeta = const VerificationMeta(
+    'varianceCents',
+  );
+  @override
+  late final GeneratedColumn<int> varianceCents = GeneratedColumn<int>(
+    'variance_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    clockRecordId,
+    expectedCents,
+    countedCents,
+    varianceCents,
+    note,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'cash_reconciliations_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CashReconciliationEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('clock_record_id')) {
+      context.handle(
+        _clockRecordIdMeta,
+        clockRecordId.isAcceptableOrUnknown(
+          data['clock_record_id']!,
+          _clockRecordIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_clockRecordIdMeta);
+    }
+    if (data.containsKey('expected_cents')) {
+      context.handle(
+        _expectedCentsMeta,
+        expectedCents.isAcceptableOrUnknown(
+          data['expected_cents']!,
+          _expectedCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_expectedCentsMeta);
+    }
+    if (data.containsKey('counted_cents')) {
+      context.handle(
+        _countedCentsMeta,
+        countedCents.isAcceptableOrUnknown(
+          data['counted_cents']!,
+          _countedCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_countedCentsMeta);
+    }
+    if (data.containsKey('variance_cents')) {
+      context.handle(
+        _varianceCentsMeta,
+        varianceCents.isAcceptableOrUnknown(
+          data['variance_cents']!,
+          _varianceCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_varianceCentsMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CashReconciliationEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CashReconciliationEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      clockRecordId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}clock_record_id'],
+      )!,
+      expectedCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}expected_cents'],
+      )!,
+      countedCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}counted_cents'],
+      )!,
+      varianceCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}variance_cents'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+    );
+  }
+
+  @override
+  $CashReconciliationsTableTable createAlias(String alias) {
+    return $CashReconciliationsTableTable(attachedDatabase, alias);
+  }
+}
+
+class CashReconciliationEntity extends DataClass
+    implements Insertable<CashReconciliationEntity> {
+  final int id;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final int clockRecordId;
+  final int expectedCents;
+  final int countedCents;
+  final int varianceCents;
+  final String? note;
+  const CashReconciliationEntity({
+    required this.id,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    required this.clockRecordId,
+    required this.expectedCents,
+    required this.countedCents,
+    required this.varianceCents,
+    this.note,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['clock_record_id'] = Variable<int>(clockRecordId);
+    map['expected_cents'] = Variable<int>(expectedCents);
+    map['counted_cents'] = Variable<int>(countedCents);
+    map['variance_cents'] = Variable<int>(varianceCents);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    return map;
+  }
+
+  CashReconciliationsTableCompanion toCompanion(bool nullToAbsent) {
+    return CashReconciliationsTableCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      clockRecordId: Value(clockRecordId),
+      expectedCents: Value(expectedCents),
+      countedCents: Value(countedCents),
+      varianceCents: Value(varianceCents),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+    );
+  }
+
+  factory CashReconciliationEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CashReconciliationEntity(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      clockRecordId: serializer.fromJson<int>(json['clockRecordId']),
+      expectedCents: serializer.fromJson<int>(json['expectedCents']),
+      countedCents: serializer.fromJson<int>(json['countedCents']),
+      varianceCents: serializer.fromJson<int>(json['varianceCents']),
+      note: serializer.fromJson<String?>(json['note']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'clockRecordId': serializer.toJson<int>(clockRecordId),
+      'expectedCents': serializer.toJson<int>(expectedCents),
+      'countedCents': serializer.toJson<int>(countedCents),
+      'varianceCents': serializer.toJson<int>(varianceCents),
+      'note': serializer.toJson<String?>(note),
+    };
+  }
+
+  CashReconciliationEntity copyWith({
+    int? id,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
+    int? clockRecordId,
+    int? expectedCents,
+    int? countedCents,
+    int? varianceCents,
+    Value<String?> note = const Value.absent(),
+  }) => CashReconciliationEntity(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    clockRecordId: clockRecordId ?? this.clockRecordId,
+    expectedCents: expectedCents ?? this.expectedCents,
+    countedCents: countedCents ?? this.countedCents,
+    varianceCents: varianceCents ?? this.varianceCents,
+    note: note.present ? note.value : this.note,
+  );
+  CashReconciliationEntity copyWithCompanion(
+    CashReconciliationsTableCompanion data,
+  ) {
+    return CashReconciliationEntity(
+      id: data.id.present ? data.id.value : this.id,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      clockRecordId: data.clockRecordId.present
+          ? data.clockRecordId.value
+          : this.clockRecordId,
+      expectedCents: data.expectedCents.present
+          ? data.expectedCents.value
+          : this.expectedCents,
+      countedCents: data.countedCents.present
+          ? data.countedCents.value
+          : this.countedCents,
+      varianceCents: data.varianceCents.present
+          ? data.varianceCents.value
+          : this.varianceCents,
+      note: data.note.present ? data.note.value : this.note,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CashReconciliationEntity(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('clockRecordId: $clockRecordId, ')
+          ..write('expectedCents: $expectedCents, ')
+          ..write('countedCents: $countedCents, ')
+          ..write('varianceCents: $varianceCents, ')
+          ..write('note: $note')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    clockRecordId,
+    expectedCents,
+    countedCents,
+    varianceCents,
+    note,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CashReconciliationEntity &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.clockRecordId == this.clockRecordId &&
+          other.expectedCents == this.expectedCents &&
+          other.countedCents == this.countedCents &&
+          other.varianceCents == this.varianceCents &&
+          other.note == this.note);
+}
+
+class CashReconciliationsTableCompanion
+    extends UpdateCompanion<CashReconciliationEntity> {
+  final Value<int> id;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<int> clockRecordId;
+  final Value<int> expectedCents;
+  final Value<int> countedCents;
+  final Value<int> varianceCents;
+  final Value<String?> note;
+  const CashReconciliationsTableCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.clockRecordId = const Value.absent(),
+    this.expectedCents = const Value.absent(),
+    this.countedCents = const Value.absent(),
+    this.varianceCents = const Value.absent(),
+    this.note = const Value.absent(),
+  });
+  CashReconciliationsTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    required int clockRecordId,
+    required int expectedCents,
+    required int countedCents,
+    required int varianceCents,
+    this.note = const Value.absent(),
+  }) : clockRecordId = Value(clockRecordId),
+       expectedCents = Value(expectedCents),
+       countedCents = Value(countedCents),
+       varianceCents = Value(varianceCents);
+  static Insertable<CashReconciliationEntity> custom({
+    Expression<int>? id,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<int>? clockRecordId,
+    Expression<int>? expectedCents,
+    Expression<int>? countedCents,
+    Expression<int>? varianceCents,
+    Expression<String>? note,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (clockRecordId != null) 'clock_record_id': clockRecordId,
+      if (expectedCents != null) 'expected_cents': expectedCents,
+      if (countedCents != null) 'counted_cents': countedCents,
+      if (varianceCents != null) 'variance_cents': varianceCents,
+      if (note != null) 'note': note,
+    });
+  }
+
+  CashReconciliationsTableCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<int>? clockRecordId,
+    Value<int>? expectedCents,
+    Value<int>? countedCents,
+    Value<int>? varianceCents,
+    Value<String?>? note,
+  }) {
+    return CashReconciliationsTableCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      clockRecordId: clockRecordId ?? this.clockRecordId,
+      expectedCents: expectedCents ?? this.expectedCents,
+      countedCents: countedCents ?? this.countedCents,
+      varianceCents: varianceCents ?? this.varianceCents,
+      note: note ?? this.note,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (clockRecordId.present) {
+      map['clock_record_id'] = Variable<int>(clockRecordId.value);
+    }
+    if (expectedCents.present) {
+      map['expected_cents'] = Variable<int>(expectedCents.value);
+    }
+    if (countedCents.present) {
+      map['counted_cents'] = Variable<int>(countedCents.value);
+    }
+    if (varianceCents.present) {
+      map['variance_cents'] = Variable<int>(varianceCents.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CashReconciliationsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('clockRecordId: $clockRecordId, ')
+          ..write('expectedCents: $expectedCents, ')
+          ..write('countedCents: $countedCents, ')
+          ..write('varianceCents: $varianceCents, ')
+          ..write('note: $note')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AgoraDatabase extends GeneratedDatabase {
   _$AgoraDatabase(QueryExecutor e) : super(e);
   $AgoraDatabaseManager get managers => $AgoraDatabaseManager(this);
@@ -9538,6 +10169,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
   late final $StocksTableTable stocksTable = $StocksTableTable(this);
   late final $StockMovementsTableTable stockMovementsTable =
       $StockMovementsTableTable(this);
+  late final $EmployeesTableTable employeesTable = $EmployeesTableTable(this);
   late final $OrdersTableTable ordersTable = $OrdersTableTable(this);
   late final $CombosTableTable combosTable = $CombosTableTable(this);
   late final $OrderItemsTableTable orderItemsTable = $OrderItemsTableTable(
@@ -9550,12 +10182,13 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     this,
   );
   late final $OutboxTableTable outboxTable = $OutboxTableTable(this);
-  late final $EmployeesTableTable employeesTable = $EmployeesTableTable(this);
   late final $ClockRecordsTableTable clockRecordsTable =
       $ClockRecordsTableTable(this);
   late final $ComboItemsTableTable comboItemsTable = $ComboItemsTableTable(
     this,
   );
+  late final $CashReconciliationsTableTable cashReconciliationsTable =
+      $CashReconciliationsTableTable(this);
   late final Index idxStockMovementsSyncId = Index(
     'idx_stock_movements_sync_id',
     'CREATE UNIQUE INDEX idx_stock_movements_sync_id ON stock_movements_table (sync_id)',
@@ -9580,6 +10213,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     productModifierLinksTable,
     stocksTable,
     stockMovementsTable,
+    employeesTable,
     ordersTable,
     combosTable,
     orderItemsTable,
@@ -9587,9 +10221,9 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     discountsTable,
     appSettingsTable,
     outboxTable,
-    employeesTable,
     clockRecordsTable,
     comboItemsTable,
+    cashReconciliationsTable,
     idxStockMovementsSyncId,
     idxOrdersSyncId,
     idxClockRecordsOneOpenShift,
@@ -13050,6 +13684,513 @@ typedef $$StockMovementsTableTableProcessedTableManager =
       StockMovementEntity,
       PrefetchHooks Function({bool productId})
     >;
+typedef $$EmployeesTableTableCreateCompanionBuilder =
+    EmployeesTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      required String name,
+      required String pinHash,
+      Value<String> role,
+      Value<bool> isActive,
+      Value<int> hourlyRateCents,
+      Value<String?> avatarUrl,
+    });
+typedef $$EmployeesTableTableUpdateCompanionBuilder =
+    EmployeesTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<String> name,
+      Value<String> pinHash,
+      Value<String> role,
+      Value<bool> isActive,
+      Value<int> hourlyRateCents,
+      Value<String?> avatarUrl,
+    });
+
+final class $$EmployeesTableTableReferences
+    extends
+        BaseReferences<_$AgoraDatabase, $EmployeesTableTable, EmployeeEntity> {
+  $$EmployeesTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$OrdersTableTable, List<OrderEntity>>
+  _ordersTableRefsTable(_$AgoraDatabase db) => MultiTypedResultKey.fromTable(
+    db.ordersTable,
+    aliasName: $_aliasNameGenerator(
+      db.employeesTable.id,
+      db.ordersTable.employeeId,
+    ),
+  );
+
+  $$OrdersTableTableProcessedTableManager get ordersTableRefs {
+    final manager = $$OrdersTableTableTableManager(
+      $_db,
+      $_db.ordersTable,
+    ).filter((f) => f.employeeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_ordersTableRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$ClockRecordsTableTable, List<ClockRecordEntity>>
+  _clockRecordsTableRefsTable(_$AgoraDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.clockRecordsTable,
+        aliasName: $_aliasNameGenerator(
+          db.employeesTable.id,
+          db.clockRecordsTable.employeeId,
+        ),
+      );
+
+  $$ClockRecordsTableTableProcessedTableManager get clockRecordsTableRefs {
+    final manager = $$ClockRecordsTableTableTableManager(
+      $_db,
+      $_db.clockRecordsTable,
+    ).filter((f) => f.employeeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _clockRecordsTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$EmployeesTableTableFilterComposer
+    extends Composer<_$AgoraDatabase, $EmployeesTableTable> {
+  $$EmployeesTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pinHash => $composableBuilder(
+    column: $table.pinHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get hourlyRateCents => $composableBuilder(
+    column: $table.hourlyRateCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get avatarUrl => $composableBuilder(
+    column: $table.avatarUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> ordersTableRefs(
+    Expression<bool> Function($$OrdersTableTableFilterComposer f) f,
+  ) {
+    final $$OrdersTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.ordersTable,
+      getReferencedColumn: (t) => t.employeeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrdersTableTableFilterComposer(
+            $db: $db,
+            $table: $db.ordersTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> clockRecordsTableRefs(
+    Expression<bool> Function($$ClockRecordsTableTableFilterComposer f) f,
+  ) {
+    final $$ClockRecordsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.clockRecordsTable,
+      getReferencedColumn: (t) => t.employeeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ClockRecordsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.clockRecordsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EmployeesTableTableOrderingComposer
+    extends Composer<_$AgoraDatabase, $EmployeesTableTable> {
+  $$EmployeesTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pinHash => $composableBuilder(
+    column: $table.pinHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get role => $composableBuilder(
+    column: $table.role,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get hourlyRateCents => $composableBuilder(
+    column: $table.hourlyRateCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get avatarUrl => $composableBuilder(
+    column: $table.avatarUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$EmployeesTableTableAnnotationComposer
+    extends Composer<_$AgoraDatabase, $EmployeesTableTable> {
+  $$EmployeesTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get pinHash =>
+      $composableBuilder(column: $table.pinHash, builder: (column) => column);
+
+  GeneratedColumn<String> get role =>
+      $composableBuilder(column: $table.role, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<int> get hourlyRateCents => $composableBuilder(
+    column: $table.hourlyRateCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get avatarUrl =>
+      $composableBuilder(column: $table.avatarUrl, builder: (column) => column);
+
+  Expression<T> ordersTableRefs<T extends Object>(
+    Expression<T> Function($$OrdersTableTableAnnotationComposer a) f,
+  ) {
+    final $$OrdersTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.ordersTable,
+      getReferencedColumn: (t) => t.employeeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrdersTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.ordersTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> clockRecordsTableRefs<T extends Object>(
+    Expression<T> Function($$ClockRecordsTableTableAnnotationComposer a) f,
+  ) {
+    final $$ClockRecordsTableTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.clockRecordsTable,
+          getReferencedColumn: (t) => t.employeeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ClockRecordsTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.clockRecordsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$EmployeesTableTableTableManager
+    extends
+        RootTableManager<
+          _$AgoraDatabase,
+          $EmployeesTableTable,
+          EmployeeEntity,
+          $$EmployeesTableTableFilterComposer,
+          $$EmployeesTableTableOrderingComposer,
+          $$EmployeesTableTableAnnotationComposer,
+          $$EmployeesTableTableCreateCompanionBuilder,
+          $$EmployeesTableTableUpdateCompanionBuilder,
+          (EmployeeEntity, $$EmployeesTableTableReferences),
+          EmployeeEntity,
+          PrefetchHooks Function({
+            bool ordersTableRefs,
+            bool clockRecordsTableRefs,
+          })
+        > {
+  $$EmployeesTableTableTableManager(
+    _$AgoraDatabase db,
+    $EmployeesTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EmployeesTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EmployeesTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EmployeesTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> pinHash = const Value.absent(),
+                Value<String> role = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<int> hourlyRateCents = const Value.absent(),
+                Value<String?> avatarUrl = const Value.absent(),
+              }) => EmployeesTableCompanion(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                name: name,
+                pinHash: pinHash,
+                role: role,
+                isActive: isActive,
+                hourlyRateCents: hourlyRateCents,
+                avatarUrl: avatarUrl,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                required String name,
+                required String pinHash,
+                Value<String> role = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<int> hourlyRateCents = const Value.absent(),
+                Value<String?> avatarUrl = const Value.absent(),
+              }) => EmployeesTableCompanion.insert(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                name: name,
+                pinHash: pinHash,
+                role: role,
+                isActive: isActive,
+                hourlyRateCents: hourlyRateCents,
+                avatarUrl: avatarUrl,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EmployeesTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({ordersTableRefs = false, clockRecordsTableRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (ordersTableRefs) db.ordersTable,
+                    if (clockRecordsTableRefs) db.clockRecordsTable,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (ordersTableRefs)
+                        await $_getPrefetchedData<
+                          EmployeeEntity,
+                          $EmployeesTableTable,
+                          OrderEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EmployeesTableTableReferences
+                              ._ordersTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EmployeesTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).ordersTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.employeeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (clockRecordsTableRefs)
+                        await $_getPrefetchedData<
+                          EmployeeEntity,
+                          $EmployeesTableTable,
+                          ClockRecordEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EmployeesTableTableReferences
+                              ._clockRecordsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EmployeesTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).clockRecordsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.employeeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$EmployeesTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AgoraDatabase,
+      $EmployeesTableTable,
+      EmployeeEntity,
+      $$EmployeesTableTableFilterComposer,
+      $$EmployeesTableTableOrderingComposer,
+      $$EmployeesTableTableAnnotationComposer,
+      $$EmployeesTableTableCreateCompanionBuilder,
+      $$EmployeesTableTableUpdateCompanionBuilder,
+      (EmployeeEntity, $$EmployeesTableTableReferences),
+      EmployeeEntity,
+      PrefetchHooks Function({bool ordersTableRefs, bool clockRecordsTableRefs})
+    >;
 typedef $$OrdersTableTableCreateCompanionBuilder =
     OrdersTableCompanion Function({
       Value<int> id,
@@ -13065,6 +14206,7 @@ typedef $$OrdersTableTableCreateCompanionBuilder =
       Value<String?> paymentMethod,
       Value<String?> note,
       Value<String?> syncId,
+      Value<int?> employeeId,
     });
 typedef $$OrdersTableTableUpdateCompanionBuilder =
     OrdersTableCompanion Function({
@@ -13081,11 +14223,31 @@ typedef $$OrdersTableTableUpdateCompanionBuilder =
       Value<String?> paymentMethod,
       Value<String?> note,
       Value<String?> syncId,
+      Value<int?> employeeId,
     });
 
 final class $$OrdersTableTableReferences
     extends BaseReferences<_$AgoraDatabase, $OrdersTableTable, OrderEntity> {
   $$OrdersTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $EmployeesTableTable _employeeIdTable(_$AgoraDatabase db) =>
+      db.employeesTable.createAlias(
+        $_aliasNameGenerator(db.ordersTable.employeeId, db.employeesTable.id),
+      );
+
+  $$EmployeesTableTableProcessedTableManager? get employeeId {
+    final $_column = $_itemColumn<int>('employee_id');
+    if ($_column == null) return null;
+    final manager = $$EmployeesTableTableTableManager(
+      $_db,
+      $_db.employeesTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_employeeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static MultiTypedResultKey<$OrderItemsTableTable, List<OrderItemEntity>>
   _orderItemsTableRefsTable(_$AgoraDatabase db) =>
@@ -13186,6 +14348,29 @@ class $$OrdersTableTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  $$EmployeesTableTableFilterComposer get employeeId {
+    final $$EmployeesTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.employeeId,
+      referencedTable: $db.employeesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EmployeesTableTableFilterComposer(
+            $db: $db,
+            $table: $db.employeesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   Expression<bool> orderItemsTableRefs(
     Expression<bool> Function($$OrderItemsTableTableFilterComposer f) f,
   ) {
@@ -13285,6 +14470,29 @@ class $$OrdersTableTableOrderingComposer
     column: $table.syncId,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$EmployeesTableTableOrderingComposer get employeeId {
+    final $$EmployeesTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.employeeId,
+      referencedTable: $db.employeesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EmployeesTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.employeesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$OrdersTableTableAnnotationComposer
@@ -13341,6 +14549,29 @@ class $$OrdersTableTableAnnotationComposer
   GeneratedColumn<String> get syncId =>
       $composableBuilder(column: $table.syncId, builder: (column) => column);
 
+  $$EmployeesTableTableAnnotationComposer get employeeId {
+    final $$EmployeesTableTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.employeeId,
+      referencedTable: $db.employeesTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EmployeesTableTableAnnotationComposer(
+            $db: $db,
+            $table: $db.employeesTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   Expression<T> orderItemsTableRefs<T extends Object>(
     Expression<T> Function($$OrderItemsTableTableAnnotationComposer a) f,
   ) {
@@ -13380,7 +14611,7 @@ class $$OrdersTableTableTableManager
           $$OrdersTableTableUpdateCompanionBuilder,
           (OrderEntity, $$OrdersTableTableReferences),
           OrderEntity,
-          PrefetchHooks Function({bool orderItemsTableRefs})
+          PrefetchHooks Function({bool employeeId, bool orderItemsTableRefs})
         > {
   $$OrdersTableTableTableManager(_$AgoraDatabase db, $OrdersTableTable table)
     : super(
@@ -13408,6 +14639,7 @@ class $$OrdersTableTableTableManager
                 Value<String?> paymentMethod = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<String?> syncId = const Value.absent(),
+                Value<int?> employeeId = const Value.absent(),
               }) => OrdersTableCompanion(
                 id: id,
                 createdAt: createdAt,
@@ -13422,6 +14654,7 @@ class $$OrdersTableTableTableManager
                 paymentMethod: paymentMethod,
                 note: note,
                 syncId: syncId,
+                employeeId: employeeId,
               ),
           createCompanionCallback:
               ({
@@ -13438,6 +14671,7 @@ class $$OrdersTableTableTableManager
                 Value<String?> paymentMethod = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<String?> syncId = const Value.absent(),
+                Value<int?> employeeId = const Value.absent(),
               }) => OrdersTableCompanion.insert(
                 id: id,
                 createdAt: createdAt,
@@ -13452,6 +14686,7 @@ class $$OrdersTableTableTableManager
                 paymentMethod: paymentMethod,
                 note: note,
                 syncId: syncId,
+                employeeId: employeeId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -13461,38 +14696,74 @@ class $$OrdersTableTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({orderItemsTableRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (orderItemsTableRefs) db.orderItemsTable,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (orderItemsTableRefs)
-                    await $_getPrefetchedData<
-                      OrderEntity,
-                      $OrdersTableTable,
-                      OrderItemEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$OrdersTableTableReferences
-                          ._orderItemsTableRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$OrdersTableTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).orderItemsTableRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.orderId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({employeeId = false, orderItemsTableRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (orderItemsTableRefs) db.orderItemsTable,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (employeeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.employeeId,
+                                    referencedTable:
+                                        $$OrdersTableTableReferences
+                                            ._employeeIdTable(db),
+                                    referencedColumn:
+                                        $$OrdersTableTableReferences
+                                            ._employeeIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (orderItemsTableRefs)
+                        await $_getPrefetchedData<
+                          OrderEntity,
+                          $OrdersTableTable,
+                          OrderItemEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$OrdersTableTableReferences
+                              ._orderItemsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$OrdersTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).orderItemsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.orderId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -13509,7 +14780,7 @@ typedef $$OrdersTableTableProcessedTableManager =
       $$OrdersTableTableUpdateCompanionBuilder,
       (OrderEntity, $$OrdersTableTableReferences),
       OrderEntity,
-      PrefetchHooks Function({bool orderItemsTableRefs})
+      PrefetchHooks Function({bool employeeId, bool orderItemsTableRefs})
     >;
 typedef $$CombosTableTableCreateCompanionBuilder =
     CombosTableCompanion Function({
@@ -16051,414 +17322,6 @@ typedef $$OutboxTableTableProcessedTableManager =
       OutboxEntity,
       PrefetchHooks Function()
     >;
-typedef $$EmployeesTableTableCreateCompanionBuilder =
-    EmployeesTableCompanion Function({
-      Value<int> id,
-      Value<DateTime> createdAt,
-      Value<DateTime?> updatedAt,
-      Value<DateTime?> deletedAt,
-      required String name,
-      required String pinHash,
-      Value<String> role,
-      Value<bool> isActive,
-      Value<int> hourlyRateCents,
-      Value<String?> avatarUrl,
-    });
-typedef $$EmployeesTableTableUpdateCompanionBuilder =
-    EmployeesTableCompanion Function({
-      Value<int> id,
-      Value<DateTime> createdAt,
-      Value<DateTime?> updatedAt,
-      Value<DateTime?> deletedAt,
-      Value<String> name,
-      Value<String> pinHash,
-      Value<String> role,
-      Value<bool> isActive,
-      Value<int> hourlyRateCents,
-      Value<String?> avatarUrl,
-    });
-
-final class $$EmployeesTableTableReferences
-    extends
-        BaseReferences<_$AgoraDatabase, $EmployeesTableTable, EmployeeEntity> {
-  $$EmployeesTableTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static MultiTypedResultKey<$ClockRecordsTableTable, List<ClockRecordEntity>>
-  _clockRecordsTableRefsTable(_$AgoraDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.clockRecordsTable,
-        aliasName: $_aliasNameGenerator(
-          db.employeesTable.id,
-          db.clockRecordsTable.employeeId,
-        ),
-      );
-
-  $$ClockRecordsTableTableProcessedTableManager get clockRecordsTableRefs {
-    final manager = $$ClockRecordsTableTableTableManager(
-      $_db,
-      $_db.clockRecordsTable,
-    ).filter((f) => f.employeeId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _clockRecordsTableRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$EmployeesTableTableFilterComposer
-    extends Composer<_$AgoraDatabase, $EmployeesTableTable> {
-  $$EmployeesTableTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
-    column: $table.deletedAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get pinHash => $composableBuilder(
-    column: $table.pinHash,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get role => $composableBuilder(
-    column: $table.role,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get isActive => $composableBuilder(
-    column: $table.isActive,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get hourlyRateCents => $composableBuilder(
-    column: $table.hourlyRateCents,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get avatarUrl => $composableBuilder(
-    column: $table.avatarUrl,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> clockRecordsTableRefs(
-    Expression<bool> Function($$ClockRecordsTableTableFilterComposer f) f,
-  ) {
-    final $$ClockRecordsTableTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.clockRecordsTable,
-      getReferencedColumn: (t) => t.employeeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$ClockRecordsTableTableFilterComposer(
-            $db: $db,
-            $table: $db.clockRecordsTable,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EmployeesTableTableOrderingComposer
-    extends Composer<_$AgoraDatabase, $EmployeesTableTable> {
-  $$EmployeesTableTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
-    column: $table.deletedAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get pinHash => $composableBuilder(
-    column: $table.pinHash,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get role => $composableBuilder(
-    column: $table.role,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get isActive => $composableBuilder(
-    column: $table.isActive,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<int> get hourlyRateCents => $composableBuilder(
-    column: $table.hourlyRateCents,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get avatarUrl => $composableBuilder(
-    column: $table.avatarUrl,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$EmployeesTableTableAnnotationComposer
-    extends Composer<_$AgoraDatabase, $EmployeesTableTable> {
-  $$EmployeesTableTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get updatedAt =>
-      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get deletedAt =>
-      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<String> get pinHash =>
-      $composableBuilder(column: $table.pinHash, builder: (column) => column);
-
-  GeneratedColumn<String> get role =>
-      $composableBuilder(column: $table.role, builder: (column) => column);
-
-  GeneratedColumn<bool> get isActive =>
-      $composableBuilder(column: $table.isActive, builder: (column) => column);
-
-  GeneratedColumn<int> get hourlyRateCents => $composableBuilder(
-    column: $table.hourlyRateCents,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get avatarUrl =>
-      $composableBuilder(column: $table.avatarUrl, builder: (column) => column);
-
-  Expression<T> clockRecordsTableRefs<T extends Object>(
-    Expression<T> Function($$ClockRecordsTableTableAnnotationComposer a) f,
-  ) {
-    final $$ClockRecordsTableTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.clockRecordsTable,
-          getReferencedColumn: (t) => t.employeeId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$ClockRecordsTableTableAnnotationComposer(
-                $db: $db,
-                $table: $db.clockRecordsTable,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
-}
-
-class $$EmployeesTableTableTableManager
-    extends
-        RootTableManager<
-          _$AgoraDatabase,
-          $EmployeesTableTable,
-          EmployeeEntity,
-          $$EmployeesTableTableFilterComposer,
-          $$EmployeesTableTableOrderingComposer,
-          $$EmployeesTableTableAnnotationComposer,
-          $$EmployeesTableTableCreateCompanionBuilder,
-          $$EmployeesTableTableUpdateCompanionBuilder,
-          (EmployeeEntity, $$EmployeesTableTableReferences),
-          EmployeeEntity,
-          PrefetchHooks Function({bool clockRecordsTableRefs})
-        > {
-  $$EmployeesTableTableTableManager(
-    _$AgoraDatabase db,
-    $EmployeesTableTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$EmployeesTableTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$EmployeesTableTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$EmployeesTableTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-                Value<DateTime?> updatedAt = const Value.absent(),
-                Value<DateTime?> deletedAt = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<String> pinHash = const Value.absent(),
-                Value<String> role = const Value.absent(),
-                Value<bool> isActive = const Value.absent(),
-                Value<int> hourlyRateCents = const Value.absent(),
-                Value<String?> avatarUrl = const Value.absent(),
-              }) => EmployeesTableCompanion(
-                id: id,
-                createdAt: createdAt,
-                updatedAt: updatedAt,
-                deletedAt: deletedAt,
-                name: name,
-                pinHash: pinHash,
-                role: role,
-                isActive: isActive,
-                hourlyRateCents: hourlyRateCents,
-                avatarUrl: avatarUrl,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-                Value<DateTime?> updatedAt = const Value.absent(),
-                Value<DateTime?> deletedAt = const Value.absent(),
-                required String name,
-                required String pinHash,
-                Value<String> role = const Value.absent(),
-                Value<bool> isActive = const Value.absent(),
-                Value<int> hourlyRateCents = const Value.absent(),
-                Value<String?> avatarUrl = const Value.absent(),
-              }) => EmployeesTableCompanion.insert(
-                id: id,
-                createdAt: createdAt,
-                updatedAt: updatedAt,
-                deletedAt: deletedAt,
-                name: name,
-                pinHash: pinHash,
-                role: role,
-                isActive: isActive,
-                hourlyRateCents: hourlyRateCents,
-                avatarUrl: avatarUrl,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$EmployeesTableTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({clockRecordsTableRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (clockRecordsTableRefs) db.clockRecordsTable,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (clockRecordsTableRefs)
-                    await $_getPrefetchedData<
-                      EmployeeEntity,
-                      $EmployeesTableTable,
-                      ClockRecordEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$EmployeesTableTableReferences
-                          ._clockRecordsTableRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$EmployeesTableTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).clockRecordsTableRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.employeeId == item.id),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$EmployeesTableTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AgoraDatabase,
-      $EmployeesTableTable,
-      EmployeeEntity,
-      $$EmployeesTableTableFilterComposer,
-      $$EmployeesTableTableOrderingComposer,
-      $$EmployeesTableTableAnnotationComposer,
-      $$EmployeesTableTableCreateCompanionBuilder,
-      $$EmployeesTableTableUpdateCompanionBuilder,
-      (EmployeeEntity, $$EmployeesTableTableReferences),
-      EmployeeEntity,
-      PrefetchHooks Function({bool clockRecordsTableRefs})
-    >;
 typedef $$ClockRecordsTableTableCreateCompanionBuilder =
     ClockRecordsTableCompanion Function({
       Value<int> id,
@@ -16514,6 +17377,34 @@ final class $$ClockRecordsTableTableReferences
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $CashReconciliationsTableTable,
+    List<CashReconciliationEntity>
+  >
+  _cashReconciliationsTableRefsTable(_$AgoraDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.cashReconciliationsTable,
+        aliasName: $_aliasNameGenerator(
+          db.clockRecordsTable.id,
+          db.cashReconciliationsTable.clockRecordId,
+        ),
+      );
+
+  $$CashReconciliationsTableTableProcessedTableManager
+  get cashReconciliationsTableRefs {
+    final manager = $$CashReconciliationsTableTableTableManager(
+      $_db,
+      $_db.cashReconciliationsTable,
+    ).filter((f) => f.clockRecordId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _cashReconciliationsTableRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
     );
   }
 }
@@ -16583,6 +17474,33 @@ class $$ClockRecordsTableTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> cashReconciliationsTableRefs(
+    Expression<bool> Function($$CashReconciliationsTableTableFilterComposer f)
+    f,
+  ) {
+    final $$CashReconciliationsTableTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cashReconciliationsTable,
+          getReferencedColumn: (t) => t.clockRecordId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CashReconciliationsTableTableFilterComposer(
+                $db: $db,
+                $table: $db.cashReconciliationsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
   }
 }
 
@@ -16710,6 +17628,33 @@ class $$ClockRecordsTableTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> cashReconciliationsTableRefs<T extends Object>(
+    Expression<T> Function($$CashReconciliationsTableTableAnnotationComposer a)
+    f,
+  ) {
+    final $$CashReconciliationsTableTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.cashReconciliationsTable,
+          getReferencedColumn: (t) => t.clockRecordId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$CashReconciliationsTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.cashReconciliationsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$ClockRecordsTableTableTableManager
@@ -16725,7 +17670,10 @@ class $$ClockRecordsTableTableTableManager
           $$ClockRecordsTableTableUpdateCompanionBuilder,
           (ClockRecordEntity, $$ClockRecordsTableTableReferences),
           ClockRecordEntity,
-          PrefetchHooks Function({bool employeeId})
+          PrefetchHooks Function({
+            bool employeeId,
+            bool cashReconciliationsTableRefs,
+          })
         > {
   $$ClockRecordsTableTableTableManager(
     _$AgoraDatabase db,
@@ -16791,49 +17739,75 @@ class $$ClockRecordsTableTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({employeeId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (employeeId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.employeeId,
-                                referencedTable:
-                                    $$ClockRecordsTableTableReferences
-                                        ._employeeIdTable(db),
-                                referencedColumn:
-                                    $$ClockRecordsTableTableReferences
-                                        ._employeeIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({employeeId = false, cashReconciliationsTableRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (cashReconciliationsTableRefs)
+                      db.cashReconciliationsTable,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (employeeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.employeeId,
+                                    referencedTable:
+                                        $$ClockRecordsTableTableReferences
+                                            ._employeeIdTable(db),
+                                    referencedColumn:
+                                        $$ClockRecordsTableTableReferences
+                                            ._employeeIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (cashReconciliationsTableRefs)
+                        await $_getPrefetchedData<
+                          ClockRecordEntity,
+                          $ClockRecordsTableTable,
+                          CashReconciliationEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ClockRecordsTableTableReferences
+                              ._cashReconciliationsTableRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ClockRecordsTableTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).cashReconciliationsTableRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.clockRecordId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -16850,7 +17824,10 @@ typedef $$ClockRecordsTableTableProcessedTableManager =
       $$ClockRecordsTableTableUpdateCompanionBuilder,
       (ClockRecordEntity, $$ClockRecordsTableTableReferences),
       ClockRecordEntity,
-      PrefetchHooks Function({bool employeeId})
+      PrefetchHooks Function({
+        bool employeeId,
+        bool cashReconciliationsTableRefs,
+      })
     >;
 typedef $$ComboItemsTableTableCreateCompanionBuilder =
     ComboItemsTableCompanion Function({
@@ -17327,6 +18304,427 @@ typedef $$ComboItemsTableTableProcessedTableManager =
       ComboItemEntity,
       PrefetchHooks Function({bool comboId, bool productId})
     >;
+typedef $$CashReconciliationsTableTableCreateCompanionBuilder =
+    CashReconciliationsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      required int clockRecordId,
+      required int expectedCents,
+      required int countedCents,
+      required int varianceCents,
+      Value<String?> note,
+    });
+typedef $$CashReconciliationsTableTableUpdateCompanionBuilder =
+    CashReconciliationsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<int> clockRecordId,
+      Value<int> expectedCents,
+      Value<int> countedCents,
+      Value<int> varianceCents,
+      Value<String?> note,
+    });
+
+final class $$CashReconciliationsTableTableReferences
+    extends
+        BaseReferences<
+          _$AgoraDatabase,
+          $CashReconciliationsTableTable,
+          CashReconciliationEntity
+        > {
+  $$CashReconciliationsTableTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ClockRecordsTableTable _clockRecordIdTable(_$AgoraDatabase db) =>
+      db.clockRecordsTable.createAlias(
+        $_aliasNameGenerator(
+          db.cashReconciliationsTable.clockRecordId,
+          db.clockRecordsTable.id,
+        ),
+      );
+
+  $$ClockRecordsTableTableProcessedTableManager get clockRecordId {
+    final $_column = $_itemColumn<int>('clock_record_id')!;
+
+    final manager = $$ClockRecordsTableTableTableManager(
+      $_db,
+      $_db.clockRecordsTable,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_clockRecordIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$CashReconciliationsTableTableFilterComposer
+    extends Composer<_$AgoraDatabase, $CashReconciliationsTableTable> {
+  $$CashReconciliationsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get expectedCents => $composableBuilder(
+    column: $table.expectedCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get countedCents => $composableBuilder(
+    column: $table.countedCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get varianceCents => $composableBuilder(
+    column: $table.varianceCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ClockRecordsTableTableFilterComposer get clockRecordId {
+    final $$ClockRecordsTableTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.clockRecordId,
+      referencedTable: $db.clockRecordsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ClockRecordsTableTableFilterComposer(
+            $db: $db,
+            $table: $db.clockRecordsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$CashReconciliationsTableTableOrderingComposer
+    extends Composer<_$AgoraDatabase, $CashReconciliationsTableTable> {
+  $$CashReconciliationsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get expectedCents => $composableBuilder(
+    column: $table.expectedCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get countedCents => $composableBuilder(
+    column: $table.countedCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get varianceCents => $composableBuilder(
+    column: $table.varianceCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ClockRecordsTableTableOrderingComposer get clockRecordId {
+    final $$ClockRecordsTableTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.clockRecordId,
+      referencedTable: $db.clockRecordsTable,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ClockRecordsTableTableOrderingComposer(
+            $db: $db,
+            $table: $db.clockRecordsTable,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$CashReconciliationsTableTableAnnotationComposer
+    extends Composer<_$AgoraDatabase, $CashReconciliationsTableTable> {
+  $$CashReconciliationsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<int> get expectedCents => $composableBuilder(
+    column: $table.expectedCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get countedCents => $composableBuilder(
+    column: $table.countedCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get varianceCents => $composableBuilder(
+    column: $table.varianceCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  $$ClockRecordsTableTableAnnotationComposer get clockRecordId {
+    final $$ClockRecordsTableTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.clockRecordId,
+          referencedTable: $db.clockRecordsTable,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ClockRecordsTableTableAnnotationComposer(
+                $db: $db,
+                $table: $db.clockRecordsTable,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$CashReconciliationsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AgoraDatabase,
+          $CashReconciliationsTableTable,
+          CashReconciliationEntity,
+          $$CashReconciliationsTableTableFilterComposer,
+          $$CashReconciliationsTableTableOrderingComposer,
+          $$CashReconciliationsTableTableAnnotationComposer,
+          $$CashReconciliationsTableTableCreateCompanionBuilder,
+          $$CashReconciliationsTableTableUpdateCompanionBuilder,
+          (CashReconciliationEntity, $$CashReconciliationsTableTableReferences),
+          CashReconciliationEntity,
+          PrefetchHooks Function({bool clockRecordId})
+        > {
+  $$CashReconciliationsTableTableTableManager(
+    _$AgoraDatabase db,
+    $CashReconciliationsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CashReconciliationsTableTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$CashReconciliationsTableTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$CashReconciliationsTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<int> clockRecordId = const Value.absent(),
+                Value<int> expectedCents = const Value.absent(),
+                Value<int> countedCents = const Value.absent(),
+                Value<int> varianceCents = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+              }) => CashReconciliationsTableCompanion(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                clockRecordId: clockRecordId,
+                expectedCents: expectedCents,
+                countedCents: countedCents,
+                varianceCents: varianceCents,
+                note: note,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                required int clockRecordId,
+                required int expectedCents,
+                required int countedCents,
+                required int varianceCents,
+                Value<String?> note = const Value.absent(),
+              }) => CashReconciliationsTableCompanion.insert(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                clockRecordId: clockRecordId,
+                expectedCents: expectedCents,
+                countedCents: countedCents,
+                varianceCents: varianceCents,
+                note: note,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CashReconciliationsTableTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({clockRecordId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (clockRecordId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.clockRecordId,
+                                referencedTable:
+                                    $$CashReconciliationsTableTableReferences
+                                        ._clockRecordIdTable(db),
+                                referencedColumn:
+                                    $$CashReconciliationsTableTableReferences
+                                        ._clockRecordIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$CashReconciliationsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AgoraDatabase,
+      $CashReconciliationsTableTable,
+      CashReconciliationEntity,
+      $$CashReconciliationsTableTableFilterComposer,
+      $$CashReconciliationsTableTableOrderingComposer,
+      $$CashReconciliationsTableTableAnnotationComposer,
+      $$CashReconciliationsTableTableCreateCompanionBuilder,
+      $$CashReconciliationsTableTableUpdateCompanionBuilder,
+      (CashReconciliationEntity, $$CashReconciliationsTableTableReferences),
+      CashReconciliationEntity,
+      PrefetchHooks Function({bool clockRecordId})
+    >;
 
 class $AgoraDatabaseManager {
   final _$AgoraDatabase _db;
@@ -17348,6 +18746,8 @@ class $AgoraDatabaseManager {
       $$StocksTableTableTableManager(_db, _db.stocksTable);
   $$StockMovementsTableTableTableManager get stockMovementsTable =>
       $$StockMovementsTableTableTableManager(_db, _db.stockMovementsTable);
+  $$EmployeesTableTableTableManager get employeesTable =>
+      $$EmployeesTableTableTableManager(_db, _db.employeesTable);
   $$OrdersTableTableTableManager get ordersTable =>
       $$OrdersTableTableTableManager(_db, _db.ordersTable);
   $$CombosTableTableTableManager get combosTable =>
@@ -17362,10 +18762,13 @@ class $AgoraDatabaseManager {
       $$AppSettingsTableTableTableManager(_db, _db.appSettingsTable);
   $$OutboxTableTableTableManager get outboxTable =>
       $$OutboxTableTableTableManager(_db, _db.outboxTable);
-  $$EmployeesTableTableTableManager get employeesTable =>
-      $$EmployeesTableTableTableManager(_db, _db.employeesTable);
   $$ClockRecordsTableTableTableManager get clockRecordsTable =>
       $$ClockRecordsTableTableTableManager(_db, _db.clockRecordsTable);
   $$ComboItemsTableTableTableManager get comboItemsTable =>
       $$ComboItemsTableTableTableManager(_db, _db.comboItemsTable);
+  $$CashReconciliationsTableTableTableManager get cashReconciliationsTable =>
+      $$CashReconciliationsTableTableTableManager(
+        _db,
+        _db.cashReconciliationsTable,
+      );
 }

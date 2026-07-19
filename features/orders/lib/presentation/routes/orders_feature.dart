@@ -1,3 +1,4 @@
+import 'package:auth_session/auth_session.dart';
 import 'package:database/database.dart';
 import 'package:feature_orders/data/repositories/order_items_repository_impl.dart';
 import 'package:feature_orders/data/repositories/orders_repository_impl.dart';
@@ -65,6 +66,8 @@ class OrdersFeature extends AppFeature {
         productsRepository: ctx.read<ProductsRepository>(),
         discountsRepository: ctx.read<DiscountsRepository>(),
         printerService: ctx.read<PrinterService>(),
+        getCurrentEmployeeId: () =>
+            ctx.read<SessionCubit>().currentEmployee?.id,
         logger: ctx.read<Talker>(),
       ),
     ),

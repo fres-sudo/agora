@@ -37,12 +37,14 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     required ProductsRepository productsRepository,
     required DiscountsRepository discountsRepository,
     required PrinterService printerService,
+    required int? Function() getCurrentEmployeeId,
     Talker? logger,
   }) : _ordersRepository = ordersRepository,
        _inventoryRepository = inventoryRepository,
        _productsRepository = productsRepository,
        _discountsRepository = discountsRepository,
        _printerService = printerService,
+       _getCurrentEmployeeId = getCurrentEmployeeId,
        _logger = logger,
        super(const CheckoutState.initial());
 
@@ -51,6 +53,13 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   final ProductsRepository _productsRepository;
   final DiscountsRepository _discountsRepository;
   final PrinterService _printerService;
+  // Who's currently on the till, for shift cash reconciliation
+  // (docs/features/04-volunteer-shift-accountability.md). A callback rather
+  // than a SessionCubit reference, so order_management stays free of an
+  // auth_session dependency and this cubit keeps its existing style of
+  // depending only on repository/service interfaces. Called at confirm()
+  // time, not construction time, so it reflects who's logged in *now*.
+  final int? Function() _getCurrentEmployeeId;
   final Talker? _logger;
 
   static const ReceiptRenderer _renderer = ReceiptRenderer();
@@ -112,6 +121,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     final finalOrder = current.order.copyWith(
       status: OrderStatus.completed,
       paymentMethod: method.label,
+      employeeId: _getCurrentEmployeeId(),
     );
 
     emit(
