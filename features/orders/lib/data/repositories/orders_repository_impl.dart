@@ -16,8 +16,7 @@ import 'package:sync_engine/sync_engine.dart';
 /// can't reuse the local `comboLineId` integer scheme.
 String _comboWireGroup(String syncId, int lineIndex) => '$syncId#$lineIndex';
 
-class OrdersRepositoryImpl extends SyncableRepository
-    implements OrdersRepository {
+class OrdersRepositoryImpl extends SyncableRepository implements OrdersRepository {
   OrdersRepositoryImpl({
     required OrdersDao ordersDao,
     required OrderItemsDao orderItemsDao,
@@ -40,9 +39,7 @@ class OrdersRepositoryImpl extends SyncableRepository
     final items = <OrderLineItem>[];
 
     for (final itemEntity in itemEntities) {
-      final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(
-        itemEntity.id,
-      );
+      final modifierEntities = await _orderItemsDao.getModifiersByOrderItemId(itemEntity.id);
       items.add(
         OrderLineItem(
           id: itemEntity.id,
@@ -100,7 +97,7 @@ class OrdersRepositoryImpl extends SyncableRepository
       updatedAt: DateTime.now(),
       deletedAt: null,
       syncId: order.syncId,
-      employeeId: Value(order.employeeId),
+      employeeId: order.employeeId,
     );
   }
 
@@ -164,11 +161,7 @@ class OrdersRepositoryImpl extends SyncableRepository
   /// mirroring the local fan-out in [_insertComboLine], so a peer station
   /// receives the already-split rows directly and doesn't need to resolve
   /// the combo definition itself.
-  List<Map<String, dynamic>> _itemPayloads(
-    OrderLineItem item,
-    String syncId,
-    int lineIndex,
-  ) {
+  List<Map<String, dynamic>> _itemPayloads(OrderLineItem item, String syncId, int lineIndex) {
     if (item.comboId == null || item.comboComponents.isEmpty) {
       return [_plainItemPayload(item)];
     }
@@ -207,10 +200,7 @@ class OrdersRepositoryImpl extends SyncableRepository
     return payloads;
   }
 
-  OrderItemsTableCompanion _itemToInsertCompanion(
-    int orderId,
-    OrderLineItem item,
-  ) {
+  OrderItemsTableCompanion _itemToInsertCompanion(int orderId, OrderLineItem item) {
     return OrderItemsTableCompanion.insert(
       orderId: orderId,
       productId: Value(item.productId),
@@ -232,10 +222,7 @@ class OrdersRepositoryImpl extends SyncableRepository
   /// units were sold); siblings get `unitPrice = 0` but keep their own real
   /// cost snapshot for margin accuracy. All rows share `comboLineId` (set to
   /// the lead row's own id) so the receipt mapper can regroup them.
-  Future<List<OrderLineItem>> _insertComboLine(
-    int orderId,
-    OrderLineItem item,
-  ) async {
+  Future<List<OrderLineItem>> _insertComboLine(int orderId, OrderLineItem item) async {
     final components = item.comboComponents;
     if (components.isEmpty) return const []; // Defensive; should never happen
 
@@ -277,8 +264,7 @@ class OrdersRepositoryImpl extends SyncableRepository
           productId: Value(sibling.productId),
           productName: sibling.productName,
           unitPrice: 0,
-          costPrice:
-              sibling.unitCostPriceCents * sibling.quantity * item.quantity,
+          costPrice: sibling.unitCostPriceCents * sibling.quantity * item.quantity,
           quantity: Value(sibling.quantity * item.quantity),
           discountAmount: const Value(0),
           prepStation: Value(sibling.prepStation),
@@ -362,10 +348,7 @@ class OrdersRepositoryImpl extends SyncableRepository
   }
 
   @override
-  Stream<List<Order>> watchOrdersByDateRange({
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
+  Stream<List<Order>> watchOrdersByDateRange({DateTime? startDate, DateTime? endDate}) {
     return _ordersDao
         .watchOrdersByDateRange(startDate: startDate, endDate: endDate)
         .asyncMap((entities) async {
@@ -383,12 +366,11 @@ class OrdersRepositoryImpl extends SyncableRepository
   // ============================================================
 
   @override
-  Future<Result<Order?>> getOrderById(int id) =>
-      safe('getOrderById($id)', () async {
-        final entity = await _ordersDao.getOrderById(id);
-        if (entity == null) return null;
-        return _entityToModel(entity);
-      });
+  Future<Result<Order?>> getOrderById(int id) => safe('getOrderById($id)', () async {
+    final entity = await _ordersDao.getOrderById(id);
+    if (entity == null) return null;
+    return _entityToModel(entity);
+  });
 
   @override
   Future<Result<int>> getOrdersCount({
@@ -397,11 +379,7 @@ class OrdersRepositoryImpl extends SyncableRepository
     DateTime? endDate,
   }) => safe(
     'getOrdersCount',
-    () => _ordersDao.getOrdersCount(
-      status: status?.value,
-      startDate: startDate,
-      endDate: endDate,
-    ),
+    () => _ordersDao.getOrdersCount(status: status?.value, startDate: startDate, endDate: endDate),
   );
 
   // ============================================================
@@ -409,22 +387,18 @@ class OrdersRepositoryImpl extends SyncableRepository
   // ============================================================
 
   @override
-  Future<Result<int>> getTotalRevenue({
-    required DateTime startDate,
-    required DateTime endDate,
-  }) => safe(
-    'getTotalRevenue',
-    () => _ordersDao.getTotalRevenue(startDate: startDate, endDate: endDate),
-  );
+  Future<Result<int>> getTotalRevenue({required DateTime startDate, required DateTime endDate}) =>
+      safe(
+        'getTotalRevenue',
+        () => _ordersDao.getTotalRevenue(startDate: startDate, endDate: endDate),
+      );
 
   @override
-  Future<Result<int>> getTotalDiscounts({
-    required DateTime startDate,
-    required DateTime endDate,
-  }) => safe(
-    'getTotalDiscounts',
-    () => _ordersDao.getTotalDiscounts(startDate: startDate, endDate: endDate),
-  );
+  Future<Result<int>> getTotalDiscounts({required DateTime startDate, required DateTime endDate}) =>
+      safe(
+        'getTotalDiscounts',
+        () => _ordersDao.getTotalDiscounts(startDate: startDate, endDate: endDate),
+      );
 
   @override
   Future<Result<int>> getCashRevenueForEmployeeShift({
@@ -467,9 +441,7 @@ class OrdersRepositoryImpl extends SyncableRepository
         // attached database).
         return _ordersDao.transaction(() async {
           // Insert order
-          final orderId = await _ordersDao.insertOrder(
-            _modelToInsertCompanion(orderWithSyncId),
-          );
+          final orderId = await _ordersDao.insertOrder(_modelToInsertCompanion(orderWithSyncId));
 
           // Insert items (and their modifiers), fanning combo lines out
           // into one row per constituent — see [_insertComboLine].
@@ -505,22 +477,20 @@ class OrdersRepositoryImpl extends SyncableRepository
   }
 
   @override
-  Future<Result<Order>> updateOrder(Order order) =>
-      safe('updateOrder(${order.id})', () async {
-        if (order.id == null) {
-          throw Exception('Cannot update an order without an ID');
-        }
-        await _ordersDao.updateOrder(order.id!, _modelToEntity(order));
-        return order;
-      });
+  Future<Result<Order>> updateOrder(Order order) => safe('updateOrder(${order.id})', () async {
+    if (order.id == null) {
+      throw Exception('Cannot update an order without an ID');
+    }
+    await _ordersDao.updateOrder(order.id!, _modelToEntity(order));
+    return order;
+  });
 
   @override
-  Future<Result<Order>> completeOrder(int id) =>
-      safe('completeOrder($id)', () async {
-        await _ordersDao.completeOrder(id);
-        final order = await getOrderById(id);
-        return order.unwrap()!;
-      });
+  Future<Result<Order>> completeOrder(int id) => safe('completeOrder($id)', () async {
+    await _ordersDao.completeOrder(id);
+    final order = await getOrderById(id);
+    return order.unwrap()!;
+  });
 
   @override
   Future<Result<VoidOrderResult>> voidOrder(int id) async {

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 /// Paths — run from the repo root (`dart run .scripts/generate_icons.dart`).
@@ -15,6 +16,13 @@ const _packageName = 'ui_kit';
 const _regularStyle = 'line';
 const _iconStyles = [_regularStyle, 'bulk', 'solid', 'twotone'];
 
+/// `line` SVGs are hand-authored as strokes (`stroke="#282930"`, `fill="none"`).
+/// Icon fonts have no stroke concept — `icon_font_generator` only reads path
+/// fill geometry, so stroked paths silently vanish (open paths have no fill
+/// area). These get outlined into filled paths via `.scripts/node/` before
+/// being merged into the font source.
+const _nodeToolsDir = '.scripts/node';
+
 void main() async {
   final stopwatch = Stopwatch()..start();
   stdout.writeln('🔧 [generate_icons] Starting icon font generation...');
@@ -23,7 +31,7 @@ void main() async {
 
   final mergedDir = await Directory.systemTemp.createTemp('agora_icons_');
   try {
-    final count = _populateMergedSource(mergedDir);
+    final count = await _populateMergedSource(mergedDir);
     stdout.writeln(
         '📦 Merged $count SVG(s) from ${_iconStyles.length} style(s) into a temp source dir.');
 
@@ -75,8 +83,9 @@ void _validateSvgSource() {
 /// [_regularStyle] which is copied without a suffix (`alert_circle.svg`).
 ///
 /// Returns the total number of files copied.
-int _populateMergedSource(Directory mergedDir) {
+Future<int> _populateMergedSource(Directory mergedDir) async {
   var count = 0;
+  final outlineJobs = <_OutlineJob>[];
 
   for (final style in _iconStyles) {
     final styleDir = Directory('$_svgSourceDir/$style');
@@ -90,12 +99,86 @@ int _populateMergedSource(Directory mergedDir) {
     for (final svg in svgs) {
       final baseName = _toSnakeCase(_baseNameWithoutExtension(svg.path));
       final destPath = '${mergedDir.path}/$baseName$suffix.svg';
-      svg.copySync(destPath);
+
+      if (style == _regularStyle && _isStrokeBased(svg)) {
+        outlineJobs.add(_OutlineJob(svg.absolute.path, destPath));
+      } else {
+        svg.copySync(destPath);
+      }
       count++;
     }
   }
 
+  if (outlineJobs.isNotEmpty) {
+    await _outlineStrokes(outlineJobs);
+  }
+
   return count;
+}
+
+/// A `line` SVG needs outlining if it paints via `stroke="<color>"` rather
+/// than `fill`. Filled `line` SVGs (already outline-shaped) are copied as-is.
+bool _isStrokeBased(File svg) =>
+    RegExp(r'stroke="(?!none)').hasMatch(svg.readAsStringSync());
+
+class _OutlineJob {
+  _OutlineJob(this.src, this.dest);
+  final String src;
+  final String dest;
+}
+
+/// Converts every stroke-based `line` SVG to a filled-path SVG by shelling
+/// out to `.scripts/node/outline_stroke.mjs` (uses the `svg-outline-stroke`
+/// npm package, which rasterizes then re-traces the stroke as a fill, then
+/// corrects contour winding so holes survive conversion to a font glyph).
+Future<void> _outlineStrokes(List<_OutlineJob> jobs) async {
+  stdout.writeln(
+      '🖊  Outlining ${jobs.length} stroke-based "line" SVG(s) into filled paths...');
+
+  await _ensureNodeToolsInstalled();
+
+  final process = await Process.start(
+    'node',
+    ['outline_stroke.mjs'],
+    workingDirectory: _nodeToolsDir,
+    runInShell: true,
+  );
+
+  process.stdin.write(jsonEncode([
+    for (final job in jobs) {'src': job.src, 'dest': job.dest},
+  ]));
+  await process.stdin.close();
+
+  await stdout.addStream(process.stdout);
+  final stderrOutput = await process.stderr.transform(utf8.decoder).join();
+  final exitCode = await process.exitCode;
+
+  if (exitCode != 0) {
+    stderr.writeln(stderrOutput);
+    stderr.writeln('❌ outline_stroke.mjs failed (exit $exitCode).');
+    exit(exitCode);
+  }
+}
+
+/// Runs `npm install` in [_nodeToolsDir] the first time it's needed.
+Future<void> _ensureNodeToolsInstalled() async {
+  if (Directory('$_nodeToolsDir/node_modules').existsSync()) return;
+
+  stdout.writeln(
+      '📦 Installing node tooling for stroke outlining (svg-outline-stroke)...');
+  final result = await Process.run(
+    'npm',
+    ['install', '--no-fund'],
+    workingDirectory: _nodeToolsDir,
+    runInShell: true,
+  );
+
+  if (result.exitCode != 0) {
+    stdout.write(result.stdout);
+    stderr.writeln(result.stderr);
+    stderr.writeln('❌ npm install failed in "$_nodeToolsDir".');
+    exit(result.exitCode);
+  }
 }
 
 /// Returns the file name without its directory path or extension.

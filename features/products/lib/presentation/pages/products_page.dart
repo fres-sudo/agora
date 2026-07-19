@@ -68,9 +68,7 @@ class _ProductsView extends StatelessWidget {
             width: 80,
             cellBuilder: (product) {
               return AppText.mono(
-                product.sku?.isNotEmpty == true
-                    ? product.sku!
-                    : '#${product.id}',
+                product.sku?.isNotEmpty == true ? product.sku! : '#${product.id}',
                 color: context.colors.mutedForeground,
               );
             },
@@ -98,17 +96,7 @@ class _ProductsView extends StatelessWidget {
                 (c) => c.id == product.categoryId,
                 orElse: () => Category(id: 0, name: 'Unknown'),
               );
-              return Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Sizes.sm,
-                  vertical: context.tokens.spaceXxs,
-                ),
-                decoration: BoxDecoration(
-                  color: context.colors.muted,
-                  borderRadius: BorderRadius.circular(Sizes.xs),
-                ),
-                child: AppText.bodySm(category.name),
-              );
+              return AppChip(label: category.name, icon: category.icon);
             },
           ),
           DataTableColumn(
@@ -182,9 +170,7 @@ class _ProductsView extends StatelessWidget {
               );
 
               if (confirmed && context.mounted) {
-                context.read<ProductsBloc>().add(
-                  ProductsEvent.deleted(product.id),
-                );
+                context.read<ProductsBloc>().add(ProductsEvent.deleted(product.id));
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

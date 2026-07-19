@@ -6,7 +6,11 @@ import 'package:flutter/widgets.dart';
 @immutable
 class _AgoraIconsData extends IconData {
   const _AgoraIconsData(int codePoint, this.name)
-    : super(codePoint, fontFamily: 'AgoraIcons', fontPackage: 'ui_kit');
+      : super(
+          codePoint,
+          fontFamily: 'AgoraIcons',
+          fontPackage: 'ui_kit',
+        );
 
   final String name;
 }
@@ -19,95 +23,35 @@ class AgoraIcons {
   static const activity_solid = _AgoraIconsData(0xf102, 'activity_solid');
   static const activity_twotone = _AgoraIconsData(0xf103, 'activity_twotone');
   static const activity = _AgoraIconsData(0xf104, 'activity');
-  static const adjustment_horizontal_bulk = _AgoraIconsData(
-    0xf105,
-    'adjustment_horizontal_bulk',
-  );
-  static const adjustment_horizontal_solid = _AgoraIconsData(
-    0xf106,
-    'adjustment_horizontal_solid',
-  );
-  static const adjustment_horizontal_twotone = _AgoraIconsData(
-    0xf107,
-    'adjustment_horizontal_twotone',
-  );
-  static const adjustment_horizontal = _AgoraIconsData(
-    0xf108,
-    'adjustment_horizontal',
-  );
-  static const adjustment_vertical_bulk = _AgoraIconsData(
-    0xf109,
-    'adjustment_vertical_bulk',
-  );
-  static const adjustment_vertical_solid = _AgoraIconsData(
-    0xf10a,
-    'adjustment_vertical_solid',
-  );
-  static const adjustment_vertical_twotone = _AgoraIconsData(
-    0xf10b,
-    'adjustment_vertical_twotone',
-  );
-  static const adjustment_vertical = _AgoraIconsData(
-    0xf10c,
-    'adjustment_vertical',
-  );
-  static const air_conditioner_bulk = _AgoraIconsData(
-    0xf10d,
-    'air_conditioner_bulk',
-  );
-  static const air_conditioner_solid = _AgoraIconsData(
-    0xf10e,
-    'air_conditioner_solid',
-  );
-  static const air_conditioner_twotone = _AgoraIconsData(
-    0xf10f,
-    'air_conditioner_twotone',
-  );
+  static const adjustment_horizontal_bulk = _AgoraIconsData(0xf105, 'adjustment_horizontal_bulk');
+  static const adjustment_horizontal_solid = _AgoraIconsData(0xf106, 'adjustment_horizontal_solid');
+  static const adjustment_horizontal_twotone = _AgoraIconsData(0xf107, 'adjustment_horizontal_twotone');
+  static const adjustment_horizontal = _AgoraIconsData(0xf108, 'adjustment_horizontal');
+  static const adjustment_vertical_bulk = _AgoraIconsData(0xf109, 'adjustment_vertical_bulk');
+  static const adjustment_vertical_solid = _AgoraIconsData(0xf10a, 'adjustment_vertical_solid');
+  static const adjustment_vertical_twotone = _AgoraIconsData(0xf10b, 'adjustment_vertical_twotone');
+  static const adjustment_vertical = _AgoraIconsData(0xf10c, 'adjustment_vertical');
+  static const air_conditioner_bulk = _AgoraIconsData(0xf10d, 'air_conditioner_bulk');
+  static const air_conditioner_solid = _AgoraIconsData(0xf10e, 'air_conditioner_solid');
+  static const air_conditioner_twotone = _AgoraIconsData(0xf10f, 'air_conditioner_twotone');
   static const air_conditioner = _AgoraIconsData(0xf110, 'air_conditioner');
   static const airdrop_bulk = _AgoraIconsData(0xf111, 'airdrop_bulk');
   static const airdrop_solid = _AgoraIconsData(0xf112, 'airdrop_solid');
   static const airdrop_twotone = _AgoraIconsData(0xf113, 'airdrop_twotone');
   static const airdrop = _AgoraIconsData(0xf114, 'airdrop');
   static const airplane_alt_bulk = _AgoraIconsData(0xf115, 'airplane_alt_bulk');
-  static const airplane_alt_solid = _AgoraIconsData(
-    0xf116,
-    'airplane_alt_solid',
-  );
-  static const airplane_alt_twotone = _AgoraIconsData(
-    0xf117,
-    'airplane_alt_twotone',
-  );
+  static const airplane_alt_solid = _AgoraIconsData(0xf116, 'airplane_alt_solid');
+  static const airplane_alt_twotone = _AgoraIconsData(0xf117, 'airplane_alt_twotone');
   static const airplane_alt = _AgoraIconsData(0xf118, 'airplane_alt');
-  static const airplane_arrival_bulk = _AgoraIconsData(
-    0xf119,
-    'airplane_arrival_bulk',
-  );
-  static const airplane_arrival_solid = _AgoraIconsData(
-    0xf11a,
-    'airplane_arrival_solid',
-  );
-  static const airplane_arrival_twotone = _AgoraIconsData(
-    0xf11b,
-    'airplane_arrival_twotone',
-  );
+  static const airplane_arrival_bulk = _AgoraIconsData(0xf119, 'airplane_arrival_bulk');
+  static const airplane_arrival_solid = _AgoraIconsData(0xf11a, 'airplane_arrival_solid');
+  static const airplane_arrival_twotone = _AgoraIconsData(0xf11b, 'airplane_arrival_twotone');
   static const airplane_arrival = _AgoraIconsData(0xf11c, 'airplane_arrival');
   static const airplane_bulk = _AgoraIconsData(0xf11d, 'airplane_bulk');
-  static const airplane_departure_bulk = _AgoraIconsData(
-    0xf11e,
-    'airplane_departure_bulk',
-  );
-  static const airplane_departure_solid = _AgoraIconsData(
-    0xf11f,
-    'airplane_departure_solid',
-  );
-  static const airplane_departure_twotone = _AgoraIconsData(
-    0xf120,
-    'airplane_departure_twotone',
-  );
-  static const airplane_departure = _AgoraIconsData(
-    0xf121,
-    'airplane_departure',
-  );
+  static const airplane_departure_bulk = _AgoraIconsData(0xf11e, 'airplane_departure_bulk');
+  static const airplane_departure_solid = _AgoraIconsData(0xf11f, 'airplane_departure_solid');
+  static const airplane_departure_twotone = _AgoraIconsData(0xf120, 'airplane_departure_twotone');
+  static const airplane_departure = _AgoraIconsData(0xf121, 'airplane_departure');
   static const airplane_solid = _AgoraIconsData(0xf122, 'airplane_solid');
   static const airplane_twotone = _AgoraIconsData(0xf123, 'airplane_twotone');
   static const airplane = _AgoraIconsData(0xf124, 'airplane');
@@ -120,107 +64,41 @@ class AgoraIcons {
   static const airpods_twotone = _AgoraIconsData(0xf12b, 'airpods_twotone');
   static const airpods = _AgoraIconsData(0xf12c, 'airpods');
   static const alert_circle_bulk = _AgoraIconsData(0xf12d, 'alert_circle_bulk');
-  static const alert_circle_solid = _AgoraIconsData(
-    0xf12e,
-    'alert_circle_solid',
-  );
-  static const alert_circle_twotone = _AgoraIconsData(
-    0xf12f,
-    'alert_circle_twotone',
-  );
+  static const alert_circle_solid = _AgoraIconsData(0xf12e, 'alert_circle_solid');
+  static const alert_circle_twotone = _AgoraIconsData(0xf12f, 'alert_circle_twotone');
   static const alert_circle = _AgoraIconsData(0xf130, 'alert_circle');
-  static const alert_hexagon_bulk = _AgoraIconsData(
-    0xf131,
-    'alert_hexagon_bulk',
-  );
-  static const alert_hexagon_solid = _AgoraIconsData(
-    0xf132,
-    'alert_hexagon_solid',
-  );
-  static const alert_hexagon_twotone = _AgoraIconsData(
-    0xf133,
-    'alert_hexagon_twotone',
-  );
+  static const alert_hexagon_bulk = _AgoraIconsData(0xf131, 'alert_hexagon_bulk');
+  static const alert_hexagon_solid = _AgoraIconsData(0xf132, 'alert_hexagon_solid');
+  static const alert_hexagon_twotone = _AgoraIconsData(0xf133, 'alert_hexagon_twotone');
   static const alert_hexagon = _AgoraIconsData(0xf134, 'alert_hexagon');
   static const alert_square_bulk = _AgoraIconsData(0xf135, 'alert_square_bulk');
-  static const alert_square_solid = _AgoraIconsData(
-    0xf136,
-    'alert_square_solid',
-  );
-  static const alert_square_twotone = _AgoraIconsData(
-    0xf137,
-    'alert_square_twotone',
-  );
+  static const alert_square_solid = _AgoraIconsData(0xf136, 'alert_square_solid');
+  static const alert_square_twotone = _AgoraIconsData(0xf137, 'alert_square_twotone');
   static const alert_square = _AgoraIconsData(0xf138, 'alert_square');
-  static const alert_triangle_bulk = _AgoraIconsData(
-    0xf139,
-    'alert_triangle_bulk',
-  );
-  static const alert_triangle_solid = _AgoraIconsData(
-    0xf13a,
-    'alert_triangle_solid',
-  );
-  static const alert_triangle_twotone = _AgoraIconsData(
-    0xf13b,
-    'alert_triangle_twotone',
-  );
+  static const alert_triangle_bulk = _AgoraIconsData(0xf139, 'alert_triangle_bulk');
+  static const alert_triangle_solid = _AgoraIconsData(0xf13a, 'alert_triangle_solid');
+  static const alert_triangle_twotone = _AgoraIconsData(0xf13b, 'alert_triangle_twotone');
   static const alert_triangle = _AgoraIconsData(0xf13c, 'alert_triangle');
   static const align_bottom_bulk = _AgoraIconsData(0xf13d, 'align_bottom_bulk');
-  static const align_bottom_solid = _AgoraIconsData(
-    0xf13e,
-    'align_bottom_solid',
-  );
-  static const align_bottom_twotone = _AgoraIconsData(
-    0xf13f,
-    'align_bottom_twotone',
-  );
+  static const align_bottom_solid = _AgoraIconsData(0xf13e, 'align_bottom_solid');
+  static const align_bottom_twotone = _AgoraIconsData(0xf13f, 'align_bottom_twotone');
   static const align_bottom = _AgoraIconsData(0xf140, 'align_bottom');
-  static const align_horizontal_center_bulk = _AgoraIconsData(
-    0xf141,
-    'align_horizontal_center_bulk',
-  );
-  static const align_horizontal_center_solid = _AgoraIconsData(
-    0xf142,
-    'align_horizontal_center_solid',
-  );
-  static const align_horizontal_center_twotone = _AgoraIconsData(
-    0xf143,
-    'align_horizontal_center_twotone',
-  );
-  static const align_horizontal_center = _AgoraIconsData(
-    0xf144,
-    'align_horizontal_center',
-  );
+  static const align_horizontal_center_bulk = _AgoraIconsData(0xf141, 'align_horizontal_center_bulk');
+  static const align_horizontal_center_solid = _AgoraIconsData(0xf142, 'align_horizontal_center_solid');
+  static const align_horizontal_center_twotone = _AgoraIconsData(0xf143, 'align_horizontal_center_twotone');
+  static const align_horizontal_center = _AgoraIconsData(0xf144, 'align_horizontal_center');
   static const align_left_bulk = _AgoraIconsData(0xf145, 'align_left_bulk');
   static const align_left_solid = _AgoraIconsData(0xf146, 'align_left_solid');
-  static const align_left_twotone = _AgoraIconsData(
-    0xf147,
-    'align_left_twotone',
-  );
+  static const align_left_twotone = _AgoraIconsData(0xf147, 'align_left_twotone');
   static const align_left = _AgoraIconsData(0xf148, 'align_left');
   static const align_right_bulk = _AgoraIconsData(0xf149, 'align_right_bulk');
   static const align_right_solid = _AgoraIconsData(0xf14a, 'align_right_solid');
-  static const align_right_twotone = _AgoraIconsData(
-    0xf14b,
-    'align_right_twotone',
-  );
+  static const align_right_twotone = _AgoraIconsData(0xf14b, 'align_right_twotone');
   static const align_right = _AgoraIconsData(0xf14c, 'align_right');
-  static const align_vertical_center_bulk = _AgoraIconsData(
-    0xf14d,
-    'align_vertical_center_bulk',
-  );
-  static const align_vertical_center_solid = _AgoraIconsData(
-    0xf14e,
-    'align_vertical_center_solid',
-  );
-  static const align_vertical_center_twotone = _AgoraIconsData(
-    0xf14f,
-    'align_vertical_center_twotone',
-  );
-  static const align_vertical_center = _AgoraIconsData(
-    0xf150,
-    'align_vertical_center',
-  );
+  static const align_vertical_center_bulk = _AgoraIconsData(0xf14d, 'align_vertical_center_bulk');
+  static const align_vertical_center_solid = _AgoraIconsData(0xf14e, 'align_vertical_center_solid');
+  static const align_vertical_center_twotone = _AgoraIconsData(0xf14f, 'align_vertical_center_twotone');
+  static const align_vertical_center = _AgoraIconsData(0xf150, 'align_vertical_center');
   static const ambulance_bulk = _AgoraIconsData(0xf151, 'ambulance_bulk');
   static const ambulance_solid = _AgoraIconsData(0xf152, 'ambulance_solid');
   static const ambulance_twotone = _AgoraIconsData(0xf153, 'ambulance_twotone');
@@ -233,38 +111,17 @@ class AgoraIcons {
   static const angry_solid = _AgoraIconsData(0xf15a, 'angry_solid');
   static const angry_twotone = _AgoraIconsData(0xf15b, 'angry_twotone');
   static const angry = _AgoraIconsData(0xf15c, 'angry');
-  static const announcement_01_bulk = _AgoraIconsData(
-    0xf15d,
-    'announcement_01_bulk',
-  );
-  static const announcement_01_solid = _AgoraIconsData(
-    0xf15e,
-    'announcement_01_solid',
-  );
-  static const announcement_01_twotone = _AgoraIconsData(
-    0xf15f,
-    'announcement_01_twotone',
-  );
+  static const announcement_01_bulk = _AgoraIconsData(0xf15d, 'announcement_01_bulk');
+  static const announcement_01_solid = _AgoraIconsData(0xf15e, 'announcement_01_solid');
+  static const announcement_01_twotone = _AgoraIconsData(0xf15f, 'announcement_01_twotone');
   static const announcement_01 = _AgoraIconsData(0xf160, 'announcement_01');
-  static const announcement_02_bulk = _AgoraIconsData(
-    0xf161,
-    'announcement_02_bulk',
-  );
-  static const announcement_02_solid = _AgoraIconsData(
-    0xf162,
-    'announcement_02_solid',
-  );
-  static const announcement_02_twotone = _AgoraIconsData(
-    0xf163,
-    'announcement_02_twotone',
-  );
+  static const announcement_02_bulk = _AgoraIconsData(0xf161, 'announcement_02_bulk');
+  static const announcement_02_solid = _AgoraIconsData(0xf162, 'announcement_02_solid');
+  static const announcement_02_twotone = _AgoraIconsData(0xf163, 'announcement_02_twotone');
   static const announcement_02 = _AgoraIconsData(0xf164, 'announcement_02');
   static const annoyed_alt_bulk = _AgoraIconsData(0xf165, 'annoyed_alt_bulk');
   static const annoyed_alt_solid = _AgoraIconsData(0xf166, 'annoyed_alt_solid');
-  static const annoyed_alt_twotone = _AgoraIconsData(
-    0xf167,
-    'annoyed_alt_twotone',
-  );
+  static const annoyed_alt_twotone = _AgoraIconsData(0xf167, 'annoyed_alt_twotone');
   static const annoyed_alt = _AgoraIconsData(0xf168, 'annoyed_alt');
   static const apartment_bulk = _AgoraIconsData(0xf169, 'apartment_bulk');
   static const apartment_solid = _AgoraIconsData(0xf16a, 'apartment_solid');
@@ -273,419 +130,134 @@ class AgoraIcons {
   static const archive_bulk = _AgoraIconsData(0xf16d, 'archive_bulk');
   static const archive_solid = _AgoraIconsData(0xf16e, 'archive_solid');
   static const archive_twotone = _AgoraIconsData(0xf16f, 'archive_twotone');
-  static const archive_x_mark_bulk = _AgoraIconsData(
-    0xf170,
-    'archive_x_mark_bulk',
-  );
-  static const archive_x_mark_solid = _AgoraIconsData(
-    0xf171,
-    'archive_x_mark_solid',
-  );
-  static const archive_x_mark_twotone = _AgoraIconsData(
-    0xf172,
-    'archive_x_mark_twotone',
-  );
+  static const archive_x_mark_bulk = _AgoraIconsData(0xf170, 'archive_x_mark_bulk');
+  static const archive_x_mark_solid = _AgoraIconsData(0xf171, 'archive_x_mark_solid');
+  static const archive_x_mark_twotone = _AgoraIconsData(0xf172, 'archive_x_mark_twotone');
   static const archive_x_mark = _AgoraIconsData(0xf173, 'archive_x_mark');
   static const archive = _AgoraIconsData(0xf174, 'archive');
   static const arrow_down_bulk = _AgoraIconsData(0xf175, 'arrow_down_bulk');
-  static const arrow_down_circle_bulk = _AgoraIconsData(
-    0xf176,
-    'arrow_down_circle_bulk',
-  );
-  static const arrow_down_circle_solid = _AgoraIconsData(
-    0xf177,
-    'arrow_down_circle_solid',
-  );
-  static const arrow_down_circle_twotone = _AgoraIconsData(
-    0xf178,
-    'arrow_down_circle_twotone',
-  );
+  static const arrow_down_circle_bulk = _AgoraIconsData(0xf176, 'arrow_down_circle_bulk');
+  static const arrow_down_circle_solid = _AgoraIconsData(0xf177, 'arrow_down_circle_solid');
+  static const arrow_down_circle_twotone = _AgoraIconsData(0xf178, 'arrow_down_circle_twotone');
   static const arrow_down_circle = _AgoraIconsData(0xf179, 'arrow_down_circle');
-  static const arrow_down_left_bulk = _AgoraIconsData(
-    0xf17a,
-    'arrow_down_left_bulk',
-  );
-  static const arrow_down_left_solid = _AgoraIconsData(
-    0xf17b,
-    'arrow_down_left_solid',
-  );
-  static const arrow_down_left_twotone = _AgoraIconsData(
-    0xf17c,
-    'arrow_down_left_twotone',
-  );
+  static const arrow_down_left_bulk = _AgoraIconsData(0xf17a, 'arrow_down_left_bulk');
+  static const arrow_down_left_solid = _AgoraIconsData(0xf17b, 'arrow_down_left_solid');
+  static const arrow_down_left_twotone = _AgoraIconsData(0xf17c, 'arrow_down_left_twotone');
   static const arrow_down_left = _AgoraIconsData(0xf17d, 'arrow_down_left');
-  static const arrow_down_right_bulk = _AgoraIconsData(
-    0xf17e,
-    'arrow_down_right_bulk',
-  );
-  static const arrow_down_right_circle_bulk = _AgoraIconsData(
-    0xf17f,
-    'arrow_down_right_circle_bulk',
-  );
-  static const arrow_down_right_circle_solid = _AgoraIconsData(
-    0xf180,
-    'arrow_down_right_circle_solid',
-  );
-  static const arrow_down_right_circle_twotone = _AgoraIconsData(
-    0xf181,
-    'arrow_down_right_circle_twotone',
-  );
-  static const arrow_down_right_circle = _AgoraIconsData(
-    0xf182,
-    'arrow_down_right_circle',
-  );
-  static const arrow_down_right_solid = _AgoraIconsData(
-    0xf183,
-    'arrow_down_right_solid',
-  );
-  static const arrow_down_right_square_bulk = _AgoraIconsData(
-    0xf184,
-    'arrow_down_right_square_bulk',
-  );
-  static const arrow_down_right_square_solid = _AgoraIconsData(
-    0xf185,
-    'arrow_down_right_square_solid',
-  );
-  static const arrow_down_right_square_twotone = _AgoraIconsData(
-    0xf186,
-    'arrow_down_right_square_twotone',
-  );
-  static const arrow_down_right_square = _AgoraIconsData(
-    0xf187,
-    'arrow_down_right_square',
-  );
-  static const arrow_down_right_twotone = _AgoraIconsData(
-    0xf188,
-    'arrow_down_right_twotone',
-  );
+  static const arrow_down_right_bulk = _AgoraIconsData(0xf17e, 'arrow_down_right_bulk');
+  static const arrow_down_right_circle_bulk = _AgoraIconsData(0xf17f, 'arrow_down_right_circle_bulk');
+  static const arrow_down_right_circle_solid = _AgoraIconsData(0xf180, 'arrow_down_right_circle_solid');
+  static const arrow_down_right_circle_twotone = _AgoraIconsData(0xf181, 'arrow_down_right_circle_twotone');
+  static const arrow_down_right_circle = _AgoraIconsData(0xf182, 'arrow_down_right_circle');
+  static const arrow_down_right_solid = _AgoraIconsData(0xf183, 'arrow_down_right_solid');
+  static const arrow_down_right_square_bulk = _AgoraIconsData(0xf184, 'arrow_down_right_square_bulk');
+  static const arrow_down_right_square_solid = _AgoraIconsData(0xf185, 'arrow_down_right_square_solid');
+  static const arrow_down_right_square_twotone = _AgoraIconsData(0xf186, 'arrow_down_right_square_twotone');
+  static const arrow_down_right_square = _AgoraIconsData(0xf187, 'arrow_down_right_square');
+  static const arrow_down_right_twotone = _AgoraIconsData(0xf188, 'arrow_down_right_twotone');
   static const arrow_down_right = _AgoraIconsData(0xf189, 'arrow_down_right');
   static const arrow_down_solid = _AgoraIconsData(0xf18a, 'arrow_down_solid');
-  static const arrow_down_square_bulk = _AgoraIconsData(
-    0xf18b,
-    'arrow_down_square_bulk',
-  );
-  static const arrow_down_square_solid = _AgoraIconsData(
-    0xf18c,
-    'arrow_down_square_solid',
-  );
-  static const arrow_down_square_twotone = _AgoraIconsData(
-    0xf18d,
-    'arrow_down_square_twotone',
-  );
+  static const arrow_down_square_bulk = _AgoraIconsData(0xf18b, 'arrow_down_square_bulk');
+  static const arrow_down_square_solid = _AgoraIconsData(0xf18c, 'arrow_down_square_solid');
+  static const arrow_down_square_twotone = _AgoraIconsData(0xf18d, 'arrow_down_square_twotone');
   static const arrow_down_square = _AgoraIconsData(0xf18e, 'arrow_down_square');
-  static const arrow_down_twotone = _AgoraIconsData(
-    0xf18f,
-    'arrow_down_twotone',
-  );
+  static const arrow_down_twotone = _AgoraIconsData(0xf18f, 'arrow_down_twotone');
   static const arrow_down = _AgoraIconsData(0xf190, 'arrow_down');
   static const arrow_left_bulk = _AgoraIconsData(0xf191, 'arrow_left_bulk');
-  static const arrow_left_circle_bulk = _AgoraIconsData(
-    0xf192,
-    'arrow_left_circle_bulk',
-  );
-  static const arrow_left_circle_solid = _AgoraIconsData(
-    0xf193,
-    'arrow_left_circle_solid',
-  );
-  static const arrow_left_circle_twotone = _AgoraIconsData(
-    0xf194,
-    'arrow_left_circle_twotone',
-  );
+  static const arrow_left_circle_bulk = _AgoraIconsData(0xf192, 'arrow_left_circle_bulk');
+  static const arrow_left_circle_solid = _AgoraIconsData(0xf193, 'arrow_left_circle_solid');
+  static const arrow_left_circle_twotone = _AgoraIconsData(0xf194, 'arrow_left_circle_twotone');
   static const arrow_left_circle = _AgoraIconsData(0xf195, 'arrow_left_circle');
   static const arrow_left_solid = _AgoraIconsData(0xf196, 'arrow_left_solid');
-  static const arrow_left_square_bulk = _AgoraIconsData(
-    0xf197,
-    'arrow_left_square_bulk',
-  );
-  static const arrow_left_square_solid = _AgoraIconsData(
-    0xf198,
-    'arrow_left_square_solid',
-  );
-  static const arrow_left_square_twotone = _AgoraIconsData(
-    0xf199,
-    'arrow_left_square_twotone',
-  );
+  static const arrow_left_square_bulk = _AgoraIconsData(0xf197, 'arrow_left_square_bulk');
+  static const arrow_left_square_solid = _AgoraIconsData(0xf198, 'arrow_left_square_solid');
+  static const arrow_left_square_twotone = _AgoraIconsData(0xf199, 'arrow_left_square_twotone');
   static const arrow_left_square = _AgoraIconsData(0xf19a, 'arrow_left_square');
-  static const arrow_left_twotone = _AgoraIconsData(
-    0xf19b,
-    'arrow_left_twotone',
-  );
+  static const arrow_left_twotone = _AgoraIconsData(0xf19b, 'arrow_left_twotone');
   static const arrow_left = _AgoraIconsData(0xf19c, 'arrow_left');
   static const arrow_path_bulk = _AgoraIconsData(0xf19d, 'arrow_path_bulk');
   static const arrow_path_solid = _AgoraIconsData(0xf19e, 'arrow_path_solid');
-  static const arrow_path_twotone = _AgoraIconsData(
-    0xf19f,
-    'arrow_path_twotone',
-  );
+  static const arrow_path_twotone = _AgoraIconsData(0xf19f, 'arrow_path_twotone');
   static const arrow_path = _AgoraIconsData(0xf1a0, 'arrow_path');
   static const arrow_right_bulk = _AgoraIconsData(0xf1a1, 'arrow_right_bulk');
-  static const arrow_right_circle_bulk = _AgoraIconsData(
-    0xf1a2,
-    'arrow_right_circle_bulk',
-  );
-  static const arrow_right_circle_solid = _AgoraIconsData(
-    0xf1a3,
-    'arrow_right_circle_solid',
-  );
-  static const arrow_right_circle_twotone = _AgoraIconsData(
-    0xf1a4,
-    'arrow_right_circle_twotone',
-  );
-  static const arrow_right_circle = _AgoraIconsData(
-    0xf1a5,
-    'arrow_right_circle',
-  );
+  static const arrow_right_circle_bulk = _AgoraIconsData(0xf1a2, 'arrow_right_circle_bulk');
+  static const arrow_right_circle_solid = _AgoraIconsData(0xf1a3, 'arrow_right_circle_solid');
+  static const arrow_right_circle_twotone = _AgoraIconsData(0xf1a4, 'arrow_right_circle_twotone');
+  static const arrow_right_circle = _AgoraIconsData(0xf1a5, 'arrow_right_circle');
   static const arrow_right_solid = _AgoraIconsData(0xf1a6, 'arrow_right_solid');
-  static const arrow_right_square_bulk = _AgoraIconsData(
-    0xf1a7,
-    'arrow_right_square_bulk',
-  );
-  static const arrow_right_square_solid = _AgoraIconsData(
-    0xf1a8,
-    'arrow_right_square_solid',
-  );
-  static const arrow_right_square_twotone = _AgoraIconsData(
-    0xf1a9,
-    'arrow_right_square_twotone',
-  );
-  static const arrow_right_square = _AgoraIconsData(
-    0xf1aa,
-    'arrow_right_square',
-  );
-  static const arrow_right_twotone = _AgoraIconsData(
-    0xf1ab,
-    'arrow_right_twotone',
-  );
+  static const arrow_right_square_bulk = _AgoraIconsData(0xf1a7, 'arrow_right_square_bulk');
+  static const arrow_right_square_solid = _AgoraIconsData(0xf1a8, 'arrow_right_square_solid');
+  static const arrow_right_square_twotone = _AgoraIconsData(0xf1a9, 'arrow_right_square_twotone');
+  static const arrow_right_square = _AgoraIconsData(0xf1aa, 'arrow_right_square');
+  static const arrow_right_twotone = _AgoraIconsData(0xf1ab, 'arrow_right_twotone');
   static const arrow_right = _AgoraIconsData(0xf1ac, 'arrow_right');
-  static const arrow_turn_down_bulk = _AgoraIconsData(
-    0xf1ad,
-    'arrow_turn_down_bulk',
-  );
-  static const arrow_turn_down_solid = _AgoraIconsData(
-    0xf1ae,
-    'arrow_turn_down_solid',
-  );
-  static const arrow_turn_down_twotone = _AgoraIconsData(
-    0xf1af,
-    'arrow_turn_down_twotone',
-  );
+  static const arrow_turn_down_bulk = _AgoraIconsData(0xf1ad, 'arrow_turn_down_bulk');
+  static const arrow_turn_down_solid = _AgoraIconsData(0xf1ae, 'arrow_turn_down_solid');
+  static const arrow_turn_down_twotone = _AgoraIconsData(0xf1af, 'arrow_turn_down_twotone');
   static const arrow_turn_down = _AgoraIconsData(0xf1b0, 'arrow_turn_down');
-  static const arrow_turn_left_bulk = _AgoraIconsData(
-    0xf1b1,
-    'arrow_turn_left_bulk',
-  );
-  static const arrow_turn_left_solid = _AgoraIconsData(
-    0xf1b2,
-    'arrow_turn_left_solid',
-  );
-  static const arrow_turn_left_twotone = _AgoraIconsData(
-    0xf1b3,
-    'arrow_turn_left_twotone',
-  );
+  static const arrow_turn_left_bulk = _AgoraIconsData(0xf1b1, 'arrow_turn_left_bulk');
+  static const arrow_turn_left_solid = _AgoraIconsData(0xf1b2, 'arrow_turn_left_solid');
+  static const arrow_turn_left_twotone = _AgoraIconsData(0xf1b3, 'arrow_turn_left_twotone');
   static const arrow_turn_left = _AgoraIconsData(0xf1b4, 'arrow_turn_left');
-  static const arrow_turn_right_bulk = _AgoraIconsData(
-    0xf1b5,
-    'arrow_turn_right_bulk',
-  );
-  static const arrow_turn_right_solid = _AgoraIconsData(
-    0xf1b6,
-    'arrow_turn_right_solid',
-  );
-  static const arrow_turn_right_twotone = _AgoraIconsData(
-    0xf1b7,
-    'arrow_turn_right_twotone',
-  );
+  static const arrow_turn_right_bulk = _AgoraIconsData(0xf1b5, 'arrow_turn_right_bulk');
+  static const arrow_turn_right_solid = _AgoraIconsData(0xf1b6, 'arrow_turn_right_solid');
+  static const arrow_turn_right_twotone = _AgoraIconsData(0xf1b7, 'arrow_turn_right_twotone');
   static const arrow_turn_right = _AgoraIconsData(0xf1b8, 'arrow_turn_right');
-  static const arrow_turn_up_bulk = _AgoraIconsData(
-    0xf1b9,
-    'arrow_turn_up_bulk',
-  );
-  static const arrow_turn_up_solid = _AgoraIconsData(
-    0xf1ba,
-    'arrow_turn_up_solid',
-  );
-  static const arrow_turn_up_twotone = _AgoraIconsData(
-    0xf1bb,
-    'arrow_turn_up_twotone',
-  );
+  static const arrow_turn_up_bulk = _AgoraIconsData(0xf1b9, 'arrow_turn_up_bulk');
+  static const arrow_turn_up_solid = _AgoraIconsData(0xf1ba, 'arrow_turn_up_solid');
+  static const arrow_turn_up_twotone = _AgoraIconsData(0xf1bb, 'arrow_turn_up_twotone');
   static const arrow_turn_up = _AgoraIconsData(0xf1bc, 'arrow_turn_up');
   static const arrow_up_bulk = _AgoraIconsData(0xf1bd, 'arrow_up_bulk');
-  static const arrow_up_circle_bulk = _AgoraIconsData(
-    0xf1be,
-    'arrow_up_circle_bulk',
-  );
-  static const arrow_up_circle_solid = _AgoraIconsData(
-    0xf1bf,
-    'arrow_up_circle_solid',
-  );
-  static const arrow_up_circle_twotone = _AgoraIconsData(
-    0xf1c0,
-    'arrow_up_circle_twotone',
-  );
+  static const arrow_up_circle_bulk = _AgoraIconsData(0xf1be, 'arrow_up_circle_bulk');
+  static const arrow_up_circle_solid = _AgoraIconsData(0xf1bf, 'arrow_up_circle_solid');
+  static const arrow_up_circle_twotone = _AgoraIconsData(0xf1c0, 'arrow_up_circle_twotone');
   static const arrow_up_circle = _AgoraIconsData(0xf1c1, 'arrow_up_circle');
-  static const arrow_up_left_bulk = _AgoraIconsData(
-    0xf1c2,
-    'arrow_up_left_bulk',
-  );
-  static const arrow_up_left_solid = _AgoraIconsData(
-    0xf1c3,
-    'arrow_up_left_solid',
-  );
-  static const arrow_up_left_twotone = _AgoraIconsData(
-    0xf1c4,
-    'arrow_up_left_twotone',
-  );
+  static const arrow_up_left_bulk = _AgoraIconsData(0xf1c2, 'arrow_up_left_bulk');
+  static const arrow_up_left_solid = _AgoraIconsData(0xf1c3, 'arrow_up_left_solid');
+  static const arrow_up_left_twotone = _AgoraIconsData(0xf1c4, 'arrow_up_left_twotone');
   static const arrow_up_left = _AgoraIconsData(0xf1c5, 'arrow_up_left');
-  static const arrow_up_right_bulk = _AgoraIconsData(
-    0xf1c6,
-    'arrow_up_right_bulk',
-  );
-  static const arrow_up_right_circle_bulk = _AgoraIconsData(
-    0xf1c7,
-    'arrow_up_right_circle_bulk',
-  );
-  static const arrow_up_right_circle_solid = _AgoraIconsData(
-    0xf1c8,
-    'arrow_up_right_circle_solid',
-  );
-  static const arrow_up_right_circle_twotone = _AgoraIconsData(
-    0xf1c9,
-    'arrow_up_right_circle_twotone',
-  );
-  static const arrow_up_right_circle = _AgoraIconsData(
-    0xf1ca,
-    'arrow_up_right_circle',
-  );
-  static const arrow_up_right_solid = _AgoraIconsData(
-    0xf1cb,
-    'arrow_up_right_solid',
-  );
-  static const arrow_up_right_square_bulk = _AgoraIconsData(
-    0xf1cc,
-    'arrow_up_right_square_bulk',
-  );
-  static const arrow_up_right_square_solid = _AgoraIconsData(
-    0xf1cd,
-    'arrow_up_right_square_solid',
-  );
-  static const arrow_up_right_square_twotone = _AgoraIconsData(
-    0xf1ce,
-    'arrow_up_right_square_twotone',
-  );
-  static const arrow_up_right_square = _AgoraIconsData(
-    0xf1cf,
-    'arrow_up_right_square',
-  );
-  static const arrow_up_right_twotone = _AgoraIconsData(
-    0xf1d0,
-    'arrow_up_right_twotone',
-  );
+  static const arrow_up_right_bulk = _AgoraIconsData(0xf1c6, 'arrow_up_right_bulk');
+  static const arrow_up_right_circle_bulk = _AgoraIconsData(0xf1c7, 'arrow_up_right_circle_bulk');
+  static const arrow_up_right_circle_solid = _AgoraIconsData(0xf1c8, 'arrow_up_right_circle_solid');
+  static const arrow_up_right_circle_twotone = _AgoraIconsData(0xf1c9, 'arrow_up_right_circle_twotone');
+  static const arrow_up_right_circle = _AgoraIconsData(0xf1ca, 'arrow_up_right_circle');
+  static const arrow_up_right_solid = _AgoraIconsData(0xf1cb, 'arrow_up_right_solid');
+  static const arrow_up_right_square_bulk = _AgoraIconsData(0xf1cc, 'arrow_up_right_square_bulk');
+  static const arrow_up_right_square_solid = _AgoraIconsData(0xf1cd, 'arrow_up_right_square_solid');
+  static const arrow_up_right_square_twotone = _AgoraIconsData(0xf1ce, 'arrow_up_right_square_twotone');
+  static const arrow_up_right_square = _AgoraIconsData(0xf1cf, 'arrow_up_right_square');
+  static const arrow_up_right_twotone = _AgoraIconsData(0xf1d0, 'arrow_up_right_twotone');
   static const arrow_up_right = _AgoraIconsData(0xf1d1, 'arrow_up_right');
   static const arrow_up_solid = _AgoraIconsData(0xf1d2, 'arrow_up_solid');
-  static const arrow_up_square_bulk = _AgoraIconsData(
-    0xf1d3,
-    'arrow_up_square_bulk',
-  );
-  static const arrow_up_square_solid = _AgoraIconsData(
-    0xf1d4,
-    'arrow_up_square_solid',
-  );
-  static const arrow_up_square_twotone = _AgoraIconsData(
-    0xf1d5,
-    'arrow_up_square_twotone',
-  );
+  static const arrow_up_square_bulk = _AgoraIconsData(0xf1d3, 'arrow_up_square_bulk');
+  static const arrow_up_square_solid = _AgoraIconsData(0xf1d4, 'arrow_up_square_solid');
+  static const arrow_up_square_twotone = _AgoraIconsData(0xf1d5, 'arrow_up_square_twotone');
   static const arrow_up_square = _AgoraIconsData(0xf1d6, 'arrow_up_square');
   static const arrow_up_twotone = _AgoraIconsData(0xf1d7, 'arrow_up_twotone');
   static const arrow_up = _AgoraIconsData(0xf1d8, 'arrow_up');
-  static const arrows_pointing_in_bulk = _AgoraIconsData(
-    0xf1d9,
-    'arrows_pointing_in_bulk',
-  );
-  static const arrows_pointing_in_solid = _AgoraIconsData(
-    0xf1da,
-    'arrows_pointing_in_solid',
-  );
-  static const arrows_pointing_in_square_bulk = _AgoraIconsData(
-    0xf1db,
-    'arrows_pointing_in_square_bulk',
-  );
-  static const arrows_pointing_in_square_solid = _AgoraIconsData(
-    0xf1dc,
-    'arrows_pointing_in_square_solid',
-  );
-  static const arrows_pointing_in_square_twotone = _AgoraIconsData(
-    0xf1dd,
-    'arrows_pointing_in_square_twotone',
-  );
-  static const arrows_pointing_in_square = _AgoraIconsData(
-    0xf1de,
-    'arrows_pointing_in_square',
-  );
-  static const arrows_pointing_in_twotone = _AgoraIconsData(
-    0xf1df,
-    'arrows_pointing_in_twotone',
-  );
-  static const arrows_pointing_in = _AgoraIconsData(
-    0xf1e0,
-    'arrows_pointing_in',
-  );
-  static const arrows_pointing_out_bulk = _AgoraIconsData(
-    0xf1e1,
-    'arrows_pointing_out_bulk',
-  );
-  static const arrows_pointing_out_solid = _AgoraIconsData(
-    0xf1e2,
-    'arrows_pointing_out_solid',
-  );
-  static const arrows_pointing_out_square_bulk = _AgoraIconsData(
-    0xf1e3,
-    'arrows_pointing_out_square_bulk',
-  );
-  static const arrows_pointing_out_square_solid = _AgoraIconsData(
-    0xf1e4,
-    'arrows_pointing_out_square_solid',
-  );
-  static const arrows_pointing_out_square_twotone = _AgoraIconsData(
-    0xf1e5,
-    'arrows_pointing_out_square_twotone',
-  );
-  static const arrows_pointing_out_square = _AgoraIconsData(
-    0xf1e6,
-    'arrows_pointing_out_square',
-  );
-  static const arrows_pointing_out_twotone = _AgoraIconsData(
-    0xf1e7,
-    'arrows_pointing_out_twotone',
-  );
-  static const arrows_pointing_out = _AgoraIconsData(
-    0xf1e8,
-    'arrows_pointing_out',
-  );
-  static const arrows_right_left_bulk = _AgoraIconsData(
-    0xf1e9,
-    'arrows_right_left_bulk',
-  );
-  static const arrows_right_left_solid = _AgoraIconsData(
-    0xf1ea,
-    'arrows_right_left_solid',
-  );
-  static const arrows_right_left_twotone = _AgoraIconsData(
-    0xf1eb,
-    'arrows_right_left_twotone',
-  );
+  static const arrows_pointing_in_bulk = _AgoraIconsData(0xf1d9, 'arrows_pointing_in_bulk');
+  static const arrows_pointing_in_solid = _AgoraIconsData(0xf1da, 'arrows_pointing_in_solid');
+  static const arrows_pointing_in_square_bulk = _AgoraIconsData(0xf1db, 'arrows_pointing_in_square_bulk');
+  static const arrows_pointing_in_square_solid = _AgoraIconsData(0xf1dc, 'arrows_pointing_in_square_solid');
+  static const arrows_pointing_in_square_twotone = _AgoraIconsData(0xf1dd, 'arrows_pointing_in_square_twotone');
+  static const arrows_pointing_in_square = _AgoraIconsData(0xf1de, 'arrows_pointing_in_square');
+  static const arrows_pointing_in_twotone = _AgoraIconsData(0xf1df, 'arrows_pointing_in_twotone');
+  static const arrows_pointing_in = _AgoraIconsData(0xf1e0, 'arrows_pointing_in');
+  static const arrows_pointing_out_bulk = _AgoraIconsData(0xf1e1, 'arrows_pointing_out_bulk');
+  static const arrows_pointing_out_solid = _AgoraIconsData(0xf1e2, 'arrows_pointing_out_solid');
+  static const arrows_pointing_out_square_bulk = _AgoraIconsData(0xf1e3, 'arrows_pointing_out_square_bulk');
+  static const arrows_pointing_out_square_solid = _AgoraIconsData(0xf1e4, 'arrows_pointing_out_square_solid');
+  static const arrows_pointing_out_square_twotone = _AgoraIconsData(0xf1e5, 'arrows_pointing_out_square_twotone');
+  static const arrows_pointing_out_square = _AgoraIconsData(0xf1e6, 'arrows_pointing_out_square');
+  static const arrows_pointing_out_twotone = _AgoraIconsData(0xf1e7, 'arrows_pointing_out_twotone');
+  static const arrows_pointing_out = _AgoraIconsData(0xf1e8, 'arrows_pointing_out');
+  static const arrows_right_left_bulk = _AgoraIconsData(0xf1e9, 'arrows_right_left_bulk');
+  static const arrows_right_left_solid = _AgoraIconsData(0xf1ea, 'arrows_right_left_solid');
+  static const arrows_right_left_twotone = _AgoraIconsData(0xf1eb, 'arrows_right_left_twotone');
   static const arrows_right_left = _AgoraIconsData(0xf1ec, 'arrows_right_left');
-  static const arrows_up_down_bulk = _AgoraIconsData(
-    0xf1ed,
-    'arrows_up_down_bulk',
-  );
-  static const arrows_up_down_solid = _AgoraIconsData(
-    0xf1ee,
-    'arrows_up_down_solid',
-  );
-  static const arrows_up_down_twotone = _AgoraIconsData(
-    0xf1ef,
-    'arrows_up_down_twotone',
-  );
+  static const arrows_up_down_bulk = _AgoraIconsData(0xf1ed, 'arrows_up_down_bulk');
+  static const arrows_up_down_solid = _AgoraIconsData(0xf1ee, 'arrows_up_down_solid');
+  static const arrows_up_down_twotone = _AgoraIconsData(0xf1ef, 'arrows_up_down_twotone');
   static const arrows_up_down = _AgoraIconsData(0xf1f0, 'arrows_up_down');
   static const at_bulk = _AgoraIconsData(0xf1f1, 'at_bulk');
   static const at_solid = _AgoraIconsData(0xf1f2, 'at_solid');
@@ -695,18 +267,9 @@ class AgoraIcons {
   static const backpack_solid = _AgoraIconsData(0xf1f6, 'backpack_solid');
   static const backpack_twotone = _AgoraIconsData(0xf1f7, 'backpack_twotone');
   static const backpack = _AgoraIconsData(0xf1f8, 'backpack');
-  static const backward_10sec_bulk = _AgoraIconsData(
-    0xf1f9,
-    'backward_10sec_bulk',
-  );
-  static const backward_10sec_solid = _AgoraIconsData(
-    0xf1fa,
-    'backward_10sec_solid',
-  );
-  static const backward_10sec_twotone = _AgoraIconsData(
-    0xf1fb,
-    'backward_10sec_twotone',
-  );
+  static const backward_10sec_bulk = _AgoraIconsData(0xf1f9, 'backward_10sec_bulk');
+  static const backward_10sec_solid = _AgoraIconsData(0xf1fa, 'backward_10sec_solid');
+  static const backward_10sec_twotone = _AgoraIconsData(0xf1fb, 'backward_10sec_twotone');
   static const backward_10sec = _AgoraIconsData(0xf1fc, 'backward_10sec');
   static const backward_bulk = _AgoraIconsData(0xf1fd, 'backward_bulk');
   static const backward_solid = _AgoraIconsData(0xf1fe, 'backward_solid');
@@ -758,24 +321,15 @@ class AgoraIcons {
   static const bars = _AgoraIconsData(0xf22c, 'bars');
   static const basketball_bulk = _AgoraIconsData(0xf22d, 'basketball_bulk');
   static const basketball_solid = _AgoraIconsData(0xf22e, 'basketball_solid');
-  static const basketball_twotone = _AgoraIconsData(
-    0xf22f,
-    'basketball_twotone',
-  );
+  static const basketball_twotone = _AgoraIconsData(0xf22f, 'basketball_twotone');
   static const basketball = _AgoraIconsData(0xf230, 'basketball');
   static const bathtub_bulk = _AgoraIconsData(0xf231, 'bathtub_bulk');
   static const bathtub_solid = _AgoraIconsData(0xf232, 'bathtub_solid');
   static const bathtub_twotone = _AgoraIconsData(0xf233, 'bathtub_twotone');
   static const bathtub = _AgoraIconsData(0xf234, 'bathtub');
   static const bazier_curve_bulk = _AgoraIconsData(0xf235, 'bazier_curve_bulk');
-  static const bazier_curve_solid = _AgoraIconsData(
-    0xf236,
-    'bazier_curve_solid',
-  );
-  static const bazier_curve_twotone = _AgoraIconsData(
-    0xf237,
-    'bazier_curve_twotone',
-  );
+  static const bazier_curve_solid = _AgoraIconsData(0xf236, 'bazier_curve_solid');
+  static const bazier_curve_twotone = _AgoraIconsData(0xf237, 'bazier_curve_twotone');
   static const bazier_curve = _AgoraIconsData(0xf238, 'bazier_curve');
   static const beach_bulk = _AgoraIconsData(0xf239, 'beach_bulk');
   static const beach_solid = _AgoraIconsData(0xf23a, 'beach_solid');
@@ -799,20 +353,11 @@ class AgoraIcons {
   static const bell_03 = _AgoraIconsData(0xf24c, 'bell_03');
   static const bell_notif_bulk = _AgoraIconsData(0xf24d, 'bell_notif_bulk');
   static const bell_notif_solid = _AgoraIconsData(0xf24e, 'bell_notif_solid');
-  static const bell_notif_twotone = _AgoraIconsData(
-    0xf24f,
-    'bell_notif_twotone',
-  );
+  static const bell_notif_twotone = _AgoraIconsData(0xf24f, 'bell_notif_twotone');
   static const bell_notif = _AgoraIconsData(0xf250, 'bell_notif');
   static const bell_off_alt_bulk = _AgoraIconsData(0xf251, 'bell_off_alt_bulk');
-  static const bell_off_alt_solid = _AgoraIconsData(
-    0xf252,
-    'bell_off_alt_solid',
-  );
-  static const bell_off_alt_twotone = _AgoraIconsData(
-    0xf253,
-    'bell_off_alt_twotone',
-  );
+  static const bell_off_alt_solid = _AgoraIconsData(0xf252, 'bell_off_alt_solid');
+  static const bell_off_alt_twotone = _AgoraIconsData(0xf253, 'bell_off_alt_twotone');
   static const bell_off_alt = _AgoraIconsData(0xf254, 'bell_off_alt');
   static const bell_off_bulk = _AgoraIconsData(0xf255, 'bell_off_bulk');
   static const bell_off_solid = _AgoraIconsData(0xf256, 'bell_off_solid');
@@ -823,14 +368,8 @@ class AgoraIcons {
   static const bell_plus_twotone = _AgoraIconsData(0xf25b, 'bell_plus_twotone');
   static const bell_plus = _AgoraIconsData(0xf25c, 'bell_plus');
   static const bell_ringing_bulk = _AgoraIconsData(0xf25d, 'bell_ringing_bulk');
-  static const bell_ringing_solid = _AgoraIconsData(
-    0xf25e,
-    'bell_ringing_solid',
-  );
-  static const bell_ringing_twotone = _AgoraIconsData(
-    0xf25f,
-    'bell_ringing_twotone',
-  );
+  static const bell_ringing_solid = _AgoraIconsData(0xf25e, 'bell_ringing_solid');
+  static const bell_ringing_twotone = _AgoraIconsData(0xf25f, 'bell_ringing_twotone');
   static const bell_ringing = _AgoraIconsData(0xf260, 'bell_ringing');
   static const bicep_bulk = _AgoraIconsData(0xf261, 'bicep_bulk');
   static const bicep_solid = _AgoraIconsData(0xf262, 'bicep_solid');
@@ -841,18 +380,9 @@ class AgoraIcons {
   static const blood_twotone = _AgoraIconsData(0xf267, 'blood_twotone');
   static const blood = _AgoraIconsData(0xf268, 'blood');
   static const bluetooth_bulk = _AgoraIconsData(0xf269, 'bluetooth_bulk');
-  static const bluetooth_circle_bulk = _AgoraIconsData(
-    0xf26a,
-    'bluetooth_circle_bulk',
-  );
-  static const bluetooth_circle_solid = _AgoraIconsData(
-    0xf26b,
-    'bluetooth_circle_solid',
-  );
-  static const bluetooth_circle_twotone = _AgoraIconsData(
-    0xf26c,
-    'bluetooth_circle_twotone',
-  );
+  static const bluetooth_circle_bulk = _AgoraIconsData(0xf26a, 'bluetooth_circle_bulk');
+  static const bluetooth_circle_solid = _AgoraIconsData(0xf26b, 'bluetooth_circle_solid');
+  static const bluetooth_circle_twotone = _AgoraIconsData(0xf26c, 'bluetooth_circle_twotone');
   static const bluetooth_circle = _AgoraIconsData(0xf26d, 'bluetooth_circle');
   static const bluetooth_solid = _AgoraIconsData(0xf26e, 'bluetooth_solid');
   static const bluetooth_twotone = _AgoraIconsData(0xf26f, 'bluetooth_twotone');
@@ -876,10 +406,7 @@ class AgoraIcons {
   static const book_open = _AgoraIconsData(0xf281, 'book_open');
   static const book_saved_bulk = _AgoraIconsData(0xf282, 'book_saved_bulk');
   static const book_saved_solid = _AgoraIconsData(0xf283, 'book_saved_solid');
-  static const book_saved_twotone = _AgoraIconsData(
-    0xf284,
-    'book_saved_twotone',
-  );
+  static const book_saved_twotone = _AgoraIconsData(0xf284, 'book_saved_twotone');
   static const book_saved = _AgoraIconsData(0xf285, 'book_saved');
   static const book_solid = _AgoraIconsData(0xf286, 'book_solid');
   static const book_twotone = _AgoraIconsData(0xf287, 'book_twotone');
@@ -889,66 +416,24 @@ class AgoraIcons {
   static const bookmark_twotone = _AgoraIconsData(0xf28b, 'bookmark_twotone');
   static const bookmark = _AgoraIconsData(0xf28c, 'bookmark');
   static const bounding_box_bulk = _AgoraIconsData(0xf28d, 'bounding_box_bulk');
-  static const bounding_box_solid = _AgoraIconsData(
-    0xf28e,
-    'bounding_box_solid',
-  );
-  static const bounding_box_twotone = _AgoraIconsData(
-    0xf28f,
-    'bounding_box_twotone',
-  );
+  static const bounding_box_solid = _AgoraIconsData(0xf28e, 'bounding_box_solid');
+  static const bounding_box_twotone = _AgoraIconsData(0xf28f, 'bounding_box_twotone');
   static const bounding_box = _AgoraIconsData(0xf290, 'bounding_box');
-  static const brackets_angel_bulk = _AgoraIconsData(
-    0xf291,
-    'brackets_angel_bulk',
-  );
-  static const brackets_angel_solid = _AgoraIconsData(
-    0xf292,
-    'brackets_angel_solid',
-  );
-  static const brackets_angel_twotone = _AgoraIconsData(
-    0xf293,
-    'brackets_angel_twotone',
-  );
+  static const brackets_angel_bulk = _AgoraIconsData(0xf291, 'brackets_angel_bulk');
+  static const brackets_angel_solid = _AgoraIconsData(0xf292, 'brackets_angel_solid');
+  static const brackets_angel_twotone = _AgoraIconsData(0xf293, 'brackets_angel_twotone');
   static const brackets_angel = _AgoraIconsData(0xf294, 'brackets_angel');
-  static const brackets_curly_bulk = _AgoraIconsData(
-    0xf295,
-    'brackets_curly_bulk',
-  );
-  static const brackets_curly_solid = _AgoraIconsData(
-    0xf296,
-    'brackets_curly_solid',
-  );
-  static const brackets_curly_twotone = _AgoraIconsData(
-    0xf297,
-    'brackets_curly_twotone',
-  );
+  static const brackets_curly_bulk = _AgoraIconsData(0xf295, 'brackets_curly_bulk');
+  static const brackets_curly_solid = _AgoraIconsData(0xf296, 'brackets_curly_solid');
+  static const brackets_curly_twotone = _AgoraIconsData(0xf297, 'brackets_curly_twotone');
   static const brackets_curly = _AgoraIconsData(0xf298, 'brackets_curly');
-  static const brackets_round_bulk = _AgoraIconsData(
-    0xf299,
-    'brackets_round_bulk',
-  );
-  static const brackets_round_solid = _AgoraIconsData(
-    0xf29a,
-    'brackets_round_solid',
-  );
-  static const brackets_round_twotone = _AgoraIconsData(
-    0xf29b,
-    'brackets_round_twotone',
-  );
+  static const brackets_round_bulk = _AgoraIconsData(0xf299, 'brackets_round_bulk');
+  static const brackets_round_solid = _AgoraIconsData(0xf29a, 'brackets_round_solid');
+  static const brackets_round_twotone = _AgoraIconsData(0xf29b, 'brackets_round_twotone');
   static const brackets_round = _AgoraIconsData(0xf29c, 'brackets_round');
-  static const brackets_square_bulk = _AgoraIconsData(
-    0xf29d,
-    'brackets_square_bulk',
-  );
-  static const brackets_square_solid = _AgoraIconsData(
-    0xf29e,
-    'brackets_square_solid',
-  );
-  static const brackets_square_twotone = _AgoraIconsData(
-    0xf29f,
-    'brackets_square_twotone',
-  );
+  static const brackets_square_bulk = _AgoraIconsData(0xf29d, 'brackets_square_bulk');
+  static const brackets_square_solid = _AgoraIconsData(0xf29e, 'brackets_square_solid');
+  static const brackets_square_twotone = _AgoraIconsData(0xf29f, 'brackets_square_twotone');
   static const brackets_square = _AgoraIconsData(0xf2a0, 'brackets_square');
   static const brain_bulk = _AgoraIconsData(0xf2a1, 'brain_bulk');
   static const brain_solid = _AgoraIconsData(0xf2a2, 'brain_solid');
@@ -959,18 +444,9 @@ class AgoraIcons {
   static const bread_twotone = _AgoraIconsData(0xf2a7, 'bread_twotone');
   static const bread = _AgoraIconsData(0xf2a8, 'bread');
   static const breakfast_bulk = _AgoraIconsData(0xf2a9, 'breakfast_bulk');
-  static const breakfast_slash_bulk = _AgoraIconsData(
-    0xf2aa,
-    'breakfast_slash_bulk',
-  );
-  static const breakfast_slash_solid = _AgoraIconsData(
-    0xf2ab,
-    'breakfast_slash_solid',
-  );
-  static const breakfast_slash_twotone = _AgoraIconsData(
-    0xf2ac,
-    'breakfast_slash_twotone',
-  );
+  static const breakfast_slash_bulk = _AgoraIconsData(0xf2aa, 'breakfast_slash_bulk');
+  static const breakfast_slash_solid = _AgoraIconsData(0xf2ab, 'breakfast_slash_solid');
+  static const breakfast_slash_twotone = _AgoraIconsData(0xf2ac, 'breakfast_slash_twotone');
   static const breakfast_slash = _AgoraIconsData(0xf2ad, 'breakfast_slash');
   static const breakfast_solid = _AgoraIconsData(0xf2ae, 'breakfast_solid');
   static const breakfast_twotone = _AgoraIconsData(0xf2af, 'breakfast_twotone');
@@ -985,10 +461,7 @@ class AgoraIcons {
   static const brush = _AgoraIconsData(0xf2b8, 'brush');
   static const bug_beetle_bulk = _AgoraIconsData(0xf2b9, 'bug_beetle_bulk');
   static const bug_beetle_solid = _AgoraIconsData(0xf2ba, 'bug_beetle_solid');
-  static const bug_beetle_twotone = _AgoraIconsData(
-    0xf2bb,
-    'bug_beetle_twotone',
-  );
+  static const bug_beetle_twotone = _AgoraIconsData(0xf2bb, 'bug_beetle_twotone');
   static const bug_beetle = _AgoraIconsData(0xf2bc, 'bug_beetle');
   static const bug_bulk = _AgoraIconsData(0xf2bd, 'bug_bulk');
   static const bug_droid_bulk = _AgoraIconsData(0xf2be, 'bug_droid_bulk');
@@ -999,14 +472,8 @@ class AgoraIcons {
   static const bug_twotone = _AgoraIconsData(0xf2c3, 'bug_twotone');
   static const bug = _AgoraIconsData(0xf2c4, 'bug');
   static const building_alt_bulk = _AgoraIconsData(0xf2c5, 'building_alt_bulk');
-  static const building_alt_solid = _AgoraIconsData(
-    0xf2c6,
-    'building_alt_solid',
-  );
-  static const building_alt_twotone = _AgoraIconsData(
-    0xf2c7,
-    'building_alt_twotone',
-  );
+  static const building_alt_solid = _AgoraIconsData(0xf2c6, 'building_alt_solid');
+  static const building_alt_twotone = _AgoraIconsData(0xf2c7, 'building_alt_twotone');
   static const building_alt = _AgoraIconsData(0xf2c8, 'building_alt');
   static const building_bulk = _AgoraIconsData(0xf2c9, 'building_bulk');
   static const building_solid = _AgoraIconsData(0xf2ca, 'building_solid');
@@ -1026,17 +493,11 @@ class AgoraIcons {
   static const bus = _AgoraIconsData(0xf2d8, 'bus');
   static const calendar_01_bulk = _AgoraIconsData(0xf2d9, 'calendar_01_bulk');
   static const calendar_01_solid = _AgoraIconsData(0xf2da, 'calendar_01_solid');
-  static const calendar_01_twotone = _AgoraIconsData(
-    0xf2db,
-    'calendar_01_twotone',
-  );
+  static const calendar_01_twotone = _AgoraIconsData(0xf2db, 'calendar_01_twotone');
   static const calendar_01 = _AgoraIconsData(0xf2dc, 'calendar_01');
   static const calendar_02_bulk = _AgoraIconsData(0xf2dd, 'calendar_02_bulk');
   static const calendar_02_solid = _AgoraIconsData(0xf2de, 'calendar_02_solid');
-  static const calendar_02_twotone = _AgoraIconsData(
-    0xf2df,
-    'calendar_02_twotone',
-  );
+  static const calendar_02_twotone = _AgoraIconsData(0xf2df, 'calendar_02_twotone');
   static const calendar_02 = _AgoraIconsData(0xf2e0, 'calendar_02');
   static const call_add_bulk = _AgoraIconsData(0xf2e1, 'call_add_bulk');
   static const call_add_solid = _AgoraIconsData(0xf2e2, 'call_add_solid');
@@ -1044,57 +505,24 @@ class AgoraIcons {
   static const call_add = _AgoraIconsData(0xf2e4, 'call_add');
   static const call_bulk = _AgoraIconsData(0xf2e5, 'call_bulk');
   static const call_calling_bulk = _AgoraIconsData(0xf2e6, 'call_calling_bulk');
-  static const call_calling_solid = _AgoraIconsData(
-    0xf2e7,
-    'call_calling_solid',
-  );
-  static const call_calling_twotone = _AgoraIconsData(
-    0xf2e8,
-    'call_calling_twotone',
-  );
+  static const call_calling_solid = _AgoraIconsData(0xf2e7, 'call_calling_solid');
+  static const call_calling_twotone = _AgoraIconsData(0xf2e8, 'call_calling_twotone');
   static const call_calling = _AgoraIconsData(0xf2e9, 'call_calling');
-  static const call_incoming_bulk = _AgoraIconsData(
-    0xf2ea,
-    'call_incoming_bulk',
-  );
-  static const call_incoming_solid = _AgoraIconsData(
-    0xf2eb,
-    'call_incoming_solid',
-  );
-  static const call_incoming_twotone = _AgoraIconsData(
-    0xf2ec,
-    'call_incoming_twotone',
-  );
+  static const call_incoming_bulk = _AgoraIconsData(0xf2ea, 'call_incoming_bulk');
+  static const call_incoming_solid = _AgoraIconsData(0xf2eb, 'call_incoming_solid');
+  static const call_incoming_twotone = _AgoraIconsData(0xf2ec, 'call_incoming_twotone');
   static const call_incoming = _AgoraIconsData(0xf2ed, 'call_incoming');
-  static const call_outgoing_bulk = _AgoraIconsData(
-    0xf2ee,
-    'call_outgoing_bulk',
-  );
-  static const call_outgoing_solid = _AgoraIconsData(
-    0xf2ef,
-    'call_outgoing_solid',
-  );
-  static const call_outgoing_twotone = _AgoraIconsData(
-    0xf2f0,
-    'call_outgoing_twotone',
-  );
+  static const call_outgoing_bulk = _AgoraIconsData(0xf2ee, 'call_outgoing_bulk');
+  static const call_outgoing_solid = _AgoraIconsData(0xf2ef, 'call_outgoing_solid');
+  static const call_outgoing_twotone = _AgoraIconsData(0xf2f0, 'call_outgoing_twotone');
   static const call_outgoing = _AgoraIconsData(0xf2f1, 'call_outgoing');
   static const call_receive_bulk = _AgoraIconsData(0xf2f2, 'call_receive_bulk');
-  static const call_receive_solid = _AgoraIconsData(
-    0xf2f3,
-    'call_receive_solid',
-  );
-  static const call_receive_twotone = _AgoraIconsData(
-    0xf2f4,
-    'call_receive_twotone',
-  );
+  static const call_receive_solid = _AgoraIconsData(0xf2f3, 'call_receive_solid');
+  static const call_receive_twotone = _AgoraIconsData(0xf2f4, 'call_receive_twotone');
   static const call_receive = _AgoraIconsData(0xf2f5, 'call_receive');
   static const call_slash_bulk = _AgoraIconsData(0xf2f6, 'call_slash_bulk');
   static const call_slash_solid = _AgoraIconsData(0xf2f7, 'call_slash_solid');
-  static const call_slash_twotone = _AgoraIconsData(
-    0xf2f8,
-    'call_slash_twotone',
-  );
+  static const call_slash_twotone = _AgoraIconsData(0xf2f8, 'call_slash_twotone');
   static const call_slash = _AgoraIconsData(0xf2f9, 'call_slash');
   static const call_solid = _AgoraIconsData(0xf2fa, 'call_solid');
   static const call_twotone = _AgoraIconsData(0xf2fb, 'call_twotone');
@@ -1108,28 +536,13 @@ class AgoraIcons {
   static const calories_twotone = _AgoraIconsData(0xf303, 'calories_twotone');
   static const calories = _AgoraIconsData(0xf304, 'calories');
   static const camera_bulk = _AgoraIconsData(0xf305, 'camera_bulk');
-  static const camera_rotate_bulk = _AgoraIconsData(
-    0xf306,
-    'camera_rotate_bulk',
-  );
-  static const camera_rotate_solid = _AgoraIconsData(
-    0xf307,
-    'camera_rotate_solid',
-  );
-  static const camera_rotate_twotone = _AgoraIconsData(
-    0xf308,
-    'camera_rotate_twotone',
-  );
+  static const camera_rotate_bulk = _AgoraIconsData(0xf306, 'camera_rotate_bulk');
+  static const camera_rotate_solid = _AgoraIconsData(0xf307, 'camera_rotate_solid');
+  static const camera_rotate_twotone = _AgoraIconsData(0xf308, 'camera_rotate_twotone');
   static const camera_rotate = _AgoraIconsData(0xf309, 'camera_rotate');
   static const camera_slash_bulk = _AgoraIconsData(0xf30a, 'camera_slash_bulk');
-  static const camera_slash_solid = _AgoraIconsData(
-    0xf30b,
-    'camera_slash_solid',
-  );
-  static const camera_slash_twotone = _AgoraIconsData(
-    0xf30c,
-    'camera_slash_twotone',
-  );
+  static const camera_slash_solid = _AgoraIconsData(0xf30b, 'camera_slash_solid');
+  static const camera_slash_twotone = _AgoraIconsData(0xf30c, 'camera_slash_twotone');
   static const camera_slash = _AgoraIconsData(0xf30d, 'camera_slash');
   static const camera_solid = _AgoraIconsData(0xf30e, 'camera_solid');
   static const camera_twotone = _AgoraIconsData(0xf30f, 'camera_twotone');
@@ -1149,51 +562,27 @@ class AgoraIcons {
   static const card_bulk = _AgoraIconsData(0xf31d, 'card_bulk');
   static const card_change_bulk = _AgoraIconsData(0xf31e, 'card_change_bulk');
   static const card_change_solid = _AgoraIconsData(0xf31f, 'card_change_solid');
-  static const card_change_twotone = _AgoraIconsData(
-    0xf320,
-    'card_change_twotone',
-  );
+  static const card_change_twotone = _AgoraIconsData(0xf320, 'card_change_twotone');
   static const card_change = _AgoraIconsData(0xf321, 'card_change');
   static const card_check_bulk = _AgoraIconsData(0xf322, 'card_check_bulk');
   static const card_check_solid = _AgoraIconsData(0xf323, 'card_check_solid');
-  static const card_check_twotone = _AgoraIconsData(
-    0xf324,
-    'card_check_twotone',
-  );
+  static const card_check_twotone = _AgoraIconsData(0xf324, 'card_check_twotone');
   static const card_check = _AgoraIconsData(0xf325, 'card_check');
   static const card_edit_bulk = _AgoraIconsData(0xf326, 'card_edit_bulk');
   static const card_edit_solid = _AgoraIconsData(0xf327, 'card_edit_solid');
   static const card_edit_twotone = _AgoraIconsData(0xf328, 'card_edit_twotone');
   static const card_edit = _AgoraIconsData(0xf329, 'card_edit');
-  static const card_forbidden_bulk = _AgoraIconsData(
-    0xf32a,
-    'card_forbidden_bulk',
-  );
-  static const card_forbidden_solid = _AgoraIconsData(
-    0xf32b,
-    'card_forbidden_solid',
-  );
-  static const card_forbidden_twotone = _AgoraIconsData(
-    0xf32c,
-    'card_forbidden_twotone',
-  );
+  static const card_forbidden_bulk = _AgoraIconsData(0xf32a, 'card_forbidden_bulk');
+  static const card_forbidden_solid = _AgoraIconsData(0xf32b, 'card_forbidden_solid');
+  static const card_forbidden_twotone = _AgoraIconsData(0xf32c, 'card_forbidden_twotone');
   static const card_forbidden = _AgoraIconsData(0xf32d, 'card_forbidden');
   static const card_minus_bulk = _AgoraIconsData(0xf32e, 'card_minus_bulk');
   static const card_minus_solid = _AgoraIconsData(0xf32f, 'card_minus_solid');
-  static const card_minus_twotone = _AgoraIconsData(
-    0xf330,
-    'card_minus_twotone',
-  );
+  static const card_minus_twotone = _AgoraIconsData(0xf330, 'card_minus_twotone');
   static const card_minus = _AgoraIconsData(0xf331, 'card_minus');
   static const card_receive_bulk = _AgoraIconsData(0xf332, 'card_receive_bulk');
-  static const card_receive_solid = _AgoraIconsData(
-    0xf333,
-    'card_receive_solid',
-  );
-  static const card_receive_twotone = _AgoraIconsData(
-    0xf334,
-    'card_receive_twotone',
-  );
+  static const card_receive_solid = _AgoraIconsData(0xf333, 'card_receive_solid');
+  static const card_receive_twotone = _AgoraIconsData(0xf334, 'card_receive_twotone');
   static const card_receive = _AgoraIconsData(0xf335, 'card_receive');
   static const card_send_bulk = _AgoraIconsData(0xf336, 'card_send_bulk');
   static const card_send_solid = _AgoraIconsData(0xf337, 'card_send_solid');
@@ -1201,10 +590,7 @@ class AgoraIcons {
   static const card_send = _AgoraIconsData(0xf339, 'card_send');
   static const card_slash_bulk = _AgoraIconsData(0xf33a, 'card_slash_bulk');
   static const card_slash_solid = _AgoraIconsData(0xf33b, 'card_slash_solid');
-  static const card_slash_twotone = _AgoraIconsData(
-    0xf33c,
-    'card_slash_twotone',
-  );
+  static const card_slash_twotone = _AgoraIconsData(0xf33c, 'card_slash_twotone');
   static const card_slash = _AgoraIconsData(0xf33d, 'card_slash');
   static const card_solid = _AgoraIconsData(0xf33e, 'card_solid');
   static const card_twotone = _AgoraIconsData(0xf33f, 'card_twotone');
@@ -1219,10 +605,7 @@ class AgoraIcons {
   static const cart = _AgoraIconsData(0xf348, 'cart');
   static const categories_bulk = _AgoraIconsData(0xf349, 'categories_bulk');
   static const categories_solid = _AgoraIconsData(0xf34a, 'categories_solid');
-  static const categories_twotone = _AgoraIconsData(
-    0xf34b,
-    'categories_twotone',
-  );
+  static const categories_twotone = _AgoraIconsData(0xf34b, 'categories_twotone');
   static const categories = _AgoraIconsData(0xf34c, 'categories');
   static const chart_alt_bulk = _AgoraIconsData(0xf34d, 'chart_alt_bulk');
   static const chart_alt_solid = _AgoraIconsData(0xf34e, 'chart_alt_solid');
@@ -1230,69 +613,33 @@ class AgoraIcons {
   static const chart_alt = _AgoraIconsData(0xf350, 'chart_alt');
   static const chart_alt2_bulk = _AgoraIconsData(0xf351, 'chart_alt2_bulk');
   static const chart_alt2_solid = _AgoraIconsData(0xf352, 'chart_alt2_solid');
-  static const chart_alt2_twotone = _AgoraIconsData(
-    0xf353,
-    'chart_alt2_twotone',
-  );
+  static const chart_alt2_twotone = _AgoraIconsData(0xf353, 'chart_alt2_twotone');
   static const chart_alt2 = _AgoraIconsData(0xf354, 'chart_alt2');
   static const chart_bulk = _AgoraIconsData(0xf355, 'chart_bulk');
   static const chart_solid = _AgoraIconsData(0xf356, 'chart_solid');
   static const chart_twotone = _AgoraIconsData(0xf357, 'chart_twotone');
   static const chart = _AgoraIconsData(0xf358, 'chart');
-  static const chat_bubble_2_bulk = _AgoraIconsData(
-    0xf359,
-    'chat_bubble_2_bulk',
-  );
-  static const chat_bubble_2_solid = _AgoraIconsData(
-    0xf35a,
-    'chat_bubble_2_solid',
-  );
-  static const chat_bubble_2_twotone = _AgoraIconsData(
-    0xf35b,
-    'chat_bubble_2_twotone',
-  );
+  static const chat_bubble_2_bulk = _AgoraIconsData(0xf359, 'chat_bubble_2_bulk');
+  static const chat_bubble_2_solid = _AgoraIconsData(0xf35a, 'chat_bubble_2_solid');
+  static const chat_bubble_2_twotone = _AgoraIconsData(0xf35b, 'chat_bubble_2_twotone');
   static const chat_bubble_2 = _AgoraIconsData(0xf35c, 'chat_bubble_2');
-  static const chat_bubble_alt2_bulk = _AgoraIconsData(
-    0xf35d,
-    'chat_bubble_alt2_bulk',
-  );
-  static const chat_bubble_alt2_solid = _AgoraIconsData(
-    0xf35e,
-    'chat_bubble_alt2_solid',
-  );
-  static const chat_bubble_alt2_twotone = _AgoraIconsData(
-    0xf35f,
-    'chat_bubble_alt2_twotone',
-  );
+  static const chat_bubble_alt2_bulk = _AgoraIconsData(0xf35d, 'chat_bubble_alt2_bulk');
+  static const chat_bubble_alt2_solid = _AgoraIconsData(0xf35e, 'chat_bubble_alt2_solid');
+  static const chat_bubble_alt2_twotone = _AgoraIconsData(0xf35f, 'chat_bubble_alt2_twotone');
   static const chat_bubble_alt2 = _AgoraIconsData(0xf360, 'chat_bubble_alt2');
   static const chat_bubble_bulk = _AgoraIconsData(0xf361, 'chat_bubble_bulk');
   static const chat_bubble_solid = _AgoraIconsData(0xf362, 'chat_bubble_solid');
-  static const chat_bubble_twotone = _AgoraIconsData(
-    0xf363,
-    'chat_bubble_twotone',
-  );
+  static const chat_bubble_twotone = _AgoraIconsData(0xf363, 'chat_bubble_twotone');
   static const chat_bubble = _AgoraIconsData(0xf364, 'chat_bubble');
   static const check_bulk = _AgoraIconsData(0xf365, 'check_bulk');
   static const check_circle_bulk = _AgoraIconsData(0xf366, 'check_circle_bulk');
-  static const check_circle_solid = _AgoraIconsData(
-    0xf367,
-    'check_circle_solid',
-  );
-  static const check_circle_twotone = _AgoraIconsData(
-    0xf368,
-    'check_circle_twotone',
-  );
+  static const check_circle_solid = _AgoraIconsData(0xf367, 'check_circle_solid');
+  static const check_circle_twotone = _AgoraIconsData(0xf368, 'check_circle_twotone');
   static const check_circle = _AgoraIconsData(0xf369, 'check_circle');
   static const check_solid = _AgoraIconsData(0xf36a, 'check_solid');
   static const check_square_bulk = _AgoraIconsData(0xf36b, 'check_square_bulk');
-  static const check_square_solid = _AgoraIconsData(
-    0xf36c,
-    'check_square_solid',
-  );
-  static const check_square_twotone = _AgoraIconsData(
-    0xf36d,
-    'check_square_twotone',
-  );
+  static const check_square_solid = _AgoraIconsData(0xf36c, 'check_square_solid');
+  static const check_square_twotone = _AgoraIconsData(0xf36d, 'check_square_twotone');
   static const check_square = _AgoraIconsData(0xf36e, 'check_square');
   static const check_twotone = _AgoraIconsData(0xf36f, 'check_twotone');
   static const check = _AgoraIconsData(0xf370, 'check');
@@ -1301,197 +648,62 @@ class AgoraIcons {
   static const chef_hat_twotone = _AgoraIconsData(0xf373, 'chef_hat_twotone');
   static const chef_hat = _AgoraIconsData(0xf374, 'chef_hat');
   static const chevron_down_bulk = _AgoraIconsData(0xf375, 'chevron_down_bulk');
-  static const chevron_down_circle_bulk = _AgoraIconsData(
-    0xf376,
-    'chevron_down_circle_bulk',
-  );
-  static const chevron_down_circle_solid = _AgoraIconsData(
-    0xf377,
-    'chevron_down_circle_solid',
-  );
-  static const chevron_down_circle_twotone = _AgoraIconsData(
-    0xf378,
-    'chevron_down_circle_twotone',
-  );
-  static const chevron_down_circle = _AgoraIconsData(
-    0xf379,
-    'chevron_down_circle',
-  );
-  static const chevron_down_solid = _AgoraIconsData(
-    0xf37a,
-    'chevron_down_solid',
-  );
-  static const chevron_down_square_bulk = _AgoraIconsData(
-    0xf37b,
-    'chevron_down_square_bulk',
-  );
-  static const chevron_down_square_solid = _AgoraIconsData(
-    0xf37c,
-    'chevron_down_square_solid',
-  );
-  static const chevron_down_square_twotone = _AgoraIconsData(
-    0xf37d,
-    'chevron_down_square_twotone',
-  );
-  static const chevron_down_square = _AgoraIconsData(
-    0xf37e,
-    'chevron_down_square',
-  );
-  static const chevron_down_twotone = _AgoraIconsData(
-    0xf37f,
-    'chevron_down_twotone',
-  );
+  static const chevron_down_circle_bulk = _AgoraIconsData(0xf376, 'chevron_down_circle_bulk');
+  static const chevron_down_circle_solid = _AgoraIconsData(0xf377, 'chevron_down_circle_solid');
+  static const chevron_down_circle_twotone = _AgoraIconsData(0xf378, 'chevron_down_circle_twotone');
+  static const chevron_down_circle = _AgoraIconsData(0xf379, 'chevron_down_circle');
+  static const chevron_down_solid = _AgoraIconsData(0xf37a, 'chevron_down_solid');
+  static const chevron_down_square_bulk = _AgoraIconsData(0xf37b, 'chevron_down_square_bulk');
+  static const chevron_down_square_solid = _AgoraIconsData(0xf37c, 'chevron_down_square_solid');
+  static const chevron_down_square_twotone = _AgoraIconsData(0xf37d, 'chevron_down_square_twotone');
+  static const chevron_down_square = _AgoraIconsData(0xf37e, 'chevron_down_square');
+  static const chevron_down_twotone = _AgoraIconsData(0xf37f, 'chevron_down_twotone');
   static const chevron_down = _AgoraIconsData(0xf380, 'chevron_down');
   static const chevron_left_bulk = _AgoraIconsData(0xf381, 'chevron_left_bulk');
-  static const chevron_left_circle_bulk = _AgoraIconsData(
-    0xf382,
-    'chevron_left_circle_bulk',
-  );
-  static const chevron_left_circle_solid = _AgoraIconsData(
-    0xf383,
-    'chevron_left_circle_solid',
-  );
-  static const chevron_left_circle_twotone = _AgoraIconsData(
-    0xf384,
-    'chevron_left_circle_twotone',
-  );
-  static const chevron_left_circle = _AgoraIconsData(
-    0xf385,
-    'chevron_left_circle',
-  );
-  static const chevron_left_solid = _AgoraIconsData(
-    0xf386,
-    'chevron_left_solid',
-  );
-  static const chevron_left_square_bulk = _AgoraIconsData(
-    0xf387,
-    'chevron_left_square_bulk',
-  );
-  static const chevron_left_square_solid = _AgoraIconsData(
-    0xf388,
-    'chevron_left_square_solid',
-  );
-  static const chevron_left_square_twotone = _AgoraIconsData(
-    0xf389,
-    'chevron_left_square_twotone',
-  );
-  static const chevron_left_square = _AgoraIconsData(
-    0xf38a,
-    'chevron_left_square',
-  );
-  static const chevron_left_twotone = _AgoraIconsData(
-    0xf38b,
-    'chevron_left_twotone',
-  );
+  static const chevron_left_circle_bulk = _AgoraIconsData(0xf382, 'chevron_left_circle_bulk');
+  static const chevron_left_circle_solid = _AgoraIconsData(0xf383, 'chevron_left_circle_solid');
+  static const chevron_left_circle_twotone = _AgoraIconsData(0xf384, 'chevron_left_circle_twotone');
+  static const chevron_left_circle = _AgoraIconsData(0xf385, 'chevron_left_circle');
+  static const chevron_left_solid = _AgoraIconsData(0xf386, 'chevron_left_solid');
+  static const chevron_left_square_bulk = _AgoraIconsData(0xf387, 'chevron_left_square_bulk');
+  static const chevron_left_square_solid = _AgoraIconsData(0xf388, 'chevron_left_square_solid');
+  static const chevron_left_square_twotone = _AgoraIconsData(0xf389, 'chevron_left_square_twotone');
+  static const chevron_left_square = _AgoraIconsData(0xf38a, 'chevron_left_square');
+  static const chevron_left_twotone = _AgoraIconsData(0xf38b, 'chevron_left_twotone');
   static const chevron_left = _AgoraIconsData(0xf38c, 'chevron_left');
-  static const chevron_right_bulk = _AgoraIconsData(
-    0xf38d,
-    'chevron_right_bulk',
-  );
-  static const chevron_right_circle_bulk = _AgoraIconsData(
-    0xf38e,
-    'chevron_right_circle_bulk',
-  );
-  static const chevron_right_circle_solid = _AgoraIconsData(
-    0xf38f,
-    'chevron_right_circle_solid',
-  );
-  static const chevron_right_circle_twotone = _AgoraIconsData(
-    0xf390,
-    'chevron_right_circle_twotone',
-  );
-  static const chevron_right_circle = _AgoraIconsData(
-    0xf391,
-    'chevron_right_circle',
-  );
-  static const chevron_right_solid = _AgoraIconsData(
-    0xf392,
-    'chevron_right_solid',
-  );
-  static const chevron_right_square_bulk = _AgoraIconsData(
-    0xf393,
-    'chevron_right_square_bulk',
-  );
-  static const chevron_right_square_solid = _AgoraIconsData(
-    0xf394,
-    'chevron_right_square_solid',
-  );
-  static const chevron_right_square_twotone = _AgoraIconsData(
-    0xf395,
-    'chevron_right_square_twotone',
-  );
-  static const chevron_right_square = _AgoraIconsData(
-    0xf396,
-    'chevron_right_square',
-  );
-  static const chevron_right_twotone = _AgoraIconsData(
-    0xf397,
-    'chevron_right_twotone',
-  );
+  static const chevron_right_bulk = _AgoraIconsData(0xf38d, 'chevron_right_bulk');
+  static const chevron_right_circle_bulk = _AgoraIconsData(0xf38e, 'chevron_right_circle_bulk');
+  static const chevron_right_circle_solid = _AgoraIconsData(0xf38f, 'chevron_right_circle_solid');
+  static const chevron_right_circle_twotone = _AgoraIconsData(0xf390, 'chevron_right_circle_twotone');
+  static const chevron_right_circle = _AgoraIconsData(0xf391, 'chevron_right_circle');
+  static const chevron_right_solid = _AgoraIconsData(0xf392, 'chevron_right_solid');
+  static const chevron_right_square_bulk = _AgoraIconsData(0xf393, 'chevron_right_square_bulk');
+  static const chevron_right_square_solid = _AgoraIconsData(0xf394, 'chevron_right_square_solid');
+  static const chevron_right_square_twotone = _AgoraIconsData(0xf395, 'chevron_right_square_twotone');
+  static const chevron_right_square = _AgoraIconsData(0xf396, 'chevron_right_square');
+  static const chevron_right_twotone = _AgoraIconsData(0xf397, 'chevron_right_twotone');
   static const chevron_right = _AgoraIconsData(0xf398, 'chevron_right');
   static const chevron_up_bulk = _AgoraIconsData(0xf399, 'chevron_up_bulk');
-  static const chevron_up_circle_bulk = _AgoraIconsData(
-    0xf39a,
-    'chevron_up_circle_bulk',
-  );
-  static const chevron_up_circle_solid = _AgoraIconsData(
-    0xf39b,
-    'chevron_up_circle_solid',
-  );
-  static const chevron_up_circle_twotone = _AgoraIconsData(
-    0xf39c,
-    'chevron_up_circle_twotone',
-  );
+  static const chevron_up_circle_bulk = _AgoraIconsData(0xf39a, 'chevron_up_circle_bulk');
+  static const chevron_up_circle_solid = _AgoraIconsData(0xf39b, 'chevron_up_circle_solid');
+  static const chevron_up_circle_twotone = _AgoraIconsData(0xf39c, 'chevron_up_circle_twotone');
   static const chevron_up_circle = _AgoraIconsData(0xf39d, 'chevron_up_circle');
-  static const chevron_up_down_bulk = _AgoraIconsData(
-    0xf39e,
-    'chevron_up_down_bulk',
-  );
-  static const chevron_up_down_solid = _AgoraIconsData(
-    0xf39f,
-    'chevron_up_down_solid',
-  );
-  static const chevron_up_down_twotone = _AgoraIconsData(
-    0xf3a0,
-    'chevron_up_down_twotone',
-  );
+  static const chevron_up_down_bulk = _AgoraIconsData(0xf39e, 'chevron_up_down_bulk');
+  static const chevron_up_down_solid = _AgoraIconsData(0xf39f, 'chevron_up_down_solid');
+  static const chevron_up_down_twotone = _AgoraIconsData(0xf3a0, 'chevron_up_down_twotone');
   static const chevron_up_down = _AgoraIconsData(0xf3a1, 'chevron_up_down');
   static const chevron_up_solid = _AgoraIconsData(0xf3a2, 'chevron_up_solid');
-  static const chevron_up_square_bulk = _AgoraIconsData(
-    0xf3a3,
-    'chevron_up_square_bulk',
-  );
-  static const chevron_up_square_solid = _AgoraIconsData(
-    0xf3a4,
-    'chevron_up_square_solid',
-  );
-  static const chevron_up_square_twotone = _AgoraIconsData(
-    0xf3a5,
-    'chevron_up_square_twotone',
-  );
+  static const chevron_up_square_bulk = _AgoraIconsData(0xf3a3, 'chevron_up_square_bulk');
+  static const chevron_up_square_solid = _AgoraIconsData(0xf3a4, 'chevron_up_square_solid');
+  static const chevron_up_square_twotone = _AgoraIconsData(0xf3a5, 'chevron_up_square_twotone');
   static const chevron_up_square = _AgoraIconsData(0xf3a6, 'chevron_up_square');
-  static const chevron_up_twotone = _AgoraIconsData(
-    0xf3a7,
-    'chevron_up_twotone',
-  );
+  static const chevron_up_twotone = _AgoraIconsData(0xf3a7, 'chevron_up_twotone');
   static const chevron_up = _AgoraIconsData(0xf3a8, 'chevron_up');
   static const clipboard_bulk = _AgoraIconsData(0xf3a9, 'clipboard_bulk');
-  static const clipboard_document_bulk = _AgoraIconsData(
-    0xf3aa,
-    'clipboard_document_bulk',
-  );
-  static const clipboard_document_solid = _AgoraIconsData(
-    0xf3ab,
-    'clipboard_document_solid',
-  );
-  static const clipboard_document_twotone = _AgoraIconsData(
-    0xf3ac,
-    'clipboard_document_twotone',
-  );
-  static const clipboard_document = _AgoraIconsData(
-    0xf3ad,
-    'clipboard_document',
-  );
+  static const clipboard_document_bulk = _AgoraIconsData(0xf3aa, 'clipboard_document_bulk');
+  static const clipboard_document_solid = _AgoraIconsData(0xf3ab, 'clipboard_document_solid');
+  static const clipboard_document_twotone = _AgoraIconsData(0xf3ac, 'clipboard_document_twotone');
+  static const clipboard_document = _AgoraIconsData(0xf3ad, 'clipboard_document');
   static const clipboard_solid = _AgoraIconsData(0xf3ae, 'clipboard_solid');
   static const clipboard_twotone = _AgoraIconsData(0xf3af, 'clipboard_twotone');
   static const clipboard = _AgoraIconsData(0xf3b0, 'clipboard');
@@ -1499,121 +711,55 @@ class AgoraIcons {
   static const clock_solid = _AgoraIconsData(0xf3b2, 'clock_solid');
   static const clock_twotone = _AgoraIconsData(0xf3b3, 'clock_twotone');
   static const clock = _AgoraIconsData(0xf3b4, 'clock');
-  static const closed_captioning_bulk = _AgoraIconsData(
-    0xf3b5,
-    'closed_captioning_bulk',
-  );
-  static const closed_captioning_solid = _AgoraIconsData(
-    0xf3b6,
-    'closed_captioning_solid',
-  );
-  static const closed_captioning_twotone = _AgoraIconsData(
-    0xf3b7,
-    'closed_captioning_twotone',
-  );
+  static const closed_captioning_bulk = _AgoraIconsData(0xf3b5, 'closed_captioning_bulk');
+  static const closed_captioning_solid = _AgoraIconsData(0xf3b6, 'closed_captioning_solid');
+  static const closed_captioning_twotone = _AgoraIconsData(0xf3b7, 'closed_captioning_twotone');
   static const closed_captioning = _AgoraIconsData(0xf3b8, 'closed_captioning');
   static const cloud_upload_bulk = _AgoraIconsData(0xf3b9, 'cloud_upload_bulk');
-  static const cloud_upload_solid = _AgoraIconsData(
-    0xf3ba,
-    'cloud_upload_solid',
-  );
-  static const cloud_upload_twotone = _AgoraIconsData(
-    0xf3bb,
-    'cloud_upload_twotone',
-  );
+  static const cloud_upload_solid = _AgoraIconsData(0xf3ba, 'cloud_upload_solid');
+  static const cloud_upload_twotone = _AgoraIconsData(0xf3bb, 'cloud_upload_twotone');
   static const cloud_upload = _AgoraIconsData(0xf3bc, 'cloud_upload');
   static const cloud_bulk = _AgoraIconsData(0xf3bd, 'cloud_bulk');
-  static const cloud_connection_bulk = _AgoraIconsData(
-    0xf3be,
-    'cloud_connection_bulk',
-  );
-  static const cloud_connection_solid = _AgoraIconsData(
-    0xf3bf,
-    'cloud_connection_solid',
-  );
-  static const cloud_connection_twotone = _AgoraIconsData(
-    0xf3c0,
-    'cloud_connection_twotone',
-  );
+  static const cloud_connection_bulk = _AgoraIconsData(0xf3be, 'cloud_connection_bulk');
+  static const cloud_connection_solid = _AgoraIconsData(0xf3bf, 'cloud_connection_solid');
+  static const cloud_connection_twotone = _AgoraIconsData(0xf3c0, 'cloud_connection_twotone');
   static const cloud_connection = _AgoraIconsData(0xf3c1, 'cloud_connection');
-  static const cloud_download_bulk = _AgoraIconsData(
-    0xf3c2,
-    'cloud_download_bulk',
-  );
-  static const cloud_download_solid = _AgoraIconsData(
-    0xf3c3,
-    'cloud_download_solid',
-  );
-  static const cloud_download_twotone = _AgoraIconsData(
-    0xf3c4,
-    'cloud_download_twotone',
-  );
+  static const cloud_download_bulk = _AgoraIconsData(0xf3c2, 'cloud_download_bulk');
+  static const cloud_download_solid = _AgoraIconsData(0xf3c3, 'cloud_download_solid');
+  static const cloud_download_twotone = _AgoraIconsData(0xf3c4, 'cloud_download_twotone');
   static const cloud_download = _AgoraIconsData(0xf3c5, 'cloud_download');
-  static const cloud_drizzle_bulk = _AgoraIconsData(
-    0xf3c6,
-    'cloud_drizzle_bulk',
-  );
-  static const cloud_drizzle_solid = _AgoraIconsData(
-    0xf3c7,
-    'cloud_drizzle_solid',
-  );
-  static const cloud_drizzle_twotone = _AgoraIconsData(
-    0xf3c8,
-    'cloud_drizzle_twotone',
-  );
+  static const cloud_drizzle_bulk = _AgoraIconsData(0xf3c6, 'cloud_drizzle_bulk');
+  static const cloud_drizzle_solid = _AgoraIconsData(0xf3c7, 'cloud_drizzle_solid');
+  static const cloud_drizzle_twotone = _AgoraIconsData(0xf3c8, 'cloud_drizzle_twotone');
   static const cloud_drizzle = _AgoraIconsData(0xf3c9, 'cloud_drizzle');
   static const cloud_fog_bulk = _AgoraIconsData(0xf3ca, 'cloud_fog_bulk');
   static const cloud_fog_solid = _AgoraIconsData(0xf3cb, 'cloud_fog_solid');
   static const cloud_fog_twotone = _AgoraIconsData(0xf3cc, 'cloud_fog_twotone');
   static const cloud_fog = _AgoraIconsData(0xf3cd, 'cloud_fog');
-  static const cloud_lightning_bulk = _AgoraIconsData(
-    0xf3ce,
-    'cloud_lightning_bulk',
-  );
-  static const cloud_lightning_solid = _AgoraIconsData(
-    0xf3cf,
-    'cloud_lightning_solid',
-  );
-  static const cloud_lightning_twotone = _AgoraIconsData(
-    0xf3d0,
-    'cloud_lightning_twotone',
-  );
+  static const cloud_lightning_bulk = _AgoraIconsData(0xf3ce, 'cloud_lightning_bulk');
+  static const cloud_lightning_solid = _AgoraIconsData(0xf3cf, 'cloud_lightning_solid');
+  static const cloud_lightning_twotone = _AgoraIconsData(0xf3d0, 'cloud_lightning_twotone');
   static const cloud_lightning = _AgoraIconsData(0xf3d1, 'cloud_lightning');
   static const cloud_minus_bulk = _AgoraIconsData(0xf3d2, 'cloud_minus_bulk');
   static const cloud_minus_solid = _AgoraIconsData(0xf3d3, 'cloud_minus_solid');
-  static const cloud_minus_twotone = _AgoraIconsData(
-    0xf3d4,
-    'cloud_minus_twotone',
-  );
+  static const cloud_minus_twotone = _AgoraIconsData(0xf3d4, 'cloud_minus_twotone');
   static const cloud_minus = _AgoraIconsData(0xf3d5, 'cloud_minus');
   static const cloud_notif_bulk = _AgoraIconsData(0xf3d6, 'cloud_notif_bulk');
   static const cloud_notif_solid = _AgoraIconsData(0xf3d7, 'cloud_notif_solid');
-  static const cloud_notif_twotone = _AgoraIconsData(
-    0xf3d8,
-    'cloud_notif_twotone',
-  );
+  static const cloud_notif_twotone = _AgoraIconsData(0xf3d8, 'cloud_notif_twotone');
   static const cloud_notif = _AgoraIconsData(0xf3d9, 'cloud_notif');
   static const cloud_plus_bulk = _AgoraIconsData(0xf3da, 'cloud_plus_bulk');
   static const cloud_plus_solid = _AgoraIconsData(0xf3db, 'cloud_plus_solid');
-  static const cloud_plus_twotone = _AgoraIconsData(
-    0xf3dc,
-    'cloud_plus_twotone',
-  );
+  static const cloud_plus_twotone = _AgoraIconsData(0xf3dc, 'cloud_plus_twotone');
   static const cloud_plus = _AgoraIconsData(0xf3dd, 'cloud_plus');
   static const cloud_snow_bulk = _AgoraIconsData(0xf3de, 'cloud_snow_bulk');
   static const cloud_snow_solid = _AgoraIconsData(0xf3df, 'cloud_snow_solid');
-  static const cloud_snow_twotone = _AgoraIconsData(
-    0xf3e0,
-    'cloud_snow_twotone',
-  );
+  static const cloud_snow_twotone = _AgoraIconsData(0xf3e0, 'cloud_snow_twotone');
   static const cloud_snow = _AgoraIconsData(0xf3e1, 'cloud_snow');
   static const cloud_solid = _AgoraIconsData(0xf3e2, 'cloud_solid');
   static const cloud_sunny_bulk = _AgoraIconsData(0xf3e3, 'cloud_sunny_bulk');
   static const cloud_sunny_solid = _AgoraIconsData(0xf3e4, 'cloud_sunny_solid');
-  static const cloud_sunny_twotone = _AgoraIconsData(
-    0xf3e5,
-    'cloud_sunny_twotone',
-  );
+  static const cloud_sunny_twotone = _AgoraIconsData(0xf3e5, 'cloud_sunny_twotone');
   static const cloud_sunny = _AgoraIconsData(0xf3e6, 'cloud_sunny');
   static const cloud_twotone = _AgoraIconsData(0xf3e7, 'cloud_twotone');
   static const cloud_x_bulk = _AgoraIconsData(0xf3e8, 'cloud_x_bulk');
@@ -1638,14 +784,8 @@ class AgoraIcons {
   static const coin_alt_twotone = _AgoraIconsData(0xf3fb, 'coin_alt_twotone');
   static const coin_alt = _AgoraIconsData(0xf3fc, 'coin_alt');
   static const color_filter_bulk = _AgoraIconsData(0xf3fd, 'color_filter_bulk');
-  static const color_filter_solid = _AgoraIconsData(
-    0xf3fe,
-    'color_filter_solid',
-  );
-  static const color_filter_twotone = _AgoraIconsData(
-    0xf3ff,
-    'color_filter_twotone',
-  );
+  static const color_filter_solid = _AgoraIconsData(0xf3fe, 'color_filter_solid');
+  static const color_filter_twotone = _AgoraIconsData(0xf3ff, 'color_filter_twotone');
   static const color_filter = _AgoraIconsData(0xf400, 'color_filter');
   static const component_bulk = _AgoraIconsData(0xf401, 'component_bulk');
   static const component_solid = _AgoraIconsData(0xf402, 'component_solid');
@@ -1665,25 +805,16 @@ class AgoraIcons {
   static const copyright = _AgoraIconsData(0xf410, 'copyright');
   static const court_house_bulk = _AgoraIconsData(0xf411, 'court_house_bulk');
   static const court_house_solid = _AgoraIconsData(0xf412, 'court_house_solid');
-  static const court_house_twotone = _AgoraIconsData(
-    0xf413,
-    'court_house_twotone',
-  );
+  static const court_house_twotone = _AgoraIconsData(0xf413, 'court_house_twotone');
   static const court_house = _AgoraIconsData(0xf414, 'court_house');
   static const cpu_bulk = _AgoraIconsData(0xf415, 'cpu_bulk');
   static const cpu_charge_bulk = _AgoraIconsData(0xf416, 'cpu_charge_bulk');
   static const cpu_charge_solid = _AgoraIconsData(0xf417, 'cpu_charge_solid');
-  static const cpu_charge_twotone = _AgoraIconsData(
-    0xf418,
-    'cpu_charge_twotone',
-  );
+  static const cpu_charge_twotone = _AgoraIconsData(0xf418, 'cpu_charge_twotone');
   static const cpu_charge = _AgoraIconsData(0xf419, 'cpu_charge');
   static const cpu_setting_bulk = _AgoraIconsData(0xf41a, 'cpu_setting_bulk');
   static const cpu_setting_solid = _AgoraIconsData(0xf41b, 'cpu_setting_solid');
-  static const cpu_setting_twotone = _AgoraIconsData(
-    0xf41c,
-    'cpu_setting_twotone',
-  );
+  static const cpu_setting_twotone = _AgoraIconsData(0xf41c, 'cpu_setting_twotone');
   static const cpu_setting = _AgoraIconsData(0xf41d, 'cpu_setting');
   static const cpu_solid = _AgoraIconsData(0xf41e, 'cpu_solid');
   static const cpu_twotone = _AgoraIconsData(0xf41f, 'cpu_twotone');
@@ -1706,10 +837,7 @@ class AgoraIcons {
   static const cupcake = _AgoraIconsData(0xf430, 'cupcake');
   static const cursor_text_bulk = _AgoraIconsData(0xf431, 'cursor_text_bulk');
   static const cursor_text_solid = _AgoraIconsData(0xf432, 'cursor_text_solid');
-  static const cursor_text_twotone = _AgoraIconsData(
-    0xf433,
-    'cursor_text_twotone',
-  );
+  static const cursor_text_twotone = _AgoraIconsData(0xf433, 'cursor_text_twotone');
   static const cursor_text = _AgoraIconsData(0xf434, 'cursor_text');
   static const cycle_bulk = _AgoraIconsData(0xf435, 'cycle_bulk');
   static const cycle_solid = _AgoraIconsData(0xf436, 'cycle_solid');
@@ -1737,10 +865,7 @@ class AgoraIcons {
   static const discover = _AgoraIconsData(0xf44c, 'discover');
   static const diving_mask_bulk = _AgoraIconsData(0xf44d, 'diving_mask_bulk');
   static const diving_mask_solid = _AgoraIconsData(0xf44e, 'diving_mask_solid');
-  static const diving_mask_twotone = _AgoraIconsData(
-    0xf44f,
-    'diving_mask_twotone',
-  );
+  static const diving_mask_twotone = _AgoraIconsData(0xf44f, 'diving_mask_twotone');
   static const diving_mask = _AgoraIconsData(0xf450, 'diving_mask');
   static const dna_bulk = _AgoraIconsData(0xf451, 'dna_bulk');
   static const dna_solid = _AgoraIconsData(0xf452, 'dna_solid');
@@ -1756,36 +881,15 @@ class AgoraIcons {
   static const donut = _AgoraIconsData(0xf45c, 'donut');
   static const dots_circle_bulk = _AgoraIconsData(0xf45d, 'dots_circle_bulk');
   static const dots_circle_solid = _AgoraIconsData(0xf45e, 'dots_circle_solid');
-  static const dots_circle_twotone = _AgoraIconsData(
-    0xf45f,
-    'dots_circle_twotone',
-  );
+  static const dots_circle_twotone = _AgoraIconsData(0xf45f, 'dots_circle_twotone');
   static const dots_circle = _AgoraIconsData(0xf460, 'dots_circle');
-  static const dots_horizontal_bulk = _AgoraIconsData(
-    0xf461,
-    'dots_horizontal_bulk',
-  );
-  static const dots_horizontal_solid = _AgoraIconsData(
-    0xf462,
-    'dots_horizontal_solid',
-  );
-  static const dots_horizontal_twotone = _AgoraIconsData(
-    0xf463,
-    'dots_horizontal_twotone',
-  );
+  static const dots_horizontal_bulk = _AgoraIconsData(0xf461, 'dots_horizontal_bulk');
+  static const dots_horizontal_solid = _AgoraIconsData(0xf462, 'dots_horizontal_solid');
+  static const dots_horizontal_twotone = _AgoraIconsData(0xf463, 'dots_horizontal_twotone');
   static const dots_horizontal = _AgoraIconsData(0xf464, 'dots_horizontal');
-  static const dots_vertical_bulk = _AgoraIconsData(
-    0xf465,
-    'dots_vertical_bulk',
-  );
-  static const dots_vertical_solid = _AgoraIconsData(
-    0xf466,
-    'dots_vertical_solid',
-  );
-  static const dots_vertical_twotone = _AgoraIconsData(
-    0xf467,
-    'dots_vertical_twotone',
-  );
+  static const dots_vertical_bulk = _AgoraIconsData(0xf465, 'dots_vertical_bulk');
+  static const dots_vertical_solid = _AgoraIconsData(0xf466, 'dots_vertical_solid');
+  static const dots_vertical_twotone = _AgoraIconsData(0xf467, 'dots_vertical_twotone');
   static const dots_vertical = _AgoraIconsData(0xf468, 'dots_vertical');
   static const download_bulk = _AgoraIconsData(0xf469, 'download_bulk');
   static const download_solid = _AgoraIconsData(0xf46a, 'download_solid');
@@ -1793,24 +897,12 @@ class AgoraIcons {
   static const download = _AgoraIconsData(0xf46c, 'download');
   static const drive_cloud_bulk = _AgoraIconsData(0xf46d, 'drive_cloud_bulk');
   static const drive_cloud_solid = _AgoraIconsData(0xf46e, 'drive_cloud_solid');
-  static const drive_cloud_twotone = _AgoraIconsData(
-    0xf46f,
-    'drive_cloud_twotone',
-  );
+  static const drive_cloud_twotone = _AgoraIconsData(0xf46f, 'drive_cloud_twotone');
   static const drive_cloud = _AgoraIconsData(0xf470, 'drive_cloud');
   static const driver_bulk = _AgoraIconsData(0xf471, 'driver_bulk');
-  static const driver_refresh_bulk = _AgoraIconsData(
-    0xf472,
-    'driver_refresh_bulk',
-  );
-  static const driver_refresh_solid = _AgoraIconsData(
-    0xf473,
-    'driver_refresh_solid',
-  );
-  static const driver_refresh_twotone = _AgoraIconsData(
-    0xf474,
-    'driver_refresh_twotone',
-  );
+  static const driver_refresh_bulk = _AgoraIconsData(0xf472, 'driver_refresh_bulk');
+  static const driver_refresh_solid = _AgoraIconsData(0xf473, 'driver_refresh_solid');
+  static const driver_refresh_twotone = _AgoraIconsData(0xf474, 'driver_refresh_twotone');
   static const driver_refresh = _AgoraIconsData(0xf475, 'driver_refresh');
   static const driver_solid = _AgoraIconsData(0xf476, 'driver_solid');
   static const driver_twotone = _AgoraIconsData(0xf477, 'driver_twotone');
@@ -1831,10 +923,7 @@ class AgoraIcons {
   static const edit_solid = _AgoraIconsData(0xf486, 'edit_solid');
   static const edit_square_bulk = _AgoraIconsData(0xf487, 'edit_square_bulk');
   static const edit_square_solid = _AgoraIconsData(0xf488, 'edit_square_solid');
-  static const edit_square_twotone = _AgoraIconsData(
-    0xf489,
-    'edit_square_twotone',
-  );
+  static const edit_square_twotone = _AgoraIconsData(0xf489, 'edit_square_twotone');
   static const edit_square = _AgoraIconsData(0xf48a, 'edit_square');
   static const edit_twotone = _AgoraIconsData(0xf48b, 'edit_twotone');
   static const edit = _AgoraIconsData(0xf48c, 'edit');
@@ -1843,18 +932,9 @@ class AgoraIcons {
   static const emergency_twotone = _AgoraIconsData(0xf48f, 'emergency_twotone');
   static const emergency = _AgoraIconsData(0xf490, 'emergency');
   static const envelope_bulk = _AgoraIconsData(0xf491, 'envelope_bulk');
-  static const envelope_open_bulk = _AgoraIconsData(
-    0xf492,
-    'envelope_open_bulk',
-  );
-  static const envelope_open_solid = _AgoraIconsData(
-    0xf493,
-    'envelope_open_solid',
-  );
-  static const envelope_open_twotone = _AgoraIconsData(
-    0xf494,
-    'envelope_open_twotone',
-  );
+  static const envelope_open_bulk = _AgoraIconsData(0xf492, 'envelope_open_bulk');
+  static const envelope_open_solid = _AgoraIconsData(0xf493, 'envelope_open_solid');
+  static const envelope_open_twotone = _AgoraIconsData(0xf494, 'envelope_open_twotone');
   static const envelope_open = _AgoraIconsData(0xf495, 'envelope_open');
   static const envelope_solid = _AgoraIconsData(0xf496, 'envelope_solid');
   static const envelope_twotone = _AgoraIconsData(0xf497, 'envelope_twotone');
@@ -1863,39 +943,18 @@ class AgoraIcons {
   static const eraser_solid = _AgoraIconsData(0xf49a, 'eraser_solid');
   static const eraser_twotone = _AgoraIconsData(0xf49b, 'eraser_twotone');
   static const eraser = _AgoraIconsData(0xf49c, 'eraser');
-  static const exclude_selection_bulk = _AgoraIconsData(
-    0xf49d,
-    'exclude_selection_bulk',
-  );
-  static const exclude_selection_solid = _AgoraIconsData(
-    0xf49e,
-    'exclude_selection_solid',
-  );
-  static const exclude_selection_twotone = _AgoraIconsData(
-    0xf49f,
-    'exclude_selection_twotone',
-  );
+  static const exclude_selection_bulk = _AgoraIconsData(0xf49d, 'exclude_selection_bulk');
+  static const exclude_selection_solid = _AgoraIconsData(0xf49e, 'exclude_selection_solid');
+  static const exclude_selection_twotone = _AgoraIconsData(0xf49f, 'exclude_selection_twotone');
   static const exclude_selection = _AgoraIconsData(0xf4a0, 'exclude_selection');
-  static const external_drive_bulk = _AgoraIconsData(
-    0xf4a1,
-    'external_drive_bulk',
-  );
-  static const external_drive_solid = _AgoraIconsData(
-    0xf4a2,
-    'external_drive_solid',
-  );
-  static const external_drive_twotone = _AgoraIconsData(
-    0xf4a3,
-    'external_drive_twotone',
-  );
+  static const external_drive_bulk = _AgoraIconsData(0xf4a1, 'external_drive_bulk');
+  static const external_drive_solid = _AgoraIconsData(0xf4a2, 'external_drive_solid');
+  static const external_drive_twotone = _AgoraIconsData(0xf4a3, 'external_drive_twotone');
   static const external_drive = _AgoraIconsData(0xf4a4, 'external_drive');
   static const eye_bulk = _AgoraIconsData(0xf4a5, 'eye_bulk');
   static const eye_dropper_bulk = _AgoraIconsData(0xf4a6, 'eye_dropper_bulk');
   static const eye_dropper_solid = _AgoraIconsData(0xf4a7, 'eye_dropper_solid');
-  static const eye_dropper_twotone = _AgoraIconsData(
-    0xf4a8,
-    'eye_dropper_twotone',
-  );
+  static const eye_dropper_twotone = _AgoraIconsData(0xf4a8, 'eye_dropper_twotone');
   static const eye_dropper = _AgoraIconsData(0xf4a9, 'eye_dropper');
   static const eye_off_bulk = _AgoraIconsData(0xf4aa, 'eye_off_bulk');
   static const eye_off_solid = _AgoraIconsData(0xf4ab, 'eye_off_solid');
@@ -1911,10 +970,7 @@ class AgoraIcons {
   static const file_bulk = _AgoraIconsData(0xf4b5, 'file_bulk');
   static const file_check_bulk = _AgoraIconsData(0xf4b6, 'file_check_bulk');
   static const file_check_solid = _AgoraIconsData(0xf4b7, 'file_check_solid');
-  static const file_check_twotone = _AgoraIconsData(
-    0xf4b8,
-    'file_check_twotone',
-  );
+  static const file_check_twotone = _AgoraIconsData(0xf4b8, 'file_check_twotone');
   static const file_check = _AgoraIconsData(0xf4b9, 'file_check');
   static const file_code_bulk = _AgoraIconsData(0xf4ba, 'file_code_bulk');
   static const file_code_solid = _AgoraIconsData(0xf4bb, 'file_code_solid');
@@ -1928,45 +984,21 @@ class AgoraIcons {
   static const file_doc_solid = _AgoraIconsData(0xf4c3, 'file_doc_solid');
   static const file_doc_twotone = _AgoraIconsData(0xf4c4, 'file_doc_twotone');
   static const file_doc = _AgoraIconsData(0xf4c5, 'file_doc');
-  static const file_download_bulk = _AgoraIconsData(
-    0xf4c6,
-    'file_download_bulk',
-  );
-  static const file_download_solid = _AgoraIconsData(
-    0xf4c7,
-    'file_download_solid',
-  );
-  static const file_download_twotone = _AgoraIconsData(
-    0xf4c8,
-    'file_download_twotone',
-  );
+  static const file_download_bulk = _AgoraIconsData(0xf4c6, 'file_download_bulk');
+  static const file_download_solid = _AgoraIconsData(0xf4c7, 'file_download_solid');
+  static const file_download_twotone = _AgoraIconsData(0xf4c8, 'file_download_twotone');
   static const file_download = _AgoraIconsData(0xf4c9, 'file_download');
-  static const file_duplicate_bulk = _AgoraIconsData(
-    0xf4ca,
-    'file_duplicate_bulk',
-  );
-  static const file_duplicate_solid = _AgoraIconsData(
-    0xf4cb,
-    'file_duplicate_solid',
-  );
-  static const file_duplicate_twotone = _AgoraIconsData(
-    0xf4cc,
-    'file_duplicate_twotone',
-  );
+  static const file_duplicate_bulk = _AgoraIconsData(0xf4ca, 'file_duplicate_bulk');
+  static const file_duplicate_solid = _AgoraIconsData(0xf4cb, 'file_duplicate_solid');
+  static const file_duplicate_twotone = _AgoraIconsData(0xf4cc, 'file_duplicate_twotone');
   static const file_duplicate = _AgoraIconsData(0xf4cd, 'file_duplicate');
   static const file_export_bulk = _AgoraIconsData(0xf4ce, 'file_export_bulk');
   static const file_export_solid = _AgoraIconsData(0xf4cf, 'file_export_solid');
-  static const file_export_twotone = _AgoraIconsData(
-    0xf4d0,
-    'file_export_twotone',
-  );
+  static const file_export_twotone = _AgoraIconsData(0xf4d0, 'file_export_twotone');
   static const file_export = _AgoraIconsData(0xf4d1, 'file_export');
   static const file_import_bulk = _AgoraIconsData(0xf4d2, 'file_import_bulk');
   static const file_import_solid = _AgoraIconsData(0xf4d3, 'file_import_solid');
-  static const file_import_twotone = _AgoraIconsData(
-    0xf4d4,
-    'file_import_twotone',
-  );
+  static const file_import_twotone = _AgoraIconsData(0xf4d4, 'file_import_twotone');
   static const file_import = _AgoraIconsData(0xf4d5, 'file_import');
   static const file_jpg_bulk = _AgoraIconsData(0xf4d6, 'file_jpg_bulk');
   static const file_jpg_solid = _AgoraIconsData(0xf4d7, 'file_jpg_solid');
@@ -1974,10 +1006,7 @@ class AgoraIcons {
   static const file_jpg = _AgoraIconsData(0xf4d9, 'file_jpg');
   static const file_minus_bulk = _AgoraIconsData(0xf4da, 'file_minus_bulk');
   static const file_minus_solid = _AgoraIconsData(0xf4db, 'file_minus_solid');
-  static const file_minus_twotone = _AgoraIconsData(
-    0xf4dc,
-    'file_minus_twotone',
-  );
+  static const file_minus_twotone = _AgoraIconsData(0xf4dc, 'file_minus_twotone');
   static const file_minus = _AgoraIconsData(0xf4dd, 'file_minus');
   static const file_pdf_bulk = _AgoraIconsData(0xf4de, 'file_pdf_bulk');
   static const file_pdf_solid = _AgoraIconsData(0xf4df, 'file_pdf_solid');
@@ -1993,10 +1022,7 @@ class AgoraIcons {
   static const file_ppt = _AgoraIconsData(0xf4e9, 'file_ppt');
   static const file_search_bulk = _AgoraIconsData(0xf4ea, 'file_search_bulk');
   static const file_search_solid = _AgoraIconsData(0xf4eb, 'file_search_solid');
-  static const file_search_twotone = _AgoraIconsData(
-    0xf4ec,
-    'file_search_twotone',
-  );
+  static const file_search_twotone = _AgoraIconsData(0xf4ec, 'file_search_twotone');
   static const file_search = _AgoraIconsData(0xf4ed, 'file_search');
   static const file_solid = _AgoraIconsData(0xf4ee, 'file_solid');
   static const file_ts_bulk = _AgoraIconsData(0xf4ef, 'file_ts_bulk');
@@ -2010,10 +1036,7 @@ class AgoraIcons {
   static const file_twotone = _AgoraIconsData(0xf4f7, 'file_twotone');
   static const file_upload_bulk = _AgoraIconsData(0xf4f8, 'file_upload_bulk');
   static const file_upload_solid = _AgoraIconsData(0xf4f9, 'file_upload_solid');
-  static const file_upload_twotone = _AgoraIconsData(
-    0xf4fa,
-    'file_upload_twotone',
-  );
+  static const file_upload_twotone = _AgoraIconsData(0xf4fa, 'file_upload_twotone');
   static const file_upload = _AgoraIconsData(0xf4fb, 'file_upload');
   static const file_x_bulk = _AgoraIconsData(0xf4fc, 'file_x_bulk');
   static const file_x_solid = _AgoraIconsData(0xf4fd, 'file_x_solid');
@@ -2028,35 +1051,17 @@ class AgoraIcons {
   static const file_zip_twotone = _AgoraIconsData(0xf506, 'file_zip_twotone');
   static const file_zip = _AgoraIconsData(0xf507, 'file_zip');
   static const file = _AgoraIconsData(0xf508, 'file');
-  static const film_horizontal_bulk = _AgoraIconsData(
-    0xf509,
-    'film_horizontal_bulk',
-  );
-  static const film_horizontal_solid = _AgoraIconsData(
-    0xf50a,
-    'film_horizontal_solid',
-  );
-  static const film_horizontal_twotone = _AgoraIconsData(
-    0xf50b,
-    'film_horizontal_twotone',
-  );
+  static const film_horizontal_bulk = _AgoraIconsData(0xf509, 'film_horizontal_bulk');
+  static const film_horizontal_solid = _AgoraIconsData(0xf50a, 'film_horizontal_solid');
+  static const film_horizontal_twotone = _AgoraIconsData(0xf50b, 'film_horizontal_twotone');
   static const film_horizontal = _AgoraIconsData(0xf50c, 'film_horizontal');
   static const film_play_bulk = _AgoraIconsData(0xf50d, 'film_play_bulk');
   static const film_play_solid = _AgoraIconsData(0xf50e, 'film_play_solid');
   static const film_play_twotone = _AgoraIconsData(0xf50f, 'film_play_twotone');
   static const film_play = _AgoraIconsData(0xf510, 'film_play');
-  static const film_vertical_bulk = _AgoraIconsData(
-    0xf511,
-    'film_vertical_bulk',
-  );
-  static const film_vertical_solid = _AgoraIconsData(
-    0xf512,
-    'film_vertical_solid',
-  );
-  static const film_vertical_twotone = _AgoraIconsData(
-    0xf513,
-    'film_vertical_twotone',
-  );
+  static const film_vertical_bulk = _AgoraIconsData(0xf511, 'film_vertical_bulk');
+  static const film_vertical_solid = _AgoraIconsData(0xf512, 'film_vertical_solid');
+  static const film_vertical_twotone = _AgoraIconsData(0xf513, 'film_vertical_twotone');
   static const film_vertical = _AgoraIconsData(0xf514, 'film_vertical');
   static const filter_bulk = _AgoraIconsData(0xf515, 'filter_bulk');
   static const filter_solid = _AgoraIconsData(0xf516, 'filter_solid');
@@ -2064,27 +1069,15 @@ class AgoraIcons {
   static const filter = _AgoraIconsData(0xf518, 'filter');
   static const finger_scan_bulk = _AgoraIconsData(0xf519, 'finger_scan_bulk');
   static const finger_scan_solid = _AgoraIconsData(0xf51a, 'finger_scan_solid');
-  static const finger_scan_twotone = _AgoraIconsData(
-    0xf51b,
-    'finger_scan_twotone',
-  );
+  static const finger_scan_twotone = _AgoraIconsData(0xf51b, 'finger_scan_twotone');
   static const finger_scan = _AgoraIconsData(0xf51c, 'finger_scan');
   static const first_aid_bulk = _AgoraIconsData(0xf51d, 'first_aid_bulk');
   static const first_aid_solid = _AgoraIconsData(0xf51e, 'first_aid_solid');
   static const first_aid_twotone = _AgoraIconsData(0xf51f, 'first_aid_twotone');
   static const first_aid = _AgoraIconsData(0xf520, 'first_aid');
-  static const first_air_kit_bulk = _AgoraIconsData(
-    0xf521,
-    'first_air_kit_bulk',
-  );
-  static const first_air_kit_solid = _AgoraIconsData(
-    0xf522,
-    'first_air_kit_solid',
-  );
-  static const first_air_kit_twotone = _AgoraIconsData(
-    0xf523,
-    'first_air_kit_twotone',
-  );
+  static const first_air_kit_bulk = _AgoraIconsData(0xf521, 'first_air_kit_bulk');
+  static const first_air_kit_solid = _AgoraIconsData(0xf522, 'first_air_kit_solid');
+  static const first_air_kit_twotone = _AgoraIconsData(0xf523, 'first_air_kit_twotone');
   static const first_air_kit = _AgoraIconsData(0xf524, 'first_air_kit');
   static const flag_alt_bulk = _AgoraIconsData(0xf525, 'flag_alt_bulk');
   static const flag_alt_solid = _AgoraIconsData(0xf526, 'flag_alt_solid');
@@ -2108,87 +1101,42 @@ class AgoraIcons {
   static const flask = _AgoraIconsData(0xf538, 'flask');
   static const folder_add_bulk = _AgoraIconsData(0xf539, 'folder_add_bulk');
   static const folder_add_solid = _AgoraIconsData(0xf53a, 'folder_add_solid');
-  static const folder_add_twotone = _AgoraIconsData(
-    0xf53b,
-    'folder_add_twotone',
-  );
+  static const folder_add_twotone = _AgoraIconsData(0xf53b, 'folder_add_twotone');
   static const folder_add = _AgoraIconsData(0xf53c, 'folder_add');
   static const folder_bulk = _AgoraIconsData(0xf53d, 'folder_bulk');
   static const folder_cloud_bulk = _AgoraIconsData(0xf53e, 'folder_cloud_bulk');
-  static const folder_cloud_solid = _AgoraIconsData(
-    0xf53f,
-    'folder_cloud_solid',
-  );
-  static const folder_cloud_twotone = _AgoraIconsData(
-    0xf540,
-    'folder_cloud_twotone',
-  );
+  static const folder_cloud_solid = _AgoraIconsData(0xf53f, 'folder_cloud_solid');
+  static const folder_cloud_twotone = _AgoraIconsData(0xf540, 'folder_cloud_twotone');
   static const folder_cloud = _AgoraIconsData(0xf541, 'folder_cloud');
-  static const folder_connection_bulk = _AgoraIconsData(
-    0xf542,
-    'folder_connection_bulk',
-  );
-  static const folder_connection_solid = _AgoraIconsData(
-    0xf543,
-    'folder_connection_solid',
-  );
-  static const folder_connection_twotone = _AgoraIconsData(
-    0xf544,
-    'folder_connection_twotone',
-  );
+  static const folder_connection_bulk = _AgoraIconsData(0xf542, 'folder_connection_bulk');
+  static const folder_connection_solid = _AgoraIconsData(0xf543, 'folder_connection_solid');
+  static const folder_connection_twotone = _AgoraIconsData(0xf544, 'folder_connection_twotone');
   static const folder_connection = _AgoraIconsData(0xf545, 'folder_connection');
-  static const folder_favorit_bulk = _AgoraIconsData(
-    0xf546,
-    'folder_favorit_bulk',
-  );
-  static const folder_favorit_solid = _AgoraIconsData(
-    0xf547,
-    'folder_favorit_solid',
-  );
-  static const folder_favorit_twotone = _AgoraIconsData(
-    0xf548,
-    'folder_favorit_twotone',
-  );
+  static const folder_favorit_bulk = _AgoraIconsData(0xf546, 'folder_favorit_bulk');
+  static const folder_favorit_solid = _AgoraIconsData(0xf547, 'folder_favorit_solid');
+  static const folder_favorit_twotone = _AgoraIconsData(0xf548, 'folder_favorit_twotone');
   static const folder_favorit = _AgoraIconsData(0xf549, 'folder_favorit');
   static const folder_lock_bulk = _AgoraIconsData(0xf54a, 'folder_lock_bulk');
   static const folder_lock_solid = _AgoraIconsData(0xf54b, 'folder_lock_solid');
-  static const folder_lock_twotone = _AgoraIconsData(
-    0xf54c,
-    'folder_lock_twotone',
-  );
+  static const folder_lock_twotone = _AgoraIconsData(0xf54c, 'folder_lock_twotone');
   static const folder_lock = _AgoraIconsData(0xf54d, 'folder_lock');
   static const folder_minus_bulk = _AgoraIconsData(0xf54e, 'folder_minus_bulk');
-  static const folder_minus_solid = _AgoraIconsData(
-    0xf54f,
-    'folder_minus_solid',
-  );
-  static const folder_minus_twotone = _AgoraIconsData(
-    0xf550,
-    'folder_minus_twotone',
-  );
+  static const folder_minus_solid = _AgoraIconsData(0xf54f, 'folder_minus_solid');
+  static const folder_minus_twotone = _AgoraIconsData(0xf550, 'folder_minus_twotone');
   static const folder_minus = _AgoraIconsData(0xf551, 'folder_minus');
   static const folder_open_bulk = _AgoraIconsData(0xf552, 'folder_open_bulk');
   static const folder_open_solid = _AgoraIconsData(0xf553, 'folder_open_solid');
-  static const folder_open_twotone = _AgoraIconsData(
-    0xf554,
-    'folder_open_twotone',
-  );
+  static const folder_open_twotone = _AgoraIconsData(0xf554, 'folder_open_twotone');
   static const folder_open = _AgoraIconsData(0xf555, 'folder_open');
   static const folder_solid = _AgoraIconsData(0xf556, 'folder_solid');
   static const folder_star_bulk = _AgoraIconsData(0xf557, 'folder_star_bulk');
   static const folder_star_solid = _AgoraIconsData(0xf558, 'folder_star_solid');
-  static const folder_star_twotone = _AgoraIconsData(
-    0xf559,
-    'folder_star_twotone',
-  );
+  static const folder_star_twotone = _AgoraIconsData(0xf559, 'folder_star_twotone');
   static const folder_star = _AgoraIconsData(0xf55a, 'folder_star');
   static const folder_twotone = _AgoraIconsData(0xf55b, 'folder_twotone');
   static const folder_user_bulk = _AgoraIconsData(0xf55c, 'folder_user_bulk');
   static const folder_user_solid = _AgoraIconsData(0xf55d, 'folder_user_solid');
-  static const folder_user_twotone = _AgoraIconsData(
-    0xf55e,
-    'folder_user_twotone',
-  );
+  static const folder_user_twotone = _AgoraIconsData(0xf55e, 'folder_user_twotone');
   static const folder_user = _AgoraIconsData(0xf55f, 'folder_user');
   static const folder_x_bulk = _AgoraIconsData(0xf560, 'folder_x_bulk');
   static const folder_x_solid = _AgoraIconsData(0xf561, 'folder_x_solid');
@@ -2203,18 +1151,9 @@ class AgoraIcons {
   static const forbidden_solid = _AgoraIconsData(0xf56a, 'forbidden_solid');
   static const forbidden_twotone = _AgoraIconsData(0xf56b, 'forbidden_twotone');
   static const forbidden = _AgoraIconsData(0xf56c, 'forbidden');
-  static const forward_10sec_bulk = _AgoraIconsData(
-    0xf56d,
-    'forward_10sec_bulk',
-  );
-  static const forward_10sec_solid = _AgoraIconsData(
-    0xf56e,
-    'forward_10sec_solid',
-  );
-  static const forward_10sec_twotone = _AgoraIconsData(
-    0xf56f,
-    'forward_10sec_twotone',
-  );
+  static const forward_10sec_bulk = _AgoraIconsData(0xf56d, 'forward_10sec_bulk');
+  static const forward_10sec_solid = _AgoraIconsData(0xf56e, 'forward_10sec_solid');
+  static const forward_10sec_twotone = _AgoraIconsData(0xf56f, 'forward_10sec_twotone');
   static const forward_10sec = _AgoraIconsData(0xf570, 'forward_10sec');
   static const forward_bulk = _AgoraIconsData(0xf571, 'forward_bulk');
   static const forward_solid = _AgoraIconsData(0xf572, 'forward_solid');
@@ -2234,39 +1173,18 @@ class AgoraIcons {
   static const full_body = _AgoraIconsData(0xf580, 'full_body');
   static const gallery_add_bulk = _AgoraIconsData(0xf581, 'gallery_add_bulk');
   static const gallery_add_solid = _AgoraIconsData(0xf582, 'gallery_add_solid');
-  static const gallery_add_twotone = _AgoraIconsData(
-    0xf583,
-    'gallery_add_twotone',
-  );
+  static const gallery_add_twotone = _AgoraIconsData(0xf583, 'gallery_add_twotone');
   static const gallery_add = _AgoraIconsData(0xf584, 'gallery_add');
   static const gallery_bulk = _AgoraIconsData(0xf585, 'gallery_bulk');
-  static const gallery_download_bulk = _AgoraIconsData(
-    0xf586,
-    'gallery_download_bulk',
-  );
-  static const gallery_download_solid = _AgoraIconsData(
-    0xf587,
-    'gallery_download_solid',
-  );
-  static const gallery_download_twotone = _AgoraIconsData(
-    0xf588,
-    'gallery_download_twotone',
-  );
+  static const gallery_download_bulk = _AgoraIconsData(0xf586, 'gallery_download_bulk');
+  static const gallery_download_solid = _AgoraIconsData(0xf587, 'gallery_download_solid');
+  static const gallery_download_twotone = _AgoraIconsData(0xf588, 'gallery_download_twotone');
   static const gallery_download = _AgoraIconsData(0xf589, 'gallery_download');
   static const gallery_solid = _AgoraIconsData(0xf58a, 'gallery_solid');
   static const gallery_twotone = _AgoraIconsData(0xf58b, 'gallery_twotone');
-  static const gallery_upload_bulk = _AgoraIconsData(
-    0xf58c,
-    'gallery_upload_bulk',
-  );
-  static const gallery_upload_solid = _AgoraIconsData(
-    0xf58d,
-    'gallery_upload_solid',
-  );
-  static const gallery_upload_twotone = _AgoraIconsData(
-    0xf58e,
-    'gallery_upload_twotone',
-  );
+  static const gallery_upload_bulk = _AgoraIconsData(0xf58c, 'gallery_upload_bulk');
+  static const gallery_upload_solid = _AgoraIconsData(0xf58d, 'gallery_upload_solid');
+  static const gallery_upload_twotone = _AgoraIconsData(0xf58e, 'gallery_upload_twotone');
   static const gallery_upload = _AgoraIconsData(0xf58f, 'gallery_upload');
   static const gallery = _AgoraIconsData(0xf590, 'gallery');
   static const game_bulk = _AgoraIconsData(0xf591, 'game_bulk');
@@ -2279,17 +1197,11 @@ class AgoraIcons {
   static const gift = _AgoraIconsData(0xf598, 'gift');
   static const git_branch_bulk = _AgoraIconsData(0xf599, 'git_branch_bulk');
   static const git_branch_solid = _AgoraIconsData(0xf59a, 'git_branch_solid');
-  static const git_branch_twotone = _AgoraIconsData(
-    0xf59b,
-    'git_branch_twotone',
-  );
+  static const git_branch_twotone = _AgoraIconsData(0xf59b, 'git_branch_twotone');
   static const git_branch = _AgoraIconsData(0xf59c, 'git_branch');
   static const git_commit_bulk = _AgoraIconsData(0xf59d, 'git_commit_bulk');
   static const git_commit_solid = _AgoraIconsData(0xf59e, 'git_commit_solid');
-  static const git_commit_twotone = _AgoraIconsData(
-    0xf59f,
-    'git_commit_twotone',
-  );
+  static const git_commit_twotone = _AgoraIconsData(0xf59f, 'git_commit_twotone');
   static const git_commit = _AgoraIconsData(0xf5a0, 'git_commit');
   static const git_diff_bulk = _AgoraIconsData(0xf5a1, 'git_diff_bulk');
   static const git_diff_solid = _AgoraIconsData(0xf5a2, 'git_diff_solid');
@@ -2303,18 +1215,9 @@ class AgoraIcons {
   static const git_merge_solid = _AgoraIconsData(0xf5aa, 'git_merge_solid');
   static const git_merge_twotone = _AgoraIconsData(0xf5ab, 'git_merge_twotone');
   static const git_merge = _AgoraIconsData(0xf5ac, 'git_merge');
-  static const git_pull_request_bulk = _AgoraIconsData(
-    0xf5ad,
-    'git_pull_request_bulk',
-  );
-  static const git_pull_request_solid = _AgoraIconsData(
-    0xf5ae,
-    'git_pull_request_solid',
-  );
-  static const git_pull_request_twotone = _AgoraIconsData(
-    0xf5af,
-    'git_pull_request_twotone',
-  );
+  static const git_pull_request_bulk = _AgoraIconsData(0xf5ad, 'git_pull_request_bulk');
+  static const git_pull_request_solid = _AgoraIconsData(0xf5ae, 'git_pull_request_solid');
+  static const git_pull_request_twotone = _AgoraIconsData(0xf5af, 'git_pull_request_twotone');
   static const git_pull_request = _AgoraIconsData(0xf5b0, 'git_pull_request');
   static const globe_bulk = _AgoraIconsData(0xf5b1, 'globe_bulk');
   static const globe_solid = _AgoraIconsData(0xf5b2, 'globe_solid');
@@ -2324,18 +1227,9 @@ class AgoraIcons {
   static const gradient_solid = _AgoraIconsData(0xf5b6, 'gradient_solid');
   static const gradient_twotone = _AgoraIconsData(0xf5b7, 'gradient_twotone');
   static const gradient = _AgoraIconsData(0xf5b8, 'gradient');
-  static const grin_tongue_wink_bulk = _AgoraIconsData(
-    0xf5b9,
-    'grin_tongue_wink_bulk',
-  );
-  static const grin_tongue_wink_solid = _AgoraIconsData(
-    0xf5ba,
-    'grin_tongue_wink_solid',
-  );
-  static const grin_tongue_wink_twotone = _AgoraIconsData(
-    0xf5bb,
-    'grin_tongue_wink_twotone',
-  );
+  static const grin_tongue_wink_bulk = _AgoraIconsData(0xf5b9, 'grin_tongue_wink_bulk');
+  static const grin_tongue_wink_solid = _AgoraIconsData(0xf5ba, 'grin_tongue_wink_solid');
+  static const grin_tongue_wink_twotone = _AgoraIconsData(0xf5bb, 'grin_tongue_wink_twotone');
   static const grin_tongue_wink = _AgoraIconsData(0xf5bc, 'grin_tongue_wink');
   static const hand_grip_bulk = _AgoraIconsData(0xf5bd, 'hand_grip_bulk');
   static const hand_grip_solid = _AgoraIconsData(0xf5be, 'hand_grip_solid');
@@ -2345,48 +1239,21 @@ class AgoraIcons {
   static const hand_soap_solid = _AgoraIconsData(0xf5c2, 'hand_soap_solid');
   static const hand_soap_twotone = _AgoraIconsData(0xf5c3, 'hand_soap_twotone');
   static const hand_soap = _AgoraIconsData(0xf5c4, 'hand_soap');
-  static const hand_thumb_down_bulk = _AgoraIconsData(
-    0xf5c5,
-    'hand_thumb_down_bulk',
-  );
-  static const hand_thumb_down_solid = _AgoraIconsData(
-    0xf5c6,
-    'hand_thumb_down_solid',
-  );
-  static const hand_thumb_down_twotone = _AgoraIconsData(
-    0xf5c7,
-    'hand_thumb_down_twotone',
-  );
+  static const hand_thumb_down_bulk = _AgoraIconsData(0xf5c5, 'hand_thumb_down_bulk');
+  static const hand_thumb_down_solid = _AgoraIconsData(0xf5c6, 'hand_thumb_down_solid');
+  static const hand_thumb_down_twotone = _AgoraIconsData(0xf5c7, 'hand_thumb_down_twotone');
   static const hand_thumb_down = _AgoraIconsData(0xf5c8, 'hand_thumb_down');
-  static const hand_thumb_up_bulk = _AgoraIconsData(
-    0xf5c9,
-    'hand_thumb_up_bulk',
-  );
-  static const hand_thumb_up_solid = _AgoraIconsData(
-    0xf5ca,
-    'hand_thumb_up_solid',
-  );
-  static const hand_thumb_up_twotone = _AgoraIconsData(
-    0xf5cb,
-    'hand_thumb_up_twotone',
-  );
+  static const hand_thumb_up_bulk = _AgoraIconsData(0xf5c9, 'hand_thumb_up_bulk');
+  static const hand_thumb_up_solid = _AgoraIconsData(0xf5ca, 'hand_thumb_up_solid');
+  static const hand_thumb_up_twotone = _AgoraIconsData(0xf5cb, 'hand_thumb_up_twotone');
   static const hand_thumb_up = _AgoraIconsData(0xf5cc, 'hand_thumb_up');
   static const handshake_bulk = _AgoraIconsData(0xf5cd, 'handshake_bulk');
   static const handshake_solid = _AgoraIconsData(0xf5ce, 'handshake_solid');
   static const handshake_twotone = _AgoraIconsData(0xf5cf, 'handshake_twotone');
   static const handshake = _AgoraIconsData(0xf5d0, 'handshake');
-  static const headphone_alt_bulk = _AgoraIconsData(
-    0xf5d1,
-    'headphone_alt_bulk',
-  );
-  static const headphone_alt_solid = _AgoraIconsData(
-    0xf5d2,
-    'headphone_alt_solid',
-  );
-  static const headphone_alt_twotone = _AgoraIconsData(
-    0xf5d3,
-    'headphone_alt_twotone',
-  );
+  static const headphone_alt_bulk = _AgoraIconsData(0xf5d1, 'headphone_alt_bulk');
+  static const headphone_alt_solid = _AgoraIconsData(0xf5d2, 'headphone_alt_solid');
+  static const headphone_alt_twotone = _AgoraIconsData(0xf5d3, 'headphone_alt_twotone');
   static const headphone_alt = _AgoraIconsData(0xf5d4, 'headphone_alt');
   static const headphone_bulk = _AgoraIconsData(0xf5d5, 'headphone_bulk');
   static const headphone_solid = _AgoraIconsData(0xf5d6, 'headphone_solid');
@@ -2394,54 +1261,24 @@ class AgoraIcons {
   static const headphone = _AgoraIconsData(0xf5d8, 'headphone');
   static const heart_beat_bulk = _AgoraIconsData(0xf5d9, 'heart_beat_bulk');
   static const heart_beat_solid = _AgoraIconsData(0xf5da, 'heart_beat_solid');
-  static const heart_beat_twotone = _AgoraIconsData(
-    0xf5db,
-    'heart_beat_twotone',
-  );
+  static const heart_beat_twotone = _AgoraIconsData(0xf5db, 'heart_beat_twotone');
   static const heart_beat = _AgoraIconsData(0xf5dc, 'heart_beat');
   static const heart_bulk = _AgoraIconsData(0xf5dd, 'heart_bulk');
-  static const heart_rate_machine_bulk = _AgoraIconsData(
-    0xf5de,
-    'heart_rate_machine_bulk',
-  );
-  static const heart_rate_machine_solid = _AgoraIconsData(
-    0xf5df,
-    'heart_rate_machine_solid',
-  );
-  static const heart_rate_machine_twotone = _AgoraIconsData(
-    0xf5e0,
-    'heart_rate_machine_twotone',
-  );
-  static const heart_rate_machine = _AgoraIconsData(
-    0xf5e1,
-    'heart_rate_machine',
-  );
+  static const heart_rate_machine_bulk = _AgoraIconsData(0xf5de, 'heart_rate_machine_bulk');
+  static const heart_rate_machine_solid = _AgoraIconsData(0xf5df, 'heart_rate_machine_solid');
+  static const heart_rate_machine_twotone = _AgoraIconsData(0xf5e0, 'heart_rate_machine_twotone');
+  static const heart_rate_machine = _AgoraIconsData(0xf5e1, 'heart_rate_machine');
   static const heart_solid = _AgoraIconsData(0xf5e2, 'heart_solid');
   static const heart_twotone = _AgoraIconsData(0xf5e3, 'heart_twotone');
   static const heart = _AgoraIconsData(0xf5e4, 'heart');
   static const help_circle_bulk = _AgoraIconsData(0xf5e5, 'help_circle_bulk');
   static const help_circle_solid = _AgoraIconsData(0xf5e6, 'help_circle_solid');
-  static const help_circle_twotone = _AgoraIconsData(
-    0xf5e7,
-    'help_circle_twotone',
-  );
+  static const help_circle_twotone = _AgoraIconsData(0xf5e7, 'help_circle_twotone');
   static const help_circle = _AgoraIconsData(0xf5e8, 'help_circle');
-  static const highlighter_circle_bulk = _AgoraIconsData(
-    0xf5e9,
-    'highlighter_circle_bulk',
-  );
-  static const highlighter_circle_solid = _AgoraIconsData(
-    0xf5ea,
-    'highlighter_circle_solid',
-  );
-  static const highlighter_circle_twotone = _AgoraIconsData(
-    0xf5eb,
-    'highlighter_circle_twotone',
-  );
-  static const highlighter_circle = _AgoraIconsData(
-    0xf5ec,
-    'highlighter_circle',
-  );
+  static const highlighter_circle_bulk = _AgoraIconsData(0xf5e9, 'highlighter_circle_bulk');
+  static const highlighter_circle_solid = _AgoraIconsData(0xf5ea, 'highlighter_circle_solid');
+  static const highlighter_circle_twotone = _AgoraIconsData(0xf5eb, 'highlighter_circle_twotone');
+  static const highlighter_circle = _AgoraIconsData(0xf5ec, 'highlighter_circle');
   static const hiv_bulk = _AgoraIconsData(0xf5ed, 'hiv_bulk');
   static const hiv_solid = _AgoraIconsData(0xf5ee, 'hiv_solid');
   static const hiv_twotone = _AgoraIconsData(0xf5ef, 'hiv_twotone');
@@ -2478,57 +1315,30 @@ class AgoraIcons {
   static const ice_cream_solid = _AgoraIconsData(0xf60e, 'ice_cream_solid');
   static const ice_cream_twotone = _AgoraIconsData(0xf60f, 'ice_cream_twotone');
   static const ice_cream = _AgoraIconsData(0xf610, 'ice_cream');
-  static const inbox_arrow_down_bulk = _AgoraIconsData(
-    0xf611,
-    'inbox_arrow_down_bulk',
-  );
-  static const inbox_arrow_down_solid = _AgoraIconsData(
-    0xf612,
-    'inbox_arrow_down_solid',
-  );
-  static const inbox_arrow_down_twotone = _AgoraIconsData(
-    0xf613,
-    'inbox_arrow_down_twotone',
-  );
+  static const inbox_arrow_down_bulk = _AgoraIconsData(0xf611, 'inbox_arrow_down_bulk');
+  static const inbox_arrow_down_solid = _AgoraIconsData(0xf612, 'inbox_arrow_down_solid');
+  static const inbox_arrow_down_twotone = _AgoraIconsData(0xf613, 'inbox_arrow_down_twotone');
   static const inbox_arrow_down = _AgoraIconsData(0xf614, 'inbox_arrow_down');
   static const inbox_bulk = _AgoraIconsData(0xf615, 'inbox_bulk');
   static const inbox_solid = _AgoraIconsData(0xf616, 'inbox_solid');
   static const inbox_stack_bulk = _AgoraIconsData(0xf617, 'inbox_stack_bulk');
   static const inbox_stack_solid = _AgoraIconsData(0xf618, 'inbox_stack_solid');
-  static const inbox_stack_twotone = _AgoraIconsData(
-    0xf619,
-    'inbox_stack_twotone',
-  );
+  static const inbox_stack_twotone = _AgoraIconsData(0xf619, 'inbox_stack_twotone');
   static const inbox_stack = _AgoraIconsData(0xf61a, 'inbox_stack');
   static const inbox_twotone = _AgoraIconsData(0xf61b, 'inbox_twotone');
   static const inbox = _AgoraIconsData(0xf61c, 'inbox');
   static const info_circle_bulk = _AgoraIconsData(0xf61d, 'info_circle_bulk');
   static const info_circle_solid = _AgoraIconsData(0xf61e, 'info_circle_solid');
-  static const info_circle_twotone = _AgoraIconsData(
-    0xf61f,
-    'info_circle_twotone',
-  );
+  static const info_circle_twotone = _AgoraIconsData(0xf61f, 'info_circle_twotone');
   static const info_circle = _AgoraIconsData(0xf620, 'info_circle');
   static const insight_bulk = _AgoraIconsData(0xf621, 'insight_bulk');
   static const insight_solid = _AgoraIconsData(0xf622, 'insight_solid');
   static const insight_twotone = _AgoraIconsData(0xf623, 'insight_twotone');
   static const insight = _AgoraIconsData(0xf624, 'insight');
-  static const intersect_selection_bulk = _AgoraIconsData(
-    0xf625,
-    'intersect_selection_bulk',
-  );
-  static const intersect_selection_solid = _AgoraIconsData(
-    0xf626,
-    'intersect_selection_solid',
-  );
-  static const intersect_selection_twotone = _AgoraIconsData(
-    0xf627,
-    'intersect_selection_twotone',
-  );
-  static const intersect_selection = _AgoraIconsData(
-    0xf628,
-    'intersect_selection',
-  );
+  static const intersect_selection_bulk = _AgoraIconsData(0xf625, 'intersect_selection_bulk');
+  static const intersect_selection_solid = _AgoraIconsData(0xf626, 'intersect_selection_solid');
+  static const intersect_selection_twotone = _AgoraIconsData(0xf627, 'intersect_selection_twotone');
+  static const intersect_selection = _AgoraIconsData(0xf628, 'intersect_selection');
   static const juice_bulk = _AgoraIconsData(0xf629, 'juice_bulk');
   static const juice_solid = _AgoraIconsData(0xf62a, 'juice_solid');
   static const juice_twotone = _AgoraIconsData(0xf62b, 'juice_twotone');
@@ -2555,17 +1365,11 @@ class AgoraIcons {
   static const lift = _AgoraIconsData(0xf640, 'lift');
   static const light_bulb_bulk = _AgoraIconsData(0xf641, 'light_bulb_bulk');
   static const light_bulb_solid = _AgoraIconsData(0xf642, 'light_bulb_solid');
-  static const light_bulb_twotone = _AgoraIconsData(
-    0xf643,
-    'light_bulb_twotone',
-  );
+  static const light_bulb_twotone = _AgoraIconsData(0xf643, 'light_bulb_twotone');
   static const light_bulb = _AgoraIconsData(0xf644, 'light_bulb');
   static const link_alt_02_bulk = _AgoraIconsData(0xf645, 'link_alt_02_bulk');
   static const link_alt_02_solid = _AgoraIconsData(0xf646, 'link_alt_02_solid');
-  static const link_alt_02_twotone = _AgoraIconsData(
-    0xf647,
-    'link_alt_02_twotone',
-  );
+  static const link_alt_02_twotone = _AgoraIconsData(0xf647, 'link_alt_02_twotone');
   static const link_alt_02 = _AgoraIconsData(0xf648, 'link_alt_02');
   static const link_alt_bulk = _AgoraIconsData(0xf649, 'link_alt_bulk');
   static const link_alt_solid = _AgoraIconsData(0xf64a, 'link_alt_solid');
@@ -2573,93 +1377,51 @@ class AgoraIcons {
   static const link_alt = _AgoraIconsData(0xf64c, 'link_alt');
   static const link_broken_bulk = _AgoraIconsData(0xf64d, 'link_broken_bulk');
   static const link_broken_solid = _AgoraIconsData(0xf64e, 'link_broken_solid');
-  static const link_broken_twotone = _AgoraIconsData(
-    0xf64f,
-    'link_broken_twotone',
-  );
+  static const link_broken_twotone = _AgoraIconsData(0xf64f, 'link_broken_twotone');
   static const link_broken = _AgoraIconsData(0xf650, 'link_broken');
   static const link_bulk = _AgoraIconsData(0xf651, 'link_bulk');
-  static const link_external_bulk = _AgoraIconsData(
-    0xf652,
-    'link_external_bulk',
-  );
-  static const link_external_solid = _AgoraIconsData(
-    0xf653,
-    'link_external_solid',
-  );
-  static const link_external_twotone = _AgoraIconsData(
-    0xf654,
-    'link_external_twotone',
-  );
+  static const link_external_bulk = _AgoraIconsData(0xf652, 'link_external_bulk');
+  static const link_external_solid = _AgoraIconsData(0xf653, 'link_external_solid');
+  static const link_external_twotone = _AgoraIconsData(0xf654, 'link_external_twotone');
   static const link_external = _AgoraIconsData(0xf655, 'link_external');
   static const link_solid = _AgoraIconsData(0xf656, 'link_solid');
   static const link_twotone = _AgoraIconsData(0xf657, 'link_twotone');
   static const link = _AgoraIconsData(0xf658, 'link');
   static const list_bullet_bulk = _AgoraIconsData(0xf659, 'list_bullet_bulk');
   static const list_bullet_solid = _AgoraIconsData(0xf65a, 'list_bullet_solid');
-  static const list_bullet_twotone = _AgoraIconsData(
-    0xf65b,
-    'list_bullet_twotone',
-  );
+  static const list_bullet_twotone = _AgoraIconsData(0xf65b, 'list_bullet_twotone');
   static const list_bullet = _AgoraIconsData(0xf65c, 'list_bullet');
   static const list_check_bulk = _AgoraIconsData(0xf65d, 'list_check_bulk');
   static const list_check_solid = _AgoraIconsData(0xf65e, 'list_check_solid');
-  static const list_check_twotone = _AgoraIconsData(
-    0xf65f,
-    'list_check_twotone',
-  );
+  static const list_check_twotone = _AgoraIconsData(0xf65f, 'list_check_twotone');
   static const list_check = _AgoraIconsData(0xf660, 'list_check');
   static const list_dashes_bulk = _AgoraIconsData(0xf661, 'list_dashes_bulk');
   static const list_dashes_solid = _AgoraIconsData(0xf662, 'list_dashes_solid');
-  static const list_dashes_twotone = _AgoraIconsData(
-    0xf663,
-    'list_dashes_twotone',
-  );
+  static const list_dashes_twotone = _AgoraIconsData(0xf663, 'list_dashes_twotone');
   static const list_dashes = _AgoraIconsData(0xf664, 'list_dashes');
   static const list_number_bulk = _AgoraIconsData(0xf665, 'list_number_bulk');
   static const list_number_solid = _AgoraIconsData(0xf666, 'list_number_solid');
-  static const list_number_twotone = _AgoraIconsData(
-    0xf667,
-    'list_number_twotone',
-  );
+  static const list_number_twotone = _AgoraIconsData(0xf667, 'list_number_twotone');
   static const list_number = _AgoraIconsData(0xf668, 'list_number');
   static const list_plus_bulk = _AgoraIconsData(0xf669, 'list_plus_bulk');
   static const list_plus_solid = _AgoraIconsData(0xf66a, 'list_plus_solid');
   static const list_plus_twotone = _AgoraIconsData(0xf66b, 'list_plus_twotone');
   static const list_plus = _AgoraIconsData(0xf66c, 'list_plus');
   static const location_alt_bulk = _AgoraIconsData(0xf66d, 'location_alt_bulk');
-  static const location_alt_solid = _AgoraIconsData(
-    0xf66e,
-    'location_alt_solid',
-  );
-  static const location_alt_twotone = _AgoraIconsData(
-    0xf66f,
-    'location_alt_twotone',
-  );
+  static const location_alt_solid = _AgoraIconsData(0xf66e, 'location_alt_solid');
+  static const location_alt_twotone = _AgoraIconsData(0xf66f, 'location_alt_twotone');
   static const location_alt = _AgoraIconsData(0xf670, 'location_alt');
   static const location_bulk = _AgoraIconsData(0xf671, 'location_bulk');
-  static const location_mark_bulk = _AgoraIconsData(
-    0xf672,
-    'location_mark_bulk',
-  );
-  static const location_mark_solid = _AgoraIconsData(
-    0xf673,
-    'location_mark_solid',
-  );
-  static const location_mark_twotone = _AgoraIconsData(
-    0xf674,
-    'location_mark_twotone',
-  );
+  static const location_mark_bulk = _AgoraIconsData(0xf672, 'location_mark_bulk');
+  static const location_mark_solid = _AgoraIconsData(0xf673, 'location_mark_solid');
+  static const location_mark_twotone = _AgoraIconsData(0xf674, 'location_mark_twotone');
   static const location_mark = _AgoraIconsData(0xf675, 'location_mark');
   static const location_solid = _AgoraIconsData(0xf676, 'location_solid');
   static const location_twotone = _AgoraIconsData(0xf677, 'location_twotone');
   static const location = _AgoraIconsData(0xf678, 'location');
   static const lock_close_bulk = _AgoraIconsData(0xf679, 'lock_close_bulk');
   static const lock_close_solid = _AgoraIconsData(0xf67a, 'lock_close_solid');
-  static const lock_close_twotone = _AgoraIconsData(
-    0xf67b,
-    'lock_close_twotone',
-  );
+  static const lock_close_twotone = _AgoraIconsData(0xf67b, 'lock_close_twotone');
   static const lock_close = _AgoraIconsData(0xf67c, 'lock_close');
   static const lock_open_bulk = _AgoraIconsData(0xf67d, 'lock_open_bulk');
   static const lock_open_solid = _AgoraIconsData(0xf67e, 'lock_open_solid');
@@ -2687,10 +1449,7 @@ class AgoraIcons {
   static const luggage = _AgoraIconsData(0xf694, 'luggage');
   static const magic_wand_bulk = _AgoraIconsData(0xf695, 'magic_wand_bulk');
   static const magic_wand_solid = _AgoraIconsData(0xf696, 'magic_wand_solid');
-  static const magic_wand_twotone = _AgoraIconsData(
-    0xf697,
-    'magic_wand_twotone',
-  );
+  static const magic_wand_twotone = _AgoraIconsData(0xf697, 'magic_wand_twotone');
   static const magic_wand = _AgoraIconsData(0xf698, 'magic_wand');
   static const map_alt_bulk = _AgoraIconsData(0xf699, 'map_alt_bulk');
   static const map_alt_solid = _AgoraIconsData(0xf69a, 'map_alt_solid');
@@ -2712,62 +1471,26 @@ class AgoraIcons {
   static const medal_solid = _AgoraIconsData(0xf6aa, 'medal_solid');
   static const medal_star_bulk = _AgoraIconsData(0xf6ab, 'medal_star_bulk');
   static const medal_star_solid = _AgoraIconsData(0xf6ac, 'medal_star_solid');
-  static const medal_star_twotone = _AgoraIconsData(
-    0xf6ad,
-    'medal_star_twotone',
-  );
+  static const medal_star_twotone = _AgoraIconsData(0xf6ad, 'medal_star_twotone');
   static const medal_star = _AgoraIconsData(0xf6ae, 'medal_star');
   static const medal_twotone = _AgoraIconsData(0xf6af, 'medal_twotone');
   static const medal = _AgoraIconsData(0xf6b0, 'medal');
   static const medical_file_bulk = _AgoraIconsData(0xf6b1, 'medical_file_bulk');
-  static const medical_file_solid = _AgoraIconsData(
-    0xf6b2,
-    'medical_file_solid',
-  );
-  static const medical_file_twotone = _AgoraIconsData(
-    0xf6b3,
-    'medical_file_twotone',
-  );
+  static const medical_file_solid = _AgoraIconsData(0xf6b2, 'medical_file_solid');
+  static const medical_file_twotone = _AgoraIconsData(0xf6b3, 'medical_file_twotone');
   static const medical_file = _AgoraIconsData(0xf6b4, 'medical_file');
-  static const medical_record_bulk = _AgoraIconsData(
-    0xf6b5,
-    'medical_record_bulk',
-  );
-  static const medical_record_solid = _AgoraIconsData(
-    0xf6b6,
-    'medical_record_solid',
-  );
-  static const medical_record_twotone = _AgoraIconsData(
-    0xf6b7,
-    'medical_record_twotone',
-  );
+  static const medical_record_bulk = _AgoraIconsData(0xf6b5, 'medical_record_bulk');
+  static const medical_record_solid = _AgoraIconsData(0xf6b6, 'medical_record_solid');
+  static const medical_record_twotone = _AgoraIconsData(0xf6b7, 'medical_record_twotone');
   static const medical_record = _AgoraIconsData(0xf6b8, 'medical_record');
-  static const medical_report_bulk = _AgoraIconsData(
-    0xf6b9,
-    'medical_report_bulk',
-  );
-  static const medical_report_solid = _AgoraIconsData(
-    0xf6ba,
-    'medical_report_solid',
-  );
-  static const medical_report_twotone = _AgoraIconsData(
-    0xf6bb,
-    'medical_report_twotone',
-  );
+  static const medical_report_bulk = _AgoraIconsData(0xf6b9, 'medical_report_bulk');
+  static const medical_report_solid = _AgoraIconsData(0xf6ba, 'medical_report_solid');
+  static const medical_report_twotone = _AgoraIconsData(0xf6bb, 'medical_report_twotone');
   static const medical_report = _AgoraIconsData(0xf6bc, 'medical_report');
   static const meh_bulk = _AgoraIconsData(0xf6bd, 'meh_bulk');
-  static const meh_closed_eye_bulk = _AgoraIconsData(
-    0xf6be,
-    'meh_closed_eye_bulk',
-  );
-  static const meh_closed_eye_solid = _AgoraIconsData(
-    0xf6bf,
-    'meh_closed_eye_solid',
-  );
-  static const meh_closed_eye_twotone = _AgoraIconsData(
-    0xf6c0,
-    'meh_closed_eye_twotone',
-  );
+  static const meh_closed_eye_bulk = _AgoraIconsData(0xf6be, 'meh_closed_eye_bulk');
+  static const meh_closed_eye_solid = _AgoraIconsData(0xf6bf, 'meh_closed_eye_solid');
+  static const meh_closed_eye_twotone = _AgoraIconsData(0xf6c0, 'meh_closed_eye_twotone');
   static const meh_closed_eye = _AgoraIconsData(0xf6c1, 'meh_closed_eye');
   static const meh_solid = _AgoraIconsData(0xf6c2, 'meh_solid');
   static const meh_twotone = _AgoraIconsData(0xf6c3, 'meh_twotone');
@@ -2781,37 +1504,19 @@ class AgoraIcons {
   static const menu_twotone = _AgoraIconsData(0xf6cb, 'menu_twotone');
   static const menu = _AgoraIconsData(0xf6cc, 'menu');
   static const merchant_add_bulk = _AgoraIconsData(0xf6cd, 'merchant_add_bulk');
-  static const merchant_add_solid = _AgoraIconsData(
-    0xf6ce,
-    'merchant_add_solid',
-  );
-  static const merchant_add_twotone = _AgoraIconsData(
-    0xf6cf,
-    'merchant_add_twotone',
-  );
+  static const merchant_add_solid = _AgoraIconsData(0xf6ce, 'merchant_add_solid');
+  static const merchant_add_twotone = _AgoraIconsData(0xf6cf, 'merchant_add_twotone');
   static const merchant_add = _AgoraIconsData(0xf6d0, 'merchant_add');
   static const merchant_bulk = _AgoraIconsData(0xf6d1, 'merchant_bulk');
-  static const merchant_minus_bulk = _AgoraIconsData(
-    0xf6d2,
-    'merchant_minus_bulk',
-  );
-  static const merchant_minus_solid = _AgoraIconsData(
-    0xf6d3,
-    'merchant_minus_solid',
-  );
-  static const merchant_minus_twotone = _AgoraIconsData(
-    0xf6d4,
-    'merchant_minus_twotone',
-  );
+  static const merchant_minus_bulk = _AgoraIconsData(0xf6d2, 'merchant_minus_bulk');
+  static const merchant_minus_solid = _AgoraIconsData(0xf6d3, 'merchant_minus_solid');
+  static const merchant_minus_twotone = _AgoraIconsData(0xf6d4, 'merchant_minus_twotone');
   static const merchant_minus = _AgoraIconsData(0xf6d5, 'merchant_minus');
   static const merchant_solid = _AgoraIconsData(0xf6d6, 'merchant_solid');
   static const merchant_twotone = _AgoraIconsData(0xf6d7, 'merchant_twotone');
   static const merchant_x_bulk = _AgoraIconsData(0xf6d8, 'merchant_x_bulk');
   static const merchant_x_solid = _AgoraIconsData(0xf6d9, 'merchant_x_solid');
-  static const merchant_x_twotone = _AgoraIconsData(
-    0xf6da,
-    'merchant_x_twotone',
-  );
+  static const merchant_x_twotone = _AgoraIconsData(0xf6da, 'merchant_x_twotone');
   static const merchant_x = _AgoraIconsData(0xf6db, 'merchant_x');
   static const merchant = _AgoraIconsData(0xf6dc, 'merchant');
   static const mic_slash_bulk = _AgoraIconsData(0xf6dd, 'mic_slash_bulk');
@@ -2820,39 +1525,21 @@ class AgoraIcons {
   static const mic_slash = _AgoraIconsData(0xf6e0, 'mic_slash');
   static const microphone_bulk = _AgoraIconsData(0xf6e1, 'microphone_bulk');
   static const microphone_solid = _AgoraIconsData(0xf6e2, 'microphone_solid');
-  static const microphone_twotone = _AgoraIconsData(
-    0xf6e3,
-    'microphone_twotone',
-  );
+  static const microphone_twotone = _AgoraIconsData(0xf6e3, 'microphone_twotone');
   static const microphone = _AgoraIconsData(0xf6e4, 'microphone');
   static const microscope_bulk = _AgoraIconsData(0xf6e5, 'microscope_bulk');
   static const microscope_solid = _AgoraIconsData(0xf6e6, 'microscope_solid');
-  static const microscope_twotone = _AgoraIconsData(
-    0xf6e7,
-    'microscope_twotone',
-  );
+  static const microscope_twotone = _AgoraIconsData(0xf6e7, 'microscope_twotone');
   static const microscope = _AgoraIconsData(0xf6e8, 'microscope');
   static const minus_bulk = _AgoraIconsData(0xf6e9, 'minus_bulk');
   static const minus_circle_bulk = _AgoraIconsData(0xf6ea, 'minus_circle_bulk');
-  static const minus_circle_solid = _AgoraIconsData(
-    0xf6eb,
-    'minus_circle_solid',
-  );
-  static const minus_circle_twotone = _AgoraIconsData(
-    0xf6ec,
-    'minus_circle_twotone',
-  );
+  static const minus_circle_solid = _AgoraIconsData(0xf6eb, 'minus_circle_solid');
+  static const minus_circle_twotone = _AgoraIconsData(0xf6ec, 'minus_circle_twotone');
   static const minus_circle = _AgoraIconsData(0xf6ed, 'minus_circle');
   static const minus_solid = _AgoraIconsData(0xf6ee, 'minus_solid');
   static const minus_square_bulk = _AgoraIconsData(0xf6ef, 'minus_square_bulk');
-  static const minus_square_solid = _AgoraIconsData(
-    0xf6f0,
-    'minus_square_solid',
-  );
-  static const minus_square_twotone = _AgoraIconsData(
-    0xf6f1,
-    'minus_square_twotone',
-  );
+  static const minus_square_solid = _AgoraIconsData(0xf6f0, 'minus_square_solid');
+  static const minus_square_twotone = _AgoraIconsData(0xf6f1, 'minus_square_twotone');
   static const minus_square = _AgoraIconsData(0xf6f2, 'minus_square');
   static const minus_twotone = _AgoraIconsData(0xf6f3, 'minus_twotone');
   static const minus = _AgoraIconsData(0xf6f4, 'minus');
@@ -2865,88 +1552,37 @@ class AgoraIcons {
   static const money_add_twotone = _AgoraIconsData(0xf6fb, 'money_add_twotone');
   static const money_add = _AgoraIconsData(0xf6fc, 'money_add');
   static const money_bulk = _AgoraIconsData(0xf6fd, 'money_bulk');
-  static const money_forbidden_bulk = _AgoraIconsData(
-    0xf6fe,
-    'money_forbidden_bulk',
-  );
-  static const money_forbidden_solid = _AgoraIconsData(
-    0xf6ff,
-    'money_forbidden_solid',
-  );
-  static const money_forbidden_twotone = _AgoraIconsData(
-    0xf700,
-    'money_forbidden_twotone',
-  );
+  static const money_forbidden_bulk = _AgoraIconsData(0xf6fe, 'money_forbidden_bulk');
+  static const money_forbidden_solid = _AgoraIconsData(0xf6ff, 'money_forbidden_solid');
+  static const money_forbidden_twotone = _AgoraIconsData(0xf700, 'money_forbidden_twotone');
   static const money_forbidden = _AgoraIconsData(0xf701, 'money_forbidden');
   static const money_minus_bulk = _AgoraIconsData(0xf702, 'money_minus_bulk');
   static const money_minus_solid = _AgoraIconsData(0xf703, 'money_minus_solid');
-  static const money_minus_twotone = _AgoraIconsData(
-    0xf704,
-    'money_minus_twotone',
-  );
+  static const money_minus_twotone = _AgoraIconsData(0xf704, 'money_minus_twotone');
   static const money_minus = _AgoraIconsData(0xf705, 'money_minus');
-  static const money_receive_alt_bulk = _AgoraIconsData(
-    0xf706,
-    'money_receive_alt_bulk',
-  );
-  static const money_receive_alt_solid = _AgoraIconsData(
-    0xf707,
-    'money_receive_alt_solid',
-  );
-  static const money_receive_alt_twotone = _AgoraIconsData(
-    0xf708,
-    'money_receive_alt_twotone',
-  );
+  static const money_receive_alt_bulk = _AgoraIconsData(0xf706, 'money_receive_alt_bulk');
+  static const money_receive_alt_solid = _AgoraIconsData(0xf707, 'money_receive_alt_solid');
+  static const money_receive_alt_twotone = _AgoraIconsData(0xf708, 'money_receive_alt_twotone');
   static const money_receive_alt = _AgoraIconsData(0xf709, 'money_receive_alt');
-  static const money_receive_bulk = _AgoraIconsData(
-    0xf70a,
-    'money_receive_bulk',
-  );
-  static const money_receive_solid = _AgoraIconsData(
-    0xf70b,
-    'money_receive_solid',
-  );
-  static const money_receive_twotone = _AgoraIconsData(
-    0xf70c,
-    'money_receive_twotone',
-  );
+  static const money_receive_bulk = _AgoraIconsData(0xf70a, 'money_receive_bulk');
+  static const money_receive_solid = _AgoraIconsData(0xf70b, 'money_receive_solid');
+  static const money_receive_twotone = _AgoraIconsData(0xf70c, 'money_receive_twotone');
   static const money_receive = _AgoraIconsData(0xf70d, 'money_receive');
-  static const money_send_alt_bulk = _AgoraIconsData(
-    0xf70e,
-    'money_send_alt_bulk',
-  );
-  static const money_send_alt_solid = _AgoraIconsData(
-    0xf70f,
-    'money_send_alt_solid',
-  );
-  static const money_send_alt_twotone = _AgoraIconsData(
-    0xf710,
-    'money_send_alt_twotone',
-  );
+  static const money_send_alt_bulk = _AgoraIconsData(0xf70e, 'money_send_alt_bulk');
+  static const money_send_alt_solid = _AgoraIconsData(0xf70f, 'money_send_alt_solid');
+  static const money_send_alt_twotone = _AgoraIconsData(0xf710, 'money_send_alt_twotone');
   static const money_send_alt = _AgoraIconsData(0xf711, 'money_send_alt');
   static const money_send_bulk = _AgoraIconsData(0xf712, 'money_send_bulk');
   static const money_send_solid = _AgoraIconsData(0xf713, 'money_send_solid');
-  static const money_send_twotone = _AgoraIconsData(
-    0xf714,
-    'money_send_twotone',
-  );
+  static const money_send_twotone = _AgoraIconsData(0xf714, 'money_send_twotone');
   static const money_send = _AgoraIconsData(0xf715, 'money_send');
   static const money_solid = _AgoraIconsData(0xf716, 'money_solid');
   static const money_twotone = _AgoraIconsData(0xf717, 'money_twotone');
   static const money = _AgoraIconsData(0xf718, 'money');
   static const monitor_bulk = _AgoraIconsData(0xf719, 'monitor_bulk');
-  static const monitor_recorder_bulk = _AgoraIconsData(
-    0xf71a,
-    'monitor_recorder_bulk',
-  );
-  static const monitor_recorder_solid = _AgoraIconsData(
-    0xf71b,
-    'monitor_recorder_solid',
-  );
-  static const monitor_recorder_twotone = _AgoraIconsData(
-    0xf71c,
-    'monitor_recorder_twotone',
-  );
+  static const monitor_recorder_bulk = _AgoraIconsData(0xf71a, 'monitor_recorder_bulk');
+  static const monitor_recorder_solid = _AgoraIconsData(0xf71b, 'monitor_recorder_solid');
+  static const monitor_recorder_twotone = _AgoraIconsData(0xf71c, 'monitor_recorder_twotone');
   static const monitor_recorder = _AgoraIconsData(0xf71d, 'monitor_recorder');
   static const monitor_solid = _AgoraIconsData(0xf71e, 'monitor_solid');
   static const monitor_twotone = _AgoraIconsData(0xf71f, 'monitor_twotone');
@@ -2957,20 +1593,11 @@ class AgoraIcons {
   static const moon = _AgoraIconsData(0xf724, 'moon');
   static const motorcycle_bulk = _AgoraIconsData(0xf725, 'motorcycle_bulk');
   static const motorcycle_solid = _AgoraIconsData(0xf726, 'motorcycle_solid');
-  static const motorcycle_twotone = _AgoraIconsData(
-    0xf727,
-    'motorcycle_twotone',
-  );
+  static const motorcycle_twotone = _AgoraIconsData(0xf727, 'motorcycle_twotone');
   static const motorcycle = _AgoraIconsData(0xf728, 'motorcycle');
   static const mouse_alt_02_bulk = _AgoraIconsData(0xf729, 'mouse_alt_02_bulk');
-  static const mouse_alt_02_solid = _AgoraIconsData(
-    0xf72a,
-    'mouse_alt_02_solid',
-  );
-  static const mouse_alt_02_twotone = _AgoraIconsData(
-    0xf72b,
-    'mouse_alt_02_twotone',
-  );
+  static const mouse_alt_02_solid = _AgoraIconsData(0xf72a, 'mouse_alt_02_solid');
+  static const mouse_alt_02_twotone = _AgoraIconsData(0xf72b, 'mouse_alt_02_twotone');
   static const mouse_alt_02 = _AgoraIconsData(0xf72c, 'mouse_alt_02');
   static const mouse_alt_bulk = _AgoraIconsData(0xf72d, 'mouse_alt_bulk');
   static const mouse_alt_solid = _AgoraIconsData(0xf72e, 'mouse_alt_solid');
@@ -2980,41 +1607,17 @@ class AgoraIcons {
   static const mouse_solid = _AgoraIconsData(0xf732, 'mouse_solid');
   static const mouse_twotone = _AgoraIconsData(0xf733, 'mouse_twotone');
   static const mouse = _AgoraIconsData(0xf734, 'mouse');
-  static const music_dashbord_bulk = _AgoraIconsData(
-    0xf735,
-    'music_dashbord_bulk',
-  );
-  static const music_dashbord_solid = _AgoraIconsData(
-    0xf736,
-    'music_dashbord_solid',
-  );
-  static const music_dashbord_twotone = _AgoraIconsData(
-    0xf737,
-    'music_dashbord_twotone',
-  );
+  static const music_dashbord_bulk = _AgoraIconsData(0xf735, 'music_dashbord_bulk');
+  static const music_dashbord_solid = _AgoraIconsData(0xf736, 'music_dashbord_solid');
+  static const music_dashbord_twotone = _AgoraIconsData(0xf737, 'music_dashbord_twotone');
   static const music_dashbord = _AgoraIconsData(0xf738, 'music_dashbord');
   static const music_filter_bulk = _AgoraIconsData(0xf739, 'music_filter_bulk');
-  static const music_filter_solid = _AgoraIconsData(
-    0xf73a,
-    'music_filter_solid',
-  );
-  static const music_filter_twotone = _AgoraIconsData(
-    0xf73b,
-    'music_filter_twotone',
-  );
+  static const music_filter_solid = _AgoraIconsData(0xf73a, 'music_filter_solid');
+  static const music_filter_twotone = _AgoraIconsData(0xf73b, 'music_filter_twotone');
   static const music_filter = _AgoraIconsData(0xf73c, 'music_filter');
-  static const music_library_bulk = _AgoraIconsData(
-    0xf73d,
-    'music_library_bulk',
-  );
-  static const music_library_solid = _AgoraIconsData(
-    0xf73e,
-    'music_library_solid',
-  );
-  static const music_library_twotone = _AgoraIconsData(
-    0xf73f,
-    'music_library_twotone',
-  );
+  static const music_library_bulk = _AgoraIconsData(0xf73d, 'music_library_bulk');
+  static const music_library_solid = _AgoraIconsData(0xf73e, 'music_library_solid');
+  static const music_library_twotone = _AgoraIconsData(0xf73f, 'music_library_twotone');
   static const music_library = _AgoraIconsData(0xf740, 'music_library');
   static const nerd_bulk = _AgoraIconsData(0xf741, 'nerd_bulk');
   static const nerd_solid = _AgoraIconsData(0xf742, 'nerd_solid');
@@ -3038,48 +1641,21 @@ class AgoraIcons {
   static const package_2 = _AgoraIconsData(0xf754, 'package_2');
   static const package_add_bulk = _AgoraIconsData(0xf755, 'package_add_bulk');
   static const package_add_solid = _AgoraIconsData(0xf756, 'package_add_solid');
-  static const package_add_twotone = _AgoraIconsData(
-    0xf757,
-    'package_add_twotone',
-  );
+  static const package_add_twotone = _AgoraIconsData(0xf757, 'package_add_twotone');
   static const package_add = _AgoraIconsData(0xf758, 'package_add');
   static const package_bulk = _AgoraIconsData(0xf759, 'package_bulk');
-  static const package_check_bulk = _AgoraIconsData(
-    0xf75a,
-    'package_check_bulk',
-  );
-  static const package_check_solid = _AgoraIconsData(
-    0xf75b,
-    'package_check_solid',
-  );
-  static const package_check_twotone = _AgoraIconsData(
-    0xf75c,
-    'package_check_twotone',
-  );
+  static const package_check_bulk = _AgoraIconsData(0xf75a, 'package_check_bulk');
+  static const package_check_solid = _AgoraIconsData(0xf75b, 'package_check_solid');
+  static const package_check_twotone = _AgoraIconsData(0xf75c, 'package_check_twotone');
   static const package_check = _AgoraIconsData(0xf75d, 'package_check');
-  static const package_search_bulk = _AgoraIconsData(
-    0xf75e,
-    'package_search_bulk',
-  );
-  static const package_search_solid = _AgoraIconsData(
-    0xf75f,
-    'package_search_solid',
-  );
-  static const package_search_twotone = _AgoraIconsData(
-    0xf760,
-    'package_search_twotone',
-  );
+  static const package_search_bulk = _AgoraIconsData(0xf75e, 'package_search_bulk');
+  static const package_search_solid = _AgoraIconsData(0xf75f, 'package_search_solid');
+  static const package_search_twotone = _AgoraIconsData(0xf760, 'package_search_twotone');
   static const package_search = _AgoraIconsData(0xf761, 'package_search');
   static const package_solid = _AgoraIconsData(0xf762, 'package_solid');
   static const package_time_bulk = _AgoraIconsData(0xf763, 'package_time_bulk');
-  static const package_time_solid = _AgoraIconsData(
-    0xf764,
-    'package_time_solid',
-  );
-  static const package_time_twotone = _AgoraIconsData(
-    0xf765,
-    'package_time_twotone',
-  );
+  static const package_time_solid = _AgoraIconsData(0xf764, 'package_time_solid');
+  static const package_time_twotone = _AgoraIconsData(0xf765, 'package_time_twotone');
   static const package_time = _AgoraIconsData(0xf766, 'package_time');
   static const package_twotone = _AgoraIconsData(0xf767, 'package_twotone');
   static const package_x_bulk = _AgoraIconsData(0xf768, 'package_x_bulk');
@@ -3087,156 +1663,66 @@ class AgoraIcons {
   static const package_x_twotone = _AgoraIconsData(0xf76a, 'package_x_twotone');
   static const package_x = _AgoraIconsData(0xf76b, 'package_x');
   static const package = _AgoraIconsData(0xf76c, 'package');
-  static const paint_brush_broad_bulk = _AgoraIconsData(
-    0xf76d,
-    'paint_brush_broad_bulk',
-  );
-  static const paint_brush_broad_solid = _AgoraIconsData(
-    0xf76e,
-    'paint_brush_broad_solid',
-  );
-  static const paint_brush_broad_twotone = _AgoraIconsData(
-    0xf76f,
-    'paint_brush_broad_twotone',
-  );
+  static const paint_brush_broad_bulk = _AgoraIconsData(0xf76d, 'paint_brush_broad_bulk');
+  static const paint_brush_broad_solid = _AgoraIconsData(0xf76e, 'paint_brush_broad_solid');
+  static const paint_brush_broad_twotone = _AgoraIconsData(0xf76f, 'paint_brush_broad_twotone');
   static const paint_brush_broad = _AgoraIconsData(0xf770, 'paint_brush_broad');
-  static const paint_brush_household_bulk = _AgoraIconsData(
-    0xf771,
-    'paint_brush_household_bulk',
-  );
-  static const paint_brush_household_solid = _AgoraIconsData(
-    0xf772,
-    'paint_brush_household_solid',
-  );
-  static const paint_brush_household_twotone = _AgoraIconsData(
-    0xf773,
-    'paint_brush_household_twotone',
-  );
-  static const paint_brush_household = _AgoraIconsData(
-    0xf774,
-    'paint_brush_household',
-  );
+  static const paint_brush_household_bulk = _AgoraIconsData(0xf771, 'paint_brush_household_bulk');
+  static const paint_brush_household_solid = _AgoraIconsData(0xf772, 'paint_brush_household_solid');
+  static const paint_brush_household_twotone = _AgoraIconsData(0xf773, 'paint_brush_household_twotone');
+  static const paint_brush_household = _AgoraIconsData(0xf774, 'paint_brush_household');
   static const paint_bucket_bulk = _AgoraIconsData(0xf775, 'paint_bucket_bulk');
-  static const paint_bucket_circle_bulk = _AgoraIconsData(
-    0xf776,
-    'paint_bucket_circle_bulk',
-  );
-  static const paint_bucket_circle_solid = _AgoraIconsData(
-    0xf777,
-    'paint_bucket_circle_solid',
-  );
-  static const paint_bucket_circle_twotone = _AgoraIconsData(
-    0xf778,
-    'paint_bucket_circle_twotone',
-  );
-  static const paint_bucket_circle = _AgoraIconsData(
-    0xf779,
-    'paint_bucket_circle',
-  );
-  static const paint_bucket_solid = _AgoraIconsData(
-    0xf77a,
-    'paint_bucket_solid',
-  );
-  static const paint_bucket_twotone = _AgoraIconsData(
-    0xf77b,
-    'paint_bucket_twotone',
-  );
+  static const paint_bucket_circle_bulk = _AgoraIconsData(0xf776, 'paint_bucket_circle_bulk');
+  static const paint_bucket_circle_solid = _AgoraIconsData(0xf777, 'paint_bucket_circle_solid');
+  static const paint_bucket_circle_twotone = _AgoraIconsData(0xf778, 'paint_bucket_circle_twotone');
+  static const paint_bucket_circle = _AgoraIconsData(0xf779, 'paint_bucket_circle');
+  static const paint_bucket_solid = _AgoraIconsData(0xf77a, 'paint_bucket_solid');
+  static const paint_bucket_twotone = _AgoraIconsData(0xf77b, 'paint_bucket_twotone');
   static const paint_bucket = _AgoraIconsData(0xf77c, 'paint_bucket');
   static const paint_roller_bulk = _AgoraIconsData(0xf77d, 'paint_roller_bulk');
-  static const paint_roller_solid = _AgoraIconsData(
-    0xf77e,
-    'paint_roller_solid',
-  );
-  static const paint_roller_twotone = _AgoraIconsData(
-    0xf77f,
-    'paint_roller_twotone',
-  );
+  static const paint_roller_solid = _AgoraIconsData(0xf77e, 'paint_roller_solid');
+  static const paint_roller_twotone = _AgoraIconsData(0xf77f, 'paint_roller_twotone');
   static const paint_roller = _AgoraIconsData(0xf780, 'paint_roller');
   static const palette_bulk = _AgoraIconsData(0xf781, 'palette_bulk');
   static const palette_solid = _AgoraIconsData(0xf782, 'palette_solid');
   static const palette_twotone = _AgoraIconsData(0xf783, 'palette_twotone');
   static const palette = _AgoraIconsData(0xf784, 'palette');
-  static const paragraph_spacing_bulk = _AgoraIconsData(
-    0xf785,
-    'paragraph_spacing_bulk',
-  );
-  static const paragraph_spacing_solid = _AgoraIconsData(
-    0xf786,
-    'paragraph_spacing_solid',
-  );
-  static const paragraph_spacing_twotone = _AgoraIconsData(
-    0xf787,
-    'paragraph_spacing_twotone',
-  );
+  static const paragraph_spacing_bulk = _AgoraIconsData(0xf785, 'paragraph_spacing_bulk');
+  static const paragraph_spacing_solid = _AgoraIconsData(0xf786, 'paragraph_spacing_solid');
+  static const paragraph_spacing_twotone = _AgoraIconsData(0xf787, 'paragraph_spacing_twotone');
   static const paragraph_spacing = _AgoraIconsData(0xf788, 'paragraph_spacing');
   static const parking_bulk = _AgoraIconsData(0xf789, 'parking_bulk');
   static const parking_solid = _AgoraIconsData(0xf78a, 'parking_solid');
   static const parking_twotone = _AgoraIconsData(0xf78b, 'parking_twotone');
   static const parking = _AgoraIconsData(0xf78c, 'parking');
   static const pause_circle_bulk = _AgoraIconsData(0xf78d, 'pause_circle_bulk');
-  static const pause_circle_solid = _AgoraIconsData(
-    0xf78e,
-    'pause_circle_solid',
-  );
-  static const pause_circle_twotone = _AgoraIconsData(
-    0xf78f,
-    'pause_circle_twotone',
-  );
+  static const pause_circle_solid = _AgoraIconsData(0xf78e, 'pause_circle_solid');
+  static const pause_circle_twotone = _AgoraIconsData(0xf78f, 'pause_circle_twotone');
   static const pause_circle = _AgoraIconsData(0xf790, 'pause_circle');
   static const pen_tool_alt_bulk = _AgoraIconsData(0xf791, 'pen_tool_alt_bulk');
-  static const pen_tool_alt_solid = _AgoraIconsData(
-    0xf792,
-    'pen_tool_alt_solid',
-  );
-  static const pen_tool_alt_twotone = _AgoraIconsData(
-    0xf793,
-    'pen_tool_alt_twotone',
-  );
+  static const pen_tool_alt_solid = _AgoraIconsData(0xf792, 'pen_tool_alt_solid');
+  static const pen_tool_alt_twotone = _AgoraIconsData(0xf793, 'pen_tool_alt_twotone');
   static const pen_tool_alt = _AgoraIconsData(0xf794, 'pen_tool_alt');
   static const pen_tool_bulk = _AgoraIconsData(0xf795, 'pen_tool_bulk');
   static const pen_tool_solid = _AgoraIconsData(0xf796, 'pen_tool_solid');
   static const pen_tool_twotone = _AgoraIconsData(0xf797, 'pen_tool_twotone');
   static const pen_tool = _AgoraIconsData(0xf798, 'pen_tool');
   static const pencil_bulk = _AgoraIconsData(0xf799, 'pencil_bulk');
-  static const pencil_circle_bulk = _AgoraIconsData(
-    0xf79a,
-    'pencil_circle_bulk',
-  );
-  static const pencil_circle_solid = _AgoraIconsData(
-    0xf79b,
-    'pencil_circle_solid',
-  );
-  static const pencil_circle_twotone = _AgoraIconsData(
-    0xf79c,
-    'pencil_circle_twotone',
-  );
+  static const pencil_circle_bulk = _AgoraIconsData(0xf79a, 'pencil_circle_bulk');
+  static const pencil_circle_solid = _AgoraIconsData(0xf79b, 'pencil_circle_solid');
+  static const pencil_circle_twotone = _AgoraIconsData(0xf79c, 'pencil_circle_twotone');
   static const pencil_circle = _AgoraIconsData(0xf79d, 'pencil_circle');
   static const pencil_solid = _AgoraIconsData(0xf79e, 'pencil_solid');
   static const pencil_twotone = _AgoraIconsData(0xf79f, 'pencil_twotone');
   static const pencil = _AgoraIconsData(0xf7a0, 'pencil');
   static const perspective_bulk = _AgoraIconsData(0xf7a1, 'perspective_bulk');
   static const perspective_solid = _AgoraIconsData(0xf7a2, 'perspective_solid');
-  static const perspective_twotone = _AgoraIconsData(
-    0xf7a3,
-    'perspective_twotone',
-  );
+  static const perspective_twotone = _AgoraIconsData(0xf7a3, 'perspective_twotone');
   static const perspective = _AgoraIconsData(0xf7a4, 'perspective');
-  static const picture_in_picture_bulk = _AgoraIconsData(
-    0xf7a5,
-    'picture_in_picture_bulk',
-  );
-  static const picture_in_picture_solid = _AgoraIconsData(
-    0xf7a6,
-    'picture_in_picture_solid',
-  );
-  static const picture_in_picture_twotone = _AgoraIconsData(
-    0xf7a7,
-    'picture_in_picture_twotone',
-  );
-  static const picture_in_picture = _AgoraIconsData(
-    0xf7a8,
-    'picture_in_picture',
-  );
+  static const picture_in_picture_bulk = _AgoraIconsData(0xf7a5, 'picture_in_picture_bulk');
+  static const picture_in_picture_solid = _AgoraIconsData(0xf7a6, 'picture_in_picture_solid');
+  static const picture_in_picture_twotone = _AgoraIconsData(0xf7a7, 'picture_in_picture_twotone');
+  static const picture_in_picture = _AgoraIconsData(0xf7a8, 'picture_in_picture');
   static const pill_solid = _AgoraIconsData(0xf7a9, 'pill_solid');
   static const pill_twotone = _AgoraIconsData(0xf7aa, 'pill_twotone');
   static const pill = _AgoraIconsData(0xf7ab, 'pill');
@@ -3251,10 +1737,7 @@ class AgoraIcons {
   static const play_bulk = _AgoraIconsData(0xf7b4, 'play_bulk');
   static const play_circle_bulk = _AgoraIconsData(0xf7b5, 'play_circle_bulk');
   static const play_circle_solid = _AgoraIconsData(0xf7b6, 'play_circle_solid');
-  static const play_circle_twotone = _AgoraIconsData(
-    0xf7b7,
-    'play_circle_twotone',
-  );
+  static const play_circle_twotone = _AgoraIconsData(0xf7b7, 'play_circle_twotone');
   static const play_circle = _AgoraIconsData(0xf7b8, 'play_circle');
   static const play_solid = _AgoraIconsData(0xf7b9, 'play_solid');
   static const play_twotone = _AgoraIconsData(0xf7ba, 'play_twotone');
@@ -3262,18 +1745,12 @@ class AgoraIcons {
   static const plus_bulk = _AgoraIconsData(0xf7bc, 'plus_bulk');
   static const plus_circle_bulk = _AgoraIconsData(0xf7bd, 'plus_circle_bulk');
   static const plus_circle_solid = _AgoraIconsData(0xf7be, 'plus_circle_solid');
-  static const plus_circle_twotone = _AgoraIconsData(
-    0xf7bf,
-    'plus_circle_twotone',
-  );
+  static const plus_circle_twotone = _AgoraIconsData(0xf7bf, 'plus_circle_twotone');
   static const plus_circle = _AgoraIconsData(0xf7c0, 'plus_circle');
   static const plus_solid = _AgoraIconsData(0xf7c1, 'plus_solid');
   static const plus_square_bulk = _AgoraIconsData(0xf7c2, 'plus_square_bulk');
   static const plus_square_solid = _AgoraIconsData(0xf7c3, 'plus_square_solid');
-  static const plus_square_twotone = _AgoraIconsData(
-    0xf7c4,
-    'plus_square_twotone',
-  );
+  static const plus_square_twotone = _AgoraIconsData(0xf7c4, 'plus_square_twotone');
   static const plus_square = _AgoraIconsData(0xf7c5, 'plus_square');
   static const plus_twotone = _AgoraIconsData(0xf7c6, 'plus_twotone');
   static const plus = _AgoraIconsData(0xf7c7, 'plus');
@@ -3281,129 +1758,51 @@ class AgoraIcons {
   static const popcorn_solid = _AgoraIconsData(0xf7c9, 'popcorn_solid');
   static const popcorn_twotone = _AgoraIconsData(0xf7ca, 'popcorn_twotone');
   static const popcorn = _AgoraIconsData(0xf7cb, 'popcorn');
-  static const presentation_cart_bulk = _AgoraIconsData(
-    0xf7cc,
-    'presentation_cart_bulk',
-  );
-  static const presentation_cart_solid = _AgoraIconsData(
-    0xf7cd,
-    'presentation_cart_solid',
-  );
-  static const presentation_cart_twotone = _AgoraIconsData(
-    0xf7ce,
-    'presentation_cart_twotone',
-  );
+  static const presentation_cart_bulk = _AgoraIconsData(0xf7cc, 'presentation_cart_bulk');
+  static const presentation_cart_solid = _AgoraIconsData(0xf7cd, 'presentation_cart_solid');
+  static const presentation_cart_twotone = _AgoraIconsData(0xf7ce, 'presentation_cart_twotone');
   static const presentation_cart = _AgoraIconsData(0xf7cf, 'presentation_cart');
   static const previous_bulk = _AgoraIconsData(0xf7d0, 'previous_bulk');
   static const previous_solid = _AgoraIconsData(0xf7d1, 'previous_solid');
   static const previous_twotone = _AgoraIconsData(0xf7d2, 'previous_twotone');
   static const previous = _AgoraIconsData(0xf7d3, 'previous');
   static const printer_bulk = _AgoraIconsData(0xf7d4, 'printer_bulk');
-  static const printer_slash_bulk = _AgoraIconsData(
-    0xf7d5,
-    'printer_slash_bulk',
-  );
-  static const printer_slash_solid = _AgoraIconsData(
-    0xf7d6,
-    'printer_slash_solid',
-  );
-  static const printer_slash_twotone = _AgoraIconsData(
-    0xf7d7,
-    'printer_slash_twotone',
-  );
+  static const printer_slash_bulk = _AgoraIconsData(0xf7d5, 'printer_slash_bulk');
+  static const printer_slash_solid = _AgoraIconsData(0xf7d6, 'printer_slash_solid');
+  static const printer_slash_twotone = _AgoraIconsData(0xf7d7, 'printer_slash_twotone');
   static const printer_slash = _AgoraIconsData(0xf7d8, 'printer_slash');
   static const printer_solid = _AgoraIconsData(0xf7d9, 'printer_solid');
   static const printer_twotone = _AgoraIconsData(0xf7da, 'printer_twotone');
   static const printer = _AgoraIconsData(0xf7db, 'printer');
-  static const projector_screen_bulk = _AgoraIconsData(
-    0xf7dc,
-    'projector_screen_bulk',
-  );
-  static const projector_screen_chart_bulk = _AgoraIconsData(
-    0xf7dd,
-    'projector_screen_chart_bulk',
-  );
-  static const projector_screen_chart_solid = _AgoraIconsData(
-    0xf7de,
-    'projector_screen_chart_solid',
-  );
-  static const projector_screen_chart_twotone = _AgoraIconsData(
-    0xf7df,
-    'projector_screen_chart_twotone',
-  );
-  static const projector_screen_chart = _AgoraIconsData(
-    0xf7e0,
-    'projector_screen_chart',
-  );
-  static const projector_screen_solid = _AgoraIconsData(
-    0xf7e1,
-    'projector_screen_solid',
-  );
-  static const projector_screen_twotone = _AgoraIconsData(
-    0xf7e2,
-    'projector_screen_twotone',
-  );
+  static const projector_screen_bulk = _AgoraIconsData(0xf7dc, 'projector_screen_bulk');
+  static const projector_screen_chart_bulk = _AgoraIconsData(0xf7dd, 'projector_screen_chart_bulk');
+  static const projector_screen_chart_solid = _AgoraIconsData(0xf7de, 'projector_screen_chart_solid');
+  static const projector_screen_chart_twotone = _AgoraIconsData(0xf7df, 'projector_screen_chart_twotone');
+  static const projector_screen_chart = _AgoraIconsData(0xf7e0, 'projector_screen_chart');
+  static const projector_screen_solid = _AgoraIconsData(0xf7e1, 'projector_screen_solid');
+  static const projector_screen_twotone = _AgoraIconsData(0xf7e2, 'projector_screen_twotone');
   static const projector_screen = _AgoraIconsData(0xf7e3, 'projector_screen');
   static const quote_down_bulk = _AgoraIconsData(0xf7e4, 'quote_down_bulk');
-  static const quote_down_circle_bulk = _AgoraIconsData(
-    0xf7e5,
-    'quote_down_circle_bulk',
-  );
-  static const quote_down_circle_solid = _AgoraIconsData(
-    0xf7e6,
-    'quote_down_circle_solid',
-  );
-  static const quote_down_circle_twotone = _AgoraIconsData(
-    0xf7e7,
-    'quote_down_circle_twotone',
-  );
+  static const quote_down_circle_bulk = _AgoraIconsData(0xf7e5, 'quote_down_circle_bulk');
+  static const quote_down_circle_solid = _AgoraIconsData(0xf7e6, 'quote_down_circle_solid');
+  static const quote_down_circle_twotone = _AgoraIconsData(0xf7e7, 'quote_down_circle_twotone');
   static const quote_down_circle = _AgoraIconsData(0xf7e8, 'quote_down_circle');
   static const quote_down_solid = _AgoraIconsData(0xf7e9, 'quote_down_solid');
-  static const quote_down_square_bulk = _AgoraIconsData(
-    0xf7ea,
-    'quote_down_square_bulk',
-  );
-  static const quote_down_square_solid = _AgoraIconsData(
-    0xf7eb,
-    'quote_down_square_solid',
-  );
-  static const quote_down_square_twotone = _AgoraIconsData(
-    0xf7ec,
-    'quote_down_square_twotone',
-  );
+  static const quote_down_square_bulk = _AgoraIconsData(0xf7ea, 'quote_down_square_bulk');
+  static const quote_down_square_solid = _AgoraIconsData(0xf7eb, 'quote_down_square_solid');
+  static const quote_down_square_twotone = _AgoraIconsData(0xf7ec, 'quote_down_square_twotone');
   static const quote_down_square = _AgoraIconsData(0xf7ed, 'quote_down_square');
-  static const quote_down_twotone = _AgoraIconsData(
-    0xf7ee,
-    'quote_down_twotone',
-  );
+  static const quote_down_twotone = _AgoraIconsData(0xf7ee, 'quote_down_twotone');
   static const quote_down = _AgoraIconsData(0xf7ef, 'quote_down');
   static const quote_up_bulk = _AgoraIconsData(0xf7f0, 'quote_up_bulk');
-  static const quote_up_circle_bulk = _AgoraIconsData(
-    0xf7f1,
-    'quote_up_circle_bulk',
-  );
-  static const quote_up_circle_solid = _AgoraIconsData(
-    0xf7f2,
-    'quote_up_circle_solid',
-  );
-  static const quote_up_circle_twotone = _AgoraIconsData(
-    0xf7f3,
-    'quote_up_circle_twotone',
-  );
+  static const quote_up_circle_bulk = _AgoraIconsData(0xf7f1, 'quote_up_circle_bulk');
+  static const quote_up_circle_solid = _AgoraIconsData(0xf7f2, 'quote_up_circle_solid');
+  static const quote_up_circle_twotone = _AgoraIconsData(0xf7f3, 'quote_up_circle_twotone');
   static const quote_up_circle = _AgoraIconsData(0xf7f4, 'quote_up_circle');
   static const quote_up_solid = _AgoraIconsData(0xf7f5, 'quote_up_solid');
-  static const quote_up_square_bulk = _AgoraIconsData(
-    0xf7f6,
-    'quote_up_square_bulk',
-  );
-  static const quote_up_square_solid = _AgoraIconsData(
-    0xf7f7,
-    'quote_up_square_solid',
-  );
-  static const quote_up_square_twotone = _AgoraIconsData(
-    0xf7f8,
-    'quote_up_square_twotone',
-  );
+  static const quote_up_square_bulk = _AgoraIconsData(0xf7f6, 'quote_up_square_bulk');
+  static const quote_up_square_solid = _AgoraIconsData(0xf7f7, 'quote_up_square_solid');
+  static const quote_up_square_twotone = _AgoraIconsData(0xf7f8, 'quote_up_square_twotone');
   static const quote_up_square = _AgoraIconsData(0xf7f9, 'quote_up_square');
   static const quote_up_twotone = _AgoraIconsData(0xf7fa, 'quote_up_twotone');
   static const quote_up = _AgoraIconsData(0xf7fb, 'quote_up');
@@ -3424,62 +1823,32 @@ class AgoraIcons {
   static const receipt_twotone = _AgoraIconsData(0xf80a, 'receipt_twotone');
   static const receipt = _AgoraIconsData(0xf80b, 'receipt');
   static const repeate_bulk = _AgoraIconsData(0xf80c, 'repeate_bulk');
-  static const repeate_minus_bulk = _AgoraIconsData(
-    0xf80d,
-    'repeate_minus_bulk',
-  );
-  static const repeate_minus_solid = _AgoraIconsData(
-    0xf80e,
-    'repeate_minus_solid',
-  );
-  static const repeate_minus_twotone = _AgoraIconsData(
-    0xf80f,
-    'repeate_minus_twotone',
-  );
+  static const repeate_minus_bulk = _AgoraIconsData(0xf80d, 'repeate_minus_bulk');
+  static const repeate_minus_solid = _AgoraIconsData(0xf80e, 'repeate_minus_solid');
+  static const repeate_minus_twotone = _AgoraIconsData(0xf80f, 'repeate_minus_twotone');
   static const repeate_minus = _AgoraIconsData(0xf810, 'repeate_minus');
   static const repeate_one_bulk = _AgoraIconsData(0xf811, 'repeate_one_bulk');
   static const repeate_one_solid = _AgoraIconsData(0xf812, 'repeate_one_solid');
-  static const repeate_one_twotone = _AgoraIconsData(
-    0xf813,
-    'repeate_one_twotone',
-  );
+  static const repeate_one_twotone = _AgoraIconsData(0xf813, 'repeate_one_twotone');
   static const repeate_one = _AgoraIconsData(0xf814, 'repeate_one');
   static const repeate_solid = _AgoraIconsData(0xf815, 'repeate_solid');
   static const repeate_twotone = _AgoraIconsData(0xf816, 'repeate_twotone');
   static const repeate = _AgoraIconsData(0xf817, 'repeate');
   static const repositories_bulk = _AgoraIconsData(0xf818, 'repositories_bulk');
-  static const repositories_solid = _AgoraIconsData(
-    0xf819,
-    'repositories_solid',
-  );
-  static const repositories_twotone = _AgoraIconsData(
-    0xf81a,
-    'repositories_twotone',
-  );
+  static const repositories_solid = _AgoraIconsData(0xf819, 'repositories_solid');
+  static const repositories_twotone = _AgoraIconsData(0xf81a, 'repositories_twotone');
   static const repositories = _AgoraIconsData(0xf81b, 'repositories');
   static const restaurant_bulk = _AgoraIconsData(0xf81c, 'restaurant_bulk');
   static const restaurant_solid = _AgoraIconsData(0xf81d, 'restaurant_solid');
-  static const restaurant_twotone = _AgoraIconsData(
-    0xf81e,
-    'restaurant_twotone',
-  );
+  static const restaurant_twotone = _AgoraIconsData(0xf81e, 'restaurant_twotone');
   static const restaurant = _AgoraIconsData(0xf81f, 'restaurant');
   static const rotate_left_bulk = _AgoraIconsData(0xf820, 'rotate_left_bulk');
   static const rotate_left_solid = _AgoraIconsData(0xf821, 'rotate_left_solid');
-  static const rotate_left_twotone = _AgoraIconsData(
-    0xf822,
-    'rotate_left_twotone',
-  );
+  static const rotate_left_twotone = _AgoraIconsData(0xf822, 'rotate_left_twotone');
   static const rotate_left = _AgoraIconsData(0xf823, 'rotate_left');
   static const rotate_right_bulk = _AgoraIconsData(0xf824, 'rotate_right_bulk');
-  static const rotate_right_solid = _AgoraIconsData(
-    0xf825,
-    'rotate_right_solid',
-  );
-  static const rotate_right_twotone = _AgoraIconsData(
-    0xf826,
-    'rotate_right_twotone',
-  );
+  static const rotate_right_solid = _AgoraIconsData(0xf825, 'rotate_right_solid');
+  static const rotate_right_twotone = _AgoraIconsData(0xf826, 'rotate_right_twotone');
   static const rotate_right = _AgoraIconsData(0xf827, 'rotate_right');
   static const rule_bulk = _AgoraIconsData(0xf828, 'rule_bulk');
   static const rule_solid = _AgoraIconsData(0xf829, 'rule_solid');
@@ -3514,14 +1883,8 @@ class AgoraIcons {
   static const scale_twotone = _AgoraIconsData(0xf846, 'scale_twotone');
   static const scale = _AgoraIconsData(0xf847, 'scale');
   static const scan_qr_code_bulk = _AgoraIconsData(0xf848, 'scan_qr_code_bulk');
-  static const scan_qr_code_solid = _AgoraIconsData(
-    0xf849,
-    'scan_qr_code_solid',
-  );
-  static const scan_qr_code_twotone = _AgoraIconsData(
-    0xf84a,
-    'scan_qr_code_twotone',
-  );
+  static const scan_qr_code_solid = _AgoraIconsData(0xf849, 'scan_qr_code_solid');
+  static const scan_qr_code_twotone = _AgoraIconsData(0xf84a, 'scan_qr_code_twotone');
   static const scan_qr_code = _AgoraIconsData(0xf84b, 'scan_qr_code');
   static const scissors_bulk = _AgoraIconsData(0xf84c, 'scissors_bulk');
   static const scissors_solid = _AgoraIconsData(0xf84d, 'scissors_solid');
@@ -3529,112 +1892,40 @@ class AgoraIcons {
   static const scissors = _AgoraIconsData(0xf84f, 'scissors');
   static const screencast_bulk = _AgoraIconsData(0xf850, 'screencast_bulk');
   static const screencast_solid = _AgoraIconsData(0xf851, 'screencast_solid');
-  static const screencast_twotone = _AgoraIconsData(
-    0xf852,
-    'screencast_twotone',
-  );
+  static const screencast_twotone = _AgoraIconsData(0xf852, 'screencast_twotone');
   static const screencast = _AgoraIconsData(0xf853, 'screencast');
-  static const screening_mirror_bulk = _AgoraIconsData(
-    0xf854,
-    'screening_mirror_bulk',
-  );
-  static const screening_mirror_solid = _AgoraIconsData(
-    0xf855,
-    'screening_mirror_solid',
-  );
-  static const screening_mirror_twotone = _AgoraIconsData(
-    0xf856,
-    'screening_mirror_twotone',
-  );
+  static const screening_mirror_bulk = _AgoraIconsData(0xf854, 'screening_mirror_bulk');
+  static const screening_mirror_solid = _AgoraIconsData(0xf855, 'screening_mirror_solid');
+  static const screening_mirror_twotone = _AgoraIconsData(0xf856, 'screening_mirror_twotone');
   static const screening_mirror = _AgoraIconsData(0xf857, 'screening_mirror');
   static const search_bulk = _AgoraIconsData(0xf858, 'search_bulk');
   static const search_solid = _AgoraIconsData(0xf859, 'search_solid');
   static const search_twotone = _AgoraIconsData(0xf85a, 'search_twotone');
   static const search = _AgoraIconsData(0xf85b, 'search');
-  static const selection_all_bulk = _AgoraIconsData(
-    0xf85c,
-    'selection_all_bulk',
-  );
-  static const selection_all_solid = _AgoraIconsData(
-    0xf85d,
-    'selection_all_solid',
-  );
-  static const selection_all_twotone = _AgoraIconsData(
-    0xf85e,
-    'selection_all_twotone',
-  );
+  static const selection_all_bulk = _AgoraIconsData(0xf85c, 'selection_all_bulk');
+  static const selection_all_solid = _AgoraIconsData(0xf85d, 'selection_all_solid');
+  static const selection_all_twotone = _AgoraIconsData(0xf85e, 'selection_all_twotone');
   static const selection_all = _AgoraIconsData(0xf85f, 'selection_all');
-  static const selection_background_bulk = _AgoraIconsData(
-    0xf860,
-    'selection_background_bulk',
-  );
-  static const selection_background_solid = _AgoraIconsData(
-    0xf861,
-    'selection_background_solid',
-  );
-  static const selection_background_twotone = _AgoraIconsData(
-    0xf862,
-    'selection_background_twotone',
-  );
-  static const selection_background = _AgoraIconsData(
-    0xf863,
-    'selection_background',
-  );
+  static const selection_background_bulk = _AgoraIconsData(0xf860, 'selection_background_bulk');
+  static const selection_background_solid = _AgoraIconsData(0xf861, 'selection_background_solid');
+  static const selection_background_twotone = _AgoraIconsData(0xf862, 'selection_background_twotone');
+  static const selection_background = _AgoraIconsData(0xf863, 'selection_background');
   static const selection_bulk = _AgoraIconsData(0xf864, 'selection_bulk');
-  static const selection_foreground_bulk = _AgoraIconsData(
-    0xf865,
-    'selection_foreground_bulk',
-  );
-  static const selection_foreground_solid = _AgoraIconsData(
-    0xf866,
-    'selection_foreground_solid',
-  );
-  static const selection_foreground_twotone = _AgoraIconsData(
-    0xf867,
-    'selection_foreground_twotone',
-  );
-  static const selection_foreground = _AgoraIconsData(
-    0xf868,
-    'selection_foreground',
-  );
-  static const selection_inverse_bulk = _AgoraIconsData(
-    0xf869,
-    'selection_inverse_bulk',
-  );
-  static const selection_inverse_solid = _AgoraIconsData(
-    0xf86a,
-    'selection_inverse_solid',
-  );
-  static const selection_inverse_twotone = _AgoraIconsData(
-    0xf86b,
-    'selection_inverse_twotone',
-  );
+  static const selection_foreground_bulk = _AgoraIconsData(0xf865, 'selection_foreground_bulk');
+  static const selection_foreground_solid = _AgoraIconsData(0xf866, 'selection_foreground_solid');
+  static const selection_foreground_twotone = _AgoraIconsData(0xf867, 'selection_foreground_twotone');
+  static const selection_foreground = _AgoraIconsData(0xf868, 'selection_foreground');
+  static const selection_inverse_bulk = _AgoraIconsData(0xf869, 'selection_inverse_bulk');
+  static const selection_inverse_solid = _AgoraIconsData(0xf86a, 'selection_inverse_solid');
+  static const selection_inverse_twotone = _AgoraIconsData(0xf86b, 'selection_inverse_twotone');
   static const selection_inverse = _AgoraIconsData(0xf86c, 'selection_inverse');
-  static const selection_plus_bulk = _AgoraIconsData(
-    0xf86d,
-    'selection_plus_bulk',
-  );
-  static const selection_plus_solid = _AgoraIconsData(
-    0xf86e,
-    'selection_plus_solid',
-  );
-  static const selection_plus_twotone = _AgoraIconsData(
-    0xf86f,
-    'selection_plus_twotone',
-  );
+  static const selection_plus_bulk = _AgoraIconsData(0xf86d, 'selection_plus_bulk');
+  static const selection_plus_solid = _AgoraIconsData(0xf86e, 'selection_plus_solid');
+  static const selection_plus_twotone = _AgoraIconsData(0xf86f, 'selection_plus_twotone');
   static const selection_plus = _AgoraIconsData(0xf870, 'selection_plus');
-  static const selection_slash_bulk = _AgoraIconsData(
-    0xf871,
-    'selection_slash_bulk',
-  );
-  static const selection_slash_solid = _AgoraIconsData(
-    0xf872,
-    'selection_slash_solid',
-  );
-  static const selection_slash_twotone = _AgoraIconsData(
-    0xf873,
-    'selection_slash_twotone',
-  );
+  static const selection_slash_bulk = _AgoraIconsData(0xf871, 'selection_slash_bulk');
+  static const selection_slash_solid = _AgoraIconsData(0xf872, 'selection_slash_solid');
+  static const selection_slash_twotone = _AgoraIconsData(0xf873, 'selection_slash_twotone');
   static const selection_slash = _AgoraIconsData(0xf874, 'selection_slash');
   static const selection_solid = _AgoraIconsData(0xf875, 'selection_solid');
   static const selection_twotone = _AgoraIconsData(0xf876, 'selection_twotone');
@@ -3649,17 +1940,11 @@ class AgoraIcons {
   static const send = _AgoraIconsData(0xf87f, 'send');
   static const settings_01_bulk = _AgoraIconsData(0xf880, 'settings_01_bulk');
   static const settings_01_solid = _AgoraIconsData(0xf881, 'settings_01_solid');
-  static const settings_01_twotone = _AgoraIconsData(
-    0xf882,
-    'settings_01_twotone',
-  );
+  static const settings_01_twotone = _AgoraIconsData(0xf882, 'settings_01_twotone');
   static const settings_01 = _AgoraIconsData(0xf883, 'settings_01');
   static const settings_02_bulk = _AgoraIconsData(0xf884, 'settings_02_bulk');
   static const settings_02_solid = _AgoraIconsData(0xf885, 'settings_02_solid');
-  static const settings_02_twotone = _AgoraIconsData(
-    0xf886,
-    'settings_02_twotone',
-  );
+  static const settings_02_twotone = _AgoraIconsData(0xf886, 'settings_02_twotone');
   static const settings_02 = _AgoraIconsData(0xf887, 'settings_02');
   static const share_alt_bulk = _AgoraIconsData(0xf888, 'share_alt_bulk');
   static const share_alt_solid = _AgoraIconsData(0xf889, 'share_alt_solid');
@@ -3667,41 +1952,20 @@ class AgoraIcons {
   static const share_alt = _AgoraIconsData(0xf88b, 'share_alt');
   static const share_alt2_bulk = _AgoraIconsData(0xf88c, 'share_alt2_bulk');
   static const share_alt2_solid = _AgoraIconsData(0xf88d, 'share_alt2_solid');
-  static const share_alt2_twotone = _AgoraIconsData(
-    0xf88e,
-    'share_alt2_twotone',
-  );
+  static const share_alt2_twotone = _AgoraIconsData(0xf88e, 'share_alt2_twotone');
   static const share_alt2 = _AgoraIconsData(0xf88f, 'share_alt2');
   static const share_solid = _AgoraIconsData(0xf890, 'share_solid');
   static const share_twotone = _AgoraIconsData(0xf891, 'share_twotone');
   static const share = _AgoraIconsData(0xf892, 'share');
   static const shield_bulk = _AgoraIconsData(0xf893, 'shield_bulk');
   static const shield_check_bulk = _AgoraIconsData(0xf894, 'shield_check_bulk');
-  static const shield_check_solid = _AgoraIconsData(
-    0xf895,
-    'shield_check_solid',
-  );
-  static const shield_check_twotone = _AgoraIconsData(
-    0xf896,
-    'shield_check_twotone',
-  );
+  static const shield_check_solid = _AgoraIconsData(0xf895, 'shield_check_solid');
+  static const shield_check_twotone = _AgoraIconsData(0xf896, 'shield_check_twotone');
   static const shield_check = _AgoraIconsData(0xf897, 'shield_check');
-  static const shield_exclamation_bulk = _AgoraIconsData(
-    0xf898,
-    'shield_exclamation_bulk',
-  );
-  static const shield_exclamation_solid = _AgoraIconsData(
-    0xf899,
-    'shield_exclamation_solid',
-  );
-  static const shield_exclamation_twotone = _AgoraIconsData(
-    0xf89a,
-    'shield_exclamation_twotone',
-  );
-  static const shield_exclamation = _AgoraIconsData(
-    0xf89b,
-    'shield_exclamation',
-  );
+  static const shield_exclamation_bulk = _AgoraIconsData(0xf898, 'shield_exclamation_bulk');
+  static const shield_exclamation_solid = _AgoraIconsData(0xf899, 'shield_exclamation_solid');
+  static const shield_exclamation_twotone = _AgoraIconsData(0xf89a, 'shield_exclamation_twotone');
+  static const shield_exclamation = _AgoraIconsData(0xf89b, 'shield_exclamation');
   static const shield_solid = _AgoraIconsData(0xf89c, 'shield_solid');
   static const shield_twotone = _AgoraIconsData(0xf89d, 'shield_twotone');
   static const shield = _AgoraIconsData(0xf89e, 'shield');
@@ -3709,109 +1973,49 @@ class AgoraIcons {
   static const ship_solid = _AgoraIconsData(0xf8a0, 'ship_solid');
   static const ship_twotone = _AgoraIconsData(0xf8a1, 'ship_twotone');
   static const ship = _AgoraIconsData(0xf8a2, 'ship');
-  static const shipping_truck_bulk = _AgoraIconsData(
-    0xf8a3,
-    'shipping_truck_bulk',
-  );
-  static const shipping_truck_solid = _AgoraIconsData(
-    0xf8a4,
-    'shipping_truck_solid',
-  );
-  static const shipping_truck_twotone = _AgoraIconsData(
-    0xf8a5,
-    'shipping_truck_twotone',
-  );
+  static const shipping_truck_bulk = _AgoraIconsData(0xf8a3, 'shipping_truck_bulk');
+  static const shipping_truck_solid = _AgoraIconsData(0xf8a4, 'shipping_truck_solid');
+  static const shipping_truck_twotone = _AgoraIconsData(0xf8a5, 'shipping_truck_twotone');
   static const shipping_truck = _AgoraIconsData(0xf8a6, 'shipping_truck');
   static const shuffle_bulk = _AgoraIconsData(0xf8a7, 'shuffle_bulk');
   static const shuffle_solid = _AgoraIconsData(0xf8a8, 'shuffle_solid');
   static const shuffle_twotone = _AgoraIconsData(0xf8a9, 'shuffle_twotone');
   static const shuffle = _AgoraIconsData(0xf8aa, 'shuffle');
-  static const sidebar_bottom_bulk = _AgoraIconsData(
-    0xf8ab,
-    'sidebar_bottom_bulk',
-  );
-  static const sidebar_bottom_solid = _AgoraIconsData(
-    0xf8ac,
-    'sidebar_bottom_solid',
-  );
-  static const sidebar_bottom_twotone = _AgoraIconsData(
-    0xf8ad,
-    'sidebar_bottom_twotone',
-  );
+  static const sidebar_bottom_bulk = _AgoraIconsData(0xf8ab, 'sidebar_bottom_bulk');
+  static const sidebar_bottom_solid = _AgoraIconsData(0xf8ac, 'sidebar_bottom_solid');
+  static const sidebar_bottom_twotone = _AgoraIconsData(0xf8ad, 'sidebar_bottom_twotone');
   static const sidebar_bottom = _AgoraIconsData(0xf8ae, 'sidebar_bottom');
   static const sidebar_bulk = _AgoraIconsData(0xf8af, 'sidebar_bulk');
   static const sidebar_left_bulk = _AgoraIconsData(0xf8b0, 'sidebar_left_bulk');
-  static const sidebar_left_solid = _AgoraIconsData(
-    0xf8b1,
-    'sidebar_left_solid',
-  );
-  static const sidebar_left_twotone = _AgoraIconsData(
-    0xf8b2,
-    'sidebar_left_twotone',
-  );
+  static const sidebar_left_solid = _AgoraIconsData(0xf8b1, 'sidebar_left_solid');
+  static const sidebar_left_twotone = _AgoraIconsData(0xf8b2, 'sidebar_left_twotone');
   static const sidebar_left = _AgoraIconsData(0xf8b3, 'sidebar_left');
-  static const sidebar_right_bulk = _AgoraIconsData(
-    0xf8b4,
-    'sidebar_right_bulk',
-  );
-  static const sidebar_right_solid = _AgoraIconsData(
-    0xf8b5,
-    'sidebar_right_solid',
-  );
-  static const sidebar_right_twotone = _AgoraIconsData(
-    0xf8b6,
-    'sidebar_right_twotone',
-  );
+  static const sidebar_right_bulk = _AgoraIconsData(0xf8b4, 'sidebar_right_bulk');
+  static const sidebar_right_solid = _AgoraIconsData(0xf8b5, 'sidebar_right_solid');
+  static const sidebar_right_twotone = _AgoraIconsData(0xf8b6, 'sidebar_right_twotone');
   static const sidebar_right = _AgoraIconsData(0xf8b7, 'sidebar_right');
   static const sidebar_solid = _AgoraIconsData(0xf8b8, 'sidebar_solid');
   static const sidebar_top_bulk = _AgoraIconsData(0xf8b9, 'sidebar_top_bulk');
   static const sidebar_top_solid = _AgoraIconsData(0xf8ba, 'sidebar_top_solid');
-  static const sidebar_top_twotone = _AgoraIconsData(
-    0xf8bb,
-    'sidebar_top_twotone',
-  );
+  static const sidebar_top_twotone = _AgoraIconsData(0xf8bb, 'sidebar_top_twotone');
   static const sidebar_top = _AgoraIconsData(0xf8bc, 'sidebar_top');
   static const sidebar_twotone = _AgoraIconsData(0xf8bd, 'sidebar_twotone');
   static const sidebar = _AgoraIconsData(0xf8be, 'sidebar');
-  static const silent_squint_bulk = _AgoraIconsData(
-    0xf8bf,
-    'silent_squint_bulk',
-  );
-  static const silent_squint_solid = _AgoraIconsData(
-    0xf8c0,
-    'silent_squint_solid',
-  );
-  static const silent_squint_twotone = _AgoraIconsData(
-    0xf8c1,
-    'silent_squint_twotone',
-  );
+  static const silent_squint_bulk = _AgoraIconsData(0xf8bf, 'silent_squint_bulk');
+  static const silent_squint_solid = _AgoraIconsData(0xf8c0, 'silent_squint_solid');
+  static const silent_squint_twotone = _AgoraIconsData(0xf8c1, 'silent_squint_twotone');
   static const silent_squint = _AgoraIconsData(0xf8c2, 'silent_squint');
   static const sim_card_alt_bulk = _AgoraIconsData(0xf8c3, 'sim_card_alt_bulk');
-  static const sim_card_alt_solid = _AgoraIconsData(
-    0xf8c4,
-    'sim_card_alt_solid',
-  );
-  static const sim_card_alt_twotone = _AgoraIconsData(
-    0xf8c5,
-    'sim_card_alt_twotone',
-  );
+  static const sim_card_alt_solid = _AgoraIconsData(0xf8c4, 'sim_card_alt_solid');
+  static const sim_card_alt_twotone = _AgoraIconsData(0xf8c5, 'sim_card_alt_twotone');
   static const sim_card_alt = _AgoraIconsData(0xf8c6, 'sim_card_alt');
   static const sim_card_bulk = _AgoraIconsData(0xf8c7, 'sim_card_bulk');
   static const sim_card_solid = _AgoraIconsData(0xf8c8, 'sim_card_solid');
   static const sim_card_twotone = _AgoraIconsData(0xf8c9, 'sim_card_twotone');
   static const sim_card = _AgoraIconsData(0xf8ca, 'sim_card');
-  static const skipping_rope_bulk = _AgoraIconsData(
-    0xf8cb,
-    'skipping_rope_bulk',
-  );
-  static const skipping_rope_solid = _AgoraIconsData(
-    0xf8cc,
-    'skipping_rope_solid',
-  );
-  static const skipping_rope_twotone = _AgoraIconsData(
-    0xf8cd,
-    'skipping_rope_twotone',
-  );
+  static const skipping_rope_bulk = _AgoraIconsData(0xf8cb, 'skipping_rope_bulk');
+  static const skipping_rope_solid = _AgoraIconsData(0xf8cc, 'skipping_rope_solid');
+  static const skipping_rope_twotone = _AgoraIconsData(0xf8cd, 'skipping_rope_twotone');
   static const skipping_rope = _AgoraIconsData(0xf8ce, 'skipping_rope');
   static const sliders_bulk = _AgoraIconsData(0xf8cf, 'sliders_bulk');
   static const sliders_solid = _AgoraIconsData(0xf8d0, 'sliders_solid');
@@ -3823,52 +2027,28 @@ class AgoraIcons {
   static const smart_car = _AgoraIconsData(0xf8d6, 'smart_car');
   static const smile_beam_bulk = _AgoraIconsData(0xf8d7, 'smile_beam_bulk');
   static const smile_beam_solid = _AgoraIconsData(0xf8d8, 'smile_beam_solid');
-  static const smile_beam_twotone = _AgoraIconsData(
-    0xf8d9,
-    'smile_beam_twotone',
-  );
+  static const smile_beam_twotone = _AgoraIconsData(0xf8d9, 'smile_beam_twotone');
   static const smile_beam = _AgoraIconsData(0xf8da, 'smile_beam');
   static const smile_bulk = _AgoraIconsData(0xf8db, 'smile_bulk');
   static const smile_dizzy_bulk = _AgoraIconsData(0xf8dc, 'smile_dizzy_bulk');
   static const smile_dizzy_solid = _AgoraIconsData(0xf8dd, 'smile_dizzy_solid');
-  static const smile_dizzy_twotone = _AgoraIconsData(
-    0xf8de,
-    'smile_dizzy_twotone',
-  );
+  static const smile_dizzy_twotone = _AgoraIconsData(0xf8de, 'smile_dizzy_twotone');
   static const smile_dizzy = _AgoraIconsData(0xf8df, 'smile_dizzy');
   static const smile_solid = _AgoraIconsData(0xf8e0, 'smile_solid');
-  static const smile_squint_wink_alt_bulk = _AgoraIconsData(
-    0xf8e1,
-    'smile_squint_wink_alt_bulk',
-  );
-  static const smile_squint_wink_alt_solid = _AgoraIconsData(
-    0xf8e2,
-    'smile_squint_wink_alt_solid',
-  );
-  static const smile_squint_wink_alt_twotone = _AgoraIconsData(
-    0xf8e3,
-    'smile_squint_wink_alt_twotone',
-  );
-  static const smile_squint_wink_alt = _AgoraIconsData(
-    0xf8e4,
-    'smile_squint_wink_alt',
-  );
+  static const smile_squint_wink_alt_bulk = _AgoraIconsData(0xf8e1, 'smile_squint_wink_alt_bulk');
+  static const smile_squint_wink_alt_solid = _AgoraIconsData(0xf8e2, 'smile_squint_wink_alt_solid');
+  static const smile_squint_wink_alt_twotone = _AgoraIconsData(0xf8e3, 'smile_squint_wink_alt_twotone');
+  static const smile_squint_wink_alt = _AgoraIconsData(0xf8e4, 'smile_squint_wink_alt');
   static const smile_twotone = _AgoraIconsData(0xf8e5, 'smile_twotone');
   static const smile_wink_bulk = _AgoraIconsData(0xf8e6, 'smile_wink_bulk');
   static const smile_wink_solid = _AgoraIconsData(0xf8e7, 'smile_wink_solid');
-  static const smile_wink_twotone = _AgoraIconsData(
-    0xf8e8,
-    'smile_wink_twotone',
-  );
+  static const smile_wink_twotone = _AgoraIconsData(0xf8e8, 'smile_wink_twotone');
   static const smile_wink = _AgoraIconsData(0xf8e9, 'smile_wink');
   static const smile = _AgoraIconsData(0xf8ea, 'smile');
   static const smoke_bulk = _AgoraIconsData(0xf8eb, 'smoke_bulk');
   static const smoke_slash_bulk = _AgoraIconsData(0xf8ec, 'smoke_slash_bulk');
   static const smoke_slash_solid = _AgoraIconsData(0xf8ed, 'smoke_slash_solid');
-  static const smoke_slash_twotone = _AgoraIconsData(
-    0xf8ee,
-    'smoke_slash_twotone',
-  );
+  static const smoke_slash_twotone = _AgoraIconsData(0xf8ee, 'smoke_slash_twotone');
   static const smoke_slash = _AgoraIconsData(0xf8ef, 'smoke_slash');
   static const smoke_solid = _AgoraIconsData(0xf8f0, 'smoke_solid');
   static const smoke_twotone = _AgoraIconsData(0xf8f1, 'smoke_twotone');
@@ -3911,28 +2091,16 @@ class AgoraIcons {
   static const stars = _AgoraIconsData(0xf916, 'stars');
   static const stetoscope_bulk = _AgoraIconsData(0xf917, 'stetoscope_bulk');
   static const stetoscope_solid = _AgoraIconsData(0xf918, 'stetoscope_solid');
-  static const stetoscope_twotone = _AgoraIconsData(
-    0xf919,
-    'stetoscope_twotone',
-  );
+  static const stetoscope_twotone = _AgoraIconsData(0xf919, 'stetoscope_twotone');
   static const stetoscope = _AgoraIconsData(0xf91a, 'stetoscope');
   static const stomach_care_bulk = _AgoraIconsData(0xf91b, 'stomach_care_bulk');
-  static const stomach_care_solid = _AgoraIconsData(
-    0xf91c,
-    'stomach_care_solid',
-  );
-  static const stomach_care_twotone = _AgoraIconsData(
-    0xf91d,
-    'stomach_care_twotone',
-  );
+  static const stomach_care_solid = _AgoraIconsData(0xf91c, 'stomach_care_solid');
+  static const stomach_care_twotone = _AgoraIconsData(0xf91d, 'stomach_care_twotone');
   static const stomach_care = _AgoraIconsData(0xf91e, 'stomach_care');
   static const stop_bulk = _AgoraIconsData(0xf91f, 'stop_bulk');
   static const stop_circle_bulk = _AgoraIconsData(0xf920, 'stop_circle_bulk');
   static const stop_circle_solid = _AgoraIconsData(0xf921, 'stop_circle_solid');
-  static const stop_circle_twotone = _AgoraIconsData(
-    0xf922,
-    'stop_circle_twotone',
-  );
+  static const stop_circle_twotone = _AgoraIconsData(0xf922, 'stop_circle_twotone');
   static const stop_circle = _AgoraIconsData(0xf923, 'stop_circle');
   static const stop_solid = _AgoraIconsData(0xf924, 'stop_solid');
   static const stop_twotone = _AgoraIconsData(0xf925, 'stop_twotone');
@@ -3941,22 +2109,10 @@ class AgoraIcons {
   static const stopwatch_solid = _AgoraIconsData(0xf928, 'stopwatch_solid');
   static const stopwatch_twotone = _AgoraIconsData(0xf929, 'stopwatch_twotone');
   static const stopwatch = _AgoraIconsData(0xf92a, 'stopwatch');
-  static const subtract_selection_bulk = _AgoraIconsData(
-    0xf92b,
-    'subtract_selection_bulk',
-  );
-  static const subtract_selection_solid = _AgoraIconsData(
-    0xf92c,
-    'subtract_selection_solid',
-  );
-  static const subtract_selection_twotone = _AgoraIconsData(
-    0xf92d,
-    'subtract_selection_twotone',
-  );
-  static const subtract_selection = _AgoraIconsData(
-    0xf92e,
-    'subtract_selection',
-  );
+  static const subtract_selection_bulk = _AgoraIconsData(0xf92b, 'subtract_selection_bulk');
+  static const subtract_selection_solid = _AgoraIconsData(0xf92c, 'subtract_selection_solid');
+  static const subtract_selection_twotone = _AgoraIconsData(0xf92d, 'subtract_selection_twotone');
+  static const subtract_selection = _AgoraIconsData(0xf92e, 'subtract_selection');
   static const suitcase_bulk = _AgoraIconsData(0xf92f, 'suitcase_bulk');
   static const suitcase_solid = _AgoraIconsData(0xf930, 'suitcase_solid');
   static const suitcase_twotone = _AgoraIconsData(0xf931, 'suitcase_twotone');
@@ -3973,18 +2129,9 @@ class AgoraIcons {
   static const swatches_solid = _AgoraIconsData(0xf93c, 'swatches_solid');
   static const swatches_twotone = _AgoraIconsData(0xf93d, 'swatches_twotone');
   static const swatches = _AgoraIconsData(0xf93e, 'swatches');
-  static const swimming_pool_bulk = _AgoraIconsData(
-    0xf93f,
-    'swimming_pool_bulk',
-  );
-  static const swimming_pool_solid = _AgoraIconsData(
-    0xf940,
-    'swimming_pool_solid',
-  );
-  static const swimming_pool_twotone = _AgoraIconsData(
-    0xf941,
-    'swimming_pool_twotone',
-  );
+  static const swimming_pool_bulk = _AgoraIconsData(0xf93f, 'swimming_pool_bulk');
+  static const swimming_pool_solid = _AgoraIconsData(0xf940, 'swimming_pool_solid');
+  static const swimming_pool_twotone = _AgoraIconsData(0xf941, 'swimming_pool_twotone');
   static const swimming_pool = _AgoraIconsData(0xf942, 'swimming_pool');
   static const syringe_bulk = _AgoraIconsData(0xf943, 'syringe_bulk');
   static const syringe_solid = _AgoraIconsData(0xf944, 'syringe_solid');
@@ -4008,139 +2155,55 @@ class AgoraIcons {
   static const taxi = _AgoraIconsData(0xf956, 'taxi');
   static const television_bulk = _AgoraIconsData(0xf957, 'television_bulk');
   static const television_solid = _AgoraIconsData(0xf958, 'television_solid');
-  static const television_twotone = _AgoraIconsData(
-    0xf959,
-    'television_twotone',
-  );
+  static const television_twotone = _AgoraIconsData(0xf959, 'television_twotone');
   static const television = _AgoraIconsData(0xf95a, 'television');
   static const temperature_bulk = _AgoraIconsData(0xf95b, 'temperature_bulk');
   static const temperature_solid = _AgoraIconsData(0xf95c, 'temperature_solid');
-  static const temperature_twotone = _AgoraIconsData(
-    0xf95d,
-    'temperature_twotone',
-  );
+  static const temperature_twotone = _AgoraIconsData(0xf95d, 'temperature_twotone');
   static const temperature = _AgoraIconsData(0xf95e, 'temperature');
   static const tennis_ball_bulk = _AgoraIconsData(0xf95f, 'tennis_ball_bulk');
   static const tennis_ball_solid = _AgoraIconsData(0xf960, 'tennis_ball_solid');
-  static const tennis_ball_twotone = _AgoraIconsData(
-    0xf961,
-    'tennis_ball_twotone',
-  );
+  static const tennis_ball_twotone = _AgoraIconsData(0xf961, 'tennis_ball_twotone');
   static const tennis_ball = _AgoraIconsData(0xf962, 'tennis_ball');
   static const terminal_bulk = _AgoraIconsData(0xf963, 'terminal_bulk');
   static const terminal_solid = _AgoraIconsData(0xf964, 'terminal_solid');
   static const terminal_twotone = _AgoraIconsData(0xf965, 'terminal_twotone');
-  static const terminal_window_bulk = _AgoraIconsData(
-    0xf966,
-    'terminal_window_bulk',
-  );
-  static const terminal_window_solid = _AgoraIconsData(
-    0xf967,
-    'terminal_window_solid',
-  );
-  static const terminal_window_twotone = _AgoraIconsData(
-    0xf968,
-    'terminal_window_twotone',
-  );
+  static const terminal_window_bulk = _AgoraIconsData(0xf966, 'terminal_window_bulk');
+  static const terminal_window_solid = _AgoraIconsData(0xf967, 'terminal_window_solid');
+  static const terminal_window_twotone = _AgoraIconsData(0xf968, 'terminal_window_twotone');
   static const terminal_window = _AgoraIconsData(0xf969, 'terminal_window');
   static const terminal = _AgoraIconsData(0xf96a, 'terminal');
   static const test_tube_bulk = _AgoraIconsData(0xf96b, 'test_tube_bulk');
   static const test_tube_solid = _AgoraIconsData(0xf96c, 'test_tube_solid');
   static const test_tube_twotone = _AgoraIconsData(0xf96d, 'test_tube_twotone');
   static const test_tube = _AgoraIconsData(0xf96e, 'test_tube');
-  static const text_align_center_bulk = _AgoraIconsData(
-    0xf96f,
-    'text_align_center_bulk',
-  );
-  static const text_align_center_solid = _AgoraIconsData(
-    0xf970,
-    'text_align_center_solid',
-  );
-  static const text_align_center_twotone = _AgoraIconsData(
-    0xf971,
-    'text_align_center_twotone',
-  );
+  static const text_align_center_bulk = _AgoraIconsData(0xf96f, 'text_align_center_bulk');
+  static const text_align_center_solid = _AgoraIconsData(0xf970, 'text_align_center_solid');
+  static const text_align_center_twotone = _AgoraIconsData(0xf971, 'text_align_center_twotone');
   static const text_align_center = _AgoraIconsData(0xf972, 'text_align_center');
-  static const text_align_justify_center_bulk = _AgoraIconsData(
-    0xf973,
-    'text_align_justify_center_bulk',
-  );
-  static const text_align_justify_center_solid = _AgoraIconsData(
-    0xf974,
-    'text_align_justify_center_solid',
-  );
-  static const text_align_justify_center_twotone = _AgoraIconsData(
-    0xf975,
-    'text_align_justify_center_twotone',
-  );
-  static const text_align_justify_center = _AgoraIconsData(
-    0xf976,
-    'text_align_justify_center',
-  );
-  static const text_align_justify_left_bulk = _AgoraIconsData(
-    0xf977,
-    'text_align_justify_left_bulk',
-  );
-  static const text_align_justify_left_solid = _AgoraIconsData(
-    0xf978,
-    'text_align_justify_left_solid',
-  );
-  static const text_align_justify_left_twotone = _AgoraIconsData(
-    0xf979,
-    'text_align_justify_left_twotone',
-  );
-  static const text_align_justify_left = _AgoraIconsData(
-    0xf97a,
-    'text_align_justify_left',
-  );
-  static const text_align_justify_right_bulk = _AgoraIconsData(
-    0xf97b,
-    'text_align_justify_right_bulk',
-  );
-  static const text_align_justify_right_solid = _AgoraIconsData(
-    0xf97c,
-    'text_align_justify_right_solid',
-  );
-  static const text_align_justify_right_twotone = _AgoraIconsData(
-    0xf97d,
-    'text_align_justify_right_twotone',
-  );
-  static const text_align_justify_right = _AgoraIconsData(
-    0xf97e,
-    'text_align_justify_right',
-  );
-  static const text_align_left_bulk = _AgoraIconsData(
-    0xf97f,
-    'text_align_left_bulk',
-  );
-  static const text_align_left_solid = _AgoraIconsData(
-    0xf980,
-    'text_align_left_solid',
-  );
-  static const text_align_left_twotone = _AgoraIconsData(
-    0xf981,
-    'text_align_left_twotone',
-  );
+  static const text_align_justify_center_bulk = _AgoraIconsData(0xf973, 'text_align_justify_center_bulk');
+  static const text_align_justify_center_solid = _AgoraIconsData(0xf974, 'text_align_justify_center_solid');
+  static const text_align_justify_center_twotone = _AgoraIconsData(0xf975, 'text_align_justify_center_twotone');
+  static const text_align_justify_center = _AgoraIconsData(0xf976, 'text_align_justify_center');
+  static const text_align_justify_left_bulk = _AgoraIconsData(0xf977, 'text_align_justify_left_bulk');
+  static const text_align_justify_left_solid = _AgoraIconsData(0xf978, 'text_align_justify_left_solid');
+  static const text_align_justify_left_twotone = _AgoraIconsData(0xf979, 'text_align_justify_left_twotone');
+  static const text_align_justify_left = _AgoraIconsData(0xf97a, 'text_align_justify_left');
+  static const text_align_justify_right_bulk = _AgoraIconsData(0xf97b, 'text_align_justify_right_bulk');
+  static const text_align_justify_right_solid = _AgoraIconsData(0xf97c, 'text_align_justify_right_solid');
+  static const text_align_justify_right_twotone = _AgoraIconsData(0xf97d, 'text_align_justify_right_twotone');
+  static const text_align_justify_right = _AgoraIconsData(0xf97e, 'text_align_justify_right');
+  static const text_align_left_bulk = _AgoraIconsData(0xf97f, 'text_align_left_bulk');
+  static const text_align_left_solid = _AgoraIconsData(0xf980, 'text_align_left_solid');
+  static const text_align_left_twotone = _AgoraIconsData(0xf981, 'text_align_left_twotone');
   static const text_align_left = _AgoraIconsData(0xf982, 'text_align_left');
-  static const text_align_right_bulk = _AgoraIconsData(
-    0xf983,
-    'text_align_right_bulk',
-  );
-  static const text_align_right_solid = _AgoraIconsData(
-    0xf984,
-    'text_align_right_solid',
-  );
-  static const text_align_right_twotone = _AgoraIconsData(
-    0xf985,
-    'text_align_right_twotone',
-  );
+  static const text_align_right_bulk = _AgoraIconsData(0xf983, 'text_align_right_bulk');
+  static const text_align_right_solid = _AgoraIconsData(0xf984, 'text_align_right_solid');
+  static const text_align_right_twotone = _AgoraIconsData(0xf985, 'text_align_right_twotone');
   static const text_align_right = _AgoraIconsData(0xf986, 'text_align_right');
   static const text_block_bulk = _AgoraIconsData(0xf987, 'text_block_bulk');
   static const text_block_solid = _AgoraIconsData(0xf988, 'text_block_solid');
-  static const text_block_twotone = _AgoraIconsData(
-    0xf989,
-    'text_block_twotone',
-  );
+  static const text_block_twotone = _AgoraIconsData(0xf989, 'text_block_twotone');
   static const text_block = _AgoraIconsData(0xf98a, 'text_block');
   static const text_bold_bulk = _AgoraIconsData(0xf98b, 'text_bold_bulk');
   static const text_bold_solid = _AgoraIconsData(0xf98c, 'text_bold_solid');
@@ -4153,95 +2216,38 @@ class AgoraIcons {
   static const text_bulk = _AgoraIconsData(0xf993, 'text_bulk');
   static const text_indent_bulk = _AgoraIconsData(0xf994, 'text_indent_bulk');
   static const text_indent_solid = _AgoraIconsData(0xf995, 'text_indent_solid');
-  static const text_indent_twotone = _AgoraIconsData(
-    0xf996,
-    'text_indent_twotone',
-  );
+  static const text_indent_twotone = _AgoraIconsData(0xf996, 'text_indent_twotone');
   static const text_indent = _AgoraIconsData(0xf997, 'text_indent');
   static const text_italic_bulk = _AgoraIconsData(0xf998, 'text_italic_bulk');
   static const text_italic_solid = _AgoraIconsData(0xf999, 'text_italic_solid');
-  static const text_italic_twotone = _AgoraIconsData(
-    0xf99a,
-    'text_italic_twotone',
-  );
+  static const text_italic_twotone = _AgoraIconsData(0xf99a, 'text_italic_twotone');
   static const text_italic = _AgoraIconsData(0xf99b, 'text_italic');
   static const text_outdent_bulk = _AgoraIconsData(0xf99c, 'text_outdent_bulk');
-  static const text_outdent_solid = _AgoraIconsData(
-    0xf99d,
-    'text_outdent_solid',
-  );
-  static const text_outdent_twotone = _AgoraIconsData(
-    0xf99e,
-    'text_outdent_twotone',
-  );
+  static const text_outdent_solid = _AgoraIconsData(0xf99d, 'text_outdent_solid');
+  static const text_outdent_twotone = _AgoraIconsData(0xf99e, 'text_outdent_twotone');
   static const text_outdent = _AgoraIconsData(0xf99f, 'text_outdent');
-  static const text_small_caps_bulk = _AgoraIconsData(
-    0xf9a0,
-    'text_small_caps_bulk',
-  );
-  static const text_small_caps_solid = _AgoraIconsData(
-    0xf9a1,
-    'text_small_caps_solid',
-  );
-  static const text_small_caps_twotone = _AgoraIconsData(
-    0xf9a2,
-    'text_small_caps_twotone',
-  );
+  static const text_small_caps_bulk = _AgoraIconsData(0xf9a0, 'text_small_caps_bulk');
+  static const text_small_caps_solid = _AgoraIconsData(0xf9a1, 'text_small_caps_solid');
+  static const text_small_caps_twotone = _AgoraIconsData(0xf9a2, 'text_small_caps_twotone');
   static const text_small_caps = _AgoraIconsData(0xf9a3, 'text_small_caps');
   static const text_solid = _AgoraIconsData(0xf9a4, 'text_solid');
   static const text_twotone = _AgoraIconsData(0xf9a5, 'text_twotone');
-  static const text_underline_bulk = _AgoraIconsData(
-    0xf9a6,
-    'text_underline_bulk',
-  );
-  static const text_underline_solid = _AgoraIconsData(
-    0xf9a7,
-    'text_underline_solid',
-  );
-  static const text_underline_twotone = _AgoraIconsData(
-    0xf9a8,
-    'text_underline_twotone',
-  );
+  static const text_underline_bulk = _AgoraIconsData(0xf9a6, 'text_underline_bulk');
+  static const text_underline_solid = _AgoraIconsData(0xf9a7, 'text_underline_solid');
+  static const text_underline_twotone = _AgoraIconsData(0xf9a8, 'text_underline_twotone');
   static const text_underline = _AgoraIconsData(0xf9a9, 'text_underline');
   static const text = _AgoraIconsData(0xf9aa, 'text');
-  static const three_d_cube_scan_bulk = _AgoraIconsData(
-    0xf9ab,
-    'three_d_cube_scan_bulk',
-  );
-  static const three_d_cube_scan_solid = _AgoraIconsData(
-    0xf9ac,
-    'three_d_cube_scan_solid',
-  );
-  static const three_d_cube_scan_twotone = _AgoraIconsData(
-    0xf9ad,
-    'three_d_cube_scan_twotone',
-  );
+  static const three_d_cube_scan_bulk = _AgoraIconsData(0xf9ab, 'three_d_cube_scan_bulk');
+  static const three_d_cube_scan_solid = _AgoraIconsData(0xf9ac, 'three_d_cube_scan_solid');
+  static const three_d_cube_scan_twotone = _AgoraIconsData(0xf9ad, 'three_d_cube_scan_twotone');
   static const three_d_cube_scan = _AgoraIconsData(0xf9ae, 'three_d_cube_scan');
-  static const three_d_rotate_bulk = _AgoraIconsData(
-    0xf9af,
-    'three_d_rotate_bulk',
-  );
-  static const three_d_rotate_solid = _AgoraIconsData(
-    0xf9b0,
-    'three_d_rotate_solid',
-  );
-  static const three_d_rotate_twotone = _AgoraIconsData(
-    0xf9b1,
-    'three_d_rotate_twotone',
-  );
+  static const three_d_rotate_bulk = _AgoraIconsData(0xf9af, 'three_d_rotate_bulk');
+  static const three_d_rotate_solid = _AgoraIconsData(0xf9b0, 'three_d_rotate_solid');
+  static const three_d_rotate_twotone = _AgoraIconsData(0xf9b1, 'three_d_rotate_twotone');
   static const three_d_rotate = _AgoraIconsData(0xf9b2, 'three_d_rotate');
-  static const three_d_square_bulk = _AgoraIconsData(
-    0xf9b3,
-    'three_d_square_bulk',
-  );
-  static const three_d_square_solid = _AgoraIconsData(
-    0xf9b4,
-    'three_d_square_solid',
-  );
-  static const three_d_square_twotone = _AgoraIconsData(
-    0xf9b5,
-    'three_d_square_twotone',
-  );
+  static const three_d_square_bulk = _AgoraIconsData(0xf9b3, 'three_d_square_bulk');
+  static const three_d_square_solid = _AgoraIconsData(0xf9b4, 'three_d_square_solid');
+  static const three_d_square_twotone = _AgoraIconsData(0xf9b5, 'three_d_square_twotone');
   static const three_d_square = _AgoraIconsData(0xf9b6, 'three_d_square');
   static const ticket_bulk = _AgoraIconsData(0xf9b7, 'ticket_bulk');
   static const ticket_solid = _AgoraIconsData(0xf9b8, 'ticket_solid');
@@ -4249,14 +2255,8 @@ class AgoraIcons {
   static const ticket = _AgoraIconsData(0xf9ba, 'ticket');
   static const toilet_bulk = _AgoraIconsData(0xf9bb, 'toilet_bulk');
   static const toilet_paper_bulk = _AgoraIconsData(0xf9bc, 'toilet_paper_bulk');
-  static const toilet_paper_solid = _AgoraIconsData(
-    0xf9bd,
-    'toilet_paper_solid',
-  );
-  static const toilet_paper_twotone = _AgoraIconsData(
-    0xf9be,
-    'toilet_paper_twotone',
-  );
+  static const toilet_paper_solid = _AgoraIconsData(0xf9bd, 'toilet_paper_solid');
+  static const toilet_paper_twotone = _AgoraIconsData(0xf9be, 'toilet_paper_twotone');
   static const toilet_paper = _AgoraIconsData(0xf9bf, 'toilet_paper');
   static const toilet_solid = _AgoraIconsData(0xf9c0, 'toilet_solid');
   static const toilet_twotone = _AgoraIconsData(0xf9c1, 'toilet_twotone');
@@ -4283,36 +2283,21 @@ class AgoraIcons {
   static const treadmill = _AgoraIconsData(0xf9d6, 'treadmill');
   static const tree_bulk = _AgoraIconsData(0xf9d7, 'tree_bulk');
   static const tree_solid = _AgoraIconsData(0xf9d8, 'tree_solid');
-  static const tree_structure_bulk = _AgoraIconsData(
-    0xf9d9,
-    'tree_structure_bulk',
-  );
-  static const tree_structure_solid = _AgoraIconsData(
-    0xf9da,
-    'tree_structure_solid',
-  );
-  static const tree_structure_twotone = _AgoraIconsData(
-    0xf9db,
-    'tree_structure_twotone',
-  );
+  static const tree_structure_bulk = _AgoraIconsData(0xf9d9, 'tree_structure_bulk');
+  static const tree_structure_solid = _AgoraIconsData(0xf9da, 'tree_structure_solid');
+  static const tree_structure_twotone = _AgoraIconsData(0xf9db, 'tree_structure_twotone');
   static const tree_structure = _AgoraIconsData(0xf9dc, 'tree_structure');
   static const tree_twotone = _AgoraIconsData(0xf9dd, 'tree_twotone');
   static const tree = _AgoraIconsData(0xf9de, 'tree');
   static const truck_bulk = _AgoraIconsData(0xf9df, 'truck_bulk');
   static const truck_check_bulk = _AgoraIconsData(0xf9e0, 'truck_check_bulk');
   static const truck_check_solid = _AgoraIconsData(0xf9e1, 'truck_check_solid');
-  static const truck_check_twotone = _AgoraIconsData(
-    0xf9e2,
-    'truck_check_twotone',
-  );
+  static const truck_check_twotone = _AgoraIconsData(0xf9e2, 'truck_check_twotone');
   static const truck_check = _AgoraIconsData(0xf9e3, 'truck_check');
   static const truck_solid = _AgoraIconsData(0xf9e4, 'truck_solid');
   static const truck_time_bulk = _AgoraIconsData(0xf9e5, 'truck_time_bulk');
   static const truck_time_solid = _AgoraIconsData(0xf9e6, 'truck_time_solid');
-  static const truck_time_twotone = _AgoraIconsData(
-    0xf9e7,
-    'truck_time_twotone',
-  );
+  static const truck_time_twotone = _AgoraIconsData(0xf9e7, 'truck_time_twotone');
   static const truck_time = _AgoraIconsData(0xf9e8, 'truck_time');
   static const truck_twotone = _AgoraIconsData(0xf9e9, 'truck_twotone');
   static const truck_x_bulk = _AgoraIconsData(0xf9ea, 'truck_x_bulk');
@@ -4329,14 +2314,8 @@ class AgoraIcons {
   static const upload_twotone = _AgoraIconsData(0xf9f5, 'upload_twotone');
   static const upload = _AgoraIconsData(0xf9f6, 'upload');
   static const user_add_alt_bulk = _AgoraIconsData(0xf9f7, 'user_add_alt_bulk');
-  static const user_add_alt_solid = _AgoraIconsData(
-    0xf9f8,
-    'user_add_alt_solid',
-  );
-  static const user_add_alt_twotone = _AgoraIconsData(
-    0xf9f9,
-    'user_add_alt_twotone',
-  );
+  static const user_add_alt_solid = _AgoraIconsData(0xf9f8, 'user_add_alt_solid');
+  static const user_add_alt_twotone = _AgoraIconsData(0xf9f9, 'user_add_alt_twotone');
   static const user_add_alt = _AgoraIconsData(0xf9fa, 'user_add_alt');
   static const user_add_bulk = _AgoraIconsData(0xf9fb, 'user_add_bulk');
   static const user_add_solid = _AgoraIconsData(0xf9fc, 'user_add_solid');
@@ -4345,89 +2324,44 @@ class AgoraIcons {
   static const user_bulk = _AgoraIconsData(0xf9ff, 'user_bulk');
   static const user_check_bulk = _AgoraIconsData(0xfa00, 'user_check_bulk');
   static const user_check_solid = _AgoraIconsData(0xfa01, 'user_check_solid');
-  static const user_check_twotone = _AgoraIconsData(
-    0xfa02,
-    'user_check_twotone',
-  );
+  static const user_check_twotone = _AgoraIconsData(0xfa02, 'user_check_twotone');
   static const user_check = _AgoraIconsData(0xfa03, 'user_check');
   static const user_circle_bulk = _AgoraIconsData(0xfa04, 'user_circle_bulk');
   static const user_circle_solid = _AgoraIconsData(0xfa05, 'user_circle_solid');
-  static const user_circle_twotone = _AgoraIconsData(
-    0xfa06,
-    'user_circle_twotone',
-  );
+  static const user_circle_twotone = _AgoraIconsData(0xfa06, 'user_circle_twotone');
   static const user_circle = _AgoraIconsData(0xfa07, 'user_circle');
   static const user_edit_bulk = _AgoraIconsData(0xfa08, 'user_edit_bulk');
   static const user_edit_solid = _AgoraIconsData(0xfa09, 'user_edit_solid');
   static const user_edit_twotone = _AgoraIconsData(0xfa0a, 'user_edit_twotone');
   static const user_edit = _AgoraIconsData(0xfa0b, 'user_edit');
-  static const user_group_alt_bulk = _AgoraIconsData(
-    0xfa0c,
-    'user_group_alt_bulk',
-  );
-  static const user_group_alt_solid = _AgoraIconsData(
-    0xfa0d,
-    'user_group_alt_solid',
-  );
-  static const user_group_alt_twotone = _AgoraIconsData(
-    0xfa0e,
-    'user_group_alt_twotone',
-  );
+  static const user_group_alt_bulk = _AgoraIconsData(0xfa0c, 'user_group_alt_bulk');
+  static const user_group_alt_solid = _AgoraIconsData(0xfa0d, 'user_group_alt_solid');
+  static const user_group_alt_twotone = _AgoraIconsData(0xfa0e, 'user_group_alt_twotone');
   static const user_group_alt = _AgoraIconsData(0xfa0f, 'user_group_alt');
-  static const user_group_alt2_bulk = _AgoraIconsData(
-    0xfa10,
-    'user_group_alt2_bulk',
-  );
-  static const user_group_alt2_solid = _AgoraIconsData(
-    0xfa11,
-    'user_group_alt2_solid',
-  );
-  static const user_group_alt2_twotone = _AgoraIconsData(
-    0xfa12,
-    'user_group_alt2_twotone',
-  );
+  static const user_group_alt2_bulk = _AgoraIconsData(0xfa10, 'user_group_alt2_bulk');
+  static const user_group_alt2_solid = _AgoraIconsData(0xfa11, 'user_group_alt2_solid');
+  static const user_group_alt2_twotone = _AgoraIconsData(0xfa12, 'user_group_alt2_twotone');
   static const user_group_alt2 = _AgoraIconsData(0xfa13, 'user_group_alt2');
   static const user_group_bulk = _AgoraIconsData(0xfa14, 'user_group_bulk');
   static const user_group_solid = _AgoraIconsData(0xfa15, 'user_group_solid');
-  static const user_group_twotone = _AgoraIconsData(
-    0xfa16,
-    'user_group_twotone',
-  );
+  static const user_group_twotone = _AgoraIconsData(0xfa16, 'user_group_twotone');
   static const user_group = _AgoraIconsData(0xfa17, 'user_group');
-  static const user_minus_alt_bulk = _AgoraIconsData(
-    0xfa18,
-    'user_minus_alt_bulk',
-  );
-  static const user_minus_alt_solid = _AgoraIconsData(
-    0xfa19,
-    'user_minus_alt_solid',
-  );
-  static const user_minus_alt_twotone = _AgoraIconsData(
-    0xfa1a,
-    'user_minus_alt_twotone',
-  );
+  static const user_minus_alt_bulk = _AgoraIconsData(0xfa18, 'user_minus_alt_bulk');
+  static const user_minus_alt_solid = _AgoraIconsData(0xfa19, 'user_minus_alt_solid');
+  static const user_minus_alt_twotone = _AgoraIconsData(0xfa1a, 'user_minus_alt_twotone');
   static const user_minus_alt = _AgoraIconsData(0xfa1b, 'user_minus_alt');
   static const user_minus_bulk = _AgoraIconsData(0xfa1c, 'user_minus_bulk');
   static const user_minus_solid = _AgoraIconsData(0xfa1d, 'user_minus_solid');
-  static const user_minus_twotone = _AgoraIconsData(
-    0xfa1e,
-    'user_minus_twotone',
-  );
+  static const user_minus_twotone = _AgoraIconsData(0xfa1e, 'user_minus_twotone');
   static const user_minus = _AgoraIconsData(0xfa1f, 'user_minus');
   static const user_search_bulk = _AgoraIconsData(0xfa20, 'user_search_bulk');
   static const user_search_solid = _AgoraIconsData(0xfa21, 'user_search_solid');
-  static const user_search_twotone = _AgoraIconsData(
-    0xfa22,
-    'user_search_twotone',
-  );
+  static const user_search_twotone = _AgoraIconsData(0xfa22, 'user_search_twotone');
   static const user_search = _AgoraIconsData(0xfa23, 'user_search');
   static const user_solid = _AgoraIconsData(0xfa24, 'user_solid');
   static const user_square_bulk = _AgoraIconsData(0xfa25, 'user_square_bulk');
   static const user_square_solid = _AgoraIconsData(0xfa26, 'user_square_solid');
-  static const user_square_twotone = _AgoraIconsData(
-    0xfa27,
-    'user_square_twotone',
-  );
+  static const user_square_twotone = _AgoraIconsData(0xfa27, 'user_square_twotone');
   static const user_square = _AgoraIconsData(0xfa28, 'user_square');
   static const user_tag_bulk = _AgoraIconsData(0xfa29, 'user_tag_bulk');
   static const user_tag_solid = _AgoraIconsData(0xfa2a, 'user_tag_solid');
@@ -4446,10 +2380,7 @@ class AgoraIcons {
   static const video_bulk = _AgoraIconsData(0xfa37, 'video_bulk');
   static const video_slash_bulk = _AgoraIconsData(0xfa38, 'video_slash_bulk');
   static const video_slash_solid = _AgoraIconsData(0xfa39, 'video_slash_solid');
-  static const video_slash_twotone = _AgoraIconsData(
-    0xfa3a,
-    'video_slash_twotone',
-  );
+  static const video_slash_twotone = _AgoraIconsData(0xfa3a, 'video_slash_twotone');
   static const video_slash = _AgoraIconsData(0xfa3b, 'video_slash');
   static const video_solid = _AgoraIconsData(0xfa3c, 'video_solid');
   static const video_twotone = _AgoraIconsData(0xfa3d, 'video_twotone');
@@ -4459,56 +2390,29 @@ class AgoraIcons {
   static const vignette_twotone = _AgoraIconsData(0xfa41, 'vignette_twotone');
   static const vignette = _AgoraIconsData(0xfa42, 'vignette');
   static const virus_bulk = _AgoraIconsData(0xfa43, 'virus_bulk');
-  static const virus_lab_research_bulk = _AgoraIconsData(
-    0xfa44,
-    'virus_lab_research_bulk',
-  );
-  static const virus_lab_research_solid = _AgoraIconsData(
-    0xfa45,
-    'virus_lab_research_solid',
-  );
-  static const virus_lab_research_twotone = _AgoraIconsData(
-    0xfa46,
-    'virus_lab_research_twotone',
-  );
-  static const virus_lab_research = _AgoraIconsData(
-    0xfa47,
-    'virus_lab_research',
-  );
+  static const virus_lab_research_bulk = _AgoraIconsData(0xfa44, 'virus_lab_research_bulk');
+  static const virus_lab_research_solid = _AgoraIconsData(0xfa45, 'virus_lab_research_solid');
+  static const virus_lab_research_twotone = _AgoraIconsData(0xfa46, 'virus_lab_research_twotone');
+  static const virus_lab_research = _AgoraIconsData(0xfa47, 'virus_lab_research');
   static const virus_solid = _AgoraIconsData(0xfa48, 'virus_solid');
   static const virus_twotone = _AgoraIconsData(0xfa49, 'virus_twotone');
   static const virus = _AgoraIconsData(0xfa4a, 'virus');
   static const volleyball_bulk = _AgoraIconsData(0xfa4b, 'volleyball_bulk');
   static const volleyball_solid = _AgoraIconsData(0xfa4c, 'volleyball_solid');
-  static const volleyball_twotone = _AgoraIconsData(
-    0xfa4d,
-    'volleyball_twotone',
-  );
+  static const volleyball_twotone = _AgoraIconsData(0xfa4d, 'volleyball_twotone');
   static const volleyball = _AgoraIconsData(0xfa4e, 'volleyball');
   static const volume_bulk = _AgoraIconsData(0xfa4f, 'volume_bulk');
   static const volume_high_bulk = _AgoraIconsData(0xfa50, 'volume_high_bulk');
   static const volume_high_solid = _AgoraIconsData(0xfa51, 'volume_high_solid');
-  static const volume_high_twotone = _AgoraIconsData(
-    0xfa52,
-    'volume_high_twotone',
-  );
+  static const volume_high_twotone = _AgoraIconsData(0xfa52, 'volume_high_twotone');
   static const volume_high = _AgoraIconsData(0xfa53, 'volume_high');
   static const volume_low_bulk = _AgoraIconsData(0xfa54, 'volume_low_bulk');
   static const volume_low_solid = _AgoraIconsData(0xfa55, 'volume_low_solid');
-  static const volume_low_twotone = _AgoraIconsData(
-    0xfa56,
-    'volume_low_twotone',
-  );
+  static const volume_low_twotone = _AgoraIconsData(0xfa56, 'volume_low_twotone');
   static const volume_low = _AgoraIconsData(0xfa57, 'volume_low');
   static const volume_slash_bulk = _AgoraIconsData(0xfa58, 'volume_slash_bulk');
-  static const volume_slash_solid = _AgoraIconsData(
-    0xfa59,
-    'volume_slash_solid',
-  );
-  static const volume_slash_twotone = _AgoraIconsData(
-    0xfa5a,
-    'volume_slash_twotone',
-  );
+  static const volume_slash_solid = _AgoraIconsData(0xfa59, 'volume_slash_solid');
+  static const volume_slash_twotone = _AgoraIconsData(0xfa5a, 'volume_slash_twotone');
   static const volume_slash = _AgoraIconsData(0xfa5b, 'volume_slash');
   static const volume_solid = _AgoraIconsData(0xfa5c, 'volume_solid');
   static const volume_twotone = _AgoraIconsData(0xfa5d, 'volume_twotone');
@@ -4519,57 +2423,24 @@ class AgoraIcons {
   static const volume = _AgoraIconsData(0xfa62, 'volume');
   static const wallet_add_bulk = _AgoraIconsData(0xfa63, 'wallet_add_bulk');
   static const wallet_add_solid = _AgoraIconsData(0xfa64, 'wallet_add_solid');
-  static const wallet_add_twotone = _AgoraIconsData(
-    0xfa65,
-    'wallet_add_twotone',
-  );
+  static const wallet_add_twotone = _AgoraIconsData(0xfa65, 'wallet_add_twotone');
   static const wallet_add = _AgoraIconsData(0xfa66, 'wallet_add');
   static const wallet_bulk = _AgoraIconsData(0xfa67, 'wallet_bulk');
   static const wallet_check_bulk = _AgoraIconsData(0xfa68, 'wallet_check_bulk');
-  static const wallet_check_solid = _AgoraIconsData(
-    0xfa69,
-    'wallet_check_solid',
-  );
-  static const wallet_check_twotone = _AgoraIconsData(
-    0xfa6a,
-    'wallet_check_twotone',
-  );
+  static const wallet_check_solid = _AgoraIconsData(0xfa69, 'wallet_check_solid');
+  static const wallet_check_twotone = _AgoraIconsData(0xfa6a, 'wallet_check_twotone');
   static const wallet_check = _AgoraIconsData(0xfa6b, 'wallet_check');
-  static const wallet_forbidden_bulk = _AgoraIconsData(
-    0xfa6c,
-    'wallet_forbidden_bulk',
-  );
-  static const wallet_forbidden_solid = _AgoraIconsData(
-    0xfa6d,
-    'wallet_forbidden_solid',
-  );
-  static const wallet_forbidden_twotone = _AgoraIconsData(
-    0xfa6e,
-    'wallet_forbidden_twotone',
-  );
+  static const wallet_forbidden_bulk = _AgoraIconsData(0xfa6c, 'wallet_forbidden_bulk');
+  static const wallet_forbidden_solid = _AgoraIconsData(0xfa6d, 'wallet_forbidden_solid');
+  static const wallet_forbidden_twotone = _AgoraIconsData(0xfa6e, 'wallet_forbidden_twotone');
   static const wallet_forbidden = _AgoraIconsData(0xfa6f, 'wallet_forbidden');
   static const wallet_minus_bulk = _AgoraIconsData(0xfa70, 'wallet_minus_bulk');
-  static const wallet_minus_solid = _AgoraIconsData(
-    0xfa71,
-    'wallet_minus_solid',
-  );
-  static const wallet_minus_twotone = _AgoraIconsData(
-    0xfa72,
-    'wallet_minus_twotone',
-  );
+  static const wallet_minus_solid = _AgoraIconsData(0xfa71, 'wallet_minus_solid');
+  static const wallet_minus_twotone = _AgoraIconsData(0xfa72, 'wallet_minus_twotone');
   static const wallet_minus = _AgoraIconsData(0xfa73, 'wallet_minus');
-  static const wallet_search_bulk = _AgoraIconsData(
-    0xfa74,
-    'wallet_search_bulk',
-  );
-  static const wallet_search_solid = _AgoraIconsData(
-    0xfa75,
-    'wallet_search_solid',
-  );
-  static const wallet_search_twotone = _AgoraIconsData(
-    0xfa76,
-    'wallet_search_twotone',
-  );
+  static const wallet_search_bulk = _AgoraIconsData(0xfa74, 'wallet_search_bulk');
+  static const wallet_search_solid = _AgoraIconsData(0xfa75, 'wallet_search_solid');
+  static const wallet_search_twotone = _AgoraIconsData(0xfa76, 'wallet_search_twotone');
   static const wallet_search = _AgoraIconsData(0xfa77, 'wallet_search');
   static const wallet_solid = _AgoraIconsData(0xfa78, 'wallet_solid');
   static const wallet_twotone = _AgoraIconsData(0xfa79, 'wallet_twotone');
@@ -4578,35 +2449,17 @@ class AgoraIcons {
   static const wallet_x_twotone = _AgoraIconsData(0xfa7c, 'wallet_x_twotone');
   static const wallet_x = _AgoraIconsData(0xfa7d, 'wallet_x');
   static const wallet = _AgoraIconsData(0xfa7e, 'wallet');
-  static const washing_mechine_bulk = _AgoraIconsData(
-    0xfa7f,
-    'washing_mechine_bulk',
-  );
-  static const washing_mechine_solid = _AgoraIconsData(
-    0xfa80,
-    'washing_mechine_solid',
-  );
-  static const washing_mechine_twotone = _AgoraIconsData(
-    0xfa81,
-    'washing_mechine_twotone',
-  );
+  static const washing_mechine_bulk = _AgoraIconsData(0xfa7f, 'washing_mechine_bulk');
+  static const washing_mechine_solid = _AgoraIconsData(0xfa80, 'washing_mechine_solid');
+  static const washing_mechine_twotone = _AgoraIconsData(0xfa81, 'washing_mechine_twotone');
   static const washing_mechine = _AgoraIconsData(0xfa82, 'washing_mechine');
   static const weight_bench_bulk = _AgoraIconsData(0xfa83, 'weight_bench_bulk');
-  static const weight_bench_solid = _AgoraIconsData(
-    0xfa84,
-    'weight_bench_solid',
-  );
-  static const weight_bench_twotone = _AgoraIconsData(
-    0xfa85,
-    'weight_bench_twotone',
-  );
+  static const weight_bench_solid = _AgoraIconsData(0xfa84, 'weight_bench_solid');
+  static const weight_bench_twotone = _AgoraIconsData(0xfa85, 'weight_bench_twotone');
   static const weight_bench = _AgoraIconsData(0xfa86, 'weight_bench');
   static const wheel_chair_bulk = _AgoraIconsData(0xfa87, 'wheel_chair_bulk');
   static const wheel_chair_solid = _AgoraIconsData(0xfa88, 'wheel_chair_solid');
-  static const wheel_chair_twotone = _AgoraIconsData(
-    0xfa89,
-    'wheel_chair_twotone',
-  );
+  static const wheel_chair_twotone = _AgoraIconsData(0xfa89, 'wheel_chair_twotone');
   static const wheel_chair = _AgoraIconsData(0xfa8a, 'wheel_chair');
   static const wifi_bulk = _AgoraIconsData(0xfa8b, 'wifi_bulk');
   static const wifi_solid = _AgoraIconsData(0xfa8c, 'wifi_solid');
@@ -4625,18 +2478,9 @@ class AgoraIcons {
   static const wine_twotone = _AgoraIconsData(0xfa99, 'wine_twotone');
   static const wine = _AgoraIconsData(0xfa9a, 'wine');
   static const x_mark_bulk = _AgoraIconsData(0xfa9b, 'x_mark_bulk');
-  static const x_mark_circle_bulk = _AgoraIconsData(
-    0xfa9c,
-    'x_mark_circle_bulk',
-  );
-  static const x_mark_circle_solid = _AgoraIconsData(
-    0xfa9d,
-    'x_mark_circle_solid',
-  );
-  static const x_mark_circle_twotone = _AgoraIconsData(
-    0xfa9e,
-    'x_mark_circle_twotone',
-  );
+  static const x_mark_circle_bulk = _AgoraIconsData(0xfa9c, 'x_mark_circle_bulk');
+  static const x_mark_circle_solid = _AgoraIconsData(0xfa9d, 'x_mark_circle_solid');
+  static const x_mark_circle_twotone = _AgoraIconsData(0xfa9e, 'x_mark_circle_twotone');
   static const x_mark_circle = _AgoraIconsData(0xfa9f, 'x_mark_circle');
   static const x_mark_solid = _AgoraIconsData(0xfaa0, 'x_mark_solid');
   static const x_mark_twotone = _AgoraIconsData(0xfaa1, 'x_mark_twotone');

@@ -1,0 +1,9 @@
+{
+  "name": "agora-icon-tools",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Node helper for .scripts/generate_icons.dart — outlines stroke-based 'line' SVGs into filled paths before font generation (icon fonts have no stroke concept).",
+  "dependencies": {
+    "svg-outline-stroke": "^1.3.1"
+  }
+}
