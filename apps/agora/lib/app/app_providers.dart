@@ -245,9 +245,12 @@ List<SingleChildWidget> _buildProviders({
 // in the same relative order they always have.
 const List<AppFeature> _remainingFeatures = [
   OnboardingFeature(), // after Auth (reads AuthRepository) + profile repo
-  SettingsFeature(),
   InventoryFeature(), // must be before Products (StocksDao)
   ProductsFeature(),
+  SettingsFeature(), // must be after Products (CatalogTemplatesRepository
+  // reads Categories/Products/Modifiers/CombosRepository,
+  // docs/features/06-season-to-season-catalog-reuse.md) and before Orders/
+  // Sync, which read SettingsCubit
   DiscountsFeature(), // must be before Orders (CheckoutCubit reads DiscountsRepository)
   OrdersFeature(),
   WorkforceFeature(), // must be after Orders (WorkforceRepository reads OrdersRepository

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ui_kit/src/overlays/app_dropdown_option_row.dart';
+import 'package:ui_kit/src/overlays/app_popover.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Row action types for the data table.
@@ -335,65 +337,131 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                 widget.showDeleteAction)
               SizedBox(
                 width: 48,
-                child: PopupMenuButton<DataTableRowAction>(
+                child: _RowActionMenu(
+                  showEdit: widget.showEditAction,
+                  showReprint: widget.showReprintAction,
+                  showDelete: widget.showDeleteAction,
                   onSelected: (action) =>
                       widget.onRowAction?.call(item, action),
-                  icon: Icon(
-                    AgoraIcons.dots_horizontal,
-                    color: context.colors.mutedForeground,
-                    size: 20,
-                  ),
-                  padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                  ),
-                  itemBuilder: (context) => [
-                    if (widget.showEditAction)
-                      const PopupMenuItem(
-                        value: DataTableRowAction.edit,
-                        child: Row(
-                          children: [
-                            Icon(AgoraIcons.pencil, size: 18),
-                            SizedBox(width: Sizes.sm),
-                            Text('Edit'),
-                          ],
-                        ),
-                      ),
-                    if (widget.showReprintAction)
-                      const PopupMenuItem(
-                        value: DataTableRowAction.reprint,
-                        child: Row(
-                          children: [
-                            Icon(AgoraIcons.printer, size: 18),
-                            SizedBox(width: Sizes.sm),
-                            Text('Reprint'),
-                          ],
-                        ),
-                      ),
-                    if (widget.showDeleteAction)
-                      PopupMenuItem(
-                        value: DataTableRowAction.delete,
-                        child: Row(
-                          children: [
-                            Icon(
-                              AgoraIcons.trash,
-                              size: 18,
-                              color: context.colors.destructive,
-                            ),
-                            const SizedBox(width: Sizes.sm),
-                            Text(
-                              'Delete',
-                              style: TextStyle(
-                                color: context.colors.destructive,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
                 ),
               ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Row-level action menu (edit/reprint/delete) built on [AppPopoverAnchor].
+class _RowActionMenu extends StatelessWidget {
+  const _RowActionMenu({
+    required this.showEdit,
+    required this.showReprint,
+    required this.showDelete,
+    required this.onSelected,
+  });
+
+  final bool showEdit;
+  final bool showReprint;
+  final bool showDelete;
+  final ValueChanged<DataTableRowAction> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppPopoverAnchor(
+      minWidth: 160,
+      triggerBuilder: (triggerContext, controller) {
+        return AppIconButton.ghost(
+          onPressed: controller.toggle,
+          icon: Icon(
+            AgoraIcons.dots_horizontal,
+            color: triggerContext.colors.mutedForeground,
+            size: 20,
+          ),
+        );
+      },
+      contentBuilder: (contentContext, controller) {
+        void select(DataTableRowAction action) {
+          onSelected(action);
+          controller.close();
+        }
+
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: contentContext.tokens.spaceXxs,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (showEdit)
+                AppDropdownOptionRow(
+                  label: 'Edit',
+                  leadingIcon: AgoraIcons.pencil,
+                  onTap: () => select(DataTableRowAction.edit),
+                ),
+              if (showReprint)
+                AppDropdownOptionRow(
+                  label: 'Reprint',
+                  leadingIcon: AgoraIcons.printer,
+                  onTap: () => select(DataTableRowAction.reprint),
+                ),
+              if (showDelete)
+                _DestructiveOptionRow(
+                  label: 'Delete',
+                  onTap: () => select(DataTableRowAction.delete),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// A destructive variant of [AppDropdownOptionRow] (red icon + label), used
+/// for the row menu's "Delete" entry. [AppDropdownOptionRow] itself has no
+/// destructive styling hook, so this composes the same row chrome directly.
+class _DestructiveOptionRow extends StatelessWidget {
+  const _DestructiveOptionRow({required this.label, required this.onTap});
+
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final tokens = context.tokens;
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: tokens.spaceXxs,
+        vertical: tokens.spaceXxs / 2,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: tokens.borderRadiusSm,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          borderRadius: tokens.borderRadiusSm,
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: tokens.spaceSm,
+              vertical: tokens.spaceXs,
+            ),
+            child: Row(
+              children: [
+                SizedBox(width: tokens.iconMd),
+                SizedBox(width: tokens.spaceXs),
+                Icon(
+                  AgoraIcons.trash,
+                  size: tokens.iconSm,
+                  color: colors.destructive,
+                ),
+                SizedBox(width: tokens.spaceXs),
+                Expanded(child: AppText.body(label, color: colors.destructive)),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -11,6 +11,7 @@ part of 'modifier_group.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ModifierGroup {
 
@@ -22,6 +23,8 @@ mixin _$ModifierGroup {
 @pragma('vm:prefer-inline')
 $ModifierGroupCopyWith<ModifierGroup> get copyWith => _$ModifierGroupCopyWithImpl<ModifierGroup>(this as ModifierGroup, _$identity);
 
+  /// Serializes this ModifierGroup to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -29,7 +32,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is ModifierGroup&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.isMultiSelect, isMultiSelect) || other.isMultiSelect == isMultiSelect)&&const DeepCollectionEquality().equals(other.options, options));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,isMultiSelect,const DeepCollectionEquality().hash(options));
 
@@ -207,11 +210,11 @@ return $default(_that.id,_that.name,_that.isMultiSelect,_that.options);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _ModifierGroup extends ModifierGroup {
   const _ModifierGroup({required this.id, required this.name, required this.isMultiSelect, final  List<ModifierOption> options = const []}): _options = options,super._();
-  
+  factory _ModifierGroup.fromJson(Map<String, dynamic> json) => _$ModifierGroupFromJson(json);
 
 @override final  int id;
 @override final  String name;
@@ -231,14 +234,17 @@ class _ModifierGroup extends ModifierGroup {
 @pragma('vm:prefer-inline')
 _$ModifierGroupCopyWith<_ModifierGroup> get copyWith => __$ModifierGroupCopyWithImpl<_ModifierGroup>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$ModifierGroupToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModifierGroup&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.isMultiSelect, isMultiSelect) || other.isMultiSelect == isMultiSelect)&&const DeepCollectionEquality().equals(other._options, _options));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,isMultiSelect,const DeepCollectionEquality().hash(_options));
 

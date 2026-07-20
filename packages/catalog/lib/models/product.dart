@@ -3,6 +3,7 @@ import 'package:catalog/models/product_status.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
 part 'product.freezed.dart';
+part 'product.g.dart';
 
 @freezed
 abstract class Product with _$Product {
@@ -25,6 +26,9 @@ abstract class Product with _$Product {
     // ticketed (docs/features/02-kitchen-ticket-routing.md).
     String? prepStation,
   }) = _Product;
+
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
 
   const Product._();
 

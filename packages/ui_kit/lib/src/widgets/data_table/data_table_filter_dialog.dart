@@ -44,7 +44,7 @@ class DataTableFilterDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(context.tokens.radiusLg),
         side: BorderSide(color: context.colors.border),
       ),
       child: ConstrainedBox(

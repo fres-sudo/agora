@@ -12,6 +12,7 @@ dependencies:
     path: ../bloc
   flutter:
     sdk: flutter
+  json_annotation: ^4.9.0
   result:
     path: ../result
   ui_kit:
@@ -23,3 +24,4 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^3.2.3
+  json_serializable: ^6.11.1

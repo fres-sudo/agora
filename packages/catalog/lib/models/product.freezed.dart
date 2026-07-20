@@ -11,6 +11,7 @@ part of 'product.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Product {
 
@@ -28,6 +29,8 @@ mixin _$Product {
 @pragma('vm:prefer-inline')
 $ProductCopyWith<Product> get copyWith => _$ProductCopyWithImpl<Product>(this as Product, _$identity);
 
+  /// Serializes this Product to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -35,7 +38,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Product&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.trackStock, trackStock) || other.trackStock == trackStock)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.modifierGroups, modifierGroups)&&(identical(other.prepStation, prepStation) || other.prepStation == prepStation));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,trackStock,status,const DeepCollectionEquality().hash(modifierGroups),prepStation);
 
@@ -223,11 +226,11 @@ return $default(_that.id,_that.name,_that.description,_that.sku,_that.imageUrl,_
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Product extends Product {
   const _Product({required this.id, required this.name, this.description, this.sku, this.imageUrl, required this.categoryId, required this.priceCents, required this.costCents, this.taxPercent = 0, required this.stockQuantity, this.trackStock = true, this.status = ProductStatus.draft, final  List<ModifierGroup> modifierGroups = const [], this.prepStation}): _modifierGroups = modifierGroups,super._();
-  
+  factory _Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 
 @override final  int id;
 @override final  String name;
@@ -263,14 +266,17 @@ class _Product extends Product {
 @pragma('vm:prefer-inline')
 _$ProductCopyWith<_Product> get copyWith => __$ProductCopyWithImpl<_Product>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$ProductToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _Product&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.sku, sku) || other.sku == sku)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.costCents, costCents) || other.costCents == costCents)&&(identical(other.taxPercent, taxPercent) || other.taxPercent == taxPercent)&&(identical(other.stockQuantity, stockQuantity) || other.stockQuantity == stockQuantity)&&(identical(other.trackStock, trackStock) || other.trackStock == trackStock)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._modifierGroups, _modifierGroups)&&(identical(other.prepStation, prepStation) || other.prepStation == prepStation));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,description,sku,imageUrl,categoryId,priceCents,costCents,taxPercent,stockQuantity,trackStock,status,const DeepCollectionEquality().hash(_modifierGroups),prepStation);
 

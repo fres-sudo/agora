@@ -6,6 +6,7 @@ export 'src/seeder/data_seeder.dart';
 export 'src/settings_keys.dart';
 export 'src/sync_id.dart';
 export 'src/tables/cash_reconciliations_table.dart';
+export 'src/tables/catalog_templates_table.dart';
 export 'src/tables/categories_table.dart';
 export 'src/tables/clock_records_table.dart';
 export 'src/tables/combos_table.dart';

@@ -45,6 +45,9 @@ dependencies:
     path: ../../packages/utils
 
 dev_dependencies:
+  build_runner: ^2.4.7
   data_fixture_dart: ^3.0.0
+  drift_dev: ^2.30.0
   flutter_test:
     sdk: flutter
+  freezed: ^3.2.3

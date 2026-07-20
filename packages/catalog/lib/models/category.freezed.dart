@@ -11,16 +11,19 @@ part of 'category.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Category {
 
- int get id; String get name; Color? get color; IconData? get icon; bool get isEnabled;
+ int get id; String get name;@CatalogColorConverter() Color? get color;@CatalogIconDataConverter() IconData? get icon; bool get isEnabled;
 /// Create a copy of Category
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $CategoryCopyWith<Category> get copyWith => _$CategoryCopyWithImpl<Category>(this as Category, _$identity);
 
+  /// Serializes this Category to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Category&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.color, color) || other.color == color)&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.isEnabled, isEnabled) || other.isEnabled == isEnabled));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,color,icon,isEnabled);
 
@@ -45,7 +48,7 @@ abstract mixin class $CategoryCopyWith<$Res>  {
   factory $CategoryCopyWith(Category value, $Res Function(Category) _then) = _$CategoryCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, Color? color, IconData? icon, bool isEnabled
+ int id, String name,@CatalogColorConverter() Color? color,@CatalogIconDataConverter() IconData? icon, bool isEnabled
 });
 
 
@@ -154,7 +157,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  Color? color,  IconData? icon,  bool isEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name, @CatalogColorConverter()  Color? color, @CatalogIconDataConverter()  IconData? icon,  bool isEnabled)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Category() when $default != null:
 return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case _:
@@ -175,7 +178,7 @@ return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  Color? color,  IconData? icon,  bool isEnabled)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name, @CatalogColorConverter()  Color? color, @CatalogIconDataConverter()  IconData? icon,  bool isEnabled)  $default,) {final _that = this;
 switch (_that) {
 case _Category():
 return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case _:
@@ -195,7 +198,7 @@ return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  Color? color,  IconData? icon,  bool isEnabled)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name, @CatalogColorConverter()  Color? color, @CatalogIconDataConverter()  IconData? icon,  bool isEnabled)?  $default,) {final _that = this;
 switch (_that) {
 case _Category() when $default != null:
 return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case _:
@@ -207,16 +210,16 @@ return $default(_that.id,_that.name,_that.color,_that.icon,_that.isEnabled);case
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Category extends Category {
-  const _Category({required this.id, required this.name, this.color = const Color(0xff34CB6F), this.icon = AgoraIcons.categories, this.isEnabled = true}): super._();
-  
+  const _Category({required this.id, required this.name, @CatalogColorConverter() this.color = const Color(0xff34CB6F), @CatalogIconDataConverter() this.icon = AgoraIcons.categories, this.isEnabled = true}): super._();
+  factory _Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 
 @override final  int id;
 @override final  String name;
-@override@JsonKey() final  Color? color;
-@override@JsonKey() final  IconData? icon;
+@override@JsonKey()@CatalogColorConverter() final  Color? color;
+@override@JsonKey()@CatalogIconDataConverter() final  IconData? icon;
 @override@JsonKey() final  bool isEnabled;
 
 /// Create a copy of Category
@@ -225,14 +228,17 @@ class _Category extends Category {
 @pragma('vm:prefer-inline')
 _$CategoryCopyWith<_Category> get copyWith => __$CategoryCopyWithImpl<_Category>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$CategoryToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _Category&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.color, color) || other.color == color)&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.isEnabled, isEnabled) || other.isEnabled == isEnabled));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,color,icon,isEnabled);
 
@@ -249,7 +255,7 @@ abstract mixin class _$CategoryCopyWith<$Res> implements $CategoryCopyWith<$Res>
   factory _$CategoryCopyWith(_Category value, $Res Function(_Category) _then) = __$CategoryCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, Color? color, IconData? icon, bool isEnabled
+ int id, String name,@CatalogColorConverter() Color? color,@CatalogIconDataConverter() IconData? icon, bool isEnabled
 });
 
 

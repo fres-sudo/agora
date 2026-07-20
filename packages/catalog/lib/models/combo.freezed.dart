@@ -11,6 +11,7 @@ part of 'combo.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$Combo {
 
@@ -22,6 +23,8 @@ mixin _$Combo {
 @pragma('vm:prefer-inline')
 $ComboCopyWith<Combo> get copyWith => _$ComboCopyWithImpl<Combo>(this as Combo, _$identity);
 
+  /// Serializes this Combo to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -29,7 +32,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is Combo&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.isEnabled, isEnabled) || other.isEnabled == isEnabled)&&const DeepCollectionEquality().equals(other.items, items));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,priceCents,isEnabled,const DeepCollectionEquality().hash(items));
 
@@ -208,11 +211,11 @@ return $default(_that.id,_that.name,_that.priceCents,_that.isEnabled,_that.items
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _Combo extends Combo {
   const _Combo({required this.id, required this.name, required this.priceCents, this.isEnabled = true, final  List<ComboItem> items = const []}): _items = items,super._();
-  
+  factory _Combo.fromJson(Map<String, dynamic> json) => _$ComboFromJson(json);
 
 @override final  int id;
 @override final  String name;
@@ -233,14 +236,17 @@ class _Combo extends Combo {
 @pragma('vm:prefer-inline')
 _$ComboCopyWith<_Combo> get copyWith => __$ComboCopyWithImpl<_Combo>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$ComboToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _Combo&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.priceCents, priceCents) || other.priceCents == priceCents)&&(identical(other.isEnabled, isEnabled) || other.isEnabled == isEnabled)&&const DeepCollectionEquality().equals(other._items, _items));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,priceCents,isEnabled,const DeepCollectionEquality().hash(_items));
 

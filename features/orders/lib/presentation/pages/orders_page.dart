@@ -55,10 +55,7 @@ class _OrdersPageState extends State<OrdersPage> {
       messenger
         ..clearSnackBars()
         ..showSnackBar(
-          SnackBar(
-            content: AppText.body(message),
-            behavior: SnackBarBehavior.floating,
-          ),
+          SnackBar(content: AppText.body(message), behavior: SnackBarBehavior.floating),
         );
     }
 
@@ -77,17 +74,13 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OrdersBloc, OrdersState>(
-      listenWhen: (previous, current) =>
-          current.maybeMap(error: (_) => true, orElse: () => false),
+      listenWhen: (previous, current) => current.maybeMap(error: (_) => true, orElse: () => false),
       listener: (context, state) {
         state.maybeMap(
           error: (error) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: AppText.body(
-                  error.message,
-                  color: context.colors.destructiveForeground,
-                ),
+                content: AppText.body(error.message, color: context.colors.destructiveForeground),
                 backgroundColor: context.colors.destructive,
               ),
             );
@@ -124,8 +117,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     id: 'id',
                     label: 'Order #',
                     width: 110,
-                    cellBuilder: (order) =>
-                        AppText.titleMd('#${order.id ?? '-'}'),
+                    cellBuilder: (order) => AppText.titleMd('#${order.id ?? '-'}'),
                   ),
                   DataTableColumn(
                     id: 'createdAt',
@@ -147,16 +139,14 @@ class _OrdersPageState extends State<OrdersPage> {
                     label: 'Items',
                     width: 90,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (order) =>
-                        AppText.titleMd(order.items.length.toString()),
+                    cellBuilder: (order) => AppText.titleMd(order.items.length.toString()),
                   ),
                   DataTableColumn(
                     id: 'total',
                     label: 'Total',
                     width: 120,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (order) =>
-                        AppText.titleMd(_formatCurrency(order.grandTotalCents)),
+                    cellBuilder: (order) => AppText.titleMd(_formatCurrency(order.grandTotalCents)),
                   ),
                   DataTableColumn(
                     id: 'note',
@@ -171,8 +161,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 ],
                 onSearch: (query) => _tableController.searchQuery = query,
                 onFilter: () => _showFilterDialog(context, state),
-                onAdd: () =>
-                    context.read<OrdersBloc>().add(const OrdersEvent.refresh()),
+                onAdd: () => context.read<OrdersBloc>().add(const OrdersEvent.refresh()),
                 onRowTap: (order) => _openDetail(context, order),
                 onRowAction: (order, action) async {
                   switch (action) {
@@ -192,9 +181,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       );
 
                       if (confirmed && context.mounted) {
-                        context.read<OrdersBloc>().add(
-                          OrdersEvent.deleted(order.id ?? 0),
-                        );
+                        context.read<OrdersBloc>().add(OrdersEvent.deleted(order.id ?? 0));
                       }
                       break;
                   }
@@ -225,24 +212,15 @@ class _OrdersPageState extends State<OrdersPage> {
     }).toList();
   }
 
-  Future<void> _showFilterDialog(
-    BuildContext context,
-    OrdersState state,
-  ) async {
+  Future<void> _showFilterDialog(BuildContext context, OrdersState state) async {
     OrderStatus? selectedStatus = state.maybeMap(
       loaded: (loaded) => loaded.statusFilter,
       orElse: () => null,
     );
     DateTimeRange? selectedRange;
 
-    final startDate = state.maybeMap(
-      loaded: (loaded) => loaded.startDate,
-      orElse: () => null,
-    );
-    final endDate = state.maybeMap(
-      loaded: (loaded) => loaded.endDate,
-      orElse: () => null,
-    );
+    final startDate = state.maybeMap(loaded: (loaded) => loaded.startDate, orElse: () => null);
+    final endDate = state.maybeMap(loaded: (loaded) => loaded.endDate, orElse: () => null);
 
     if (startDate != null || endDate != null) {
       selectedRange = DateTimeRange(
@@ -282,9 +260,7 @@ class _OrdersPageState extends State<OrdersPage> {
   String _formatDateTime(BuildContext context, DateTime dateTime) {
     final localizations = MaterialLocalizations.of(context);
     final date = localizations.formatMediumDate(dateTime);
-    final time = localizations.formatTimeOfDay(
-      TimeOfDay.fromDateTime(dateTime),
-    );
+    final time = localizations.formatTimeOfDay(TimeOfDay.fromDateTime(dateTime));
     return '$date\n$time';
   }
 }
@@ -303,8 +279,7 @@ class _OrderFilterDialogContent extends StatefulWidget {
   final ValueChanged<DateTimeRange?> onRangeChanged;
 
   @override
-  State<_OrderFilterDialogContent> createState() =>
-      _OrderFilterDialogContentState();
+  State<_OrderFilterDialogContent> createState() => _OrderFilterDialogContentState();
 }
 
 class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
@@ -341,6 +316,7 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
         AppButton.outline(
           onPressed: () async {
             final picked = await showDateRangePicker(
+              useRootNavigator: false,
               context: context,
               firstDate: DateTime(2020),
               lastDate: DateTime.now().add(const Duration(days: 365)),
@@ -385,10 +361,7 @@ class _StatusBadge extends StatelessWidget {
     };
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: Sizes.sm,
-        vertical: context.tokens.spaceXxs,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: context.tokens.spaceXxs),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(Sizes.borderRadius),

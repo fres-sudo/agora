@@ -11,6 +11,7 @@ part of 'modifier_option.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ModifierOption {
 
@@ -21,6 +22,8 @@ mixin _$ModifierOption {
 @pragma('vm:prefer-inline')
 $ModifierOptionCopyWith<ModifierOption> get copyWith => _$ModifierOptionCopyWithImpl<ModifierOption>(this as ModifierOption, _$identity);
 
+  /// Serializes this ModifierOption to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is ModifierOption&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.priceChangeCents, priceChangeCents) || other.priceChangeCents == priceChangeCents));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,priceChangeCents);
 
@@ -205,11 +208,11 @@ return $default(_that.id,_that.name,_that.priceChangeCents);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _ModifierOption extends ModifierOption {
   const _ModifierOption({required this.id, required this.name, required this.priceChangeCents}): super._();
-  
+  factory _ModifierOption.fromJson(Map<String, dynamic> json) => _$ModifierOptionFromJson(json);
 
 @override final  int id;
 @override final  String name;
@@ -221,14 +224,17 @@ class _ModifierOption extends ModifierOption {
 @pragma('vm:prefer-inline')
 _$ModifierOptionCopyWith<_ModifierOption> get copyWith => __$ModifierOptionCopyWithImpl<_ModifierOption>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$ModifierOptionToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _ModifierOption&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.priceChangeCents, priceChangeCents) || other.priceChangeCents == priceChangeCents));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,id,name,priceChangeCents);
 

@@ -42,21 +42,20 @@ class DataTablePagination extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: Sizes.sm),
-              DropdownButton<int>(
-                value: rowsPerPage,
-                onChanged: (value) {
-                  if (value != null) {
-                    onRowsPerPageChanged?.call(value);
-                  }
-                },
-                underline: const SizedBox.shrink(),
-                isDense: true,
-                items: rowsPerPageOptions
-                    .map(
-                      (count) =>
-                          DropdownMenuItem(value: count, child: Text('$count')),
-                    )
-                    .toList(),
+              SizedBox(
+                width: 72,
+                child: AppSelect<int>(
+                  value: rowsPerPage,
+                  items: [
+                    for (final count in rowsPerPageOptions)
+                      AppSelectItem(value: count, label: '$count'),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) {
+                      onRowsPerPageChanged?.call(value);
+                    }
+                  },
+                ),
               ),
             ],
           ),

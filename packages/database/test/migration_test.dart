@@ -654,5 +654,52 @@ void main() {
       expect(reloadedLeadItem.comboLineId, leadItemId);
       expect(reloadedLeadItem.comboSaleQuantity, 1);
     });
+
+    test('upgrading from schema v8 to v9 creates catalog_templates_table '
+        '(docs/features/06-season-to-season-catalog-reuse.md)', () async {
+      final dbFile = File('${tempDir.path}/agora_v8_to_v9.sqlite');
+
+      // Schema v8 had no catalog_templates_table at all; the migration
+      // must create it fresh via m.createTable, same as the v6->v7 combo
+      // tables above.
+      final legacyDb = sqlite3.sqlite3.open(dbFile.path);
+      legacyDb.execute('''
+            CREATE TABLE orders_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              status INTEGER NOT NULL DEFAULT 0,
+              order_type INTEGER NOT NULL DEFAULT 0,
+              subtotal INTEGER NOT NULL,
+              discount_total INTEGER NOT NULL DEFAULT 0,
+              tax_total INTEGER NOT NULL DEFAULT 0,
+              grand_total INTEGER NOT NULL,
+              payment_method TEXT NULL,
+              note TEXT NULL,
+              sync_id TEXT NULL,
+              employee_id INTEGER NULL
+            );
+          ''');
+      legacyDb.execute('PRAGMA user_version = 8;');
+      legacyDb.dispose();
+
+      final db = AgoraDatabase(NativeDatabase(dbFile));
+      addTearDown(db.close);
+
+      // The new table must exist and accept a snapshot row post-migration.
+      final id = await db
+          .into(db.catalogTemplatesTable)
+          .insert(
+            CatalogTemplatesTableCompanion.insert(
+              name: 'Sagra 2026',
+              snapshotJson: '{"categories":[],"products":[]}',
+            ),
+          );
+      final reloaded = await (db.select(
+        db.catalogTemplatesTable,
+      )..where((t) => t.id.equals(id))).getSingle();
+      expect(reloaded.name, 'Sagra 2026');
+    });
   });
 }

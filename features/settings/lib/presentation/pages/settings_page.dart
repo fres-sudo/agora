@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:feature_settings/presentation/widgets/catalog_templates_section.dart';
 import 'package:feature_settings/presentation/widgets/category_section.dart';
 import 'package:feature_settings/presentation/widgets/combo_section.dart';
 import 'package:feature_settings/presentation/widgets/danger_zone_section.dart';
@@ -90,6 +91,12 @@ class _SettingsPageState extends State<SettingsPage> {
             selectedIcon: AgoraIcons.wifi_solid,
             label: 'Sync',
             child: const SyncSection(),
+          ),
+          SectionSidebarItemData(
+            icon: AgoraIcons.archive,
+            selectedIcon: AgoraIcons.archive_solid,
+            label: 'Catalog Templates',
+            child: const CatalogTemplatesSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.alert_triangle,

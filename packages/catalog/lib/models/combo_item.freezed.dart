@@ -11,6 +11,7 @@ part of 'combo_item.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$ComboItem {
 
@@ -22,6 +23,8 @@ mixin _$ComboItem {
 @pragma('vm:prefer-inline')
 $ComboItemCopyWith<ComboItem> get copyWith => _$ComboItemCopyWithImpl<ComboItem>(this as ComboItem, _$identity);
 
+  /// Serializes this ComboItem to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -29,7 +32,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is ComboItem&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.quantity, quantity) || other.quantity == quantity));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,productId,productName,quantity);
 
@@ -206,11 +209,11 @@ return $default(_that.productId,_that.productName,_that.quantity);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _ComboItem extends ComboItem {
   const _ComboItem({required this.productId, required this.productName, this.quantity = 1}): super._();
-  
+  factory _ComboItem.fromJson(Map<String, dynamic> json) => _$ComboItemFromJson(json);
 
 @override final  int productId;
 @override final  String productName;
@@ -223,14 +226,17 @@ class _ComboItem extends ComboItem {
 @pragma('vm:prefer-inline')
 _$ComboItemCopyWith<_ComboItem> get copyWith => __$ComboItemCopyWithImpl<_ComboItem>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$ComboItemToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _ComboItem&&(identical(other.productId, productId) || other.productId == productId)&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.quantity, quantity) || other.quantity == quantity));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,productId,productName,quantity);
 

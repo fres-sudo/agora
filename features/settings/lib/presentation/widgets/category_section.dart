@@ -1,10 +1,10 @@
-import 'package:feature_settings/presentation/widgets/category_form/category_form_wrapper.dart';
 import 'package:feature_settings/presentation/widgets/category_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/blocs/categories/categories_bloc.dart';
 import 'package:catalog/models/category.dart';
+import 'package:catalog/widgets/category_form/category_form_wrapper.dart';
 
 /// Category settings section for managing product categories.
 class CategorySection extends StatefulWidget {

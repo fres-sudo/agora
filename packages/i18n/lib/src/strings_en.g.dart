@@ -374,6 +374,9 @@ class TranslationsProductsFormEn {
 	/// en: 'Select Category'
 	String get select_category => 'Select Category';
 
+	/// en: 'Add category'
+	String get add_category => 'Add category';
+
 	/// en: 'Description'
 	String get description => 'Description';
 
@@ -646,6 +649,7 @@ extension on Translations {
 			'products.form.product_name' => 'Product Name',
 			'products.form.category' => 'Category',
 			'products.form.select_category' => 'Select Category',
+			'products.form.add_category' => 'Add category',
 			'products.form.description' => 'Description',
 			'products.form.description_hint' => 'Enter product description...',
 			'products.form.sku' => 'SKU',

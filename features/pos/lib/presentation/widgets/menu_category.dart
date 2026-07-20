@@ -62,9 +62,7 @@ class MenuCategoryItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: context.tokens.borderRadiusLg,
             // Subtle border when selected to match the image's depth.
-            border: isSelected
-                ? Border.all(color: colors.border, width: 1.5)
-                : null,
+            border: isSelected ? Border.all(color: colors.border, width: 1.5) : null,
           ),
           child: Stack(
             children: [
@@ -74,7 +72,8 @@ class MenuCategoryItem extends StatelessWidget {
                   left: 0,
                   top: size * 0.25,
                   bottom: size * 0.25,
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
                     width: 6,
                     decoration: BoxDecoration(
                       color: colors.primary,
@@ -110,11 +109,7 @@ class MenuCategoryItem extends StatelessWidget {
               ),
               // Disable overlay.
               if (!isEnabled)
-                Positioned.fill(
-                  child: Container(
-                    color: colors.background.withValues(alpha: 0.5),
-                  ),
-                ),
+                Positioned.fill(child: Container(color: colors.background.withValues(alpha: 0.5))),
             ],
           ),
         ),

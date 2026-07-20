@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 
 import 'color_converter.dart';
 import 'tables/cash_reconciliations_table.dart';
+import 'tables/catalog_templates_table.dart';
 import 'tables/categories_table.dart';
 import 'tables/clock_records_table.dart';
 import 'tables/combos_table.dart';
@@ -42,13 +43,14 @@ part 'database.g.dart';
     CombosTable,
     ComboItemsTable,
     CashReconciliationsTable,
+    CatalogTemplatesTable,
   ],
 )
 class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration {
@@ -136,6 +138,13 @@ class AgoraDatabase extends _$AgoraDatabase {
           // counted cash variance when a shift closes.
           await m.addColumn(ordersTable, ordersTable.employeeId);
           await m.createTable(cashReconciliationsTable);
+        }
+        if (from < 9) {
+          // v8 -> v9: season-to-season catalog templates
+          // (docs/features/06-season-to-season-catalog-reuse.md). A named
+          // snapshot of categories/products/modifier groups/combos an
+          // operator can restore at the start of a new season.
+          await m.createTable(catalogTemplatesTable);
         }
       },
     );

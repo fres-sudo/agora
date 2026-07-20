@@ -1,7 +1,10 @@
 import 'package:i18n/i18n.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/blocs/categories/categories_bloc.dart';
+import 'package:catalog/models/category.dart';
+import 'package:catalog/repositories/categories_repository.dart';
 import 'package:catalog/repositories/products_repository.dart';
+import 'package:catalog/widgets/category_form/category_form_wrapper.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_photo_picker_sheet.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +55,20 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
     _descriptionController.dispose();
     _skuController.dispose();
     super.dispose();
+  }
+
+  Future<void> _onAddCategory() async {
+    final category = await CategoryFormWrapper.showCreate(context);
+    if (category == null || !mounted) return;
+
+    final result = await context.read<CategoriesRepository>().createCategory(
+      category,
+    );
+    if (!mounted) return;
+
+    if (result case Ok<Category>(:final value)) {
+      context.read<ProductFormCubit>().updateCategory(value.id);
+    }
   }
 
   @override
@@ -124,18 +141,31 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
               const SizedBox(height: Sizes.sm),
               BlocBuilder<CategoriesBloc, CategoriesState>(
                 builder: (context, categoriesState) {
-                  return AppSelect<int>(
-                    items: [
-                      for (final category in categoriesState.categories)
-                        AppSelectItem(
-                          value: category.id,
-                          label: category.name,
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: AppSelect<int>(
+                          items: [
+                            for (final category in categoriesState.categories)
+                              AppSelectItem(
+                                value: category.id,
+                                label: category.name,
+                              ),
+                          ],
+                          value: selectedCategoryId,
+                          placeholder: t.products.form.select_category,
+                          errorText: errors['category'],
+                          onChanged: (value) => cubit.updateCategory(value),
                         ),
+                      ),
+                      const SizedBox(width: Sizes.sm),
+                      AppIconButton.outline(
+                        icon: const Icon(AgoraIcons.plus),
+                        tooltip: t.products.form.add_category,
+                        onPressed: _onAddCategory,
+                      ),
                     ],
-                    value: selectedCategoryId,
-                    placeholder: t.products.form.select_category,
-                    errorText: errors['category'],
-                    onChanged: (value) => cubit.updateCategory(value),
                   );
                 },
               ),

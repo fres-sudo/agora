@@ -137,7 +137,8 @@ class _AppPopoverAnchorState extends State<AppPopoverAnchor>
 
     final triggerSize = renderBox.size;
     final triggerTopLeft = renderBox.localToGlobal(Offset.zero);
-    final screenHeight = MediaQuery.sizeOf(context).height;
+    final screenSize = MediaQuery.sizeOf(context);
+    final screenHeight = screenSize.height;
     final spaceBelow = screenHeight - (triggerTopLeft.dy + triggerSize.height);
     final spaceAbove = triggerTopLeft.dy;
     _flipped =
@@ -148,6 +149,23 @@ class _AppPopoverAnchorState extends State<AppPopoverAnchor>
         widget.minWidth != null && resolvedWidth < widget.minWidth!
         ? widget.minWidth!
         : resolvedWidth;
+
+    // Clamp horizontally so the panel never spills past either screen edge
+    // (e.g. a trigger sitting near the right edge of a narrow viewport).
+    const edgePadding = 8.0;
+    final maxDx = screenSize.width - edgePadding - effectiveWidth;
+    final minDx = edgePadding - triggerTopLeft.dx;
+    var horizontalOffset = 0.0;
+    if (maxDx < minDx) {
+      // Panel is wider than the viewport minus padding — pin to the left
+      // edge rather than producing a negative-width overflow.
+      horizontalOffset = minDx;
+    } else {
+      horizontalOffset = (triggerTopLeft.dx > maxDx)
+          ? maxDx - triggerTopLeft.dx
+          : 0.0;
+      horizontalOffset = horizontalOffset < minDx ? minDx : horizontalOffset;
+    }
 
     final tokens = context.tokens;
     final colors = context.colors;
@@ -171,7 +189,7 @@ class _AppPopoverAnchorState extends State<AppPopoverAnchor>
           showWhenUnlinked: false,
           targetAnchor: _flipped ? Alignment.topLeft : Alignment.bottomLeft,
           followerAnchor: _flipped ? Alignment.bottomLeft : Alignment.topLeft,
-          offset: Offset(0, _flipped ? -gap : gap),
+          offset: Offset(horizontalOffset, _flipped ? -gap : gap),
           // Overlay gives non-Positioned entries the same tight,
           // full-screen constraints as the app root, so without this the
           // panel below would be force-stretched to fill the screen instead

@@ -2,6 +2,7 @@ import 'package:catalog/models/combo_item.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
 part 'combo.freezed.dart';
+part 'combo.g.dart';
 
 @freezed
 abstract class Combo with _$Combo {
@@ -12,6 +13,8 @@ abstract class Combo with _$Combo {
     @Default(true) bool isEnabled,
     @Default([]) List<ComboItem> items,
   }) = _Combo;
+
+  factory Combo.fromJson(Map<String, dynamic> json) => _$ComboFromJson(json);
 
   const Combo._();
 

@@ -10,14 +10,18 @@
 /// form, product detail).
 library;
 
+export 'models/catalog_snapshot.dart';
+export 'models/catalog_template.dart';
 export 'models/category.dart';
 export 'models/combo.dart';
 export 'models/combo_item.dart';
+export 'models/converters.dart';
 export 'models/modifier_group.dart';
 export 'models/modifier_option.dart';
 export 'models/product.dart';
 export 'models/product_status.dart';
 
+export 'repositories/catalog_templates_repository.dart';
 export 'repositories/categories_repository.dart';
 export 'repositories/combos_repository.dart';
 export 'repositories/modifiers_repository.dart';
@@ -27,3 +31,6 @@ export 'blocs/categories/categories_bloc.dart';
 export 'blocs/combos/combos_bloc.dart';
 export 'blocs/modifiers/modifiers_bloc.dart';
 export 'blocs/products/products_bloc.dart';
+
+export 'widgets/category_form/category_form.dart';
+export 'widgets/category_form/category_form_wrapper.dart';

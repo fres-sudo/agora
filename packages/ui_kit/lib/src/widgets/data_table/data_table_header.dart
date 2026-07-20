@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ui_kit/src/overlays/app_dropdown_option_row.dart';
+import 'package:ui_kit/src/overlays/app_popover.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 /// Header widget for the data table view.
@@ -114,53 +116,60 @@ class _SortButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<SortOption>(
-      onSelected: onSort,
-      offset: const Offset(0, 40),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Sizes.borderRadius),
-      ),
-      itemBuilder: (context) => sortOptions.map((option) {
-        final isSelected = currentSort?.id == option.id;
-        return PopupMenuItem<SortOption>(
-          value: option,
-          child: Row(
-            children: [
-              Text(
-                option.label,
-                style: TextStyle(
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  color: isSelected ? context.colors.primary : null,
-                ),
-              ),
-              if (isSelected) ...[
-                const Spacer(),
-                Icon(
-                  currentSort!.direction == SortDirection.ascending
-                      ? AgoraIcons.chevron_up
-                      : AgoraIcons.chevron_down,
-                  size: 16,
-                  color: context.colors.primary,
-                ),
-              ],
-            ],
+    return AppPopoverAnchor(
+      minWidth: 160,
+      triggerBuilder: (triggerContext, controller) {
+        return AppButton.outline(
+          onPressed: controller.toggle,
+          label: currentSort == null ? 'Sort' : currentSort!.label,
+          leadingIcon: Icon(
+            currentSort == null
+                ? AgoraIcons.chevron_up_down
+                : currentSort!.direction == SortDirection.ascending
+                ? AgoraIcons.chevron_up
+                : AgoraIcons.chevron_down,
+            size: 18,
+          ),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: triggerContext.colors.foreground,
+            disabledForegroundColor: triggerContext.colors.foreground,
+            side: BorderSide(color: triggerContext.colors.border),
+            padding: const EdgeInsets.symmetric(
+              horizontal: Sizes.md,
+              vertical: Sizes.sm,
+            ),
           ),
         );
-      }).toList(),
-      child: AppButton.outline(
-        onPressed: null, // Handled by PopupMenuButton
-        label: 'Sort',
-        leadingIcon: const Icon(AgoraIcons.chevron_up_down, size: 18),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: context.colors.foreground,
-          disabledForegroundColor: context.colors.foreground,
-          side: BorderSide(color: context.colors.border),
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.md,
-            vertical: Sizes.sm,
+      },
+      contentBuilder: (contentContext, controller) {
+        return ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 320),
+          child: ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.symmetric(
+              vertical: contentContext.tokens.spaceXxs,
+            ),
+            itemCount: sortOptions.length,
+            itemBuilder: (context, index) {
+              final option = sortOptions[index];
+              final isSelected = currentSort?.id == option.id;
+              return AppDropdownOptionRow(
+                label: option.label,
+                selected: isSelected,
+                leadingIcon: isSelected
+                    ? (currentSort!.direction == SortDirection.ascending
+                          ? AgoraIcons.chevron_up
+                          : AgoraIcons.chevron_down)
+                    : null,
+                onTap: () {
+                  onSort?.call(option);
+                  controller.close();
+                },
+              );
+            },
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
