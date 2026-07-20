@@ -24,6 +24,42 @@ class DataTablePagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return AdaptiveLayout(mobile: _buildMobile, desktop: _buildDesktop);
+  }
+
+  /// Phone pagination: no rows-per-page picker and no numbered pages — just
+  /// position and prev/next, which is all that fits and all that gets used.
+  Widget _buildMobile(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spaceMd,
+        vertical: context.tokens.spaceSm,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppIconButton.ghost(
+            onPressed: currentPage > 0
+                ? () => onPageChanged?.call(currentPage - 1)
+                : null,
+            icon: const Icon(AgoraIcons.chevron_left),
+          ),
+          AppText.bodySm(
+            'Page ${currentPage + 1} of ${totalPages < 1 ? 1 : totalPages}',
+            color: context.colors.mutedForeground,
+          ),
+          AppIconButton.ghost(
+            onPressed: currentPage < totalPages - 1
+                ? () => onPageChanged?.call(currentPage + 1)
+                : null,
+            icon: const Icon(AgoraIcons.chevron_right),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: Sizes.lg,

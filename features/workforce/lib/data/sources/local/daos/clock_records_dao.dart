@@ -41,9 +41,7 @@ class ClockRecordsDao extends DatabaseAccessor<AgoraDatabase> {
 
   Future<ClockRecordEntity?> getClockRecordById(int id) {
     final table = attachedDatabase.clockRecordsTable;
-    return (select(
-      table,
-    )..where((t) => t.id.equals(id))).getSingleOrNull();
+    return (select(table)..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
   Future<ClockRecordEntity?> getActiveClockRecord(int employeeId) {

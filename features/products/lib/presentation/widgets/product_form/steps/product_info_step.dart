@@ -111,8 +111,9 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                           ? t.products.form.photo.add_photo
                           : t.products.form.photo.change_photo,
                       onPressed: () async {
-                        final result = await AdaptiveSheet.show<String?>(
+                        final result = await AdaptiveModal.show<String?>(
                           context: context,
+                          style: AdaptiveModalStyle.sideSheet,
                           builder: (ctx, _) =>
                               ProductPhotoPickerSheet(initialValue: imageUrl),
                         );

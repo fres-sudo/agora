@@ -31,7 +31,10 @@ class CategoryListItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(Sizes.sm),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.lg, vertical: Sizes.md),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Sizes.lg,
+          vertical: Sizes.md,
+        ),
         decoration: BoxDecoration(
           color: colors.card,
           borderRadius: BorderRadius.circular(context.tokens.radiusLg),

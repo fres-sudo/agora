@@ -200,20 +200,17 @@ void main() {
       expect(data.recentOrders, isEmpty);
     });
 
-    test(
-      'folds the workforce cash-variance rollup into the summary '
-      '(docs/features/04-volunteer-shift-accountability.md)',
-      () async {
-        workforce.totalVarianceCents = -350;
+    test('folds the workforce cash-variance rollup into the summary '
+        '(docs/features/04-volunteer-shift-accountability.md)', () async {
+      workforce.totalVarianceCents = -350;
 
-        final data = (await repository.getReport(
-          ReportPeriod.all,
-          now: now,
-        )).unwrap();
+      final data = (await repository.getReport(
+        ReportPeriod.all,
+        now: now,
+      )).unwrap();
 
-        expect(data.summary.cashVarianceCents, -350);
-      },
-    );
+      expect(data.summary.cashVarianceCents, -350);
+    });
   });
 }
 

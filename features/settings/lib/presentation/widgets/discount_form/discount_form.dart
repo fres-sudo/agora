@@ -9,7 +9,12 @@ import 'package:utils/utils.dart';
 /// Percentage discounts store the raw percent in [Discount.value]; fixed
 /// discounts store cents (parsed from the euro amount the operator types).
 class DiscountForm extends StatefulWidget {
-  const DiscountForm({super.key, this.initialDiscount});
+  const DiscountForm({super.key, this.initialDiscount, this.scrollController});
+
+  /// Scroll controller supplied by [AdaptiveModal] when this form is shown as
+  /// a phone bottom sheet. Attaching it is what lets a drag on the fields move
+  /// the sheet itself; null in the dialog presentation.
+  final ScrollController? scrollController;
 
   final Discount? initialDiscount;
 
@@ -132,6 +137,7 @@ class _DiscountFormState extends State<DiscountForm> {
 
         Flexible(
           child: SingleChildScrollView(
+            controller: widget.scrollController,
             padding: EdgeInsets.all(context.tokens.spaceLg),
             child: Form(
               key: _formKey,

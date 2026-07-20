@@ -23,8 +23,9 @@ class CashCountSheet extends StatefulWidget {
   static Future<CashCountResult?> show(
     BuildContext context, {
     required int expectedCents,
-  }) => AdaptiveSheet.show<CashCountResult?>(
+  }) => AdaptiveModal.show<CashCountResult?>(
     context: context,
+    style: AdaptiveModalStyle.sideSheet,
     builder: (ctx, scrollController) =>
         CashCountSheet(expectedCents: expectedCents),
   );
@@ -75,9 +76,7 @@ class _CashCountSheetState extends State<CashCountSheet> {
                   color: context.colors.mutedForeground,
                 ),
                 const SizedBox(height: Sizes.lg),
-                Center(
-                  child: AppText.headingSm(formatCents(_countedCents)),
-                ),
+                Center(child: AppText.headingSm(formatCents(_countedCents))),
                 const SizedBox(height: Sizes.md),
                 MoneyKeypad(
                   valueCents: _countedCents,

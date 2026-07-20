@@ -3,6 +3,8 @@ import 'package:catalog/models/category.dart';
 import 'package:catalog/widgets/category_form/category_form.dart';
 import 'package:flutter/material.dart';
 
+/// Presents [CategoryForm] as a draggable sheet on a phone and a dialog on
+/// tablet/desktop. See [AdaptiveModal].
 class CategoryFormWrapper {
   const CategoryFormWrapper._();
 
@@ -17,31 +19,14 @@ class CategoryFormWrapper {
   static Future<Category?> _show(
     BuildContext context, {
     Category? initialCategory,
-  }) async {
-    if (context.isMobile) {
-      return showModalBottomSheet<Category?>(
-        context: context,
-        isScrollControlled: true,
-        useSafeArea: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        builder: (context) => CategoryForm(initialCategory: initialCategory),
-      );
-    } else {
-      return showDialog<Category?>(
-        context: context,
-        builder: (context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: context.tokens.borderRadiusLg,
-          ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500, maxHeight: 700),
-            child: CategoryForm(initialCategory: initialCategory),
-          ),
-        ),
-      );
-    }
+  }) {
+    return AdaptiveModal.show<Category?>(
+      context: context,
+      maxWidth: 500,
+      builder: (context, scrollController) => CategoryForm(
+        initialCategory: initialCategory,
+        scrollController: scrollController,
+      ),
+    );
   }
 }

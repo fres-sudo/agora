@@ -26,8 +26,9 @@ class ModifierPickerSheet extends StatefulWidget {
     BuildContext context,
     Product product,
   ) {
-    return AdaptiveSheet.show<List<SelectedModifiers>>(
+    return AdaptiveModal.show<List<SelectedModifiers>>(
       context: context,
+      style: AdaptiveModalStyle.sideSheet,
       builder: (ctx, _) => ModifierPickerSheet(product: product),
     );
   }

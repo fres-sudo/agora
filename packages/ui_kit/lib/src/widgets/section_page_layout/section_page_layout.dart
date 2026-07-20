@@ -55,6 +55,10 @@ class SectionPageLayout extends StatefulWidget {
 }
 
 class _SectionPageLayoutState extends State<SectionPageLayout> {
+  /// Above this many sections the phone tab bar is abandoned in favour of
+  /// [SectionMobileNavigator].
+  static const int _maxMobileTabs = 5;
+
   late bool _isCollapsed;
 
   @override
@@ -80,6 +84,17 @@ class _SectionPageLayoutState extends State<SectionPageLayout> {
   }
 
   Widget _buildMobileLayout() {
+    // A tab bar only works while the sections fit across the bottom of a
+    // phone; past that it silently becomes unusable, so anything longer gets
+    // the list-then-detail treatment.
+    if (widget.items.length > _maxMobileTabs) {
+      return SectionMobileNavigator(
+        items: widget.items,
+        selectedIndex: widget.selectedIndex,
+        onItemSelected: widget.onItemSelected,
+      );
+    }
+
     return Column(
       children: [
         // Content area

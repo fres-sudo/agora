@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_kit/src/responsive/responsive_scope.dart';
 
 /// Different categories a device screen can be associated.
 // One could add more types if necessary these three should suffice for most apps
@@ -23,10 +24,22 @@ enum ScreenSize {
 
 extension ScreenSizeX on BuildContext {
   /// {@macro BreakPoint.screenType}
-  // By altering the default value of the breakpoint, one can modify the breakpoint being used.
+  ///
+  /// Resolves against the nearest [ResponsiveScope] when one is mounted (the
+  /// normal case — the app root installs it), so overlay routes stay in
+  /// agreement with the page that opened them and tests can pin a breakpoint.
+  /// Falls back to the ambient [MediaQuery] width otherwise.
+  ///
+  /// Passing an explicit [breakpoint] bypasses the scope and always measures
+  /// the ambient width.
   ScreenSize screenSize([BreakPoint? breakpoint]) {
-    breakpoint ??= BreakPoint.instance;
-    return breakpoint.screenType(MediaQuery.of(this).size.shortestSide);
+    if (breakpoint == null) {
+      final scope = ResponsiveScope.maybeOf(this);
+      if (scope != null) return scope.screenSize;
+    }
+    return (breakpoint ?? BreakPoint.instance).screenType(
+      MediaQuery.sizeOf(this).width,
+    );
   }
 
   /// {@macro BreakPoint.isMobile}
@@ -42,8 +55,30 @@ extension ScreenSizeX on BuildContext {
   /// {@macro BreakPoint.isDesktop}
   bool get isDesktop => screenSize() == ScreenSize.desktop;
 
+  /// True when the viewport is too short for comfortable vertical chrome —
+  /// a phone held in landscape, or a window squeezed by the soft keyboard.
+  /// Independent of [screenSize], which is derived from width alone.
+  bool get isCompactHeight =>
+      ResponsiveScope.maybeOf(this)?.isCompactHeight ??
+      MediaQuery.sizeOf(this).height < BreakPoint.compactHeight;
+
   /// True If the keyboard is visible in the screen
   bool get isKeyboardVisible => MediaQuery.of(this).viewInsets.bottom > 100;
+
+  /// Picks one of three values for the current breakpoint. [tablet] falls back
+  /// to [desktop] when omitted, which is the common case in this app (the
+  /// tablet layout *is* the desktop layout).
+  ///
+  /// ```dart
+  /// final columns = context.responsive(mobile: 2, desktop: 4);
+  /// ```
+  T responsive<T>({required T mobile, T? tablet, required T desktop}) {
+    return screenSize().map(
+      mobile: mobile,
+      tablet: tablet ?? desktop,
+      desktop: desktop,
+    );
+  }
 }
 
 /// A Breakpoint describes (in density) pixels certain points in which the UI should alter its appeal.
@@ -58,10 +93,15 @@ class BreakPoint {
   final num tablet;
   final num desktop;
 
+  /// Viewport heights below this are "compact" — see
+  /// [ScreenSizeX.isCompactHeight]. Sized to catch a phone in landscape
+  /// (~390-430dp tall) without tripping on a short desktop window.
+  static const double compactHeight = 500;
+
   static BreakPoint? _instance;
 
   static BreakPoint get instance {
-    return _instance ?? const BreakPoint.material();
+    return _instance ?? const BreakPoint.agora();
   }
 
   /// Changes the default BreakPoint [instance] to [breakPoint].
@@ -70,6 +110,11 @@ class BreakPoint {
   }
 
   const BreakPoint({required this.tablet, required this.desktop});
+
+  /// The app default. A phone (<600) gets the single-column layouts; a 10"
+  /// tablet in portrait (768) and up gets the sidebar/multi-column layouts the
+  /// app was originally built for; 1024+ is treated as desktop.
+  const BreakPoint.agora() : this(tablet: 600, desktop: 1024);
 
   //https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes
   const BreakPoint.android() : this(tablet: 600, desktop: 840);
@@ -86,26 +131,28 @@ class BreakPoint {
   /// {@template BreakPoint.isMobile}
   /// True if the device screen size is a mobile device according to a [BreakPoint]
   /// {@endtemplate}
-  bool isMobile(double size) => size < tablet;
+  bool isMobile(double width) => width < tablet;
 
   /// {@template BreakPoint.isTablet}
   /// True if the device screen size is a tablet according to a [BreakPoint].
   /// {@endtemplate}
-  bool isTablet(double size) => size > tablet && size < desktop;
+  bool isTablet(double width) => width >= tablet && width < desktop;
 
   /// {@template BreakPoint.isDesktop}
   /// True if the device screen size is a tablet according to a [BreakPoint].
   /// {@endtemplate}
-  bool isDesktop(double size) => size > desktop;
+  bool isDesktop(double width) => width >= desktop;
 
   /// {@template BreakPoint.screenType}
-  /// Returns a devices [ScreenSize] according to it's shortest side in pixels.
-  /// Note: that [ScreenSize] only refers to the screen attributes, one could have
-  /// a desktop computer with a small screen. So use this only to assist UI decisions.
+  /// Returns the [ScreenSize] for a viewport of [width] logical pixels.
+  ///
+  /// Keyed on width, not the shortest side, so a desktop window dragged narrow
+  /// adopts the phone layout and a tablet in portrait keeps the tablet one.
+  /// Height is handled separately by [ScreenSizeX.isCompactHeight].
   /// {@endtemplate}
-  ScreenSize screenType(double shortestSide) {
-    if (shortestSide > desktop) return ScreenSize.desktop;
-    if (shortestSide > tablet) return ScreenSize.tablet;
+  ScreenSize screenType(double width) {
+    if (width >= desktop) return ScreenSize.desktop;
+    if (width >= tablet) return ScreenSize.tablet;
     return ScreenSize.mobile;
   }
 }

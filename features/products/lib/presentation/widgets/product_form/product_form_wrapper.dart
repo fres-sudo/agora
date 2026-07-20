@@ -21,8 +21,9 @@ class ProductFormWrapper {
     final modifiersRepo = context.read<ModifiersRepository>();
     final isEditing = product != null;
 
-    final result = await AdaptiveSheet.show<bool>(
+    final result = await AdaptiveModal.show<bool>(
       context: context,
+      style: AdaptiveModalStyle.sideSheet,
       barrierDismissible: false,
       builder: (ctx, _) => BlocProvider(
         create: (_) {

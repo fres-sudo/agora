@@ -103,8 +103,12 @@ class AppTokens extends ThemeExtension<AppTokens> {
     durationNormal: Duration(milliseconds: 200),
     durationSlow: Duration(milliseconds: 320),
     shadowSm: [],
-    shadowMd: [BoxShadow(color: Color(0x33141414), blurRadius: 0, offset: Offset(2, 2))],
-    shadowLg: [BoxShadow(color: Color(0x40141414), blurRadius: 0, offset: Offset(4, 4))],
+    shadowMd: [
+      BoxShadow(color: Color(0x33141414), blurRadius: 0, offset: Offset(2, 2)),
+    ],
+    shadowLg: [
+      BoxShadow(color: Color(0x40141414), blurRadius: 0, offset: Offset(4, 4)),
+    ],
   );
 
   static const AppTokens dark = AppTokens(
@@ -131,8 +135,12 @@ class AppTokens extends ThemeExtension<AppTokens> {
     shadowSm: [],
     // Dark canvases can't show a black offset shadow, so elevation reads as a
     // crisp, faint light-edged offset instead — same flat/hard-edge language.
-    shadowMd: [BoxShadow(color: Color(0x33FFFFFF), blurRadius: 0, offset: Offset(2, 2))],
-    shadowLg: [BoxShadow(color: Color(0x40FFFFFF), blurRadius: 0, offset: Offset(4, 4))],
+    shadowMd: [
+      BoxShadow(color: Color(0x33FFFFFF), blurRadius: 0, offset: Offset(2, 2)),
+    ],
+    shadowLg: [
+      BoxShadow(color: Color(0x40FFFFFF), blurRadius: 0, offset: Offset(4, 4)),
+    ],
   );
 
   @override
@@ -192,7 +200,8 @@ class AppTokens extends ThemeExtension<AppTokens> {
   AppTokens lerp(covariant ThemeExtension<AppTokens>? other, double t) {
     if (other is! AppTokens) return this;
     double d(double a, double b) => lerpDouble(a, b, t)!;
-    List<BoxShadow> s(List<BoxShadow> a, List<BoxShadow> b) => BoxShadow.lerpList(a, b, t) ?? b;
+    List<BoxShadow> s(List<BoxShadow> a, List<BoxShadow> b) =>
+        BoxShadow.lerpList(a, b, t) ?? b;
     return AppTokens(
       spaceXxs: d(spaceXxs, other.spaceXxs),
       spaceXs: d(spaceXs, other.spaceXs),

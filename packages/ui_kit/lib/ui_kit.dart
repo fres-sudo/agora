@@ -18,6 +18,8 @@ export 'src/theme/cubits/theme_cubit.dart';
 
 // -- Foundation: responsive & device utilities -------------------------------
 export 'src/responsive/device.dart';
+export 'src/responsive/responsive_scope.dart';
+export 'src/responsive/adaptive_layout.dart';
 
 // -- Foundation: bundled data --------------------------------------------------
 export 'src/data/product_stock_gallery.dart';
@@ -50,10 +52,14 @@ export 'src/overlays/app_select.dart';
 export 'src/overlays/app_multi_select.dart';
 export 'src/overlays/app_combobox.dart';
 export 'src/overlays/app_creatable_combobox.dart';
+export 'src/overlays/adaptive_modal.dart';
+export 'src/overlays/app_sheet_scaffold.dart';
+export 'src/overlays/app_persistent_sheet.dart';
 
 // -- Organisms ---------------------------------------------------------------
 export 'src/organisms/app_dialog.dart';
 export 'src/organisms/app_app_bar.dart';
+export 'src/organisms/adaptive_app_bar.dart';
 export 'src/widgets/adaptive_sheet.dart';
 export 'src/widgets/app_snack_bar.dart';
 export 'src/widgets/app_shell/app_shell_module.dart';
@@ -69,6 +75,7 @@ export 'src/widgets/data_table/data_table_empty_state.dart';
 export 'src/widgets/data_table/data_table_filter_dialog.dart';
 export 'src/widgets/data_table/data_table_header.dart';
 export 'src/widgets/data_table/data_table_loading_state.dart';
+export 'src/widgets/data_table/data_table_mobile_list.dart';
 export 'src/widgets/data_table/data_table_pagination.dart';
 export 'src/widgets/data_table/data_table_view.dart';
 export 'src/widgets/money_keypad.dart';
@@ -81,6 +88,7 @@ export 'src/widgets/section_page_layout/section_page_layout.dart';
 export 'src/widgets/section_page_layout/section_sidebar.dart';
 export 'src/widgets/section_page_layout/section_sidebar_item.dart';
 export 'src/widgets/section_page_layout/section_tab_bar.dart';
+export 'src/widgets/section_page_layout/section_mobile_navigator.dart';
 
 // -- Backwards-compat: legacy confirmation dialog (existing call sites) -------
 export 'src/widgets/confirmation_dialog.dart';

@@ -69,9 +69,13 @@ class _AgoraAppState extends State<AgoraApp> {
   /// Wraps the app in a corner banner for non-production flavors so it is
   /// always obvious which environment a build is pointing at.
   Widget _flavorBanner(BuildContext context, Widget? child) {
-    final content = AppRootListener(
-      router: _router!,
-      child: child ?? const SizedBox(),
+    // Mounted here (inside MaterialApp.builder) so it sits above the router's
+    // navigator: every page, dialog and sheet resolves the same breakpoint.
+    final content = ResponsiveScope.fromMediaQuery(
+      child: AppRootListener(
+        router: _router!,
+        child: child ?? const SizedBox(),
+      ),
     );
     if (!widget.config.flavor.isNonProduction) return content;
     return Banner(

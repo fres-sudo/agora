@@ -15,7 +15,12 @@ import 'package:catalog/models/product.dart';
 /// item list at once, so this form can just return the full desired [Combo]
 /// as-is, no client-side diffing needed.
 class ComboForm extends StatefulWidget {
-  const ComboForm({super.key, this.initialCombo});
+  const ComboForm({super.key, this.initialCombo, this.scrollController});
+
+  /// Scroll controller supplied by [AdaptiveModal] when this form is shown as
+  /// a phone bottom sheet. Attaching it is what lets a drag on the fields move
+  /// the sheet itself; null in the dialog presentation.
+  final ScrollController? scrollController;
 
   final Combo? initialCombo;
 
@@ -105,6 +110,7 @@ class _ComboFormState extends State<ComboForm> {
         // Form Content
         Flexible(
           child: SingleChildScrollView(
+            controller: widget.scrollController,
             padding: EdgeInsets.all(context.tokens.spaceLg),
             child: Form(
               key: _formKey,

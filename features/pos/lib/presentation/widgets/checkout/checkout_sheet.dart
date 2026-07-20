@@ -38,8 +38,9 @@ class CheckoutSheet extends StatelessWidget {
         appliedDiscount: appliedDiscount,
       );
 
-    return AdaptiveSheet.show<Order>(
+    return AdaptiveModal.show<Order>(
       context: context,
+      style: AdaptiveModalStyle.sideSheet,
       builder: (sheetContext, scrollController) {
         // Re-provide the already-registered cubit so the sheet (built under the
         // root navigator) can access it regardless of tree position.

@@ -27,8 +27,9 @@ class DiscountSheet extends StatefulWidget {
     discountsBloc.add(const DiscountsEvent.started());
     validationCubit.clear();
 
-    return AdaptiveSheet.show<Discount>(
+    return AdaptiveModal.show<Discount>(
       context: context,
+      style: AdaptiveModalStyle.sideSheet,
       builder: (sheetContext, scrollController) {
         return MultiBlocProvider(
           providers: [

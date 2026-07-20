@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 
+/// How much a column matters when the table collapses into cards on a phone.
+///
+/// A phone card has room for roughly a title, a supporting line and a trailing
+/// value — everything else has to go. Tagging columns here is what lets one
+/// generic card renderer serve every table in the app.
+enum DataTableColumnPriority {
+  /// The row's identity — rendered as the card's title. Exactly one column per
+  /// table should claim this; the first one wins.
+  primary,
+
+  /// Supporting detail — rendered on the card's subtitle line.
+  secondary,
+
+  /// The row's headline value (price, total, quantity) — rendered on the
+  /// card's trailing edge.
+  trailing,
+
+  /// Dropped entirely on phones. The default for anything unlabelled, since
+  /// most desktop tables carry more columns than a card can hold.
+  hidden,
+}
+
 /// Defines a column in the data table.
 ///
 /// Each column specifies how to render a cell for a given item of type [T].
@@ -27,6 +49,13 @@ class DataTableColumn<T> {
   /// Builder function that creates the cell widget for a given item.
   final Widget Function(T item) cellBuilder;
 
+  /// Where this column lands when the table renders as cards on a phone.
+  final DataTableColumnPriority priority;
+
+  /// Whether to prefix the value with [label] on the phone card. Useful for
+  /// figures that are ambiguous without their header ("12" vs "Stock 12").
+  final bool showLabelOnMobile;
+
   const DataTableColumn({
     required this.id,
     required this.label,
@@ -35,5 +64,7 @@ class DataTableColumn<T> {
     this.flex = 1,
     this.sortable = false,
     this.alignment = Alignment.centerLeft,
+    this.priority = DataTableColumnPriority.hidden,
+    this.showLabelOnMobile = false,
   });
 }

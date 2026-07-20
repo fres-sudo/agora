@@ -10,6 +10,7 @@ import 'package:catalog/models/product.dart';
 import 'package:order_management/models/combo_line_component.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form.dart';
 import 'package:app_settings/app_settings.dart';
+import 'package:database/database.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
@@ -24,6 +25,10 @@ class PosPage extends StatefulWidget {
 
 class _PosPageState extends State<PosPage> {
   OrderType _orderType = OrderType.dineIn;
+
+  /// Drives the phone cart sheet so a completed sale can drop it back to the
+  /// peek bar. Unused on tablet/desktop, where the cart is a fixed column.
+  final _cartSheetController = PersistentSheetController();
 
   @override
   void initState() {
@@ -149,11 +154,9 @@ class _PosPageState extends State<PosPage> {
           ),
         );
 
-      // Close the mobile cart drawer if it is open.
-      final scaffold = Scaffold.maybeOf(context);
-      if (scaffold?.isEndDrawerOpen ?? false) {
-        Navigator.of(context).pop();
-      }
+      // Drop the phone cart sheet back to its peek state, ready for the next
+      // customer.
+      _cartSheetController.collapse();
     }
   }
 
@@ -233,10 +236,7 @@ class _PosPageState extends State<PosPage> {
         }
       },
       child: Scaffold(
-        floatingActionButton: const AppShellMenuButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        drawer: isTabletOrLarger ? null : _buildMobileDrawer(context),
-        endDrawer: isTabletOrLarger ? null : _buildOrderDrawer(context),
+        appBar: AdaptiveAppBar.of(context, title: 'Point of Sale'),
         body: isTabletOrLarger
             ? _TabletLayout(
                 orderType: _orderType,
@@ -254,145 +254,60 @@ class _PosPageState extends State<PosPage> {
                 buildCartQuantities: _buildCartQuantities,
                 buildComboQuantities: _buildComboQuantities,
               )
-            : Stack(
-                children: [
-                  _MobileLayout(
-                    orderType: _orderType,
-                    onOrderTypeChanged: _onOrderTypeChanged,
-                    onProductTap: _onProductTap,
-                    onComboTap: _onComboTap,
-                    onCategorySelected: _onCategorySelected,
-                    onSearch: _onSearch,
-                    onClearOrder: _onClearOrder,
-                    onProcessTransaction: _onProcessTransaction,
-                    onItemRemoved: _onItemRemoved,
-                    onItemQuantityChanged: _onItemQuantityChanged,
-                    buildCartQuantities: _buildCartQuantities,
-                    buildComboQuantities: _buildComboQuantities,
-                  ),
-                  // Cart access moves off the (removed) app bar into a floating
-                  // button mirroring the menu button on the opposite side.
-                  const Align(
-                    alignment: Alignment.topRight,
-                    child: _PosCartButton(),
-                  ),
-                ],
-              ),
+            : _buildMobileBody(context),
       ),
     );
   }
 
-  Widget _buildMobileDrawer(BuildContext context) {
-    return BlocBuilder<ProductsBloc, ProductsState>(
-      builder: (context, state) {
-        final selectedCategoryId = state is ProductsLoaded
-            ? state.selectedCategoryId
-            : null;
-
-        return Drawer(
-          child: SafeArea(
-            child: PosCategoryList(
-              categories: state.categories,
-              selectedCategoryId: selectedCategoryId,
-              onCategorySelected: (id) {
-                _onCategorySelected(id);
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        );
-      },
+  /// Phone POS: the product list keeps the whole screen and the cart rides
+  /// along in a persistent sheet. The sheet is non-modal on purpose — at a
+  /// sagra stand the operator adds items while the customer is still talking,
+  /// so the cart has to stay glanceable without ever blocking the menu.
+  Widget _buildMobileBody(BuildContext context) {
+    final products = _MobileLayout(
+      onProductTap: _onProductTap,
+      onComboTap: _onComboTap,
+      onCategorySelected: _onCategorySelected,
+      onSearch: _onSearch,
+      buildCartQuantities: _buildCartQuantities,
+      buildComboQuantities: _buildComboQuantities,
     );
-  }
 
-  Widget _buildOrderDrawer(BuildContext context) {
     return BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
       builder: (context, state) {
-        return Drawer(
-          width: MediaQuery.of(context).size.width * 0.85,
-          child: SafeArea(
-            child: PosOrderPanel(
-              currentOrder: state.currentOrder,
-              orderType: _orderType,
-              onOrderTypeChanged: _onOrderTypeChanged,
-              onClearOrder: _onClearOrder,
-              onProcessTransaction: _onProcessTransaction,
-              onItemRemoved: _onItemRemoved,
-              onItemQuantityChanged: _onItemQuantityChanged,
-              appliedDiscount: state.appliedDiscount,
-              onDiscountTap: _onDiscountTap,
-              onRemoveDiscount: _onRemoveDiscount,
-            ),
+        final currencySymbol =
+            context.watch<SettingsCubit>().getString(
+              SettingsKeys.currencySymbol,
+            ) ??
+            '€';
+
+        return AppPersistentSheet(
+          controller: _cartSheetController,
+          // With an empty cart there is nothing to summarise, so the sheet
+          // gets out of the way entirely.
+          isVisible: state.itemCount > 0,
+          peekHeight: 76,
+          body: products,
+          peekBuilder: (context, controller) => PosCartPeekBar(
+            itemCount: state.itemCount,
+            totalCents: state.currentOrder?.grandTotalCents ?? 0,
+            currencySymbol: currencySymbol,
+            onExpand: controller.expand,
+          ),
+          expandedBuilder: (context, _) => PosOrderPanel(
+            currentOrder: state.currentOrder,
+            orderType: _orderType,
+            onOrderTypeChanged: _onOrderTypeChanged,
+            onClearOrder: _onClearOrder,
+            onProcessTransaction: _onProcessTransaction,
+            onItemRemoved: _onItemRemoved,
+            onItemQuantityChanged: _onItemQuantityChanged,
+            appliedDiscount: state.appliedDiscount,
+            onDiscountTap: _onDiscountTap,
+            onRemoveDiscount: _onRemoveDiscount,
           ),
         );
       },
-    );
-  }
-}
-
-/// Floating cart button for the mobile POS layout. Replaces the cart action
-/// that used to live in the app bar; opens the order panel end-drawer and
-/// shows a live item-count badge. Styled to match [AppShellMenuButton].
-class _PosCartButton extends StatelessWidget {
-  const _PosCartButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(Sizes.sm),
-        child: BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
-          builder: (context, state) {
-            return Material(
-              color: context.colors.card,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                side: BorderSide(color: context.colors.border),
-              ),
-              elevation: 2,
-              child: InkWell(
-                onTap: () => Scaffold.of(context).openEndDrawer(),
-                borderRadius: BorderRadius.circular(Sizes.borderRadius),
-                child: SizedBox(
-                  width: 44,
-                  height: 44,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Icon(
-                        AgoraIcons.cart,
-                        size: 22,
-                        color: context.colors.foreground,
-                      ),
-                      if (state.itemCount > 0)
-                        Positioned(
-                          right: 6,
-                          top: 6,
-                          child: Container(
-                            padding: EdgeInsets.all(context.tokens.spaceXxs),
-                            decoration: BoxDecoration(
-                              color: context.colors.primary,
-                              shape: BoxShape.circle,
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 16,
-                              minHeight: 16,
-                            ),
-                            child: AppText.caption(
-                              '${state.itemCount}',
-                              color: context.colors.primaryForeground,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
     );
   }
 }
@@ -536,32 +451,22 @@ class _TabletLayout extends StatelessWidget {
   }
 }
 
-/// Mobile layout with single column and drawers
+/// Phone menu column: search, a pinned horizontal category strip, then the
+/// products. The cart is not part of this tree — it lives in the persistent
+/// sheet layered over it (see `_PosPageState._buildMobileBody`).
 class _MobileLayout extends StatelessWidget {
-  final OrderType orderType;
-  final ValueChanged<OrderType> onOrderTypeChanged;
   final ValueChanged<Product> onProductTap;
   final ValueChanged<Combo> onComboTap;
   final ValueChanged<int?> onCategorySelected;
   final ValueChanged<String> onSearch;
-  final VoidCallback onClearOrder;
-  final VoidCallback onProcessTransaction;
-  final ValueChanged<int> onItemRemoved;
-  final void Function(int lineItemId, int quantity) onItemQuantityChanged;
   final Map<int, int> Function(ActiveOrderState) buildCartQuantities;
   final Map<int, int> Function(ActiveOrderState) buildComboQuantities;
 
   const _MobileLayout({
-    required this.orderType,
-    required this.onOrderTypeChanged,
     required this.onProductTap,
     required this.onComboTap,
     required this.onCategorySelected,
     required this.onSearch,
-    required this.onClearOrder,
-    required this.onProcessTransaction,
-    required this.onItemRemoved,
-    required this.onItemQuantityChanged,
     required this.buildCartQuantities,
     required this.buildComboQuantities,
   });
@@ -572,12 +477,17 @@ class _MobileLayout extends StatelessWidget {
       children: [
         // Search bar
         Padding(
-          padding: EdgeInsets.all(context.tokens.spaceMd),
+          padding: EdgeInsets.fromLTRB(
+            context.tokens.spaceMd,
+            context.tokens.spaceSm,
+            context.tokens.spaceMd,
+            context.tokens.spaceSm,
+          ),
           child: PosSearchBar(onSearch: onSearch),
         ),
-        // Horizontal category scroll
+        // Horizontal category scroll — stays pinned while products scroll.
         SizedBox(
-          height: 60,
+          height: 52,
           child: BlocBuilder<ProductsBloc, ProductsState>(
             builder: (context, state) {
               final selectedCategoryId = state is ProductsLoaded

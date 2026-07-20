@@ -43,7 +43,10 @@ class AppChip extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(tokens.radiusFull),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: tokens.spaceMd, vertical: tokens.spaceSm),
+            padding: EdgeInsets.symmetric(
+              horizontal: tokens.spaceMd,
+              vertical: tokens.spaceSm,
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [

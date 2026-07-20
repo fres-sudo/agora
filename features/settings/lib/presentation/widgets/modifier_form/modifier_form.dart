@@ -16,7 +16,12 @@ import 'package:catalog/models/modifier_option.dart';
 /// responsible for diffing against the original group and dispatching the
 /// right granular events (see `ModifierSection._onEditModifier`).
 class ModifierForm extends StatefulWidget {
-  const ModifierForm({super.key, this.initialGroup});
+  const ModifierForm({super.key, this.initialGroup, this.scrollController});
+
+  /// Scroll controller supplied by [AdaptiveModal] when this form is shown as
+  /// a phone bottom sheet. Attaching it is what lets a drag on the fields move
+  /// the sheet itself; null in the dialog presentation.
+  final ScrollController? scrollController;
 
   final ModifierGroup? initialGroup;
 
@@ -106,6 +111,7 @@ class _ModifierFormState extends State<ModifierForm> {
         // Form Content
         Flexible(
           child: SingleChildScrollView(
+            controller: widget.scrollController,
             padding: EdgeInsets.all(context.tokens.spaceLg),
             child: Form(
               key: _formKey,

@@ -126,7 +126,10 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
     return BlocBuilder<ClockInCubit, ClockInState>(
       builder: (context, clockState) {
-        final isClockedIn = clockState.maybeWhen(clockedIn: (_) => true, orElse: () => false);
+        final isClockedIn = clockState.maybeWhen(
+          clockedIn: (_) => true,
+          orElse: () => false,
+        );
 
         return AutoTabsRouter(
           homeIndex: 0,
@@ -134,7 +137,9 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
           builder: (context, child) {
             final tabsRouter = AutoTabsRouter.of(context);
             final currentRouteName = tabsRouter.current.name;
-            var activeIndex = entries.indexWhere((e) => e.route.routeName == currentRouteName);
+            var activeIndex = entries.indexWhere(
+              (e) => e.route.routeName == currentRouteName,
+            );
             if (activeIndex < 0) {
               activeIndex = _selectedIndex.clamp(0, entries.length - 1);
             }
@@ -148,7 +153,13 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
               currentOperator: 'Main Counter',
               onOperatorSwitchTap: () {},
               openSidebar: () => _scaffoldKey.currentState?.openDrawer(),
-              child: _buildLayout(context, child, tabsRouter, activeIndex, entries),
+              child: _buildLayout(
+                context,
+                child,
+                tabsRouter,
+                activeIndex,
+                entries,
+              ),
             );
           },
         );
@@ -173,15 +184,25 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
   /// expected-cash lookup itself errors.
   Future<void> _handleClockOut(int employeeId) async {
     final cubit = context.read<ClockInCubit>();
-    final activeRecord = cubit.state.maybeWhen(clockedIn: (record) => record, orElse: () => null);
+    final activeRecord = cubit.state.maybeWhen(
+      clockedIn: (record) => record,
+      orElse: () => null,
+    );
 
     if (activeRecord != null) {
       final workforceRepo = context.read<WorkforceRepository>();
-      final expectedResult = await workforceRepo.expectedCashCentsForShift(activeRecord.id);
-      final expectedCents = expectedResult.isSuccess ? expectedResult.unwrap() : 0;
+      final expectedResult = await workforceRepo.expectedCashCentsForShift(
+        activeRecord.id,
+      );
+      final expectedCents = expectedResult.isSuccess
+          ? expectedResult.unwrap()
+          : 0;
 
       if (!mounted) return;
-      final count = await CashCountSheet.show(context, expectedCents: expectedCents);
+      final count = await CashCountSheet.show(
+        context,
+        expectedCents: expectedCents,
+      );
       if (count != null) {
         await workforceRepo.recordCashReconciliation(
           clockRecordId: activeRecord.id,
@@ -218,12 +239,17 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                   items: [for (final e in entries) e.item],
                   selectedIndex: activeIndex,
                   isCollapsed: _isSidebarCollapsed,
-                  onCollapsedChanged: (v) => setState(() => _isSidebarCollapsed = v),
+                  onCollapsedChanged: (v) =>
+                      setState(() => _isSidebarCollapsed = v),
                   onItemSelected: (index) {
                     setState(() => _selectedIndex = index);
                     tabsRouter.navigate(entries[index].route);
                   },
-                  logo: Image.asset('assets/brand/logo.png', width: 26, height: 26),
+                  logo: Image.asset(
+                    'assets/brand/logo.png',
+                    width: 26,
+                    height: 26,
+                  ),
                 ),
                 Expanded(
                   child: Padding(
@@ -281,7 +307,10 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                   const Spacer(),
                   AppIconButton.ghost(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(AgoraIcons.x_mark, color: AppColors.dark.mutedForeground),
+                    icon: Icon(
+                      AgoraIcons.x_mark,
+                      color: AppColors.dark.mutedForeground,
+                    ),
                     style: IconButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: const Size(40, 40),

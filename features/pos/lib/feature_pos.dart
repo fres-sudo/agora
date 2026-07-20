@@ -19,3 +19,4 @@ export 'presentation/widgets/pos_order_type_selector.dart';
 export 'presentation/widgets/pos_product_card.dart';
 export 'presentation/widgets/pos_product_grid.dart';
 export 'presentation/widgets/pos_search_bar.dart';
+export 'presentation/widgets/pos_cart_peek_bar.dart';

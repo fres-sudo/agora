@@ -28,8 +28,7 @@ class ReportPage extends StatelessWidget {
     return BlocBuilder<ReportsCubit, ReportsState>(
       builder: (context, state) {
         return Scaffold(
-          floatingActionButton: const AppShellMenuButton(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+          appBar: AdaptiveAppBar.of(context, title: 'Reports'),
           body: _buildBody(context, state),
         );
       },
@@ -401,16 +400,19 @@ class ReportPage extends StatelessWidget {
         columns: [
           DataTableColumn(
             id: 'id',
+            priority: DataTableColumnPriority.primary,
             label: t.report.recent_order.id,
             cellBuilder: (item) => AppText.titleMd('#${item.id ?? '-'}'),
           ),
           DataTableColumn(
             id: 'status',
+            priority: DataTableColumnPriority.secondary,
             label: t.report.recent_order.status,
             cellBuilder: (item) => _buildStatusBadge(context, item.status),
           ),
           DataTableColumn(
             id: 'orderDate',
+            priority: DataTableColumnPriority.secondary,
             label: t.report.recent_order.order_date,
             cellBuilder: (item) => AppText.bodySm(
               _formatDateTime(item.createdAt),
@@ -419,6 +421,7 @@ class ReportPage extends StatelessWidget {
           ),
           DataTableColumn(
             id: 'orderType',
+            priority: DataTableColumnPriority.secondary,
             label: t.report.recent_order.order_type,
             cellBuilder: (item) =>
                 AppText.body(_orderTypeLabel(item.orderType)),
@@ -430,6 +433,8 @@ class ReportPage extends StatelessWidget {
           ),
           DataTableColumn(
             id: 'qty',
+            priority: DataTableColumnPriority.trailing,
+            showLabelOnMobile: true,
             label: t.report.recent_order.qty,
             cellBuilder: (item) => AppText.body(
               item.items.fold<int>(0, (sum, i) => sum + i.quantity).toString(),
@@ -437,6 +442,7 @@ class ReportPage extends StatelessWidget {
           ),
           DataTableColumn(
             id: 'total',
+            priority: DataTableColumnPriority.trailing,
             label: t.report.recent_order.total,
             cellBuilder: (item) =>
                 AppText.titleMd(formatCents(item.grandTotalCents)),

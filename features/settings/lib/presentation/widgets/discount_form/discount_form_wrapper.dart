@@ -3,8 +3,8 @@ import 'package:feature_settings/presentation/widgets/discount_form/discount_for
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 
-/// Presents [DiscountForm] as a bottom sheet on mobile / dialog on desktop.
-/// Mirrors [CategoryFormWrapper].
+/// Presents [DiscountForm] as a draggable sheet on a phone and a dialog on
+/// tablet/desktop, mirroring [CategoryFormWrapper].
 class DiscountFormWrapper {
   const DiscountFormWrapper._();
 
@@ -18,28 +18,12 @@ class DiscountFormWrapper {
     BuildContext context, {
     Discount? initialDiscount,
   }) {
-    if (context.isMobile) {
-      return showModalBottomSheet<Discount?>(
-        context: context,
-        isScrollControlled: true,
-        useSafeArea: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        builder: (context) => DiscountForm(initialDiscount: initialDiscount),
-      );
-    }
-    return showDialog<Discount?>(
+    return AdaptiveModal.show<Discount?>(
       context: context,
-      builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: context.tokens.borderRadiusLg,
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 500, maxHeight: 760),
-          child: DiscountForm(initialDiscount: initialDiscount),
-        ),
+      maxWidth: 500,
+      builder: (context, scrollController) => DiscountForm(
+        initialDiscount: initialDiscount,
+        scrollController: scrollController,
       ),
     );
   }

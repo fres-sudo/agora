@@ -36,8 +36,7 @@ class _ClockRecordsPageState extends State<ClockRecordsPage> {
         context.watch<SessionCubit>().currentEmployee?.isManager ?? false;
 
     return Scaffold(
-      floatingActionButton: const AppShellMenuButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      appBar: AdaptiveAppBar.of(context, title: 'Clock Records'),
       body: BlocBuilder<ClockRecordsCubit, ClockRecordsState>(
         builder: (context, state) {
           return state.when(
@@ -66,10 +65,8 @@ class _RecordsList extends StatelessWidget {
     return ListView.separated(
       itemCount: records.length,
       separatorBuilder: (_, _) => const Divider(height: 1),
-      itemBuilder: (context, index) => _RecordTile(
-        record: records[index],
-        canViewVariance: canViewVariance,
-      ),
+      itemBuilder: (context, index) =>
+          _RecordTile(record: records[index], canViewVariance: canViewVariance),
     );
   }
 }
@@ -110,10 +107,7 @@ class _RecordTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (!record.isActive) ...[
-            _VarianceBadge(
-              record: record,
-              canViewVariance: canViewVariance,
-            ),
+            _VarianceBadge(record: record, canViewVariance: canViewVariance),
             SizedBox(width: context.tokens.spaceXs),
           ],
           Container(

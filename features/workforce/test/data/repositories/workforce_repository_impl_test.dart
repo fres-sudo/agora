@@ -77,72 +77,61 @@ void main() {
         ),
       );
 
-  group(
-    'expectedCashCentsForShift '
-    '(docs/features/04-volunteer-shift-accountability.md)',
-    () {
-      test('returns 0 (not an error) when there were no cash orders',
-          () async {
-        final employeeId = await seedEmployee();
-        final clockRecordId = await seedClockRecord(
-          employeeId,
-          clockedInAt: DateTime(2026, 1, 1, 9),
-          clockedOutAt: DateTime(2026, 1, 1, 17),
-        );
-        ordersRepository.cashRevenueCents = 0;
+  group('expectedCashCentsForShift '
+      '(docs/features/04-volunteer-shift-accountability.md)', () {
+    test('returns 0 (not an error) when there were no cash orders', () async {
+      final employeeId = await seedEmployee();
+      final clockRecordId = await seedClockRecord(
+        employeeId,
+        clockedInAt: DateTime(2026, 1, 1, 9),
+        clockedOutAt: DateTime(2026, 1, 1, 17),
+      );
+      ordersRepository.cashRevenueCents = 0;
 
-        final result = await repository.expectedCashCentsForShift(
-          clockRecordId,
-        );
+      final result = await repository.expectedCashCentsForShift(clockRecordId);
 
-        expect(result.isSuccess, isTrue);
-        expect(result.unwrap(), 0);
-      });
+      expect(result.isSuccess, isTrue);
+      expect(result.unwrap(), 0);
+    });
 
-      test('delegates to OrdersRepository with the shift\'s employee and '
-          'clock-in/out window', () async {
-        final employeeId = await seedEmployee();
-        final clockedInAt = DateTime(2026, 1, 1, 9);
-        final clockedOutAt = DateTime(2026, 1, 1, 17);
-        final clockRecordId = await seedClockRecord(
-          employeeId,
-          clockedInAt: clockedInAt,
-          clockedOutAt: clockedOutAt,
-        );
-        ordersRepository.cashRevenueCents = 4250;
+    test('delegates to OrdersRepository with the shift\'s employee and '
+        'clock-in/out window', () async {
+      final employeeId = await seedEmployee();
+      final clockedInAt = DateTime(2026, 1, 1, 9);
+      final clockedOutAt = DateTime(2026, 1, 1, 17);
+      final clockRecordId = await seedClockRecord(
+        employeeId,
+        clockedInAt: clockedInAt,
+        clockedOutAt: clockedOutAt,
+      );
+      ordersRepository.cashRevenueCents = 4250;
 
-        final result = await repository.expectedCashCentsForShift(
-          clockRecordId,
-        );
+      final result = await repository.expectedCashCentsForShift(clockRecordId);
 
-        expect(result.unwrap(), 4250);
-        expect(ordersRepository.lastCall?.employeeId, employeeId);
-        expect(ordersRepository.lastCall?.startDate, clockedInAt);
-        expect(ordersRepository.lastCall?.endDate, clockedOutAt);
-      });
+      expect(result.unwrap(), 4250);
+      expect(ordersRepository.lastCall?.employeeId, employeeId);
+      expect(ordersRepository.lastCall?.startDate, clockedInAt);
+      expect(ordersRepository.lastCall?.endDate, clockedOutAt);
+    });
 
-      test(
-        'passes a null endDate for a still-open shift, so the DAO treats it '
-        'as "up to now"',
-        () async {
-          final employeeId = await seedEmployee();
-          final clockRecordId = await seedClockRecord(
-            employeeId,
-            clockedInAt: DateTime(2026, 1, 1, 9),
-          );
-
-          await repository.expectedCashCentsForShift(clockRecordId);
-
-          expect(ordersRepository.lastCall?.endDate, isNull);
-        },
+    test('passes a null endDate for a still-open shift, so the DAO treats it '
+        'as "up to now"', () async {
+      final employeeId = await seedEmployee();
+      final clockRecordId = await seedClockRecord(
+        employeeId,
+        clockedInAt: DateTime(2026, 1, 1, 9),
       );
 
-      test('errors when the clock record does not exist', () async {
-        final result = await repository.expectedCashCentsForShift(999);
-        expect(result.isError, isTrue);
-      });
-    },
-  );
+      await repository.expectedCashCentsForShift(clockRecordId);
+
+      expect(ordersRepository.lastCall?.endDate, isNull);
+    });
+
+    test('errors when the clock record does not exist', () async {
+      final result = await repository.expectedCashCentsForShift(999);
+      expect(result.isError, isTrue);
+    });
+  });
 
   group('recordCashReconciliation', () {
     test('computes and stores varianceCents for a shortfall', () async {

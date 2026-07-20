@@ -45,8 +45,18 @@ class _ProductsView extends StatelessWidget {
     // However, looking at ProductsBloc, it exposes filtered products.
 
     return Scaffold(
-      floatingActionButton: const AppShellMenuButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      // The phone header drops the add button to make room for search, so it
+      // is surfaced here instead.
+      appBar: AdaptiveAppBar.of(
+        context,
+        title: t.products.title,
+        actions: [
+          AppIconButton.primary(
+            onPressed: () => ProductFormWrapper.showCreate(context),
+            icon: const Icon(AgoraIcons.plus),
+          ),
+        ],
+      ),
       body: DataTableView<Product>(
         items: state.products,
         config: DataTableConfig(
@@ -66,9 +76,12 @@ class _ProductsView extends StatelessWidget {
             id: 'id',
             label: t.products.columns.id,
             width: 80,
+            priority: DataTableColumnPriority.secondary,
             cellBuilder: (product) {
               return AppText.mono(
-                product.sku?.isNotEmpty == true ? product.sku! : '#${product.id}',
+                product.sku?.isNotEmpty == true
+                    ? product.sku!
+                    : '#${product.id}',
                 color: context.colors.mutedForeground,
               );
             },
@@ -77,6 +90,7 @@ class _ProductsView extends StatelessWidget {
             id: 'name',
             label: t.products.columns.product_name,
             flex: 3,
+            priority: DataTableColumnPriority.primary,
             cellBuilder: (product) {
               return ProductNameCell(
                 name: product.name,
@@ -90,6 +104,7 @@ class _ProductsView extends StatelessWidget {
             id: 'category',
             label: t.products.columns.category,
             flex: 1,
+            priority: DataTableColumnPriority.secondary,
             cellBuilder: (product) {
               // Find category name from state.categories
               final category = state.categories.firstWhere(
@@ -104,6 +119,8 @@ class _ProductsView extends StatelessWidget {
             label: t.products.columns.stock,
             width: 100,
             alignment: Alignment.centerRight,
+            priority: DataTableColumnPriority.trailing,
+            showLabelOnMobile: true,
             cellBuilder: (product) {
               final isLowStock = product.stockQuantity <= 10;
               final isOutOfStock = product.stockQuantity <= 0;
@@ -124,6 +141,7 @@ class _ProductsView extends StatelessWidget {
             label: t.products.columns.price,
             width: 100,
             alignment: Alignment.centerRight,
+            priority: DataTableColumnPriority.trailing,
             cellBuilder: (product) {
               return AppText.titleMd(product.formattedPrice);
             },
@@ -170,7 +188,9 @@ class _ProductsView extends StatelessWidget {
               );
 
               if (confirmed && context.mounted) {
-                context.read<ProductsBloc>().add(ProductsEvent.deleted(product.id));
+                context.read<ProductsBloc>().add(
+                  ProductsEvent.deleted(product.id),
+                );
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

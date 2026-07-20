@@ -65,8 +65,7 @@ class _InventoryPageState extends State<InventoryPage> {
         );
       },
       child: Scaffold(
-        floatingActionButton: const AppShellMenuButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+        appBar: AdaptiveAppBar.of(context, title: 'Inventory'),
         body: StreamBuilder<List<StockLevel>>(
           stream: context.read<InventoryRepository>().watchStockLevels(),
           builder: (context, snapshot) {
@@ -95,6 +94,7 @@ class _InventoryPageState extends State<InventoryPage> {
                 columns: [
                   DataTableColumn(
                     id: 'name',
+                    priority: DataTableColumnPriority.primary,
                     label: 'Product',
                     flex: 3,
                     cellBuilder: (level) => Row(
@@ -118,6 +118,8 @@ class _InventoryPageState extends State<InventoryPage> {
                   ),
                   DataTableColumn(
                     id: 'quantity',
+                    priority: DataTableColumnPriority.trailing,
+                    showLabelOnMobile: true,
                     label: 'In stock',
                     width: 130,
                     alignment: Alignment.centerLeft,

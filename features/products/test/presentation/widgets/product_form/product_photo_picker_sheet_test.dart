@@ -23,12 +23,13 @@ Future<String?> _pumpSheetAndAct(
               child: ElevatedButton(
                 onPressed: () async {
                   // Mirrors production usage (product_info_step.dart), which
-                  // opens this widget via AdaptiveSheet.show, not a bare
+                  // opens this widget via AdaptiveModal.show, not a bare
                   // Navigator.push — that's what gives it a Material
                   // ancestor (for the stock-tile InkWells) and a bounded
                   // height (avoiding a RenderFlex overflow).
-                  result = await AdaptiveSheet.show<String?>(
+                  result = await AdaptiveModal.show<String?>(
                     context: context,
+                    style: AdaptiveModalStyle.sideSheet,
                     builder: (ctx, _) =>
                         ProductPhotoPickerSheet(initialValue: initialValue),
                   );

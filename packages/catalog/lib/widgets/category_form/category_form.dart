@@ -7,7 +7,12 @@ import 'package:catalog/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryForm extends StatefulWidget {
-  const CategoryForm({super.key, this.initialCategory});
+  const CategoryForm({super.key, this.initialCategory, this.scrollController});
+
+  /// Scroll controller supplied by [AdaptiveModal] when this form is shown as
+  /// a phone bottom sheet. Attaching it is what lets a drag on the fields move
+  /// the sheet itself; null in the dialog presentation.
+  final ScrollController? scrollController;
 
   final Category? initialCategory;
 
@@ -104,6 +109,7 @@ class _CategoryFormState extends State<CategoryForm> {
         // Form Content
         Flexible(
           child: SingleChildScrollView(
+            controller: widget.scrollController,
             padding: EdgeInsets.all(context.tokens.spaceLg),
             child: Form(
               key: _formKey,

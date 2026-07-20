@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart'; // Using mocktail for widget tests often simpler for blocs
+import 'package:ui_kit/ui_kit.dart';
 
 class MockProductsBloc extends MockBloc<ProductsEvent, ProductsState>
     implements ProductsBloc {}
@@ -73,7 +74,12 @@ void main() {
         BlocProvider<ActiveOrderBloc>.value(value: mockActiveOrderBloc),
         BlocProvider<SettingsCubit>.value(value: mockSettingsCubit),
       ],
-      child: const MaterialApp(home: PosPage()),
+      // These cases exercise the phone layout. The breakpoint is pinned rather
+      // than inferred from the 800x600 test viewport, which resolves to tablet
+      // and would pull in the whole order-panel provider graph.
+      child: MaterialApp(
+        home: ResponsiveScope.fixed(ScreenSize.mobile, child: const PosPage()),
+      ),
     );
   }
 

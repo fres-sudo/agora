@@ -135,22 +135,17 @@ class WorkforceRepositoryImpl extends Repository
 
   @override
   Future<Result<int>> expectedCashCentsForShift(int clockRecordId) =>
-      safeResult(
-        'expectedCashCentsForShift($clockRecordId)',
-        () async {
-          final record = await _clockRecordsDao.getClockRecordById(
-            clockRecordId,
-          );
-          if (record == null) {
-            throw RepositoryException('Clock record not found');
-          }
-          return _ordersRepository.getCashRevenueForEmployeeShift(
-            employeeId: record.employeeId,
-            startDate: record.clockedInAt,
-            endDate: record.clockedOutAt,
-          );
-        },
-      );
+      safeResult('expectedCashCentsForShift($clockRecordId)', () async {
+        final record = await _clockRecordsDao.getClockRecordById(clockRecordId);
+        if (record == null) {
+          throw RepositoryException('Clock record not found');
+        }
+        return _ordersRepository.getCashRevenueForEmployeeShift(
+          employeeId: record.employeeId,
+          startDate: record.clockedInAt,
+          endDate: record.clockedOutAt,
+        );
+      });
 
   @override
   Future<Result<CashReconciliation>> recordCashReconciliation({

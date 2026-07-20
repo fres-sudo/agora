@@ -50,6 +50,7 @@ class DataTableView<T> extends StatefulWidget {
     this.onRowTap,
     this.onRowAction,
     this.filterDialogBuilder,
+    this.mobileCardBuilder,
   });
 
   /// The data items to display in the table.
@@ -101,6 +102,10 @@ class DataTableView<T> extends StatefulWidget {
 
   /// Builder for custom filter dialog content.
   final Widget Function(BuildContext context)? filterDialogBuilder;
+
+  /// Overrides the phone card body. When null, cards are derived from
+  /// [columns] via [DataTableColumnPriority] — see [DataTableMobileList].
+  final Widget Function(BuildContext context, T item)? mobileCardBuilder;
 
   @override
   State<DataTableView<T>> createState() => _DataTableViewState<T>();
@@ -177,13 +182,20 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
       }
     });
 
+    // On a phone the table fills the screen edge to edge: the framing card
+    // would waste ~32dp of the little horizontal room there is, and the rows
+    // are already individually carded.
+    final isMobile = context.isMobile;
+
     return Container(
-      margin: const EdgeInsets.all(Sizes.lg),
-      decoration: BoxDecoration(
-        color: context.colors.card,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: context.colors.border),
-      ),
+      margin: isMobile ? EdgeInsets.zero : const EdgeInsets.all(Sizes.lg),
+      decoration: isMobile
+          ? BoxDecoration(color: context.colors.background)
+          : BoxDecoration(
+              color: context.colors.card,
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: context.colors.border),
+            ),
       child: Column(
         children: [
           // Header
@@ -223,6 +235,8 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                     subtitle: widget.config.emptyStateSubtitle,
                     icon: widget.config.emptyStateIcon,
                   )
+                : isMobile
+                ? _buildMobileList()
                 : _buildTable(),
           ),
           // Pagination (only show if there are items)
@@ -239,6 +253,28 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
           ],
         ],
       ),
+    );
+  }
+
+  bool get _hasRowActions =>
+      widget.showEditAction ||
+      widget.showReprintAction ||
+      widget.showDeleteAction;
+
+  Widget _buildMobileList() {
+    return DataTableMobileList<T>(
+      items: _paginatedItems,
+      columns: widget.columns,
+      onRowTap: widget.onRowTap,
+      cardBuilder: widget.mobileCardBuilder,
+      rowActionsBuilder: _hasRowActions
+          ? (item) => _RowActionMenu(
+              showEdit: widget.showEditAction,
+              showReprint: widget.showReprintAction,
+              showDelete: widget.showDeleteAction,
+              onSelected: (action) => widget.onRowAction?.call(item, action),
+            )
+          : null,
     );
   }
 
@@ -332,9 +368,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                 ),
               );
             }),
-            if (widget.showEditAction ||
-                widget.showReprintAction ||
-                widget.showDeleteAction)
+            if (_hasRowActions)
               SizedBox(
                 width: 48,
                 child: _RowActionMenu(

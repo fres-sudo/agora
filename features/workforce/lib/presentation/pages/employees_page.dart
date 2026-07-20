@@ -67,8 +67,16 @@ class _EmployeesPageState extends State<EmployeesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: const AppShellMenuButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      appBar: AdaptiveAppBar.of(
+        context,
+        title: 'Staff',
+        actions: [
+          AppIconButton.primary(
+            onPressed: _onAdd,
+            icon: const Icon(AgoraIcons.plus),
+          ),
+        ],
+      ),
       body: BlocBuilder<EmployeesBloc, EmployeesState>(
         builder: (context, state) => state.when(
           initial: () => const Center(child: CircularProgressIndicator()),
