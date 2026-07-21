@@ -33,6 +33,7 @@ class SectionPageLayout extends StatefulWidget {
     this.onItemSelected,
     this.initiallyCollapsed = false,
     this.onCollapsedChanged,
+    this.title,
   });
 
   /// List of navigation items with their associated content widgets.
@@ -49,6 +50,10 @@ class SectionPageLayout extends StatefulWidget {
 
   /// Callback when the sidebar collapse state changes.
   final ValueChanged<bool>? onCollapsedChanged;
+
+  /// Page name shown in the mobile app bar. Desktop stays chromeless (the
+  /// sidebar already names the page), so this is only used on phone.
+  final String? title;
 
   @override
   State<SectionPageLayout> createState() => _SectionPageLayoutState();
@@ -92,11 +97,13 @@ class _SectionPageLayoutState extends State<SectionPageLayout> {
         items: widget.items,
         selectedIndex: widget.selectedIndex,
         onItemSelected: widget.onItemSelected,
+        title: widget.title,
       );
     }
 
     return Column(
       children: [
+        AppAppBar(title: widget.title, leading: const AppShellDrawerButton()),
         // Content area
         Expanded(child: _buildContent()),
         // Bottom tab bar

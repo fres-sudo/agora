@@ -28,8 +28,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AdaptiveAppBar.of(context, title: 'Settings'),
       body: SectionPageLayout(
+        title: 'Settings',
         items: [
           SectionSidebarItemData(
             icon: AgoraIcons.building,

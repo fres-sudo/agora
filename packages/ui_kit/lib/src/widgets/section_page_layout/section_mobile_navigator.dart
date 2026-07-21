@@ -26,8 +26,7 @@ class SectionMobileNavigator extends StatefulWidget {
   final int selectedIndex;
   final ValueChanged<int>? onItemSelected;
 
-  /// Heading shown above the section index. Null renders no heading — the
-  /// page's app bar usually already names the screen.
+  /// Title shown in the index screen's app bar.
   final String? title;
 
   @override
@@ -84,11 +83,12 @@ class _SectionIndex extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = context.tokens;
 
-    return ColoredBox(
-      color: context.colors.background,
-      child: ListView.separated(
+    return Scaffold(
+      backgroundColor: context.colors.background,
+      appBar: AppAppBar(title: title, leading: const AppShellDrawerButton()),
+      body: ListView.separated(
         padding: EdgeInsets.symmetric(vertical: tokens.spaceSm),
-        itemCount: items.length + (title == null ? 0 : 1),
+        itemCount: items.length,
         separatorBuilder: (_, _) => Divider(
           height: tokens.borderHairline,
           thickness: tokens.borderHairline,
@@ -96,20 +96,6 @@ class _SectionIndex extends StatelessWidget {
           color: context.colors.border,
         ),
         itemBuilder: (context, index) {
-          if (title != null) {
-            if (index == 0) {
-              return Padding(
-                padding: EdgeInsets.fromLTRB(
-                  tokens.spaceLg,
-                  tokens.spaceSm,
-                  tokens.spaceLg,
-                  tokens.spaceMd,
-                ),
-                child: AppText.headingSm(title!),
-              );
-            }
-            index -= 1;
-          }
           final item = items[index];
           return _SectionRow(item: item, onTap: () => onTap(index));
         },
