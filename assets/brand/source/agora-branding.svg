@@ -1,0 +1,9 @@
+<svg width="1200" height="280" viewBox="0 0 1200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M82 225L118 89C121 79 128 73 138 73H204C214 73 221 79 224 89L260 225H228L212 165C211 161 208 158 204 158H138C134 158 131 161 130 165L114 225H82Z" fill="#FAFAFA"/>
+  <path d="M138 89L128 137C127 142 131 147 136 147C140 147 144 144 145 140L155 89H138Z" fill="#141414"/>
+  <path d="M166 89V139C166 144 169 147 171 147C175 147 177 144 177 139V89H166Z" fill="#141414"/>
+  <path d="M187 89L197 140C198 144 202 147 206 147C211 147 215 142 214 137L204 89H187Z" fill="#141414"/>
+  <circle cx="171" cy="197" r="27" fill="#FFAB00"/>
+  <text x="300" y="158" fill="#FAFAFA" font-family="Inter, Arial, sans-serif" font-size="116" font-weight="700" letter-spacing="-5">AGORA</text>
+  <text x="305" y="208" fill="#A3A3A3" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="600" letter-spacing="7">POS PER SAGRE</text>
+</svg>

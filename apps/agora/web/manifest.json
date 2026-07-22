@@ -1,11 +1,11 @@
 {
-    "name": "agora",
-    "short_name": "agora",
+    "name": "Agora POS",
+    "short_name": "Agora",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#141414",
+    "theme_color": "#141414",
+    "description": "POS offline-first per sagre, feste di paese e eventi temporanei.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

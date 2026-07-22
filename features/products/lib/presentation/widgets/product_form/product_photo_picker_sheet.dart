@@ -6,14 +6,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
 
-/// Sheet content for choosing a product photo: either a bundled stock
-/// illustration or a photo uploaded from the device.
+/// Sheet content for choosing a product visual: an Agora icon or a photo
+/// uploaded from the device.
 ///
 /// Pops one of three things via [Navigator.pop]:
 /// - `null` — cancelled, no change
 /// - `''` (empty string) — the user explicitly removed the current photo
-/// - a non-empty `String` — the new `imageUrl` value (`"stock:<id>"` or a
-///   local file path)
+/// - a non-empty `String` — the new `imageUrl` value (`"icon:<type>:<code>"`
+///   or a local file path)
 class ProductPhotoPickerSheet extends StatefulWidget {
   const ProductPhotoPickerSheet({this.initialValue, super.key});
 
@@ -26,6 +26,14 @@ class ProductPhotoPickerSheet extends StatefulWidget {
 
 class _ProductPhotoPickerSheetState extends State<ProductPhotoPickerSheet> {
   bool _isUploading = false;
+  ProductIconType _selectedIconType = ProductIconType.outline;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIconType =
+        resolveProductIconType(widget.initialValue) ?? ProductIconType.outline;
+  }
 
   Future<void> _pickFromDevice(ImageSource source) async {
     final picked = await ImagePicker().pickImage(source: source);
@@ -103,16 +111,29 @@ class _ProductPhotoPickerSheetState extends State<ProductPhotoPickerSheet> {
             ),
             const SizedBox(height: Sizes.lg),
 
-            AppText.label(t.products.form.photo.stock_gallery_section),
+            const AppText.label('Or choose an Agora icon'),
+            const SizedBox(height: Sizes.sm),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: AppSegmentedControl<ProductIconType>(
+                selected: _selectedIconType,
+                onChanged: (type) => setState(() => _selectedIconType = type),
+                segments: [
+                  for (final type in ProductIconType.values)
+                    AppSegment(value: type, label: type.label),
+                ],
+              ),
+            ),
             const SizedBox(height: Sizes.sm),
             Wrap(
               spacing: Sizes.sm,
               runSpacing: Sizes.sm,
-              children: kProductStockGallery.map((stock) {
-                final value = '$kProductStockImagePrefix${stock.id}';
+              children: kProductIconGallery.map((icon) {
+                final value = encodeProductIcon(icon, _selectedIconType);
                 final isSelected = widget.initialValue == value;
-                return _StockTile(
-                  stock: stock,
+                return _IconTile(
+                  icon: icon,
+                  type: _selectedIconType,
                   isSelected: isSelected,
                   onTap: () => Navigator.of(context).pop(value),
                 );
@@ -134,38 +155,47 @@ class _ProductPhotoPickerSheetState extends State<ProductPhotoPickerSheet> {
   }
 }
 
-class _StockTile extends StatelessWidget {
-  const _StockTile({
-    required this.stock,
+class _IconTile extends StatelessWidget {
+  const _IconTile({
+    required this.icon,
+    required this.type,
     required this.isSelected,
     required this.onTap,
   });
 
-  final ProductStockImage stock;
+  final ProductIcon icon;
+  final ProductIconType type;
   final bool isSelected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: context.tokens.borderRadiusMd,
-      child: Container(
-        width: 64,
-        height: 64,
-        padding: const EdgeInsets.all(Sizes.sm),
-        decoration: BoxDecoration(
-          color: context.colors.muted,
-          borderRadius: context.tokens.borderRadiusMd,
-          border: Border.all(
-            color: isSelected ? context.colors.primary : context.colors.border,
-            width: isSelected ? 2 : context.tokens.borderHairline,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      label: '${icon.label} ${type.label}',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: context.tokens.borderRadiusMd,
+        child: Container(
+          width: 64,
+          height: 64,
+          padding: const EdgeInsets.all(Sizes.sm),
+          decoration: BoxDecoration(
+            color: context.colors.muted,
+            borderRadius: context.tokens.borderRadiusMd,
+            border: Border.all(
+              color: isSelected
+                  ? context.colors.primary
+                  : context.colors.border,
+              width: isSelected ? 2 : context.tokens.borderHairline,
+            ),
           ),
-        ),
-        child: AppSourcedImage(
-          source: '$kProductStockImagePrefix${stock.id}',
-          size: 48,
-          borderRadius: BorderRadius.zero,
+          child: Icon(
+            icon.iconFor(type),
+            size: 32,
+            color: context.colors.foreground,
+          ),
         ),
       ),
     );

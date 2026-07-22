@@ -27,41 +27,10 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
   }
 
   Future<void> _onSaveAsTemplate() async {
-    final controller = TextEditingController();
-
-    final name = await AppDialog.show<String>(
+    final name = await showDialog<String>(
       context: context,
-      dialog: AppDialog(
-        title: 'Save current catalog as template',
-        subtitle:
-            'Categories, products, prices, modifiers and combos are saved. '
-            'Stock levels are never part of a template.',
-        content: AppTextField(
-          controller: controller,
-          label: 'Template name',
-          hintText: 'e.g. Sagra Estate 2026',
-          autofocus: true,
-          onSubmitted: (value) {
-            final trimmed = value.trim();
-            if (trimmed.isNotEmpty) Navigator.of(context).pop(trimmed);
-          },
-        ),
-        actions: [
-          AppButton.outline(
-            label: 'Cancel',
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          AppButton.primary(
-            label: 'Save',
-            onPressed: () {
-              final trimmed = controller.text.trim();
-              if (trimmed.isNotEmpty) Navigator.of(context).pop(trimmed);
-            },
-          ),
-        ],
-      ),
+      builder: (_) => const _SaveCatalogTemplateDialog(),
     );
-    controller.dispose();
     if (name == null || !mounted) return;
 
     final result = await context
@@ -277,6 +246,56 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Owns its controller so it remains valid throughout the dialog's exit
+/// animation and is disposed only after the dialog widget is removed.
+class _SaveCatalogTemplateDialog extends StatefulWidget {
+  const _SaveCatalogTemplateDialog();
+
+  @override
+  State<_SaveCatalogTemplateDialog> createState() =>
+      _SaveCatalogTemplateDialogState();
+}
+
+class _SaveCatalogTemplateDialogState
+    extends State<_SaveCatalogTemplateDialog> {
+  final _controller = TextEditingController();
+
+  void _save() {
+    final name = _controller.text.trim();
+    if (name.isNotEmpty) Navigator.of(context).pop(name);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppDialog(
+      title: 'Save current catalog as template',
+      subtitle:
+          'Categories, products, prices, modifiers and combos are saved. '
+          'Stock levels are never part of a template.',
+      content: AppTextField(
+        controller: _controller,
+        label: 'Template name',
+        hintText: 'e.g. Sagra Estate 2026',
+        autofocus: true,
+        onSubmitted: (_) => _save(),
+      ),
+      actions: [
+        AppButton.outline(
+          label: 'Cancel',
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        AppButton.primary(label: 'Save', onPressed: _save),
+      ],
     );
   }
 }

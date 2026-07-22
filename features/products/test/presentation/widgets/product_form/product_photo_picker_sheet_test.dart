@@ -52,21 +52,21 @@ Future<String?> _pumpSheetAndAct(
 }
 
 void main() {
-  testWidgets('tapping a stock tile pops "stock:<id>"', (tester) async {
+  testWidgets('tapping an icon pops its type and code point', (tester) async {
     final result = await _pumpSheetAndAct(
       tester,
       act: (tester) async {
-        await tester.tap(find.bySemanticsLabel('Burger'));
+        await tester.tap(find.bySemanticsLabel('Burger Outline'));
       },
     );
 
-    expect(result, 'stock:burger');
+    expect(result, 'icon:outline:f2d0');
   });
 
   testWidgets('remove photo pops an empty string', (tester) async {
     final result = await _pumpSheetAndAct(
       tester,
-      initialValue: 'stock:burger',
+      initialValue: 'icon:outline:f2d0',
       act: (tester) async {
         await tester.tap(find.text('Remove Photo'));
       },

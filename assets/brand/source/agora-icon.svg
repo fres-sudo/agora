@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Agora: a festival canopy that also reads as a capital A. -->
+  <rect width="1024" height="1024" fill="#141414"/>
+  <path d="M182 782L316 277C325 241 351 220 389 220H635C673 220 699 241 708 277L842 782H722L661 544C657 529 645 518 629 518H395C379 518 367 529 363 544L302 782H182Z" fill="#FAFAFA"/>
+  <!-- A simple striped awning: festive, functional, legible at small sizes. -->
+  <path d="M391 280L355 456C351 476 366 494 386 494C402 494 416 484 420 468L458 280H391Z" fill="#141414"/>
+  <path d="M491 280V463C491 482 500 494 512 494C524 494 533 482 533 463V280H491Z" fill="#141414"/>
+  <path d="M566 280L604 468C608 484 622 494 638 494C658 494 673 476 669 456L633 280H566Z" fill="#141414"/>
+  <!-- The sun/plate: the one warm signal, matching the UI kit's warning amber. -->
+  <circle cx="512" cy="663" r="100" fill="#FFAB00"/>
+</svg>

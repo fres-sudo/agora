@@ -23,6 +23,7 @@ export 'src/responsive/adaptive_layout.dart';
 
 // -- Foundation: bundled data --------------------------------------------------
 export 'src/data/product_stock_gallery.dart';
+export 'src/data/product_icon_catalog.dart';
 
 // -- Atoms -------------------------------------------------------------------
 export 'src/atoms/app_text.dart';

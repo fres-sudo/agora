@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ui_kit/src/data/product_icon_catalog.dart';
 import 'package:ui_kit/src/data/product_stock_gallery.dart';
 import 'package:ui_kit/src/theme/context_extensions.dart';
 
@@ -10,6 +11,7 @@ import 'package:ui_kit/src/theme/agora_icons.dart';
 /// Resolves a nullable image source string into the right visual.
 ///
 /// Recognizes three forms of [source]:
+/// - `"icon:<type>:<codePoint>"` — an Agora icon and its selected treatment
 /// - `"stock:<id>"` — a bundled stock illustration from [kProductStockGallery]
 /// - an `http(s)://` URL — a remote image
 /// - anything else — treated as a local file path (e.g. a user-uploaded photo)
@@ -44,6 +46,11 @@ class AppSourcedImage extends StatelessWidget {
     Widget content;
     if (value == null || value.isEmpty) {
       content = placeholder();
+    } else if (value.startsWith(kProductIconPrefix)) {
+      final icon = resolveProductIcon(value);
+      content = icon == null
+          ? placeholder()
+          : Icon(icon, size: size * 0.58, color: context.colors.foreground);
     } else if (value.startsWith(kProductStockImagePrefix)) {
       final stock = resolveProductStockImage(
         value.substring(kProductStockImagePrefix.length),
