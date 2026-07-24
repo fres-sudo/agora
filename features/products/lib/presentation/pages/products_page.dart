@@ -192,14 +192,9 @@ class _ProductsView extends StatelessWidget {
                   ProductsEvent.deleted(product.id),
                 );
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: AppText.body(
-                      t.products.messages.product_deleted,
-                      color: context.colors.primaryForeground,
-                    ),
-                    backgroundColor: context.colors.primary,
-                  ),
+                AppToast.success(
+                  context,
+                  message: t.products.messages.product_deleted,
                 );
               }
               break;

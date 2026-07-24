@@ -46,7 +46,7 @@ class _OrderDetailView extends StatelessWidget {
           current.maybeMap(error: (_) => true, orElse: () => false),
       listener: (context, state) {
         state.maybeMap(
-          error: (s) => showAppSnackBar(context, s.message, isError: true),
+          error: (s) => AppToast.error(context, message: s.message),
           orElse: () {},
         );
       },
@@ -123,22 +123,20 @@ class _OrderDetailView extends StatelessWidget {
       final result = await printer.printBytes(bytes);
       if (!context.mounted) return;
       result.when(
-        success: (_) => showAppSnackBar(
+        success: (_) => AppToast.success(
           context,
-          'Receipt #${order.id ?? '-'} sent to printer',
+          message: 'Receipt #${order.id ?? '-'} sent to printer',
         ),
-        error: (_) => showAppSnackBar(
+        error: (_) => AppToast.error(
           context,
-          'Reprint failed — check the printer connection',
-          isError: true,
+          message: 'Reprint failed — check the printer connection',
         ),
       );
     } catch (_) {
       if (!context.mounted) return;
-      showAppSnackBar(
+      AppToast.error(
         context,
-        'Reprint failed — check the printer connection',
-        isError: true,
+        message: 'Reprint failed — check the printer connection',
       );
     }
   }

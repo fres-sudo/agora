@@ -91,17 +91,7 @@ class _ModifierSectionState extends State<ModifierSection> {
     return EffectListener<ModifiersBloc, ModifiersEffect>(
       onEffect: (context, effect) {
         if (effect is ModifiersShowError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AppText.body(
-                  effect.message,
-                  color: context.colors.destructiveForeground,
-                ),
-                backgroundColor: context.colors.destructive,
-              ),
-            );
+          AppToast.error(context, message: effect.message);
         }
       },
       child: Container(

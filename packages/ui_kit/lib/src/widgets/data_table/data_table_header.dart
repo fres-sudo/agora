@@ -48,12 +48,7 @@ class DataTableHeader extends StatelessWidget {
   Widget _buildMobile(BuildContext context) {
     final tokens = context.tokens;
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        tokens.spaceMd,
-        tokens.spaceSm,
-        tokens.spaceSm,
-        tokens.spaceSm,
-      ),
+      padding: EdgeInsets.fromLTRB(tokens.spaceMd, tokens.spaceSm, tokens.spaceSm, tokens.spaceSm),
       child: Row(
         children: [
           Expanded(
@@ -92,9 +87,7 @@ class DataTableHeader extends StatelessWidget {
           // Title
           Text(
             title,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const Spacer(),
           // Search field
@@ -110,11 +103,7 @@ class DataTableHeader extends StatelessWidget {
           const SizedBox(width: Sizes.sm),
           // Sort button
           if (sortOptions.isNotEmpty) ...[
-            _SortButton(
-              sortOptions: sortOptions,
-              currentSort: currentSort,
-              onSort: onSort,
-            ),
+            _SortButton(sortOptions: sortOptions, currentSort: currentSort, onSort: onSort),
             const SizedBox(width: Sizes.sm),
           ],
           // Filter button
@@ -129,10 +118,7 @@ class DataTableHeader extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               foregroundColor: context.colors.foreground,
               side: BorderSide(color: context.colors.border),
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.md,
-                vertical: Sizes.sm,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: Sizes.sm),
             ),
           ),
           const SizedBox(width: Sizes.sm),
@@ -141,14 +127,6 @@ class DataTableHeader extends StatelessWidget {
             onPressed: onAdd,
             label: addButtonLabel,
             leadingIcon: const Icon(AgoraIcons.plus, size: 18),
-            style: FilledButton.styleFrom(
-              backgroundColor: context.colors.primary,
-              foregroundColor: context.colors.primaryForeground,
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.md,
-                vertical: Sizes.sm,
-              ),
-            ),
           ),
         ],
       ),
@@ -192,10 +170,7 @@ class _SortButton extends StatelessWidget {
             foregroundColor: triggerContext.colors.foreground,
             disabledForegroundColor: triggerContext.colors.foreground,
             side: BorderSide(color: triggerContext.colors.border),
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.md,
-              vertical: Sizes.sm,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: Sizes.sm),
           ),
         );
       },
@@ -215,10 +190,7 @@ class _SortButton extends StatelessWidget {
     );
   }
 
-  Widget _buildOptions(
-    BuildContext contentContext,
-    AppPopoverController controller,
-  ) {
+  Widget _buildOptions(BuildContext contentContext, AppPopoverController controller) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 320),
       child: ListView.builder(

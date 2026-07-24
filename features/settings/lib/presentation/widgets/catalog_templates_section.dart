@@ -127,21 +127,11 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
   }
 
   void _showSnack(String message, {bool isError = false}) {
-    ScaffoldMessenger.of(context)
-      ..clearSnackBars()
-      ..showSnackBar(
-        SnackBar(
-          content: AppText.body(
-            message,
-            color: isError
-                ? context.colors.destructiveForeground
-                : context.colors.primaryForeground,
-          ),
-          backgroundColor: isError
-              ? context.colors.destructive
-              : context.colors.primary,
-        ),
-      );
+    if (isError) {
+      AppToast.error(context, message: message);
+    } else {
+      AppToast.success(context, message: message);
+    }
   }
 
   @override

@@ -168,9 +168,7 @@ class ReportPage extends StatelessWidget {
       onPressed: () {
         // Export (CSV/PDF) is tracked separately as P5-4 and needs a
         // file/share dependency; surface intent rather than silently no-op.
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: AppText.body('Export is coming soon')),
-        );
+        AppToast.info(context, message: 'Export is coming soon');
       },
       label: t.report.download,
       leadingIcon: const Icon(AgoraIcons.download, size: 20),

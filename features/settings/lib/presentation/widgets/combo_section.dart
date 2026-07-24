@@ -62,17 +62,7 @@ class _ComboSectionState extends State<ComboSection> {
     return EffectListener<CombosBloc, CombosEffect>(
       onEffect: (context, effect) {
         if (effect is CombosShowError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AppText.body(
-                  effect.message,
-                  color: context.colors.destructiveForeground,
-                ),
-                backgroundColor: context.colors.destructive,
-              ),
-            );
+          AppToast.error(context, message: effect.message);
         }
       },
       child: Container(

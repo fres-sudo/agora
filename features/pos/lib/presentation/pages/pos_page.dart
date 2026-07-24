@@ -133,26 +133,12 @@ class _PosPageState extends State<PosPage> {
       // Sale finalised: clear the cart and confirm.
       context.read<ActiveOrderBloc>().add(const ActiveOrderEvent.cleared());
 
-      ScaffoldMessenger.of(context)
-        ..clearSnackBars()
-        ..showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                Icon(AgoraIcons.check, color: context.colors.successForeground),
-                const SizedBox(width: Sizes.sm),
-                AppText.body(
-                  completedOrder.id != null
-                      ? 'Order #${completedOrder.id} completed'
-                      : 'Order completed',
-                  color: context.colors.successForeground,
-                ),
-              ],
-            ),
-            backgroundColor: context.colors.success,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+      AppToast.success(
+        context,
+        message: completedOrder.id != null
+            ? 'Order #${completedOrder.id} completed'
+            : 'Order completed',
+      );
 
       // Drop the phone cart sheet back to its peek state, ready for the next
       // customer.
@@ -221,18 +207,7 @@ class _PosPageState extends State<PosPage> {
       filter: (effect) => effect is ActiveOrderShowError,
       onEffect: (context, effect) {
         if (effect is ActiveOrderShowError) {
-          ScaffoldMessenger.of(context)
-            ..clearSnackBars()
-            ..showSnackBar(
-              SnackBar(
-                content: AppText.body(
-                  effect.message,
-                  color: context.colors.destructiveForeground,
-                ),
-                backgroundColor: context.colors.destructive,
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+          AppToast.error(context, message: effect.message);
         }
       },
       child: Scaffold(

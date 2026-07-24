@@ -19,55 +19,21 @@ class ProductFormContent extends StatelessWidget {
 
     return BlocConsumer<ProductFormCubit, ProductFormState>(
       listener: (context, state) {
-        final colors = context.colors;
         state.mapOrNull(
           success: (s) {
             Navigator.of(context).pop(true);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Row(
-                  children: [
-                    Icon(AgoraIcons.check, color: colors.primaryForeground),
-                    const SizedBox(width: Sizes.sm),
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppText.titleMd(
-                            s.isNew
-                                ? t.products.messages.product_added
-                                : t.products.messages.product_updated,
-                            color: colors.primaryForeground,
-                          ),
-                          AppText.bodySm(
-                            s.isNew
-                                ? t.products.messages.product_added_desc
-                                : t.products.messages.product_updated_desc,
-                            color: colors.primaryForeground.withValues(
-                              alpha: 0.8,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                backgroundColor: colors.primary,
-                behavior: SnackBarBehavior.floating,
-              ),
+            AppToast.success(
+              context,
+              title: s.isNew
+                  ? t.products.messages.product_added
+                  : t.products.messages.product_updated,
+              message: s.isNew
+                  ? t.products.messages.product_added_desc
+                  : t.products.messages.product_updated_desc,
             );
           },
           error: (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: AppText.body(
-                  e.message,
-                  color: colors.destructiveForeground,
-                ),
-                backgroundColor: colors.destructive,
-              ),
-            );
+            AppToast.error(context, message: e.message);
           },
         );
       },

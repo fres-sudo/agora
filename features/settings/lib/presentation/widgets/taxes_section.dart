@@ -65,9 +65,7 @@ class _TaxesSectionState extends State<TaxesSection> {
       _isSaving = false;
     });
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: AppText.body('Tax rate saved')));
+    AppToast.success(context, message: 'Tax rate saved');
   }
 
   @override

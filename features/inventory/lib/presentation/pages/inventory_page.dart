@@ -59,8 +59,7 @@ class _InventoryPageState extends State<InventoryPage> {
     return BlocListener<StockAdjustmentCubit, StockAdjustmentState>(
       listener: (context, state) {
         state.maybeWhen(
-          error: (message, _, _) =>
-              showAppSnackBar(context, message, isError: true),
+          error: (message, _, _) => AppToast.error(context, message: message),
           orElse: () {},
         );
       },

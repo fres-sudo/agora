@@ -14,10 +14,9 @@ mkdir -p "$platforms_dir"/{android,ios,web,macos,linux,windows,splash}
 render_svg() {
   local source="$1"
   local output="$2"
-  # macOS ships an SVG-capable Quick Look renderer. Render masters once at 2x
-  # and downsample with sips; this keeps every platform export sharp.
-  qlmanage -t -s 2048 -o "$render_dir" "$source" >/dev/null
-  cp "$render_dir/$(basename "$source").png" "$output"
+  # sips preserves the SVG's explicit canvas dimensions, unlike Quick Look's
+  # square thumbnail previews. Platform-specific sizing happens below.
+  sips -s format png "$source" --out "$output" >/dev/null
 }
 
 resize_png() {
@@ -27,18 +26,57 @@ resize_png() {
   sips -z "$size" "$size" "$source" --out "$output" >/dev/null
 }
 
-render_svg "$source_dir/agora-icon.svg" "$brand_dir/app_icon_1024.png"
-render_svg "$source_dir/agora-mark.svg" "$brand_dir/app_icon_foreground.png"
-render_svg "$source_dir/agora-monochrome.svg" "$brand_dir/app_icon_monochrome.png"
-render_svg "$source_dir/agora-mark.svg" "$brand_dir/logo.png"
-render_svg "$source_dir/agora-branding.svg" "$brand_dir/branding.png"
-render_svg "$source_dir/agora-branding.svg" "$brand_dir/branding_android.png"
+resize_long_edge() {
+  local source="$1"
+  local size="$2"
+  local output="$3"
+  sips -Z "$size" "$source" --out "$output" >/dev/null
+}
 
-# Keep splash art image-based rather than screen-size-based: each native shell
-# supplies the #141414 field and centres these transparent images responsively.
-resize_png "$brand_dir/logo.png" 512 "$platforms_dir/splash/mark-512.png"
-resize_png "$brand_dir/logo.png" 1024 "$platforms_dir/splash/mark-1024.png"
-resize_png "$brand_dir/branding.png" 1024 "$platforms_dir/splash/branding-1024.png"
+prepare_splash_branding() {
+  local source="$1"
+  local output="$2"
+  local pad_color="$3"
+  local cropped="$render_dir/$(basename "$source" .png)-cropped.png"
+  local scaled="$render_dir/$(basename "$source" .png)-scaled.png"
+
+  # Scale the 1600x360 vector export without distortion, then place it
+  # centrally in flutter_native_splash's documented 800x320 branding frame.
+  sips -Z 800 "$source" --out "$scaled" >/dev/null
+  sips -p 320 800 --padColor "$pad_color" "$scaled" --out "$output" >/dev/null
+}
+
+# The SVG masters are the single source of truth. Raster files are only
+# platform exports; use light assets on #FFFFFF and dark assets on #0A0A0A.
+render_svg "$source_dir/agora-icon.svg" "$brand_dir/app_icon_1024.png"
+render_svg "$source_dir/agora-icon-on-light.svg" "$brand_dir/app_icon_light_1024.png"
+render_svg "$source_dir/agora-adaptive-foreground.svg" "$brand_dir/app_icon_foreground.png"
+render_svg "$source_dir/agora-monochrome.svg" "$brand_dir/app_icon_monochrome.png"
+render_svg "$source_dir/agora-mark.svg" "$brand_dir/logo_light.png"
+render_svg "$source_dir/agora-mark-on-dark.svg" "$brand_dir/logo_dark.png"
+render_svg "$source_dir/agora-branding.svg" "$brand_dir/branding_light.png"
+render_svg "$source_dir/agora-branding-on-dark.svg" "$brand_dir/branding_dark.png"
+prepare_splash_branding "$brand_dir/branding_light.png" "$brand_dir/branding_light.png" FFFFFF
+prepare_splash_branding "$brand_dir/branding_dark.png" "$brand_dir/branding_dark.png" 0A0A0A
+
+# Retain current Flutter asset names while native_splash uses the explicit
+# appearance-aware filenames below.
+cp "$brand_dir/logo_dark.png" "$brand_dir/logo.png"
+cp "$brand_dir/branding_dark.png" "$brand_dir/branding.png"
+cp "$brand_dir/branding_dark.png" "$brand_dir/branding_android.png"
+
+for mode in light dark; do
+  resize_png "$brand_dir/logo_${mode}.png" 512 "$platforms_dir/splash/logo-${mode}-512.png"
+  resize_png "$brand_dir/logo_${mode}.png" 1024 "$platforms_dir/splash/logo-${mode}-1024.png"
+  cp "$brand_dir/branding_${mode}.png" "$platforms_dir/splash/branding-${mode}-800x320.png"
+done
+
+cp "$platforms_dir/splash/logo-light-1024.png" "$brand_dir/splash_logo_light.png"
+cp "$platforms_dir/splash/logo-dark-1024.png" "$brand_dir/splash_logo_dark.png"
+resize_png "$brand_dir/app_icon_light_1024.png" 960 "$brand_dir/android12_splash_icon_light.png"
+resize_png "$brand_dir/app_icon_1024.png" 960 "$brand_dir/android12_splash_icon_dark.png"
+cp "$platforms_dir/splash/branding-light-800x320.png" "$brand_dir/splash_branding_light.png"
+cp "$platforms_dir/splash/branding-dark-800x320.png" "$brand_dir/splash_branding_dark.png"
 
 # Android legacy launchers and adaptive foreground density buckets.
 for spec in "mdpi 48 108" "hdpi 72 162" "xhdpi 96 216" "xxhdpi 144 324" "xxxhdpi 192 432"; do
@@ -114,12 +152,7 @@ for set in AppIcon.appiconset AppIcon-dev.appiconset AppIcon-staging.appiconset 
   done
 done
 
-for set in LaunchImage.imageset devLaunchImage.imageset stagingLaunchImage.imageset prodLaunchImage.imageset; do
-  target="ios/Runner/Assets.xcassets/$set"
-  [[ -d "$target" ]] || continue
-  cp "$platforms_dir/splash/mark-512.png" "$target/LaunchImage.png"
-  cp "$platforms_dir/splash/mark-512.png" "$target/LaunchImage@2x.png"
-  cp "$platforms_dir/splash/mark-1024.png" "$target/LaunchImage@3x.png"
-done
-
-echo "Agora brand assets generated."
+# flutter_native_splash owns the iOS/Android/Web light and dark splash resource
+# sets. Run its generator after this script to install both modes from
+# native_splash.yaml.
+echo "Agora brand assets generated. Run flutter_native_splash next."

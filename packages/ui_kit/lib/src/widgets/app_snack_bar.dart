@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/ui_kit.dart';
+import 'package:ui_kit/src/widgets/app_toast.dart';
 
-/// Shows a standardized floating [SnackBar].
+/// Shows a standardized floating toast.
 ///
-/// Use this instead of building `SnackBar`s ad-hoc so success/error surfacing
-/// is consistent across the app (checkout, inventory, order detail, printing).
-/// Errors use `context.colors.destructive`; successes use the default surface.
+/// Kept for source compatibility while older callers migrate to [AppToast].
+/// Deprecated: use [AppToast.info] or [AppToast.error] for semantic feedback.
+@Deprecated('Use AppToast.info or AppToast.error instead.')
 void showAppSnackBar(
   BuildContext context,
   String message, {
   bool isError = false,
 }) {
-  ScaffoldMessenger.of(context)
-    ..clearSnackBars()
-    ..showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: isError ? context.colors.destructive : null,
-      ),
-    );
+  if (isError) {
+    AppToast.error(context, message: message);
+  } else {
+    AppToast.info(context, message: message);
+  }
 }

@@ -58,9 +58,7 @@ class _StationQueueView extends StatelessWidget {
         listener: (context, state) {},
         onEffect: (context, effect) {
           if (effect is TicketsShowError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: AppText.body(effect.message)));
+            AppToast.error(context, message: effect.message);
           }
         },
         builder: (context, state) {

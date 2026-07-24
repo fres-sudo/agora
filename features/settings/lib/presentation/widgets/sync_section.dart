@@ -98,11 +98,7 @@ class _SyncSectionState extends State<SyncSection> {
     final stationName = _stationNameCtrl.text.trim();
     final pin = _pinCtrl.text.trim();
     if (stationName.isEmpty || pin.isEmpty) {
-      showAppSnackBar(
-        context,
-        'Enter a station name and a PIN first',
-        isError: true,
-      );
+      AppToast.error(context, message: 'Enter a station name and a PIN first');
       return;
     }
 
@@ -119,13 +115,16 @@ class _SyncSectionState extends State<SyncSection> {
       await cubit.update(SettingsKeys.syncRole, _roleToString(_SyncRole.host));
       if (!mounted) return;
       setState(() => _role = _SyncRole.host);
-      showAppSnackBar(context, 'Hosting this event as "$stationName"');
+      AppToast.success(
+        context,
+        message: 'Hosting this event as "$stationName"',
+      );
     } catch (e) {
       if (!mounted) return;
-      showAppSnackBar(
+      AppToast.error(
         context,
-        'Could not start hosting — this device keeps working standalone',
-        isError: true,
+        message:
+            'Could not start hosting — this device keeps working standalone',
       );
     } finally {
       if (mounted) setState(() => _isBusy = false);
@@ -145,7 +144,7 @@ class _SyncSectionState extends State<SyncSection> {
       _role = _SyncRole.standalone;
       _isBusy = false;
     });
-    showAppSnackBar(context, 'Stopped hosting');
+    AppToast.info(context, message: 'Stopped hosting');
   }
 
   Future<void> _connect({required String host, required int port}) async {
@@ -154,7 +153,7 @@ class _SyncSectionState extends State<SyncSection> {
         ? 'Station'
         : _stationNameCtrl.text.trim();
     if (pin.isEmpty) {
-      showAppSnackBar(context, 'Enter the event PIN first', isError: true);
+      AppToast.error(context, message: 'Enter the event PIN first');
       return;
     }
 
@@ -186,16 +185,16 @@ class _SyncSectionState extends State<SyncSection> {
       if (!mounted) return;
       setState(() => _role = _SyncRole.client);
       _stopDiscovery();
-      showAppSnackBar(context, 'Connected to the event');
+      AppToast.success(context, message: 'Connected to the event');
     } on HubPairingException catch (e) {
       if (!mounted) return;
-      showAppSnackBar(context, e.message, isError: true);
+      AppToast.error(context, message: e.message);
     } catch (e) {
       if (!mounted) return;
-      showAppSnackBar(
+      AppToast.error(
         context,
-        'Could not reach the hub — this device keeps working standalone',
-        isError: true,
+        message:
+            'Could not reach the hub — this device keeps working standalone',
       );
     } finally {
       if (mounted) setState(() => _isBusy = false);
@@ -205,16 +204,15 @@ class _SyncSectionState extends State<SyncSection> {
   Future<void> _connectManual() async {
     final parts = _manualHostCtrl.text.trim().split(':');
     if (parts.length != 2) {
-      showAppSnackBar(
+      AppToast.error(
         context,
-        'Enter the address as host:port, e.g. 192.168.1.20:8080',
-        isError: true,
+        message: 'Enter the address as host:port, e.g. 192.168.1.20:8080',
       );
       return;
     }
     final port = int.tryParse(parts[1]);
     if (port == null) {
-      showAppSnackBar(context, 'Invalid port', isError: true);
+      AppToast.error(context, message: 'Invalid port');
       return;
     }
     await context.read<SettingsCubit>().update(
@@ -238,7 +236,10 @@ class _SyncSectionState extends State<SyncSection> {
       _role = _SyncRole.standalone;
       _isBusy = false;
     });
-    showAppSnackBar(context, 'Disconnected — this station is now standalone');
+    AppToast.info(
+      context,
+      message: 'Disconnected — this station is now standalone',
+    );
   }
 
   void _onRoleChanged(_SyncRole role) {

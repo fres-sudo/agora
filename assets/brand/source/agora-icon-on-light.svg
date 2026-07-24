@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Agora app icon for light contexts</title>
+  <rect width="1024" height="1024" fill="#FFFFFF"/>
+  <rect x="182" y="182" width="660" height="660" rx="158" fill="#141414"/>
+  <path d="M337 758V495c0-147 78-233 175-233s175 86 175 233v263h-93V495c0-85-31-134-82-134s-82 49-82 134v263h-93Z" fill="#FFFFFF"/>
+  <circle cx="512" cy="625" r="53" fill="#141414"/>
+</svg>

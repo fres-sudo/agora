@@ -73,9 +73,7 @@ class _ReceiptOptionSectionState extends State<ReceiptOptionSection> {
       _isSaving = false;
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: AppText.body('Receipt options saved')),
-    );
+    AppToast.success(context, message: 'Receipt options saved');
   }
 
   @override

@@ -7,7 +7,7 @@ import 'package:ui_kit/src/overlays/app_dropdown_option_row.dart';
 import 'package:ui_kit/src/overlays/app_popover.dart';
 import 'package:ui_kit/src/theme/agora_icons.dart';
 import 'package:ui_kit/src/theme/context_extensions.dart';
-import 'package:ui_kit/src/widgets/app_snack_bar.dart';
+import 'package:ui_kit/src/widgets/app_toast.dart';
 
 enum _PendingCreateStatus { pending, committed, failed }
 
@@ -28,7 +28,7 @@ class _PendingCreate<T> {
 /// additive extension). Only one create can be in flight at a time; the
 /// "Create" row is hidden while one is pending.
 ///
-/// Accessibility: failures are surfaced via [showAppSnackBar] rather than an
+/// Accessibility: failures are surfaced via [AppToast.error] rather than an
 /// inline caption, since the popover has already closed by the time the
 /// failure is known — there's no popover host left to show it in.
 class AppCreatableCombobox<T> extends StatefulWidget {
@@ -187,7 +187,7 @@ class _AppCreatableComboboxState<T> extends State<AppCreatableCombobox<T>> {
               widget.onChanged(previousValue);
             }
             widget.onCreateError?.call(error, stackTrace);
-            showAppSnackBar(context, widget.createErrorMessage, isError: true);
+            AppToast.error(context, message: widget.createErrorMessage);
           },
         );
   }

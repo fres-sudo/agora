@@ -90,9 +90,7 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
       _isSaving = false;
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: AppText.body('Store settings saved')),
-    );
+    AppToast.success(context, message: 'Store settings saved');
   }
 
   @override

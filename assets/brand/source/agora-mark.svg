@@ -1,8 +1,6 @@
-<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Transparent foreground version for splash and Android adaptive icons. -->
-  <path d="M182 782L316 277C325 241 351 220 389 220H635C673 220 699 241 708 277L842 782H722L661 544C657 529 645 518 629 518H395C379 518 367 529 363 544L302 782H182Z" fill="#FAFAFA"/>
-  <path d="M391 280L355 456C351 476 366 494 386 494C402 494 416 484 420 468L458 280H391Z" fill="#141414"/>
-  <path d="M491 280V463C491 482 500 494 512 494C524 494 533 482 533 463V280H491Z" fill="#141414"/>
-  <path d="M566 280L604 468C608 484 622 494 638 494C658 494 673 476 669 456L633 280H566Z" fill="#141414"/>
-  <circle cx="512" cy="663" r="100" fill="#FFAB00"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Agora monogram for light surfaces</title>
+  <rect x="112" y="112" width="800" height="800" rx="192" fill="#141414"/>
+  <path d="M300 810V492c0-178 94-282 212-282s212 104 212 282v318H604V492c0-103-38-162-92-162s-92 59-92 162v318H300Z" fill="#FFFFFF"/>
+  <circle cx="512" cy="650" r="64" fill="#141414"/>
 </svg>

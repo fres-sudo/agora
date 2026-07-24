@@ -78,9 +78,7 @@ class _PrinterSectionState extends State<PrinterSection> {
       _isSaving = false;
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: AppText.body('Printer settings saved')),
-    );
+    AppToast.success(context, message: 'Printer settings saved');
   }
 
   /// Builds a small sample [Receipt], renders it to ESC/POS bytes and sends it
@@ -121,19 +119,17 @@ class _PrinterSectionState extends State<PrinterSection> {
       if (!mounted) return;
       result.when(
         success: (_) =>
-            showAppSnackBar(context, 'Test receipt sent to printer'),
-        error: (_) => showAppSnackBar(
+            AppToast.success(context, message: 'Test receipt sent to printer'),
+        error: (_) => AppToast.error(
           context,
-          'Test print failed — check the printer connection',
-          isError: true,
+          message: 'Test print failed — check the printer connection',
         ),
       );
     } catch (_) {
       if (!mounted) return;
-      showAppSnackBar(
+      AppToast.error(
         context,
-        'Test print failed — check the printer connection',
-        isError: true,
+        message: 'Test print failed — check the printer connection',
       );
     } finally {
       if (mounted) setState(() => _isPrintingTest = false);
