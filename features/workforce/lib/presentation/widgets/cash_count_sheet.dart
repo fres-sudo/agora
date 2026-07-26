@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 /// What the volunteer entered when counting the drawer at clock-out.
 class CashCountResult {
@@ -72,11 +72,15 @@ class _CashCountSheetState extends State<CashCountSheet> {
                 const AppText.headingSm('Count the Drawer'),
                 const SizedBox(height: Sizes.sm),
                 AppText.body(
-                  'Expected cash: ${formatCents(widget.expectedCents)}',
+                  'Expected cash: ${context.formatCurrency(widget.expectedCents)}',
                   color: context.colors.mutedForeground,
                 ),
                 const SizedBox(height: Sizes.lg),
-                Center(child: AppText.headingSm(formatCents(_countedCents))),
+                Center(
+                  child: AppText.headingSm(
+                    context.formatCurrency(_countedCents),
+                  ),
+                ),
                 const SizedBox(height: Sizes.md),
                 MoneyKeypad(
                   valueCents: _countedCents,

@@ -1,5 +1,6 @@
 import 'package:ui_kit/ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:utils/utils.dart';
 
 /// Displays order totals in the POS order panel.
 /// Shows subtotal, tax, voucher/discount, and grand total.
@@ -16,7 +17,7 @@ class PosOrderSummary extends StatelessWidget {
   /// Grand total in cents.
   final int grandTotalCents;
 
-  /// Currency symbol to display. Defaults to '$'.
+  /// Currency symbol to display.
   final String currencySymbol;
 
   const PosOrderSummary({
@@ -25,12 +26,10 @@ class PosOrderSummary extends StatelessWidget {
     required this.taxCents,
     required this.discountCents,
     required this.grandTotalCents,
-    this.currencySymbol = '€',
+    required this.currencySymbol,
   });
 
-  String _formatCents(int cents) {
-    return '$currencySymbol ${(cents / 100).toStringAsFixed(2)}';
-  }
+  String _formatCents(int cents) => formatCents(cents, symbol: currencySymbol);
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +67,7 @@ class PosOrderSummary extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             AppText.body('Total', color: colors.mutedForeground),
-            AppText.headingSm(
-              '$currencySymbol ${(grandTotalCents / 100).toStringAsFixed(2)}',
-            ),
+            AppText.headingSm(_formatCents(grandTotalCents)),
           ],
         ),
       ],

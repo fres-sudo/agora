@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/models/combo.dart';
 
@@ -72,7 +73,7 @@ class ComboListItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                AppText.titleMd(combo.formattedPrice),
+                AppText.titleMd(context.formatCurrency(combo.priceCents)),
                 AppText.bodySm(
                   '$itemCount item${itemCount == 1 ? '' : 's'}',
                   color: colors.mutedForeground,

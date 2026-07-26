@@ -1,5 +1,6 @@
 import 'package:feature_workforce/domain/models/employee.dart';
 import 'package:feature_workforce/domain/models/employee_role.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ui_kit/ui_kit.dart';
@@ -136,7 +137,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
               AppTextField(
                 controller: _rateCtrl,
                 label: 'Hourly Rate',
-                prefixText: '\$',
+                prefixText: '${context.currencySymbol} ',
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),

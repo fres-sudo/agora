@@ -1,4 +1,5 @@
 import 'package:i18n/i18n.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/blocs/products/products_bloc.dart';
 import 'package:catalog/models/category.dart';
@@ -143,7 +144,9 @@ class _ProductsView extends StatelessWidget {
             alignment: Alignment.centerRight,
             priority: DataTableColumnPriority.trailing,
             cellBuilder: (product) {
-              return AppText.titleMd(product.formattedPrice);
+              return AppText.titleMd(
+                context.formatCurrency(product.priceCents),
+              );
             },
             sortable: true,
           ),

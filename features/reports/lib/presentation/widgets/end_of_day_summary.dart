@@ -1,7 +1,7 @@
 import 'package:feature_reports/domain/models/report_data.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 /// Festival-operator "end of day" strip (P5-3): the raw numbers that wrap up an
 /// event — cash vs card split, peak trading hour and discounts given — derived
@@ -17,17 +17,17 @@ class EndOfDaySummary extends StatelessWidget {
       _Metric(
         icon: AgoraIcons.money,
         label: 'Cash',
-        value: formatCents(summary.cashRevenueCents),
+        value: context.formatCurrency(summary.cashRevenueCents),
       ),
       _Metric(
         icon: AgoraIcons.card,
         label: 'Card',
-        value: formatCents(summary.cardRevenueCents),
+        value: context.formatCurrency(summary.cardRevenueCents),
       ),
       _Metric(
         icon: AgoraIcons.discount,
         label: 'Discounts',
-        value: formatCents(summary.totalDiscountCents),
+        value: context.formatCurrency(summary.totalDiscountCents),
       ),
       _Metric(
         icon: AgoraIcons.clock,
@@ -37,7 +37,7 @@ class EndOfDaySummary extends StatelessWidget {
       _Metric(
         icon: AgoraIcons.alert_circle,
         label: 'Cash Variance',
-        value: formatCents(summary.cashVarianceCents),
+        value: context.formatCurrency(summary.cashVarianceCents),
       ),
     ];
 

@@ -2,6 +2,7 @@ import 'package:bloc_exports/bloc_exports.dart';
 import 'package:order_management/models/order.dart';
 import 'package:order_management/models/order_type.dart';
 import 'package:feature_reports/domain/models/report_data.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:feature_reports/domain/models/report_period.dart';
 import 'package:feature_reports/presentation/blocs/reports/reports_cubit.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:feature_reports/presentation/widgets/summary_card.dart';
 import 'package:feature_reports/presentation/widgets/sales_overview_chart.dart';
 import 'package:feature_reports/presentation/widgets/status_donut_chart.dart';
 import 'package:feature_reports/presentation/widgets/top_products_list.dart';
-import 'package:utils/utils.dart';
 
 @RoutePage()
 class ReportPage extends StatelessWidget {
@@ -201,7 +201,7 @@ class ReportPage extends StatelessWidget {
       ),
       SummaryCard(
         title: t.report.total_revenue,
-        value: formatCents(summary.totalRevenueCents),
+        value: context.formatCurrency(summary.totalRevenueCents),
         trend: '',
         isPositive: true,
         icon: Icon(
@@ -212,7 +212,7 @@ class ReportPage extends StatelessWidget {
       ),
       SummaryCard(
         title: 'Avg Ticket',
-        value: formatCents(summary.averageTicketCents),
+        value: context.formatCurrency(summary.averageTicketCents),
         trend: '',
         isPositive: true,
         icon: Icon(AgoraIcons.receipt, color: context.colors.primary, size: 20),
@@ -443,7 +443,7 @@ class ReportPage extends StatelessWidget {
             priority: DataTableColumnPriority.trailing,
             label: t.report.recent_order.total,
             cellBuilder: (item) =>
-                AppText.titleMd(formatCents(item.grandTotalCents)),
+                AppText.titleMd(context.formatCurrency(item.grandTotalCents)),
           ),
         ],
         config: DataTableConfig(title: t.report.recent_order.title),

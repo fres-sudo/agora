@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ui_kit/src/atoms/app_checkbox.dart';
 import 'package:ui_kit/src/atoms/app_text.dart';
 import 'package:ui_kit/src/theme/agora_icons.dart';
+import 'package:ui_kit/src/theme/app_palette.dart';
 import 'package:ui_kit/src/theme/context_extensions.dart';
 
 /// Shared option-row renderer used by `AppSelect`/`AppMultiSelect`/
@@ -22,6 +23,7 @@ class AppDropdownOptionRow extends StatelessWidget {
     this.multiSelect = false,
     this.enabled = true,
     this.leadingIcon,
+    this.leadingIconBackgroundColor,
   });
 
   final String label;
@@ -31,12 +33,18 @@ class AppDropdownOptionRow extends StatelessWidget {
   final bool multiSelect;
   final bool enabled;
   final IconData? leadingIcon;
+  final Color? leadingIconBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final tokens = context.tokens;
     final fg = !enabled ? colors.mutedForeground : colors.foreground;
+    final leadingIconColor = leadingIconBackgroundColor == null
+        ? fg
+        : leadingIconBackgroundColor!.computeLuminance() > 0.5
+        ? AppPalette.neutral800
+        : AppPalette.white;
 
     return Semantics(
       button: true,
@@ -84,7 +92,22 @@ class AppDropdownOptionRow extends StatelessWidget {
                     SizedBox(width: tokens.spaceXs),
                   ],
                   if (leadingIcon != null) ...[
-                    Icon(leadingIcon, size: tokens.iconSm, color: fg),
+                    leadingIconBackgroundColor == null
+                        ? Icon(leadingIcon, size: tokens.iconSm, color: fg)
+                        : Container(
+                            alignment: Alignment.center,
+                            width: tokens.iconLg,
+                            height: tokens.iconLg,
+                            decoration: BoxDecoration(
+                              color: leadingIconBackgroundColor,
+                              borderRadius: tokens.borderRadiusSm,
+                            ),
+                            child: Icon(
+                              leadingIcon,
+                              size: tokens.iconSm,
+                              color: leadingIconColor,
+                            ),
+                          ),
                     SizedBox(width: tokens.spaceXs),
                   ],
                   Expanded(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/services.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:ui_kit/ui_kit.dart';
@@ -138,7 +139,7 @@ class _ComboFormState extends State<ComboForm> {
                     controller: _priceController,
                     label: 'Combo Price',
                     hintText: '0.00',
-                    prefixText: '€ ',
+                    prefixText: '${context.currencySymbol} ',
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),

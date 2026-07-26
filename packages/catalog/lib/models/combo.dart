@@ -17,6 +17,4 @@ abstract class Combo with _$Combo {
   factory Combo.fromJson(Map<String, dynamic> json) => _$ComboFromJson(json);
 
   const Combo._();
-
-  String get formattedPrice => '\$${(priceCents / 100.0).toStringAsFixed(2)}';
 }

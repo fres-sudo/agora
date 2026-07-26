@@ -41,7 +41,7 @@ class FormValidators {
   static String? validatePrice(int priceCents) {
     if (priceCents <= 0) return 'Price must be greater than 0';
     if (priceCents > maxPriceCents) {
-      return 'Price cannot exceed \$${(maxPriceCents / 100).toStringAsFixed(0)}';
+      return 'Price exceeds the maximum allowed amount';
     }
     return null;
   }

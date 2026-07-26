@@ -138,6 +138,7 @@ class _AppMultiSelectState<T> extends State<AppMultiSelect<T>> {
               return AppDropdownOptionRow(
                 label: item.label,
                 leadingIcon: item.icon,
+                leadingIconBackgroundColor: item.iconBackgroundColor,
                 enabled: item.enabled,
                 multiSelect: true,
                 selected: widget.values.contains(item.value),

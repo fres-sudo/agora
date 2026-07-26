@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 /// Shows the change owed back to the customer for a cash payment.
 ///
@@ -35,7 +35,9 @@ class ChangeDueDisplay extends StatelessWidget {
         children: [
           AppText.titleMd('Change Due', color: color),
           AppText.titleLg(
-            isSufficient ? formatCents(changeDueCents) : 'Insufficient',
+            isSufficient
+                ? context.formatCurrency(changeDueCents)
+                : 'Insufficient',
             color: color,
           ),
         ],

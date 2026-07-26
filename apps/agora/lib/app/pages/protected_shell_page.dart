@@ -133,13 +133,27 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
 
         return AutoTabsRouter(
           homeIndex: 0,
-          routes: [for (final e in entries) e.route],
+          routes: [
+            for (final e in entries) e.route,
+            // This route is not a navigation destination, but it is a child
+            // of ProtectedShellRoute. AutoTabsRouter must know about every
+            // child that can be resolved beneath this shell; otherwise it
+            // falls back to homeIndex (the POS tab) when an order detail is
+            // pushed. The placeholder argument is replaced by AutoRoute with
+            // the actual pending route and its orderId before it is built.
+            OrderDetailRoute(orderId: 0),
+          ],
           builder: (context, child) {
             final tabsRouter = AutoTabsRouter.of(context);
             final currentRouteName = tabsRouter.current.name;
             var activeIndex = entries.indexWhere(
               (e) => e.route.routeName == currentRouteName,
             );
+            if (currentRouteName == OrderDetailRoute.name) {
+              activeIndex = entries.indexWhere(
+                (e) => e.route.routeName == OrdersRoute.name,
+              );
+            }
             if (activeIndex < 0) {
               activeIndex = _selectedIndex.clamp(0, entries.length - 1);
             }

@@ -1,11 +1,11 @@
 import 'package:auth_session/auth_session.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/domain/models/clock_record.dart';
 import 'package:feature_workforce/presentation/blocs/clock_records/clock_records_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 @RoutePage()
 class ClockRecordsPage extends StatefulWidget {
@@ -157,12 +157,12 @@ class _VarianceBadge extends StatelessWidget {
       null => ('Unreconciled', colors.mutedForeground, null),
       _ when !canViewVariance => ('Reconciled', colors.mutedForeground, null),
       _ when reconciliation.isBalanced => (
-        formatCents(reconciliation.varianceCents),
+        context.formatCurrency(reconciliation.varianceCents),
         colors.success,
         null,
       ),
       _ => (
-        formatCents(reconciliation.varianceCents),
+        context.formatCurrency(reconciliation.varianceCents),
         colors.destructive,
         AgoraIcons.alert_circle,
       ),

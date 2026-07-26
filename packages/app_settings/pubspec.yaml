@@ -10,12 +10,16 @@ environment:
 dependencies:
   bloc_exports:
     path: ../bloc
+  database:
+    path: ../database
   flutter:
     sdk: flutter
   printing:
     path: ../printing
   result:
     path: ../result
+  utils:
+    path: ../utils
 
 dev_dependencies:
   bloc_test: ^10.0.0

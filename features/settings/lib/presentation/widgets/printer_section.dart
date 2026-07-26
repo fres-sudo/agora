@@ -107,9 +107,7 @@ class _PrinterSectionState extends State<PrinterSection> {
       taxCents: 0,
       discountCents: 0,
       totalCents: 500,
-      currencySymbol:
-          _nullIfEmpty(cubit.getString(AppSettingsDao.keyCurrencySymbol)) ??
-          '€',
+      currencySymbol: cubit.currencySymbol,
       showTax: false,
     );
 

@@ -14,12 +14,14 @@ class AppSelectItem<T> {
     required this.value,
     required this.label,
     this.icon,
+    this.iconBackgroundColor,
     this.enabled = true,
   });
 
   final T value;
   final String label;
   final IconData? icon;
+  final Color? iconBackgroundColor;
   final bool enabled;
 }
 
@@ -185,6 +187,7 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
                     return AppDropdownOptionRow(
                       label: item.label,
                       leadingIcon: item.icon,
+                      leadingIconBackgroundColor: item.iconBackgroundColor,
                       enabled: item.enabled,
                       selected: item.value == widget.value,
                       highlighted: index == highlighted,

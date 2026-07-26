@@ -21,10 +21,14 @@ class OrdersTable extends Table with TableMixin {
   // Order type: 0=Dine In, 1=Take Away
   IntColumn get orderType => integer().withDefault(const Constant(0))();
 
-  IntColumn get subtotal => integer()();
-  IntColumn get discountTotal => integer().withDefault(const Constant(0))();
-  IntColumn get taxTotal => integer().withDefault(const Constant(0))();
-  IntColumn get grandTotal => integer()();
+  // Monetary totals are stored in minor units, independent of the display
+  // currency. The store setting supplies the symbol at presentation time.
+  IntColumn get subtotal => integer()(); // Cents before tax and discounts.
+  IntColumn get discountTotal =>
+      integer().withDefault(const Constant(0))(); // Cents.
+  IntColumn get taxTotal =>
+      integer().withDefault(const Constant(0))(); // Cents.
+  IntColumn get grandTotal => integer()(); // Cents after tax and discounts.
 
   TextColumn get paymentMethod => text().nullable()(); // "Cash", "Card", etc.
   TextColumn get note => text().nullable()();

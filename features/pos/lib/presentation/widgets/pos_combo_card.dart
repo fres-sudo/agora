@@ -1,6 +1,7 @@
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/models/combo.dart';
 import 'package:flutter/material.dart';
+import 'package:utils/utils.dart';
 
 /// A combo card widget for the POS product grid. Near-copy of
 /// [PosProductCard] styling, with a distinct "COMBO" badge so the cashier
@@ -17,7 +18,7 @@ class PosComboCard extends StatelessWidget {
   /// Callback when the card is tapped.
   final VoidCallback onTap;
 
-  /// Currency symbol to display. Defaults to '€'.
+  /// Currency symbol to display.
   final String currencySymbol;
 
   const PosComboCard({
@@ -25,7 +26,7 @@ class PosComboCard extends StatelessWidget {
     required this.combo,
     this.quantityInCart = 0,
     required this.onTap,
-    this.currencySymbol = '€',
+    required this.currencySymbol,
   });
 
   @override
@@ -111,7 +112,7 @@ class PosComboCard extends StatelessWidget {
                     Row(
                       children: [
                         AppText.body(
-                          '$currencySymbol ${(combo.priceCents / 100).toStringAsFixed(2)}',
+                          formatCents(combo.priceCents, symbol: currencySymbol),
                           color: colors.mutedForeground,
                         ),
                         if (quantityInCart > 0) ...[

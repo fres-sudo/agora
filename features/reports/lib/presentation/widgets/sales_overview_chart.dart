@@ -1,9 +1,9 @@
 import 'package:feature_reports/domain/models/report_data.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
-import 'package:utils/utils.dart';
 
 /// Revenue-over-time line chart driven by aggregated [SalesPoint]s.
 ///
@@ -155,7 +155,7 @@ class SalesOverviewChart extends StatelessWidget {
               barSpot,
             ) {
               return LineTooltipItem(
-                '${t.report.sales}: ${formatCents((barSpot.y * 100).round())}',
+                '${t.report.sales}: ${context.formatCurrency((barSpot.y * 100).round())}',
                 context.typography.titleMd.copyWith(
                   color: colors.popoverForeground,
                 ),

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/domain/models/employee.dart';
 import 'package:feature_workforce/domain/models/employee_role.dart';
@@ -193,7 +194,7 @@ class _EmployeeTile extends StatelessWidget {
       ),
       title: AppText.body(employee.name),
       subtitle: AppText.bodySm(
-        '${employee.role.label} · ${employee.formattedHourlyRate}',
+        '${employee.role.label} · ${context.formatCurrency(employee.hourlyRateCents)}/hr',
         color: colors.mutedForeground,
       ),
       trailing: Row(

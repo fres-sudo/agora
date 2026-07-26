@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/services.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/models/modifier_group.dart';
@@ -301,7 +302,7 @@ class _OptionRow extends StatelessWidget {
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
             ],
-            prefixText: '+€ ',
+            prefixText: '+${context.currencySymbol} ',
             hintText: '0.00',
           ),
         ),

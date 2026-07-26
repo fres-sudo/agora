@@ -142,6 +142,14 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
               const SizedBox(height: Sizes.sm),
               BlocBuilder<CategoriesBloc, CategoriesState>(
                 builder: (context, categoriesState) {
+                  final bodyStyle = context.typography.body;
+                  final categoryDropdownHeight =
+                      MediaQuery.textScalerOf(
+                            context,
+                          ).scale(bodyStyle.fontSize ?? 14) *
+                          (bodyStyle.height ?? 1.5) +
+                      (context.tokens.spaceXs * 2);
+
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -152,6 +160,9 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                               AppSelectItem(
                                 value: category.id,
                                 label: category.name,
+                                icon: category.icon ?? AgoraIcons.categories,
+                                iconBackgroundColor:
+                                    category.color ?? context.colors.muted,
                               ),
                           ],
                           value: selectedCategoryId,
@@ -165,6 +176,12 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                         icon: const Icon(AgoraIcons.plus),
                         tooltip: t.products.form.add_category,
                         onPressed: _onAddCategory,
+                        style: ButtonStyle(
+                          fixedSize: WidgetStatePropertyAll(
+                            Size.square(categoryDropdownHeight),
+                          ),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
                       ),
                     ],
                   );

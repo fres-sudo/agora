@@ -1,4 +1,5 @@
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:database/database.dart';
 import 'package:feature_settings/data/sources/local/daos/app_settings_dao.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:feature_settings/presentation/widgets/settings_section_scaffold.dart';
@@ -44,8 +45,7 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
         cubit.getString(AppSettingsDao.keyBusinessCountry) ?? '';
     _addressCtrl.text =
         cubit.getString(AppSettingsDao.keyBusinessAddress) ?? '';
-    _currencyCtrl.text =
-        cubit.getString(AppSettingsDao.keyCurrencySymbol) ?? '€';
+    _currencyCtrl.text = cubit.currencySymbol;
 
     for (final ctrl in _controllers) {
       ctrl.addListener(_onChanged);
@@ -80,7 +80,9 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
       cubit.update(AppSettingsDao.keyBusinessAddress, _addressCtrl.text.trim()),
       cubit.update(
         AppSettingsDao.keyCurrencySymbol,
-        _currencyCtrl.text.trim().isEmpty ? '€' : _currencyCtrl.text.trim(),
+        _currencyCtrl.text.trim().isEmpty
+            ? SettingsKeys.defaultCurrencySymbol
+            : _currencyCtrl.text.trim(),
       ),
     ]);
 

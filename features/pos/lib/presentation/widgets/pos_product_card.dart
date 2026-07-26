@@ -1,6 +1,7 @@
 import 'package:ui_kit/ui_kit.dart';
 import 'package:catalog/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:utils/utils.dart';
 
 /// A product card widget for the POS product grid.
 /// Displays product image, name, price, and optional quantity badge.
@@ -15,7 +16,7 @@ class PosProductCard extends StatelessWidget {
   /// Callback when the card is tapped.
   final VoidCallback onTap;
 
-  /// Currency symbol to display. Defaults to '$'.
+  /// Currency symbol to display.
   final String currencySymbol;
 
   const PosProductCard({
@@ -23,7 +24,7 @@ class PosProductCard extends StatelessWidget {
     required this.product,
     this.quantityInCart = 0,
     required this.onTap,
-    this.currencySymbol = '€',
+    required this.currencySymbol,
   });
 
   @override
@@ -94,7 +95,10 @@ class PosProductCard extends StatelessWidget {
                     Row(
                       children: [
                         AppText.body(
-                          '$currencySymbol ${(product.priceCents / 100).toStringAsFixed(2)}',
+                          formatCents(
+                            product.priceCents,
+                            symbol: currencySymbol,
+                          ),
                           color: colors.mutedForeground,
                         ),
                         if (quantityInCart > 0) ...[

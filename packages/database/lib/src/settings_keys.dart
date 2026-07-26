@@ -16,6 +16,7 @@ abstract class SettingsKeys {
   // Fiscal / locale.
   static const String taxRate = 'tax_rate';
   static const String currencySymbol = 'currency_symbol';
+  static const String defaultCurrencySymbol = '€';
 
   // Payment methods.
   static const String paymentMethodCashEnabled = 'payment_method_cash_enabled';

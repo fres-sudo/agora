@@ -1,10 +1,10 @@
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:discounts/models/discount.dart';
 import 'package:order_management/order_management.dart';
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 import 'package:feature_pos/presentation/widgets/checkout/change_due_display.dart';
 import 'package:feature_pos/presentation/widgets/checkout/payment_method_selector.dart';
@@ -281,7 +281,10 @@ class _TotalRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const AppText.titleMd('Total'),
-          AppText.headingSm(formatCents(totalCents), color: colors.primary),
+          AppText.headingSm(
+            context.formatCurrency(totalCents),
+            color: colors.primary,
+          ),
         ],
       ),
     );
@@ -307,7 +310,7 @@ class _CashSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const AppText.titleMd('Amount Tendered'),
-            AppText.headingSm(formatCents(tendered)),
+            AppText.headingSm(context.formatCurrency(tendered)),
           ],
         ),
         const SizedBox(height: Sizes.sm),
@@ -339,7 +342,7 @@ class _QuickTenderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final presets = _buildPresets(totalCents);
+    final presets = _buildPresets(context, totalCents);
     return Wrap(
       spacing: Sizes.sm,
       runSpacing: Sizes.sm,
@@ -355,7 +358,10 @@ class _QuickTenderRow extends StatelessWidget {
 
   /// Builds tender shortcuts: the exact amount, then the next sensible round
   /// banknotes above the total (€5/€10/€20/€50 steps).
-  List<({String label, int cents})> _buildPresets(int totalCents) {
+  List<({String label, int cents})> _buildPresets(
+    BuildContext context,
+    int totalCents,
+  ) {
     final result = <({String label, int cents})>[
       (label: 'Exact', cents: totalCents),
     ];
@@ -365,7 +371,7 @@ class _QuickTenderRow extends StatelessWidget {
       // Round the total up to the next multiple of this banknote.
       final rounded = ((totalCents + note - 1) ~/ note) * note;
       if (rounded > totalCents && !result.any((p) => p.cents == rounded)) {
-        result.add((label: formatCents(rounded), cents: rounded));
+        result.add((label: context.formatCurrency(rounded), cents: rounded));
       }
       if (result.length >= 4) break;
     }

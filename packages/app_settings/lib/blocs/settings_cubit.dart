@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:database/database.dart';
 import 'package:result/result.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:utils/utils.dart' as money;
 
 import 'package:app_settings/repositories/settings_repository.dart';
 
@@ -95,6 +97,17 @@ class SettingsCubit extends Cubit<SettingsState> {
     return state.maybeMap(loaded: (s) => s.settings[key], orElse: () => null);
   }
 
+  /// The configured currency symbol, falling back to the app default.
+  ///
+  /// This centralizes both the settings key and blank-value handling so every
+  /// currency display follows the same rule.
+  String get currencySymbol {
+    final configuredSymbol = getString(SettingsKeys.currencySymbol)?.trim();
+    return configuredSymbol?.isNotEmpty == true
+        ? configuredSymbol!
+        : SettingsKeys.defaultCurrencySymbol;
+  }
+
   /// Get an integer setting value.
   int? getInt(String key) {
     final value = getString(key);
@@ -152,4 +165,12 @@ class SettingsCubit extends Cubit<SettingsState> {
 extension SettingsCubitExtension on BuildContext {
   SettingsCubit get settingsCubit => read<SettingsCubit>();
   SettingsCubit get watchSettingsCubit => watch<SettingsCubit>();
+
+  /// The current store currency symbol, rebuilding only when it changes.
+  String get currencySymbol =>
+      select<SettingsCubit, String>((settings) => settings.currencySymbol);
+
+  /// Formats [cents] using the current store currency symbol.
+  String formatCurrency(int cents) =>
+      money.formatCents(cents, symbol: currencySymbol);
 }

@@ -1,7 +1,7 @@
 import 'package:discounts/models/discount.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 /// A list item for displaying, toggling and editing a [Discount]
 /// (Settings → Discount & Voucher, P6-3).
@@ -24,7 +24,7 @@ class DiscountListItem extends StatelessWidget {
     final colors = context.colors;
     final valueLabel = discount.isPercentage
         ? '${discount.value}%'
-        : formatCents(discount.value);
+        : context.formatCurrency(discount.value);
 
     return InkWell(
       onTap: onTap,

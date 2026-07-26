@@ -8,6 +8,8 @@ environment:
   flutter: '>=3.38.5'
 
 dependencies:
+  app_settings:
+    path: ../../packages/app_settings
   auth_session:
     path: ../../packages/auth_session
   auto_route: ^11.1.0

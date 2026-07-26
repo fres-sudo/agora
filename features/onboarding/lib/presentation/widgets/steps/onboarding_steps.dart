@@ -311,7 +311,9 @@ class _TaxCurrencyStepState extends State<TaxCurrencyStep> {
   void _sync() {
     context.read<OnboardingCubit>().updateDraft(
       widget.draft.copyWith(
-        currencySymbol: _currency.text.isEmpty ? '€' : _currency.text,
+        currencySymbol: _currency.text.isEmpty
+            ? widget.draft.profile.defaultCurrencySymbol
+            : _currency.text,
         taxRate: double.tryParse(_tax.text.replaceAll(',', '.')) ?? 0,
       ),
     );
@@ -330,7 +332,7 @@ class _TaxCurrencyStepState extends State<TaxCurrencyStep> {
         AppTextField(
           controller: _currency,
           label: 'Currency symbol',
-          hintText: '€',
+          hintText: widget.draft.profile.defaultCurrencySymbol,
           onChanged: (_) => _sync(),
         ),
         SizedBox(height: context.tokens.spaceSm),

@@ -31,7 +31,4 @@ abstract class Product with _$Product {
       _$ProductFromJson(json);
 
   const Product._();
-
-  /// Returns the formatted price as a currency string.
-  String get formattedPrice => '\$${(priceCents / 100.0).toStringAsFixed(2)}';
 }

@@ -1,3 +1,5 @@
+import 'package:app_settings/app_settings.dart';
+import 'package:bloc_exports/bloc_exports.dart';
 import 'package:feature_workforce/presentation/widgets/cash_count_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,19 +15,23 @@ Future<CashCountResult?> _pumpSheetAndAct(
 }) async {
   CashCountResult? result;
   await tester.pumpWidget(
-    MaterialApp(
-      theme: AppTheme.light,
-      home: Builder(
-        builder: (context) => Scaffold(
-          body: Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                result = await CashCountSheet.show(
-                  context,
-                  expectedCents: 1000,
-                );
-              },
-              child: const Text('open'),
+    BlocProvider<SettingsCubit>(
+      create: (_) =>
+          SettingsCubit(settingsRepository: _NoopSettingsRepository()),
+      child: MaterialApp(
+        theme: AppTheme.light,
+        home: Builder(
+          builder: (context) => Scaffold(
+            body: Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  result = await CashCountSheet.show(
+                    context,
+                    expectedCents: 1000,
+                  );
+                },
+                child: const Text('open'),
+              ),
             ),
           ),
         ),
@@ -39,6 +45,11 @@ Future<CashCountResult?> _pumpSheetAndAct(
   await tester.pumpAndSettle();
 
   return result;
+}
+
+class _NoopSettingsRepository implements SettingsRepository {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => throw UnimplementedError();
 }
 
 void main() {

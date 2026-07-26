@@ -1,8 +1,8 @@
 import 'package:bloc_exports/bloc_exports.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:discounts/discounts.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 /// Discount entry at checkout (P6-1).
 ///
@@ -213,7 +213,7 @@ class _DiscountTile extends StatelessWidget {
     final colors = context.colors;
     final valueLabel = discount.isPercentage
         ? '${discount.value}%'
-        : formatCents(discount.value);
+        : context.formatCurrency(discount.value);
 
     return Material(
       color: colors.card,

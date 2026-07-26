@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:i18n/i18n.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:feature_products/presentation/blocs/product_form/product_form_cubit.dart';
@@ -57,6 +58,7 @@ class _PricingStepState extends State<PricingStep> {
   @override
   Widget build(BuildContext context) {
     final t = Translations.of(context);
+    final currencySymbol = context.currencySymbol;
 
     return BlocBuilder<ProductFormCubit, ProductFormState>(
       builder: (context, formState) {
@@ -86,7 +88,7 @@ class _PricingStepState extends State<PricingStep> {
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                 ],
-                prefixText: '\$ ',
+                prefixText: '$currencySymbol ',
                 hintText: '0.00',
                 errorText: errors['price'],
               ),

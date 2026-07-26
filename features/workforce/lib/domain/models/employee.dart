@@ -22,9 +22,6 @@ abstract class Employee with _$Employee {
 
   const Employee._();
 
-  String get formattedHourlyRate =>
-      '\$${(hourlyRateCents / 100.0).toStringAsFixed(2)}/hr';
-
   bool get isOwner => role == EmployeeRole.owner;
   bool get isManager => role == EmployeeRole.manager || isOwner;
 }

@@ -1,6 +1,7 @@
 import 'package:ui_kit/ui_kit.dart';
 import 'package:order_management/models/order_line_item.dart';
 import 'package:flutter/material.dart';
+import 'package:utils/utils.dart';
 
 /// A single item row in the order list.
 /// Displays product name, selected modifiers, quantity stepper, and totals.
@@ -16,7 +17,7 @@ class PosOrderItem extends StatelessWidget {
   /// swipe-to-delete gesture via [onRemove].
   final ValueChanged<int> onQuantityChanged;
 
-  /// Currency symbol to display. Defaults to '$'.
+  /// Currency symbol to display.
   final String currencySymbol;
 
   const PosOrderItem({
@@ -24,12 +25,10 @@ class PosOrderItem extends StatelessWidget {
     required this.item,
     required this.onRemove,
     required this.onQuantityChanged,
-    this.currencySymbol = '€',
+    required this.currencySymbol,
   });
 
-  String _formatCents(int cents) {
-    return '$currencySymbol ${(cents / 100).toStringAsFixed(2)}';
-  }
+  String _formatCents(int cents) => formatCents(cents, symbol: currencySymbol);
 
   int get _itemTotal {
     int total = item.unitPriceCents * item.quantity;

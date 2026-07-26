@@ -10,7 +10,6 @@ import 'package:catalog/models/product.dart';
 import 'package:order_management/models/combo_line_component.dart';
 import 'package:feature_products/presentation/widgets/product_form/product_form.dart';
 import 'package:app_settings/app_settings.dart';
-import 'package:database/database.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_exports/bloc_exports.dart';
@@ -250,11 +249,7 @@ class _PosPageState extends State<PosPage> {
 
     return BlocBuilder<ActiveOrderBloc, ActiveOrderState>(
       builder: (context, state) {
-        final currencySymbol =
-            context.watch<SettingsCubit>().getString(
-              SettingsKeys.currencySymbol,
-            ) ??
-            '€';
+        final currencySymbol = context.currencySymbol;
 
         return AppPersistentSheet(
           controller: _cartSheetController,

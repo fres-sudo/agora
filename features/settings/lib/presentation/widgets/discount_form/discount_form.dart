@@ -1,4 +1,5 @@
 import 'package:discounts/models/discount.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ui_kit/ui_kit.dart';
@@ -194,7 +195,9 @@ class _DiscountFormState extends State<DiscountForm> {
                     prefix: Icon(
                       isPercentage ? AgoraIcons.discount : AgoraIcons.coin_alt,
                     ),
-                    suffix: AppText.body(isPercentage ? '%' : '€'),
+                    suffix: AppText.body(
+                      isPercentage ? '%' : context.currencySymbol,
+                    ),
                     textInputAction: TextInputAction.next,
                     validator: _validateValue,
                   ),

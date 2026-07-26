@@ -1,5 +1,5 @@
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:order_management/models/selected_modifiers.dart';
 import 'package:catalog/models/modifier_group.dart';
 import 'package:catalog/models/modifier_option.dart';
@@ -180,7 +180,10 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const AppText.titleMd('Total'),
-                  AppText.headingSm(formatCents(total), color: colors.primary),
+                  AppText.headingSm(
+                    context.formatCurrency(total),
+                    color: colors.primary,
+                  ),
                 ],
               ),
               const SizedBox(height: Sizes.md),
@@ -246,7 +249,7 @@ class _ModifierGroupSection extends StatelessWidget {
                 secondary: option.priceChangeCents == 0
                     ? null
                     : AppText.body(
-                        '+${formatCents(option.priceChangeCents)}',
+                        '+${context.formatCurrency(option.priceChangeCents)}',
                         color: colors.mutedForeground,
                       ),
               ),
@@ -269,7 +272,7 @@ class _ModifierGroupSection extends StatelessWidget {
                         secondary: option.priceChangeCents == 0
                             ? null
                             : AppText.body(
-                                '+${formatCents(option.priceChangeCents)}',
+                                '+${context.formatCurrency(option.priceChangeCents)}',
                                 color: colors.mutedForeground,
                               ),
                       ),

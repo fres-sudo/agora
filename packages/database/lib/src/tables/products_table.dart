@@ -14,11 +14,13 @@ class ProductsTable extends Table with TableMixin {
 
   IntColumn get categoryId =>
       integer().nullable().references(CategoriesTable, #id)();
+  // Monetary amounts are stored in minor units, independent of the display
+  // currency. The store setting supplies the symbol at presentation time.
   IntColumn get price =>
       integer().withDefault(const Constant(0))(); // Selling price in cents
   IntColumn get cost => integer().withDefault(
     const Constant(0),
-  )(); // Cost price for profit reporting
+  )(); // Cost price in cents for profit reporting
   IntColumn get taxPercent =>
       integer().withDefault(const Constant(0))(); // Tax percentage
   TextColumn get status => text().withDefault(const Constant('draft'))();

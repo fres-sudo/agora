@@ -7,7 +7,6 @@ const _kBusinessName = 'business_name';
 const _kBusinessAddress = 'business_address';
 const _kReceiptHeader = 'receipt_header';
 const _kReceiptFooter = 'receipt_footer';
-const _kCurrencySymbol = 'currency_symbol';
 const _kReceiptShowTax = 'receipt_show_tax';
 
 /// Builds a [ReceiptConfig] from the current values in [settings].
@@ -20,7 +19,7 @@ ReceiptConfig buildReceiptConfig(SettingsCubit settings) {
     storeAddress: _nullIfEmpty(settings.getString(_kBusinessAddress)),
     header: _nullIfEmpty(settings.getString(_kReceiptHeader)),
     footer: _nullIfEmpty(settings.getString(_kReceiptFooter)),
-    currencySymbol: _nullIfEmpty(settings.getString(_kCurrencySymbol)) ?? '€',
+    currencySymbol: settings.currencySymbol,
     showTax: settings.getBool(_kReceiptShowTax, defaultValue: true),
   );
 }

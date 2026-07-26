@@ -1,11 +1,9 @@
-import 'package:bloc_exports/bloc_exports.dart';
 import 'package:discounts/models/discount.dart';
 import 'package:order_management/models/order.dart';
 import 'package:order_management/models/order_line_item.dart';
 import 'package:order_management/models/order_type.dart';
 import 'package:feature_pos/feature_pos.dart';
-import 'package:database/database.dart';
-import 'package:app_settings/blocs/settings_cubit.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:utils/utils.dart';
@@ -66,9 +64,7 @@ class PosOrderPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final currencySymbol =
-        context.watch<SettingsCubit>().getString(SettingsKeys.currencySymbol) ??
-        '€';
+    final currencySymbol = context.currencySymbol;
 
     return Container(
       color: colors.card,

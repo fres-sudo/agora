@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 import 'package:result/result.dart';
 import 'package:ui_kit/ui_kit.dart';
-import 'package:utils/utils.dart';
 
 /// Order detail page (P7-2).
 ///
@@ -225,13 +224,13 @@ class _LineItemTile extends StatelessWidget {
                 for (final modifier in item.selectedModifiers)
                   AppText.bodySm(
                     '${modifier.groupName}: ${modifier.optionName}'
-                    '${modifier.priceChangeCents != 0 ? ' (${formatCents(modifier.priceChangeCents)})' : ''}',
+                    '${modifier.priceChangeCents != 0 ? ' (${context.formatCurrency(modifier.priceChangeCents)})' : ''}',
                     color: colors.mutedForeground,
                   ),
               ],
             ),
           ),
-          AppText.titleMd(formatCents(lineTotal)),
+          AppText.titleMd(context.formatCurrency(lineTotal)),
         ],
       ),
     );
@@ -260,7 +259,7 @@ class _TotalRow extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXxs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [cell(label), cell(formatCents(cents))],
+        children: [cell(label), cell(context.formatCurrency(cents))],
       ),
     );
   }
