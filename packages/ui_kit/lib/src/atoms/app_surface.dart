@@ -38,15 +38,15 @@ class AppSurface extends StatelessWidget {
 
   List<BoxShadow>? _shadow(BuildContext context) => switch (elevation) {
     AppElevation.none => null,
-    AppElevation.sm => context.tokens.shadowSm,
-    AppElevation.md => context.tokens.shadowMd,
-    AppElevation.lg => context.tokens.shadowLg,
+    AppElevation.sm => context.tokens.shadows.sm,
+    AppElevation.md => context.tokens.shadows.md,
+    AppElevation.lg => context.tokens.shadows.lg,
   };
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final radius = borderRadius ?? context.tokens.borderRadiusLg;
+    final radius = borderRadius ?? context.tokens.radius.borderLg;
 
     Widget content = Container(
       width: width,
@@ -58,7 +58,7 @@ class AppSurface extends StatelessWidget {
         border: bordered
             ? Border.all(
                 color: colors.border,
-                width: context.tokens.borderHairline,
+                width: context.tokens.border.hairline,
               )
             : null,
         boxShadow: _shadow(context),

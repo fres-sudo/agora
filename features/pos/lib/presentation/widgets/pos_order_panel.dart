@@ -81,13 +81,15 @@ class PosOrderPanel extends StatelessWidget {
           ),
           // Order type selector
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.tokens.spaceMd),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.tokens.spacing.md,
+            ),
             child: PosOrderTypeSelector(
               selected: orderType,
               onChanged: onOrderTypeChanged,
             ),
           ),
-          SizedBox(height: context.tokens.spaceXs),
+          SizedBox(height: context.tokens.spacing.xs),
           // Order items list or empty state
           Expanded(
             child: _hasItems
@@ -107,7 +109,7 @@ class PosOrderPanel extends StatelessWidget {
           ),
           // Order summary and process button
           Container(
-            padding: EdgeInsets.all(context.tokens.spaceMd),
+            padding: EdgeInsets.all(context.tokens.spacing.md),
             decoration: BoxDecoration(
               border: Border(top: BorderSide(color: colors.border)),
             ),
@@ -121,7 +123,7 @@ class PosOrderPanel extends StatelessWidget {
                     onRemoveDiscount: onRemoveDiscount,
                     currencySymbol: currencySymbol,
                   ),
-                  SizedBox(height: context.tokens.spaceXs),
+                  SizedBox(height: context.tokens.spacing.xs),
                 ],
                 PosOrderSummary(
                   subtotalCents: currentOrder?.subtotalCents ?? 0,
@@ -130,7 +132,7 @@ class PosOrderPanel extends StatelessWidget {
                   grandTotalCents: currentOrder?.grandTotalCents ?? 0,
                   currencySymbol: currencySymbol,
                 ),
-                SizedBox(height: context.tokens.spaceMd),
+                SizedBox(height: context.tokens.spacing.md),
                 AppButton.primary(
                   onPressed: _hasItems ? onProcessTransaction : null,
                   label: 'Process Transaction',
@@ -183,17 +185,17 @@ class _DiscountRow extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.tokens.spaceSm,
-        vertical: context.tokens.spaceXs,
+        horizontal: context.tokens.spacing.sm,
+        vertical: context.tokens.spacing.xs,
       ),
       decoration: BoxDecoration(
         color: colors.primary.withValues(alpha: 0.08),
-        borderRadius: context.tokens.borderRadiusLg,
+        borderRadius: context.tokens.radius.borderLg,
       ),
       child: Row(
         children: [
           Icon(AgoraIcons.discount, size: 18, color: colors.primary),
-          SizedBox(width: context.tokens.spaceXs),
+          SizedBox(width: context.tokens.spacing.xs),
           Expanded(
             child: AppText.titleMd(
               '${discount.name} ($valueLabel)',
@@ -203,9 +205,9 @@ class _DiscountRow extends StatelessWidget {
           ),
           InkWell(
             onTap: onRemoveDiscount,
-            borderRadius: context.tokens.borderRadiusFull,
+            borderRadius: context.tokens.radius.borderFull,
             child: Padding(
-              padding: EdgeInsets.all(context.tokens.spaceXxs),
+              padding: EdgeInsets.all(context.tokens.spacing.xxs),
               child: Icon(
                 AgoraIcons.x_mark,
                 size: 18,
@@ -240,7 +242,9 @@ class _OrderItemsList extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: context.tokens.spaceMd),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.tokens.spacing.md,
+            ),
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
@@ -257,8 +261,8 @@ class _OrderItemsList extends StatelessWidget {
         // Clear All Order button
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: context.tokens.spaceMd,
-            vertical: context.tokens.spaceXs,
+            horizontal: context.tokens.spacing.md,
+            vertical: context.tokens.spacing.xs,
           ),
           child: SizedBox(
             child: AppButton.outline(

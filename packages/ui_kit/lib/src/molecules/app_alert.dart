@@ -58,20 +58,24 @@ class AppAlert extends StatelessWidget {
       container: true,
       liveRegion: variant == AppAlertVariant.destructive,
       child: Container(
-        padding: EdgeInsets.all(tokens.spaceMd),
+        padding: EdgeInsets.all(tokens.spacing.md),
         decoration: BoxDecoration(
           color: accent.withValues(alpha: 0.10),
-          borderRadius: tokens.borderRadiusMd,
+          borderRadius: tokens.radius.borderMd,
           border: Border.all(
             color: accent.withValues(alpha: 0.35),
-            width: tokens.borderHairline,
+            width: tokens.border.hairline,
           ),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon ?? _defaultIcon(), color: accent, size: tokens.iconMd),
-            SizedBox(width: tokens.spaceSm),
+            Icon(
+              icon ?? _defaultIcon(),
+              color: accent,
+              size: tokens.iconSize.md,
+            ),
+            SizedBox(width: tokens.spacing.sm),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,11 +83,11 @@ class AppAlert extends StatelessWidget {
                 children: [
                   if (title != null) ...[
                     AppText.titleMd(title!),
-                    SizedBox(height: tokens.spaceXxs),
+                    SizedBox(height: tokens.spacing.xxs),
                   ],
                   AppText.bodySm(message, color: colors.foreground),
                   if (action != null) ...[
-                    SizedBox(height: tokens.spaceSm),
+                    SizedBox(height: tokens.spacing.sm),
                     action!,
                   ],
                 ],

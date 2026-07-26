@@ -42,7 +42,7 @@ class AppCard extends StatelessWidget {
     return AppSurface(
       onTap: onTap,
       elevation: elevation,
-      padding: padding ?? EdgeInsets.all(tokens.spaceLg),
+      padding: padding ?? EdgeInsets.all(tokens.spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -58,7 +58,7 @@ class AppCard extends StatelessWidget {
                     children: [
                       if (title != null) AppText.titleLg(title!),
                       if (subtitle != null) ...[
-                        SizedBox(height: tokens.spaceXxs),
+                        SizedBox(height: tokens.spacing.xxs),
                         AppText.bodySm(
                           subtitle!,
                           color: context.colors.mutedForeground,
@@ -68,15 +68,15 @@ class AppCard extends StatelessWidget {
                   ),
                 ),
                 if (trailing != null) ...[
-                  SizedBox(width: tokens.spaceSm),
+                  SizedBox(width: tokens.spacing.sm),
                   trailing!,
                 ],
               ],
             ),
-            if (child != null) SizedBox(height: tokens.spaceMd),
+            if (child != null) SizedBox(height: tokens.spacing.md),
           ],
           if (child != null) child!,
-          if (footer != null) ...[SizedBox(height: tokens.spaceMd), footer!],
+          if (footer != null) ...[SizedBox(height: tokens.spacing.md), footer!],
         ],
       ),
     );

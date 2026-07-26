@@ -28,13 +28,13 @@ class OnboardingShellPage extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 560),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: context.tokens.spaceLg,
-                  vertical: context.tokens.spaceMd,
+                  horizontal: context.tokens.spacing.lg,
+                  vertical: context.tokens.spacing.md,
                 ),
                 child: Column(
                   children: [
                     _Progress(current: stepIndex + 1, total: steps.length),
-                    SizedBox(height: context.tokens.spaceLg),
+                    SizedBox(height: context.tokens.spacing.lg),
                     Expanded(
                       child: SingleChildScrollView(
                         child: AnimatedSwitcher(
@@ -47,13 +47,13 @@ class OnboardingShellPage extends StatelessWidget {
                       ),
                     ),
                     if (state.error != null) ...[
-                      SizedBox(height: context.tokens.spaceXs),
+                      SizedBox(height: context.tokens.spacing.xs),
                       AppText.bodySm(
                         state.error!,
                         color: context.colors.destructive,
                       ),
                     ],
-                    SizedBox(height: context.tokens.spaceMd),
+                    SizedBox(height: context.tokens.spacing.md),
                     _NavBar(
                       cubit: cubit,
                       step: step,
@@ -97,7 +97,7 @@ class _Progress extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
-          borderRadius: context.tokens.borderRadiusFull,
+          borderRadius: context.tokens.radius.borderFull,
           child: LinearProgressIndicator(
             value: current / total,
             minHeight: 6,
@@ -105,7 +105,7 @@ class _Progress extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation(context.colors.primary),
           ),
         ),
-        SizedBox(height: context.tokens.spaceXs),
+        SizedBox(height: context.tokens.spacing.xs),
         AppText.caption(
           'Step $current of $total',
           color: context.colors.mutedForeground,
@@ -150,7 +150,7 @@ class _NavBar extends StatelessWidget {
               onPressed: isSubmitting ? null : cubit.back,
             ),
           ),
-        if (!isFirst) SizedBox(width: context.tokens.spaceSm),
+        if (!isFirst) SizedBox(width: context.tokens.spacing.sm),
         Expanded(
           flex: 2,
           child: AppButton.primary(

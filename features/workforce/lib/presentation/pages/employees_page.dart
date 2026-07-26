@@ -126,7 +126,7 @@ class _EmployeesListState extends State<_EmployeesList> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: EdgeInsets.all(context.tokens.spacing.md),
           child: Row(
             children: [
               const AppText.headingSm('Employees'),
@@ -139,7 +139,7 @@ class _EmployeesListState extends State<_EmployeesList> {
                   prefix: const Icon(AgoraIcons.search, size: 20),
                 ),
               ),
-              SizedBox(width: context.tokens.spaceSm),
+              SizedBox(width: context.tokens.spacing.sm),
               AppButton.primary(
                 onPressed: widget.onAdd,
                 label: 'Add Employee',
@@ -201,9 +201,9 @@ class _EmployeeTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _RoleBadge(role: employee.role),
-          SizedBox(width: context.tokens.spaceXs),
+          SizedBox(width: context.tokens.spacing.xs),
           _StatusBadge(isActive: employee.isActive),
-          SizedBox(width: context.tokens.spaceXs),
+          SizedBox(width: context.tokens.spacing.xs),
           AppIconButton.ghost(
             icon: const Icon(AgoraIcons.pencil, size: 20),
             onPressed: onEdit,
@@ -233,12 +233,12 @@ class _RoleBadge extends StatelessWidget {
     final color = _color(context);
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.tokens.spaceXs,
-        vertical: context.tokens.spaceXxs,
+        horizontal: context.tokens.spacing.xs,
+        vertical: context.tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: context.tokens.borderRadiusLg,
+        borderRadius: context.tokens.radius.borderLg,
       ),
       child: AppText.label(role.label, color: color),
     );
@@ -254,12 +254,12 @@ class _StatusBadge extends StatelessWidget {
     final colors = context.colors;
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.tokens.spaceXs,
-        vertical: context.tokens.spaceXxs,
+        horizontal: context.tokens.spacing.xs,
+        vertical: context.tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: isActive ? colors.success.withValues(alpha: 0.12) : colors.muted,
-        borderRadius: context.tokens.borderRadiusLg,
+        borderRadius: context.tokens.radius.borderLg,
       ),
       child: AppText.label(
         isActive ? 'Active' : 'Inactive',
@@ -280,12 +280,12 @@ class _EmptyState extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(AgoraIcons.user_group, size: 64, color: context.colors.border),
-          SizedBox(height: context.tokens.spaceMd),
+          SizedBox(height: context.tokens.spacing.md),
           AppText.titleMd(
             'No employees yet',
             color: context.colors.mutedForeground,
           ),
-          SizedBox(height: context.tokens.spaceXs),
+          SizedBox(height: context.tokens.spacing.xs),
           AppButton.primary(
             onPressed: onAdd,
             label: 'Add First Employee',

@@ -26,15 +26,18 @@ class AppListTile extends StatelessWidget {
     final tokens = context.tokens;
     return InkWell(
       onTap: onTap,
-      borderRadius: tokens.borderRadiusMd,
+      borderRadius: tokens.radius.borderMd,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: tokens.spaceMd,
-          vertical: tokens.spaceSm,
+          horizontal: tokens.spacing.md,
+          vertical: tokens.spacing.sm,
         ),
         child: Row(
           children: [
-            if (leading != null) ...[leading!, SizedBox(width: tokens.spaceMd)],
+            if (leading != null) ...[
+              leading!,
+              SizedBox(width: tokens.spacing.md),
+            ],
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +53,7 @@ class AppListTile extends StatelessWidget {
               ),
             ),
             if (trailing != null) ...[
-              SizedBox(width: tokens.spaceMd),
+              SizedBox(width: tokens.spacing.md),
               trailing!,
             ],
           ],

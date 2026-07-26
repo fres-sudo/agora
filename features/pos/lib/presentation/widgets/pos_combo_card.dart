@@ -35,7 +35,7 @@ class PosComboCard extends StatelessWidget {
 
     return Material(
       color: colors.card,
-      borderRadius: context.tokens.borderRadiusLg,
+      borderRadius: context.tokens.radius.borderLg,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
@@ -44,7 +44,7 @@ class PosComboCard extends StatelessWidget {
             border: quantityInCart > 0
                 ? Border.all(color: colors.primary, width: 2)
                 : Border.all(color: colors.secondary, width: 1),
-            borderRadius: context.tokens.borderRadiusLg,
+            borderRadius: context.tokens.radius.borderLg,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,12 +75,12 @@ class PosComboCard extends StatelessWidget {
                       left: 8,
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                          horizontal: context.tokens.spaceXs,
-                          vertical: context.tokens.spaceXxs,
+                          horizontal: context.tokens.spacing.xs,
+                          vertical: context.tokens.spacing.xxs,
                         ),
                         decoration: BoxDecoration(
                           color: colors.secondary,
-                          borderRadius: context.tokens.borderRadiusLg,
+                          borderRadius: context.tokens.radius.borderLg,
                         ),
                         child: AppText.label(
                           'COMBO',
@@ -99,7 +99,7 @@ class PosComboCard extends StatelessWidget {
               ),
               // Info section
               Padding(
-                padding: EdgeInsets.all(context.tokens.spaceSm),
+                padding: EdgeInsets.all(context.tokens.spacing.sm),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -108,7 +108,7 @@ class PosComboCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: context.tokens.spaceXxs),
+                    SizedBox(height: context.tokens.spacing.xxs),
                     Row(
                       children: [
                         AppText.body(
@@ -116,17 +116,17 @@ class PosComboCard extends StatelessWidget {
                           color: colors.mutedForeground,
                         ),
                         if (quantityInCart > 0) ...[
-                          SizedBox(width: context.tokens.spaceXs),
+                          SizedBox(width: context.tokens.spacing.xs),
                           AppText.bodySm('x', color: colors.mutedForeground),
-                          SizedBox(width: context.tokens.spaceXxs),
+                          SizedBox(width: context.tokens.spacing.xxs),
                           Container(
                             padding: EdgeInsets.symmetric(
-                              horizontal: context.tokens.spaceXs,
-                              vertical: context.tokens.spaceXxs,
+                              horizontal: context.tokens.spacing.xs,
+                              vertical: context.tokens.spacing.xxs,
                             ),
                             decoration: BoxDecoration(
                               color: colors.primary,
-                              borderRadius: context.tokens.borderRadiusLg,
+                              borderRadius: context.tokens.radius.borderLg,
                             ),
                             child: AppText.label(
                               '$quantityInCart',
@@ -157,12 +157,12 @@ class _QuantityBadge extends StatelessWidget {
     final colors = context.colors;
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.tokens.spaceXs,
-        vertical: context.tokens.spaceXxs,
+        horizontal: context.tokens.spacing.xs,
+        vertical: context.tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: colors.primary,
-        borderRadius: context.tokens.borderRadiusLg,
+        borderRadius: context.tokens.radius.borderLg,
       ),
       child: AppText.label('$quantity', color: colors.primaryForeground),
     );

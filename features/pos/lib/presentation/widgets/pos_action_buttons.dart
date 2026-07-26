@@ -38,7 +38,7 @@ class PosActionButtons extends StatelessWidget {
                 onTap: onCustomerTap,
               ),
             ),
-            SizedBox(width: context.tokens.spaceSm),
+            SizedBox(width: context.tokens.spacing.sm),
             Expanded(
               child: _ActionButton(
                 icon: AgoraIcons.map,
@@ -48,7 +48,7 @@ class PosActionButtons extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: context.tokens.spaceSm),
+        SizedBox(height: context.tokens.spacing.sm),
         Row(
           children: [
             Expanded(
@@ -58,7 +58,7 @@ class PosActionButtons extends StatelessWidget {
                 onTap: onDiscountTap,
               ),
             ),
-            SizedBox(width: context.tokens.spaceSm),
+            SizedBox(width: context.tokens.spacing.sm),
             Expanded(
               child: _ActionButton(
                 icon: AgoraIcons.receipt,
@@ -88,21 +88,21 @@ class _ActionButton extends StatelessWidget {
 
     return Material(
       color: colors.card,
-      borderRadius: context.tokens.borderRadiusLg,
+      borderRadius: context.tokens.radius.borderLg,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: context.tokens.spaceMd),
+          padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.md),
           decoration: BoxDecoration(
             border: Border.all(color: colors.border),
-            borderRadius: context.tokens.borderRadiusLg,
+            borderRadius: context.tokens.radius.borderLg,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(icon, size: 24, color: contentColor),
-              SizedBox(height: context.tokens.spaceXxs),
+              SizedBox(height: context.tokens.spacing.xxs),
               AppText.bodySm(label, color: contentColor),
             ],
           ),

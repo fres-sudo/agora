@@ -69,7 +69,7 @@ class _OrderDetailView extends StatelessWidget {
                   onPressed: () => _reprint(context, order),
                   icon: const Icon(AgoraIcons.printer),
                 ),
-              const SizedBox(width: Sizes.sm),
+              SizedBox(width: context.tokens.spacing.xs),
             ],
           ),
           body: state.maybeMap(
@@ -84,7 +84,7 @@ class _OrderDetailView extends StatelessWidget {
               ? null
               : SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(Sizes.lg),
+                    padding: EdgeInsets.all(context.tokens.spacing.md),
                     child: AppButton.outline(
                       onPressed: () => _confirmVoid(context, order),
                       label: 'Void order',
@@ -149,7 +149,7 @@ class _OrderBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(Sizes.lg),
+      padding: EdgeInsets.all(context.tokens.spacing.md),
       children: [
         Row(
           children: [
@@ -162,11 +162,11 @@ class _OrderBody extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: Sizes.lg),
+        SizedBox(height: context.tokens.spacing.md),
         const AppText.titleMd('Items'),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: context.tokens.spacing.xs),
         ...order.items.map((item) => _LineItemTile(item: item)),
-        const Divider(height: Sizes.xl),
+        Divider(height: context.tokens.spacing.lg),
         _TotalRow(label: 'Subtotal', cents: order.subtotalCents),
         if (order.discountCents > 0)
           _TotalRow(label: 'Discount', cents: -order.discountCents),
@@ -176,7 +176,7 @@ class _OrderBody extends StatelessWidget {
           cents: order.grandTotalCents,
           emphasized: true,
         ),
-        const SizedBox(height: Sizes.lg),
+        SizedBox(height: context.tokens.spacing.md),
         _InfoRow(label: 'Payment', value: order.paymentMethod ?? '—'),
         if (order.note?.isNotEmpty == true)
           _InfoRow(label: 'Note', value: order.note!),
@@ -208,12 +208,12 @@ class _LineItemTile extends StatelessWidget {
         item.quantity;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.sm),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.xs),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: context.tokens.spaceXl,
+            width: context.tokens.spacing.xl,
             child: AppText.titleMd('${item.quantity}×'),
           ),
           Expanded(
@@ -256,7 +256,7 @@ class _TotalRow extends StatelessWidget {
         : AppText.body(text, color: colors.mutedForeground);
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXxs),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.xxs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [cell(label), cell(context.formatCurrency(cents))],
@@ -274,7 +274,7 @@ class _InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXxs),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.xxs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -301,12 +301,12 @@ class _StatusBadge extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: Sizes.md,
-        vertical: context.tokens.spaceXxs,
+        horizontal: context.tokens.spacing.sm,
+        vertical: context.tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(Sizes.borderRadius),
+        borderRadius: BorderRadius.circular(context.tokens.radius.xs),
       ),
       child: AppText.label(label, color: color),
     );

@@ -106,7 +106,7 @@ class _InventoryPageState extends State<InventoryPage> {
                           ),
                         ),
                         if (!level.trackStock) ...[
-                          const SizedBox(width: Sizes.sm),
+                          SizedBox(width: context.tokens.spacing.xs),
                           _Tag(
                             label: 'Not tracked',
                             color: context.colors.mutedForeground,
@@ -234,7 +234,7 @@ class _InventoryPageState extends State<InventoryPage> {
               value: lowOnly,
               onChanged: (v) => setLocalState(() => lowOnly = v),
             ),
-            const SizedBox(height: Sizes.sm),
+            SizedBox(height: context.tokens.spacing.xs),
             AppTextField(
               controller: thresholdController,
               keyboardType: TextInputType.number,
@@ -259,19 +259,19 @@ class _Tag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: Sizes.sm,
-        vertical: context.tokens.spaceXxs,
+        horizontal: context.tokens.spacing.xs,
+        vertical: context.tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(Sizes.borderRadius),
+        borderRadius: BorderRadius.circular(context.tokens.radius.xs),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
             Icon(icon, size: 14, color: color),
-            SizedBox(width: context.tokens.spaceXxs),
+            SizedBox(width: context.tokens.spacing.xxs),
           ],
           AppText.label(label, color: color),
         ],

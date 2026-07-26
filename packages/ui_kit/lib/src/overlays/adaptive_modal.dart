@@ -148,10 +148,10 @@ class AdaptiveModal {
           elevation: 0,
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
-            borderRadius: ctx.tokens.borderRadiusLg,
+            borderRadius: ctx.tokens.radius.borderLg,
             side: BorderSide(
               color: ctx.colors.border,
-              width: ctx.tokens.borderHairline,
+              width: ctx.tokens.border.hairline,
             ),
           ),
           child: ConstrainedBox(
@@ -234,7 +234,7 @@ class _BottomSheetSurface extends StatelessWidget {
           borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           border: Border.all(
             color: ctx.colors.border,
-            width: ctx.tokens.borderHairline,
+            width: ctx.tokens.border.hairline,
           ),
         ),
         child: ClipRRect(

@@ -167,19 +167,19 @@ class _PrinterSectionState extends State<PrinterSection> {
               hint: 'e.g. 192.168.1.50',
               controller: _receiptCtrl,
             ),
-            SizedBox(height: context.tokens.spaceMd),
+            SizedBox(height: context.tokens.spacing.md),
             _PrinterField(
               label: 'Kitchen Printer IP',
               hint: 'e.g. 192.168.1.51',
               controller: _kitchenCtrl,
             ),
-            SizedBox(height: context.tokens.spaceMd),
+            SizedBox(height: context.tokens.spacing.md),
             AppTextField(
               label: "This device's station",
               hintText: 'e.g. Griglia (leave empty if this is the cash stand)',
               controller: _stationCtrl,
             ),
-            SizedBox(height: context.tokens.spaceLg),
+            SizedBox(height: context.tokens.spacing.lg),
             Align(
               alignment: Alignment.centerLeft,
               child: AppButton.outline(

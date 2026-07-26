@@ -4,7 +4,7 @@ import 'package:ui_kit/src/theme/context_extensions.dart';
 /// A hairline separator using `context.colors.border`.
 ///
 /// Works horizontally or vertically; thickness comes from
-/// `context.tokens.borderHairline`.
+/// `context.tokens.border.hairline`.
 class AppDivider extends StatelessWidget {
   const AppDivider({
     super.key,
@@ -31,7 +31,7 @@ class AppDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = context.colors.border;
-    final thickness = context.tokens.borderHairline;
+    final thickness = context.tokens.border.hairline;
     final space = spacing ?? thickness;
     if (axis == Axis.horizontal) {
       return Divider(

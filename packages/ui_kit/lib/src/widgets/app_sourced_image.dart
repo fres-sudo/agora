@@ -34,7 +34,7 @@ class AppSourcedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final radius = borderRadius ?? context.tokens.borderRadiusSm;
+    final radius = borderRadius ?? context.tokens.radius.borderSm;
     final value = source;
 
     Widget placeholder() => Icon(

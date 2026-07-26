@@ -25,9 +25,9 @@ class AppCheckbox extends StatelessWidget {
       onChanged: onChanged,
       activeColor: colors.primary,
       checkColor: colors.primaryForeground,
-      side: BorderSide(color: colors.border, width: context.tokens.borderThin),
+      side: BorderSide(color: colors.border, width: context.tokens.border.thin),
       shape: RoundedRectangleBorder(
-        borderRadius: context.tokens.borderRadiusSm,
+        borderRadius: context.tokens.radius.borderSm,
       ),
     );
 
@@ -37,12 +37,12 @@ class AppCheckbox extends StatelessWidget {
 
     return InkWell(
       onTap: onChanged == null ? null : () => onChanged!(!value),
-      borderRadius: context.tokens.borderRadiusSm,
+      borderRadius: context.tokens.radius.borderSm,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           checkbox,
-          SizedBox(width: context.tokens.spaceXs),
+          SizedBox(width: context.tokens.spacing.xs),
           Flexible(child: AppText.body(label!)),
         ],
       ),

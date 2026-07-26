@@ -29,22 +29,22 @@ class CategoryListItem extends StatelessWidget {
     // Using InkWell for tap effect
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(Sizes.sm),
+      borderRadius: BorderRadius.circular(context.tokens.radius.sm),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.lg,
-          vertical: Sizes.md,
+        padding: EdgeInsets.symmetric(
+          horizontal: context.tokens.spacing.md,
+          vertical: context.tokens.spacing.sm,
         ),
         decoration: BoxDecoration(
           color: colors.card,
-          borderRadius: BorderRadius.circular(context.tokens.radiusLg),
+          borderRadius: BorderRadius.circular(context.tokens.radius.lg),
           border: Border.all(color: colors.border),
         ),
         child: Row(
           children: [
             // Toggle Switch
             AppSwitch(value: category.isEnabled, onChanged: onToggle),
-            const SizedBox(width: Sizes.md),
+            SizedBox(width: context.tokens.spacing.sm),
 
             // Icon
             Container(
@@ -52,7 +52,7 @@ class CategoryListItem extends StatelessWidget {
               height: 40,
               decoration: BoxDecoration(
                 color: category.color ?? colors.muted,
-                borderRadius: BorderRadius.circular(Sizes.xs),
+                borderRadius: BorderRadius.circular(context.tokens.radius.xs),
                 border: Border.all(color: colors.border),
               ),
               child: Icon(
@@ -61,11 +61,11 @@ class CategoryListItem extends StatelessWidget {
                 size: 20,
               ),
             ),
-            const SizedBox(width: Sizes.md),
+            SizedBox(width: context.tokens.spacing.sm),
 
             // Category Name
             Expanded(child: AppText.titleMd(category.name)),
-            const SizedBox(width: Sizes.lg),
+            SizedBox(width: context.tokens.spacing.md),
 
             // Product Count (Placeholder for now as in original)
             Column(
@@ -75,7 +75,7 @@ class CategoryListItem extends StatelessWidget {
                 const AppText.titleMd('0'),
               ],
             ),
-            const SizedBox(width: Sizes.lg),
+            SizedBox(width: context.tokens.spacing.md),
 
             // Delete Button
             AppIconButton.ghost(

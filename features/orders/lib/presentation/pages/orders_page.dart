@@ -333,7 +333,7 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
             widget.onStatusChanged(value);
           },
         ),
-        const SizedBox(height: Sizes.lg),
+        SizedBox(height: context.tokens.spacing.md),
         AppButton.outline(
           onPressed: () async {
             final picked = await showDateRangePicker(
@@ -354,7 +354,7 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
           leadingIcon: const Icon(AgoraIcons.calendar_01),
         ),
         if (_range != null) ...[
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppButton.ghost(
             onPressed: () {
               setState(() => _range = null);
@@ -383,12 +383,12 @@ class _StatusBadge extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: Sizes.sm,
-        vertical: context.tokens.spaceXxs,
+        horizontal: context.tokens.spacing.xs,
+        vertical: context.tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(Sizes.borderRadius),
+        borderRadius: BorderRadius.circular(context.tokens.radius.xs),
       ),
       child: AppText.label(label, color: color),
     );

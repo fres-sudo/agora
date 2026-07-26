@@ -269,9 +269,9 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
                       0,
-                      context.tokens.spaceSm,
-                      context.tokens.spaceSm,
-                      context.tokens.spaceSm,
+                      context.tokens.spacing.sm,
+                      context.tokens.spacing.sm,
+                      context.tokens.spacing.sm,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(_innerRadius),
@@ -308,15 +308,15 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(
-                context.tokens.spaceLg,
-                context.tokens.spaceMd,
-                context.tokens.spaceSm,
-                context.tokens.spaceXs,
+                context.tokens.spacing.lg,
+                context.tokens.spacing.md,
+                context.tokens.spacing.sm,
+                context.tokens.spacing.xs,
               ),
               child: Row(
                 children: [
                   Image.asset('assets/brand/logo.png', width: 26, height: 26),
-                  SizedBox(width: context.tokens.spaceXs),
+                  SizedBox(width: context.tokens.spacing.xs),
                   AppText.titleLg('agora', color: AppColors.dark.foreground),
                   const Spacer(),
                   AppIconButton.ghost(

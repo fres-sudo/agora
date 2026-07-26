@@ -57,25 +57,27 @@ class ReportPage extends StatelessWidget {
 
           return SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.all(isMobile ? Sizes.md : Sizes.lg),
+            padding: EdgeInsets.all(
+              isMobile ? context.tokens.spacing.sm : context.tokens.spacing.md,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildReportHeader(context, state, isMobile),
-                const SizedBox(height: Sizes.lg),
+                SizedBox(height: context.tokens.spacing.md),
                 _buildSummaryCards(context, width, data.summary),
-                const SizedBox(height: Sizes.xl),
+                SizedBox(height: context.tokens.spacing.lg),
                 EndOfDaySummary(summary: data.summary),
-                const SizedBox(height: Sizes.xl),
+                SizedBox(height: context.tokens.spacing.lg),
                 _buildSalesAndProductsSection(
                   context,
                   isMobile,
                   isTabletPortrait,
                   data,
                 ),
-                const SizedBox(height: Sizes.xl),
+                SizedBox(height: context.tokens.spacing.lg),
                 _buildStatusChartsSection(context, isMobile, data),
-                const SizedBox(height: Sizes.xl),
+                SizedBox(height: context.tokens.spacing.lg),
                 _buildRecentOrdersTable(context, data.recentOrders),
               ],
             ),
@@ -95,9 +97,9 @@ class ReportPage extends StatelessWidget {
             color: context.colors.destructive,
             size: 48,
           ),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           const AppText.body('Could not load the report.'),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           AppButton.outline(
             onPressed: () => context.reportsCubit.load(),
             label: 'Retry',
@@ -122,13 +124,13 @@ class ReportPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Clear the floating menu button overlaid at the top-left.
-          const SizedBox(height: Sizes.xxl),
+          SizedBox(height: context.tokens.spacing.xl),
           title,
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           Row(
             children: [
               Expanded(child: _buildPeriodDropdown(context, state)),
-              const SizedBox(width: Sizes.md),
+              SizedBox(width: context.tokens.spacing.sm),
               _buildDownloadButton(context),
             ],
           ),
@@ -141,7 +143,7 @@ class ReportPage extends StatelessWidget {
         title,
         const Spacer(),
         _buildPeriodDropdown(context, state),
-        const SizedBox(width: Sizes.md),
+        SizedBox(width: context.tokens.spacing.sm),
         _buildDownloadButton(context),
       ],
     );
@@ -175,12 +177,12 @@ class ReportPage extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         foregroundColor: context.colors.foreground,
         side: BorderSide(color: context.colors.border),
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.lg,
-          vertical: Sizes.md,
+        padding: EdgeInsets.symmetric(
+          horizontal: context.tokens.spacing.md,
+          vertical: context.tokens.spacing.sm,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Sizes.borderRadius),
+          borderRadius: BorderRadius.circular(context.tokens.radius.xs),
         ),
       ),
     );
@@ -245,8 +247,8 @@ class ReportPage extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
-        crossAxisSpacing: Sizes.md,
-        mainAxisSpacing: Sizes.md,
+        crossAxisSpacing: context.tokens.spacing.sm,
+        mainAxisSpacing: context.tokens.spacing.sm,
         childAspectRatio: childAspectRatio,
       ),
       itemCount: cards.length,
@@ -279,7 +281,7 @@ class ReportPage extends StatelessWidget {
       return Column(
         children: [
           salesChart,
-          const SizedBox(height: Sizes.xl),
+          SizedBox(height: context.tokens.spacing.lg),
           productsList,
         ],
       );
@@ -289,7 +291,7 @@ class ReportPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(flex: 2, child: salesChart),
-        const SizedBox(width: Sizes.xl),
+        SizedBox(width: context.tokens.spacing.lg),
         Expanded(child: productsList),
       ],
     );
@@ -359,7 +361,7 @@ class ReportPage extends StatelessWidget {
       return Column(
         children: [
           orderStatusChart,
-          const SizedBox(height: Sizes.xl),
+          SizedBox(height: context.tokens.spacing.lg),
           stockStatusChart,
         ],
       );
@@ -368,7 +370,7 @@ class ReportPage extends StatelessWidget {
     return Row(
       children: [
         Expanded(child: orderStatusChart),
-        const SizedBox(width: Sizes.xl),
+        SizedBox(width: context.tokens.spacing.lg),
         Expanded(child: stockStatusChart),
       ],
     );
@@ -381,7 +383,7 @@ class ReportPage extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: context.colors.card,
-          borderRadius: BorderRadius.circular(Sizes.md),
+          borderRadius: BorderRadius.circular(context.tokens.radius.md),
           border: Border.all(color: context.colors.border),
         ),
         child: AppText.body(
@@ -489,13 +491,13 @@ class ReportPage extends StatelessWidget {
     };
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.sm,
-        vertical: Sizes.xxs,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spacing.xs,
+        vertical: context.tokens.spacing.xxxs,
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(Sizes.borderRadius),
+        borderRadius: BorderRadius.circular(context.tokens.radius.xs),
       ),
       child: AppText.label(label, color: color),
     );

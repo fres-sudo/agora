@@ -21,9 +21,9 @@ class DataTableLoadingState extends StatelessWidget {
         children: [
           // Column headers
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Sizes.lg,
-              vertical: Sizes.md,
+            padding: EdgeInsets.symmetric(
+              horizontal: context.tokens.spacing.md,
+              vertical: context.tokens.spacing.sm,
             ),
             decoration: BoxDecoration(
               color: context.colors.muted,
@@ -37,7 +37,7 @@ class DataTableLoadingState extends StatelessWidget {
                   child: Skeleton.leaf(
                     child: Container(
                       height: 16,
-                      margin: const EdgeInsets.only(right: Sizes.lg),
+                      margin: EdgeInsets.only(right: context.tokens.spacing.md),
                       decoration: BoxDecoration(
                         color: context.colors.border,
                         borderRadius: BorderRadius.circular(4),
@@ -52,9 +52,9 @@ class DataTableLoadingState extends StatelessWidget {
           ...List.generate(
             rowCount,
             (rowIndex) => Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.lg,
-                vertical: Sizes.md,
+              padding: EdgeInsets.symmetric(
+                horizontal: context.tokens.spacing.md,
+                vertical: context.tokens.spacing.sm,
               ),
               decoration: BoxDecoration(
                 border: Border(
@@ -67,7 +67,9 @@ class DataTableLoadingState extends StatelessWidget {
                   (colIndex) => Expanded(
                     flex: colIndex == 1 ? 2 : 1,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: Sizes.lg),
+                      padding: EdgeInsets.only(
+                        right: context.tokens.spacing.md,
+                      ),
                       child: colIndex == 1
                           ? _buildProductCell(context)
                           : Skeleton.leaf(
@@ -100,11 +102,11 @@ class DataTableLoadingState extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               color: context.colors.muted,
-              borderRadius: BorderRadius.circular(Sizes.borderRadius),
+              borderRadius: BorderRadius.circular(context.tokens.radius.xs),
             ),
           ),
         ),
-        const SizedBox(width: Sizes.sm),
+        SizedBox(width: context.tokens.spacing.xs),
         // Text placeholders
         Expanded(
           child: Column(

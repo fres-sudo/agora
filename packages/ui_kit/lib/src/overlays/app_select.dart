@@ -138,7 +138,7 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
                   tooltip: 'Clear',
                   icon: Icon(
                     AgoraIcons.x_mark,
-                    size: triggerContext.tokens.iconSm,
+                    size: triggerContext.tokens.iconSize.sm,
                   ),
                   onPressed: () => widget.onChanged(null),
                 )
@@ -179,7 +179,7 @@ class _AppSelectState<T> extends State<AppSelect<T>> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(
-                    vertical: context.tokens.spaceXxs,
+                    vertical: context.tokens.spacing.xxs,
                   ),
                   itemCount: widget.items.length,
                   itemBuilder: (context, index) {

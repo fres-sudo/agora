@@ -224,7 +224,7 @@ class _SheetSurface extends StatelessWidget {
         border: Border(
           top: BorderSide(
             color: colors.border,
-            width: context.tokens.borderHairline,
+            width: context.tokens.border.hairline,
           ),
         ),
         boxShadow: [
@@ -300,7 +300,7 @@ class _Grabber extends StatelessWidget {
       child: Container(
         color: context.colors.card,
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: context.tokens.spaceSm),
+        padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.sm),
         child: Center(
           child: Container(
             width: 36,

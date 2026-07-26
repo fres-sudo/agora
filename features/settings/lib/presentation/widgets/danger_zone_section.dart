@@ -19,14 +19,14 @@ class DangerZoneSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText.titleMd('Reset app & data'),
-          SizedBox(height: context.tokens.spaceXs),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(
             'This permanently deletes all products, orders, inventory, staff and '
             'settings on this device, and starts the setup wizard again. This '
             'cannot be undone.',
             color: context.colors.mutedForeground,
           ),
-          SizedBox(height: context.tokens.spaceLg),
+          SizedBox(height: context.tokens.spacing.lg),
           AppButton.destructive(
             label: 'Reset everything',
             leadingIcon: const Icon(AgoraIcons.trash),

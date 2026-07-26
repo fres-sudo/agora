@@ -45,23 +45,23 @@ class PosOrderSummary extends StatelessWidget {
           value: _formatCents(subtotalCents),
           valueColor: valueColor,
         ),
-        SizedBox(height: context.tokens.spaceXs),
+        SizedBox(height: context.tokens.spacing.xs),
         // Tax row
         _SummaryRow(
           label: 'Tax',
           value: _formatCents(taxCents),
           valueColor: valueColor,
         ),
-        SizedBox(height: context.tokens.spaceXs),
+        SizedBox(height: context.tokens.spacing.xs),
         // Voucher/Discount row
         _SummaryRow(
           label: 'Voucher',
           value: _formatCents(discountCents),
           valueColor: valueColor,
         ),
-        SizedBox(height: context.tokens.spaceSm),
+        SizedBox(height: context.tokens.spacing.sm),
         Divider(height: 1, color: colors.border),
-        SizedBox(height: context.tokens.spaceSm),
+        SizedBox(height: context.tokens.spacing.sm),
         // Total row (emphasized)
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

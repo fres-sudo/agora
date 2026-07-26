@@ -32,7 +32,7 @@ class SettingsSectionScaffold extends StatelessWidget {
         children: [
           // Header
           Padding(
-            padding: EdgeInsets.all(context.tokens.spaceLg),
+            padding: EdgeInsets.all(context.tokens.spacing.lg),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -46,7 +46,7 @@ class SettingsSectionScaffold extends StatelessWidget {
           // Content
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(context.tokens.spaceLg),
+              padding: EdgeInsets.all(context.tokens.spacing.lg),
               child: child,
             ),
           ),

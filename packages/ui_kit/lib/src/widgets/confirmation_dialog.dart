@@ -96,11 +96,11 @@ class ConfirmationDialog extends StatelessWidget {
 
     return Dialog(
       backgroundColor: colors.popover,
-      shape: RoundedRectangleBorder(borderRadius: tokens.borderRadiusLg),
+      shape: RoundedRectangleBorder(borderRadius: tokens.radius.borderLg),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 380),
         child: Padding(
-          padding: EdgeInsets.all(tokens.spaceXl),
+          padding: EdgeInsets.all(tokens.spacing.xl),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -113,15 +113,15 @@ class ConfirmationDialog extends StatelessWidget {
                 ),
                 child: Icon(icon, color: accent, size: 32),
               ),
-              SizedBox(height: tokens.spaceLg),
+              SizedBox(height: tokens.spacing.lg),
               AppText.titleLg(title, textAlign: TextAlign.center),
-              SizedBox(height: tokens.spaceSm),
+              SizedBox(height: tokens.spacing.sm),
               AppText.bodySm(
                 message,
                 color: colors.mutedForeground,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: tokens.spaceXl),
+              SizedBox(height: tokens.spacing.xl),
               Row(
                 children: [
                   Expanded(
@@ -131,7 +131,7 @@ class ConfirmationDialog extends StatelessWidget {
                       fullWidth: true,
                     ),
                   ),
-                  SizedBox(width: tokens.spaceMd),
+                  SizedBox(width: tokens.spacing.md),
                   Expanded(
                     child: isDestructive
                         ? AppButton.destructive(

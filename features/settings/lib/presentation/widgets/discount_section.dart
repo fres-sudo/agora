@@ -69,7 +69,7 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(context.tokens.spaceLg),
+              padding: EdgeInsets.all(context.tokens.spacing.lg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,9 +107,9 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
     if (discounts.isEmpty) return _buildEmptyState();
 
     return ListView.separated(
-      padding: EdgeInsets.all(context.tokens.spaceLg),
+      padding: EdgeInsets.all(context.tokens.spacing.lg),
       itemCount: discounts.length,
-      separatorBuilder: (_, _) => const SizedBox(height: Sizes.md),
+      separatorBuilder: (_, _) => SizedBox(height: context.tokens.spacing.sm),
       itemBuilder: (context, index) {
         final discount = discounts[index];
         return DiscountListItem(
@@ -128,12 +128,12 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(AgoraIcons.discount, size: 64, color: context.colors.border),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           AppText.titleMd(
             'No discounts yet',
             color: context.colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(
             'Add a discount (e.g. "10% off" or a voucher code) to get started',
             color: context.colors.mutedForeground,
@@ -153,11 +153,11 @@ class _DiscountVoucherSectionState extends State<DiscountVoucherSection> {
             size: 48,
             color: context.colors.destructive,
           ),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           const AppText.titleMd('Failed to load discounts'),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(message, color: context.colors.mutedForeground),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
           AppButton.primary(
             onPressed: () => context.read<DiscountsBloc>().add(
               const DiscountsEvent.started(),

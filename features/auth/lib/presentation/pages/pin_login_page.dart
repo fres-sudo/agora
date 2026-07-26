@@ -83,7 +83,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 480),
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(context.tokens.spaceXl),
+              padding: EdgeInsets.all(context.tokens.spacing.xl),
               child: _selected == null
                   ? _EmployeeSelector(
                       employees: _employees,
@@ -125,14 +125,14 @@ class _EmployeeSelector extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset('assets/brand/logo.png', width: 48, height: 48),
-        SizedBox(height: context.tokens.spaceSm),
+        SizedBox(height: context.tokens.spacing.sm),
         AppText.headingMd('agora', color: AppColors.dark.foreground),
-        SizedBox(height: context.tokens.spaceXs),
+        SizedBox(height: context.tokens.spacing.xs),
         AppText.body(
           'Select your profile to continue',
           color: AppColors.dark.mutedForeground,
         ),
-        SizedBox(height: context.tokens.spaceXl),
+        SizedBox(height: context.tokens.spacing.xl),
         if (employees.isEmpty)
           AppText.body(
             'No employees found.\nPlease set up staff in Settings first.',
@@ -172,7 +172,7 @@ class _AvatarTile extends StatelessWidget {
               color: AppColors.dark.secondaryForeground,
             ),
           ),
-          SizedBox(height: context.tokens.spaceXs),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.bodySm(employee.name, color: AppColors.dark.foreground),
         ],
       ),
@@ -218,7 +218,7 @@ class _PinPad extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: context.tokens.spaceXs),
+        SizedBox(height: context.tokens.spacing.xs),
         CircleAvatar(
           radius: 32,
           backgroundColor: AppColors.dark.secondary,
@@ -227,18 +227,20 @@ class _PinPad extends StatelessWidget {
             color: AppColors.dark.secondaryForeground,
           ),
         ),
-        SizedBox(height: context.tokens.spaceSm),
+        SizedBox(height: context.tokens.spacing.sm),
         AppText.headingSm(employee.name, color: AppColors.dark.foreground),
-        SizedBox(height: context.tokens.spaceXxs),
+        SizedBox(height: context.tokens.spacing.xxs),
         AppText.body('Enter your PIN', color: AppColors.dark.mutedForeground),
-        SizedBox(height: context.tokens.spaceLg),
+        SizedBox(height: context.tokens.spacing.lg),
         // PIN dots
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
             6,
             (i) => Container(
-              margin: EdgeInsets.symmetric(horizontal: context.tokens.spaceXxs),
+              margin: EdgeInsets.symmetric(
+                horizontal: context.tokens.spacing.xxs,
+              ),
               width: 14,
               height: 14,
               decoration: BoxDecoration(
@@ -251,10 +253,10 @@ class _PinPad extends StatelessWidget {
           ),
         ),
         if (error != null) ...[
-          SizedBox(height: context.tokens.spaceSm),
+          SizedBox(height: context.tokens.spacing.sm),
           AppText.bodySm(error!, color: AppColors.dark.destructive),
         ],
-        SizedBox(height: context.tokens.spaceLg),
+        SizedBox(height: context.tokens.spacing.lg),
         GridView.count(
           crossAxisCount: 3,
           shrinkWrap: true,
@@ -279,14 +281,14 @@ class _PinPad extends StatelessWidget {
             _DeleteButton(onTap: onDelete),
           ],
         ),
-        SizedBox(height: context.tokens.spaceLg),
+        SizedBox(height: context.tokens.spacing.lg),
         AppButton.primary(
           onPressed: pin.length >= 4 ? onConfirm : null,
           label: 'Unlock',
           isLoading: loading,
         ),
         if (kDebugMode) ...[
-          SizedBox(height: context.tokens.spaceSm),
+          SizedBox(height: context.tokens.spacing.sm),
           AppButton.destructive(
             label: 'Skip PIN (debug)',
             size: AppButtonSize.sm,
@@ -308,10 +310,10 @@ class _DigitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.dark.card,
-      borderRadius: context.tokens.borderRadiusLg,
+      borderRadius: context.tokens.radius.borderLg,
       child: InkWell(
         onTap: onTap,
-        borderRadius: context.tokens.borderRadiusLg,
+        borderRadius: context.tokens.radius.borderLg,
         child: Center(
           child: AppText.headingMd(digit, color: AppColors.dark.foreground),
         ),
@@ -328,10 +330,10 @@ class _DeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.dark.card,
-      borderRadius: context.tokens.borderRadiusLg,
+      borderRadius: context.tokens.radius.borderLg,
       child: InkWell(
         onTap: onTap,
-        borderRadius: context.tokens.borderRadiusLg,
+        borderRadius: context.tokens.radius.borderLg,
         child: Center(
           child: Icon(
             AgoraIcons.eraser,

@@ -38,12 +38,12 @@ class ProductStatusBadge extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: Sizes.sm,
-        vertical: context.tokens.spaceXxs,
+        horizontal: context.tokens.spacing.xs,
+        vertical: context.tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(Sizes.xs),
+        borderRadius: BorderRadius.circular(context.tokens.radius.xs),
       ),
       child: AppText.label(
         label,

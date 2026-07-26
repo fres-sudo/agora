@@ -52,7 +52,7 @@ class MenuCategoryItem extends StatelessWidget {
 
     return Material(
       color: backgroundColor,
-      borderRadius: context.tokens.borderRadiusLg,
+      borderRadius: context.tokens.radius.borderLg,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: isEnabled ? onTap : null,
@@ -60,7 +60,7 @@ class MenuCategoryItem extends StatelessWidget {
           width: size,
           height: size,
           decoration: BoxDecoration(
-            borderRadius: context.tokens.borderRadiusLg,
+            borderRadius: context.tokens.radius.borderLg,
             // Subtle border when selected to match the image's depth.
             border: isSelected
                 ? Border.all(color: colors.border, width: 1.5)
@@ -89,8 +89,8 @@ class MenuCategoryItem extends StatelessWidget {
               // Main content.
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: context.tokens.spaceSm,
-                  vertical: context.tokens.spaceMd,
+                  horizontal: context.tokens.spacing.sm,
+                  vertical: context.tokens.spacing.md,
                 ),
                 child: Center(
                   child: Column(

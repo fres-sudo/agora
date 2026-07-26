@@ -21,9 +21,9 @@ class ProductNameCell extends StatelessWidget {
         AppSourcedImage(
           source: imageUrl,
           size: 40,
-          borderRadius: BorderRadius.circular(Sizes.xs),
+          borderRadius: BorderRadius.circular(context.tokens.radius.xs),
         ),
-        const SizedBox(width: Sizes.md),
+        SizedBox(width: context.tokens.spacing.sm),
 
         // Name and Description
         Expanded(
@@ -37,7 +37,7 @@ class ProductNameCell extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               if (description != null && description!.isNotEmpty) ...[
-                SizedBox(height: context.tokens.spaceXxs),
+                SizedBox(height: context.tokens.spacing.xxs),
                 AppText.bodySm(
                   description!,
                   color: context.colors.mutedForeground,

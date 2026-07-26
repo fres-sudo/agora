@@ -97,8 +97,8 @@ class _AppMultiSelectState<T> extends State<AppMultiSelect<T>> {
               : selectedItems;
           final overflow = selectedItems.length - visible.length;
           content = Wrap(
-            spacing: tokens.spaceXs,
-            runSpacing: tokens.spaceXxs,
+            spacing: tokens.spacing.xs,
+            runSpacing: tokens.spacing.xxs,
             children: [
               for (final item in visible)
                 AppChip(
@@ -130,7 +130,7 @@ class _AppMultiSelectState<T> extends State<AppMultiSelect<T>> {
           child: ListView.builder(
             shrinkWrap: true,
             padding: EdgeInsets.symmetric(
-              vertical: contentContext.tokens.spaceXxs,
+              vertical: contentContext.tokens.spacing.xxs,
             ),
             itemCount: widget.items.length,
             itemBuilder: (context, index) {

@@ -16,21 +16,29 @@ class TopProductsList extends StatelessWidget {
 
         final colors = context.colors;
         return Container(
-          padding: EdgeInsets.all(isCompact ? Sizes.md : Sizes.lg),
+          padding: EdgeInsets.all(
+            isCompact ? context.tokens.spacing.sm : context.tokens.spacing.md,
+          ),
           decoration: BoxDecoration(
             color: colors.card,
-            borderRadius: BorderRadius.circular(Sizes.md),
+            borderRadius: BorderRadius.circular(context.tokens.radius.md),
             border: Border.all(color: colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText.headingSm(t.report.top_10_product),
-              SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
+              SizedBox(
+                height: isCompact
+                    ? context.tokens.spacing.sm
+                    : context.tokens.spacing.lg,
+              ),
               // Table header
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: isCompact ? Sizes.xs : Sizes.sm,
+                  vertical: isCompact
+                      ? context.tokens.spacing.xxs
+                      : context.tokens.spacing.xs,
                 ),
                 child: Row(
                   children: [
@@ -57,20 +65,28 @@ class TopProductsList extends StatelessWidget {
                     final product = products[index];
                     return Padding(
                       padding: EdgeInsets.symmetric(
-                        vertical: isCompact ? Sizes.sm : Sizes.md,
+                        vertical: isCompact
+                            ? context.tokens.spacing.xs
+                            : context.tokens.spacing.sm,
                       ),
                       child: Row(
                         children: [
                           _buildRankBadge(context, index + 1, isVeryCompact),
-                          SizedBox(width: isVeryCompact ? Sizes.xs : Sizes.md),
+                          SizedBox(
+                            width: isVeryCompact
+                                ? context.tokens.spacing.xxs
+                                : context.tokens.spacing.sm,
+                          ),
                           if (!isVeryCompact) ...[
                             AppSourcedImage(
                               source: product.imageUrl,
                               size: 40,
-                              borderRadius: BorderRadius.circular(Sizes.xs),
+                              borderRadius: BorderRadius.circular(
+                                context.tokens.radius.xs,
+                              ),
                               placeholderIcon: AgoraIcons.burger,
                             ),
-                            const SizedBox(width: Sizes.md),
+                            SizedBox(width: context.tokens.spacing.sm),
                           ],
                           Expanded(
                             child: AppText.body(
@@ -79,7 +95,7 @@ class TopProductsList extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          const SizedBox(width: Sizes.xs),
+                          SizedBox(width: context.tokens.spacing.xxs),
                           AppText.titleMd(product.sales.toString()),
                         ],
                       ),
@@ -111,7 +127,7 @@ class TopProductsList extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: context.tokens.borderRadiusFull,
+        borderRadius: context.tokens.radius.borderFull,
         border: Border.all(color: color.withValues(alpha: 0.5)),
       ),
       child: Center(

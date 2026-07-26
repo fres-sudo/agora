@@ -65,7 +65,7 @@ class AppSheetScaffold extends StatelessWidget {
     final isSheet = presentation == AdaptiveModalPresentation.bottomSheet;
     final tokens = context.tokens;
     final contentPadding =
-        padding ?? EdgeInsets.symmetric(horizontal: tokens.spaceXl);
+        padding ?? EdgeInsets.symmetric(horizontal: tokens.spacing.xl);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -75,10 +75,10 @@ class AppSheetScaffold extends StatelessWidget {
         if (_hasHeader)
           Padding(
             padding: EdgeInsets.fromLTRB(
-              tokens.spaceXl,
-              isSheet ? tokens.spaceSm : tokens.spaceXl,
-              tokens.spaceSm,
-              tokens.spaceLg,
+              tokens.spacing.xl,
+              isSheet ? tokens.spacing.sm : tokens.spacing.xl,
+              tokens.spacing.sm,
+              tokens.spacing.lg,
             ),
             child: _Header(
               title: title,
@@ -112,7 +112,7 @@ class _SheetGrabber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: context.tokens.spaceSm),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.sm),
       child: Center(
         child: Container(
           width: 36,
@@ -154,7 +154,7 @@ class _Header extends StatelessWidget {
             children: [
               if (title != null) AppText.headingSm(title!),
               if (subtitle != null) ...[
-                SizedBox(height: context.tokens.spaceXxs),
+                SizedBox(height: context.tokens.spacing.xxs),
                 AppText.bodySm(
                   subtitle!,
                   color: context.colors.mutedForeground,
@@ -169,7 +169,7 @@ class _Header extends StatelessWidget {
             onPressed: onClose,
             icon: Icon(
               AgoraIcons.x_mark,
-              size: context.tokens.iconMd,
+              size: context.tokens.iconSize.md,
               color: context.colors.mutedForeground,
             ),
           ),
@@ -198,10 +198,10 @@ class _Footer extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.fromLTRB(
-        tokens.spaceXl,
-        tokens.spaceLg,
-        tokens.spaceXl,
-        tokens.spaceLg + bottomInset,
+        tokens.spacing.xl,
+        tokens.spacing.lg,
+        tokens.spacing.xl,
+        tokens.spacing.lg + bottomInset,
       ),
       decoration: BoxDecoration(
         color: context.colors.popover,
@@ -209,7 +209,7 @@ class _Footer extends StatelessWidget {
             ? Border(
                 top: BorderSide(
                   color: context.colors.border,
-                  width: tokens.borderHairline,
+                  width: tokens.border.hairline,
                 ),
               )
             : null,
@@ -222,7 +222,8 @@ class _Footer extends StatelessWidget {
                 // Primary action last in the list but first on screen: on a
                 // phone the bottom-most control is the easiest to reach.
                 for (var i = actions.length - 1; i >= 0; i--) ...[
-                  if (i < actions.length - 1) SizedBox(height: tokens.spaceSm),
+                  if (i < actions.length - 1)
+                    SizedBox(height: tokens.spacing.sm),
                   actions[i],
                 ],
               ],
@@ -231,7 +232,7 @@ class _Footer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 for (var i = 0; i < actions.length; i++) ...[
-                  if (i > 0) SizedBox(width: tokens.spaceSm),
+                  if (i > 0) SizedBox(width: tokens.spacing.sm),
                   actions[i],
                 ],
               ],

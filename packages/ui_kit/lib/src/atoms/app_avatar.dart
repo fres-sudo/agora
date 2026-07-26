@@ -35,7 +35,7 @@ class AppAvatar extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(
             color: colors.border,
-            width: context.tokens.borderHairline,
+            width: context.tokens.border.hairline,
           ),
           image: imageProvider == null
               ? null

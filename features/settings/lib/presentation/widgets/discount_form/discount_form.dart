@@ -128,7 +128,7 @@ class _DiscountFormState extends State<DiscountForm> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: EdgeInsets.all(context.tokens.spaceLg),
+          padding: EdgeInsets.all(context.tokens.spacing.lg),
           child: AppText.headingSm(
             isEditing ? 'Edit Discount' : 'New Discount',
             textAlign: TextAlign.center,
@@ -139,7 +139,7 @@ class _DiscountFormState extends State<DiscountForm> {
         Flexible(
           child: SingleChildScrollView(
             controller: widget.scrollController,
-            padding: EdgeInsets.all(context.tokens.spaceLg),
+            padding: EdgeInsets.all(context.tokens.spacing.lg),
             child: Form(
               key: _formKey,
               child: Column(
@@ -156,11 +156,11 @@ class _DiscountFormState extends State<DiscountForm> {
                         ? 'Please enter a name'
                         : null,
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Type
                   const AppText.titleMd('Type'),
-                  SizedBox(height: context.tokens.spaceXs),
+                  SizedBox(height: context.tokens.spacing.xs),
                   SegmentedButton<DiscountType>(
                     segments: const [
                       ButtonSegment(
@@ -180,7 +180,7 @@ class _DiscountFormState extends State<DiscountForm> {
                       _formKey.currentState?.validate();
                     },
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Value
                   AppTextField(
@@ -201,7 +201,7 @@ class _DiscountFormState extends State<DiscountForm> {
                     textInputAction: TextInputAction.next,
                     validator: _validateValue,
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Code (optional)
                   AppTextField(
@@ -211,7 +211,7 @@ class _DiscountFormState extends State<DiscountForm> {
                     prefix: const Icon(AgoraIcons.tag),
                     textInputAction: TextInputAction.next,
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Usage limit (optional)
                   AppTextField(
@@ -223,7 +223,7 @@ class _DiscountFormState extends State<DiscountForm> {
                     prefix: const Icon(AgoraIcons.rotate_right),
                     textInputAction: TextInputAction.done,
                   ),
-                  SizedBox(height: context.tokens.spaceXs),
+                  SizedBox(height: context.tokens.spacing.xs),
 
                   // Valid until (optional)
                   ListTile(
@@ -265,7 +265,7 @@ class _DiscountFormState extends State<DiscountForm> {
 
         const Divider(height: 1),
         Padding(
-          padding: EdgeInsets.all(context.tokens.spaceLg),
+          padding: EdgeInsets.all(context.tokens.spacing.lg),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -273,7 +273,7 @@ class _DiscountFormState extends State<DiscountForm> {
                 onPressed: () => Navigator.of(context).pop(),
                 label: 'Cancel',
               ),
-              SizedBox(width: context.tokens.spaceMd),
+              SizedBox(width: context.tokens.spacing.md),
               AppButton.primary(onPressed: _onSave, label: 'Save'),
             ],
           ),

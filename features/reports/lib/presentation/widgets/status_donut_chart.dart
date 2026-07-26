@@ -35,10 +35,12 @@ class StatusDonutChart extends StatelessWidget {
 
         final colors = context.colors;
         return Container(
-          padding: EdgeInsets.all(isCompact ? Sizes.md : Sizes.lg),
+          padding: EdgeInsets.all(
+            isCompact ? context.tokens.spacing.sm : context.tokens.spacing.md,
+          ),
           decoration: BoxDecoration(
             color: colors.card,
-            borderRadius: BorderRadius.circular(Sizes.md),
+            borderRadius: BorderRadius.circular(context.tokens.radius.md),
             border: Border.all(color: colors.border),
           ),
           child: Column(
@@ -63,7 +65,11 @@ class StatusDonutChart extends StatelessWidget {
                     ),
                 ],
               ),
-              SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
+              SizedBox(
+                height: isCompact
+                    ? context.tokens.spacing.sm
+                    : context.tokens.spacing.lg,
+              ),
               // Chart
               Expanded(
                 child: Stack(
@@ -98,12 +104,18 @@ class StatusDonutChart extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
+              SizedBox(
+                height: isCompact
+                    ? context.tokens.spacing.sm
+                    : context.tokens.spacing.lg,
+              ),
               // Legend
               ...data.map(
                 (d) => Padding(
                   padding: EdgeInsets.only(
-                    bottom: isCompact ? Sizes.xxs : Sizes.xs,
+                    bottom: isCompact
+                        ? context.tokens.spacing.xxxs
+                        : context.tokens.spacing.xxs,
                   ),
                   child: Row(
                     children: [
@@ -115,7 +127,7 @@ class StatusDonutChart extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                       ),
-                      const SizedBox(width: Sizes.sm),
+                      SizedBox(width: context.tokens.spacing.xs),
                       Expanded(
                         child: AppText.body(
                           d.label,

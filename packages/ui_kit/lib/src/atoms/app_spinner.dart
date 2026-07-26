@@ -3,7 +3,7 @@ import 'package:ui_kit/src/theme/context_extensions.dart';
 
 /// A small, token-aware activity indicator.
 ///
-/// Defaults to `context.colors.primary` and `context.tokens.iconMd`, so it
+/// Defaults to `context.colors.primary` and `context.tokens.iconSize.md`, so it
 /// stays legible in both themes without configuration.
 class AppSpinner extends StatelessWidget {
   const AppSpinner({super.key, this.size, this.color, this.strokeWidth = 2});
@@ -14,7 +14,7 @@ class AppSpinner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dimension = size ?? context.tokens.iconMd;
+    final dimension = size ?? context.tokens.iconSize.md;
     return Semantics(
       label: 'Loading',
       liveRegion: true,

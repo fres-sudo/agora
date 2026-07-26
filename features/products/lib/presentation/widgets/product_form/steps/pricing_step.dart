@@ -68,17 +68,17 @@ class _PricingStepState extends State<PricingStep> {
         );
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: EdgeInsets.all(context.tokens.spacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Section Title
               AppText.titleMd(t.products.form.steps.pricing),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
 
               // Price
               _FormLabel(label: t.products.form.price, required: true),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               AppTextField(
                 controller: _priceController,
                 onChanged: _onPriceChanged,
@@ -92,11 +92,11 @@ class _PricingStepState extends State<PricingStep> {
                 hintText: '0.00',
                 errorText: errors['price'],
               ),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
 
               // Tax
               _FormLabel(label: t.products.form.tax),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               AppTextField(
                 controller: _taxController,
                 onChanged: _onTaxChanged,
@@ -127,7 +127,7 @@ class _FormLabel extends StatelessWidget {
       children: [
         AppText.label(label),
         if (required) ...[
-          SizedBox(width: context.tokens.spaceXxs),
+          SizedBox(width: context.tokens.spacing.xxs),
           AppText.label('*', color: context.colors.destructive),
         ],
       ],

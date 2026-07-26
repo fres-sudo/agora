@@ -25,16 +25,18 @@ void main() {
 
   group('AppTokens', () {
     test('shadows differ between light and dark, spacing does not', () {
-      expect(AppTokens.light.spaceLg, AppTokens.dark.spaceLg);
-      expect(AppTokens.light.shadowMd, isNot(AppTokens.dark.shadowMd));
+      expect(AppTokens.light.spacing.lg, AppTokens.dark.spacing.lg);
+      expect(AppTokens.light.shadows.md, isNot(AppTokens.dark.shadows.md));
     });
 
     test('lerp interpolates a scalar token', () {
       final t = AppTokens.light.lerp(
-        AppTokens.light.copyWith(radiusMd: 20),
+        AppTokens.light.copyWith(
+          radius: AppTokens.light.radius.copyWith(md: 20),
+        ),
         0.5,
       );
-      expect(t.radiusMd, closeTo((AppTokens.light.radiusMd + 20) / 2, 0.001));
+      expect(t.radius.md, closeTo((AppTokens.light.radius.md + 20) / 2, 0.001));
     });
   });
 

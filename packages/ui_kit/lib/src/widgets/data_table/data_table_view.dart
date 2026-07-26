@@ -188,7 +188,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     final isMobile = context.isMobile;
 
     return Container(
-      margin: isMobile ? EdgeInsets.zero : const EdgeInsets.all(Sizes.lg),
+      margin: isMobile
+          ? EdgeInsets.zero
+          : EdgeInsets.all(context.tokens.spacing.md),
       decoration: isMobile
           ? BoxDecoration(color: context.colors.background)
           : BoxDecoration(
@@ -297,9 +299,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
 
   Widget _buildColumnHeaders() {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.lg,
-        vertical: Sizes.md,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spacing.md,
+        vertical: context.tokens.spacing.sm,
       ),
       decoration: BoxDecoration(
         color: context.colors.muted,
@@ -341,9 +343,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     return InkWell(
       onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.lg,
-          vertical: Sizes.md,
+        padding: EdgeInsets.symmetric(
+          horizontal: context.tokens.spacing.md,
+          vertical: context.tokens.spacing.sm,
         ),
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: context.colors.border)),
@@ -426,7 +428,7 @@ class _RowActionMenu extends StatelessWidget {
 
         return Padding(
           padding: EdgeInsets.symmetric(
-            vertical: contentContext.tokens.spaceXxs,
+            vertical: contentContext.tokens.spacing.xxs,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -471,31 +473,31 @@ class _DestructiveOptionRow extends StatelessWidget {
     final tokens = context.tokens;
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: tokens.spaceXxs,
-        vertical: tokens.spaceXxs / 2,
+        horizontal: tokens.spacing.xxs,
+        vertical: tokens.spacing.xxs / 2,
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: tokens.borderRadiusSm,
+        borderRadius: tokens.radius.borderSm,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          borderRadius: tokens.borderRadiusSm,
+          borderRadius: tokens.radius.borderSm,
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: tokens.spaceSm,
-              vertical: tokens.spaceXs,
+              horizontal: tokens.spacing.sm,
+              vertical: tokens.spacing.xs,
             ),
             child: Row(
               children: [
-                SizedBox(width: tokens.iconMd),
-                SizedBox(width: tokens.spaceXs),
+                SizedBox(width: tokens.iconSize.md),
+                SizedBox(width: tokens.spacing.xs),
                 Icon(
                   AgoraIcons.trash,
-                  size: tokens.iconSm,
+                  size: tokens.iconSize.sm,
                   color: colors.destructive,
                 ),
-                SizedBox(width: tokens.spaceXs),
+                SizedBox(width: tokens.spacing.xs),
                 Expanded(child: AppText.body(label, color: colors.destructive)),
               ],
             ),

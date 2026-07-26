@@ -87,12 +87,12 @@ class _SectionIndex extends StatelessWidget {
       backgroundColor: context.colors.background,
       appBar: AppAppBar(title: title, leading: const AppShellDrawerButton()),
       body: ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: tokens.spaceSm),
+        padding: EdgeInsets.symmetric(vertical: tokens.spacing.sm),
         itemCount: items.length,
         separatorBuilder: (_, _) => Divider(
-          height: tokens.borderHairline,
-          thickness: tokens.borderHairline,
-          indent: tokens.spaceXxl + tokens.spaceMd,
+          height: tokens.border.hairline,
+          thickness: tokens.border.hairline,
+          indent: tokens.spacing.xxl + tokens.spacing.md,
           color: context.colors.border,
         ),
         itemBuilder: (context, index) {
@@ -119,17 +119,21 @@ class _SectionRow extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: tokens.spaceLg,
-          vertical: tokens.spaceMd,
+          horizontal: tokens.spacing.lg,
+          vertical: tokens.spacing.md,
         ),
         child: Row(
           children: [
-            Icon(item.icon, size: tokens.iconMd, color: colors.mutedForeground),
-            SizedBox(width: tokens.spaceMd),
+            Icon(
+              item.icon,
+              size: tokens.iconSize.md,
+              color: colors.mutedForeground,
+            ),
+            SizedBox(width: tokens.spacing.md),
             Expanded(child: AppText.body(item.label)),
             Icon(
               AgoraIcons.chevron_right,
-              size: tokens.iconSm,
+              size: tokens.iconSize.sm,
               color: colors.mutedForeground,
             ),
           ],
@@ -154,7 +158,7 @@ class _SectionDetailScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).maybePop(),
           icon: Icon(
             AgoraIcons.chevron_left,
-            size: context.tokens.iconLg,
+            size: context.tokens.iconSize.lg,
             color: context.colors.foreground,
           ),
         ),

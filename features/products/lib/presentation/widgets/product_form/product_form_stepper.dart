@@ -16,9 +16,9 @@ class ProductFormStepper extends StatelessWidget {
         final currentIndex = state.currentStepIndex;
 
         return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.lg,
-            vertical: Sizes.sm,
+          padding: EdgeInsets.symmetric(
+            horizontal: context.tokens.spacing.md,
+            vertical: context.tokens.spacing.xs,
           ),
           child: Row(
             children: [

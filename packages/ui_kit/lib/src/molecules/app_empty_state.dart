@@ -25,24 +25,27 @@ class AppEmptyState extends StatelessWidget {
     final tokens = context.tokens;
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(tokens.spaceXl),
+        padding: EdgeInsets.all(tokens.spacing.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[
               Icon(icon, size: 48, color: colors.mutedForeground),
-              SizedBox(height: tokens.spaceMd),
+              SizedBox(height: tokens.spacing.md),
             ],
             AppText.titleLg(title, textAlign: TextAlign.center),
             if (message != null) ...[
-              SizedBox(height: tokens.spaceXs),
+              SizedBox(height: tokens.spacing.xs),
               AppText.bodySm(
                 message!,
                 color: colors.mutedForeground,
                 textAlign: TextAlign.center,
               ),
             ],
-            if (action != null) ...[SizedBox(height: tokens.spaceLg), action!],
+            if (action != null) ...[
+              SizedBox(height: tokens.spacing.lg),
+              action!,
+            ],
           ],
         ),
       ),

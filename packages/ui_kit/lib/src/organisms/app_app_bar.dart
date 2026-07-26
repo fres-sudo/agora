@@ -39,7 +39,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
         border: Border(
           bottom: BorderSide(
             color: colors.border,
-            width: tokens.borderHairline,
+            width: tokens.border.hairline,
           ),
         ),
       ),
@@ -51,12 +51,12 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
             SizedBox(
               height: _height,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: tokens.spaceLg),
+                padding: EdgeInsets.symmetric(horizontal: tokens.spacing.lg),
                 child: Row(
                   children: [
                     if (leading != null) ...[
                       leading!,
-                      SizedBox(width: tokens.spaceSm),
+                      SizedBox(width: tokens.spacing.sm),
                     ],
                     Expanded(
                       child: title == null

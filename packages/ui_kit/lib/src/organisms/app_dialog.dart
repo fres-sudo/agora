@@ -47,13 +47,13 @@ class AppDialog extends StatelessWidget {
       elevation: 0,
       shadowColor: Colors.transparent,
       shape: RoundedRectangleBorder(
-        borderRadius: tokens.borderRadiusLg,
-        side: BorderSide(color: colors.border, width: tokens.borderHairline),
+        borderRadius: tokens.radius.borderLg,
+        side: BorderSide(color: colors.border, width: tokens.border.hairline),
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
         child: Padding(
-          padding: EdgeInsets.all(tokens.spaceXl),
+          padding: EdgeInsets.all(tokens.spacing.xl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
@@ -61,19 +61,19 @@ class AppDialog extends StatelessWidget {
               if (title != null) ...[
                 AppText.headingSm(title!),
                 if (subtitle != null) ...[
-                  SizedBox(height: tokens.spaceXxs),
+                  SizedBox(height: tokens.spacing.xxs),
                   AppText.bodySm(subtitle!, color: colors.mutedForeground),
                 ],
-                SizedBox(height: tokens.spaceLg),
+                SizedBox(height: tokens.spacing.lg),
               ],
               content,
               if (actions.isNotEmpty) ...[
-                SizedBox(height: tokens.spaceXl),
+                SizedBox(height: tokens.spacing.xl),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     for (var i = 0; i < actions.length; i++) ...[
-                      if (i > 0) SizedBox(width: tokens.spaceSm),
+                      if (i > 0) SizedBox(width: tokens.spacing.sm),
                       actions[i],
                     ],
                   ],

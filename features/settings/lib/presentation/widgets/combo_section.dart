@@ -72,7 +72,7 @@ class _ComboSectionState extends State<ComboSection> {
           children: [
             // Header
             Padding(
-              padding: EdgeInsets.all(context.tokens.spaceLg),
+              padding: EdgeInsets.all(context.tokens.spacing.lg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -113,9 +113,10 @@ class _ComboSectionState extends State<ComboSection> {
     }
 
     return ListView.separated(
-      padding: EdgeInsets.all(context.tokens.spaceLg),
+      padding: EdgeInsets.all(context.tokens.spacing.lg),
       itemCount: combos.length,
-      separatorBuilder: (context, index) => const SizedBox(height: Sizes.md),
+      separatorBuilder: (context, index) =>
+          SizedBox(height: context.tokens.spacing.sm),
       itemBuilder: (context, index) {
         final combo = combos[index];
         return ComboListItem(
@@ -133,12 +134,12 @@ class _ComboSectionState extends State<ComboSection> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(AgoraIcons.gift, size: 64, color: context.colors.border),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           AppText.titleMd(
             'No combos yet',
             color: context.colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(
             'Add a combo (e.g. "Menu Completo") to bundle products at one price',
             color: context.colors.mutedForeground,
@@ -158,11 +159,11 @@ class _ComboSectionState extends State<ComboSection> {
             size: 48,
             color: context.colors.destructive,
           ),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           const AppText.titleMd('Failed to load combos'),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(message, color: context.colors.mutedForeground),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
           AppButton.primary(
             onPressed: () =>
                 context.read<CombosBloc>().add(const CombosEvent.started()),

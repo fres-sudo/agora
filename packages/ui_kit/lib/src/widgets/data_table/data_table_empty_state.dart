@@ -18,7 +18,7 @@ class DataTableEmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: Sizes.xxl * 2),
+        padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.xl * 2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -61,7 +61,7 @@ class DataTableEmptyState extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: Sizes.lg),
+            SizedBox(height: context.tokens.spacing.md),
             // Title
             Text(
               title,
@@ -69,7 +69,7 @@ class DataTableEmptyState extends StatelessWidget {
                 context,
               ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: Sizes.xs),
+            SizedBox(height: context.tokens.spacing.xxs),
             // Subtitle
             Text(
               subtitle,

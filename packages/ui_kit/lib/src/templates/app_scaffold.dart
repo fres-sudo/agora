@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ui_kit/src/responsive/device.dart';
 import 'package:ui_kit/src/theme/context_extensions.dart';
 
 /// The base page template.
 ///
 /// A thin, token-aware wrapper over [Scaffold] that paints the background from
 /// `context.colors.background` and (optionally) applies responsive horizontal
-/// insets via [Sizes.responsiveInsets] so page content stays comfortably gutter-ed
+/// tokenized insets so page content stays comfortably guttered
 /// on phones, tablets and desktop without per-page breakpoint code.
 class AppScaffold extends StatelessWidget {
   const AppScaffold({
@@ -41,9 +40,7 @@ class AppScaffold extends StatelessWidget {
 
     if (applyResponsiveInsets) {
       content = Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: Sizes.responsiveInsets(context),
-        ),
+        padding: EdgeInsets.symmetric(horizontal: context.tokens.spacing.lg),
         child: content,
       );
     }

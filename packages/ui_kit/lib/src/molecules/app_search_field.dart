@@ -36,7 +36,7 @@ class AppSearchField extends StatelessWidget {
       prefix: Icon(
         AgoraIcons.search,
         color: colors.mutedForeground,
-        size: context.tokens.iconMd,
+        size: context.tokens.iconSize.md,
       ),
       suffix: onClear == null
           ? null

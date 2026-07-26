@@ -72,10 +72,10 @@ class _StationQueueView extends StatelessWidget {
           }
 
           return ListView.separated(
-            padding: EdgeInsets.all(context.tokens.spaceLg),
+            padding: EdgeInsets.all(context.tokens.spacing.lg),
             itemCount: tickets.length,
             separatorBuilder: (_, _) =>
-                SizedBox(height: context.tokens.spaceMd),
+                SizedBox(height: context.tokens.spacing.md),
             itemBuilder: (context, index) {
               final ticket = tickets[index];
               return _TicketCard(
@@ -123,7 +123,9 @@ class _TicketCard extends StatelessWidget {
         children: [
           for (final item in ticket.items)
             Padding(
-              padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXxs),
+              padding: EdgeInsets.symmetric(
+                vertical: context.tokens.spacing.xxs,
+              ),
               child: AppText.body('${item.quantity}x ${item.productName}'),
             ),
         ],

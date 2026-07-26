@@ -54,13 +54,13 @@ class CatalogTemplateListItem extends StatelessWidget {
     final colors = context.colors;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.lg,
-        vertical: Sizes.md,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spacing.md,
+        vertical: context.tokens.spacing.sm,
       ),
       decoration: BoxDecoration(
         color: colors.card,
-        borderRadius: BorderRadius.circular(Sizes.sm),
+        borderRadius: BorderRadius.circular(context.tokens.radius.sm),
         border: Border.all(color: colors.border),
       ),
       child: Row(
@@ -70,7 +70,7 @@ class CatalogTemplateListItem extends StatelessWidget {
             height: 40,
             decoration: BoxDecoration(
               color: colors.card,
-              borderRadius: BorderRadius.circular(Sizes.xs),
+              borderRadius: BorderRadius.circular(context.tokens.radius.xs),
               border: Border.all(color: colors.border),
             ),
             child: Icon(
@@ -79,13 +79,13 @@ class CatalogTemplateListItem extends StatelessWidget {
               size: 20,
             ),
           ),
-          const SizedBox(width: Sizes.md),
+          SizedBox(width: context.tokens.spacing.sm),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppText.titleMd(template.name),
-                SizedBox(height: context.tokens.spaceXxs),
+                SizedBox(height: context.tokens.spacing.xxs),
                 AppText.bodySm(
                   'Saved $_savedAtLabel · $_itemCountLabel',
                   color: colors.mutedForeground,
@@ -93,13 +93,13 @@ class CatalogTemplateListItem extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: Sizes.lg),
+          SizedBox(width: context.tokens.spacing.md),
           AppButton.outline(
             onPressed: onRestore,
             label: 'Restore',
             leadingIcon: const Icon(AgoraIcons.rotate_left, size: 18),
           ),
-          const SizedBox(width: Sizes.sm),
+          SizedBox(width: context.tokens.spacing.xs),
           AppIconButton.ghost(
             onPressed: onDelete,
             icon: Icon(AgoraIcons.trash, color: colors.mutedForeground),

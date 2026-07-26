@@ -48,7 +48,12 @@ class DataTableHeader extends StatelessWidget {
   Widget _buildMobile(BuildContext context) {
     final tokens = context.tokens;
     return Padding(
-      padding: EdgeInsets.fromLTRB(tokens.spaceMd, tokens.spaceSm, tokens.spaceSm, tokens.spaceSm),
+      padding: EdgeInsets.fromLTRB(
+        tokens.spacing.md,
+        tokens.spacing.sm,
+        tokens.spacing.sm,
+        tokens.spacing.sm,
+      ),
       child: Row(
         children: [
           Expanded(
@@ -71,7 +76,7 @@ class DataTableHeader extends StatelessWidget {
             icon: Badge(
               isLabelVisible: hasActiveFilters,
               smallSize: 8,
-              child: Icon(AgoraIcons.filter, size: tokens.iconMd),
+              child: Icon(AgoraIcons.filter, size: tokens.iconSize.md),
             ),
           ),
         ],
@@ -81,13 +86,15 @@ class DataTableHeader extends StatelessWidget {
 
   Widget _buildDesktop(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(Sizes.lg),
+      padding: EdgeInsets.all(context.tokens.spacing.md),
       child: Row(
         children: [
           // Title
           Text(
             title,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
           const Spacer(),
           // Search field
@@ -100,11 +107,15 @@ class DataTableHeader extends StatelessWidget {
               prefix: const Icon(AgoraIcons.search),
             ),
           ),
-          const SizedBox(width: Sizes.sm),
+          SizedBox(width: context.tokens.spacing.xs),
           // Sort button
           if (sortOptions.isNotEmpty) ...[
-            _SortButton(sortOptions: sortOptions, currentSort: currentSort, onSort: onSort),
-            const SizedBox(width: Sizes.sm),
+            _SortButton(
+              sortOptions: sortOptions,
+              currentSort: currentSort,
+              onSort: onSort,
+            ),
+            SizedBox(width: context.tokens.spacing.xs),
           ],
           // Filter button
           AppButton.outline(
@@ -118,10 +129,13 @@ class DataTableHeader extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               foregroundColor: context.colors.foreground,
               side: BorderSide(color: context.colors.border),
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: Sizes.sm),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.tokens.spacing.sm,
+                vertical: context.tokens.spacing.xs,
+              ),
             ),
           ),
-          const SizedBox(width: Sizes.sm),
+          SizedBox(width: context.tokens.spacing.xs),
           // Add button
           AppButton.primary(
             onPressed: onAdd,
@@ -170,7 +184,10 @@ class _SortButton extends StatelessWidget {
             foregroundColor: triggerContext.colors.foreground,
             disabledForegroundColor: triggerContext.colors.foreground,
             side: BorderSide(color: triggerContext.colors.border),
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.md, vertical: Sizes.sm),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.tokens.spacing.sm,
+              vertical: context.tokens.spacing.xs,
+            ),
           ),
         );
       },
@@ -184,18 +201,23 @@ class _SortButton extends StatelessWidget {
       minWidth: 180,
       triggerBuilder: (triggerContext, controller) => AppIconButton.ghost(
         onPressed: controller.toggle,
-        icon: Icon(_icon, size: triggerContext.tokens.iconMd),
+        icon: Icon(_icon, size: triggerContext.tokens.iconSize.md),
       ),
       contentBuilder: _buildOptions,
     );
   }
 
-  Widget _buildOptions(BuildContext contentContext, AppPopoverController controller) {
+  Widget _buildOptions(
+    BuildContext contentContext,
+    AppPopoverController controller,
+  ) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 320),
       child: ListView.builder(
         shrinkWrap: true,
-        padding: EdgeInsets.symmetric(vertical: contentContext.tokens.spaceXxs),
+        padding: EdgeInsets.symmetric(
+          vertical: contentContext.tokens.spacing.xxs,
+        ),
         itemCount: sortOptions.length,
         itemBuilder: (context, index) {
           final option = sortOptions[index];

@@ -85,13 +85,15 @@ class MoneyKeypad extends StatelessWidget {
 
   Widget _row(BuildContext context, List<_KeyData> keys) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.xs),
+      padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.xxs),
       child: Row(
         children: [
           for (final key in keys)
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.tokens.spacing.xxs,
+                ),
                 child: _KeypadButton(data: key, onDigit: _onDigit),
               ),
             ),

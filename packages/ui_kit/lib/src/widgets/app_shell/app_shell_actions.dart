@@ -117,17 +117,17 @@ class AppShellMenuButton extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(Sizes.sm),
+        padding: EdgeInsets.all(context.tokens.spacing.xs),
         child: Material(
           color: context.colors.card,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Sizes.borderRadius),
+            borderRadius: BorderRadius.circular(context.tokens.radius.xs),
             side: BorderSide(color: context.colors.border),
           ),
           elevation: 0,
           child: InkWell(
             onTap: onTap,
-            borderRadius: BorderRadius.circular(Sizes.borderRadius),
+            borderRadius: BorderRadius.circular(context.tokens.radius.xs),
             child: SizedBox(
               width: 44,
               height: 44,

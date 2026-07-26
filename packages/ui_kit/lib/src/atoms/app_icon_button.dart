@@ -143,12 +143,12 @@ class AppIconButton extends StatelessWidget {
         return null;
       }),
       shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: tokens.borderRadiusMd),
+        RoundedRectangleBorder(borderRadius: tokens.radius.borderMd),
       ),
       side: p.border == null
           ? null
           : WidgetStatePropertyAll(
-              BorderSide(color: p.border!, width: tokens.borderHairline),
+              BorderSide(color: p.border!, width: tokens.border.hairline),
             ),
     );
 
@@ -156,9 +156,9 @@ class AppIconButton extends StatelessWidget {
       onPressed: enabled ? onPressed : null,
       onLongPress: enabled ? onLongPress : null,
       icon: isLoading
-          ? AppSpinner(size: tokens.iconMd, color: p.fg)
+          ? AppSpinner(size: tokens.iconSize.md, color: p.fg)
           : IconTheme.merge(
-              data: IconThemeData(color: p.fg, size: tokens.iconMd),
+              data: IconThemeData(color: p.fg, size: tokens.iconSize.md),
               child: icon,
             ),
       tooltip: tooltip,

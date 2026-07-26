@@ -29,10 +29,10 @@ class AppSegmentedControl<T> extends StatelessWidget {
     final colors = context.colors;
     final tokens = context.tokens;
     return Container(
-      padding: EdgeInsets.all(tokens.spaceXxs),
+      padding: EdgeInsets.all(tokens.spacing.xxs),
       decoration: BoxDecoration(
         color: colors.muted,
-        borderRadius: tokens.borderRadiusMd,
+        borderRadius: tokens.radius.borderMd,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -71,21 +71,21 @@ class _Segment<T> extends StatelessWidget {
       label: segment.label,
       child: Material(
         color: isSelected ? colors.card : Colors.transparent,
-        borderRadius: BorderRadius.circular(tokens.radiusSm),
+        borderRadius: BorderRadius.circular(tokens.radius.sm),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(tokens.radiusSm),
+          borderRadius: BorderRadius.circular(tokens.radius.sm),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: tokens.spaceMd,
-              vertical: tokens.spaceSm,
+              horizontal: tokens.spacing.md,
+              vertical: tokens.spacing.sm,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (segment.icon != null) ...[
-                  Icon(segment.icon, size: tokens.iconSm, color: fg),
-                  SizedBox(width: tokens.spaceXs),
+                  Icon(segment.icon, size: tokens.iconSize.sm, color: fg),
+                  SizedBox(width: tokens.spacing.xs),
                 ],
                 Text(
                   segment.label,

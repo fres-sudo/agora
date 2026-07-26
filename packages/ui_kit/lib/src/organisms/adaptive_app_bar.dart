@@ -60,7 +60,7 @@ class AppShellDrawerButton extends StatelessWidget {
       onPressed: onTap,
       icon: Icon(
         AgoraIcons.menu,
-        size: context.tokens.iconLg,
+        size: context.tokens.iconSize.lg,
         color: context.colors.foreground,
       ),
     );

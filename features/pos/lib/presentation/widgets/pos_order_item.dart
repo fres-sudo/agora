@@ -48,12 +48,12 @@ class PosOrderItem extends StatelessWidget {
       onDismissed: (_) => onRemove(),
       background: Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: context.tokens.spaceMd),
+        padding: EdgeInsets.only(right: context.tokens.spacing.md),
         color: colors.destructive,
         child: Icon(AgoraIcons.trash, color: colors.destructiveForeground),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: context.tokens.spaceXs),
+        padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.xs),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -68,7 +68,7 @@ class PosOrderItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (item.selectedModifiers.isNotEmpty) ...[
-                    SizedBox(height: context.tokens.spaceXxs),
+                    SizedBox(height: context.tokens.spacing.xxs),
                     AppText.bodySm(
                       item.selectedModifiers
                           .map((m) => m.optionName)
@@ -78,7 +78,7 @@ class PosOrderItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
-                  SizedBox(height: context.tokens.spaceXxs),
+                  SizedBox(height: context.tokens.spacing.xxs),
                   AppText.bodySm(
                     '${_formatCents(item.unitPriceCents)} each',
                     color: colors.mutedForeground,
@@ -86,13 +86,13 @@ class PosOrderItem extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: context.tokens.spaceXs),
+            SizedBox(width: context.tokens.spacing.xs),
             // Quantity stepper + total (right)
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 AppText.titleMd(_formatCents(_itemTotal)),
-                SizedBox(height: context.tokens.spaceXxs),
+                SizedBox(height: context.tokens.spacing.xxs),
                 QuantityButton(
                   quantity: item.quantity,
                   min: 1,

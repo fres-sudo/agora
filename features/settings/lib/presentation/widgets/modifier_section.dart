@@ -101,7 +101,7 @@ class _ModifierSectionState extends State<ModifierSection> {
           children: [
             // Header
             Padding(
-              padding: EdgeInsets.all(context.tokens.spaceLg),
+              padding: EdgeInsets.all(context.tokens.spacing.lg),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -142,9 +142,10 @@ class _ModifierSectionState extends State<ModifierSection> {
     }
 
     return ListView.separated(
-      padding: EdgeInsets.all(context.tokens.spaceLg),
+      padding: EdgeInsets.all(context.tokens.spacing.lg),
       itemCount: modifiers.length,
-      separatorBuilder: (context, index) => const SizedBox(height: Sizes.md),
+      separatorBuilder: (context, index) =>
+          SizedBox(height: context.tokens.spacing.sm),
       itemBuilder: (context, index) {
         final modifierGroup = modifiers[index];
         return ModifierListItem(
@@ -162,12 +163,12 @@ class _ModifierSectionState extends State<ModifierSection> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(AgoraIcons.filter, size: 64, color: context.colors.border),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           AppText.titleMd(
             'No modifiers yet',
             color: context.colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(
             'Add a modifier (e.g. "Size" or "Milk Option") to get started',
             color: context.colors.mutedForeground,
@@ -187,11 +188,11 @@ class _ModifierSectionState extends State<ModifierSection> {
             size: 48,
             color: context.colors.destructive,
           ),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           const AppText.titleMd('Failed to load modifiers'),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(message, color: context.colors.mutedForeground),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
           AppButton.primary(
             onPressed: () => context.read<ModifiersBloc>().add(
               const ModifiersEvent.started(),

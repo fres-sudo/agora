@@ -48,11 +48,13 @@ class _CashCountSheetState extends State<CashCountSheet> {
   Widget build(BuildContext context) {
     return Material(
       color: Theme.of(context).scaffoldBackgroundColor,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(Sizes.lg)),
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(context.tokens.radius.lg),
+      ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: EdgeInsets.all(context.tokens.spacing.md),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -62,36 +64,36 @@ class _CashCountSheetState extends State<CashCountSheet> {
                   child: Container(
                     width: 40,
                     height: 4,
-                    margin: const EdgeInsets.only(bottom: Sizes.md),
+                    margin: EdgeInsets.only(bottom: context.tokens.spacing.sm),
                     decoration: BoxDecoration(
                       color: context.colors.border,
-                      borderRadius: context.tokens.borderRadiusFull,
+                      borderRadius: context.tokens.radius.borderFull,
                     ),
                   ),
                 ),
                 const AppText.headingSm('Count the Drawer'),
-                const SizedBox(height: Sizes.sm),
+                SizedBox(height: context.tokens.spacing.xs),
                 AppText.body(
                   'Expected cash: ${context.formatCurrency(widget.expectedCents)}',
                   color: context.colors.mutedForeground,
                 ),
-                const SizedBox(height: Sizes.lg),
+                SizedBox(height: context.tokens.spacing.md),
                 Center(
                   child: AppText.headingSm(
                     context.formatCurrency(_countedCents),
                   ),
                 ),
-                const SizedBox(height: Sizes.md),
+                SizedBox(height: context.tokens.spacing.sm),
                 MoneyKeypad(
                   valueCents: _countedCents,
                   onChanged: (value) => setState(() => _countedCents = value),
                 ),
-                const SizedBox(height: Sizes.md),
+                SizedBox(height: context.tokens.spacing.sm),
                 AppTextField(
                   controller: _noteController,
                   label: 'Note (optional)',
                 ),
-                const SizedBox(height: Sizes.lg),
+                SizedBox(height: context.tokens.spacing.md),
                 Row(
                   children: [
                     Expanded(
@@ -100,7 +102,7 @@ class _CashCountSheetState extends State<CashCountSheet> {
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
-                    const SizedBox(width: Sizes.sm),
+                    SizedBox(width: context.tokens.spacing.xs),
                     Expanded(
                       child: AppButton.primary(
                         label: 'Confirm Count',

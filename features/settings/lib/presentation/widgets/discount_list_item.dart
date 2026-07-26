@@ -28,15 +28,15 @@ class DiscountListItem extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(Sizes.sm),
+      borderRadius: BorderRadius.circular(context.tokens.radius.sm),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Sizes.lg,
-          vertical: Sizes.md,
+        padding: EdgeInsets.symmetric(
+          horizontal: context.tokens.spacing.md,
+          vertical: context.tokens.spacing.sm,
         ),
         decoration: BoxDecoration(
           color: colors.card,
-          borderRadius: BorderRadius.circular(Sizes.sm),
+          borderRadius: BorderRadius.circular(context.tokens.radius.sm),
           border: Border.all(color: colors.border),
         ),
         child: Row(
@@ -46,12 +46,12 @@ class DiscountListItem extends StatelessWidget {
               height: 40,
               decoration: BoxDecoration(
                 color: colors.card,
-                borderRadius: BorderRadius.circular(Sizes.xs),
+                borderRadius: BorderRadius.circular(context.tokens.radius.xs),
                 border: Border.all(color: colors.border),
               ),
               child: Icon(AgoraIcons.discount, color: colors.primary, size: 20),
             ),
-            const SizedBox(width: Sizes.md),
+            SizedBox(width: context.tokens.spacing.sm),
 
             // Name + subtitle (code / expiry)
             Expanded(
@@ -59,16 +59,16 @@ class DiscountListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppText.titleMd(discount.name),
-                  SizedBox(height: context.tokens.spaceXxs),
+                  SizedBox(height: context.tokens.spacing.xxs),
                   AppText.bodySm(_subtitle(), color: colors.mutedForeground),
                 ],
               ),
             ),
-            const SizedBox(width: Sizes.md),
+            SizedBox(width: context.tokens.spacing.sm),
 
             // Value
             AppText.titleMd('-$valueLabel', color: colors.primary),
-            const SizedBox(width: Sizes.sm),
+            SizedBox(width: context.tokens.spacing.xs),
 
             // Active toggle
             Switch(value: discount.isActive, onChanged: onToggle),

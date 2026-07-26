@@ -271,22 +271,22 @@ class _AppCreatableComboboxState<T> extends State<AppCreatableCombobox<T>> {
                           border: Border(
                             bottom: BorderSide(
                               color: colors.border,
-                              width: tokens.borderHairline,
+                              width: tokens.border.hairline,
                             ),
                           ),
                         ),
                         padding: EdgeInsets.symmetric(
-                          horizontal: tokens.spaceSm,
-                          vertical: tokens.spaceXs,
+                          horizontal: tokens.spacing.sm,
+                          vertical: tokens.spacing.xs,
                         ),
                         child: Row(
                           children: [
                             Icon(
                               AgoraIcons.search,
-                              size: tokens.iconSm,
+                              size: tokens.iconSize.sm,
                               color: colors.mutedForeground,
                             ),
-                            SizedBox(width: tokens.spaceXs),
+                            SizedBox(width: tokens.spacing.xs),
                             Expanded(
                               child: TextField(
                                 controller: _queryController,
@@ -328,7 +328,7 @@ class _AppCreatableComboboxState<T> extends State<AppCreatableCombobox<T>> {
                                 },
                                 child: Icon(
                                   AgoraIcons.x_mark,
-                                  size: tokens.iconSm,
+                                  size: tokens.iconSize.sm,
                                   color: colors.mutedForeground,
                                 ),
                               ),
@@ -341,8 +341,8 @@ class _AppCreatableComboboxState<T> extends State<AppCreatableCombobox<T>> {
                           child: optionCount == 0
                               ? Padding(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: tokens.spaceSm,
-                                    vertical: tokens.spaceSm,
+                                    horizontal: tokens.spacing.sm,
+                                    vertical: tokens.spacing.sm,
                                   ),
                                   child: AppText.bodySm(
                                     widget.emptyText,
@@ -352,7 +352,7 @@ class _AppCreatableComboboxState<T> extends State<AppCreatableCombobox<T>> {
                               : ListView.builder(
                                   shrinkWrap: true,
                                   padding: EdgeInsets.symmetric(
-                                    vertical: tokens.spaceXxs,
+                                    vertical: tokens.spacing.xxs,
                                   ),
                                   itemCount: optionCount,
                                   itemBuilder: (context, index) {

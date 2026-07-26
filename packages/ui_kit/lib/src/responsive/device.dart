@@ -157,45 +157,6 @@ class BreakPoint {
   }
 }
 
-///Holds common sizes for icons, images, paddings, corners etc
-// Change the base [unit] if necessary to accommodate to the design
-class Sizes {
-  static const double unit = 16;
-  static const double xxs = 0.125 * unit;
-  static const double xs = 0.25 * unit;
-  static const double sm = 0.5 * unit;
-  static const double md = 0.75 * unit;
-  static const double lg = unit;
-  static const double xl = 1.5 * unit;
-  static const double xxl = 2 * unit;
-
-  /// Border radius for buttons, cards, inputs etc. Kept a tight 4-6px per the
-  /// design system's flat, structural style — never a full pill/capsule.
-  static const double borderRadius = 5;
-
-  /// Edge insets and margins for phone breakpoint size.
-  static const double edgeInsetsPhone = xl;
-
-  /// Edge insets and margins for tablet breakpoint size.
-  static const double edgeInsetsTablet = xl;
-
-  /// Edge insets and margins for desktop and medium desktop breakpoint sizes.
-  static const double edgeInsetsDesktop = xl;
-
-  static double responsiveInsets(BuildContext context) {
-    final screen = context.screenSize();
-
-    switch (screen) {
-      case ScreenSize.mobile:
-        return edgeInsetsPhone;
-      case ScreenSize.tablet:
-        return edgeInsetsTablet;
-      case ScreenSize.desktop:
-        return edgeInsetsDesktop;
-    }
-  }
-}
-
 /// Workaround to securely asses the underlying Operating System in which the flutter app is executing
 // See https://github.com/flutter/flutter/issues/50845
 class Device {

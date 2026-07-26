@@ -22,17 +22,23 @@ class SalesOverviewChart extends StatelessWidget {
         final isCompact = constraints.maxWidth < 400;
 
         return Container(
-          padding: EdgeInsets.all(isCompact ? Sizes.md : Sizes.lg),
+          padding: EdgeInsets.all(
+            isCompact ? context.tokens.spacing.sm : context.tokens.spacing.md,
+          ),
           decoration: BoxDecoration(
             color: context.colors.card,
-            borderRadius: BorderRadius.circular(Sizes.md),
+            borderRadius: BorderRadius.circular(context.tokens.radius.md),
             border: Border.all(color: context.colors.border),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText.headingSm(t.report.sales_overview),
-              SizedBox(height: isCompact ? Sizes.md : Sizes.xl),
+              SizedBox(
+                height: isCompact
+                    ? context.tokens.spacing.sm
+                    : context.tokens.spacing.lg,
+              ),
               Expanded(
                 child: points.isEmpty
                     ? const _EmptyChart()
@@ -150,7 +156,7 @@ class SalesOverviewChart extends StatelessWidget {
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
             getTooltipColor: (touchedSpot) => colors.popover,
-            tooltipBorderRadius: context.tokens.borderRadiusLg,
+            tooltipBorderRadius: context.tokens.radius.borderLg,
             getTooltipItems: (touchedBarSpots) => touchedBarSpots.map((
               barSpot,
             ) {

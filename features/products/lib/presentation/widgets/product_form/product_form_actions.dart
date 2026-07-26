@@ -23,9 +23,9 @@ class ProductFormActions extends StatelessWidget {
         );
 
         return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.lg,
-            vertical: Sizes.md,
+          padding: EdgeInsets.symmetric(
+            horizontal: context.tokens.spacing.md,
+            vertical: context.tokens.spacing.sm,
           ),
           child: Row(
             children: [
@@ -38,13 +38,13 @@ class ProductFormActions extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   foregroundColor: context.colors.foreground,
                   side: BorderSide(color: context.colors.border),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.lg,
-                    vertical: Sizes.md,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.tokens.spacing.md,
+                    vertical: context.tokens.spacing.sm,
                   ),
                 ),
               ),
-              const SizedBox(width: Sizes.sm),
+              SizedBox(width: context.tokens.spacing.xs),
               // Save as Draft
               AppButton.outline(
                 onPressed: isSubmitting ? null : cubit.saveAsDraft,
@@ -52,9 +52,9 @@ class ProductFormActions extends StatelessWidget {
                 style: OutlinedButton.styleFrom(
                   foregroundColor: context.colors.foreground,
                   side: BorderSide(color: context.colors.border),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.lg,
-                    vertical: Sizes.md,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.tokens.spacing.md,
+                    vertical: context.tokens.spacing.sm,
                   ),
                 ),
               ),
@@ -65,7 +65,7 @@ class ProductFormActions extends StatelessWidget {
                   onPressed: isSubmitting ? null : cubit.previousStep,
                   icon: const Icon(AgoraIcons.chevron_left),
                 ),
-                const SizedBox(width: Sizes.xs),
+                SizedBox(width: context.tokens.spacing.xxs),
               ],
               // Next / Add / Save
               AppButton.primary(
@@ -78,9 +78,9 @@ class ProductFormActions extends StatelessWidget {
                       )
                     : t.next,
                 style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.xl,
-                    vertical: Sizes.md,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.tokens.spacing.lg,
+                    vertical: context.tokens.spacing.sm,
                   ),
                 ),
               ),

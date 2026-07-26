@@ -33,9 +33,9 @@ class DataTableMobileList<T> extends StatelessWidget {
     final tokens = context.tokens;
 
     return ListView.separated(
-      padding: EdgeInsets.all(tokens.spaceMd),
+      padding: EdgeInsets.all(tokens.spacing.md),
       itemCount: items.length,
-      separatorBuilder: (_, _) => SizedBox(height: tokens.spaceSm),
+      separatorBuilder: (_, _) => SizedBox(height: tokens.spacing.sm),
       itemBuilder: (context, index) {
         final item = items[index];
         return _MobileRowCard<T>(
@@ -78,18 +78,18 @@ class _MobileRowCard<T> extends StatelessWidget {
 
     return Material(
       color: colors.card,
-      borderRadius: tokens.borderRadiusSm,
+      borderRadius: tokens.radius.borderSm,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.all(tokens.spaceMd),
+          padding: EdgeInsets.all(tokens.spacing.md),
           decoration: BoxDecoration(
             border: Border.all(
               color: colors.border,
-              width: tokens.borderHairline,
+              width: tokens.border.hairline,
             ),
-            borderRadius: tokens.borderRadiusSm,
+            borderRadius: tokens.radius.borderSm,
           ),
           child: cardBuilder != null
               ? cardBuilder!(context, item)
@@ -115,10 +115,10 @@ class _MobileRowCard<T> extends StatelessWidget {
             children: [
               if (primary != null) primary.cellBuilder(context, item),
               if (secondaries.isNotEmpty) ...[
-                SizedBox(height: tokens.spaceXs),
+                SizedBox(height: tokens.spacing.xs),
                 Wrap(
-                  spacing: tokens.spaceSm,
-                  runSpacing: tokens.spaceXs,
+                  spacing: tokens.spacing.sm,
+                  runSpacing: tokens.spacing.xs,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     for (final column in secondaries)
@@ -130,13 +130,13 @@ class _MobileRowCard<T> extends StatelessWidget {
           ),
         ),
         if (trailing.isNotEmpty) ...[
-          SizedBox(width: tokens.spaceSm),
+          SizedBox(width: tokens.spacing.sm),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
               for (var i = 0; i < trailing.length; i++) ...[
-                if (i > 0) SizedBox(height: tokens.spaceXs),
+                if (i > 0) SizedBox(height: tokens.spacing.xs),
                 _LabelledCell<T>(column: trailing[i], item: item),
               ],
             ],

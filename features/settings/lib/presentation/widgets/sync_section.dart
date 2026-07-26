@@ -277,7 +277,7 @@ class _SyncSectionState extends State<SyncSection> {
             'on the same WiFi. No internet, no account — works entirely on '
             'this event\'s local network.',
           ),
-          SizedBox(height: context.tokens.spaceLg),
+          SizedBox(height: context.tokens.spacing.lg),
           AppSegmentedControl<_SyncRole>(
             segments: const [
               AppSegment(value: _SyncRole.standalone, label: 'Solo'),
@@ -287,10 +287,10 @@ class _SyncSectionState extends State<SyncSection> {
             selected: _role,
             onChanged: _isBusy ? (_) {} : _onRoleChanged,
           ),
-          SizedBox(height: context.tokens.spaceLg),
+          SizedBox(height: context.tokens.spacing.lg),
           if (_role != _SyncRole.standalone) ...[
             _StatusBar(status: _status),
-            SizedBox(height: context.tokens.spaceLg),
+            SizedBox(height: context.tokens.spacing.lg),
           ],
           switch (_role) {
             _SyncRole.standalone => AppText.bodySm(
@@ -339,17 +339,17 @@ class _StatusBar extends StatelessWidget {
     };
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.tokens.spaceMd,
-        vertical: context.tokens.spaceSm,
+        horizontal: context.tokens.spacing.md,
+        vertical: context.tokens.spacing.sm,
       ),
       decoration: BoxDecoration(
         color: context.colors.muted,
-        borderRadius: context.tokens.borderRadiusMd,
+        borderRadius: context.tokens.radius.borderMd,
       ),
       child: Row(
         children: [
-          Icon(AgoraIcons.wifi, size: context.tokens.iconSm),
-          SizedBox(width: context.tokens.spaceXs),
+          Icon(AgoraIcons.wifi, size: context.tokens.iconSize.sm),
+          SizedBox(width: context.tokens.spacing.xs),
           AppText.bodySm(label),
         ],
       ),
@@ -387,17 +387,17 @@ class _HostControls extends StatelessWidget {
           controller: stationNameCtrl,
           enabled: !isHosting,
         ),
-        SizedBox(height: context.tokens.spaceMd),
+        SizedBox(height: context.tokens.spacing.md),
         AppTextField(
           label: 'Event PIN',
           hintText: 'Shared with every station joining this event',
           controller: pinCtrl,
           enabled: !isHosting,
         ),
-        SizedBox(height: context.tokens.spaceLg),
+        SizedBox(height: context.tokens.spacing.lg),
         if (isHosting) ...[
           AppText.bodySm('$connectedStationCount station(s) connected'),
-          SizedBox(height: context.tokens.spaceSm),
+          SizedBox(height: context.tokens.spacing.sm),
         ],
         AppButton.primary(
           onPressed: isBusy ? null : (isHosting ? onStop : onStart),
@@ -405,7 +405,7 @@ class _HostControls extends StatelessWidget {
           label: isHosting ? 'Stop Hosting' : 'Start Hosting',
         ),
         if (isHosting) ...[
-          SizedBox(height: context.tokens.spaceMd),
+          SizedBox(height: context.tokens.spacing.md),
           AppText.bodySm(
             'Keep this device awake and on WiFi while hosting — other '
             'stations lose sync if it sleeps or leaves the network.',
@@ -444,7 +444,7 @@ class _ClientControls extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText.bodySm('Connected to the event hub.'),
-          SizedBox(height: context.tokens.spaceMd),
+          SizedBox(height: context.tokens.spacing.md),
           AppButton.outline(
             onPressed: isBusy ? null : onForget,
             isLoading: isBusy,
@@ -462,30 +462,30 @@ class _ClientControls extends StatelessWidget {
           hintText: 'Ask the organiser for this event\'s PIN',
           controller: joinPinCtrl,
         ),
-        SizedBox(height: context.tokens.spaceLg),
+        SizedBox(height: context.tokens.spacing.lg),
         AppText.label('Nearby events'),
-        SizedBox(height: context.tokens.spaceSm),
+        SizedBox(height: context.tokens.spacing.sm),
         if (discovered.isEmpty)
           AppText.bodySm('Looking for events on this WiFi…')
         else
           for (final candidate in discovered)
             Padding(
-              padding: EdgeInsets.only(bottom: context.tokens.spaceSm),
+              padding: EdgeInsets.only(bottom: context.tokens.spacing.sm),
               child: AppButton.secondary(
                 onPressed: isBusy ? null : () => onConnectDiscovered(candidate),
                 label: candidate.name,
               ),
             ),
-        SizedBox(height: context.tokens.spaceLg),
+        SizedBox(height: context.tokens.spacing.lg),
         const Divider(),
-        SizedBox(height: context.tokens.spaceMd),
+        SizedBox(height: context.tokens.spacing.md),
         AppText.label('Or enter the hub address manually'),
-        SizedBox(height: context.tokens.spaceSm),
+        SizedBox(height: context.tokens.spacing.sm),
         AppTextField(
           hintText: 'e.g. 192.168.1.20:8080',
           controller: manualHostCtrl,
         ),
-        SizedBox(height: context.tokens.spaceMd),
+        SizedBox(height: context.tokens.spacing.md),
         AppButton.primary(
           onPressed: isBusy ? null : onConnectManual,
           isLoading: isBusy,

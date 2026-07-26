@@ -71,22 +71,22 @@ class AppBadge extends StatelessWidget {
     final p = _palette(context);
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: tokens.spaceSm,
-        vertical: tokens.spaceXxs,
+        horizontal: tokens.spacing.sm,
+        vertical: tokens.spacing.xxs,
       ),
       decoration: BoxDecoration(
         color: p.bg,
-        borderRadius: BorderRadius.circular(tokens.radiusFull),
+        borderRadius: BorderRadius.circular(tokens.radius.full),
         border: p.border == null
             ? null
-            : Border.all(color: p.border!, width: tokens.borderHairline),
+            : Border.all(color: p.border!, width: tokens.border.hairline),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
-            Icon(icon, size: tokens.iconSm, color: p.fg),
-            SizedBox(width: tokens.spaceXxs),
+            Icon(icon, size: tokens.iconSize.sm, color: p.fg),
+            SizedBox(width: tokens.spacing.xxs),
           ],
           Text(label, style: context.typography.caption.copyWith(color: p.fg)),
         ],

@@ -91,7 +91,7 @@ class _AppPopoverAnchorState extends State<AppPopoverAnchor>
   late final AppPopoverController _controller =
       widget.controller ?? AppPopoverController();
   late final bool _ownsController = widget.controller == null;
-  // AppTokens.durationFast is 120ms in both light and dark — theme-invariant,
+  // AppTokens.durations.fast is 120ms in both light and dark — theme-invariant,
   // so it's safe to hardcode here rather than needing a themed BuildContext.
   late final AnimationController _animController;
   late final FocusNode _contentFocusNode;
@@ -169,7 +169,7 @@ class _AppPopoverAnchorState extends State<AppPopoverAnchor>
 
     final tokens = context.tokens;
     final colors = context.colors;
-    final gap = tokens.spaceXxs;
+    final gap = tokens.spacing.xxs;
 
     final overlay = Overlay.of(context);
 
@@ -224,14 +224,14 @@ class _AppPopoverAnchorState extends State<AppPopoverAnchor>
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: colors.popover,
-                        borderRadius: tokens.borderRadiusMd,
+                        borderRadius: tokens.radius.borderMd,
                         border: Border.all(
                           color: colors.border,
-                          width: tokens.borderHairline,
+                          width: tokens.border.hairline,
                         ),
                       ),
                       child: ClipRRect(
-                        borderRadius: tokens.borderRadiusMd,
+                        borderRadius: tokens.radius.borderMd,
                         // Popover content lives in its own OverlayEntry, a
                         // sibling subtree of the app's Scaffold — without its
                         // own Material ancestor here, Text/InkWell/Icon

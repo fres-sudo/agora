@@ -33,10 +33,10 @@ class PosCartPeekBar extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Padding(
         padding: EdgeInsets.fromLTRB(
-          tokens.spaceLg,
+          tokens.spacing.lg,
           0,
-          tokens.spaceMd,
-          tokens.spaceMd,
+          tokens.spacing.md,
+          tokens.spacing.md,
         ),
         child: Row(
           children: [
@@ -55,7 +55,7 @@ class PosCartPeekBar extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: tokens.spaceSm),
+            SizedBox(width: tokens.spacing.sm),
             AppButton.primary(
               onPressed: onExpand,
               label: 'Checkout',

@@ -14,7 +14,7 @@ class VariantsModifiersStep extends StatelessWidget {
     final t = Translations.of(context);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(Sizes.lg),
+      padding: EdgeInsets.all(context.tokens.spacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,7 +24,7 @@ class VariantsModifiersStep extends StatelessWidget {
             t.products.form.steps.variants_modifiers_desc,
             color: context.colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
 
           // Modifier Groups List
           BlocBuilder<ProductFormCubit, ProductFormState>(
@@ -90,10 +90,10 @@ class _ModifierGroupTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: Sizes.sm),
+      margin: EdgeInsets.only(bottom: context.tokens.spacing.xs),
       decoration: BoxDecoration(
         color: context.colors.muted,
-        borderRadius: BorderRadius.circular(Sizes.sm),
+        borderRadius: BorderRadius.circular(context.tokens.radius.sm),
         border: Border.all(
           color: isSelected ? theme.primaryColor : context.colors.border,
         ),
@@ -109,7 +109,7 @@ class _ModifierGroupTile extends StatelessWidget {
         controlAffinity: ListTileControlAffinity.leading,
         activeColor: theme.primaryColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Sizes.sm),
+          borderRadius: BorderRadius.circular(context.tokens.radius.sm),
         ),
       ),
     );
@@ -123,21 +123,21 @@ class _EmptyModifiersState extends StatelessWidget {
     final colors = context.colors;
 
     return Container(
-      padding: const EdgeInsets.all(Sizes.xl),
+      padding: EdgeInsets.all(context.tokens.spacing.lg),
       decoration: BoxDecoration(
         color: colors.muted,
-        borderRadius: BorderRadius.circular(Sizes.sm),
+        borderRadius: BorderRadius.circular(context.tokens.radius.sm),
         border: Border.all(color: colors.border),
       ),
       child: Column(
         children: [
           Icon(AgoraIcons.filter, size: 48, color: colors.mutedForeground),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           AppText.titleMd(
             'No modifiers available',
             color: colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.xs),
+          SizedBox(height: context.tokens.spacing.xxs),
           AppText.bodySm(
             'Create modifiers in Settings to add them here',
             color: colors.mutedForeground,

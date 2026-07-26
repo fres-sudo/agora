@@ -92,54 +92,33 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
         );
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: EdgeInsets.all(context.tokens.spacing.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Photo
-              Center(
-                child: Column(
-                  children: [
-                    AppSourcedImage(
-                      source: imageUrl,
-                      size: 72,
-                      borderRadius: BorderRadius.circular(Sizes.sm),
-                    ),
-                    const SizedBox(height: Sizes.sm),
-                    AppButton.ghost(
-                      label: imageUrl == null || imageUrl.isEmpty
-                          ? t.products.form.photo.add_photo
-                          : t.products.form.photo.change_photo,
-                      onPressed: () async {
-                        final result = await AdaptiveModal.show<String?>(
-                          context: context,
-                          style: AdaptiveModalStyle.sideSheet,
-                          builder: (ctx, _) =>
-                              ProductPhotoPickerSheet(initialValue: imageUrl),
-                        );
-                        if (result == null) return;
-                        cubit.updateImageUrl(result.isEmpty ? null : result);
-                      },
-                    ),
-                  ],
-                ),
+              _ProductPhotoField(
+                imageUrl: imageUrl,
+                title: t.products.form.photo.title,
+                addPhotoLabel: t.products.form.photo.add_photo,
+                changePhotoLabel: t.products.form.photo.change_photo,
+                onChanged: cubit.updateImageUrl,
               ),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
 
               // Product Name
               _FormLabel(label: t.products.form.product_name, required: true),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               AppTextField(
                 controller: _nameController,
                 onChanged: cubit.updateName,
                 hintText: t.products.form.product_name,
                 errorText: errors['name'],
               ),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
 
               // Category
               _FormLabel(label: t.products.form.category, required: true),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               BlocBuilder<CategoriesBloc, CategoriesState>(
                 builder: (context, categoriesState) {
                   final bodyStyle = context.typography.body;
@@ -148,7 +127,7 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                             context,
                           ).scale(bodyStyle.fontSize ?? 14) *
                           (bodyStyle.height ?? 1.5) +
-                      (context.tokens.spaceXs * 2);
+                      (context.tokens.spacing.xs * 2);
 
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +150,7 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                           onChanged: (value) => cubit.updateCategory(value),
                         ),
                       ),
-                      const SizedBox(width: Sizes.sm),
+                      SizedBox(width: context.tokens.spacing.xs),
                       AppIconButton.outline(
                         icon: const Icon(AgoraIcons.plus),
                         tooltip: t.products.form.add_category,
@@ -187,11 +166,11 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                   );
                 },
               ),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
 
               // Description
               _FormLabel(label: t.products.form.description),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               AppTextField(
                 controller: _descriptionController,
                 onChanged: cubit.updateDescription,
@@ -199,22 +178,22 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
                 hintText: t.products.form.description_hint,
                 errorText: errors['description'],
               ),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
 
               // SKU
               _FormLabel(label: t.products.form.sku),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               AppTextField(
                 controller: _skuController,
                 onChanged: cubit.updateSku,
                 hintText: t.products.form.sku_hint,
                 errorText: errors['sku'],
               ),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
 
               // Prep station (kitchen ticket routing)
               _FormLabel(label: t.products.form.prep_station),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               AppCreatableCombobox<String>(
                 items: [
                   for (final station in _prepStationSuggestions)
@@ -247,6 +226,73 @@ class _ProductInfoStepState extends State<ProductInfoStep> {
   }
 }
 
+/// A visible, self-contained entry point for the optional product visual.
+///
+/// Keeping the preview and action together makes it clear what will change
+/// before a user opens the picker, especially when editing an existing item.
+class _ProductPhotoField extends StatelessWidget {
+  const _ProductPhotoField({
+    required this.imageUrl,
+    required this.title,
+    required this.addPhotoLabel,
+    required this.changePhotoLabel,
+    required this.onChanged,
+  });
+
+  final String? imageUrl;
+  final String title;
+  final String addPhotoLabel;
+  final String changePhotoLabel;
+  final ValueChanged<String?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasPhoto = imageUrl != null && imageUrl!.isNotEmpty;
+
+    return AppSurface(
+      padding: EdgeInsets.all(context.tokens.spacing.sm),
+      child: Row(
+        children: [
+          AppSourcedImage(
+            source: imageUrl,
+            size: 88,
+            borderRadius: context.tokens.radius.borderMd,
+          ),
+          SizedBox(width: context.tokens.spacing.sm),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText.titleMd(title),
+                SizedBox(height: context.tokens.spacing.xs),
+                AppButton.outline(
+                  label: hasPhoto ? changePhotoLabel : addPhotoLabel,
+                  leadingIcon: Icon(
+                    hasPhoto ? AgoraIcons.edit : AgoraIcons.plus,
+                  ),
+                  onPressed: () async {
+                    final result = await AdaptiveModal.show<String?>(
+                      context: context,
+                      style: AdaptiveModalStyle.sideSheet,
+                      builder: (ctx, scrollController) =>
+                          ProductPhotoPickerSheet(
+                            initialValue: imageUrl,
+                            scrollController: scrollController,
+                          ),
+                    );
+                    if (result == null) return;
+                    onChanged(result.isEmpty ? null : result);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 /// Form label widget with optional required indicator.
 class _FormLabel extends StatelessWidget {
   const _FormLabel({required this.label, this.required = false});
@@ -260,7 +306,7 @@ class _FormLabel extends StatelessWidget {
       children: [
         AppText.label(label),
         if (required) ...[
-          SizedBox(width: context.tokens.spaceXxs),
+          SizedBox(width: context.tokens.spacing.xxs),
           AppText.label('*', color: context.colors.destructive),
         ],
       ],

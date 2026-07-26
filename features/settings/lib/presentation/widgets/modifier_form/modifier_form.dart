@@ -101,7 +101,7 @@ class _ModifierFormState extends State<ModifierForm> {
       children: [
         // Header
         Padding(
-          padding: EdgeInsets.all(context.tokens.spaceLg),
+          padding: EdgeInsets.all(context.tokens.spacing.lg),
           child: AppText.headingSm(
             isEditing ? 'Edit Modifier' : 'New Modifier',
             textAlign: TextAlign.center,
@@ -113,7 +113,7 @@ class _ModifierFormState extends State<ModifierForm> {
         Flexible(
           child: SingleChildScrollView(
             controller: widget.scrollController,
-            padding: EdgeInsets.all(context.tokens.spaceLg),
+            padding: EdgeInsets.all(context.tokens.spacing.lg),
             child: Form(
               key: _formKey,
               child: Column(
@@ -133,7 +133,7 @@ class _ModifierFormState extends State<ModifierForm> {
                       return null;
                     },
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Single vs multi select
                   SwitchListTile(
@@ -147,7 +147,7 @@ class _ModifierFormState extends State<ModifierForm> {
                     onChanged: (value) =>
                         setState(() => _isMultiSelect = value),
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Options section
                   Row(
@@ -161,15 +161,17 @@ class _ModifierFormState extends State<ModifierForm> {
                       ),
                     ],
                   ),
-                  SizedBox(height: context.tokens.spaceSm),
+                  SizedBox(height: context.tokens.spacing.sm),
 
                   if (_options.isEmpty)
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(Sizes.lg),
+                      padding: EdgeInsets.all(context.tokens.spacing.md),
                       decoration: BoxDecoration(
                         color: colors.muted,
-                        borderRadius: BorderRadius.circular(Sizes.sm),
+                        borderRadius: BorderRadius.circular(
+                          context.tokens.radius.sm,
+                        ),
                         border: Border.all(color: colors.border),
                       ),
                       child: AppText.bodySm(
@@ -183,7 +185,9 @@ class _ModifierFormState extends State<ModifierForm> {
                     ..._options.map(
                       (option) => Padding(
                         key: option.localKey,
-                        padding: const EdgeInsets.only(bottom: Sizes.sm),
+                        padding: EdgeInsets.only(
+                          bottom: context.tokens.spacing.xs,
+                        ),
                         child: _OptionRow(
                           option: option,
                           onRemove: () => _removeOption(option),
@@ -192,7 +196,7 @@ class _ModifierFormState extends State<ModifierForm> {
                     ),
 
                   if (_optionsError != null) ...[
-                    const SizedBox(height: Sizes.sm),
+                    SizedBox(height: context.tokens.spacing.xs),
                     AppText.bodySm(_optionsError!, color: colors.destructive),
                   ],
                 ],
@@ -205,7 +209,7 @@ class _ModifierFormState extends State<ModifierForm> {
 
         // Actions
         Padding(
-          padding: EdgeInsets.all(context.tokens.spaceLg),
+          padding: EdgeInsets.all(context.tokens.spacing.lg),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -213,7 +217,7 @@ class _ModifierFormState extends State<ModifierForm> {
                 onPressed: () => Navigator.of(context).pop(),
                 label: 'Cancel',
               ),
-              SizedBox(width: context.tokens.spaceMd),
+              SizedBox(width: context.tokens.spacing.md),
               AppButton.primary(onPressed: _onSave, label: 'Save'),
             ],
           ),
@@ -293,7 +297,7 @@ class _OptionRow extends StatelessWidget {
             hintText: 'Option name',
           ),
         ),
-        const SizedBox(width: Sizes.sm),
+        SizedBox(width: context.tokens.spacing.xs),
         Expanded(
           flex: 2,
           child: AppTextField(

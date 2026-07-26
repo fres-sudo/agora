@@ -32,8 +32,8 @@ class DataTablePagination extends StatelessWidget {
   Widget _buildMobile(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: context.tokens.spaceMd,
-        vertical: context.tokens.spaceSm,
+        horizontal: context.tokens.spacing.md,
+        vertical: context.tokens.spacing.sm,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,9 +61,9 @@ class DataTablePagination extends StatelessWidget {
 
   Widget _buildDesktop(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Sizes.lg,
-        vertical: Sizes.md,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.tokens.spacing.md,
+        vertical: context.tokens.spacing.sm,
       ),
       child: Row(
         children: [
@@ -77,7 +77,7 @@ class DataTablePagination extends StatelessWidget {
                   color: context.colors.mutedForeground,
                 ),
               ),
-              const SizedBox(width: Sizes.sm),
+              SizedBox(width: context.tokens.spacing.xs),
               SizedBox(
                 width: 72,
                 child: AppSelect<int>(
@@ -183,10 +183,10 @@ class DataTablePagination extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: Material(
         color: isSelected ? context.colors.primary : Colors.transparent,
-        borderRadius: BorderRadius.circular(Sizes.xs),
+        borderRadius: BorderRadius.circular(context.tokens.radius.xs),
         child: InkWell(
           onTap: isSelected ? null : () => onPageChanged?.call(page),
-          borderRadius: BorderRadius.circular(Sizes.xs),
+          borderRadius: BorderRadius.circular(context.tokens.radius.xs),
           child: Container(
             width: 32,
             height: 32,

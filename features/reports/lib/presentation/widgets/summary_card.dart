@@ -27,10 +27,12 @@ class SummaryCard extends StatelessWidget {
 
         final colors = context.colors;
         return Container(
-          padding: EdgeInsets.all(isNarrow ? Sizes.sm : Sizes.lg),
+          padding: EdgeInsets.all(
+            isNarrow ? context.tokens.spacing.xs : context.tokens.spacing.md,
+          ),
           decoration: BoxDecoration(
             color: colors.card,
-            borderRadius: BorderRadius.circular(Sizes.md),
+            borderRadius: BorderRadius.circular(context.tokens.radius.md),
             border: Border.all(color: colors.border),
           ),
           child: Column(
@@ -41,7 +43,11 @@ class SummaryCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(isNarrow ? Sizes.xs : Sizes.sm),
+                    padding: EdgeInsets.all(
+                      isNarrow
+                          ? context.tokens.spacing.xxs
+                          : context.tokens.spacing.xs,
+                    ),
                     decoration: BoxDecoration(
                       color: (isPositive ? colors.success : colors.destructive)
                           .withValues(alpha: 0.1),
@@ -53,7 +59,7 @@ class SummaryCard extends StatelessWidget {
                       child: FittedBox(child: icon),
                     ),
                   ),
-                  const SizedBox(width: Sizes.sm),
+                  SizedBox(width: context.tokens.spacing.xs),
                   Expanded(
                     child: AppText.label(
                       title,
@@ -74,7 +80,7 @@ class SummaryCard extends StatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: AppText.headingMd(value),
                         ),
-                        const SizedBox(height: Sizes.xxs),
+                        SizedBox(height: context.tokens.spacing.xxxs),
                         _buildTrendBadge(context),
                       ],
                     )
@@ -88,7 +94,7 @@ class SummaryCard extends StatelessWidget {
                             child: AppText.headingMd(value),
                           ),
                         ),
-                        const SizedBox(width: Sizes.sm),
+                        SizedBox(width: context.tokens.spacing.xs),
                         _buildTrendBadge(context),
                       ],
                     ),
@@ -108,7 +114,7 @@ class SummaryCard extends StatelessWidget {
           trend,
           color: isPositive ? colors.success : colors.destructive,
         ),
-        const SizedBox(width: Sizes.xxs),
+        SizedBox(width: context.tokens.spacing.xxxs),
         Icon(
           isPositive ? AgoraIcons.arrow_up_right : AgoraIcons.arrow_down_right,
           color: isPositive ? colors.success : colors.destructive,

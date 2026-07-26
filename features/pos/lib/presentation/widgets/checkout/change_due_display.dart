@@ -25,10 +25,10 @@ class ChangeDueDisplay extends StatelessWidget {
         : colors.muted;
 
     return Container(
-      padding: const EdgeInsets.all(Sizes.md),
+      padding: EdgeInsets.all(context.tokens.spacing.sm),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(Sizes.md),
+        borderRadius: BorderRadius.circular(context.tokens.radius.md),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -53,20 +53,20 @@ class AppDropdownOptionRow extends StatelessWidget {
       label: label,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: tokens.spaceXxs,
-          vertical: tokens.spaceXxs / 2,
+          horizontal: tokens.spacing.xxs,
+          vertical: tokens.spacing.xxs / 2,
         ),
         child: Material(
           color: highlighted ? colors.accent : Colors.transparent,
-          borderRadius: tokens.borderRadiusSm,
+          borderRadius: tokens.radius.borderSm,
           clipBehavior: Clip.antiAlias,
           child: InkWell(
-            borderRadius: tokens.borderRadiusSm,
+            borderRadius: tokens.radius.borderSm,
             onTap: enabled ? onTap : null,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: tokens.spaceSm,
-                vertical: tokens.spaceXs,
+                horizontal: tokens.spacing.sm,
+                vertical: tokens.spacing.xs,
               ),
               child: Row(
                 children: [
@@ -77,38 +77,38 @@ class AppDropdownOptionRow extends StatelessWidget {
                         onChanged: enabled ? (_) => onTap?.call() : null,
                       ),
                     ),
-                    SizedBox(width: tokens.spaceXs),
+                    SizedBox(width: tokens.spacing.xs),
                   ] else ...[
                     SizedBox(
-                      width: tokens.iconMd,
+                      width: tokens.iconSize.md,
                       child: selected
                           ? Icon(
                               AgoraIcons.check,
-                              size: tokens.iconSm,
+                              size: tokens.iconSize.sm,
                               color: fg,
                             )
                           : null,
                     ),
-                    SizedBox(width: tokens.spaceXs),
+                    SizedBox(width: tokens.spacing.xs),
                   ],
                   if (leadingIcon != null) ...[
                     leadingIconBackgroundColor == null
-                        ? Icon(leadingIcon, size: tokens.iconSm, color: fg)
+                        ? Icon(leadingIcon, size: tokens.iconSize.sm, color: fg)
                         : Container(
                             alignment: Alignment.center,
-                            width: tokens.iconLg,
-                            height: tokens.iconLg,
+                            width: tokens.iconSize.lg,
+                            height: tokens.iconSize.lg,
                             decoration: BoxDecoration(
                               color: leadingIconBackgroundColor,
-                              borderRadius: tokens.borderRadiusSm,
+                              borderRadius: tokens.radius.borderSm,
                             ),
                             child: Icon(
                               leadingIcon,
-                              size: tokens.iconSm,
+                              size: tokens.iconSize.sm,
                               color: leadingIconColor,
                             ),
                           ),
-                    SizedBox(width: tokens.spaceXs),
+                    SizedBox(width: tokens.spacing.xs),
                   ],
                   Expanded(
                     child: ExcludeSemantics(

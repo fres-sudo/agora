@@ -208,8 +208,8 @@ class _AppComboboxState<T> extends State<AppCombobox<T>> {
           } else {
             semanticsValue = selected.map((e) => e.label).join(', ');
             content = Wrap(
-              spacing: tokens.spaceXs,
-              runSpacing: tokens.spaceXxs,
+              spacing: tokens.spacing.xs,
+              runSpacing: tokens.spacing.xxs,
               children: [
                 for (final item in selected)
                   AppChip(
@@ -277,22 +277,22 @@ class _AppComboboxState<T> extends State<AppCombobox<T>> {
                           border: Border(
                             bottom: BorderSide(
                               color: colors.border,
-                              width: tokens.borderHairline,
+                              width: tokens.border.hairline,
                             ),
                           ),
                         ),
                         padding: EdgeInsets.symmetric(
-                          horizontal: tokens.spaceSm,
-                          vertical: tokens.spaceXs,
+                          horizontal: tokens.spacing.sm,
+                          vertical: tokens.spacing.xs,
                         ),
                         child: Row(
                           children: [
                             Icon(
                               AgoraIcons.search,
-                              size: tokens.iconSm,
+                              size: tokens.iconSize.sm,
                               color: colors.mutedForeground,
                             ),
-                            SizedBox(width: tokens.spaceXs),
+                            SizedBox(width: tokens.spacing.xs),
                             Expanded(
                               child: TextField(
                                 controller: _queryController,
@@ -329,7 +329,7 @@ class _AppComboboxState<T> extends State<AppCombobox<T>> {
                                 },
                                 child: Icon(
                                   AgoraIcons.x_mark,
-                                  size: tokens.iconSm,
+                                  size: tokens.iconSize.sm,
                                   color: colors.mutedForeground,
                                 ),
                               ),
@@ -342,8 +342,8 @@ class _AppComboboxState<T> extends State<AppCombobox<T>> {
                           child: filtered.isEmpty
                               ? Padding(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: tokens.spaceSm,
-                                    vertical: tokens.spaceSm,
+                                    horizontal: tokens.spacing.sm,
+                                    vertical: tokens.spacing.sm,
                                   ),
                                   child: AppText.bodySm(
                                     widget.emptyText,
@@ -353,7 +353,7 @@ class _AppComboboxState<T> extends State<AppCombobox<T>> {
                               : ListView.builder(
                                   shrinkWrap: true,
                                   padding: EdgeInsets.symmetric(
-                                    vertical: tokens.spaceXxs,
+                                    vertical: tokens.spacing.xxs,
                                   ),
                                   itemCount: filtered.length,
                                   itemBuilder: (context, index) {

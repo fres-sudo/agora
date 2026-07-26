@@ -100,7 +100,7 @@ class _ComboFormState extends State<ComboForm> {
       children: [
         // Header
         Padding(
-          padding: EdgeInsets.all(context.tokens.spaceLg),
+          padding: EdgeInsets.all(context.tokens.spacing.lg),
           child: AppText.headingSm(
             isEditing ? 'Edit Combo' : 'New Combo',
             textAlign: TextAlign.center,
@@ -112,7 +112,7 @@ class _ComboFormState extends State<ComboForm> {
         Flexible(
           child: SingleChildScrollView(
             controller: widget.scrollController,
-            padding: EdgeInsets.all(context.tokens.spaceLg),
+            padding: EdgeInsets.all(context.tokens.spacing.lg),
             child: Form(
               key: _formKey,
               child: Column(
@@ -132,7 +132,7 @@ class _ComboFormState extends State<ComboForm> {
                       return null;
                     },
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Flat price field
                   AppTextField(
@@ -156,7 +156,7 @@ class _ComboFormState extends State<ComboForm> {
                       return null;
                     },
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Enabled toggle
                   SwitchListTile(
@@ -169,19 +169,21 @@ class _ComboFormState extends State<ComboForm> {
                     value: _isEnabled,
                     onChanged: (value) => setState(() => _isEnabled = value),
                   ),
-                  SizedBox(height: context.tokens.spaceLg),
+                  SizedBox(height: context.tokens.spacing.lg),
 
                   // Items section
                   const AppText.titleMd('Contents'),
-                  SizedBox(height: context.tokens.spaceSm),
+                  SizedBox(height: context.tokens.spacing.sm),
 
                   if (_items.isEmpty)
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(Sizes.lg),
+                      padding: EdgeInsets.all(context.tokens.spacing.md),
                       decoration: BoxDecoration(
                         color: colors.muted,
-                        borderRadius: BorderRadius.circular(Sizes.sm),
+                        borderRadius: BorderRadius.circular(
+                          context.tokens.radius.sm,
+                        ),
                         border: Border.all(color: colors.border),
                       ),
                       child: AppText.bodySm(
@@ -195,7 +197,9 @@ class _ComboFormState extends State<ComboForm> {
                     ..._items.map(
                       (item) => Padding(
                         key: item.localKey,
-                        padding: const EdgeInsets.only(bottom: Sizes.sm),
+                        padding: EdgeInsets.only(
+                          bottom: context.tokens.spacing.xs,
+                        ),
                         child: _ComboItemRow(
                           item: item,
                           products: products,
@@ -206,11 +210,11 @@ class _ComboFormState extends State<ComboForm> {
                     ),
 
                   if (_itemsError != null) ...[
-                    const SizedBox(height: Sizes.sm),
+                    SizedBox(height: context.tokens.spacing.xs),
                     AppText.bodySm(_itemsError!, color: colors.destructive),
                   ],
 
-                  SizedBox(height: context.tokens.spaceSm),
+                  SizedBox(height: context.tokens.spacing.sm),
                   AppButton.ghost(
                     onPressed: products.isEmpty ? null : _addItem,
                     label: 'Add Product',
@@ -226,7 +230,7 @@ class _ComboFormState extends State<ComboForm> {
 
         // Actions
         Padding(
-          padding: EdgeInsets.all(context.tokens.spaceLg),
+          padding: EdgeInsets.all(context.tokens.spacing.lg),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -234,7 +238,7 @@ class _ComboFormState extends State<ComboForm> {
                 onPressed: () => Navigator.of(context).pop(),
                 label: 'Cancel',
               ),
-              SizedBox(width: context.tokens.spaceMd),
+              SizedBox(width: context.tokens.spacing.md),
               AppButton.primary(onPressed: _onSave, label: 'Save'),
             ],
           ),
@@ -312,7 +316,7 @@ class _ComboItemRow extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(width: Sizes.sm),
+        SizedBox(width: context.tokens.spacing.xs),
         Expanded(
           flex: 1,
           child: _QuantityStepper(

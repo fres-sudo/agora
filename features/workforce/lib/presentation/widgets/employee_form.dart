@@ -99,7 +99,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                 validator: (v) =>
                     (v == null || v.trim().isEmpty) ? 'Name is required' : null,
               ),
-              SizedBox(height: context.tokens.spaceMd),
+              SizedBox(height: context.tokens.spacing.md),
               AppTextField(
                 controller: _pinCtrl,
                 label: _isEditing
@@ -123,7 +123,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                   return null;
                 },
               ),
-              SizedBox(height: context.tokens.spaceMd),
+              SizedBox(height: context.tokens.spacing.md),
               AppSelect<EmployeeRole>(
                 items: [
                   for (final r in EmployeeRole.values)
@@ -133,7 +133,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                 label: 'Role',
                 onChanged: (v) => setState(() => _role = v ?? _role),
               ),
-              SizedBox(height: context.tokens.spaceMd),
+              SizedBox(height: context.tokens.spacing.md),
               AppTextField(
                 controller: _rateCtrl,
                 label: 'Hourly Rate',
@@ -142,7 +142,7 @@ class _EmployeeFormState extends State<EmployeeForm> {
                   decimal: true,
                 ),
               ),
-              SizedBox(height: context.tokens.spaceXs),
+              SizedBox(height: context.tokens.spacing.xs),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const AppText.body('Active'),

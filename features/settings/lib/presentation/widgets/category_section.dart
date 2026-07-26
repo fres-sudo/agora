@@ -62,7 +62,7 @@ class _CategorySectionState extends State<CategorySection> {
         children: [
           // Header
           Padding(
-            padding: EdgeInsets.all(context.tokens.spaceLg),
+            padding: EdgeInsets.all(context.tokens.spacing.lg),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -102,9 +102,10 @@ class _CategorySectionState extends State<CategorySection> {
     }
 
     return ListView.separated(
-      padding: EdgeInsets.all(context.tokens.spaceLg),
+      padding: EdgeInsets.all(context.tokens.spacing.lg),
       itemCount: categories.length,
-      separatorBuilder: (context, index) => const SizedBox(height: Sizes.md),
+      separatorBuilder: (context, index) =>
+          SizedBox(height: context.tokens.spacing.sm),
       itemBuilder: (context, index) {
         final category = categories[index];
         return CategoryListItem(
@@ -123,12 +124,12 @@ class _CategorySectionState extends State<CategorySection> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(AgoraIcons.categories, size: 64, color: context.colors.border),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           AppText.titleMd(
             'No categories yet',
             color: context.colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(
             'Add a category to get started',
             color: context.colors.mutedForeground,
@@ -148,14 +149,14 @@ class _CategorySectionState extends State<CategorySection> {
             size: 48,
             color: context.colors.destructive,
           ),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           const AppText.titleMd('Failed to load categories'),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           Builder(
             builder: (context) =>
                 AppText.body(message, color: context.colors.mutedForeground),
           ),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
           AppButton.primary(
             onPressed: () => context.read<CategoriesBloc>().add(
               const CategoriesEvent.started(),

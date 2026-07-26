@@ -65,11 +65,13 @@ class _DiscountSheetState extends State<DiscountSheet> {
 
     return Material(
       color: colors.background,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(Sizes.lg)),
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(context.tokens.radius.lg),
+      ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: EdgeInsets.all(context.tokens.spacing.md),
           child: BlocListener<DiscountValidationCubit, DiscountValidationState>(
             listener: (context, state) {
               if (state is DiscountValidationValid) {
@@ -84,15 +86,15 @@ class _DiscountSheetState extends State<DiscountSheet> {
                   child: Container(
                     width: 40,
                     height: 4,
-                    margin: const EdgeInsets.only(bottom: Sizes.md),
+                    margin: EdgeInsets.only(bottom: context.tokens.spacing.sm),
                     decoration: BoxDecoration(
                       color: colors.border,
-                      borderRadius: context.tokens.borderRadiusFull,
+                      borderRadius: context.tokens.radius.borderFull,
                     ),
                   ),
                 ),
                 const AppText.headingSm('Apply Discount'),
-                const SizedBox(height: Sizes.md),
+                SizedBox(height: context.tokens.spacing.sm),
 
                 // Voucher code entry.
                 Row(
@@ -108,7 +110,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                         onSubmitted: (_) => _applyCode(),
                       ),
                     ),
-                    const SizedBox(width: Sizes.sm),
+                    SizedBox(width: context.tokens.spacing.xs),
                     AppButton.primary(label: 'Apply', onPressed: _applyCode),
                   ],
                 ),
@@ -123,7 +125,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                     );
                     if (message == null) return const SizedBox.shrink();
                     return Padding(
-                      padding: const EdgeInsets.only(top: Sizes.sm),
+                      padding: EdgeInsets.only(top: context.tokens.spacing.xs),
                       child: Row(
                         children: [
                           Icon(
@@ -131,7 +133,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                             color: colors.destructive,
                             size: 18,
                           ),
-                          const SizedBox(width: Sizes.xs),
+                          SizedBox(width: context.tokens.spacing.xxs),
                           Expanded(
                             child: AppText.bodySm(
                               message,
@@ -144,9 +146,9 @@ class _DiscountSheetState extends State<DiscountSheet> {
                   },
                 ),
 
-                const SizedBox(height: Sizes.lg),
+                SizedBox(height: context.tokens.spacing.md),
                 const AppText.titleMd('Active discounts'),
-                const SizedBox(height: Sizes.sm),
+                SizedBox(height: context.tokens.spacing.xs),
 
                 // Selectable list of valid active discounts.
                 Flexible(
@@ -158,8 +160,8 @@ class _DiscountSheetState extends State<DiscountSheet> {
 
                       if (available.isEmpty) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Sizes.lg,
+                          padding: EdgeInsets.symmetric(
+                            vertical: context.tokens.spacing.md,
                           ),
                           child: AppText.body(
                             'No active discounts. Create one in '
@@ -174,7 +176,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                         controller: widget.scrollController,
                         itemCount: available.length,
                         separatorBuilder: (_, _) =>
-                            const SizedBox(height: Sizes.xs),
+                            SizedBox(height: context.tokens.spacing.xxs),
                         itemBuilder: (context, index) {
                           final discount = available[index];
                           return _DiscountTile(
@@ -187,7 +189,7 @@ class _DiscountSheetState extends State<DiscountSheet> {
                   ),
                 ),
 
-                const SizedBox(height: Sizes.md),
+                SizedBox(height: context.tokens.spacing.sm),
                 AppButton.outline(
                   label: 'Cancel',
                   fullWidth: true,
@@ -217,20 +219,20 @@ class _DiscountTile extends StatelessWidget {
 
     return Material(
       color: colors.card,
-      borderRadius: BorderRadius.circular(Sizes.md),
+      borderRadius: BorderRadius.circular(context.tokens.radius.md),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(Sizes.md),
+          padding: EdgeInsets.all(context.tokens.spacing.sm),
           decoration: BoxDecoration(
             border: Border.all(color: colors.border),
-            borderRadius: BorderRadius.circular(Sizes.md),
+            borderRadius: BorderRadius.circular(context.tokens.radius.md),
           ),
           child: Row(
             children: [
               Icon(AgoraIcons.discount, color: colors.primary),
-              const SizedBox(width: Sizes.md),
+              SizedBox(width: context.tokens.spacing.sm),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

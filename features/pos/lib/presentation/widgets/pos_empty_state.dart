@@ -38,7 +38,7 @@ class PosEmptyState extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(context.tokens.spaceLg),
+        padding: EdgeInsets.all(context.tokens.spacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -76,12 +76,12 @@ class PosEmptyState extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: context.tokens.spaceMd),
+            SizedBox(height: context.tokens.spacing.md),
             // Title
             AppText.titleMd(title, textAlign: TextAlign.center),
             // Description
             if (description != null) ...[
-              SizedBox(height: context.tokens.spaceXs),
+              SizedBox(height: context.tokens.spacing.xs),
               AppText.body(
                 description!,
                 color: colors.mutedForeground,
@@ -90,7 +90,7 @@ class PosEmptyState extends StatelessWidget {
             ],
             // Action button
             if (actionLabel != null && onAction != null) ...[
-              SizedBox(height: context.tokens.spaceMd),
+              SizedBox(height: context.tokens.spacing.md),
               AppButton.primary(
                 onPressed: onAction,
                 label: actionLabel!,

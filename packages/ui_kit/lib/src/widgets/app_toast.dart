@@ -226,15 +226,15 @@ class AppToast extends StatelessWidget {
       label: '$heading. $message',
       child: Container(
         constraints: const BoxConstraints(maxWidth: 480),
-        padding: EdgeInsets.all(tokens.spaceSm),
+        padding: EdgeInsets.all(tokens.spacing.sm),
         decoration: BoxDecoration(
           color: colors.card,
-          borderRadius: tokens.borderRadiusMd,
+          borderRadius: tokens.radius.borderMd,
           border: Border.all(
             color: colors.border,
-            width: tokens.borderHairline,
+            width: tokens.border.hairline,
           ),
-          boxShadow: tokens.shadowLg,
+          boxShadow: tokens.shadows.lg,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,13 +250,13 @@ class AppToast extends StatelessWidget {
               child: Icon(
                 icon ?? _defaultIcon(),
                 color: accent,
-                size: tokens.iconMd,
+                size: tokens.iconSize.md,
               ),
             ),
-            SizedBox(width: tokens.spaceSm),
+            SizedBox(width: tokens.spacing.sm),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(top: tokens.spaceXxs),
+                padding: EdgeInsets.only(top: tokens.spacing.xxs),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,7 +266,7 @@ class AppToast extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: tokens.spaceXxs),
+                    SizedBox(height: tokens.spacing.xxs),
                     AppText.bodySm(
                       message,
                       color: colors.mutedForeground,
@@ -274,7 +274,7 @@ class AppToast extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (actionLabel != null) ...[
-                      SizedBox(height: tokens.spaceXs),
+                      SizedBox(height: tokens.spacing.xs),
                       TextButton(
                         onPressed: onAction,
                         style: TextButton.styleFrom(
@@ -293,7 +293,7 @@ class AppToast extends StatelessWidget {
             if (dismissible)
               IconButton(
                 onPressed: onDismiss,
-                icon: Icon(AgoraIcons.x_mark, size: tokens.iconSm),
+                icon: Icon(AgoraIcons.x_mark, size: tokens.iconSize.sm),
                 color: colors.mutedForeground,
                 tooltip: 'Dismiss',
                 visualDensity: VisualDensity.compact,

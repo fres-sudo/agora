@@ -78,7 +78,7 @@ class AppTextField extends StatelessWidget {
 
   OutlineInputBorder _border(Color color, double width, BuildContext context) =>
       OutlineInputBorder(
-        borderRadius: context.tokens.borderRadiusMd,
+        borderRadius: context.tokens.radius.borderMd,
         borderSide: BorderSide(color: color, width: width),
       );
 
@@ -105,8 +105,13 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       onFieldSubmitted: onSubmitted,
       onTap: onTap,
+      // Route an externally supplied error through TextFormField so its
+      // InputDecorator enters the error state and applies errorBorder.
+      forceErrorText: errorText,
       validator: validator,
       autovalidateMode: autovalidateMode,
+      errorBuilder: (context, message) =>
+          AppText.caption(message, color: colors.destructive),
       style: context.typography.body.copyWith(color: colors.foreground),
       cursorColor: colors.ring,
       decoration: InputDecoration(
@@ -124,17 +129,17 @@ class AppTextField extends StatelessWidget {
         suffixText: suffixText,
         suffixStyle: context.typography.body.copyWith(color: colors.foreground),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: tokens.spaceSm,
-          vertical: tokens.spaceXs,
+          horizontal: tokens.spacing.sm,
+          vertical: tokens.spacing.xs,
         ),
         counterText: '',
-        enabledBorder: _border(colors.input, tokens.borderHairline, context),
-        disabledBorder: _border(colors.border, tokens.borderHairline, context),
-        focusedBorder: _border(colors.ring, tokens.borderThin, context),
-        errorBorder: _border(colors.destructive, tokens.borderThin, context),
+        enabledBorder: _border(colors.input, tokens.border.hairline, context),
+        disabledBorder: _border(colors.border, tokens.border.hairline, context),
+        focusedBorder: _border(colors.ring, tokens.border.thin, context),
+        errorBorder: _border(colors.destructive, tokens.border.thin, context),
         focusedErrorBorder: _border(
           colors.destructive,
-          tokens.borderThin,
+          tokens.border.thin,
           context,
         ),
       ),
@@ -146,15 +151,12 @@ class AppTextField extends StatelessWidget {
       children: [
         if (label != null) ...[
           AppText.label(label!),
-          SizedBox(height: tokens.spaceXs),
+          SizedBox(height: tokens.spacing.xs),
         ],
         Semantics(label: label, textField: true, child: field),
-        if (hasError || helperText != null) ...[
-          SizedBox(height: tokens.spaceXs),
-          AppText.caption(
-            errorText ?? helperText!,
-            color: hasError ? colors.destructive : colors.mutedForeground,
-          ),
+        if (!hasError && helperText != null) ...[
+          SizedBox(height: tokens.spacing.xs),
+          AppText.caption(helperText!, color: colors.mutedForeground),
         ],
       ],
     );

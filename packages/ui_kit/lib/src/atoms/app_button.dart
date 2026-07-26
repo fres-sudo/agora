@@ -117,9 +117,9 @@ class AppButton extends StatelessWidget {
   };
 
   double _horizontalPadding(BuildContext context) => switch (size) {
-    AppButtonSize.sm => context.tokens.spaceMd,
-    AppButtonSize.md => context.tokens.spaceLg,
-    AppButtonSize.lg => context.tokens.spaceXl,
+    AppButtonSize.sm => context.tokens.spacing.md,
+    AppButtonSize.md => context.tokens.spacing.lg,
+    AppButtonSize.lg => context.tokens.spacing.xl,
   };
 
   ({Color bg, Color fg, Color? border, Color overlay}) _palette(
@@ -206,7 +206,7 @@ class AppButton extends StatelessWidget {
       // primary-button icons invisible.
       iconColor: WidgetStatePropertyAll(p.fg),
       shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: tokens.borderRadiusMd),
+        RoundedRectangleBorder(borderRadius: tokens.radius.borderMd),
       ),
       side: p.border == null
           ? null
@@ -214,7 +214,7 @@ class AppButton extends StatelessWidget {
               final color = states.contains(WidgetState.disabled)
                   ? colors.border
                   : p.border!;
-              return BorderSide(color: color, width: tokens.borderHairline);
+              return BorderSide(color: color, width: tokens.border.hairline);
             }),
       elevation: const WidgetStatePropertyAll(0),
     );
@@ -224,9 +224,9 @@ class AppButton extends StatelessWidget {
     final Widget content;
     if (isLoading) {
       content = SizedBox(
-        height: tokens.iconMd,
-        width: tokens.iconMd,
-        child: AppSpinner(size: tokens.iconMd, color: p.fg),
+        height: tokens.iconSize.md,
+        width: tokens.iconSize.md,
+        child: AppSpinner(size: tokens.iconSize.md, color: p.fg),
       );
     } else if (leadingIcon == null && trailingIcon == null) {
       content = Text(label);
@@ -236,11 +236,11 @@ class AppButton extends StatelessWidget {
         children: [
           if (leadingIcon != null) ...[
             leadingIcon!,
-            SizedBox(width: tokens.spaceSm),
+            SizedBox(width: tokens.spacing.sm),
           ],
           Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
           if (trailingIcon != null) ...[
-            SizedBox(width: tokens.spaceSm),
+            SizedBox(width: tokens.spacing.sm),
             trailingIcon!,
           ],
         ],

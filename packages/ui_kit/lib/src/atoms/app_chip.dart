@@ -38,25 +38,25 @@ class AppChip extends StatelessWidget {
       label: label,
       child: Material(
         color: bg,
-        borderRadius: BorderRadius.circular(tokens.radiusFull),
+        borderRadius: BorderRadius.circular(tokens.radius.full),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(tokens.radiusFull),
+          borderRadius: BorderRadius.circular(tokens.radius.full),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: tokens.spaceMd,
-              vertical: tokens.spaceSm,
+              horizontal: tokens.spacing.md,
+              vertical: tokens.spacing.sm,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (icon != null) ...[
-                  Icon(icon, size: tokens.iconSm, color: fg),
-                  SizedBox(width: tokens.spaceXs),
+                  Icon(icon, size: tokens.iconSize.sm, color: fg),
+                  SizedBox(width: tokens.spacing.xs),
                 ],
                 AppText.label(label, color: fg),
                 if (onDeleted != null) ...[
-                  SizedBox(width: tokens.spaceXs),
+                  SizedBox(width: tokens.spacing.xs),
                   Semantics(
                     container: true,
                     button: true,
@@ -64,7 +64,11 @@ class AppChip extends StatelessWidget {
                     child: GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: onDeleted,
-                      child: Icon(deleteIcon, size: tokens.iconSm, color: fg),
+                      child: Icon(
+                        deleteIcon,
+                        size: tokens.iconSize.sm,
+                        color: fg,
+                      ),
                     ),
                   ),
                 ],

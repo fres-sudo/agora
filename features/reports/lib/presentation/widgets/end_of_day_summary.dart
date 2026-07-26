@@ -42,22 +42,22 @@ class EndOfDaySummary extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(Sizes.lg),
+      padding: EdgeInsets.all(context.tokens.spacing.md),
       decoration: BoxDecoration(
         color: context.colors.card,
-        borderRadius: BorderRadius.circular(Sizes.md),
+        borderRadius: BorderRadius.circular(context.tokens.radius.md),
         border: Border.all(color: context.colors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const AppText.headingSm('End of Day'),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
           LayoutBuilder(
             builder: (context, constraints) {
               // One row on wide layouts, wrap to a grid when cramped.
               final perRow = constraints.maxWidth < 420 ? 2 : metrics.length;
-              final spacing = Sizes.md;
+              final spacing = context.tokens.spacing.sm;
               final itemWidth =
                   (constraints.maxWidth - spacing * (perRow - 1)) / perRow;
               return Wrap(
@@ -101,14 +101,14 @@ class _MetricTile extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(Sizes.sm),
+          padding: EdgeInsets.all(context.tokens.spacing.xs),
           decoration: BoxDecoration(
             color: context.colors.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(metric.icon, color: context.colors.primary, size: 18),
         ),
-        const SizedBox(width: Sizes.sm),
+        SizedBox(width: context.tokens.spacing.xs),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +120,7 @@ class _MetricTile extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: context.tokens.spaceXxs),
+              SizedBox(height: context.tokens.spacing.xxs),
               FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,

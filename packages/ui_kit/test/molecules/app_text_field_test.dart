@@ -22,6 +22,16 @@ void main() {
       const AppTextField(label: 'Name', errorText: 'Required'),
     );
     expect(find.text('Required'), findsOneWidget);
+
+    final decorator = tester.widget<InputDecorator>(
+      find.byType(InputDecorator),
+    );
+    final context = tester.element(find.byType(InputDecorator));
+    expect(decorator.decoration.error, isNotNull);
+    expect(
+      (decorator.decoration.errorBorder! as OutlineInputBorder).borderSide,
+      BorderSide(color: context.colors.destructive, width: 1),
+    );
   });
 
   testWidgets('exposes its label to assistive tech', (tester) async {

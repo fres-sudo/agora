@@ -58,8 +58,8 @@ class AppDropdownField extends StatelessWidget {
         ? colors.ring
         : colors.input;
     final borderWidth = isOpen || hasError
-        ? tokens.borderThin
-        : tokens.borderHairline;
+        ? tokens.border.thin
+        : tokens.border.hairline;
 
     final field = Semantics(
       button: true,
@@ -69,27 +69,27 @@ class AppDropdownField extends StatelessWidget {
       child: Material(
         color: enabled ? colors.background : colors.muted,
         shape: RoundedRectangleBorder(
-          borderRadius: tokens.borderRadiusMd,
+          borderRadius: tokens.radius.borderMd,
           side: BorderSide(color: borderColor, width: borderWidth),
         ),
         child: InkWell(
           onTap: enabled ? onTap : null,
-          borderRadius: tokens.borderRadiusMd,
+          borderRadius: tokens.radius.borderMd,
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: tokens.spaceSm,
-              vertical: tokens.spaceXs,
+              horizontal: tokens.spacing.sm,
+              vertical: tokens.spacing.xs,
             ),
             child: Row(
               children: [
                 Expanded(child: child),
-                SizedBox(width: tokens.spaceXs),
+                SizedBox(width: tokens.spacing.xs),
                 ExcludeSemantics(
                   child:
                       trailing ??
                       Icon(
                         AgoraIcons.chevron_up_down,
-                        size: tokens.iconMd,
+                        size: tokens.iconSize.md,
                         color: colors.mutedForeground,
                       ),
                 ),
@@ -106,11 +106,11 @@ class AppDropdownField extends StatelessWidget {
       children: [
         if (label != null) ...[
           AppText.label(label!),
-          SizedBox(height: tokens.spaceXs),
+          SizedBox(height: tokens.spacing.xs),
         ],
         field,
         if (hasError || helperText != null) ...[
-          SizedBox(height: tokens.spaceXs),
+          SizedBox(height: tokens.spacing.xs),
           AppText.caption(
             errorText ?? helperText!,
             color: hasError ? colors.destructive : colors.mutedForeground,

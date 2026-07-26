@@ -49,7 +49,7 @@ class PaymentMethodSelector extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(
-                right: method == methods.last ? 0 : Sizes.sm,
+                right: method == methods.last ? 0 : context.tokens.spacing.xs,
               ),
               child: _MethodTile(
                 method: method,
@@ -89,20 +89,20 @@ class _MethodTile extends StatelessWidget {
     return Material(
       color: fill,
       type: fill == null ? MaterialType.transparency : MaterialType.canvas,
-      borderRadius: BorderRadius.circular(Sizes.md),
+      borderRadius: BorderRadius.circular(context.tokens.radius.md),
       child: InkWell(
-        borderRadius: BorderRadius.circular(Sizes.md),
+        borderRadius: BorderRadius.circular(context.tokens.radius.md),
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: Sizes.md),
+          padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.sm),
           decoration: BoxDecoration(
             border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
-            borderRadius: BorderRadius.circular(Sizes.md),
+            borderRadius: BorderRadius.circular(context.tokens.radius.md),
           ),
           child: Column(
             children: [
               Icon(_icon, color: foreground),
-              const SizedBox(height: Sizes.xs),
+              SizedBox(height: context.tokens.spacing.xxs),
               AppText.label(method.label, color: foreground),
             ],
           ),

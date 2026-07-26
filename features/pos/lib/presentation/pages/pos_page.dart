@@ -343,7 +343,7 @@ class _TabletLayout extends StatelessWidget {
             children: [
               // Search bar
               Padding(
-                padding: EdgeInsets.all(context.tokens.spaceMd),
+                padding: EdgeInsets.all(context.tokens.spacing.md),
                 child: PosSearchBar(onSearch: onSearch),
               ),
               // Product grid
@@ -448,10 +448,10 @@ class _MobileLayout extends StatelessWidget {
         // Search bar
         Padding(
           padding: EdgeInsets.fromLTRB(
-            context.tokens.spaceMd,
-            context.tokens.spaceSm,
-            context.tokens.spaceMd,
-            context.tokens.spaceSm,
+            context.tokens.spacing.md,
+            context.tokens.spacing.sm,
+            context.tokens.spacing.md,
+            context.tokens.spacing.sm,
           ),
           child: PosSearchBar(onSearch: onSearch),
         ),
@@ -532,11 +532,11 @@ class _HorizontalCategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.symmetric(horizontal: context.tokens.spaceMd),
+      padding: EdgeInsets.symmetric(horizontal: context.tokens.spacing.md),
       children: [
         // All Menu chip
         Padding(
-          padding: EdgeInsets.only(right: context.tokens.spaceXs),
+          padding: EdgeInsets.only(right: context.tokens.spacing.xs),
           child: _CategoryChip(
             label: 'All Menu',
             isSelected: selectedCategoryId == null,
@@ -546,7 +546,7 @@ class _HorizontalCategoryList extends StatelessWidget {
         // Category chips
         ...categories.map(
           (category) => Padding(
-            padding: EdgeInsets.only(right: context.tokens.spaceXs),
+            padding: EdgeInsets.only(right: context.tokens.spacing.xs),
             child: _CategoryChip(
               label: category.name,
               isSelected: selectedCategoryId == category.id,
@@ -577,12 +577,12 @@ class _CategoryChip extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: context.tokens.spaceMd,
-          vertical: context.tokens.spaceXs,
+          horizontal: context.tokens.spacing.md,
+          vertical: context.tokens.spacing.xs,
         ),
         decoration: BoxDecoration(
           color: isSelected ? colors.primary : colors.card,
-          borderRadius: context.tokens.borderRadiusFull,
+          borderRadius: context.tokens.radius.borderFull,
           border: Border.all(
             color: isSelected ? colors.primary : colors.border,
           ),

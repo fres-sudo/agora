@@ -122,25 +122,25 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _FormField(label: 'Store Name', controller: _nameCtrl),
-              SizedBox(height: context.tokens.spaceMd),
+              SizedBox(height: context.tokens.spacing.md),
               Row(
                 children: [
                   Expanded(
                     child: _FormField(label: 'Phone', controller: _phoneCtrl),
                   ),
-                  SizedBox(width: context.tokens.spaceMd),
+                  SizedBox(width: context.tokens.spacing.md),
                   Expanded(
                     child: _FormField(label: 'Email', controller: _emailCtrl),
                   ),
                 ],
               ),
-              SizedBox(height: context.tokens.spaceMd),
+              SizedBox(height: context.tokens.spacing.md),
               Row(
                 children: [
                   Expanded(
                     child: _FormField(label: 'City', controller: _cityCtrl),
                   ),
-                  SizedBox(width: context.tokens.spaceMd),
+                  SizedBox(width: context.tokens.spacing.md),
                   Expanded(
                     child: _FormField(
                       label: 'Country',
@@ -149,7 +149,7 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
                   ),
                 ],
               ),
-              SizedBox(height: context.tokens.spaceMd),
+              SizedBox(height: context.tokens.spacing.md),
               _FormField(
                 label: 'Full Address',
                 controller: _addressCtrl,
@@ -161,7 +161,7 @@ class _StoreSettingSectionState extends State<StoreSettingSection> {
                 controller: _currencyCtrl,
                 hint: 'e.g. € or \$',
               ),
-              SizedBox(height: context.tokens.spaceXxs),
+              SizedBox(height: context.tokens.spacing.xxs),
               AppText.bodySm(
                 'Symbol shown on prices and receipts across the app.',
                 color: context.colors.mutedForeground,

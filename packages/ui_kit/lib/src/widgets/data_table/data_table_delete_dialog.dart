@@ -48,7 +48,7 @@ class DataTableDeleteDialog extends StatelessWidget {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 360),
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.xl),
+          padding: EdgeInsets.all(context.tokens.spacing.lg),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -66,7 +66,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                   size: 32,
                 ),
               ),
-              const SizedBox(height: Sizes.lg),
+              SizedBox(height: context.tokens.spacing.md),
               // Title
               Text(
                 title,
@@ -75,7 +75,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               // Message
               Text(
                 message,
@@ -84,7 +84,7 @@ class DataTableDeleteDialog extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: Sizes.xl),
+              SizedBox(height: context.tokens.spacing.lg),
               // Buttons
               Row(
                 children: [
@@ -95,18 +95,22 @@ class DataTableDeleteDialog extends StatelessWidget {
                       style: OutlinedButton.styleFrom(
                         foregroundColor: context.colors.foreground,
                         side: BorderSide(color: context.colors.border),
-                        padding: const EdgeInsets.symmetric(vertical: Sizes.md),
+                        padding: EdgeInsets.symmetric(
+                          vertical: context.tokens.spacing.sm,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: Sizes.md),
+                  SizedBox(width: context.tokens.spacing.sm),
                   Expanded(
                     child: AppButton.primary(
                       onPressed: () => Navigator.of(context).pop(true),
                       label: deleteButtonLabel,
                       style: FilledButton.styleFrom(
                         backgroundColor: context.colors.destructive,
-                        padding: const EdgeInsets.symmetric(vertical: Sizes.md),
+                        padding: EdgeInsets.symmetric(
+                          vertical: context.tokens.spacing.sm,
+                        ),
                       ),
                     ),
                   ),

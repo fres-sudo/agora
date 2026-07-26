@@ -58,13 +58,13 @@ class CheckoutSheet extends StatelessWidget {
       builder: (context, state) {
         return Material(
           color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(Sizes.lg),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(context.tokens.radius.lg),
           ),
           child: SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.all(Sizes.lg),
+              padding: EdgeInsets.all(context.tokens.spacing.md),
               child: SingleChildScrollView(
                 controller: scrollController,
                 child: state is CheckoutSuccess
@@ -99,40 +99,40 @@ class _CheckoutBody extends StatelessWidget {
           child: Container(
             width: 40,
             height: 4,
-            margin: const EdgeInsets.only(bottom: Sizes.md),
+            margin: EdgeInsets.only(bottom: context.tokens.spacing.sm),
             decoration: BoxDecoration(
               color: context.colors.border,
-              borderRadius: context.tokens.borderRadiusFull,
+              borderRadius: context.tokens.radius.borderFull,
             ),
           ),
         ),
         const AppText.headingSm('Checkout'),
-        const SizedBox(height: Sizes.md),
+        SizedBox(height: context.tokens.spacing.sm),
 
         // Total to pay.
         _TotalRow(totalCents: state.totalCents),
-        const SizedBox(height: Sizes.lg),
+        SizedBox(height: context.tokens.spacing.md),
 
         // Payment method.
         const AppText.titleMd('Payment Method'),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: context.tokens.spacing.xs),
         PaymentMethodSelector(
           selected: method,
           onChanged: isProcessing ? null : cubit.selectMethod,
         ),
-        const SizedBox(height: Sizes.lg),
+        SizedBox(height: context.tokens.spacing.md),
 
         // Cash-only: tender entry + change.
         if (method.requiresTender) ...[
           _CashSection(state: state),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
         ],
 
         // Error message (failure state).
         if (state.maybeMap(failure: (s) => s.message, orElse: () => null)
             case final String message) ...[
           _ErrorBanner(message: message),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
         ],
 
         // Confirm button.
@@ -142,7 +142,7 @@ class _CheckoutBody extends StatelessWidget {
           isLoading: isProcessing,
           onPressed: state.canConfirm && !isProcessing ? cubit.confirm : null,
         ),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: context.tokens.spacing.xs),
         AppButton.outline(
           label: 'Cancel',
           fullWidth: true,
@@ -173,10 +173,10 @@ class _ReceiptStage extends StatelessWidget {
           child: Container(
             width: 40,
             height: 4,
-            margin: const EdgeInsets.only(bottom: Sizes.md),
+            margin: EdgeInsets.only(bottom: context.tokens.spacing.sm),
             decoration: BoxDecoration(
               color: context.colors.border,
-              borderRadius: context.tokens.borderRadiusFull,
+              borderRadius: context.tokens.radius.borderFull,
             ),
           ),
         ),
@@ -184,16 +184,16 @@ class _ReceiptStage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(AgoraIcons.check, color: context.colors.success),
-            const SizedBox(width: Sizes.sm),
+            SizedBox(width: context.tokens.spacing.xs),
             const AppText.headingSm('Payment complete'),
           ],
         ),
-        const SizedBox(height: Sizes.lg),
+        SizedBox(height: context.tokens.spacing.md),
 
         // Receipt preview.
         if (receipt != null)
           Center(child: ReceiptPreview(receipt: receipt, width: 300)),
-        const SizedBox(height: Sizes.lg),
+        SizedBox(height: context.tokens.spacing.md),
 
         if (state.printStatus == PrintStatus.printed)
           _PrintStatusBanner(
@@ -208,7 +208,7 @@ class _ReceiptStage extends StatelessWidget {
             message: 'Print failed — the sale is still recorded',
           ),
         if (state.printStatus != PrintStatus.idle)
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
 
         // Print / reprint.
         AppButton.primary(
@@ -220,7 +220,7 @@ class _ReceiptStage extends StatelessWidget {
           leadingIcon: const Icon(AgoraIcons.printer, size: 20),
           onPressed: printing ? null : cubit.printReceipt,
         ),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: context.tokens.spacing.xs),
         AppButton.outline(
           label: 'Done',
           fullWidth: true,
@@ -247,15 +247,15 @@ class _PrintStatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Sizes.sm),
+      padding: EdgeInsets.all(context.tokens.spacing.xs),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(Sizes.sm),
+        borderRadius: BorderRadius.circular(context.tokens.radius.sm),
       ),
       child: Row(
         children: [
           Icon(icon, color: color, size: 18),
-          const SizedBox(width: Sizes.sm),
+          SizedBox(width: context.tokens.spacing.xs),
           Expanded(child: AppText.body(message, color: color)),
         ],
       ),
@@ -272,10 +272,10 @@ class _TotalRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      padding: const EdgeInsets.all(Sizes.md),
+      padding: EdgeInsets.all(context.tokens.spacing.sm),
       decoration: BoxDecoration(
         color: colors.muted,
-        borderRadius: BorderRadius.circular(Sizes.md),
+        borderRadius: BorderRadius.circular(context.tokens.radius.md),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -313,15 +313,15 @@ class _CashSection extends StatelessWidget {
             AppText.headingSm(context.formatCurrency(tendered)),
           ],
         ),
-        const SizedBox(height: Sizes.sm),
+        SizedBox(height: context.tokens.spacing.xs),
 
         // Quick-tender presets.
         _QuickTenderRow(totalCents: total, onSelected: cubit.setTendered),
-        const SizedBox(height: Sizes.md),
+        SizedBox(height: context.tokens.spacing.sm),
 
         // Keypad.
         MoneyKeypad(valueCents: tendered, onChanged: cubit.setTendered),
-        const SizedBox(height: Sizes.md),
+        SizedBox(height: context.tokens.spacing.sm),
 
         // Change due.
         ChangeDueDisplay(
@@ -344,8 +344,8 @@ class _QuickTenderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final presets = _buildPresets(context, totalCents);
     return Wrap(
-      spacing: Sizes.sm,
-      runSpacing: Sizes.sm,
+      spacing: context.tokens.spacing.xs,
+      runSpacing: context.tokens.spacing.xs,
       children: [
         for (final preset in presets)
           ActionChip(
@@ -388,10 +388,10 @@ class _ErrorBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Sizes.md),
+      padding: EdgeInsets.all(context.tokens.spacing.sm),
       decoration: BoxDecoration(
         color: context.colors.destructive.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(Sizes.sm),
+        borderRadius: BorderRadius.circular(context.tokens.radius.sm),
       ),
       child: Row(
         children: [
@@ -400,7 +400,7 @@ class _ErrorBanner extends StatelessWidget {
             color: context.colors.destructive,
             size: 20,
           ),
-          const SizedBox(width: Sizes.sm),
+          SizedBox(width: context.tokens.spacing.xs),
           Expanded(
             child: AppText.body(message, color: context.colors.destructive),
           ),

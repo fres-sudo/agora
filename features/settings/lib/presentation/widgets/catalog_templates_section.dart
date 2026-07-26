@@ -61,7 +61,7 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
               onPressed: () => Navigator.of(context).pop(false),
               fullWidth: true,
             ),
-            SizedBox(height: tokens.spaceSm),
+            SizedBox(height: tokens.spacing.sm),
             AppButton.primary(
               label: 'Replace current catalog',
               onPressed: () => Navigator.of(context).pop(true),
@@ -142,7 +142,7 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(context.tokens.spaceLg),
+            padding: EdgeInsets.all(context.tokens.spacing.lg),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -179,9 +179,10 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
     }
 
     return ListView.separated(
-      padding: EdgeInsets.all(context.tokens.spaceLg),
+      padding: EdgeInsets.all(context.tokens.spacing.lg),
       itemCount: templates.length,
-      separatorBuilder: (context, index) => const SizedBox(height: Sizes.md),
+      separatorBuilder: (context, index) =>
+          SizedBox(height: context.tokens.spacing.sm),
       itemBuilder: (context, index) {
         final template = templates[index];
         return CatalogTemplateListItem(
@@ -199,12 +200,12 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(AgoraIcons.archive, size: 64, color: context.colors.border),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           AppText.titleMd(
             'No saved templates yet',
             color: context.colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(
             'Save the current catalog as a template before wiping it or '
             'starting a new season, so you can restore it in one tap.',
@@ -225,11 +226,11 @@ class _CatalogTemplatesSectionState extends State<CatalogTemplatesSection> {
             size: 48,
             color: context.colors.destructive,
           ),
-          const SizedBox(height: Sizes.md),
+          SizedBox(height: context.tokens.spacing.sm),
           const AppText.titleMd('Failed to load templates'),
-          const SizedBox(height: Sizes.sm),
+          SizedBox(height: context.tokens.spacing.xs),
           AppText.body(message, color: context.colors.mutedForeground),
-          const SizedBox(height: Sizes.lg),
+          SizedBox(height: context.tokens.spacing.md),
           AppButton.primary(
             onPressed: () => context.read<CatalogTemplatesCubit>().load(),
             label: 'Retry',

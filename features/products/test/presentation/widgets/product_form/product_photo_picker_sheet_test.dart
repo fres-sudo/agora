@@ -52,23 +52,31 @@ Future<String?> _pumpSheetAndAct(
 }
 
 void main() {
-  testWidgets('tapping an icon pops its type and code point', (tester) async {
+  testWidgets('saving a selected icon pops its type and code point', (
+    tester,
+  ) async {
     final result = await _pumpSheetAndAct(
       tester,
       act: (tester) async {
-        await tester.tap(find.bySemanticsLabel('Burger Outline'));
+        final burger = find.bySemanticsLabel('Burger Outline');
+        await tester.ensureVisible(burger);
+        await tester.tap(burger);
+        await tester.tap(find.text('Save'));
       },
     );
 
     expect(result, 'icon:outline:f2d0');
   });
 
-  testWidgets('remove photo pops an empty string', (tester) async {
+  testWidgets('removing a photo then saving pops an empty string', (
+    tester,
+  ) async {
     final result = await _pumpSheetAndAct(
       tester,
       initialValue: 'icon:outline:f2d0',
       act: (tester) async {
         await tester.tap(find.text('Remove Photo'));
+        await tester.tap(find.text('Save'));
       },
     );
 
@@ -88,5 +96,21 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Remove Photo'), findsNothing);
+  });
+
+  testWidgets('a stock illustration is staged until it is saved', (
+    tester,
+  ) async {
+    final result = await _pumpSheetAndAct(
+      tester,
+      act: (tester) async {
+        await tester.tap(find.bySemanticsLabel('Cake'));
+        await tester.pump();
+
+        await tester.tap(find.text('Save'));
+      },
+    );
+
+    expect(result, 'stock:cake');
   });
 }

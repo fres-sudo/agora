@@ -78,10 +78,13 @@ abstract final class AppTheme {
       ),
       dividerTheme: DividerThemeData(
         color: colors.border,
-        thickness: tokens.borderHairline,
-        space: tokens.borderHairline,
+        thickness: tokens.border.hairline,
+        space: tokens.border.hairline,
       ),
-      iconTheme: IconThemeData(color: colors.foreground, size: tokens.iconMd),
+      iconTheme: IconThemeData(
+        color: colors.foreground,
+        size: tokens.iconSize.md,
+      ),
       splashColor: colors.accent.withValues(alpha: 0.4),
       highlightColor: colors.accent.withValues(alpha: 0.3),
       dialogTheme: DialogThemeData(
@@ -90,8 +93,8 @@ abstract final class AppTheme {
         elevation: 0,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: tokens.borderRadiusLg,
-          side: BorderSide(color: colors.border, width: tokens.borderHairline),
+          borderRadius: tokens.radius.borderLg,
+          side: BorderSide(color: colors.border, width: tokens.border.hairline),
         ),
       ),
       // Dropdowns/menus are the one place depth is allowed — keep it a crisp,
@@ -102,8 +105,8 @@ abstract final class AppTheme {
         elevation: 0,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: tokens.borderRadiusMd,
-          side: BorderSide(color: colors.border, width: tokens.borderHairline),
+          borderRadius: tokens.radius.borderMd,
+          side: BorderSide(color: colors.border, width: tokens.border.hairline),
         ),
         textStyle: typography.body.copyWith(color: colors.foreground),
       ),

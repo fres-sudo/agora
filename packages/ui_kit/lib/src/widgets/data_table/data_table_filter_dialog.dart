@@ -58,7 +58,7 @@ class DataTableFilterDialog extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             foregroundColor: context.colors.foreground,
             side: BorderSide(color: context.colors.border),
-            padding: const EdgeInsets.symmetric(vertical: Sizes.md),
+            padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.sm),
           ),
         ),
         AppButton.primary(
@@ -66,7 +66,7 @@ class DataTableFilterDialog extends StatelessWidget {
           label: 'Apply',
           style: FilledButton.styleFrom(
             backgroundColor: context.colors.primary,
-            padding: const EdgeInsets.symmetric(vertical: Sizes.md),
+            padding: EdgeInsets.symmetric(vertical: context.tokens.spacing.sm),
           ),
         ),
       ],

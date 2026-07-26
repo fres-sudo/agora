@@ -125,11 +125,13 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
 
     return Material(
       color: colors.background,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(Sizes.lg)),
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(context.tokens.radius.lg),
+      ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.lg),
+          padding: EdgeInsets.all(context.tokens.spacing.md),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -138,15 +140,15 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                 child: Container(
                   width: 40,
                   height: 4,
-                  margin: const EdgeInsets.only(bottom: Sizes.md),
+                  margin: EdgeInsets.only(bottom: context.tokens.spacing.sm),
                   decoration: BoxDecoration(
                     color: colors.border,
-                    borderRadius: context.tokens.borderRadiusFull,
+                    borderRadius: context.tokens.radius.borderFull,
                   ),
                 ),
               ),
               AppText.headingSm(widget.product.name),
-              const SizedBox(height: Sizes.md),
+              SizedBox(height: context.tokens.spacing.sm),
               Flexible(
                 child: SingleChildScrollView(
                   child: Column(
@@ -175,7 +177,7 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                   ),
                 ),
               ),
-              const SizedBox(height: Sizes.md),
+              SizedBox(height: context.tokens.spacing.sm),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -186,13 +188,13 @@ class _ModifierPickerSheetState extends State<ModifierPickerSheet> {
                   ),
                 ],
               ),
-              const SizedBox(height: Sizes.md),
+              SizedBox(height: context.tokens.spacing.sm),
               AppButton.primary(
                 onPressed: _confirm,
                 label: 'Add to Cart',
                 fullWidth: true,
               ),
-              const SizedBox(height: Sizes.sm),
+              SizedBox(height: context.tokens.spacing.xs),
               AppButton.outline(
                 onPressed: () => Navigator.of(context).pop(),
                 label: 'Cancel',
@@ -226,7 +228,7 @@ class _ModifierGroupSection extends StatelessWidget {
     final colors = context.colors;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: Sizes.md),
+      padding: EdgeInsets.only(bottom: context.tokens.spacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -235,7 +237,7 @@ class _ModifierGroupSection extends StatelessWidget {
             group.isMultiSelect ? 'Choose any' : 'Choose one',
             color: colors.mutedForeground,
           ),
-          const SizedBox(height: Sizes.xs),
+          SizedBox(height: context.tokens.spacing.xxs),
           if (group.isMultiSelect)
             ...group.options.map(
               (option) => CheckboxListTile(
