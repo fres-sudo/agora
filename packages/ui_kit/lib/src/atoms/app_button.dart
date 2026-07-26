@@ -202,7 +202,9 @@ class AppButton extends StatelessWidget {
         return null;
       }),
       textStyle: WidgetStatePropertyAll(textStyle),
-      iconColor: WidgetStatePropertyAll(p.bg),
+      // Keep icons aligned with the label; using the background here makes
+      // primary-button icons invisible.
+      iconColor: WidgetStatePropertyAll(p.fg),
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(borderRadius: tokens.borderRadiusMd),
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ui_kit/ui_kit.dart';
 
@@ -116,12 +117,12 @@ void main() {
         id: 'name',
         label: 'Name',
         priority: DataTableColumnPriority.primary,
-        cellBuilder: (item) => Text(item),
+        cellBuilder: (context, item) => Text(item),
       ),
       DataTableColumn<String>(
         id: 'internal',
         label: 'Internal',
-        cellBuilder: (item) => Text('internal-$item'),
+        cellBuilder: (context, item) => Text('internal-$item'),
       ),
     ];
 
@@ -166,5 +167,48 @@ void main() {
       expect(find.text('NAME'), findsNothing);
       expect(find.text('internal-alpha'), findsNothing);
     });
+
+    testWidgets('provides a build context to lazily rendered desktop cells', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        BlocProvider(
+          create: (_) => _SelectedValueCubit(),
+          child: MaterialApp(
+            home: ResponsiveScope.fixed(
+              ScreenSize.desktop,
+              child: Scaffold(
+                body: DataTableView<String>(
+                  items: const ['alpha'],
+                  columns: [
+                    DataTableColumn<String>(
+                      id: 'selected',
+                      label: 'Selected',
+                      cellBuilder: (context, item) => Text(
+                        '$item-${context.select<_SelectedValueCubit, int>((c) => c.state)}',
+                      ),
+                    ),
+                  ],
+                  config: const DataTableConfig(
+                    title: 'Things',
+                    searchHint: 'Search',
+                    addButtonLabel: 'Add',
+                    sortOptions: [],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('alpha-1'), findsOneWidget);
+    });
   });
+}
+
+class _SelectedValueCubit extends Cubit<int> {
+  _SelectedValueCubit() : super(1);
 }

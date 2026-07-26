@@ -23,7 +23,7 @@ enum DataTableRowAction { edit, reprint, delete }
 ///     DataTableColumn(
 ///       id: 'name',
 ///       label: 'Product Name',
-///       cellBuilder: (item) => Text(item.name),
+///       cellBuilder: (context, item) => Text(item.name),
 ///     ),
 ///   ],
 ///   config: DataTableConfig(title: 'Products'),
@@ -288,7 +288,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
           child: ListView.builder(
             itemCount: _paginatedItems.length,
             itemBuilder: (context, index) =>
-                _buildDataRow(_paginatedItems[index]),
+                _buildDataRow(context, _paginatedItems[index]),
           ),
         ),
       ],
@@ -337,7 +337,7 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
     );
   }
 
-  Widget _buildDataRow(T item) {
+  Widget _buildDataRow(BuildContext context, T item) {
     return InkWell(
       onTap: widget.onRowTap != null ? () => widget.onRowTap!(item) : null,
       child: Container(
@@ -356,7 +356,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                   width: column.width,
                   child: Align(
                     alignment: column.alignment,
-                    child: column.cellBuilder(item),
+                    child: Builder(
+                      builder: (context) => column.cellBuilder(context, item),
+                    ),
                   ),
                 );
               }
@@ -364,7 +366,9 @@ class _DataTableViewState<T> extends State<DataTableView<T>> {
                 flex: column.flex,
                 child: Align(
                   alignment: column.alignment,
-                  child: column.cellBuilder(item),
+                  child: Builder(
+                    builder: (context) => column.cellBuilder(context, item),
+                  ),
                 ),
               );
             }),

@@ -47,7 +47,12 @@ class DataTableColumn<T> {
   final AlignmentGeometry alignment;
 
   /// Builder function that creates the cell widget for a given item.
-  final Widget Function(T item) cellBuilder;
+  ///
+  /// The [BuildContext] belongs to the cell itself. This matters because table
+  /// rows are built lazily by a scroll view, potentially after the page that
+  /// declared the column has completed its build. It is safe to use for
+  /// inherited-state subscriptions such as `context.select`.
+  final Widget Function(BuildContext context, T item) cellBuilder;
 
   /// Where this column lands when the table renders as cards on a phone.
   final DataTableColumnPriority priority;

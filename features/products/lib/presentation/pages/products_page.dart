@@ -78,7 +78,7 @@ class _ProductsView extends StatelessWidget {
             label: t.products.columns.id,
             width: 80,
             priority: DataTableColumnPriority.secondary,
-            cellBuilder: (product) {
+            cellBuilder: (context, product) {
               return AppText.mono(
                 product.sku?.isNotEmpty == true
                     ? product.sku!
@@ -92,7 +92,7 @@ class _ProductsView extends StatelessWidget {
             label: t.products.columns.product_name,
             flex: 3,
             priority: DataTableColumnPriority.primary,
-            cellBuilder: (product) {
+            cellBuilder: (context, product) {
               return ProductNameCell(
                 name: product.name,
                 description: product.description,
@@ -106,7 +106,7 @@ class _ProductsView extends StatelessWidget {
             label: t.products.columns.category,
             flex: 1,
             priority: DataTableColumnPriority.secondary,
-            cellBuilder: (product) {
+            cellBuilder: (context, product) {
               // Find category name from state.categories
               final category = state.categories.firstWhere(
                 (c) => c.id == product.categoryId,
@@ -122,7 +122,7 @@ class _ProductsView extends StatelessWidget {
             alignment: Alignment.centerRight,
             priority: DataTableColumnPriority.trailing,
             showLabelOnMobile: true,
-            cellBuilder: (product) {
+            cellBuilder: (context, product) {
               final isLowStock = product.stockQuantity <= 10;
               final isOutOfStock = product.stockQuantity <= 0;
 
@@ -143,7 +143,7 @@ class _ProductsView extends StatelessWidget {
             width: 100,
             alignment: Alignment.centerRight,
             priority: DataTableColumnPriority.trailing,
-            cellBuilder: (product) {
+            cellBuilder: (context, product) {
               return AppText.titleMd(
                 context.formatCurrency(product.priceCents),
               );
@@ -155,7 +155,7 @@ class _ProductsView extends StatelessWidget {
             label: t.products.columns.status,
             width: 100,
             alignment: Alignment.center,
-            cellBuilder: (product) {
+            cellBuilder: (context, product) {
               return ProductStatusBadge(status: product.status);
             },
           ),

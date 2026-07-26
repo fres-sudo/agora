@@ -16,6 +16,26 @@ void main() {
       }
     });
 
+    testWidgets('uses the label color for icons', (tester) async {
+      for (final brightness in Brightness.values) {
+        await tester.pumpComponent(
+          AppButton.primary(
+            label: 'Add',
+            leadingIcon: const Icon(Icons.add),
+            onPressed: () {},
+          ),
+          brightness: brightness,
+        );
+
+        final button = tester.widget<TextButton>(find.byType(TextButton));
+        final context = tester.element(find.byType(TextButton));
+        expect(
+          button.style!.iconColor!.resolve(const <WidgetState>{}),
+          context.colors.primaryForeground,
+        );
+      }
+    });
+
     testWidgets('fires onPressed when enabled', (tester) async {
       var taps = 0;
       await tester.pumpComponent(

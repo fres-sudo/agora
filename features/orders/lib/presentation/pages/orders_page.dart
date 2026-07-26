@@ -115,7 +115,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     priority: DataTableColumnPriority.primary,
                     label: 'Order #',
                     width: 110,
-                    cellBuilder: (order) =>
+                    cellBuilder: (context, order) =>
                         AppText.titleMd('#${order.id ?? '-'}'),
                   ),
                   DataTableColumn(
@@ -123,7 +123,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     priority: DataTableColumnPriority.secondary,
                     label: 'Date',
                     width: 160,
-                    cellBuilder: (order) => AppText.bodySm(
+                    cellBuilder: (context, order) => AppText.bodySm(
                       _formatDateTime(context, order.createdAt),
                       color: context.colors.mutedForeground,
                     ),
@@ -133,7 +133,8 @@ class _OrdersPageState extends State<OrdersPage> {
                     priority: DataTableColumnPriority.secondary,
                     label: 'Status',
                     width: 120,
-                    cellBuilder: (order) => _StatusBadge(status: order.status),
+                    cellBuilder: (context, order) =>
+                        _StatusBadge(status: order.status),
                   ),
                   DataTableColumn(
                     id: 'items',
@@ -142,7 +143,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     label: 'Items',
                     width: 90,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (order) =>
+                    cellBuilder: (context, order) =>
                         AppText.titleMd(order.items.length.toString()),
                   ),
                   DataTableColumn(
@@ -151,7 +152,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     label: 'Total',
                     width: 120,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (order) => AppText.titleMd(
+                    cellBuilder: (context, order) => AppText.titleMd(
                       context.formatCurrency(order.grandTotalCents),
                     ),
                   ),
@@ -159,7 +160,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     id: 'note',
                     label: 'Note',
                     flex: 3,
-                    cellBuilder: (order) => AppText.body(
+                    cellBuilder: (context, order) => AppText.body(
                       order.note?.isNotEmpty == true ? order.note! : '—',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

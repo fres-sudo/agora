@@ -96,7 +96,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     priority: DataTableColumnPriority.primary,
                     label: 'Product',
                     flex: 3,
-                    cellBuilder: (level) => Row(
+                    cellBuilder: (context, level) => Row(
                       children: [
                         Flexible(
                           child: AppText.titleMd(
@@ -122,7 +122,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     label: 'In stock',
                     width: 130,
                     alignment: Alignment.centerLeft,
-                    cellBuilder: (level) {
+                    cellBuilder: (context, level) {
                       final low = _isLow(level);
                       return _Tag(
                         label: '${level.quantity}',
@@ -138,7 +138,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     label: 'Adjust',
                     width: 190,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (level) => Align(
+                    cellBuilder: (context, level) => Align(
                       alignment: Alignment.centerRight,
                       child: QuantityButton(
                         quantity: level.quantity,
@@ -152,7 +152,7 @@ class _InventoryPageState extends State<InventoryPage> {
                     label: '',
                     width: 72,
                     alignment: Alignment.centerRight,
-                    cellBuilder: (level) => AppIconButton.ghost(
+                    cellBuilder: (context, level) => AppIconButton.ghost(
                       onPressed: () => _showSetDialog(level),
                       icon: const Icon(AgoraIcons.pencil, size: 18),
                     ),

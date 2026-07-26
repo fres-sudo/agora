@@ -113,7 +113,7 @@ class _MobileRowCard<T> extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (primary != null) primary.cellBuilder(item),
+              if (primary != null) primary.cellBuilder(context, item),
               if (secondaries.isNotEmpty) ...[
                 SizedBox(height: tokens.spaceXs),
                 Wrap(
@@ -158,7 +158,7 @@ class _LabelledCell<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cell = column.cellBuilder(item);
+    final cell = column.cellBuilder(context, item);
     if (!column.showLabelOnMobile) return cell;
 
     return Row(
