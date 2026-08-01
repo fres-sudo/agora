@@ -2,6 +2,7 @@
   "FLAVOR": "prod",
   "APP_NAME": "Agora POS",
   "API_BASE_URL": "https://api.agora.fres.space",
+  "PUBLIC_MENU_API_BASE_URL": "",
   "WS_BASE_URL": "wss://api.agora.fres.space/ws",
   "BOOTSTRAP_MODE": "hybrid",
   "TIER": "free",

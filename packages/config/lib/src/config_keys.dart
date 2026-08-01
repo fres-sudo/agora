@@ -13,6 +13,10 @@ abstract final class ConfigKeys {
   /// Base URL of the REST API. Empty when running fully local.
   static const String apiBaseUrl = 'API_BASE_URL';
 
+  /// Base URL of the separately deployed public-menu publisher. Empty when
+  /// the build does not enable public menu publishing.
+  static const String publicMenuApiBaseUrl = 'PUBLIC_MENU_API_BASE_URL';
+
   /// Base URL of the realtime websocket. Empty when running fully local.
   static const String wsBaseUrl = 'WS_BASE_URL';
 

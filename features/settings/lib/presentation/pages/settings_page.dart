@@ -5,6 +5,7 @@ import 'package:feature_settings/presentation/widgets/combo_section.dart';
 import 'package:feature_settings/presentation/widgets/danger_zone_section.dart';
 import 'package:feature_settings/presentation/widgets/modifier_section.dart';
 import 'package:feature_settings/presentation/widgets/payment_method_section.dart';
+import 'package:feature_settings/presentation/widgets/public_menu/public_menu_section.dart';
 import 'package:feature_settings/presentation/widgets/discount_section.dart';
 import 'package:feature_settings/presentation/widgets/printer_section.dart';
 import 'package:feature_settings/presentation/widgets/receipt_option_section.dart';
@@ -96,6 +97,12 @@ class _SettingsPageState extends State<SettingsPage> {
             selectedIcon: AgoraIcons.archive_solid,
             label: 'Catalog Templates',
             child: const CatalogTemplatesSection(),
+          ),
+          SectionSidebarItemData(
+            icon: AgoraIcons.scan_qr_code,
+            selectedIcon: AgoraIcons.scan_qr_code_solid,
+            label: 'Public Menu',
+            child: const PublicMenuSection(),
           ),
           SectionSidebarItemData(
             icon: AgoraIcons.alert_triangle,

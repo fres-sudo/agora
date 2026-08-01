@@ -2,6 +2,7 @@
   "FLAVOR": "dev",
   "APP_NAME": "Agora Dev",
   "API_BASE_URL": "http://localhost:3000",
+  "PUBLIC_MENU_API_BASE_URL": "http://localhost:3001",
   "WS_BASE_URL": "ws://localhost:3000/ws",
   "BOOTSTRAP_MODE": "hybrid",
   "TIER": "paidPro",

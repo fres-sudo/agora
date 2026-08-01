@@ -1,13 +1,13 @@
 # Feature implementation plans
 
-One file per MVP feature from `docs/architecture/ECOSYSTEM.md`'s priority
-list (items 1–7; item 8, flat pricing, is a business/licensing decision, not
-a code feature, and has no plan here). Each file covers description, why,
-what's in/out of scope, exactly where in the codebase it lands, and how to
-build it — grounded in the actual current code, not the older planning docs
-under `docs/` (several of which, e.g. `docs/FESTIVAL_POS_TASKS.md`'s
-P7-5/P7-6 and P3-4, are now stale — this was cross-checked against real
-code, not assumed from those docs).
+One file per planned product feature. Items 1–7 mirror the MVP priority list
+in `docs/architecture/ECOSYSTEM.md`; item 8 is a proposed opt-in cloud
+publisher that is deliberately separate from the local LAN hub. Each file
+covers description, why, what's in/out of scope, exactly where in the
+codebase it lands, and how to build it — grounded in the actual current code,
+not the older planning docs under `docs/` (several of which, e.g.
+`docs/FESTIVAL_POS_TASKS.md`'s P7-5/P7-6 and P3-4, are now stale — this was
+cross-checked against real code, not assumed from those docs).
 
 1. [Multi-station LAN sync, no cloud](01-lan-sync.md)
 2. [Kitchen/stand order ticket routing](02-kitchen-ticket-routing.md) — depends on #1 for cross-station push
@@ -16,6 +16,7 @@ code, not assumed from those docs).
 5. [Outdoor-readable, dead-simple UI](05-outdoor-ui.md) — design-system change, cross-cutting
 6. [Season-to-season catalog/pricing reuse](06-season-to-season-catalog-reuse.md)
 7. [Single-provider Bluetooth card reader integration](07-card-reader-integration.md) — provider choice (SumUp vs. Satispay) still open
+8. [Public menu QR publishing](08-public-menu-qr.md) — proposed opt-in cloud feature; server work is deferred
 
 ## A note on current architecture (relevant to every plan above)
 

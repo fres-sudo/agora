@@ -6,6 +6,12 @@
 > 3–5 sagra stands can share a live order queue, stock count, and kitchen
 > tickets — the #1 gap versus the desktop incumbents (see `ECOSYSTEM.md`).
 
+> The proposed public-menu QR publisher is intentionally **not** part of this
+> hub: it is an opt-in internet service that renders public catalog snapshots
+> for guests' browsers. Its client plan and deferred HTTP contract live in
+> [`docs/features/08-public-menu-qr.md`](../features/08-public-menu-qr.md).
+> It must never carry LAN-sync orders, stock, tickets, or customer data.
+
 ## Why this exists
 
 A single `apps/agora` install is already a complete, self-contained POS

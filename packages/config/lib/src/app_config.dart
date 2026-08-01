@@ -24,6 +24,7 @@ class AppConfig {
     required this.flavor,
     required this.appName,
     required this.apiBaseUrl,
+    this.publicMenuApiBaseUrl = '',
     required this.wsBaseUrl,
     required this.bootstrapMode,
     required this.tierName,
@@ -39,6 +40,11 @@ class AppConfig {
 
   /// REST API base URL. Empty string when [bootstrapMode] is local.
   final String apiBaseUrl;
+
+  /// REST API base URL for the public-menu publisher. This is intentionally
+  /// separate from [apiBaseUrl]: the publisher never receives POS data other
+  /// than an explicit safe catalog snapshot.
+  final String publicMenuApiBaseUrl;
 
   /// Realtime websocket base URL. Empty string when [bootstrapMode] is local.
   final String wsBaseUrl;
@@ -70,6 +76,9 @@ class AppConfig {
       defaultValue: 'Agora',
     );
     const apiBaseUrl = String.fromEnvironment(ConfigKeys.apiBaseUrl);
+    const publicMenuApiBaseUrl = String.fromEnvironment(
+      ConfigKeys.publicMenuApiBaseUrl,
+    );
     const wsBaseUrl = String.fromEnvironment(ConfigKeys.wsBaseUrl);
     const bootstrapModeName = String.fromEnvironment(ConfigKeys.bootstrapMode);
     const tierName = String.fromEnvironment(
@@ -86,6 +95,7 @@ class AppConfig {
       flavor: AppFlavor.fromName(flavorName),
       appName: appName,
       apiBaseUrl: apiBaseUrl,
+      publicMenuApiBaseUrl: publicMenuApiBaseUrl,
       wsBaseUrl: wsBaseUrl,
       bootstrapMode: BootstrapMode.fromName(bootstrapModeName),
       tierName: tierName,
@@ -100,6 +110,9 @@ class AppConfig {
   /// Whether the app has a usable REST API base URL configured.
   bool get hasApiBaseUrl => apiBaseUrl.isNotEmpty;
 
+  /// Whether the public-menu publisher is configured for this build.
+  bool get hasPublicMenuApiBaseUrl => publicMenuApiBaseUrl.isNotEmpty;
+
   /// Whether the app has a usable websocket base URL configured.
   bool get hasWsBaseUrl => wsBaseUrl.isNotEmpty;
 
@@ -107,6 +120,7 @@ class AppConfig {
     AppFlavor? flavor,
     String? appName,
     String? apiBaseUrl,
+    String? publicMenuApiBaseUrl,
     String? wsBaseUrl,
     BootstrapMode? bootstrapMode,
     String? tierName,
@@ -117,6 +131,7 @@ class AppConfig {
       flavor: flavor ?? this.flavor,
       appName: appName ?? this.appName,
       apiBaseUrl: apiBaseUrl ?? this.apiBaseUrl,
+      publicMenuApiBaseUrl: publicMenuApiBaseUrl ?? this.publicMenuApiBaseUrl,
       wsBaseUrl: wsBaseUrl ?? this.wsBaseUrl,
       bootstrapMode: bootstrapMode ?? this.bootstrapMode,
       tierName: tierName ?? this.tierName,
@@ -130,6 +145,7 @@ class AppConfig {
       'AppConfig(flavor: ${flavor.name}, appName: $appName, '
       'bootstrapMode: ${bootstrapMode.name}, tier: $tierName, '
       'apiBaseUrl: ${apiBaseUrl.isEmpty ? '<none>' : apiBaseUrl}, '
+      'publicMenuApiBaseUrl: ${publicMenuApiBaseUrl.isEmpty ? '<none>' : publicMenuApiBaseUrl}, '
       'wsBaseUrl: ${wsBaseUrl.isEmpty ? '<none>' : wsBaseUrl}, '
       'enableLogging: $enableLogging, enableInspector: $enableInspector)';
 
@@ -141,6 +157,7 @@ class AppConfig {
           flavor == other.flavor &&
           appName == other.appName &&
           apiBaseUrl == other.apiBaseUrl &&
+          publicMenuApiBaseUrl == other.publicMenuApiBaseUrl &&
           wsBaseUrl == other.wsBaseUrl &&
           bootstrapMode == other.bootstrapMode &&
           tierName == other.tierName &&
@@ -152,6 +169,7 @@ class AppConfig {
     flavor,
     appName,
     apiBaseUrl,
+    publicMenuApiBaseUrl,
     wsBaseUrl,
     bootstrapMode,
     tierName,

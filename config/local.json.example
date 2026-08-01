@@ -2,6 +2,7 @@
   "FLAVOR": "dev",
   "APP_NAME": "Agora Local",
   "API_BASE_URL": "",
+  "PUBLIC_MENU_API_BASE_URL": "",
   "WS_BASE_URL": "",
   "BOOTSTRAP_MODE": "local",
   "TIER": "free",

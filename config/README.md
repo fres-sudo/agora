@@ -39,6 +39,7 @@ done
 | `FLAVOR` | string | Build flavor: `dev` \| `staging` \| `prod`. Must match `--flavor`. |
 | `APP_NAME` | string | App/window title. |
 | `API_BASE_URL` | string | REST API base URL. Empty when `BOOTSTRAP_MODE=local`. |
+| `PUBLIC_MENU_API_BASE_URL` | string | Public-menu publisher API base URL. Empty disables public menu publishing. |
 | `WS_BASE_URL` | string | Realtime websocket URL. Empty when `BOOTSTRAP_MODE=local`. |
 | `BOOTSTRAP_MODE` | string | `local` (offline) \| `hybrid` (backend-connected). |
 | `TIER` | string | Default subscription tier: `free` \| `paidBasic` \| `paidPro`. |

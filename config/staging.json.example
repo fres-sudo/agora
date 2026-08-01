@@ -2,6 +2,7 @@
   "FLAVOR": "staging",
   "APP_NAME": "Agora Staging",
   "API_BASE_URL": "https://staging.api.agora.fres.space",
+  "PUBLIC_MENU_API_BASE_URL": "",
   "WS_BASE_URL": "wss://staging.api.agora.fres.space/ws",
   "BOOTSTRAP_MODE": "hybrid",
   "TIER": "paidPro",
