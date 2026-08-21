@@ -68,6 +68,28 @@ void main() {
     expect(result, 'icon:outline:f2d0');
   });
 
+  testWidgets('two-tone treatment uses the opacity-preserving renderer', (
+    tester,
+  ) async {
+    final result = await _pumpSheetAndAct(
+      tester,
+      act: (tester) async {
+        final twoTone = find.text('Two-tone');
+        await tester.ensureVisible(twoTone);
+        await tester.tap(twoTone);
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AppProductIcon), findsNWidgets(13));
+        final burger = find.bySemanticsLabel('Burger Two-tone');
+        await tester.ensureVisible(burger);
+        await tester.tap(burger);
+        await tester.tap(find.text('Save'));
+      },
+    );
+
+    expect(result, 'icon:twotone:f2cf');
+  });
+
   testWidgets('removing a photo then saving pops an empty string', (
     tester,
   ) async {

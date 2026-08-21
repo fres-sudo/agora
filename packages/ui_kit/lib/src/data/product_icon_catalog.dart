@@ -16,6 +16,7 @@ enum ProductIconType {
 /// A product-relevant icon from the bundled [AgoraIcons] set.
 class ProductIcon {
   const ProductIcon({
+    required this.assetName,
     required this.label,
     required this.outline,
     required this.bulk,
@@ -23,6 +24,8 @@ class ProductIcon {
     required this.twotone,
   });
 
+  /// Kebab-case source name shared by the bundled SVG treatments.
+  final String assetName;
   final String label;
   final IconData outline;
   final IconData bulk;
@@ -37,6 +40,16 @@ class ProductIcon {
       ProductIconType.twotone => twotone,
     };
   }
+
+  /// Returns an SVG only when the treatment contains meaningful opacity.
+  /// Outline and solid continue through the smaller icon font.
+  String? assetPathFor(ProductIconType type) {
+    return switch (type) {
+      ProductIconType.bulk => 'assets/product_icons/bulk/$assetName.svg',
+      ProductIconType.twotone => 'assets/product_icons/twotone/$assetName.svg',
+      ProductIconType.outline || ProductIconType.solid => null,
+    };
+  }
 }
 
 /// Curated Agora icons that are useful as product visuals.
@@ -45,6 +58,7 @@ class ProductIcon {
 /// can be stored together.
 const kProductIconGallery = <ProductIcon>[
   ProductIcon(
+    assetName: 'burger',
     label: 'Burger',
     outline: AgoraIcons.burger,
     bulk: AgoraIcons.burger_bulk,
@@ -52,6 +66,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.burger_twotone,
   ),
   ProductIcon(
+    assetName: 'pizza',
     label: 'Pizza',
     outline: AgoraIcons.pizza,
     bulk: AgoraIcons.pizza_bulk,
@@ -59,6 +74,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.pizza_twotone,
   ),
   ProductIcon(
+    assetName: 'chef-hat',
     label: 'Chef hat',
     outline: AgoraIcons.chef_hat,
     bulk: AgoraIcons.chef_hat_bulk,
@@ -66,6 +82,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.chef_hat_twotone,
   ),
   ProductIcon(
+    assetName: 'coffee',
     label: 'Coffee',
     outline: AgoraIcons.coffee,
     bulk: AgoraIcons.coffee_bulk,
@@ -73,6 +90,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.coffee_twotone,
   ),
   ProductIcon(
+    assetName: 'cup',
     label: 'Cup',
     outline: AgoraIcons.cup,
     bulk: AgoraIcons.cup_bulk,
@@ -80,6 +98,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.cup_twotone,
   ),
   ProductIcon(
+    assetName: 'cupcake',
     label: 'Cupcake',
     outline: AgoraIcons.cupcake,
     bulk: AgoraIcons.cupcake_bulk,
@@ -87,6 +106,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.cupcake_twotone,
   ),
   ProductIcon(
+    assetName: 'ice-cream',
     label: 'Ice cream',
     outline: AgoraIcons.ice_cream,
     bulk: AgoraIcons.ice_cream_bulk,
@@ -94,6 +114,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.ice_cream_twotone,
   ),
   ProductIcon(
+    assetName: 'ramen',
     label: 'Ramen',
     outline: AgoraIcons.ramen,
     bulk: AgoraIcons.ramen_bulk,
@@ -101,6 +122,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.ramen_twotone,
   ),
   ProductIcon(
+    assetName: 'restaurant',
     label: 'Restaurant',
     outline: AgoraIcons.restaurant,
     bulk: AgoraIcons.restaurant_bulk,
@@ -108,6 +130,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.restaurant_twotone,
   ),
   ProductIcon(
+    assetName: 'bread',
     label: 'Bread',
     outline: AgoraIcons.bread,
     bulk: AgoraIcons.bread_bulk,
@@ -115,6 +138,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.bread_twotone,
   ),
   ProductIcon(
+    assetName: 'wine',
     label: 'Wine',
     outline: AgoraIcons.wine,
     bulk: AgoraIcons.wine_bulk,
@@ -122,6 +146,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.wine_twotone,
   ),
   ProductIcon(
+    assetName: 'juice',
     label: 'Juice',
     outline: AgoraIcons.juice,
     bulk: AgoraIcons.juice_bulk,
@@ -129,6 +154,7 @@ const kProductIconGallery = <ProductIcon>[
     twotone: AgoraIcons.juice_twotone,
   ),
   ProductIcon(
+    assetName: 'donut',
     label: 'Donut',
     outline: AgoraIcons.donut,
     bulk: AgoraIcons.donut_bulk,
@@ -160,6 +186,21 @@ IconData? resolveProductIcon(String source) {
   if (codePoint == null) return null;
 
   return IconData(codePoint, fontFamily: 'AgoraIcons', fontPackage: 'ui_kit');
+}
+
+/// Resolves a persisted source back to its curated product icon definition.
+///
+/// Unknown but otherwise valid Agora glyphs remain supported by
+/// [resolveProductIcon] and simply fall back to font rendering.
+ProductIcon? resolveProductIconDefinition(String source) {
+  final type = resolveProductIconType(source);
+  final resolved = resolveProductIcon(source);
+  if (type == null || resolved == null) return null;
+
+  for (final icon in kProductIconGallery) {
+    if (icon.iconFor(type).codePoint == resolved.codePoint) return icon;
+  }
+  return null;
 }
 
 /// Reads the persisted visual treatment from an icon source.

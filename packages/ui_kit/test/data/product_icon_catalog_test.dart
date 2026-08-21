@@ -25,6 +25,27 @@ void main() {
       );
     });
 
+    test('opacity-bearing treatments resolve their bundled SVGs', () {
+      final burger = kProductIconGallery.first;
+
+      expect(burger.assetPathFor(ProductIconType.outline), isNull);
+      expect(burger.assetPathFor(ProductIconType.solid), isNull);
+      expect(
+        burger.assetPathFor(ProductIconType.bulk),
+        'assets/product_icons/bulk/burger.svg',
+      );
+      expect(
+        burger.assetPathFor(ProductIconType.twotone),
+        'assets/product_icons/twotone/burger.svg',
+      );
+    });
+
+    test('persisted icon resolves its curated definition', () {
+      final definition = resolveProductIconDefinition('icon:twotone:f2cf');
+
+      expect(definition, same(kProductIconGallery.first));
+    });
+
     test('resolveProductIcon rejects malformed and non-icon sources', () {
       expect(resolveProductIcon('stock:burger'), isNull);
       expect(resolveProductIcon('icon:not-a-type:f2d0'), isNull);

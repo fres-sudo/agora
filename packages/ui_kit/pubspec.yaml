@@ -31,6 +31,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/product_gallery/
+    - assets/product_icons/bulk/
+    - assets/product_icons/twotone/
   fonts:
     - family: Inter
       fonts:

@@ -221,8 +221,9 @@ class _ProductPhotoPickerSheetState extends State<ProductPhotoPickerSheet> {
                       _selectedIconType,
                     ),
                   ),
-                  child: Icon(
-                    icon.iconFor(_selectedIconType),
+                  child: AppProductIcon(
+                    icon: icon,
+                    type: _selectedIconType,
                     size: 30,
                     color: context.colors.foreground,
                   ),

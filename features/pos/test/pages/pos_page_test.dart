@@ -64,6 +64,7 @@ void main() {
     when(
       () => mockSettingsCubit.state,
     ).thenReturn(const SettingsState.loaded(settings: {}));
+    when(() => mockSettingsCubit.currencySymbol).thenReturn('€');
   });
 
   Widget createWidgetUnderTest() {
@@ -102,9 +103,15 @@ void main() {
   });
 
   testWidgets('renders products when loaded', (tester) async {
-    when(
-      () => mockProductsBloc.state,
-    ).thenReturn(ProductsState.loaded(products: [testProduct], categories: []));
+    final productWithIcon = testProduct.copyWith(
+      imageUrl: encodeProductIcon(
+        kProductIconGallery.firstWhere((icon) => icon.label == 'Pizza'),
+        ProductIconType.solid,
+      ),
+    );
+    when(() => mockProductsBloc.state).thenReturn(
+      ProductsState.loaded(products: [productWithIcon], categories: []),
+    );
     when(
       () => mockActiveOrderBloc.state,
     ).thenReturn(const ActiveOrderState.empty());
@@ -113,6 +120,17 @@ void main() {
     await tester.pump(); // Allow build
 
     expect(find.text('Test Product'), findsOneWidget);
+    final productImage = tester.widget<AppSourcedImage>(
+      find.byType(AppSourcedImage),
+    );
+    expect(productImage.source, productWithIcon.imageUrl);
+    final renderedIcon = tester.widget<Icon>(
+      find.descendant(
+        of: find.byType(AppSourcedImage),
+        matching: find.byType(Icon),
+      ),
+    );
+    expect(renderedIcon.icon?.codePoint, AgoraIcons.pizza_solid.codePoint);
   });
 
   testWidgets('tapping product adds it to order', (tester) async {

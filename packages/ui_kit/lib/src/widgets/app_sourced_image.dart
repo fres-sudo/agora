@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ui_kit/src/data/product_icon_catalog.dart';
 import 'package:ui_kit/src/data/product_stock_gallery.dart';
 import 'package:ui_kit/src/theme/context_extensions.dart';
+import 'package:ui_kit/src/widgets/app_product_icon.dart';
 
 import 'package:ui_kit/src/theme/agora_icons.dart';
 
@@ -48,8 +49,17 @@ class AppSourcedImage extends StatelessWidget {
       content = placeholder();
     } else if (value.startsWith(kProductIconPrefix)) {
       final icon = resolveProductIcon(value);
+      final iconType = resolveProductIconType(value);
+      final definition = resolveProductIconDefinition(value);
       content = icon == null
           ? placeholder()
+          : definition != null && iconType != null
+          ? AppProductIcon(
+              icon: definition,
+              type: iconType,
+              size: size * 0.58,
+              color: context.colors.foreground,
+            )
           : Icon(icon, size: size * 0.58, color: context.colors.foreground);
     } else if (value.startsWith(kProductStockImagePrefix)) {
       final stock = resolveProductStockImage(

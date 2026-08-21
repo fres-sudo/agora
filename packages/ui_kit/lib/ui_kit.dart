@@ -86,6 +86,7 @@ export 'src/widgets/data_table/data_table_view.dart';
 export 'src/widgets/money_keypad.dart';
 export 'src/widgets/quantity_button.dart';
 export 'src/widgets/app_sourced_image.dart';
+export 'src/widgets/app_product_icon.dart' hide buildProductIconVisual;
 
 // -- Templates ---------------------------------------------------------------
 export 'src/templates/app_scaffold.dart';

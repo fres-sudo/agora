@@ -60,11 +60,14 @@ class PosProductCard extends StatelessWidget {
                           top: Radius.circular(12),
                         ),
                       ),
-                      child: Center(
-                        child: Icon(
-                          AgoraIcons.burger,
-                          size: 48,
-                          color: colors.mutedForeground,
+                      child: LayoutBuilder(
+                        builder: (context, constraints) => Center(
+                          child: AppSourcedImage(
+                            source: product.imageUrl,
+                            size: constraints.biggest.shortestSide,
+                            borderRadius: BorderRadius.zero,
+                            placeholderIcon: AgoraIcons.burger,
+                          ),
                         ),
                       ),
                     ),
