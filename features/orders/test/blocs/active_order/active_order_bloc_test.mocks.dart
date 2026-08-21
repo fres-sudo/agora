@@ -170,6 +170,31 @@ class MockOrdersRepository extends _i1.Mock implements _i3.OrdersRepository {
           as _i4.Future<_i6.Result<int>>);
 
   @override
+  _i4.Future<_i6.Result<int>> getCashRevenueForEmployeeShift({
+    required int? employeeId,
+    required DateTime? startDate,
+    DateTime? endDate,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#getCashRevenueForEmployeeShift, [], {
+              #employeeId: employeeId,
+              #startDate: startDate,
+              #endDate: endDate,
+            }),
+            returnValue: _i4.Future<_i6.Result<int>>.value(
+              _i7.dummyValue<_i6.Result<int>>(
+                this,
+                Invocation.method(#getCashRevenueForEmployeeShift, [], {
+                  #employeeId: employeeId,
+                  #startDate: startDate,
+                  #endDate: endDate,
+                }),
+              ),
+            ),
+          )
+          as _i4.Future<_i6.Result<int>>);
+
+  @override
   _i4.Future<_i6.Result<_i5.Order>> createOrder(_i5.Order? order) =>
       (super.noSuchMethod(
             Invocation.method(#createOrder, [order]),
@@ -177,6 +202,45 @@ class MockOrdersRepository extends _i1.Mock implements _i3.OrdersRepository {
               _i7.dummyValue<_i6.Result<_i5.Order>>(
                 this,
                 Invocation.method(#createOrder, [order]),
+              ),
+            ),
+          )
+          as _i4.Future<_i6.Result<_i5.Order>>);
+
+  @override
+  _i4.Future<_i6.Result<_i5.Order>> createPaymentAttempt(_i5.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#createPaymentAttempt, [order]),
+            returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+              _i7.dummyValue<_i6.Result<_i5.Order>>(
+                this,
+                Invocation.method(#createPaymentAttempt, [order]),
+              ),
+            ),
+          )
+          as _i4.Future<_i6.Result<_i5.Order>>);
+
+  @override
+  _i4.Future<_i6.Result<_i5.Order>> completePaymentAttempt(_i5.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#completePaymentAttempt, [order]),
+            returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+              _i7.dummyValue<_i6.Result<_i5.Order>>(
+                this,
+                Invocation.method(#completePaymentAttempt, [order]),
+              ),
+            ),
+          )
+          as _i4.Future<_i6.Result<_i5.Order>>);
+
+  @override
+  _i4.Future<_i6.Result<_i5.Order>> abandonPaymentAttempt(_i5.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#abandonPaymentAttempt, [order]),
+            returnValue: _i4.Future<_i6.Result<_i5.Order>>.value(
+              _i7.dummyValue<_i6.Result<_i5.Order>>(
+                this,
+                Invocation.method(#abandonPaymentAttempt, [order]),
               ),
             ),
           )
@@ -258,6 +322,17 @@ class MockSettingsCubit extends _i1.Mock implements _i2.SettingsCubit {
   MockSettingsCubit() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  String get currencySymbol =>
+      (super.noSuchMethod(
+            Invocation.getter(#currencySymbol),
+            returnValue: _i7.dummyValue<String>(
+              this,
+              Invocation.getter(#currencySymbol),
+            ),
+          )
+          as String);
 
   @override
   _i2.SettingsState get state =>

@@ -78,11 +78,13 @@ class CheckoutState with _$CheckoutState {
 
   /// Whether the current selection can be confirmed.
   ///
-  /// Card payments are always confirmable; cash requires the tendered amount to
-  /// cover the total.
+  /// Card payments need no tender; cash requires enough tender. An ambiguous
+  /// external attempt is blocked from being charged again.
   bool get canConfirm => maybeMap(
     selecting: (s) =>
-        !s.method.requiresTender || s.tenderedCents >= s.order.grandTotalCents,
+        s.order.paymentStatus != PaymentStatus.unknown &&
+        (!s.method.requiresTender ||
+            s.tenderedCents >= s.order.grandTotalCents),
     orElse: () => false,
   );
 

@@ -7,5 +7,6 @@
   "BOOTSTRAP_MODE": "hybrid",
   "TIER": "free",
   "ENABLE_LOGGING": false,
-  "ENABLE_INSPECTOR": false
+  "ENABLE_INSPECTOR": false,
+  "SUMUP_AFFILIATE_KEY": ""
 }

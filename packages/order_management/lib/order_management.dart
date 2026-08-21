@@ -13,6 +13,7 @@ export 'models/order.dart';
 export 'models/order_line_item.dart';
 export 'models/order_type.dart';
 export 'models/payment_method.dart';
+export 'models/payment_status.dart';
 export 'models/selected_modifiers.dart';
 
 export 'repositories/orders_repository.dart';

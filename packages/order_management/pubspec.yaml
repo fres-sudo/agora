@@ -24,6 +24,8 @@ dependencies:
     path: ../inventory_contracts
   logger:
     path: ../logger
+  payment_contracts:
+    path: ../payment_contracts
   printing:
     path: ../printing
   result:

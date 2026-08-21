@@ -165,6 +165,31 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
           as _i3.Future<_i5.Result<int>>);
 
   @override
+  _i3.Future<_i5.Result<int>> getCashRevenueForEmployeeShift({
+    required int? employeeId,
+    required DateTime? startDate,
+    DateTime? endDate,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#getCashRevenueForEmployeeShift, [], {
+              #employeeId: employeeId,
+              #startDate: startDate,
+              #endDate: endDate,
+            }),
+            returnValue: _i3.Future<_i5.Result<int>>.value(
+              _i6.dummyValue<_i5.Result<int>>(
+                this,
+                Invocation.method(#getCashRevenueForEmployeeShift, [], {
+                  #employeeId: employeeId,
+                  #startDate: startDate,
+                  #endDate: endDate,
+                }),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<int>>);
+
+  @override
   _i3.Future<_i5.Result<_i4.Order>> createOrder(_i4.Order? order) =>
       (super.noSuchMethod(
             Invocation.method(#createOrder, [order]),
@@ -172,6 +197,45 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
               _i6.dummyValue<_i5.Result<_i4.Order>>(
                 this,
                 Invocation.method(#createOrder, [order]),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<_i4.Order>>);
+
+  @override
+  _i3.Future<_i5.Result<_i4.Order>> createPaymentAttempt(_i4.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#createPaymentAttempt, [order]),
+            returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
+              _i6.dummyValue<_i5.Result<_i4.Order>>(
+                this,
+                Invocation.method(#createPaymentAttempt, [order]),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<_i4.Order>>);
+
+  @override
+  _i3.Future<_i5.Result<_i4.Order>> completePaymentAttempt(_i4.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#completePaymentAttempt, [order]),
+            returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
+              _i6.dummyValue<_i5.Result<_i4.Order>>(
+                this,
+                Invocation.method(#completePaymentAttempt, [order]),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<_i4.Order>>);
+
+  @override
+  _i3.Future<_i5.Result<_i4.Order>> abandonPaymentAttempt(_i4.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#abandonPaymentAttempt, [order]),
+            returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
+              _i6.dummyValue<_i5.Result<_i4.Order>>(
+                this,
+                Invocation.method(#abandonPaymentAttempt, [order]),
               ),
             ),
           )

@@ -143,6 +143,7 @@ class ReportsRepositoryImpl extends Repository implements ReportsRepository {
         case OrderStatus.completed:
           completed++;
         case OrderStatus.pending:
+        case OrderStatus.paymentPending:
           pending++;
         case OrderStatus.voided:
           voided++;

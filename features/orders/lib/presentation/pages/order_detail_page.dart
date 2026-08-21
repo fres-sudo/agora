@@ -64,7 +64,9 @@ class _OrderDetailView extends StatelessWidget {
               order != null ? 'Order #${order.id ?? '-'}' : 'Order details',
             ),
             actions: [
-              if (order != null && order.status != OrderStatus.voided)
+              if (order != null &&
+                  order.status != OrderStatus.voided &&
+                  order.status != OrderStatus.paymentPending)
                 AppIconButton.ghost(
                   onPressed: () => _reprint(context, order),
                   icon: const Icon(AgoraIcons.printer),
@@ -80,7 +82,9 @@ class _OrderDetailView extends StatelessWidget {
                 : _OrderBody(order: order),
           ),
           bottomNavigationBar:
-              order == null || order.status == OrderStatus.voided
+              order == null ||
+                  order.status == OrderStatus.voided ||
+                  order.status == OrderStatus.paymentPending
               ? null
               : SafeArea(
                   child: Padding(
@@ -178,6 +182,28 @@ class _OrderBody extends StatelessWidget {
         ),
         SizedBox(height: context.tokens.spacing.md),
         _InfoRow(label: 'Payment', value: order.paymentMethod ?? '—'),
+        if (order.paymentProvider != null)
+          _InfoRow(label: 'Provider', value: order.paymentProvider!),
+        if (order.paymentStatus != null)
+          _InfoRow(label: 'Payment status', value: order.paymentStatus!.name),
+        if (order.paymentAttemptId != null)
+          _InfoRow(label: 'Attempt ID', value: order.paymentAttemptId!),
+        if (order.paymentTransactionCode != null)
+          _InfoRow(
+            label: 'Transaction code',
+            value: order.paymentTransactionCode!,
+          ),
+        if (order.paymentError != null)
+          _InfoRow(label: 'Payment detail', value: order.paymentError!),
+        if (order.status == OrderStatus.paymentPending)
+          Padding(
+            padding: EdgeInsets.only(top: context.tokens.spacing.sm),
+            child: AppText.bodySm(
+              'Do not charge this order again. Check the SumUp transaction '
+              'history with the attempt ID before resolving it.',
+              color: context.colors.destructive,
+            ),
+          ),
         if (order.note?.isNotEmpty == true)
           _InfoRow(label: 'Note', value: order.note!),
       ],
@@ -297,6 +323,10 @@ class _StatusBadge extends StatelessWidget {
       OrderStatus.pending => (context.colors.warning, 'Pending'),
       OrderStatus.completed => (context.colors.success, 'Completed'),
       OrderStatus.voided => (context.colors.destructive, 'Voided'),
+      OrderStatus.paymentPending => (
+        context.colors.destructive,
+        'Payment review',
+      ),
     };
 
     return Container(

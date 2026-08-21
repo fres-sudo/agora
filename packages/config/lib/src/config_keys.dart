@@ -35,4 +35,7 @@ abstract final class ConfigKeys {
 
   /// Whether the in-app inspector / debug tooling is enabled.
   static const String enableInspector = 'ENABLE_INSPECTOR';
+
+  /// SumUp Reader SDK affiliate key. Empty disables card payments.
+  static const String sumUpAffiliateKey = 'SUMUP_AFFILIATE_KEY';
 }

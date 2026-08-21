@@ -66,6 +66,12 @@ class OrderInboundApplier {
           grandTotal: data['grandTotalCents'] as int,
           note: Value(data['note'] as String?),
           paymentMethod: Value(data['paymentMethod'] as String?),
+          paymentProvider: Value(data['paymentProvider'] as String?),
+          paymentStatus: Value(data['paymentStatus'] as String?),
+          paymentAttemptId: Value(data['paymentAttemptId'] as String?),
+          paymentTransactionCode: Value(
+            data['paymentTransactionCode'] as String?,
+          ),
           syncId: Value(syncId),
         ),
       );

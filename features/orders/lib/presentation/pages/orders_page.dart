@@ -325,6 +325,10 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
             AppSelectItem(value: OrderStatus.pending, label: 'Pending'),
             AppSelectItem(value: OrderStatus.completed, label: 'Completed'),
             AppSelectItem(value: OrderStatus.voided, label: 'Voided'),
+            AppSelectItem(
+              value: OrderStatus.paymentPending,
+              label: 'Payment review',
+            ),
           ],
           value: _status,
           label: 'Order status',
@@ -378,6 +382,10 @@ class _StatusBadge extends StatelessWidget {
       OrderStatus.pending => (context.colors.warning, 'Pending'),
       OrderStatus.completed => (context.colors.success, 'Completed'),
       OrderStatus.voided => (context.colors.destructive, 'Voided'),
+      OrderStatus.paymentPending => (
+        context.colors.destructive,
+        'Payment review',
+      ),
     };
 
     return Container(

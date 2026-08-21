@@ -87,6 +87,16 @@ abstract interface class OrdersRepository {
   /// Returns the created [Order] with its new ID for optimistic updates.
   Future<Result<Order>> createOrder(Order order);
 
+  /// Persists a card attempt locally without publishing it to the LAN.
+  /// Fulfillment must wait for [completePaymentAttempt].
+  Future<Result<Order>> createPaymentAttempt(Order order);
+
+  /// Marks a staged, approved payment completed and publishes the order.
+  Future<Result<Order>> completePaymentAttempt(Order order);
+
+  /// Retains the terminal outcome for audit, then hides the abandoned attempt.
+  Future<Result<Order>> abandonPaymentAttempt(Order order);
+
   /// Updates an existing order.
   /// Returns the updated [Order] for optimistic updates.
   Future<Result<Order>> updateOrder(Order order);

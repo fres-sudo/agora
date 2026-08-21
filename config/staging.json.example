@@ -7,5 +7,6 @@
   "BOOTSTRAP_MODE": "hybrid",
   "TIER": "paidPro",
   "ENABLE_LOGGING": true,
-  "ENABLE_INSPECTOR": false
+  "ENABLE_INSPECTOR": false,
+  "SUMUP_AFFILIATE_KEY": ""
 }

@@ -7,5 +7,6 @@
   "BOOTSTRAP_MODE": "local",
   "TIER": "free",
   "ENABLE_LOGGING": true,
-  "ENABLE_INSPECTOR": true
+  "ENABLE_INSPECTOR": true,
+  "SUMUP_AFFILIATE_KEY": ""
 }

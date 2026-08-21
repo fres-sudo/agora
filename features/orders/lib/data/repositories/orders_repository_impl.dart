@@ -4,6 +4,7 @@ import 'package:feature_orders/data/sources/local/daos/order_items_dao.dart';
 import 'package:order_management/models/order.dart';
 import 'package:order_management/models/order_line_item.dart';
 import 'package:order_management/models/order_type.dart';
+import 'package:order_management/models/payment_status.dart';
 import 'package:order_management/models/selected_modifiers.dart';
 import 'package:order_management/repositories/orders_repository.dart';
 import 'package:result/result.dart';
@@ -76,6 +77,11 @@ class OrdersRepositoryImpl extends SyncableRepository
       items: items,
       note: entity.note,
       paymentMethod: entity.paymentMethod,
+      paymentProvider: entity.paymentProvider,
+      paymentStatus: PaymentStatus.fromName(entity.paymentStatus),
+      paymentAttemptId: entity.paymentAttemptId,
+      paymentTransactionCode: entity.paymentTransactionCode,
+      paymentError: entity.paymentError,
       subtotalCents: entity.subtotal,
       taxCents: entity.taxTotal,
       discountCents: entity.discountTotal,
@@ -97,6 +103,11 @@ class OrdersRepositoryImpl extends SyncableRepository
       grandTotal: order.grandTotalCents,
       note: order.note,
       paymentMethod: order.paymentMethod,
+      paymentProvider: order.paymentProvider,
+      paymentStatus: order.paymentStatus?.name,
+      paymentAttemptId: order.paymentAttemptId,
+      paymentTransactionCode: order.paymentTransactionCode,
+      paymentError: order.paymentError,
       updatedAt: DateTime.now(),
       deletedAt: null,
       syncId: order.syncId,
@@ -115,6 +126,11 @@ class OrdersRepositoryImpl extends SyncableRepository
       grandTotal: order.grandTotalCents,
       note: Value(order.note),
       paymentMethod: Value(order.paymentMethod),
+      paymentProvider: Value(order.paymentProvider),
+      paymentStatus: Value(order.paymentStatus?.name),
+      paymentAttemptId: Value(order.paymentAttemptId),
+      paymentTransactionCode: Value(order.paymentTransactionCode),
+      paymentError: Value(order.paymentError),
       syncId: Value(order.syncId),
       employeeId: Value(order.employeeId),
     );
@@ -131,6 +147,10 @@ class OrdersRepositoryImpl extends SyncableRepository
     'discountCents': order.discountCents,
     'grandTotalCents': order.grandTotalCents,
     'paymentMethod': order.paymentMethod,
+    'paymentProvider': order.paymentProvider,
+    'paymentStatus': order.paymentStatus?.name,
+    'paymentAttemptId': order.paymentAttemptId,
+    'paymentTransactionCode': order.paymentTransactionCode,
     'note': order.note,
     'items': [
       for (final entry in order.items.asMap().entries)
@@ -444,6 +464,36 @@ class OrdersRepositoryImpl extends SyncableRepository
   // WRITE OPERATIONS - Optimistic Update Support
   // ============================================================
 
+  Future<Order> _insertOrderGraph(Order order) {
+    // Header, line items and modifiers form one local durability boundary.
+    return _ordersDao.transaction(() async {
+      final orderId = await _ordersDao.insertOrder(
+        _modelToInsertCompanion(order),
+      );
+
+      final insertedItems = <OrderLineItem>[];
+      for (final item in order.items) {
+        if (item.comboId == null) {
+          final itemId = await _orderItemsDao.insertOrderItem(
+            _itemToInsertCompanion(orderId, item),
+          );
+          for (final modifier in item.selectedModifiers) {
+            await _orderItemsDao.addModifierToOrderItem(
+              orderItemId: itemId,
+              modifierName: modifier.groupName,
+              optionName: modifier.optionName,
+              priceChange: modifier.priceChangeCents,
+            );
+          }
+          insertedItems.add(item.copyWith(id: itemId));
+        } else {
+          insertedItems.addAll(await _insertComboLine(orderId, item));
+        }
+      }
+      return order.copyWith(id: orderId, items: insertedItems);
+    });
+  }
+
   @override
   Future<Result<Order>> createOrder(Order order) {
     final syncId = order.syncId ?? generateSyncId();
@@ -455,54 +505,62 @@ class OrdersRepositoryImpl extends SyncableRepository
       outboxOperation: OutboxOperation.create,
       entityLocalId: syncId,
       payload: _orderCreatedPayload(orderWithSyncId, syncId),
-      localWrite: () async {
-        // Wrap the whole multi-table insert sequence (order header + line
-        // items + modifiers) in a single transaction so a failure partway
-        // through (crash, thrown exception, etc.) rolls back cleanly instead
-        // of leaving a half-written order in the local DB. `_ordersDao` and
-        // `_orderItemsDao` are both DatabaseAccessors attached to the same
-        // AgoraDatabase instance, so starting the transaction on either DAO
-        // covers writes made through both (Drift propagates the active
-        // transaction via zone-local state to any accessor sharing the same
-        // attached database).
-        return _ordersDao.transaction(() async {
-          // Insert order
-          final orderId = await _ordersDao.insertOrder(
-            _modelToInsertCompanion(orderWithSyncId),
-          );
-
-          // Insert items (and their modifiers), fanning combo lines out
-          // into one row per constituent — see [_insertComboLine].
-          final insertedItems = <OrderLineItem>[];
-          for (final item in order.items) {
-            if (item.comboId == null) {
-              final itemId = await _orderItemsDao.insertOrderItem(
-                _itemToInsertCompanion(orderId, item),
-              );
-
-              for (final modifier in item.selectedModifiers) {
-                await _orderItemsDao.addModifierToOrderItem(
-                  orderItemId: itemId,
-                  modifierName: modifier.groupName,
-                  optionName: modifier.optionName,
-                  priceChange: modifier.priceChangeCents,
-                );
-              }
-              insertedItems.add(item.copyWith(id: itemId));
-            } else {
-              insertedItems.addAll(await _insertComboLine(orderId, item));
-            }
-          }
-
-          // Return the created order with its new ID and fanned-out items —
-          // downstream consumers (stock decrement, kitchen tickets,
-          // receipt) all read `order.items` and expect the persisted,
-          // per-row shape, not the cart-level combo line.
-          return orderWithSyncId.copyWith(id: orderId, items: insertedItems);
-        });
-      },
+      localWrite: () => _insertOrderGraph(orderWithSyncId),
     );
   }
+
+  @override
+  Future<Result<Order>> createPaymentAttempt(Order order) {
+    final syncId = order.syncId ?? generateSyncId();
+    final staged = order.copyWith(
+      syncId: syncId,
+      paymentAttemptId: order.paymentAttemptId ?? 'sumup-$syncId',
+    );
+    return safe('createPaymentAttempt', () => _insertOrderGraph(staged));
+  }
+
+  @override
+  Future<Result<Order>> completePaymentAttempt(Order order) =>
+      safe('completePaymentAttempt(${order.id})', () async {
+        final id = order.id;
+        final syncId = order.syncId;
+        if (id == null || syncId == null) {
+          throw Exception('A staged payment requires local and sync IDs');
+        }
+        await _ordersDao.updateOrder(id, _modelToEntity(order));
+
+        // The approved sale is durable before LAN publication. If enqueueing
+        // fails, never report the payment as failed or invite a second charge;
+        // the local completed order remains the source of truth and the error
+        // is made observable for reconciliation.
+        try {
+          await syncManager.enqueue(
+            entityType: 'order',
+            operation: OutboxOperation.create,
+            entityLocalId: syncId,
+            payload: _orderCreatedPayload(order, syncId),
+          );
+        } catch (error, stack) {
+          logger?.handle(
+            error,
+            stack,
+            '[OrdersRepository] Approved order #$id could not be enqueued',
+          );
+        }
+        return order;
+      });
+
+  @override
+  Future<Result<Order>> abandonPaymentAttempt(Order order) =>
+      safe('abandonPaymentAttempt(${order.id})', () async {
+        final id = order.id;
+        if (id == null) throw Exception('Payment attempt has no local ID');
+        await _ordersDao.transaction(() async {
+          await _ordersDao.updateOrder(id, _modelToEntity(order));
+          await _ordersDao.softDeleteOrder(id);
+        });
+        return order;
+      });
 
   @override
   Future<Result<Order>> updateOrder(Order order) =>

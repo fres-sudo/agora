@@ -15,6 +15,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:order_management/models/order.dart' as _i4;
 import 'package:order_management/repositories/orders_repository.dart' as _i2;
+import 'package:payment_contracts/src/card_payment_service.dart' as _i12;
 import 'package:result/result.dart' as _i5;
 
 // ignore_for_file: type=lint
@@ -169,6 +170,31 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
           as _i3.Future<_i5.Result<int>>);
 
   @override
+  _i3.Future<_i5.Result<int>> getCashRevenueForEmployeeShift({
+    required int? employeeId,
+    required DateTime? startDate,
+    DateTime? endDate,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#getCashRevenueForEmployeeShift, [], {
+              #employeeId: employeeId,
+              #startDate: startDate,
+              #endDate: endDate,
+            }),
+            returnValue: _i3.Future<_i5.Result<int>>.value(
+              _i6.dummyValue<_i5.Result<int>>(
+                this,
+                Invocation.method(#getCashRevenueForEmployeeShift, [], {
+                  #employeeId: employeeId,
+                  #startDate: startDate,
+                  #endDate: endDate,
+                }),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<int>>);
+
+  @override
   _i3.Future<_i5.Result<_i4.Order>> createOrder(_i4.Order? order) =>
       (super.noSuchMethod(
             Invocation.method(#createOrder, [order]),
@@ -176,6 +202,45 @@ class MockOrdersRepository extends _i1.Mock implements _i2.OrdersRepository {
               _i6.dummyValue<_i5.Result<_i4.Order>>(
                 this,
                 Invocation.method(#createOrder, [order]),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<_i4.Order>>);
+
+  @override
+  _i3.Future<_i5.Result<_i4.Order>> createPaymentAttempt(_i4.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#createPaymentAttempt, [order]),
+            returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
+              _i6.dummyValue<_i5.Result<_i4.Order>>(
+                this,
+                Invocation.method(#createPaymentAttempt, [order]),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<_i4.Order>>);
+
+  @override
+  _i3.Future<_i5.Result<_i4.Order>> completePaymentAttempt(_i4.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#completePaymentAttempt, [order]),
+            returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
+              _i6.dummyValue<_i5.Result<_i4.Order>>(
+                this,
+                Invocation.method(#completePaymentAttempt, [order]),
+              ),
+            ),
+          )
+          as _i3.Future<_i5.Result<_i4.Order>>);
+
+  @override
+  _i3.Future<_i5.Result<_i4.Order>> abandonPaymentAttempt(_i4.Order? order) =>
+      (super.noSuchMethod(
+            Invocation.method(#abandonPaymentAttempt, [order]),
+            returnValue: _i3.Future<_i5.Result<_i4.Order>>.value(
+              _i6.dummyValue<_i5.Result<_i4.Order>>(
+                this,
+                Invocation.method(#abandonPaymentAttempt, [order]),
               ),
             ),
           )
@@ -938,4 +1003,79 @@ class MockDiscountsRepository extends _i1.Mock
             ),
           )
           as _i3.Future<_i5.Result<void>>);
+}
+
+/// A class which mocks [CardPaymentService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCardPaymentService extends _i1.Mock
+    implements _i12.CardPaymentService {
+  MockCardPaymentService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<_i12.CardPaymentStatus> getStatus() =>
+      (super.noSuchMethod(
+            Invocation.method(#getStatus, []),
+            returnValue: _i3.Future<_i12.CardPaymentStatus>.value(
+              _i6.dummyValue<_i12.CardPaymentStatus>(
+                this,
+                Invocation.method(#getStatus, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i12.CardPaymentStatus>);
+
+  @override
+  _i3.Future<_i12.CardPaymentStatus> login() =>
+      (super.noSuchMethod(
+            Invocation.method(#login, []),
+            returnValue: _i3.Future<_i12.CardPaymentStatus>.value(
+              _i6.dummyValue<_i12.CardPaymentStatus>(
+                this,
+                Invocation.method(#login, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i12.CardPaymentStatus>);
+
+  @override
+  _i3.Future<_i12.CardPaymentStatus> openReaderSettings() =>
+      (super.noSuchMethod(
+            Invocation.method(#openReaderSettings, []),
+            returnValue: _i3.Future<_i12.CardPaymentStatus>.value(
+              _i6.dummyValue<_i12.CardPaymentStatus>(
+                this,
+                Invocation.method(#openReaderSettings, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i12.CardPaymentStatus>);
+
+  @override
+  _i3.Future<_i12.CardPaymentStatus> logout() =>
+      (super.noSuchMethod(
+            Invocation.method(#logout, []),
+            returnValue: _i3.Future<_i12.CardPaymentStatus>.value(
+              _i6.dummyValue<_i12.CardPaymentStatus>(
+                this,
+                Invocation.method(#logout, []),
+              ),
+            ),
+          )
+          as _i3.Future<_i12.CardPaymentStatus>);
+
+  @override
+  _i3.Future<_i12.CardChargeResult> charge(_i12.CardChargeRequest? request) =>
+      (super.noSuchMethod(
+            Invocation.method(#charge, [request]),
+            returnValue: _i3.Future<_i12.CardChargeResult>.value(
+              _i6.dummyValue<_i12.CardChargeResult>(
+                this,
+                Invocation.method(#charge, [request]),
+              ),
+            ),
+          )
+          as _i3.Future<_i12.CardChargeResult>);
 }

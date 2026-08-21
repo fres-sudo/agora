@@ -488,6 +488,10 @@ class ReportPage extends StatelessWidget {
       OrderStatus.pending => (context.colors.warning, 'Pending'),
       OrderStatus.completed => (context.colors.success, 'Completed'),
       OrderStatus.voided => (context.colors.destructive, 'Voided'),
+      OrderStatus.paymentPending => (
+        context.colors.destructive,
+        'Payment review',
+      ),
     };
 
     return Container(

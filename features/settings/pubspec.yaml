@@ -37,6 +37,8 @@ dependencies:
     path: ../../packages/lan_hub
   logger:
     path: ../../packages/logger
+  payment_contracts:
+    path: ../../packages/payment_contracts
   pdf: ^3.11.3
   printing:
     path: ../../packages/printing

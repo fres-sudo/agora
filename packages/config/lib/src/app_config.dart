@@ -30,6 +30,7 @@ class AppConfig {
     required this.tierName,
     required this.enableLogging,
     required this.enableInspector,
+    this.sumUpAffiliateKey = '',
   });
 
   /// The build flavor.
@@ -65,6 +66,9 @@ class AppConfig {
   /// Whether the in-app inspector / debug tooling is enabled.
   final bool enableInspector;
 
+  /// Affiliate key for the SumUp Reader SDK. Empty means unconfigured.
+  final String sumUpAffiliateKey;
+
   /// Builds the config from the compile-time environment.
   ///
   /// Defaults are deliberately offline-and-safe so that launching without any
@@ -90,6 +94,9 @@ class AppConfig {
       defaultValue: true,
     );
     const enableInspector = bool.fromEnvironment(ConfigKeys.enableInspector);
+    const sumUpAffiliateKey = String.fromEnvironment(
+      ConfigKeys.sumUpAffiliateKey,
+    );
 
     return AppConfig(
       flavor: AppFlavor.fromName(flavorName),
@@ -101,6 +108,7 @@ class AppConfig {
       tierName: tierName,
       enableLogging: enableLogging,
       enableInspector: enableInspector,
+      sumUpAffiliateKey: sumUpAffiliateKey,
     );
   }
 
@@ -116,6 +124,8 @@ class AppConfig {
   /// Whether the app has a usable websocket base URL configured.
   bool get hasWsBaseUrl => wsBaseUrl.isNotEmpty;
 
+  bool get hasSumUpAffiliateKey => sumUpAffiliateKey.trim().isNotEmpty;
+
   AppConfig copyWith({
     AppFlavor? flavor,
     String? appName,
@@ -126,6 +136,7 @@ class AppConfig {
     String? tierName,
     bool? enableLogging,
     bool? enableInspector,
+    String? sumUpAffiliateKey,
   }) {
     return AppConfig(
       flavor: flavor ?? this.flavor,
@@ -137,6 +148,7 @@ class AppConfig {
       tierName: tierName ?? this.tierName,
       enableLogging: enableLogging ?? this.enableLogging,
       enableInspector: enableInspector ?? this.enableInspector,
+      sumUpAffiliateKey: sumUpAffiliateKey ?? this.sumUpAffiliateKey,
     );
   }
 
@@ -147,6 +159,7 @@ class AppConfig {
       'apiBaseUrl: ${apiBaseUrl.isEmpty ? '<none>' : apiBaseUrl}, '
       'publicMenuApiBaseUrl: ${publicMenuApiBaseUrl.isEmpty ? '<none>' : publicMenuApiBaseUrl}, '
       'wsBaseUrl: ${wsBaseUrl.isEmpty ? '<none>' : wsBaseUrl}, '
+      'sumUp: ${hasSumUpAffiliateKey ? '<configured>' : '<none>'}, '
       'enableLogging: $enableLogging, enableInspector: $enableInspector)';
 
   @override
@@ -162,7 +175,8 @@ class AppConfig {
           bootstrapMode == other.bootstrapMode &&
           tierName == other.tierName &&
           enableLogging == other.enableLogging &&
-          enableInspector == other.enableInspector;
+          enableInspector == other.enableInspector &&
+          sumUpAffiliateKey == other.sumUpAffiliateKey;
 
   @override
   int get hashCode => Object.hash(
@@ -175,5 +189,6 @@ class AppConfig {
     tierName,
     enableLogging,
     enableInspector,
+    sumUpAffiliateKey,
   );
 }

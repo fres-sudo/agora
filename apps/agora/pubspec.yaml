@@ -73,6 +73,8 @@ dependencies:
     path: ../../packages/observer
   order_management:
     path: ../../packages/order_management
+  payment_contracts:
+    path: ../../packages/payment_contracts
   pine: ^1.0.4
   printing:
     path: ../../packages/printing

@@ -1,5 +1,6 @@
 import 'package:order_management/models/order_line_item.dart';
 import 'package:order_management/models/order_type.dart';
+import 'package:order_management/models/payment_status.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 
 part 'order.freezed.dart';
@@ -7,7 +8,8 @@ part 'order.freezed.dart';
 enum OrderStatus {
   pending(0),
   completed(1),
-  voided(2);
+  voided(2),
+  paymentPending(3);
 
   final int value;
 
@@ -31,6 +33,11 @@ abstract class Order with _$Order {
 
     // Payment
     String? paymentMethod, // "Cash", "Card", etc. Null until paid.
+    String? paymentProvider,
+    PaymentStatus? paymentStatus,
+    String? paymentAttemptId,
+    String? paymentTransactionCode,
+    String? paymentError,
     // Volunteer who took the order, for shift cash reconciliation
     // (docs/features/04-volunteer-shift-accountability.md). Nullable
     // defensively — checkout shouldn't crash if session state is ever

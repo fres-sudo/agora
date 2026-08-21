@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:printing/printing.dart';
+import 'package:payment_contracts/payment_contracts.dart';
 import 'package:result/result.dart';
 
 import 'checkout_cubit_test.mocks.dart';
@@ -16,6 +17,7 @@ import 'checkout_cubit_test.mocks.dart';
   InventoryRepository,
   ProductsRepository,
   DiscountsRepository,
+  CardPaymentService,
 ])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,7 @@ void main() {
   late MockProductsRepository productsRepository;
   late MockDiscountsRepository discountsRepository;
   late FakePrinterService printerService;
+  late MockCardPaymentService cardPaymentService;
 
   // A cart-shaped order (status pending, id null/0) ready for checkout.
   Order buildCart({List<OrderLineItem>? items, int grandTotalCents = 1000}) {
@@ -71,6 +74,7 @@ void main() {
     productsRepository: productsRepository,
     discountsRepository: discountsRepository,
     printerService: printerService,
+    cardPaymentService: cardPaymentService,
     getCurrentEmployeeId: () => currentEmployeeId,
   );
 
@@ -79,6 +83,14 @@ void main() {
     provideDummy<Result<Order?>>(Result.error(Exception('dummy')));
     provideDummy<Result<Product?>>(Result.error(Exception('dummy')));
     provideDummy<Result<Stock>>(Result.error(Exception('dummy')));
+    provideDummy<CardPaymentStatus>(
+      const CardPaymentStatus(
+        readiness: CardPaymentReadiness.unsupported,
+      ),
+    );
+    provideDummy<CardChargeResult>(
+      const CardChargeFailed(message: 'dummy'),
+    );
   });
 
   setUp(() {
@@ -87,6 +99,7 @@ void main() {
     productsRepository = MockProductsRepository();
     discountsRepository = MockDiscountsRepository();
     printerService = FakePrinterService();
+    cardPaymentService = MockCardPaymentService();
     currentEmployeeId = null;
   });
 
@@ -149,6 +162,154 @@ void main() {
       final cubit = buildCubit()..start(buildCart());
       cubit.selectMethod(PaymentMethod.card);
       expect(cubit.state.canConfirm, isTrue);
+    });
+
+    test(
+      'card: stages before charging and fulfills only after approval',
+      () async {
+        const status = CardPaymentStatus(
+          readiness: CardPaymentReadiness.ready,
+          currencyCode: 'EUR',
+        );
+        when(cardPaymentService.getStatus()).thenAnswer((_) async => status);
+        when(ordersRepository.createPaymentAttempt(any)).thenAnswer((
+          invocation,
+        ) async {
+          final order = invocation.positionalArguments.single as Order;
+          return Result.ok(
+            order.copyWith(
+              id: 41,
+              syncId: 'sync-41',
+              paymentAttemptId: 'sumup-sync-41',
+            ),
+          );
+        });
+        when(cardPaymentService.charge(any)).thenAnswer(
+          (_) async => const CardChargeApproved(transactionCode: 'TX-123'),
+        );
+        when(ordersRepository.completePaymentAttempt(any)).thenAnswer((
+          invocation,
+        ) async {
+          return Result.ok(invocation.positionalArguments.single as Order);
+        });
+
+        final cubit = buildCubit();
+        cubit.start(buildCart(items: const []));
+        cubit.selectMethod(PaymentMethod.card);
+        await cubit.confirm();
+
+        final staged =
+            verify(
+                  ordersRepository.createPaymentAttempt(captureAny),
+                ).captured.single
+                as Order;
+        expect(staged.status, OrderStatus.paymentPending);
+        expect(staged.paymentStatus, PaymentStatus.pending);
+        expect(staged.paymentProvider, 'SumUp');
+
+        final request =
+            verify(cardPaymentService.charge(captureAny)).captured.single
+                as CardChargeRequest;
+        expect(request.foreignTransactionId, 'sumup-sync-41');
+        expect(request.amountCents, 1000);
+
+        final completed =
+            verify(
+                  ordersRepository.completePaymentAttempt(captureAny),
+                ).captured.single
+                as Order;
+        expect(completed.status, OrderStatus.completed);
+        expect(completed.paymentStatus, PaymentStatus.approved);
+        expect(completed.paymentTransactionCode, 'TX-123');
+        expect(cubit.state, isA<CheckoutSuccess>());
+        verifyNever(ordersRepository.createOrder(any));
+      },
+    );
+
+    test(
+      'card: unknown result is retained and cannot be charged again',
+      () async {
+        const status = CardPaymentStatus(
+          readiness: CardPaymentReadiness.ready,
+          currencyCode: 'EUR',
+        );
+        when(cardPaymentService.getStatus()).thenAnswer((_) async => status);
+        when(ordersRepository.createPaymentAttempt(any)).thenAnswer((
+          invocation,
+        ) async {
+          final order = invocation.positionalArguments.single as Order;
+          return Result.ok(
+            order.copyWith(
+              id: 42,
+              syncId: 'sync-42',
+              paymentAttemptId: 'sumup-sync-42',
+            ),
+          );
+        });
+        when(cardPaymentService.charge(any)).thenAnswer(
+          (_) async => const CardChargeUnknown(message: 'Connection lost'),
+        );
+        when(ordersRepository.updateOrder(any)).thenAnswer((invocation) async {
+          return Result.ok(invocation.positionalArguments.single as Order);
+        });
+
+        final cubit = buildCubit();
+        cubit.start(buildCart(items: const []));
+        cubit.selectMethod(PaymentMethod.card);
+        await cubit.confirm();
+
+        final unknown =
+            verify(ordersRepository.updateOrder(captureAny)).captured.single
+                as Order;
+        expect(unknown.paymentStatus, PaymentStatus.unknown);
+        expect(cubit.state, isA<CheckoutState>());
+        cubit.selectMethod(PaymentMethod.card);
+        expect(cubit.state.canConfirm, isFalse);
+        verifyNever(ordersRepository.completePaymentAttempt(any));
+        verifyNever(ordersRepository.abandonPaymentAttempt(any));
+      },
+    );
+
+    test('card: a decline closes the attempt without fulfillment', () async {
+      const status = CardPaymentStatus(
+        readiness: CardPaymentReadiness.ready,
+        currencyCode: 'EUR',
+      );
+      when(cardPaymentService.getStatus()).thenAnswer((_) async => status);
+      when(ordersRepository.createPaymentAttempt(any)).thenAnswer((
+        invocation,
+      ) async {
+        final order = invocation.positionalArguments.single as Order;
+        return Result.ok(
+          order.copyWith(
+            id: 43,
+            syncId: 'sync-43',
+            paymentAttemptId: 'sumup-sync-43',
+          ),
+        );
+      });
+      when(
+        cardPaymentService.charge(any),
+      ).thenAnswer((_) async => const CardChargeDeclined(message: 'Declined'));
+      when(ordersRepository.abandonPaymentAttempt(any)).thenAnswer((
+        invocation,
+      ) async {
+        return Result.ok(invocation.positionalArguments.single as Order);
+      });
+
+      final cubit = buildCubit();
+      cubit.start(buildCart(items: const []));
+      cubit.selectMethod(PaymentMethod.card);
+      await cubit.confirm();
+
+      final abandoned =
+          verify(
+                ordersRepository.abandonPaymentAttempt(captureAny),
+              ).captured.single
+              as Order;
+      expect(abandoned.paymentStatus, PaymentStatus.declined);
+      expect(cubit.state, isNot(isA<CheckoutSuccess>()));
+      verifyNever(ordersRepository.completePaymentAttempt(any));
     });
 
     blocTest<CheckoutCubit, CheckoutState>(

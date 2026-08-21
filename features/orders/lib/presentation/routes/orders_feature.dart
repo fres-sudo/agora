@@ -15,6 +15,7 @@ import 'package:catalog/repositories/products_repository.dart';
 import 'package:app_settings/blocs/settings_cubit.dart';
 import 'package:bloc_exports/bloc_exports.dart';
 import 'package:printing/printing.dart';
+import 'package:payment_contracts/payment_contracts.dart';
 import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
 
@@ -66,6 +67,7 @@ class OrdersFeature extends AppFeature {
         productsRepository: ctx.read<ProductsRepository>(),
         discountsRepository: ctx.read<DiscountsRepository>(),
         printerService: ctx.read<PrinterService>(),
+        cardPaymentService: ctx.read<CardPaymentService>(),
         getCurrentEmployeeId: () =>
             ctx.read<SessionCubit>().currentEmployee?.id,
         logger: ctx.read<Talker>(),

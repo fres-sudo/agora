@@ -34,6 +34,8 @@ dependencies:
     path: ../../packages/logger
   order_management:
     path: ../../packages/order_management
+  payment_contracts:
+    path: ../../packages/payment_contracts
   printing:
     path: ../../packages/printing
   result:

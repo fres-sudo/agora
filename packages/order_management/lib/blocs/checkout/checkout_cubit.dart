@@ -9,10 +9,12 @@ import 'package:inventory_contracts/repositories/inventory_repository.dart';
 import 'package:order_management/mappers/order_receipt_mapper.dart';
 import 'package:order_management/models/order.dart';
 import 'package:order_management/models/payment_method.dart';
+import 'package:order_management/models/payment_status.dart';
 import 'package:order_management/repositories/orders_repository.dart';
 import 'package:catalog/repositories/products_repository.dart';
 import 'package:logger/logger.dart';
 import 'package:printing/printing.dart';
+import 'package:payment_contracts/payment_contracts.dart';
 import 'package:result/result.dart';
 
 part 'checkout_cubit.freezed.dart';
@@ -22,8 +24,8 @@ part 'checkout_state.dart';
 ///
 /// Responsibilities:
 /// 1. Capture the payment method and (for cash) the tendered amount.
-/// 2. Persist the order as **completed** with its payment method
-///    (complete-on-payment model — see P1-2/P1-3).
+/// 2. For cash, persist the completed order directly. For card, durably stage
+///    the order, charge through the terminal, then complete only on approval.
 /// 3. Decrement stock for tracked products and record stock movements (P1-4).
 /// 4. Build the receipt and print it on demand (P2-3).
 ///
@@ -37,6 +39,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     required ProductsRepository productsRepository,
     required DiscountsRepository discountsRepository,
     required PrinterService printerService,
+    required CardPaymentService cardPaymentService,
     required int? Function() getCurrentEmployeeId,
     Talker? logger,
   }) : _ordersRepository = ordersRepository,
@@ -44,6 +47,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
        _productsRepository = productsRepository,
        _discountsRepository = discountsRepository,
        _printerService = printerService,
+       _cardPaymentService = cardPaymentService,
        _getCurrentEmployeeId = getCurrentEmployeeId,
        _logger = logger,
        super(const CheckoutState.initial());
@@ -53,6 +57,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   final ProductsRepository _productsRepository;
   final DiscountsRepository _discountsRepository;
   final PrinterService _printerService;
+  final CardPaymentService _cardPaymentService;
   // Who's currently on the till, for shift cash reconciliation
   // (docs/features/04-volunteer-shift-accountability.md). A callback rather
   // than a SessionCubit reference, so order_management stays free of an
@@ -117,7 +122,12 @@ class CheckoutCubit extends Cubit<CheckoutState> {
     final method = current.method;
     final tenderedCents = current.tenderedCents;
 
-    // Build the finished order: completed, with payment method captured.
+    if (method == PaymentMethod.card) {
+      await _confirmCard(current);
+      return;
+    }
+
+    // Cash retains the existing complete-on-payment path.
     final finalOrder = current.order.copyWith(
       status: OrderStatus.completed,
       paymentMethod: method.label,
@@ -134,6 +144,164 @@ class CheckoutCubit extends Cubit<CheckoutState> {
 
     // 1. Persist the order (already completed — complete-on-payment).
     final createResult = await _ordersRepository.createOrder(finalOrder);
+
+    await _finishPersistedSale(
+      createResult,
+      selection: current,
+      persistedOrder: finalOrder,
+    );
+  }
+
+  Future<void> _confirmCard(CheckoutSelecting current) async {
+    final readiness = await _cardPaymentService.getStatus();
+    if (!readiness.canCharge || readiness.currencyCode == null) {
+      emit(
+        CheckoutState.failure(
+          message:
+              readiness.message ??
+              'SumUp is not ready. Log in and configure a reader in Settings.',
+          order: current.order,
+          method: PaymentMethod.card,
+        ),
+      );
+      return;
+    }
+
+    final stagedSeed = current.order.copyWith(
+      status: OrderStatus.paymentPending,
+      paymentMethod: PaymentMethod.card.label,
+      paymentProvider: 'SumUp',
+      paymentStatus: PaymentStatus.pending,
+      employeeId: _getCurrentEmployeeId(),
+      paymentError: null,
+    );
+    emit(
+      CheckoutState.processing(order: stagedSeed, method: PaymentMethod.card),
+    );
+
+    final stageResult = await _ordersRepository.createPaymentAttempt(
+      stagedSeed,
+    );
+    final staged = switch (stageResult) {
+      Ok<Order>(:final value) => value,
+      Error<Order>() => null,
+    };
+    if (staged == null || staged.paymentAttemptId == null) {
+      emit(
+        CheckoutState.failure(
+          message:
+              'Could not safely prepare the card payment. No charge was made.',
+          order: current.order,
+          method: PaymentMethod.card,
+        ),
+      );
+      return;
+    }
+
+    final charge = await _cardPaymentService.charge(
+      CardChargeRequest(
+        amountCents: staged.grandTotalCents,
+        currencyCode: readiness.currencyCode!,
+        title: _receiptConfig.storeName.isEmpty
+            ? 'Agora order'
+            : _receiptConfig.storeName,
+        foreignTransactionId: staged.paymentAttemptId!,
+      ),
+    );
+
+    switch (charge) {
+      case CardChargeApproved(:final transactionCode):
+        final approved = staged.copyWith(
+          status: OrderStatus.completed,
+          paymentStatus: PaymentStatus.approved,
+          paymentTransactionCode: transactionCode,
+          paymentError: null,
+        );
+        final completed = await _ordersRepository.completePaymentAttempt(
+          approved,
+        );
+        await _finishPersistedSale(
+          completed,
+          selection: current,
+          persistedOrder: approved,
+          approvedTransactionCode: transactionCode,
+        );
+      case CardChargeDeclined(:final message):
+        await _abandonCardAttempt(
+          staged.copyWith(
+            paymentStatus: PaymentStatus.declined,
+            paymentError: message,
+          ),
+        );
+        _emitCardFailure(
+          current,
+          message ?? 'The card was declined. No payment was taken.',
+        );
+      case CardChargeCancelled():
+        await _abandonCardAttempt(
+          staged.copyWith(paymentStatus: PaymentStatus.cancelled),
+        );
+        _emitCardFailure(
+          current,
+          'Card payment cancelled. No payment was taken.',
+        );
+      case CardChargeFailed(:final message):
+        await _abandonCardAttempt(
+          staged.copyWith(
+            paymentStatus: PaymentStatus.failed,
+            paymentError: message,
+          ),
+        );
+        _emitCardFailure(current, '$message No payment was recorded.');
+      case CardChargeUnknown(:final message):
+        final unknown = staged.copyWith(
+          paymentStatus: PaymentStatus.unknown,
+          paymentError: message,
+        );
+        final update = await _ordersRepository.updateOrder(unknown);
+        if (update.isError) {
+          _logger?.error(
+            'Failed to mark SumUp attempt ${staged.paymentAttemptId} unknown',
+          );
+        }
+        emit(
+          CheckoutState.failure(
+            message:
+                'Payment result is unknown. Do not charge again. Check the '
+                'SumUp transaction history using attempt '
+                '${staged.paymentAttemptId}.',
+            order: unknown,
+            method: PaymentMethod.card,
+          ),
+        );
+    }
+  }
+
+  Future<void> _abandonCardAttempt(Order order) async {
+    final result = await _ordersRepository.abandonPaymentAttempt(order);
+    if (result.isError) {
+      _logger?.error('Failed to close SumUp attempt ${order.paymentAttemptId}');
+    }
+  }
+
+  void _emitCardFailure(CheckoutSelecting current, String message) {
+    emit(
+      CheckoutState.failure(
+        message: message,
+        order: current.order,
+        method: PaymentMethod.card,
+      ),
+    );
+  }
+
+  Future<void> _finishPersistedSale(
+    Result<Order> createResult, {
+    required CheckoutSelecting selection,
+    required Order persistedOrder,
+    String? approvedTransactionCode,
+  }) async {
+    final method = selection.method;
+    final tenderedCents = selection.tenderedCents;
 
     switch (createResult) {
       case Ok<Order>(:final value):
@@ -152,7 +320,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         await _printStationTickets(value);
 
         // 3. Build the receipt for the preview/print stage.
-        final changeDue = current.changeDueCents;
+        final changeDue = selection.changeDueCents;
         final receipt = value.toReceipt(
           _receiptConfig,
           tenderedCents: method.requiresTender ? tenderedCents : null,
@@ -169,10 +337,15 @@ class CheckoutCubit extends Cubit<CheckoutState> {
         );
       case Error<Order>(:final error):
         _logger?.error('Checkout failed to persist order', error);
+        final paymentWarning = approvedTransactionCode == null
+            ? 'Failed to complete the sale. Please try again.'
+            : 'Card payment was approved (transaction '
+                  '$approvedTransactionCode), but finalizing the local order '
+                  'failed. Do not charge again; reconcile this payment.';
         emit(
           CheckoutState.failure(
-            message: 'Failed to complete the sale. Please try again.',
-            order: current.order,
+            message: paymentWarning,
+            order: persistedOrder,
             method: method,
             tenderedCents: tenderedCents,
           ),

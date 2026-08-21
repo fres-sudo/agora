@@ -1,3 +1,4 @@
+import 'package:agora/app/payments/sumup_card_payment_service.dart';
 import 'package:agora/app/sync_feature.dart';
 import 'package:app_info/app_info.dart';
 import 'package:app_reset/app_reset.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:launcher/launcher.dart';
 import 'package:pine/pine.dart';
+import 'package:payment_contracts/payment_contracts.dart';
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -115,6 +117,15 @@ List<SingleChildWidget> _buildProviders({
   Provider<PrinterService>(
     create: (ctx) => ThermalPrinterServiceImpl(logger: ctx.read<Talker>()),
     dispose: (_, service) => service.dispose(),
+  ),
+
+  // Card-terminal transport. Empty affiliate keys keep the service safely
+  // unconfigured; the native SDK is only initialized when status is queried.
+  Provider<CardPaymentService>(
+    create: (ctx) => SumUpCardPaymentService(
+      affiliateKey: config.sumUpAffiliateKey,
+      logger: ctx.read<Talker>(),
+    ),
   ),
 
   // Database — the single, app-owned instance created in main() and disposed

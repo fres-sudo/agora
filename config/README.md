@@ -45,6 +45,7 @@ done
 | `TIER` | string | Default subscription tier: `free` \| `paidBasic` \| `paidPro`. |
 | `ENABLE_LOGGING` | bool | Verbose Talker logging. |
 | `ENABLE_INSPECTOR` | bool | In-app debug inspector. |
+| `SUMUP_AFFILIATE_KEY` | string | Reader SDK affiliate key. Empty disables card payments. |
 
 ## Flavor vs tier
 

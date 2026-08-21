@@ -9,7 +9,7 @@ import 'package:ui_kit/ui_kit.dart';
 ///
 /// Reads [SettingsKeys.paymentMethodCashEnabled] /
 /// [SettingsKeys.paymentMethodCardEnabled] from [SettingsCubit] to filter
-/// the displayed methods. Both default to enabled when not yet persisted.
+/// the displayed methods. Card defaults off until SumUp is configured.
 class PaymentMethodSelector extends StatelessWidget {
   const PaymentMethodSelector({
     super.key,
@@ -33,14 +33,14 @@ class PaymentMethodSelector extends StatelessWidget {
         ),
         PaymentMethod.card => cubit.getBool(
           SettingsKeys.paymentMethodCardEnabled,
-          defaultValue: true,
+          defaultValue: false,
         ),
       };
     }).toList();
 
-    // Fallback: show all if operator somehow disabled every method.
+    // Safe fallback: never surface card merely because both toggles are off.
     final methods = enabledMethods.isEmpty
-        ? PaymentMethod.values
+        ? const [PaymentMethod.cash]
         : enabledMethods;
 
     return Row(

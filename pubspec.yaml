@@ -38,6 +38,7 @@ workspace:
   - packages/logger
   - packages/observer
   - packages/order_management
+  - packages/payment_contracts
   - packages/printing
   - packages/remote_config
   - packages/result
