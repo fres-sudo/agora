@@ -87,4 +87,32 @@ void main() {
       expect(await result, 'picked');
     });
   });
+
+  group('AppSheetScaffold', () {
+    testWidgets('aligns the close control with its title', (tester) async {
+      await tester.pumpComponent(
+        Builder(
+          builder: (context) => AppButton.primary(
+            label: 'open',
+            onPressed: () => AdaptiveModal.show<void>(
+              context: context,
+              builder: (_, scrollController) => AppSheetScaffold(
+                title: 'Filters',
+                scrollController: scrollController,
+                body: const AppText.body('Dialog body'),
+                actions: [AppButton.primary(onPressed: () {}, label: 'Apply')],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      final titleCenter = tester.getCenter(find.text('Filters'));
+      final closeCenter = tester.getCenter(find.byTooltip('Close dialog'));
+      expect((titleCenter.dy - closeCenter.dy).abs(), lessThanOrEqualTo(1));
+    });
+  });
 }

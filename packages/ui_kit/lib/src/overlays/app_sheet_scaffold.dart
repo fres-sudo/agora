@@ -78,7 +78,7 @@ class AppSheetScaffold extends StatelessWidget {
               tokens.spacing.xl,
               isSheet ? tokens.spacing.sm : tokens.spacing.xl,
               tokens.spacing.sm,
-              tokens.spacing.lg,
+              tokens.spacing.sm,
             ),
             child: _Header(
               title: title,
@@ -97,8 +97,7 @@ class AppSheetScaffold extends StatelessWidget {
                   child: body,
                 ),
         ),
-        if (actions.isNotEmpty)
-          _Footer(actions: actions, stacked: isSheet, hasBorder: true),
+        if (actions.isNotEmpty) _Footer(actions: actions, stacked: isSheet),
       ],
     );
   }
@@ -145,7 +144,7 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Column(
@@ -167,6 +166,7 @@ class _Header extends StatelessWidget {
         if (showCloseButton)
           AppIconButton.ghost(
             onPressed: onClose,
+            tooltip: 'Close dialog',
             icon: Icon(
               AgoraIcons.x_mark,
               size: context.tokens.iconSize.md,
@@ -179,15 +179,10 @@ class _Header extends StatelessWidget {
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({
-    required this.actions,
-    required this.stacked,
-    required this.hasBorder,
-  });
+  const _Footer({required this.actions, required this.stacked});
 
   final List<Widget> actions;
   final bool stacked;
-  final bool hasBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -203,17 +198,7 @@ class _Footer extends StatelessWidget {
         tokens.spacing.xl,
         tokens.spacing.lg + bottomInset,
       ),
-      decoration: BoxDecoration(
-        color: context.colors.popover,
-        border: hasBorder
-            ? Border(
-                top: BorderSide(
-                  color: context.colors.border,
-                  width: tokens.border.hairline,
-                ),
-              )
-            : null,
-      ),
+      decoration: BoxDecoration(color: context.colors.popover),
       child: stacked
           ? Column(
               mainAxisSize: MainAxisSize.min,
