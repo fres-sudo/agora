@@ -11,6 +11,8 @@ extension PumpComponent on WidgetTester {
   Future<void> pumpComponent(
     Widget child, {
     Brightness brightness = Brightness.light,
+    bool? alwaysUse24HourFormat,
+    TextScaler? textScaler,
   }) {
     return pumpWidget(
       MaterialApp(
@@ -20,6 +22,15 @@ extension PumpComponent on WidgetTester {
         themeMode: brightness == Brightness.dark
             ? ThemeMode.dark
             : ThemeMode.light,
+        builder: alwaysUse24HourFormat == null && textScaler == null
+            ? null
+            : (context, child) => MediaQuery(
+                data: MediaQuery.of(context).copyWith(
+                  alwaysUse24HourFormat: alwaysUse24HourFormat,
+                  textScaler: textScaler,
+                ),
+                child: child!,
+              ),
         home: Scaffold(body: Center(child: child)),
       ),
     );

@@ -84,7 +84,7 @@ class _DiscountFormState extends State<DiscountForm> {
 
   Future<void> _pickValidUntil() async {
     final now = DateTime.now();
-    final picked = await showDatePicker(
+    final picked = await AppDatePicker.show(
       context: context,
       initialDate: _validUntil ?? now,
       firstDate: now.subtract(const Duration(days: 1)),
@@ -233,7 +233,9 @@ class _DiscountFormState extends State<DiscountForm> {
                     subtitle: AppText.bodySm(
                       _validUntil == null
                           ? 'No expiry'
-                          : _formatDate(_validUntil!),
+                          : MaterialLocalizations.of(
+                              context,
+                            ).formatMediumDate(_validUntil!),
                       color: context.colors.mutedForeground,
                     ),
                     trailing: _validUntil == null
@@ -281,8 +283,4 @@ class _DiscountFormState extends State<DiscountForm> {
       ],
     );
   }
-
-  String _formatDate(DateTime date) =>
-      '${date.day.toString().padLeft(2, '0')}/'
-      '${date.month.toString().padLeft(2, '0')}/${date.year}';
 }

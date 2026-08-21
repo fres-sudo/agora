@@ -1,9 +1,6 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_kit/src/atoms/app_button.dart';
-import 'package:ui_kit/src/atoms/app_text.dart';
-import 'package:ui_kit/src/theme/agora_icons.dart';
-import 'package:ui_kit/src/theme/context_extensions.dart';
+import 'package:ui_kit/src/overlays/app_calendar_picker_support.dart';
 
 /// Agora's compact, token-driven date range picker.
 ///
@@ -112,132 +109,24 @@ class _AppDateRangePickerDialogState extends State<_AppDateRangePickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
-    final tokens = context.tokens;
-    final typography = context.typography;
-
-    final calendarConfig = CalendarDatePicker2Config(
-      calendarType: CalendarDatePicker2Type.range,
-      rangeBidirectional: true,
-      firstDate: widget.firstDate,
-      lastDate: widget.lastDate,
-      firstDayOfWeek: MaterialLocalizations.of(context).firstDayOfWeekIndex,
-      controlsHeight: 48,
-      controlsTextStyle: typography.titleMd.copyWith(color: colors.foreground),
-      centerAlignModePicker: true,
-      disableMonthPicker: true,
-      customModePickerIcon: Icon(
-        AgoraIcons.chevron_down,
-        size: tokens.iconSize.sm,
-        color: colors.mutedForeground,
+    return AppCalendarPickerDialogLayout(
+      surfaceKey: const ValueKey('app-date-range-picker-dialog'),
+      title: widget.title,
+      subtitle: _selectionHint(context),
+      content: AppCalendarPickerView.range(
+        firstDate: widget.firstDate,
+        lastDate: widget.lastDate,
+        value: _dates,
+        displayedMonthDate: widget.initialRange?.start ?? DateTime.now(),
+        onValueChanged: (dates) => setState(() => _dates = dates),
       ),
-      lastMonthIcon: Icon(
-        AgoraIcons.chevron_left,
-        size: tokens.iconSize.md,
-        color: colors.foreground,
-      ),
-      nextMonthIcon: Icon(
-        AgoraIcons.chevron_right,
-        size: tokens.iconSize.md,
-        color: colors.foreground,
-      ),
-      weekdayLabelTextStyle: typography.caption.copyWith(
-        color: colors.mutedForeground,
-      ),
-      dayTextStyle: typography.bodySm.copyWith(color: colors.foreground),
-      todayTextStyle: typography.bodySm.copyWith(
-        color: colors.foreground,
-        fontWeight: FontWeight.w700,
-        decoration: TextDecoration.underline,
-        decorationColor: colors.ring,
-      ),
-      disabledDayTextStyle: typography.bodySm.copyWith(
-        color: colors.mutedForeground.withValues(alpha: 0.5),
-      ),
-      selectedDayTextStyle: typography.bodySm.copyWith(
-        color: colors.primaryForeground,
-        fontWeight: FontWeight.w600,
-      ),
-      selectedRangeDayTextStyle: typography.bodySm.copyWith(
-        color: colors.accentForeground,
-      ),
-      selectedDayHighlightColor: colors.primary,
-      selectedRangeHighlightColor: colors.accent,
-      daySplashColor: colors.ring.withValues(alpha: 0.16),
-      dayBorderRadius: tokens.radius.borderSm,
-      monthBorderRadius: tokens.radius.borderSm,
-      yearBorderRadius: tokens.radius.borderSm,
-      dayMaxWidth: 46,
-      dynamicCalendarRows: false,
-      semanticsDictionary: const {
-        CalendarDatePicker2SemanticsLabel.selectMonth: 'Select month',
-        CalendarDatePicker2SemanticsLabel.selectYear: 'Select year',
-      },
-    );
-
-    return Dialog(
-      backgroundColor: colors.popover,
-      surfaceTintColor: Colors.transparent,
-      elevation: 0,
-      shadowColor: Colors.transparent,
-      insetPadding: EdgeInsets.all(tokens.spacing.xs),
-      shape: RoundedRectangleBorder(
-        borderRadius: tokens.radius.borderLg,
-        side: BorderSide(color: colors.border, width: tokens.border.hairline),
-      ),
-      child: ConstrainedBox(
-        key: const ValueKey('app-date-range-picker-dialog'),
-        constraints: const BoxConstraints(maxWidth: 390),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: tokens.spacing.lg),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: tokens.spacing.lg),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AppText.headingSm(widget.title),
-                    SizedBox(height: tokens.spacing.xxs),
-                    AppText.bodySm(
-                      _selectionHint(context),
-                      color: colors.mutedForeground,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: tokens.spacing.sm),
-              CalendarDatePicker2(
-                config: calendarConfig,
-                value: _dates,
-                displayedMonthDate:
-                    widget.initialRange?.start ?? DateTime.now(),
-                onValueChanged: (dates) => setState(() => _dates = dates),
-              ),
-              SizedBox(height: tokens.spacing.md),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: tokens.spacing.lg),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    AppButton.ghost(
-                      label: 'Cancel',
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    SizedBox(width: tokens.spacing.sm),
-                    AppButton.primary(
-                      label: 'Apply',
-                      onPressed: _hasRange ? _apply : null,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      actions: [
+        AppButton.ghost(
+          label: 'Cancel',
+          onPressed: () => Navigator.of(context).pop(),
         ),
-      ),
+        AppButton.primary(label: 'Apply', onPressed: _hasRange ? _apply : null),
+      ],
     );
   }
 }
