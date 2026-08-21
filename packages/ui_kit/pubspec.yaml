@@ -10,6 +10,7 @@ environment:
 dependencies:
   auto_route: ^11.1.0
   bloc: ^9.0.0
+  calendar_date_picker2: ^3.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1

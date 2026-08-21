@@ -1,7 +1,8 @@
 // Invoked by .scripts/generate_icons.dart. Reads a JSON manifest of
 // [{ src, dest }] jobs from stdin, converts each stroke-based SVG into a
 // filled-path SVG (icon fonts have no stroke concept — only fill geometry
-// survives conversion), and writes the result to `dest`.
+// survives conversion), and writes the result to `dest`. This is used for
+// every stroke-based style, including line and twotone icons.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import outlineStroke from 'svg-outline-stroke';

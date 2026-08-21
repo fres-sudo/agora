@@ -53,6 +53,7 @@ export 'src/overlays/app_select.dart';
 export 'src/overlays/app_multi_select.dart';
 export 'src/overlays/app_combobox.dart';
 export 'src/overlays/app_creatable_combobox.dart';
+export 'src/overlays/app_date_range_picker.dart';
 export 'src/overlays/adaptive_modal.dart';
 export 'src/overlays/app_sheet_scaffold.dart';
 export 'src/overlays/app_persistent_sheet.dart';

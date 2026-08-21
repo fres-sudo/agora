@@ -16,11 +16,9 @@ const _packageName = 'ui_kit';
 const _regularStyle = 'line';
 const _iconStyles = [_regularStyle, 'bulk', 'solid', 'twotone'];
 
-/// `line` SVGs are hand-authored as strokes (`stroke="#282930"`, `fill="none"`).
-/// Icon fonts have no stroke concept — `icon_font_generator` only reads path
-/// fill geometry, so stroked paths silently vanish (open paths have no fill
-/// area). These get outlined into filled paths via `.scripts/node/` before
-/// being merged into the font source.
+/// Some SVGs (primarily `line` and `twotone`) are authored as strokes.
+/// Icon fonts have no stroke concept, so every stroke-based source must be
+/// outlined into filled paths before it is passed to `icon_font_generator`.
 const _nodeToolsDir = '.scripts/node';
 
 void main() async {
@@ -34,6 +32,8 @@ void main() async {
     final count = await _populateMergedSource(mergedDir);
     stdout.writeln(
         '📦 Merged $count SVG(s) from ${_iconStyles.length} style(s) into a temp source dir.');
+
+    _validateMergedSource(mergedDir, count);
 
     _ensureOutputDirs();
     await _generateIconFont(mergedDir.path);
@@ -86,6 +86,7 @@ void _validateSvgSource() {
 Future<int> _populateMergedSource(Directory mergedDir) async {
   var count = 0;
   final outlineJobs = <_OutlineJob>[];
+  final outputNames = <String>{};
 
   for (final style in _iconStyles) {
     final styleDir = Directory('$_svgSourceDir/$style');
@@ -94,13 +95,21 @@ Future<int> _populateMergedSource(Directory mergedDir) async {
     final svgs = styleDir
         .listSync()
         .whereType<File>()
-        .where((f) => f.path.toLowerCase().endsWith('.svg'));
+        .where((f) => f.path.toLowerCase().endsWith('.svg'))
+        .toList()
+      ..sort((a, b) => a.path.compareTo(b.path));
 
     for (final svg in svgs) {
       final baseName = _toSnakeCase(_baseNameWithoutExtension(svg.path));
       final destPath = '${mergedDir.path}/$baseName$suffix.svg';
 
-      if (style == _regularStyle && _isStrokeBased(svg)) {
+      if (!outputNames.add(_baseNameWithoutExtension(destPath))) {
+        stderr.writeln(
+            '❌ Multiple source SVGs resolve to "${_baseNameWithoutExtension(destPath)}".');
+        exit(1);
+      }
+
+      if (_isStrokeBased(svg)) {
         outlineJobs.add(_OutlineJob(svg.absolute.path, destPath));
       } else {
         svg.copySync(destPath);
@@ -116,10 +125,40 @@ Future<int> _populateMergedSource(Directory mergedDir) async {
   return count;
 }
 
-/// A `line` SVG needs outlining if it paints via `stroke="<color>"` rather
-/// than `fill`. Filled `line` SVGs (already outline-shaped) are copied as-is.
+/// An SVG needs outlining if it contains a paintable stroke. Sources that are
+/// already expressed entirely as filled geometry are copied as-is.
 bool _isStrokeBased(File svg) =>
-    RegExp(r'stroke="(?!none)').hasMatch(svg.readAsStringSync());
+    RegExp(r'''stroke\s*=\s*["'](?!none["'])''', caseSensitive: false)
+        .hasMatch(svg.readAsStringSync());
+
+/// Guards the exact boundary consumed by the font generator. A remaining
+/// stroke would either disappear or be interpreted as an incorrectly filled
+/// open path, depending on the SVG parser used downstream.
+void _validateMergedSource(Directory mergedDir, int expectedCount) {
+  final svgs = mergedDir
+      .listSync()
+      .whereType<File>()
+      .where((file) => file.path.toLowerCase().endsWith('.svg'))
+      .toList();
+
+  if (svgs.length != expectedCount) {
+    stderr.writeln(
+        '❌ Expected $expectedCount merged SVGs, but found ${svgs.length}.');
+    exit(1);
+  }
+
+  final stroked = svgs.where(_isStrokeBased).toList();
+  if (stroked.isNotEmpty) {
+    stderr.writeln(
+        '❌ ${stroked.length} merged SVG(s) still contain paintable strokes.');
+    for (final file in stroked.take(10)) {
+      stderr.writeln('   ${file.path}');
+    }
+    exit(1);
+  }
+
+  stdout.writeln('  ✓ Validated $expectedCount fill-only SVG source(s).');
+}
 
 class _OutlineJob {
   _OutlineJob(this.src, this.dest);
@@ -127,13 +166,13 @@ class _OutlineJob {
   final String dest;
 }
 
-/// Converts every stroke-based `line` SVG to a filled-path SVG by shelling
+/// Converts every stroke-based SVG to a filled-path SVG by shelling
 /// out to `.scripts/node/outline_stroke.mjs` (uses the `svg-outline-stroke`
 /// npm package, which rasterizes then re-traces the stroke as a fill, then
 /// corrects contour winding so holes survive conversion to a font glyph).
 Future<void> _outlineStrokes(List<_OutlineJob> jobs) async {
   stdout.writeln(
-      '🖊  Outlining ${jobs.length} stroke-based "line" SVG(s) into filled paths...');
+      '🖊  Outlining ${jobs.length} stroke-based SVG(s) into filled paths...');
 
   await _ensureNodeToolsInstalled();
 
@@ -237,28 +276,91 @@ void _ensureOutputDirs() {
 Future<void> _generateIconFont(String sourceDir) async {
   stdout.writeln('🔠 Running icon_font_generator...');
 
+  final outputDir = await Directory.systemTemp.createTemp('agora_icon_font_');
+  final generatedFont = '${outputDir.path}/AgoraIcons.ttf';
+  final generatedClass = '${outputDir.path}/agora_icons.dart';
+
   final args = [
     'run',
     'icon_font_generator',
     '--from=$sourceDir',
-    '--out-font=$_fontOutputFile',
-    '--out-flutter=$_classOutputFile',
+    '--out-font=$generatedFont',
+    '--out-flutter=$generatedClass',
     '--class-name=$_className',
     '--package=$_packageName',
     '--naming-strategy=snake',
+    // Stroke outlining deliberately rasterizes at 20x for clean contours,
+    // while native filled SVGs use their original 24x24 coordinates.
+    // Fantasticon must normalize each glyph or the latter render at ~1/20th
+    // of the intended width.
+    '--normalize',
   ];
 
-  stdout.writeln('   dart ${args.join(' ')}');
+  stdout.writeln('   ${Platform.resolvedExecutable} ${args.join(' ')}');
 
-  final result = await Process.run('dart', args);
-  stdout.write(result.stdout);
+  try {
+    final result = await Process.run(Platform.resolvedExecutable, args);
+    stdout.write(result.stdout);
 
-  if (result.exitCode != 0) {
-    stderr.writeln(result.stderr);
-    stderr.writeln('❌ icon_font_generator failed (exit ${result.exitCode}).');
-    exit(result.exitCode);
+    if (result.exitCode != 0) {
+      stderr.writeln(result.stderr);
+      stderr.writeln('❌ icon_font_generator failed (exit ${result.exitCode}).');
+      exit(result.exitCode);
+    }
+
+    final formatResult = await Process.run(
+      Platform.resolvedExecutable,
+      ['format', generatedClass],
+    );
+    if (formatResult.exitCode != 0) {
+      stderr.writeln(formatResult.stderr);
+      stderr.writeln('❌ Failed to format generated Dart bindings.');
+      exit(formatResult.exitCode);
+    }
+
+    _validateGeneratedOutputs(
+      File(generatedFont),
+      File(generatedClass),
+    );
+
+    File(generatedFont).copySync(_fontOutputFile);
+    File(generatedClass).copySync(_classOutputFile);
+  } finally {
+    if (outputDir.existsSync()) {
+      outputDir.deleteSync(recursive: true);
+    }
   }
 
   stdout.writeln('  ✓ Font  → $_fontOutputFile');
   stdout.writeln('  ✓ Class → $_classOutputFile');
+}
+
+void _validateGeneratedOutputs(File font, File bindings) {
+  if (!font.existsSync() || font.lengthSync() == 0) {
+    stderr.writeln('❌ Font generator produced no TTF data.');
+    exit(1);
+  }
+  if (!bindings.existsSync()) {
+    stderr.writeln('❌ Font generator produced no Dart bindings.');
+    exit(1);
+  }
+
+  final bindingSource = bindings.readAsStringSync();
+  final glyphCount =
+      RegExp(r'^  static const \w+ = _AgoraIconsData\(', multiLine: true)
+          .allMatches(bindingSource)
+          .length;
+  final expectedCount = Directory(_svgSourceDir)
+      .listSync(recursive: true)
+      .whereType<File>()
+      .where((file) => file.path.toLowerCase().endsWith('.svg'))
+      .length;
+
+  if (glyphCount != expectedCount) {
+    stderr.writeln(
+        '❌ Generated $glyphCount Dart glyphs for $expectedCount source SVGs.');
+    exit(1);
+  }
+
+  stdout.writeln('  ✓ Validated $glyphCount generated glyph binding(s).');
 }

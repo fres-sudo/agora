@@ -336,12 +336,11 @@ class _OrderFilterDialogContentState extends State<_OrderFilterDialogContent> {
         SizedBox(height: context.tokens.spacing.md),
         AppButton.outline(
           onPressed: () async {
-            final picked = await showDateRangePicker(
-              useRootNavigator: false,
+            final picked = await AppDateRangePicker.show(
               context: context,
               firstDate: DateTime(2020),
               lastDate: DateTime.now().add(const Duration(days: 365)),
-              initialDateRange: _range,
+              initialRange: _range,
             );
             if (picked != null && mounted) {
               setState(() => _range = picked);
