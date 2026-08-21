@@ -50,7 +50,7 @@ class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration {
@@ -145,6 +145,32 @@ class AgoraDatabase extends _$AgoraDatabase {
           // snapshot of categories/products/modifier groups/combos an
           // operator can restore at the start of a new season.
           await m.createTable(catalogTemplatesTable);
+        }
+        if (from < 10) {
+          // v9 -> v10: scope SKU uniqueness to active products. Rebuilding
+          // removes the old inline UNIQUE constraint; the partial index lets
+          // a restored catalog reuse SKUs held by soft-deleted rows while
+          // still rejecting duplicates among active products.
+          await m.alterTable(TableMigration(productsTable));
+          await customStatement(
+            'CREATE UNIQUE INDEX IF NOT EXISTS idx_products_active_sku '
+            'ON products_table (sku) '
+            'WHERE deleted_at IS NULL',
+          );
+        }
+        if (from < 11) {
+          // v10 -> v11: durable external-payment attempt metadata. All
+          // columns are nullable so cash and historical orders retain their
+          // exact meaning. A unique attempt id is the local idempotency guard.
+          await m.addColumn(ordersTable, ordersTable.paymentProvider);
+          await m.addColumn(ordersTable, ordersTable.paymentStatus);
+          await m.addColumn(ordersTable, ordersTable.paymentAttemptId);
+          await m.addColumn(ordersTable, ordersTable.paymentTransactionCode);
+          await m.addColumn(ordersTable, ordersTable.paymentError);
+          await customStatement(
+            'CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_payment_attempt_id '
+            'ON orders_table (payment_attempt_id)',
+          );
         }
       },
     );

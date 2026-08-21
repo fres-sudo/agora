@@ -3,6 +3,14 @@ import 'categories_table.dart';
 
 import 'package:drift/drift.dart';
 
+// SKUs identify products that are currently available in the catalog. A
+// soft-deleted historical product must not prevent a new season's restored
+// product from reusing the same SKU.
+@TableIndex.sql(
+  'CREATE UNIQUE INDEX idx_products_active_sku '
+  'ON products_table (sku) '
+  'WHERE deleted_at IS NULL',
+)
 @DataClassName("ProductEntity")
 class ProductsTable extends Table with TableMixin {
   TextColumn get name => text()();
@@ -10,7 +18,7 @@ class ProductsTable extends Table with TableMixin {
   TextColumn get imageUrl => text().nullable()();
 
   BoolColumn get trackStock => boolean().withDefault(const Constant(true))();
-  TextColumn get sku => text().unique().nullable()(); // Barcode/SKU
+  TextColumn get sku => text().nullable()(); // Barcode/SKU
 
   IntColumn get categoryId =>
       integer().nullable().references(CategoriesTable, #id)();

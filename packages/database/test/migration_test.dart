@@ -681,6 +681,25 @@ void main() {
               employee_id INTEGER NULL
             );
           ''');
+      legacyDb.execute('''
+            CREATE TABLE products_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              name TEXT NOT NULL,
+              description TEXT NOT NULL DEFAULT '',
+              image_url TEXT NULL,
+              track_stock INTEGER NOT NULL DEFAULT 1,
+              sku TEXT NULL UNIQUE,
+              category_id INTEGER NULL,
+              price INTEGER NOT NULL DEFAULT 0,
+              cost INTEGER NOT NULL DEFAULT 0,
+              tax_percent INTEGER NOT NULL DEFAULT 0,
+              status TEXT NOT NULL DEFAULT 'draft',
+              prep_station TEXT NULL
+            );
+          ''');
       legacyDb.execute('PRAGMA user_version = 8;');
       legacyDb.dispose();
 
@@ -700,6 +719,155 @@ void main() {
         db.catalogTemplatesTable,
       )..where((t) => t.id.equals(id))).getSingle();
       expect(reloaded.name, 'Sagra 2026');
+    });
+
+    test('upgrading from schema v9 to v10 allows a soft-deleted SKU to be '
+        'reused while active SKUs stay unique', () async {
+      final dbFile = File('${tempDir.path}/agora_v9_to_v10.sqlite');
+
+      final legacyDb = sqlite3.sqlite3.open(dbFile.path);
+      legacyDb.execute('''
+            CREATE TABLE orders_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              status INTEGER NOT NULL DEFAULT 0,
+              order_type INTEGER NOT NULL DEFAULT 0,
+              subtotal INTEGER NOT NULL,
+              discount_total INTEGER NOT NULL DEFAULT 0,
+              tax_total INTEGER NOT NULL DEFAULT 0,
+              grand_total INTEGER NOT NULL,
+              payment_method TEXT NULL,
+              note TEXT NULL,
+              sync_id TEXT NULL,
+              employee_id INTEGER NULL
+            );
+          ''');
+      legacyDb.execute('''
+            CREATE TABLE products_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              name TEXT NOT NULL,
+              description TEXT NOT NULL DEFAULT '',
+              image_url TEXT NULL,
+              track_stock INTEGER NOT NULL DEFAULT 1,
+              sku TEXT NULL UNIQUE,
+              category_id INTEGER NULL,
+              price INTEGER NOT NULL DEFAULT 0,
+              cost INTEGER NOT NULL DEFAULT 0,
+              tax_percent INTEGER NOT NULL DEFAULT 0,
+              status TEXT NOT NULL DEFAULT 'draft',
+              prep_station TEXT NULL
+            );
+          ''');
+      legacyDb.execute('''
+            INSERT INTO products_table
+              (created_at, deleted_at, name, sku, price)
+            VALUES
+              (1700000000, 1700000100, 'Old Panino', 'PANINO-001', 500),
+              (1700000000, NULL, 'Bibita', 'BIBITA-001', 250);
+          ''');
+      legacyDb.execute('PRAGMA user_version = 9;');
+      legacyDb.dispose();
+
+      final db = AgoraDatabase(NativeDatabase(dbFile));
+      addTearDown(db.close);
+
+      final migratedProducts = await db.select(db.productsTable).get();
+      expect(migratedProducts, hasLength(2));
+
+      final now = Value(DateTime.now());
+      await db
+          .into(db.productsTable)
+          .insert(
+            ProductsTableCompanion.insert(
+              createdAt: now,
+              name: 'New Panino',
+              sku: const Value('PANINO-001'),
+              price: const Value(550),
+            ),
+          );
+
+      await expectLater(
+        db
+            .into(db.productsTable)
+            .insert(
+              ProductsTableCompanion.insert(
+                createdAt: now,
+                name: 'Duplicate Panino',
+                sku: const Value('PANINO-001'),
+                price: const Value(600),
+              ),
+            ),
+        throwsA(anything),
+      );
+    });
+
+    test('upgrading from schema v10 to v11 preserves orders and adds durable '
+        'payment attempt metadata', () async {
+      final dbFile = File('${tempDir.path}/agora_v10_to_v11.sqlite');
+      final legacyDb = sqlite3.sqlite3.open(dbFile.path);
+      legacyDb.execute('''
+            CREATE TABLE orders_table (
+              id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+              created_at INTEGER NOT NULL,
+              updated_at INTEGER NULL,
+              deleted_at INTEGER NULL,
+              status INTEGER NOT NULL DEFAULT 0,
+              order_type INTEGER NOT NULL DEFAULT 0,
+              subtotal INTEGER NOT NULL,
+              discount_total INTEGER NOT NULL DEFAULT 0,
+              tax_total INTEGER NOT NULL DEFAULT 0,
+              grand_total INTEGER NOT NULL,
+              payment_method TEXT NULL,
+              note TEXT NULL,
+              sync_id TEXT NULL,
+              employee_id INTEGER NULL
+            );
+          ''');
+      legacyDb.execute('''
+            INSERT INTO orders_table
+              (created_at, status, subtotal, grand_total, payment_method)
+            VALUES (1700000000, 1, 1200, 1200, 'Cash');
+          ''');
+      legacyDb.execute('PRAGMA user_version = 10;');
+      legacyDb.dispose();
+
+      final db = AgoraDatabase(NativeDatabase(dbFile));
+      addTearDown(db.close);
+
+      final historical = await db.select(db.ordersTable).getSingle();
+      expect(historical.paymentMethod, 'Cash');
+      expect(historical.paymentProvider, isNull);
+      expect(historical.paymentStatus, isNull);
+
+      final now = Value(DateTime.now());
+      await db
+          .into(db.ordersTable)
+          .insert(
+            OrdersTableCompanion.insert(
+              createdAt: now,
+              subtotal: 1200,
+              grandTotal: 1200,
+              paymentAttemptId: const Value('sumup-attempt-1'),
+            ),
+          );
+      await expectLater(
+        db
+            .into(db.ordersTable)
+            .insert(
+              OrdersTableCompanion.insert(
+                createdAt: now,
+                subtotal: 1200,
+                grandTotal: 1200,
+                paymentAttemptId: const Value('sumup-attempt-1'),
+              ),
+            ),
+        throwsA(anything),
+      );
     });
   });
 }

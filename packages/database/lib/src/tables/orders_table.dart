@@ -13,9 +13,13 @@ import 'package:drift/drift.dart';
 @TableIndex.sql(
   'CREATE UNIQUE INDEX idx_orders_sync_id ON orders_table (sync_id)',
 )
+@TableIndex.sql(
+  'CREATE UNIQUE INDEX idx_orders_payment_attempt_id '
+  'ON orders_table (payment_attempt_id)',
+)
 @DataClassName("OrderEntity")
 class OrdersTable extends Table with TableMixin {
-  // Status: 0=Pending, 1=Completed, 2=Voided/Refunded
+  // Status: 0=Pending, 1=Completed, 2=Voided/Refunded, 3=Payment pending.
   IntColumn get status => integer().withDefault(const Constant(0))();
 
   // Order type: 0=Dine In, 1=Take Away
@@ -31,6 +35,11 @@ class OrdersTable extends Table with TableMixin {
   IntColumn get grandTotal => integer()(); // Cents after tax and discounts.
 
   TextColumn get paymentMethod => text().nullable()(); // "Cash", "Card", etc.
+  TextColumn get paymentProvider => text().nullable()();
+  TextColumn get paymentStatus => text().nullable()();
+  TextColumn get paymentAttemptId => text().nullable()();
+  TextColumn get paymentTransactionCode => text().nullable()();
+  TextColumn get paymentError => text().nullable()();
   TextColumn get note => text().nullable()();
 
   // Cross-station identity for LAN sync (uuid v4, client-generated at

@@ -619,7 +619,6 @@ class $ProductsTableTable extends ProductsTable
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _categoryIdMeta = const VerificationMeta(
     'categoryId',
@@ -4322,6 +4321,61 @@ class $OrdersTableTable extends OrdersTable
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _paymentProviderMeta = const VerificationMeta(
+    'paymentProvider',
+  );
+  @override
+  late final GeneratedColumn<String> paymentProvider = GeneratedColumn<String>(
+    'payment_provider',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _paymentStatusMeta = const VerificationMeta(
+    'paymentStatus',
+  );
+  @override
+  late final GeneratedColumn<String> paymentStatus = GeneratedColumn<String>(
+    'payment_status',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _paymentAttemptIdMeta = const VerificationMeta(
+    'paymentAttemptId',
+  );
+  @override
+  late final GeneratedColumn<String> paymentAttemptId = GeneratedColumn<String>(
+    'payment_attempt_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _paymentTransactionCodeMeta =
+      const VerificationMeta('paymentTransactionCode');
+  @override
+  late final GeneratedColumn<String> paymentTransactionCode =
+      GeneratedColumn<String>(
+        'payment_transaction_code',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _paymentErrorMeta = const VerificationMeta(
+    'paymentError',
+  );
+  @override
+  late final GeneratedColumn<String> paymentError = GeneratedColumn<String>(
+    'payment_error',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _noteMeta = const VerificationMeta('note');
   @override
   late final GeneratedColumn<String> note = GeneratedColumn<String>(
@@ -4367,6 +4421,11 @@ class $OrdersTableTable extends OrdersTable
     taxTotal,
     grandTotal,
     paymentMethod,
+    paymentProvider,
+    paymentStatus,
+    paymentAttemptId,
+    paymentTransactionCode,
+    paymentError,
     note,
     syncId,
     employeeId,
@@ -4456,6 +4515,51 @@ class $OrdersTableTable extends OrdersTable
         ),
       );
     }
+    if (data.containsKey('payment_provider')) {
+      context.handle(
+        _paymentProviderMeta,
+        paymentProvider.isAcceptableOrUnknown(
+          data['payment_provider']!,
+          _paymentProviderMeta,
+        ),
+      );
+    }
+    if (data.containsKey('payment_status')) {
+      context.handle(
+        _paymentStatusMeta,
+        paymentStatus.isAcceptableOrUnknown(
+          data['payment_status']!,
+          _paymentStatusMeta,
+        ),
+      );
+    }
+    if (data.containsKey('payment_attempt_id')) {
+      context.handle(
+        _paymentAttemptIdMeta,
+        paymentAttemptId.isAcceptableOrUnknown(
+          data['payment_attempt_id']!,
+          _paymentAttemptIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('payment_transaction_code')) {
+      context.handle(
+        _paymentTransactionCodeMeta,
+        paymentTransactionCode.isAcceptableOrUnknown(
+          data['payment_transaction_code']!,
+          _paymentTransactionCodeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('payment_error')) {
+      context.handle(
+        _paymentErrorMeta,
+        paymentError.isAcceptableOrUnknown(
+          data['payment_error']!,
+          _paymentErrorMeta,
+        ),
+      );
+    }
     if (data.containsKey('note')) {
       context.handle(
         _noteMeta,
@@ -4527,6 +4631,26 @@ class $OrdersTableTable extends OrdersTable
         DriftSqlType.string,
         data['${effectivePrefix}payment_method'],
       ),
+      paymentProvider: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_provider'],
+      ),
+      paymentStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_status'],
+      ),
+      paymentAttemptId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_attempt_id'],
+      ),
+      paymentTransactionCode: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_transaction_code'],
+      ),
+      paymentError: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_error'],
+      ),
       note: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}note'],
@@ -4560,6 +4684,11 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
   final int taxTotal;
   final int grandTotal;
   final String? paymentMethod;
+  final String? paymentProvider;
+  final String? paymentStatus;
+  final String? paymentAttemptId;
+  final String? paymentTransactionCode;
+  final String? paymentError;
   final String? note;
   final String? syncId;
   final int? employeeId;
@@ -4575,6 +4704,11 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     required this.taxTotal,
     required this.grandTotal,
     this.paymentMethod,
+    this.paymentProvider,
+    this.paymentStatus,
+    this.paymentAttemptId,
+    this.paymentTransactionCode,
+    this.paymentError,
     this.note,
     this.syncId,
     this.employeeId,
@@ -4598,6 +4732,23 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     map['grand_total'] = Variable<int>(grandTotal);
     if (!nullToAbsent || paymentMethod != null) {
       map['payment_method'] = Variable<String>(paymentMethod);
+    }
+    if (!nullToAbsent || paymentProvider != null) {
+      map['payment_provider'] = Variable<String>(paymentProvider);
+    }
+    if (!nullToAbsent || paymentStatus != null) {
+      map['payment_status'] = Variable<String>(paymentStatus);
+    }
+    if (!nullToAbsent || paymentAttemptId != null) {
+      map['payment_attempt_id'] = Variable<String>(paymentAttemptId);
+    }
+    if (!nullToAbsent || paymentTransactionCode != null) {
+      map['payment_transaction_code'] = Variable<String>(
+        paymentTransactionCode,
+      );
+    }
+    if (!nullToAbsent || paymentError != null) {
+      map['payment_error'] = Variable<String>(paymentError);
     }
     if (!nullToAbsent || note != null) {
       map['note'] = Variable<String>(note);
@@ -4630,6 +4781,21 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       paymentMethod: paymentMethod == null && nullToAbsent
           ? const Value.absent()
           : Value(paymentMethod),
+      paymentProvider: paymentProvider == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentProvider),
+      paymentStatus: paymentStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentStatus),
+      paymentAttemptId: paymentAttemptId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentAttemptId),
+      paymentTransactionCode: paymentTransactionCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentTransactionCode),
+      paymentError: paymentError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paymentError),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
       syncId: syncId == null && nullToAbsent
           ? const Value.absent()
@@ -4657,6 +4823,13 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       taxTotal: serializer.fromJson<int>(json['taxTotal']),
       grandTotal: serializer.fromJson<int>(json['grandTotal']),
       paymentMethod: serializer.fromJson<String?>(json['paymentMethod']),
+      paymentProvider: serializer.fromJson<String?>(json['paymentProvider']),
+      paymentStatus: serializer.fromJson<String?>(json['paymentStatus']),
+      paymentAttemptId: serializer.fromJson<String?>(json['paymentAttemptId']),
+      paymentTransactionCode: serializer.fromJson<String?>(
+        json['paymentTransactionCode'],
+      ),
+      paymentError: serializer.fromJson<String?>(json['paymentError']),
       note: serializer.fromJson<String?>(json['note']),
       syncId: serializer.fromJson<String?>(json['syncId']),
       employeeId: serializer.fromJson<int?>(json['employeeId']),
@@ -4677,6 +4850,13 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       'taxTotal': serializer.toJson<int>(taxTotal),
       'grandTotal': serializer.toJson<int>(grandTotal),
       'paymentMethod': serializer.toJson<String?>(paymentMethod),
+      'paymentProvider': serializer.toJson<String?>(paymentProvider),
+      'paymentStatus': serializer.toJson<String?>(paymentStatus),
+      'paymentAttemptId': serializer.toJson<String?>(paymentAttemptId),
+      'paymentTransactionCode': serializer.toJson<String?>(
+        paymentTransactionCode,
+      ),
+      'paymentError': serializer.toJson<String?>(paymentError),
       'note': serializer.toJson<String?>(note),
       'syncId': serializer.toJson<String?>(syncId),
       'employeeId': serializer.toJson<int?>(employeeId),
@@ -4695,6 +4875,11 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     int? taxTotal,
     int? grandTotal,
     Value<String?> paymentMethod = const Value.absent(),
+    Value<String?> paymentProvider = const Value.absent(),
+    Value<String?> paymentStatus = const Value.absent(),
+    Value<String?> paymentAttemptId = const Value.absent(),
+    Value<String?> paymentTransactionCode = const Value.absent(),
+    Value<String?> paymentError = const Value.absent(),
     Value<String?> note = const Value.absent(),
     Value<String?> syncId = const Value.absent(),
     Value<int?> employeeId = const Value.absent(),
@@ -4712,6 +4897,19 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     paymentMethod: paymentMethod.present
         ? paymentMethod.value
         : this.paymentMethod,
+    paymentProvider: paymentProvider.present
+        ? paymentProvider.value
+        : this.paymentProvider,
+    paymentStatus: paymentStatus.present
+        ? paymentStatus.value
+        : this.paymentStatus,
+    paymentAttemptId: paymentAttemptId.present
+        ? paymentAttemptId.value
+        : this.paymentAttemptId,
+    paymentTransactionCode: paymentTransactionCode.present
+        ? paymentTransactionCode.value
+        : this.paymentTransactionCode,
+    paymentError: paymentError.present ? paymentError.value : this.paymentError,
     note: note.present ? note.value : this.note,
     syncId: syncId.present ? syncId.value : this.syncId,
     employeeId: employeeId.present ? employeeId.value : this.employeeId,
@@ -4735,6 +4933,21 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
       paymentMethod: data.paymentMethod.present
           ? data.paymentMethod.value
           : this.paymentMethod,
+      paymentProvider: data.paymentProvider.present
+          ? data.paymentProvider.value
+          : this.paymentProvider,
+      paymentStatus: data.paymentStatus.present
+          ? data.paymentStatus.value
+          : this.paymentStatus,
+      paymentAttemptId: data.paymentAttemptId.present
+          ? data.paymentAttemptId.value
+          : this.paymentAttemptId,
+      paymentTransactionCode: data.paymentTransactionCode.present
+          ? data.paymentTransactionCode.value
+          : this.paymentTransactionCode,
+      paymentError: data.paymentError.present
+          ? data.paymentError.value
+          : this.paymentError,
       note: data.note.present ? data.note.value : this.note,
       syncId: data.syncId.present ? data.syncId.value : this.syncId,
       employeeId: data.employeeId.present
@@ -4757,6 +4970,11 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           ..write('taxTotal: $taxTotal, ')
           ..write('grandTotal: $grandTotal, ')
           ..write('paymentMethod: $paymentMethod, ')
+          ..write('paymentProvider: $paymentProvider, ')
+          ..write('paymentStatus: $paymentStatus, ')
+          ..write('paymentAttemptId: $paymentAttemptId, ')
+          ..write('paymentTransactionCode: $paymentTransactionCode, ')
+          ..write('paymentError: $paymentError, ')
           ..write('note: $note, ')
           ..write('syncId: $syncId, ')
           ..write('employeeId: $employeeId')
@@ -4777,6 +4995,11 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
     taxTotal,
     grandTotal,
     paymentMethod,
+    paymentProvider,
+    paymentStatus,
+    paymentAttemptId,
+    paymentTransactionCode,
+    paymentError,
     note,
     syncId,
     employeeId,
@@ -4796,6 +5019,11 @@ class OrderEntity extends DataClass implements Insertable<OrderEntity> {
           other.taxTotal == this.taxTotal &&
           other.grandTotal == this.grandTotal &&
           other.paymentMethod == this.paymentMethod &&
+          other.paymentProvider == this.paymentProvider &&
+          other.paymentStatus == this.paymentStatus &&
+          other.paymentAttemptId == this.paymentAttemptId &&
+          other.paymentTransactionCode == this.paymentTransactionCode &&
+          other.paymentError == this.paymentError &&
           other.note == this.note &&
           other.syncId == this.syncId &&
           other.employeeId == this.employeeId);
@@ -4813,6 +5041,11 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
   final Value<int> taxTotal;
   final Value<int> grandTotal;
   final Value<String?> paymentMethod;
+  final Value<String?> paymentProvider;
+  final Value<String?> paymentStatus;
+  final Value<String?> paymentAttemptId;
+  final Value<String?> paymentTransactionCode;
+  final Value<String?> paymentError;
   final Value<String?> note;
   final Value<String?> syncId;
   final Value<int?> employeeId;
@@ -4828,6 +5061,11 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     this.taxTotal = const Value.absent(),
     this.grandTotal = const Value.absent(),
     this.paymentMethod = const Value.absent(),
+    this.paymentProvider = const Value.absent(),
+    this.paymentStatus = const Value.absent(),
+    this.paymentAttemptId = const Value.absent(),
+    this.paymentTransactionCode = const Value.absent(),
+    this.paymentError = const Value.absent(),
     this.note = const Value.absent(),
     this.syncId = const Value.absent(),
     this.employeeId = const Value.absent(),
@@ -4844,6 +5082,11 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     this.taxTotal = const Value.absent(),
     required int grandTotal,
     this.paymentMethod = const Value.absent(),
+    this.paymentProvider = const Value.absent(),
+    this.paymentStatus = const Value.absent(),
+    this.paymentAttemptId = const Value.absent(),
+    this.paymentTransactionCode = const Value.absent(),
+    this.paymentError = const Value.absent(),
     this.note = const Value.absent(),
     this.syncId = const Value.absent(),
     this.employeeId = const Value.absent(),
@@ -4861,6 +5104,11 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Expression<int>? taxTotal,
     Expression<int>? grandTotal,
     Expression<String>? paymentMethod,
+    Expression<String>? paymentProvider,
+    Expression<String>? paymentStatus,
+    Expression<String>? paymentAttemptId,
+    Expression<String>? paymentTransactionCode,
+    Expression<String>? paymentError,
     Expression<String>? note,
     Expression<String>? syncId,
     Expression<int>? employeeId,
@@ -4877,6 +5125,12 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       if (taxTotal != null) 'tax_total': taxTotal,
       if (grandTotal != null) 'grand_total': grandTotal,
       if (paymentMethod != null) 'payment_method': paymentMethod,
+      if (paymentProvider != null) 'payment_provider': paymentProvider,
+      if (paymentStatus != null) 'payment_status': paymentStatus,
+      if (paymentAttemptId != null) 'payment_attempt_id': paymentAttemptId,
+      if (paymentTransactionCode != null)
+        'payment_transaction_code': paymentTransactionCode,
+      if (paymentError != null) 'payment_error': paymentError,
       if (note != null) 'note': note,
       if (syncId != null) 'sync_id': syncId,
       if (employeeId != null) 'employee_id': employeeId,
@@ -4895,6 +5149,11 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     Value<int>? taxTotal,
     Value<int>? grandTotal,
     Value<String?>? paymentMethod,
+    Value<String?>? paymentProvider,
+    Value<String?>? paymentStatus,
+    Value<String?>? paymentAttemptId,
+    Value<String?>? paymentTransactionCode,
+    Value<String?>? paymentError,
     Value<String?>? note,
     Value<String?>? syncId,
     Value<int?>? employeeId,
@@ -4911,6 +5170,12 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
       taxTotal: taxTotal ?? this.taxTotal,
       grandTotal: grandTotal ?? this.grandTotal,
       paymentMethod: paymentMethod ?? this.paymentMethod,
+      paymentProvider: paymentProvider ?? this.paymentProvider,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      paymentAttemptId: paymentAttemptId ?? this.paymentAttemptId,
+      paymentTransactionCode:
+          paymentTransactionCode ?? this.paymentTransactionCode,
+      paymentError: paymentError ?? this.paymentError,
       note: note ?? this.note,
       syncId: syncId ?? this.syncId,
       employeeId: employeeId ?? this.employeeId,
@@ -4953,6 +5218,23 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
     if (paymentMethod.present) {
       map['payment_method'] = Variable<String>(paymentMethod.value);
     }
+    if (paymentProvider.present) {
+      map['payment_provider'] = Variable<String>(paymentProvider.value);
+    }
+    if (paymentStatus.present) {
+      map['payment_status'] = Variable<String>(paymentStatus.value);
+    }
+    if (paymentAttemptId.present) {
+      map['payment_attempt_id'] = Variable<String>(paymentAttemptId.value);
+    }
+    if (paymentTransactionCode.present) {
+      map['payment_transaction_code'] = Variable<String>(
+        paymentTransactionCode.value,
+      );
+    }
+    if (paymentError.present) {
+      map['payment_error'] = Variable<String>(paymentError.value);
+    }
     if (note.present) {
       map['note'] = Variable<String>(note.value);
     }
@@ -4979,6 +5261,11 @@ class OrdersTableCompanion extends UpdateCompanion<OrderEntity> {
           ..write('taxTotal: $taxTotal, ')
           ..write('grandTotal: $grandTotal, ')
           ..write('paymentMethod: $paymentMethod, ')
+          ..write('paymentProvider: $paymentProvider, ')
+          ..write('paymentStatus: $paymentStatus, ')
+          ..write('paymentAttemptId: $paymentAttemptId, ')
+          ..write('paymentTransactionCode: $paymentTransactionCode, ')
+          ..write('paymentError: $paymentError, ')
           ..write('note: $note, ')
           ..write('syncId: $syncId, ')
           ..write('employeeId: $employeeId')
@@ -10600,6 +10887,10 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
       $CashReconciliationsTableTable(this);
   late final $CatalogTemplatesTableTable catalogTemplatesTable =
       $CatalogTemplatesTableTable(this);
+  late final Index idxProductsActiveSku = Index(
+    'idx_products_active_sku',
+    'CREATE UNIQUE INDEX idx_products_active_sku ON products_table (sku) WHERE deleted_at IS NULL',
+  );
   late final Index idxStockMovementsSyncId = Index(
     'idx_stock_movements_sync_id',
     'CREATE UNIQUE INDEX idx_stock_movements_sync_id ON stock_movements_table (sync_id)',
@@ -10607,6 +10898,10 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
   late final Index idxOrdersSyncId = Index(
     'idx_orders_sync_id',
     'CREATE UNIQUE INDEX idx_orders_sync_id ON orders_table (sync_id)',
+  );
+  late final Index idxOrdersPaymentAttemptId = Index(
+    'idx_orders_payment_attempt_id',
+    'CREATE UNIQUE INDEX idx_orders_payment_attempt_id ON orders_table (payment_attempt_id)',
   );
   late final Index idxClockRecordsOneOpenShift = Index(
     'idx_clock_records_one_open_shift',
@@ -10636,8 +10931,10 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     comboItemsTable,
     cashReconciliationsTable,
     catalogTemplatesTable,
+    idxProductsActiveSku,
     idxStockMovementsSyncId,
     idxOrdersSyncId,
+    idxOrdersPaymentAttemptId,
     idxClockRecordsOneOpenShift,
   ];
   @override
@@ -14616,6 +14913,11 @@ typedef $$OrdersTableTableCreateCompanionBuilder =
       Value<int> taxTotal,
       required int grandTotal,
       Value<String?> paymentMethod,
+      Value<String?> paymentProvider,
+      Value<String?> paymentStatus,
+      Value<String?> paymentAttemptId,
+      Value<String?> paymentTransactionCode,
+      Value<String?> paymentError,
       Value<String?> note,
       Value<String?> syncId,
       Value<int?> employeeId,
@@ -14633,6 +14935,11 @@ typedef $$OrdersTableTableUpdateCompanionBuilder =
       Value<int> taxTotal,
       Value<int> grandTotal,
       Value<String?> paymentMethod,
+      Value<String?> paymentProvider,
+      Value<String?> paymentStatus,
+      Value<String?> paymentAttemptId,
+      Value<String?> paymentTransactionCode,
+      Value<String?> paymentError,
       Value<String?> note,
       Value<String?> syncId,
       Value<int?> employeeId,
@@ -14747,6 +15054,31 @@ class $$OrdersTableTableFilterComposer
 
   ColumnFilters<String> get paymentMethod => $composableBuilder(
     column: $table.paymentMethod,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentProvider => $composableBuilder(
+    column: $table.paymentProvider,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentStatus => $composableBuilder(
+    column: $table.paymentStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentAttemptId => $composableBuilder(
+    column: $table.paymentAttemptId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentTransactionCode => $composableBuilder(
+    column: $table.paymentTransactionCode,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentError => $composableBuilder(
+    column: $table.paymentError,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -14873,6 +15205,31 @@ class $$OrdersTableTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get paymentProvider => $composableBuilder(
+    column: $table.paymentProvider,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get paymentStatus => $composableBuilder(
+    column: $table.paymentStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get paymentAttemptId => $composableBuilder(
+    column: $table.paymentAttemptId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get paymentTransactionCode => $composableBuilder(
+    column: $table.paymentTransactionCode,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get paymentError => $composableBuilder(
+    column: $table.paymentError,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get note => $composableBuilder(
     column: $table.note,
     builder: (column) => ColumnOrderings(column),
@@ -14952,6 +15309,31 @@ class $$OrdersTableTableAnnotationComposer
 
   GeneratedColumn<String> get paymentMethod => $composableBuilder(
     column: $table.paymentMethod,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentProvider => $composableBuilder(
+    column: $table.paymentProvider,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentStatus => $composableBuilder(
+    column: $table.paymentStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentAttemptId => $composableBuilder(
+    column: $table.paymentAttemptId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentTransactionCode => $composableBuilder(
+    column: $table.paymentTransactionCode,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentError => $composableBuilder(
+    column: $table.paymentError,
     builder: (column) => column,
   );
 
@@ -15049,6 +15431,11 @@ class $$OrdersTableTableTableManager
                 Value<int> taxTotal = const Value.absent(),
                 Value<int> grandTotal = const Value.absent(),
                 Value<String?> paymentMethod = const Value.absent(),
+                Value<String?> paymentProvider = const Value.absent(),
+                Value<String?> paymentStatus = const Value.absent(),
+                Value<String?> paymentAttemptId = const Value.absent(),
+                Value<String?> paymentTransactionCode = const Value.absent(),
+                Value<String?> paymentError = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<String?> syncId = const Value.absent(),
                 Value<int?> employeeId = const Value.absent(),
@@ -15064,6 +15451,11 @@ class $$OrdersTableTableTableManager
                 taxTotal: taxTotal,
                 grandTotal: grandTotal,
                 paymentMethod: paymentMethod,
+                paymentProvider: paymentProvider,
+                paymentStatus: paymentStatus,
+                paymentAttemptId: paymentAttemptId,
+                paymentTransactionCode: paymentTransactionCode,
+                paymentError: paymentError,
                 note: note,
                 syncId: syncId,
                 employeeId: employeeId,
@@ -15081,6 +15473,11 @@ class $$OrdersTableTableTableManager
                 Value<int> taxTotal = const Value.absent(),
                 required int grandTotal,
                 Value<String?> paymentMethod = const Value.absent(),
+                Value<String?> paymentProvider = const Value.absent(),
+                Value<String?> paymentStatus = const Value.absent(),
+                Value<String?> paymentAttemptId = const Value.absent(),
+                Value<String?> paymentTransactionCode = const Value.absent(),
+                Value<String?> paymentError = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<String?> syncId = const Value.absent(),
                 Value<int?> employeeId = const Value.absent(),
@@ -15096,6 +15493,11 @@ class $$OrdersTableTableTableManager
                 taxTotal: taxTotal,
                 grandTotal: grandTotal,
                 paymentMethod: paymentMethod,
+                paymentProvider: paymentProvider,
+                paymentStatus: paymentStatus,
+                paymentAttemptId: paymentAttemptId,
+                paymentTransactionCode: paymentTransactionCode,
+                paymentError: paymentError,
                 note: note,
                 syncId: syncId,
                 employeeId: employeeId,

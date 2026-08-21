@@ -320,6 +320,7 @@ void main() {
         Product(
           id: 0,
           name: 'Panino',
+          sku: 'PANINO-001',
           categoryId: category.id,
           priceCents: 500,
           costCents: 150,
@@ -364,6 +365,10 @@ void main() {
       );
       // Stock is never part of a template restore.
       expect(restoredProduct.stockQuantity, 0);
+      // An additive restore must not duplicate an active product's unique
+      // SKU. The current product keeps it; the fresh restored copy does not.
+      expect(productsRepository.products[product.id]?.sku, 'PANINO-001');
+      expect(restoredProduct.sku, isNull);
       // categoryId was remapped to the newly-inserted category, not the
       // stale id captured in the snapshot.
       expect(restoredProduct.categoryId, isNot(category.id));

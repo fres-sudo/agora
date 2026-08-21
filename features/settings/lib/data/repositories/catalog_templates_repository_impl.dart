@@ -175,13 +175,22 @@ class CatalogTemplatesRepositoryImpl extends Repository
 
         final productIdMap = <int, int>{};
         for (final product in snapshot.products) {
+          final sku = product.sku;
+          final hasActiveSkuConflict =
+              !replaceExisting &&
+              sku != null &&
+              _unwrap(await _productsRepository.getProductBySku(sku)) != null;
+
           // Stock is deliberately never part of a template — a restored
           // product starts with whatever stock behavior a newly-created
-          // product normally gets.
+          // product normally gets. In additive mode, the current product
+          // keeps a conflicting SKU and the fresh restored copy starts
+          // without one so active SKU uniqueness remains intact.
           final created = _unwrap(
             await _productsRepository.createProduct(
               product.copyWith(
                 id: 0,
+                sku: hasActiveSkuConflict ? null : sku,
                 categoryId:
                     categoryIdMap[product.categoryId] ?? product.categoryId,
                 stockQuantity: 0,
