@@ -437,12 +437,14 @@ class _RowActionMenu extends StatelessWidget {
                 AppDropdownOptionRow(
                   label: 'Edit',
                   leadingIcon: AgoraIcons.pencil,
+                  reserveSelectionIndicator: false,
                   onTap: () => select(DataTableRowAction.edit),
                 ),
               if (showReprint)
                 AppDropdownOptionRow(
                   label: 'Reprint',
                   leadingIcon: AgoraIcons.printer,
+                  reserveSelectionIndicator: false,
                   onTap: () => select(DataTableRowAction.reprint),
                 ),
               if (showDelete)
@@ -490,8 +492,6 @@ class _DestructiveOptionRow extends StatelessWidget {
             ),
             child: Row(
               children: [
-                SizedBox(width: tokens.iconSize.md),
-                SizedBox(width: tokens.spacing.xs),
                 Icon(
                   AgoraIcons.trash,
                   size: tokens.iconSize.sm,

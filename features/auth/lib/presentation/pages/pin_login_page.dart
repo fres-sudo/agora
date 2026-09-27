@@ -35,6 +35,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
   }
 
   void _selectEmployee(SessionEmployee emp) {
+    if (_loading) return;
     setState(() {
       _selected = emp;
       _pin = '';
@@ -43,7 +44,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
   }
 
   void _onDigit(String digit) {
-    if (_pin.length >= 6) return;
+    if (_loading || _pin.length >= 6) return;
     setState(() {
       _pin += digit;
       _error = null;
@@ -51,12 +52,12 @@ class _PinLoginPageState extends State<PinLoginPage> {
   }
 
   void _onDelete() {
-    if (_pin.isEmpty) return;
+    if (_loading || _pin.isEmpty) return;
     setState(() => _pin = _pin.substring(0, _pin.length - 1));
   }
 
   Future<void> _onConfirm() async {
-    if (_selected == null || _pin.length < 4) return;
+    if (_loading || _selected == null || _pin.length < 4) return;
     setState(() {
       _loading = true;
       _error = null;
@@ -67,7 +68,9 @@ class _PinLoginPageState extends State<PinLoginPage> {
     if (state is SessionError) {
       setState(() {
         _loading = false;
-        _error = 'Incorrect PIN. Please try again.';
+        _error = state.message.startsWith('Too many incorrect attempts')
+            ? state.message
+            : 'Incorrect PIN. Please try again.';
         _pin = '';
       });
     }
@@ -98,6 +101,7 @@ class _PinLoginPageState extends State<PinLoginPage> {
                       onDelete: _onDelete,
                       onConfirm: _onConfirm,
                       onBack: () => setState(() {
+                        if (_loading) return;
                         _selected = null;
                         _pin = '';
                         _error = null;
