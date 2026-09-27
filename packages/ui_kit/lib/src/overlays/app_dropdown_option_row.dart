@@ -24,6 +24,7 @@ class AppDropdownOptionRow extends StatelessWidget {
     this.enabled = true,
     this.leadingIcon,
     this.leadingIconBackgroundColor,
+    this.reserveSelectionIndicator = true,
   });
 
   final String label;
@@ -34,6 +35,10 @@ class AppDropdownOptionRow extends StatelessWidget {
   final bool enabled;
   final IconData? leadingIcon;
   final Color? leadingIconBackgroundColor;
+
+  /// Keeps the checkmark gutter used by selectable dropdowns. Action menus
+  /// can disable it so their leading icons align with the row's left inset.
+  final bool reserveSelectionIndicator;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +83,7 @@ class AppDropdownOptionRow extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: tokens.spacing.xs),
-                  ] else ...[
+                  ] else if (reserveSelectionIndicator) ...[
                     SizedBox(
                       width: tokens.iconSize.md,
                       child: selected

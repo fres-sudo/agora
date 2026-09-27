@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
+import 'package:feature_reports/presentation/routes/reports_router.dart';
 import 'package:feature_reports/presentation/widgets/end_of_day_summary.dart';
 import 'package:feature_reports/presentation/widgets/summary_card.dart';
 import 'package:feature_reports/presentation/widgets/sales_overview_chart.dart';
@@ -132,6 +133,8 @@ class ReportPage extends StatelessWidget {
               Expanded(child: _buildPeriodDropdown(context, state)),
               SizedBox(width: context.tokens.spacing.sm),
               _buildDownloadButton(context),
+              SizedBox(width: context.tokens.spacing.sm),
+              _buildCloseButton(context),
             ],
           ),
         ],
@@ -145,6 +148,8 @@ class ReportPage extends StatelessWidget {
         _buildPeriodDropdown(context, state),
         SizedBox(width: context.tokens.spacing.sm),
         _buildDownloadButton(context),
+        SizedBox(width: context.tokens.spacing.sm),
+        _buildCloseButton(context),
       ],
     );
   }
@@ -165,11 +170,85 @@ class ReportPage extends StatelessWidget {
     );
   }
 
+  Widget _buildCloseButton(BuildContext context) {
+    return AppButton.outline(
+      onPressed: () => _showCloseConfirmDialog(context),
+      label: 'Chiudi Giornata',
+      leadingIcon: const Icon(AgoraIcons.lock_close, size: 20),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: context.colors.foreground,
+        side: BorderSide(color: context.colors.border),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.tokens.spacing.md,
+          vertical: context.tokens.spacing.sm,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(context.tokens.radius.xs),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showCloseConfirmDialog(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(
+              AgoraIcons.lock_close,
+              size: 20,
+              color: dialogContext.colors.foreground,
+            ),
+            SizedBox(width: dialogContext.tokens.spacing.sm),
+            const Text('Chiusura di Giornata'),
+          ],
+        ),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Stai per avviare la chiusura di cassa.',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 12),
+            Text(
+              'Nella schermata successiva potrai:\n'
+              '  • Visualizzare il riepilogo finanziario della giornata\n'
+              '  • Verificare contanti, carte e sconti applicati\n'
+              '  • Inserire l\'importo fisicamente contato nel cassetto\n'
+              '  • Stampare il report su stampante termica\n'
+              '  • Salvare la chiusura nello storico',
+            ),
+            SizedBox(height: 12),
+            Text(
+              'Gli ordini in corso non vengono modificati.',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Torna Indietro'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Continua'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      context.router.push(const ClosingReportRoute());
+    }
+  }
+
   Widget _buildDownloadButton(BuildContext context) {
     return AppButton.outline(
       onPressed: () {
-        // Export (CSV/PDF) is tracked separately as P5-4 and needs a
-        // file/share dependency; surface intent rather than silently no-op.
         AppToast.info(context, message: 'Export is coming soon');
       },
       label: t.report.download,

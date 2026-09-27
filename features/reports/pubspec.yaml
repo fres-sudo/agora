@@ -15,6 +15,9 @@ dependencies:
     path: ../../packages/bloc
   catalog:
     path: ../../packages/catalog
+  database:
+    path: ../../packages/database
+  drift: ^2.30.0
   feature_workforce:
     path: ../workforce
   fl_chart: ^1.1.1
@@ -26,6 +29,8 @@ dependencies:
     path: ../../packages/logger
   order_management:
     path: ../../packages/order_management
+  printing:
+    path: ../../packages/printing
   result:
     path: ../../packages/result
   talker: ^5.1.9
@@ -37,6 +42,7 @@ dependencies:
 dev_dependencies:
   auto_route_generator: ^10.2.6
   build_runner: ^2.4.7
+  drift_dev: ^2.30.0
   flutter_test:
     sdk: flutter
   freezed: ^3.2.3

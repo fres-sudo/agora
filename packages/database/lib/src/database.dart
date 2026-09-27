@@ -5,6 +5,7 @@ import 'package:drift/drift.dart';
 import 'color_converter.dart';
 import 'tables/cash_reconciliations_table.dart';
 import 'tables/catalog_templates_table.dart';
+import 'tables/closing_reports_table.dart';
 import 'tables/categories_table.dart';
 import 'tables/clock_records_table.dart';
 import 'tables/combos_table.dart';
@@ -44,13 +45,14 @@ part 'database.g.dart';
     ComboItemsTable,
     CashReconciliationsTable,
     CatalogTemplatesTable,
+    ClosingReportsTable,
   ],
 )
 class AgoraDatabase extends _$AgoraDatabase {
   AgoraDatabase(super.executor);
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration {
@@ -171,6 +173,11 @@ class AgoraDatabase extends _$AgoraDatabase {
             'CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_payment_attempt_id '
             'ON orders_table (payment_attempt_id)',
           );
+        }
+        if (from < 12) {
+          // v11 -> v12: closing-report records (end-of-day / end-of-shift cash
+          // closure with optional cash-count reconciliation).
+          await m.createTable(closingReportsTable);
         }
       },
     );

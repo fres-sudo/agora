@@ -36,10 +36,6 @@ bool operator ==(Object other) {
 @override
 int get hashCode => Object.hash(runtimeType,id,name,pin,role,isActive,hourlyRateCents,avatarUrl,createdAt);
 
-@override
-String toString() {
-  return 'Employee(id: $id, name: $name, pin: $pin, role: $role, isActive: $isActive, hourlyRateCents: $hourlyRateCents, avatarUrl: $avatarUrl, createdAt: $createdAt)';
-}
 
 
 }
@@ -250,10 +246,6 @@ bool operator ==(Object other) {
 @override
 int get hashCode => Object.hash(runtimeType,id,name,pin,role,isActive,hourlyRateCents,avatarUrl,createdAt);
 
-@override
-String toString() {
-  return 'Employee(id: $id, name: $name, pin: $pin, role: $role, isActive: $isActive, hourlyRateCents: $hourlyRateCents, avatarUrl: $avatarUrl, createdAt: $createdAt)';
-}
 
 
 }

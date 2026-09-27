@@ -53,7 +53,7 @@ class WorkforceRepositoryImpl extends Repository
         final id = await _employeesDao.insertEmployee(
           employee.toInsertCompanion(),
         );
-        return employee.copyWith(id: id);
+        return employee.copyWith(id: id, pin: '');
       });
 
   @override
@@ -63,7 +63,7 @@ class WorkforceRepositoryImpl extends Repository
           employee.id,
           employee.toUpdateCompanion(),
         );
-        return employee;
+        return employee.copyWith(pin: '');
       });
 
   @override

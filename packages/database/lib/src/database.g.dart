@@ -10850,6 +10850,895 @@ class CatalogTemplatesTableCompanion
   }
 }
 
+class $ClosingReportsTableTable extends ClosingReportsTable
+    with TableInfo<$ClosingReportsTableTable, ClosingReportEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ClosingReportsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _deletedAtMeta = const VerificationMeta(
+    'deletedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+    'deleted_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _periodStartMeta = const VerificationMeta(
+    'periodStart',
+  );
+  @override
+  late final GeneratedColumn<DateTime> periodStart = GeneratedColumn<DateTime>(
+    'period_start',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _periodEndMeta = const VerificationMeta(
+    'periodEnd',
+  );
+  @override
+  late final GeneratedColumn<DateTime> periodEnd = GeneratedColumn<DateTime>(
+    'period_end',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalOrdersMeta = const VerificationMeta(
+    'totalOrders',
+  );
+  @override
+  late final GeneratedColumn<int> totalOrders = GeneratedColumn<int>(
+    'total_orders',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalRevenueCentsMeta = const VerificationMeta(
+    'totalRevenueCents',
+  );
+  @override
+  late final GeneratedColumn<int> totalRevenueCents = GeneratedColumn<int>(
+    'total_revenue_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalTaxCentsMeta = const VerificationMeta(
+    'totalTaxCents',
+  );
+  @override
+  late final GeneratedColumn<int> totalTaxCents = GeneratedColumn<int>(
+    'total_tax_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalDiscountCentsMeta =
+      const VerificationMeta('totalDiscountCents');
+  @override
+  late final GeneratedColumn<int> totalDiscountCents = GeneratedColumn<int>(
+    'total_discount_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cashRevenueCentsMeta = const VerificationMeta(
+    'cashRevenueCents',
+  );
+  @override
+  late final GeneratedColumn<int> cashRevenueCents = GeneratedColumn<int>(
+    'cash_revenue_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cardRevenueCentsMeta = const VerificationMeta(
+    'cardRevenueCents',
+  );
+  @override
+  late final GeneratedColumn<int> cardRevenueCents = GeneratedColumn<int>(
+    'card_revenue_cents',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _voidedOrdersMeta = const VerificationMeta(
+    'voidedOrders',
+  );
+  @override
+  late final GeneratedColumn<int> voidedOrders = GeneratedColumn<int>(
+    'voided_orders',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cashCountedCentsMeta = const VerificationMeta(
+    'cashCountedCents',
+  );
+  @override
+  late final GeneratedColumn<int> cashCountedCents = GeneratedColumn<int>(
+    'cash_counted_cents',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    periodStart,
+    periodEnd,
+    totalOrders,
+    totalRevenueCents,
+    totalTaxCents,
+    totalDiscountCents,
+    cashRevenueCents,
+    cardRevenueCents,
+    voidedOrders,
+    cashCountedCents,
+    notes,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'closing_reports_table';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ClosingReportEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(
+        _deletedAtMeta,
+        deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
+      );
+    }
+    if (data.containsKey('period_start')) {
+      context.handle(
+        _periodStartMeta,
+        periodStart.isAcceptableOrUnknown(
+          data['period_start']!,
+          _periodStartMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_periodStartMeta);
+    }
+    if (data.containsKey('period_end')) {
+      context.handle(
+        _periodEndMeta,
+        periodEnd.isAcceptableOrUnknown(data['period_end']!, _periodEndMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_periodEndMeta);
+    }
+    if (data.containsKey('total_orders')) {
+      context.handle(
+        _totalOrdersMeta,
+        totalOrders.isAcceptableOrUnknown(
+          data['total_orders']!,
+          _totalOrdersMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_totalOrdersMeta);
+    }
+    if (data.containsKey('total_revenue_cents')) {
+      context.handle(
+        _totalRevenueCentsMeta,
+        totalRevenueCents.isAcceptableOrUnknown(
+          data['total_revenue_cents']!,
+          _totalRevenueCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_totalRevenueCentsMeta);
+    }
+    if (data.containsKey('total_tax_cents')) {
+      context.handle(
+        _totalTaxCentsMeta,
+        totalTaxCents.isAcceptableOrUnknown(
+          data['total_tax_cents']!,
+          _totalTaxCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_totalTaxCentsMeta);
+    }
+    if (data.containsKey('total_discount_cents')) {
+      context.handle(
+        _totalDiscountCentsMeta,
+        totalDiscountCents.isAcceptableOrUnknown(
+          data['total_discount_cents']!,
+          _totalDiscountCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_totalDiscountCentsMeta);
+    }
+    if (data.containsKey('cash_revenue_cents')) {
+      context.handle(
+        _cashRevenueCentsMeta,
+        cashRevenueCents.isAcceptableOrUnknown(
+          data['cash_revenue_cents']!,
+          _cashRevenueCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_cashRevenueCentsMeta);
+    }
+    if (data.containsKey('card_revenue_cents')) {
+      context.handle(
+        _cardRevenueCentsMeta,
+        cardRevenueCents.isAcceptableOrUnknown(
+          data['card_revenue_cents']!,
+          _cardRevenueCentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_cardRevenueCentsMeta);
+    }
+    if (data.containsKey('voided_orders')) {
+      context.handle(
+        _voidedOrdersMeta,
+        voidedOrders.isAcceptableOrUnknown(
+          data['voided_orders']!,
+          _voidedOrdersMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_voidedOrdersMeta);
+    }
+    if (data.containsKey('cash_counted_cents')) {
+      context.handle(
+        _cashCountedCentsMeta,
+        cashCountedCents.isAcceptableOrUnknown(
+          data['cash_counted_cents']!,
+          _cashCountedCentsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ClosingReportEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ClosingReportEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      ),
+      deletedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deleted_at'],
+      ),
+      periodStart: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}period_start'],
+      )!,
+      periodEnd: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}period_end'],
+      )!,
+      totalOrders: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_orders'],
+      )!,
+      totalRevenueCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_revenue_cents'],
+      )!,
+      totalTaxCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_tax_cents'],
+      )!,
+      totalDiscountCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_discount_cents'],
+      )!,
+      cashRevenueCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cash_revenue_cents'],
+      )!,
+      cardRevenueCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}card_revenue_cents'],
+      )!,
+      voidedOrders: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}voided_orders'],
+      )!,
+      cashCountedCents: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cash_counted_cents'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+    );
+  }
+
+  @override
+  $ClosingReportsTableTable createAlias(String alias) {
+    return $ClosingReportsTableTable(attachedDatabase, alias);
+  }
+}
+
+class ClosingReportEntity extends DataClass
+    implements Insertable<ClosingReportEntity> {
+  final int id;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? deletedAt;
+  final DateTime periodStart;
+  final DateTime periodEnd;
+  final int totalOrders;
+  final int totalRevenueCents;
+  final int totalTaxCents;
+  final int totalDiscountCents;
+  final int cashRevenueCents;
+  final int cardRevenueCents;
+  final int voidedOrders;
+
+  /// Cash physically counted in the drawer by the operator; null if skipped.
+  final int? cashCountedCents;
+  final String? notes;
+  const ClosingReportEntity({
+    required this.id,
+    required this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    required this.periodStart,
+    required this.periodEnd,
+    required this.totalOrders,
+    required this.totalRevenueCents,
+    required this.totalTaxCents,
+    required this.totalDiscountCents,
+    required this.cashRevenueCents,
+    required this.cardRevenueCents,
+    required this.voidedOrders,
+    this.cashCountedCents,
+    this.notes,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
+    map['period_start'] = Variable<DateTime>(periodStart);
+    map['period_end'] = Variable<DateTime>(periodEnd);
+    map['total_orders'] = Variable<int>(totalOrders);
+    map['total_revenue_cents'] = Variable<int>(totalRevenueCents);
+    map['total_tax_cents'] = Variable<int>(totalTaxCents);
+    map['total_discount_cents'] = Variable<int>(totalDiscountCents);
+    map['cash_revenue_cents'] = Variable<int>(cashRevenueCents);
+    map['card_revenue_cents'] = Variable<int>(cardRevenueCents);
+    map['voided_orders'] = Variable<int>(voidedOrders);
+    if (!nullToAbsent || cashCountedCents != null) {
+      map['cash_counted_cents'] = Variable<int>(cashCountedCents);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    return map;
+  }
+
+  ClosingReportsTableCompanion toCompanion(bool nullToAbsent) {
+    return ClosingReportsTableCompanion(
+      id: Value(id),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
+      periodStart: Value(periodStart),
+      periodEnd: Value(periodEnd),
+      totalOrders: Value(totalOrders),
+      totalRevenueCents: Value(totalRevenueCents),
+      totalTaxCents: Value(totalTaxCents),
+      totalDiscountCents: Value(totalDiscountCents),
+      cashRevenueCents: Value(cashRevenueCents),
+      cardRevenueCents: Value(cardRevenueCents),
+      voidedOrders: Value(voidedOrders),
+      cashCountedCents: cashCountedCents == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cashCountedCents),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+    );
+  }
+
+  factory ClosingReportEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ClosingReportEntity(
+      id: serializer.fromJson<int>(json['id']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
+      periodStart: serializer.fromJson<DateTime>(json['periodStart']),
+      periodEnd: serializer.fromJson<DateTime>(json['periodEnd']),
+      totalOrders: serializer.fromJson<int>(json['totalOrders']),
+      totalRevenueCents: serializer.fromJson<int>(json['totalRevenueCents']),
+      totalTaxCents: serializer.fromJson<int>(json['totalTaxCents']),
+      totalDiscountCents: serializer.fromJson<int>(json['totalDiscountCents']),
+      cashRevenueCents: serializer.fromJson<int>(json['cashRevenueCents']),
+      cardRevenueCents: serializer.fromJson<int>(json['cardRevenueCents']),
+      voidedOrders: serializer.fromJson<int>(json['voidedOrders']),
+      cashCountedCents: serializer.fromJson<int?>(json['cashCountedCents']),
+      notes: serializer.fromJson<String?>(json['notes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
+      'periodStart': serializer.toJson<DateTime>(periodStart),
+      'periodEnd': serializer.toJson<DateTime>(periodEnd),
+      'totalOrders': serializer.toJson<int>(totalOrders),
+      'totalRevenueCents': serializer.toJson<int>(totalRevenueCents),
+      'totalTaxCents': serializer.toJson<int>(totalTaxCents),
+      'totalDiscountCents': serializer.toJson<int>(totalDiscountCents),
+      'cashRevenueCents': serializer.toJson<int>(cashRevenueCents),
+      'cardRevenueCents': serializer.toJson<int>(cardRevenueCents),
+      'voidedOrders': serializer.toJson<int>(voidedOrders),
+      'cashCountedCents': serializer.toJson<int?>(cashCountedCents),
+      'notes': serializer.toJson<String?>(notes),
+    };
+  }
+
+  ClosingReportEntity copyWith({
+    int? id,
+    DateTime? createdAt,
+    Value<DateTime?> updatedAt = const Value.absent(),
+    Value<DateTime?> deletedAt = const Value.absent(),
+    DateTime? periodStart,
+    DateTime? periodEnd,
+    int? totalOrders,
+    int? totalRevenueCents,
+    int? totalTaxCents,
+    int? totalDiscountCents,
+    int? cashRevenueCents,
+    int? cardRevenueCents,
+    int? voidedOrders,
+    Value<int?> cashCountedCents = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+  }) => ClosingReportEntity(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
+    periodStart: periodStart ?? this.periodStart,
+    periodEnd: periodEnd ?? this.periodEnd,
+    totalOrders: totalOrders ?? this.totalOrders,
+    totalRevenueCents: totalRevenueCents ?? this.totalRevenueCents,
+    totalTaxCents: totalTaxCents ?? this.totalTaxCents,
+    totalDiscountCents: totalDiscountCents ?? this.totalDiscountCents,
+    cashRevenueCents: cashRevenueCents ?? this.cashRevenueCents,
+    cardRevenueCents: cardRevenueCents ?? this.cardRevenueCents,
+    voidedOrders: voidedOrders ?? this.voidedOrders,
+    cashCountedCents: cashCountedCents.present
+        ? cashCountedCents.value
+        : this.cashCountedCents,
+    notes: notes.present ? notes.value : this.notes,
+  );
+  ClosingReportEntity copyWithCompanion(ClosingReportsTableCompanion data) {
+    return ClosingReportEntity(
+      id: data.id.present ? data.id.value : this.id,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
+      periodStart: data.periodStart.present
+          ? data.periodStart.value
+          : this.periodStart,
+      periodEnd: data.periodEnd.present ? data.periodEnd.value : this.periodEnd,
+      totalOrders: data.totalOrders.present
+          ? data.totalOrders.value
+          : this.totalOrders,
+      totalRevenueCents: data.totalRevenueCents.present
+          ? data.totalRevenueCents.value
+          : this.totalRevenueCents,
+      totalTaxCents: data.totalTaxCents.present
+          ? data.totalTaxCents.value
+          : this.totalTaxCents,
+      totalDiscountCents: data.totalDiscountCents.present
+          ? data.totalDiscountCents.value
+          : this.totalDiscountCents,
+      cashRevenueCents: data.cashRevenueCents.present
+          ? data.cashRevenueCents.value
+          : this.cashRevenueCents,
+      cardRevenueCents: data.cardRevenueCents.present
+          ? data.cardRevenueCents.value
+          : this.cardRevenueCents,
+      voidedOrders: data.voidedOrders.present
+          ? data.voidedOrders.value
+          : this.voidedOrders,
+      cashCountedCents: data.cashCountedCents.present
+          ? data.cashCountedCents.value
+          : this.cashCountedCents,
+      notes: data.notes.present ? data.notes.value : this.notes,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClosingReportEntity(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('periodStart: $periodStart, ')
+          ..write('periodEnd: $periodEnd, ')
+          ..write('totalOrders: $totalOrders, ')
+          ..write('totalRevenueCents: $totalRevenueCents, ')
+          ..write('totalTaxCents: $totalTaxCents, ')
+          ..write('totalDiscountCents: $totalDiscountCents, ')
+          ..write('cashRevenueCents: $cashRevenueCents, ')
+          ..write('cardRevenueCents: $cardRevenueCents, ')
+          ..write('voidedOrders: $voidedOrders, ')
+          ..write('cashCountedCents: $cashCountedCents, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    periodStart,
+    periodEnd,
+    totalOrders,
+    totalRevenueCents,
+    totalTaxCents,
+    totalDiscountCents,
+    cashRevenueCents,
+    cardRevenueCents,
+    voidedOrders,
+    cashCountedCents,
+    notes,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ClosingReportEntity &&
+          other.id == this.id &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.deletedAt == this.deletedAt &&
+          other.periodStart == this.periodStart &&
+          other.periodEnd == this.periodEnd &&
+          other.totalOrders == this.totalOrders &&
+          other.totalRevenueCents == this.totalRevenueCents &&
+          other.totalTaxCents == this.totalTaxCents &&
+          other.totalDiscountCents == this.totalDiscountCents &&
+          other.cashRevenueCents == this.cashRevenueCents &&
+          other.cardRevenueCents == this.cardRevenueCents &&
+          other.voidedOrders == this.voidedOrders &&
+          other.cashCountedCents == this.cashCountedCents &&
+          other.notes == this.notes);
+}
+
+class ClosingReportsTableCompanion
+    extends UpdateCompanion<ClosingReportEntity> {
+  final Value<int> id;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  final Value<DateTime?> deletedAt;
+  final Value<DateTime> periodStart;
+  final Value<DateTime> periodEnd;
+  final Value<int> totalOrders;
+  final Value<int> totalRevenueCents;
+  final Value<int> totalTaxCents;
+  final Value<int> totalDiscountCents;
+  final Value<int> cashRevenueCents;
+  final Value<int> cardRevenueCents;
+  final Value<int> voidedOrders;
+  final Value<int?> cashCountedCents;
+  final Value<String?> notes;
+  const ClosingReportsTableCompanion({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    this.periodStart = const Value.absent(),
+    this.periodEnd = const Value.absent(),
+    this.totalOrders = const Value.absent(),
+    this.totalRevenueCents = const Value.absent(),
+    this.totalTaxCents = const Value.absent(),
+    this.totalDiscountCents = const Value.absent(),
+    this.cashRevenueCents = const Value.absent(),
+    this.cardRevenueCents = const Value.absent(),
+    this.voidedOrders = const Value.absent(),
+    this.cashCountedCents = const Value.absent(),
+    this.notes = const Value.absent(),
+  });
+  ClosingReportsTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.deletedAt = const Value.absent(),
+    required DateTime periodStart,
+    required DateTime periodEnd,
+    required int totalOrders,
+    required int totalRevenueCents,
+    required int totalTaxCents,
+    required int totalDiscountCents,
+    required int cashRevenueCents,
+    required int cardRevenueCents,
+    required int voidedOrders,
+    this.cashCountedCents = const Value.absent(),
+    this.notes = const Value.absent(),
+  }) : periodStart = Value(periodStart),
+       periodEnd = Value(periodEnd),
+       totalOrders = Value(totalOrders),
+       totalRevenueCents = Value(totalRevenueCents),
+       totalTaxCents = Value(totalTaxCents),
+       totalDiscountCents = Value(totalDiscountCents),
+       cashRevenueCents = Value(cashRevenueCents),
+       cardRevenueCents = Value(cardRevenueCents),
+       voidedOrders = Value(voidedOrders);
+  static Insertable<ClosingReportEntity> custom({
+    Expression<int>? id,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<DateTime>? deletedAt,
+    Expression<DateTime>? periodStart,
+    Expression<DateTime>? periodEnd,
+    Expression<int>? totalOrders,
+    Expression<int>? totalRevenueCents,
+    Expression<int>? totalTaxCents,
+    Expression<int>? totalDiscountCents,
+    Expression<int>? cashRevenueCents,
+    Expression<int>? cardRevenueCents,
+    Expression<int>? voidedOrders,
+    Expression<int>? cashCountedCents,
+    Expression<String>? notes,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (deletedAt != null) 'deleted_at': deletedAt,
+      if (periodStart != null) 'period_start': periodStart,
+      if (periodEnd != null) 'period_end': periodEnd,
+      if (totalOrders != null) 'total_orders': totalOrders,
+      if (totalRevenueCents != null) 'total_revenue_cents': totalRevenueCents,
+      if (totalTaxCents != null) 'total_tax_cents': totalTaxCents,
+      if (totalDiscountCents != null)
+        'total_discount_cents': totalDiscountCents,
+      if (cashRevenueCents != null) 'cash_revenue_cents': cashRevenueCents,
+      if (cardRevenueCents != null) 'card_revenue_cents': cardRevenueCents,
+      if (voidedOrders != null) 'voided_orders': voidedOrders,
+      if (cashCountedCents != null) 'cash_counted_cents': cashCountedCents,
+      if (notes != null) 'notes': notes,
+    });
+  }
+
+  ClosingReportsTableCompanion copyWith({
+    Value<int>? id,
+    Value<DateTime>? createdAt,
+    Value<DateTime?>? updatedAt,
+    Value<DateTime?>? deletedAt,
+    Value<DateTime>? periodStart,
+    Value<DateTime>? periodEnd,
+    Value<int>? totalOrders,
+    Value<int>? totalRevenueCents,
+    Value<int>? totalTaxCents,
+    Value<int>? totalDiscountCents,
+    Value<int>? cashRevenueCents,
+    Value<int>? cardRevenueCents,
+    Value<int>? voidedOrders,
+    Value<int?>? cashCountedCents,
+    Value<String?>? notes,
+  }) {
+    return ClosingReportsTableCompanion(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      deletedAt: deletedAt ?? this.deletedAt,
+      periodStart: periodStart ?? this.periodStart,
+      periodEnd: periodEnd ?? this.periodEnd,
+      totalOrders: totalOrders ?? this.totalOrders,
+      totalRevenueCents: totalRevenueCents ?? this.totalRevenueCents,
+      totalTaxCents: totalTaxCents ?? this.totalTaxCents,
+      totalDiscountCents: totalDiscountCents ?? this.totalDiscountCents,
+      cashRevenueCents: cashRevenueCents ?? this.cashRevenueCents,
+      cardRevenueCents: cardRevenueCents ?? this.cardRevenueCents,
+      voidedOrders: voidedOrders ?? this.voidedOrders,
+      cashCountedCents: cashCountedCents ?? this.cashCountedCents,
+      notes: notes ?? this.notes,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
+    if (periodStart.present) {
+      map['period_start'] = Variable<DateTime>(periodStart.value);
+    }
+    if (periodEnd.present) {
+      map['period_end'] = Variable<DateTime>(periodEnd.value);
+    }
+    if (totalOrders.present) {
+      map['total_orders'] = Variable<int>(totalOrders.value);
+    }
+    if (totalRevenueCents.present) {
+      map['total_revenue_cents'] = Variable<int>(totalRevenueCents.value);
+    }
+    if (totalTaxCents.present) {
+      map['total_tax_cents'] = Variable<int>(totalTaxCents.value);
+    }
+    if (totalDiscountCents.present) {
+      map['total_discount_cents'] = Variable<int>(totalDiscountCents.value);
+    }
+    if (cashRevenueCents.present) {
+      map['cash_revenue_cents'] = Variable<int>(cashRevenueCents.value);
+    }
+    if (cardRevenueCents.present) {
+      map['card_revenue_cents'] = Variable<int>(cardRevenueCents.value);
+    }
+    if (voidedOrders.present) {
+      map['voided_orders'] = Variable<int>(voidedOrders.value);
+    }
+    if (cashCountedCents.present) {
+      map['cash_counted_cents'] = Variable<int>(cashCountedCents.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ClosingReportsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('deletedAt: $deletedAt, ')
+          ..write('periodStart: $periodStart, ')
+          ..write('periodEnd: $periodEnd, ')
+          ..write('totalOrders: $totalOrders, ')
+          ..write('totalRevenueCents: $totalRevenueCents, ')
+          ..write('totalTaxCents: $totalTaxCents, ')
+          ..write('totalDiscountCents: $totalDiscountCents, ')
+          ..write('cashRevenueCents: $cashRevenueCents, ')
+          ..write('cardRevenueCents: $cardRevenueCents, ')
+          ..write('voidedOrders: $voidedOrders, ')
+          ..write('cashCountedCents: $cashCountedCents, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AgoraDatabase extends GeneratedDatabase {
   _$AgoraDatabase(QueryExecutor e) : super(e);
   $AgoraDatabaseManager get managers => $AgoraDatabaseManager(this);
@@ -10887,6 +11776,8 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
       $CashReconciliationsTableTable(this);
   late final $CatalogTemplatesTableTable catalogTemplatesTable =
       $CatalogTemplatesTableTable(this);
+  late final $ClosingReportsTableTable closingReportsTable =
+      $ClosingReportsTableTable(this);
   late final Index idxProductsActiveSku = Index(
     'idx_products_active_sku',
     'CREATE UNIQUE INDEX idx_products_active_sku ON products_table (sku) WHERE deleted_at IS NULL',
@@ -10931,6 +11822,7 @@ abstract class _$AgoraDatabase extends GeneratedDatabase {
     comboItemsTable,
     cashReconciliationsTable,
     catalogTemplatesTable,
+    closingReportsTable,
     idxProductsActiveSku,
     idxStockMovementsSyncId,
     idxOrdersSyncId,
@@ -19773,6 +20665,424 @@ typedef $$CatalogTemplatesTableTableProcessedTableManager =
       CatalogTemplateEntity,
       PrefetchHooks Function()
     >;
+typedef $$ClosingReportsTableTableCreateCompanionBuilder =
+    ClosingReportsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      required DateTime periodStart,
+      required DateTime periodEnd,
+      required int totalOrders,
+      required int totalRevenueCents,
+      required int totalTaxCents,
+      required int totalDiscountCents,
+      required int cashRevenueCents,
+      required int cardRevenueCents,
+      required int voidedOrders,
+      Value<int?> cashCountedCents,
+      Value<String?> notes,
+    });
+typedef $$ClosingReportsTableTableUpdateCompanionBuilder =
+    ClosingReportsTableCompanion Function({
+      Value<int> id,
+      Value<DateTime> createdAt,
+      Value<DateTime?> updatedAt,
+      Value<DateTime?> deletedAt,
+      Value<DateTime> periodStart,
+      Value<DateTime> periodEnd,
+      Value<int> totalOrders,
+      Value<int> totalRevenueCents,
+      Value<int> totalTaxCents,
+      Value<int> totalDiscountCents,
+      Value<int> cashRevenueCents,
+      Value<int> cardRevenueCents,
+      Value<int> voidedOrders,
+      Value<int?> cashCountedCents,
+      Value<String?> notes,
+    });
+
+class $$ClosingReportsTableTableFilterComposer
+    extends Composer<_$AgoraDatabase, $ClosingReportsTableTable> {
+  $$ClosingReportsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get periodStart => $composableBuilder(
+    column: $table.periodStart,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get periodEnd => $composableBuilder(
+    column: $table.periodEnd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalOrders => $composableBuilder(
+    column: $table.totalOrders,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalRevenueCents => $composableBuilder(
+    column: $table.totalRevenueCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalTaxCents => $composableBuilder(
+    column: $table.totalTaxCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalDiscountCents => $composableBuilder(
+    column: $table.totalDiscountCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cashRevenueCents => $composableBuilder(
+    column: $table.cashRevenueCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cardRevenueCents => $composableBuilder(
+    column: $table.cardRevenueCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get voidedOrders => $composableBuilder(
+    column: $table.voidedOrders,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cashCountedCents => $composableBuilder(
+    column: $table.cashCountedCents,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ClosingReportsTableTableOrderingComposer
+    extends Composer<_$AgoraDatabase, $ClosingReportsTableTable> {
+  $$ClosingReportsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+    column: $table.deletedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get periodStart => $composableBuilder(
+    column: $table.periodStart,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get periodEnd => $composableBuilder(
+    column: $table.periodEnd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalOrders => $composableBuilder(
+    column: $table.totalOrders,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalRevenueCents => $composableBuilder(
+    column: $table.totalRevenueCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalTaxCents => $composableBuilder(
+    column: $table.totalTaxCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalDiscountCents => $composableBuilder(
+    column: $table.totalDiscountCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cashRevenueCents => $composableBuilder(
+    column: $table.cashRevenueCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cardRevenueCents => $composableBuilder(
+    column: $table.cardRevenueCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get voidedOrders => $composableBuilder(
+    column: $table.voidedOrders,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cashCountedCents => $composableBuilder(
+    column: $table.cashCountedCents,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ClosingReportsTableTableAnnotationComposer
+    extends Composer<_$AgoraDatabase, $ClosingReportsTableTable> {
+  $$ClosingReportsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get periodStart => $composableBuilder(
+    column: $table.periodStart,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get periodEnd =>
+      $composableBuilder(column: $table.periodEnd, builder: (column) => column);
+
+  GeneratedColumn<int> get totalOrders => $composableBuilder(
+    column: $table.totalOrders,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get totalRevenueCents => $composableBuilder(
+    column: $table.totalRevenueCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get totalTaxCents => $composableBuilder(
+    column: $table.totalTaxCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get totalDiscountCents => $composableBuilder(
+    column: $table.totalDiscountCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get cashRevenueCents => $composableBuilder(
+    column: $table.cashRevenueCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get cardRevenueCents => $composableBuilder(
+    column: $table.cardRevenueCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get voidedOrders => $composableBuilder(
+    column: $table.voidedOrders,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get cashCountedCents => $composableBuilder(
+    column: $table.cashCountedCents,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+}
+
+class $$ClosingReportsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AgoraDatabase,
+          $ClosingReportsTableTable,
+          ClosingReportEntity,
+          $$ClosingReportsTableTableFilterComposer,
+          $$ClosingReportsTableTableOrderingComposer,
+          $$ClosingReportsTableTableAnnotationComposer,
+          $$ClosingReportsTableTableCreateCompanionBuilder,
+          $$ClosingReportsTableTableUpdateCompanionBuilder,
+          (
+            ClosingReportEntity,
+            BaseReferences<
+              _$AgoraDatabase,
+              $ClosingReportsTableTable,
+              ClosingReportEntity
+            >,
+          ),
+          ClosingReportEntity,
+          PrefetchHooks Function()
+        > {
+  $$ClosingReportsTableTableTableManager(
+    _$AgoraDatabase db,
+    $ClosingReportsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ClosingReportsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ClosingReportsTableTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$ClosingReportsTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                Value<DateTime> periodStart = const Value.absent(),
+                Value<DateTime> periodEnd = const Value.absent(),
+                Value<int> totalOrders = const Value.absent(),
+                Value<int> totalRevenueCents = const Value.absent(),
+                Value<int> totalTaxCents = const Value.absent(),
+                Value<int> totalDiscountCents = const Value.absent(),
+                Value<int> cashRevenueCents = const Value.absent(),
+                Value<int> cardRevenueCents = const Value.absent(),
+                Value<int> voidedOrders = const Value.absent(),
+                Value<int?> cashCountedCents = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+              }) => ClosingReportsTableCompanion(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                periodStart: periodStart,
+                periodEnd: periodEnd,
+                totalOrders: totalOrders,
+                totalRevenueCents: totalRevenueCents,
+                totalTaxCents: totalTaxCents,
+                totalDiscountCents: totalDiscountCents,
+                cashRevenueCents: cashRevenueCents,
+                cardRevenueCents: cardRevenueCents,
+                voidedOrders: voidedOrders,
+                cashCountedCents: cashCountedCents,
+                notes: notes,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime?> updatedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
+                required DateTime periodStart,
+                required DateTime periodEnd,
+                required int totalOrders,
+                required int totalRevenueCents,
+                required int totalTaxCents,
+                required int totalDiscountCents,
+                required int cashRevenueCents,
+                required int cardRevenueCents,
+                required int voidedOrders,
+                Value<int?> cashCountedCents = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+              }) => ClosingReportsTableCompanion.insert(
+                id: id,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                deletedAt: deletedAt,
+                periodStart: periodStart,
+                periodEnd: periodEnd,
+                totalOrders: totalOrders,
+                totalRevenueCents: totalRevenueCents,
+                totalTaxCents: totalTaxCents,
+                totalDiscountCents: totalDiscountCents,
+                cashRevenueCents: cashRevenueCents,
+                cardRevenueCents: cardRevenueCents,
+                voidedOrders: voidedOrders,
+                cashCountedCents: cashCountedCents,
+                notes: notes,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ClosingReportsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AgoraDatabase,
+      $ClosingReportsTableTable,
+      ClosingReportEntity,
+      $$ClosingReportsTableTableFilterComposer,
+      $$ClosingReportsTableTableOrderingComposer,
+      $$ClosingReportsTableTableAnnotationComposer,
+      $$ClosingReportsTableTableCreateCompanionBuilder,
+      $$ClosingReportsTableTableUpdateCompanionBuilder,
+      (
+        ClosingReportEntity,
+        BaseReferences<
+          _$AgoraDatabase,
+          $ClosingReportsTableTable,
+          ClosingReportEntity
+        >,
+      ),
+      ClosingReportEntity,
+      PrefetchHooks Function()
+    >;
 
 class $AgoraDatabaseManager {
   final _$AgoraDatabase _db;
@@ -19821,4 +21131,6 @@ class $AgoraDatabaseManager {
       );
   $$CatalogTemplatesTableTableTableManager get catalogTemplatesTable =>
       $$CatalogTemplatesTableTableTableManager(_db, _db.catalogTemplatesTable);
+  $$ClosingReportsTableTableTableManager get closingReportsTable =>
+      $$ClosingReportsTableTableTableManager(_db, _db.closingReportsTable);
 }

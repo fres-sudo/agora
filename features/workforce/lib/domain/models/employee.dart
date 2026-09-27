@@ -3,7 +3,7 @@ import 'employee_role.dart';
 
 part 'employee.freezed.dart';
 
-@freezed
+@Freezed(toStringOverride: false)
 abstract class Employee with _$Employee {
   const factory Employee({
     required int id,
@@ -24,4 +24,10 @@ abstract class Employee with _$Employee {
 
   bool get isOwner => role == EmployeeRole.owner;
   bool get isManager => role == EmployeeRole.manager || isOwner;
+
+  @override
+  String toString() =>
+      'Employee(id: $id, name: $name, pin: [REDACTED], role: $role, '
+      'isActive: $isActive, hourlyRateCents: $hourlyRateCents, '
+      'avatarUrl: $avatarUrl, createdAt: $createdAt)';
 }
