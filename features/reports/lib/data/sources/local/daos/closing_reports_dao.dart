@@ -10,12 +10,12 @@ class ClosingReportsDao extends DatabaseAccessor<AgoraDatabase>
 
   /// Streams all non-deleted closing reports, newest first.
   Stream<List<ClosingReportEntity>> watchAll() =>
-      (select(closingReportsTable)
+      (select(attachedDatabase.closingReportsTable)
             ..where((t) => t.deletedAt.isNull())
             ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
           .watch();
 
   /// Inserts a new closing report row and returns the generated id.
   Future<int> insertRecord(ClosingReportsTableCompanion companion) =>
-      into(closingReportsTable).insert(companion);
+      into(attachedDatabase.closingReportsTable).insert(companion);
 }
