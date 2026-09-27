@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
+import 'package:feature_reports/presentation/routes/reports_router.gr.dart';
 import 'package:feature_reports/presentation/widgets/end_of_day_summary.dart';
 import 'package:feature_reports/presentation/widgets/summary_card.dart';
 import 'package:feature_reports/presentation/widgets/sales_overview_chart.dart';
@@ -131,6 +132,8 @@ class ReportPage extends StatelessWidget {
             children: [
               Expanded(child: _buildPeriodDropdown(context, state)),
               SizedBox(width: context.tokens.spacing.sm),
+              _buildCloseButton(context),
+              SizedBox(width: context.tokens.spacing.sm),
               _buildDownloadButton(context),
             ],
           ),
@@ -143,6 +146,8 @@ class ReportPage extends StatelessWidget {
         title,
         const Spacer(),
         _buildPeriodDropdown(context, state),
+        SizedBox(width: context.tokens.spacing.sm),
+        _buildCloseButton(context),
         SizedBox(width: context.tokens.spacing.sm),
         _buildDownloadButton(context),
       ],
@@ -162,6 +167,14 @@ class ReportPage extends StatelessWidget {
           if (period != null) context.reportsCubit.selectPeriod(period);
         },
       ),
+    );
+  }
+
+  Widget _buildCloseButton(BuildContext context) {
+    return AppButton.filled(
+      onPressed: () => context.navigateTo(const ClosingReportRoute()),
+      label: 'Chiudi Giornata',
+      leadingIcon: const Icon(AgoraIcons.lock, size: 20),
     );
   }
 

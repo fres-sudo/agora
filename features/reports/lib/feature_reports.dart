@@ -1,7 +1,11 @@
+export 'domain/models/closing_report.dart';
 export 'domain/models/report_data.dart';
 export 'domain/models/report_period.dart';
+export 'domain/repositories/closing_report_repository.dart';
 export 'domain/repositories/reports_repository.dart';
+export 'presentation/blocs/closing_report/closing_report_cubit.dart';
 export 'presentation/blocs/reports/reports_cubit.dart';
+export 'presentation/pages/closing_report_page.dart';
 export 'presentation/pages/report_page.dart';
 export 'presentation/routes/reports_feature.dart';
 export 'presentation/routes/reports_router.dart';

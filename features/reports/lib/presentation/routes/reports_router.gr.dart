@@ -11,6 +11,22 @@
 part of 'reports_router.dart';
 
 /// generated route for
+/// [ClosingReportPage]
+class ClosingReportRoute extends PageRouteInfo<void> {
+  const ClosingReportRoute({List<PageRouteInfo>? children})
+    : super(ClosingReportRoute.name, initialChildren: children);
+
+  static const String name = 'ClosingReportRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ClosingReportPage();
+    },
+  );
+}
+
+/// generated route for
 /// [ReportPage]
 class ReportRoute extends PageRouteInfo<void> {
   const ReportRoute({List<PageRouteInfo>? children})
