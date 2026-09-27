@@ -135,13 +135,12 @@ class _ProtectedShellPageState extends State<ProtectedShellPage> {
           homeIndex: 0,
           routes: [
             for (final e in entries) e.route,
-            // This route is not a navigation destination, but it is a child
-            // of ProtectedShellRoute. AutoTabsRouter must know about every
-            // child that can be resolved beneath this shell; otherwise it
-            // falls back to homeIndex (the POS tab) when an order detail is
-            // pushed. The placeholder argument is replaced by AutoRoute with
-            // the actual pending route and its orderId before it is built.
+            // These routes are not navigation destinations but are children of
+            // ProtectedShellRoute. AutoTabsRouter must know about every child
+            // that can be resolved beneath this shell; otherwise it falls back
+            // to homeIndex (the POS tab) when one of these is pushed.
             OrderDetailRoute(orderId: 0),
+            const ClosingReportRoute(),
           ],
           builder: (context, child) {
             final tabsRouter = AutoTabsRouter.of(context);
