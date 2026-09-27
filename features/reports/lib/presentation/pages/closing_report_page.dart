@@ -8,6 +8,7 @@ import 'package:feature_reports/presentation/widgets/summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:printing/printing.dart';
+import 'package:result/result.dart';
 import 'package:ui_kit/ui_kit.dart';
 
 @RoutePage()
@@ -45,7 +46,6 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
           prev.status != curr.status &&
           curr.status == ClosingReportStatus.ready,
       listener: (context, state) {
-        // Sync text fields to the freshly loaded report.
         final cents = state.currentReport?.cashCountedCents;
         _cashController.text =
             cents != null ? (cents / 100).toStringAsFixed(2) : '';
@@ -93,7 +93,13 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
               SizedBox(height: context.tokens.spacing.md),
               _buildPeriodRow(context, report),
               SizedBox(height: context.tokens.spacing.lg),
-              _buildFinancialGrid(context, width, report, isMobile, isTabletPortrait),
+              _buildFinancialGrid(
+                context,
+                width,
+                report,
+                isMobile,
+                isTabletPortrait,
+              ),
               SizedBox(height: context.tokens.spacing.lg),
               _buildCashReconciliation(context, state, report),
               SizedBox(height: context.tokens.spacing.lg),
@@ -110,7 +116,7 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
     );
   }
 
-  // ─── Header ─────────────────────────────────────────────────────────────────
+  // ─── Header ──────────────────────────────────────────────────────────────────
 
   Widget _buildHeader(
     BuildContext context,
@@ -173,11 +179,11 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
     bool isSaved,
   ) {
     final label = isSaved ? 'Salvata' : 'Salva Chiusura';
-    return AppButton.filled(
+    return AppButton.primary(
       onPressed: (!isSaved && state.isReady && !state.isSaving)
           ? () => _onSave(context)
           : null,
-      label: state.isSaving ? 'Salvataggio…' : label,
+      label: state.isSaving ? 'Salvataggio...' : label,
       leadingIcon: Icon(
         isSaved ? AgoraIcons.check : AgoraIcons.save,
         size: 20,
@@ -200,7 +206,11 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(AgoraIcons.calendar, size: 16, color: context.colors.mutedForeground),
+          Icon(
+            AgoraIcons.calendar_01,
+            size: 16,
+            color: context.colors.mutedForeground,
+          ),
           SizedBox(width: context.tokens.spacing.xs),
           AppText.bodySm(
             '${_fmtDateTime(report.periodStart)}  →  ${_fmtDateTime(report.periodEnd)}',
@@ -271,14 +281,18 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
         value: fmt(report.cardRevenueCents),
         trend: '',
         isPositive: true,
-        icon: Icon(AgoraIcons.credit_card, color: context.colors.primary, size: 20),
+        icon: Icon(AgoraIcons.card_check, color: context.colors.primary, size: 20),
       ),
       SummaryCard(
         title: 'Ordini annullati',
         value: report.voidedOrders.toString(),
         trend: '',
         isPositive: report.voidedOrders == 0,
-        icon: Icon(AgoraIcons.x_circle, color: context.colors.destructive, size: 20),
+        icon: Icon(
+          AgoraIcons.forbidden,
+          color: context.colors.destructive,
+          size: 20,
+        ),
       ),
     ];
 
@@ -359,9 +373,13 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
                 width: 160,
                 child: TextField(
                   controller: _cashController,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'^\d*\.?\d{0,2}'),
+                    ),
                   ],
                   textAlign: TextAlign.right,
                   decoration: InputDecoration(
@@ -373,13 +391,16 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
                       vertical: context.tokens.spacing.xs,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(context.tokens.radius.xs),
+                      borderRadius: BorderRadius.circular(
+                        context.tokens.radius.xs,
+                      ),
                       borderSide: BorderSide(color: context.colors.border),
                     ),
                   ),
                   onChanged: (value) {
                     final euros = double.tryParse(value);
-                    final cents = euros != null ? (euros * 100).round() : null;
+                    final cents =
+                        euros != null ? (euros * 100).round() : null;
                     context.closingReportCubit.setCashCounted(cents);
                   },
                 ),
@@ -434,7 +455,7 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
           controller: _notesController,
           maxLines: 3,
           decoration: InputDecoration(
-            hintText: 'Aggiungi una nota per questa chiusura…',
+            hintText: 'Aggiungi una nota per questa chiusura...',
             contentPadding: EdgeInsets.all(context.tokens.spacing.sm),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(context.tokens.radius.xs),
@@ -475,7 +496,11 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(AgoraIcons.alert_triangle, color: context.colors.destructive, size: 48),
+          Icon(
+            AgoraIcons.alert_triangle,
+            color: context.colors.destructive,
+            size: 48,
+          ),
           SizedBox(height: context.tokens.spacing.sm),
           const AppText.body('Impossibile caricare i dati.'),
           SizedBox(height: context.tokens.spacing.sm),
@@ -504,14 +529,16 @@ class _ClosingReportPageState extends State<ClosingReportPage> {
       if (!context.mounted) return;
       final result = await printer.printBytes(bytes);
       if (!context.mounted) return;
-      result.when(
-        success: (_) => AppToast.success(context, message: 'Chiusura inviata alla stampante'),
-        error: (e) => AppToast.error(
-          context,
-          message: 'Stampante non raggiungibile: ${e.message}',
-        ),
-      );
-    } catch (e) {
+      switch (result) {
+        case Ok():
+          AppToast.success(context, message: 'Chiusura inviata alla stampante');
+        case Error():
+          AppToast.error(
+            context,
+            message: 'Stampante non raggiungibile',
+          );
+      }
+    } catch (_) {
       if (!context.mounted) return;
       AppToast.error(context, message: 'Errore di stampa');
     }
@@ -573,7 +600,7 @@ class _ClosingReportHistoryItem extends StatelessWidget {
                 ),
                 SizedBox(height: context.tokens.spacing.xxxs),
                 AppText.body(
-                  '${report.totalOrders} ordini · '
+                  '${report.totalOrders} ordini  ·  '
                   '${context.formatCurrency(report.totalRevenueCents)}',
                 ),
                 if (report.notes != null && report.notes!.isNotEmpty)

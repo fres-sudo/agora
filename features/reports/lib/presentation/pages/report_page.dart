@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:ui_kit/ui_kit.dart';
 import 'package:i18n/i18n.dart';
-import 'package:feature_reports/presentation/routes/reports_router.gr.dart';
+import 'package:feature_reports/presentation/routes/reports_router.dart';
 import 'package:feature_reports/presentation/widgets/end_of_day_summary.dart';
 import 'package:feature_reports/presentation/widgets/summary_card.dart';
 import 'package:feature_reports/presentation/widgets/sales_overview_chart.dart';
@@ -171,10 +171,10 @@ class ReportPage extends StatelessWidget {
   }
 
   Widget _buildCloseButton(BuildContext context) {
-    return AppButton.filled(
+    return AppButton.primary(
       onPressed: () => context.navigateTo(const ClosingReportRoute()),
       label: 'Chiudi Giornata',
-      leadingIcon: const Icon(AgoraIcons.lock, size: 20),
+      leadingIcon: const Icon(AgoraIcons.lock_close, size: 20),
     );
   }
 
