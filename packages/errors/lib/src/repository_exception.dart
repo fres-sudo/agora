@@ -1,11 +1,15 @@
 class RepositoryException implements Exception {
-  RepositoryException(this.error, [this.stack]);
+  const RepositoryException(this.error, {this.cause, this.causeStack});
 
-  String error;
-  String? stack;
+  /// Human-readable error message for UI display.
+  final String error;
+
+  /// Original exception object with its type preserved.
+  final Object? cause;
+
+  /// Original stack trace with its type preserved.
+  final StackTrace? causeStack;
 
   @override
-  String toString() {
-    return error;
-  }
+  String toString() => error;
 }

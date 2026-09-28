@@ -8,5 +8,6 @@
   "TIER": "paidPro",
   "ENABLE_LOGGING": true,
   "ENABLE_INSPECTOR": true,
-  "SUMUP_AFFILIATE_KEY": ""
+  "SUMUP_AFFILIATE_KEY": "",
+  "SENTRY_DSN": ""
 }

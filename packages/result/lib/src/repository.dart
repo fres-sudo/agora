@@ -36,9 +36,8 @@ abstract class Repository {
         stack,
         '[Repository] Error during $operation - $error',
       );
-      // await Sentry.captureException(error, stackTrace: stack);
       return Result.error(
-        RepositoryException(error.toString(), stack.toString()),
+        RepositoryException(error.toString(), cause: error, causeStack: stack),
       );
     } catch (error, stack) {
       // Unexpected (non-Exception) error: log it for observability/crash
@@ -67,7 +66,7 @@ abstract class Repository {
     } on Exception catch (error, stack) {
       logger?.handle(error, stack, '[Repository] $operation');
       return Result.error(
-        RepositoryException(error.toString(), stack.toString()),
+        RepositoryException(error.toString(), cause: error, causeStack: stack),
       );
     } catch (error, stack) {
       logger?.handle(
@@ -93,7 +92,6 @@ extension RepositoryStream<T> on Stream<T> {
   Stream<T> safeCode(Talker? logger) =>
       handleError((Object error, StackTrace stack) {
         logger?.error('[Repository] Stream error: ', error, stack);
-        // await Sentry.captureException(error, stackTrace: stack);
         Error.throwWithStackTrace(error, stack);
       });
 }

@@ -83,6 +83,7 @@ dependencies:
     path: ../../packages/remote_config
   result:
     path: ../../packages/result
+  sentry_flutter: ^8.14.2
   shared_preferences: ^2.5.2
   sync_engine:
     path: ../../packages/sync_engine

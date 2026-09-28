@@ -8,5 +8,6 @@
   "TIER": "free",
   "ENABLE_LOGGING": false,
   "ENABLE_INSPECTOR": false,
-  "SUMUP_AFFILIATE_KEY": ""
+  "SUMUP_AFFILIATE_KEY": "",
+  "SENTRY_DSN": "https://replace-with-prod-dsn@sentry.io/project-id"
 }

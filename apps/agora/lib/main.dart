@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:ui';
 
 import 'package:agora/app/app.dart';
+import 'package:agora/app/crash_reporting/sentry_talker_observer.dart';
 import 'package:agora/app/device_identity_store_impl.dart';
 import 'package:agora/flavors.dart';
 import 'package:bloc/bloc.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:i18n/i18n.dart';
 import 'package:observer/observer.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sync_engine/sync_engine.dart';
 import 'package:talker/talker.dart';
@@ -31,18 +33,56 @@ void main() async {
     AppFlavor.prod => Flavor.prod,
   };
 
+  // Binding must be initialized before Sentry (and before PlatformDispatcher
+  // hooks below) so that the Flutter engine is ready for both.
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Sentry before the zone guard so zone errors are also captured.
+  // When no DSN is configured (local/dev builds), this block is skipped
+  // entirely — zero Sentry overhead.
+  if (config.hasSentryDsn) {
+    await SentryFlutter.init((options) {
+      options.dsn = config.sentryDsn;
+      options.environment = config.flavor.name;
+      options.debug = config.enableLogging;
+      // We deliberately do NOT remove Sentry's FlutterErrorIntegration or
+      // OnErrorIntegration here. Setting FlutterError.onError and
+      // PlatformDispatcher.instance.onError AFTER SentryFlutter.init
+      // (below) overwrites whatever Sentry registered, so our Talker-based
+      // path takes over with no double-reporting.
+    });
+  }
+
+  final talker = Talker(
+    settings: TalkerSettings(enabled: config.enableLogging),
+    // Observer is only registered when Sentry is active, so dev/local builds
+    // have zero Sentry overhead.
+    observer: config.hasSentryDsn ? SentryTalkerObserver() : null,
+  );
+
+  // Route Flutter framework errors (widget build exceptions, layout errors)
+  // through Talker — the SentryTalkerObserver forwards them to Sentry.
+  // Setting this AFTER SentryFlutter.init overwrites Sentry's own hook,
+  // keeping a single uniform path: error → talker → Sentry.
+  FlutterError.onError = (FlutterErrorDetails details) =>
+      talker.handle(details.exception, details.stack, '[FlutterError]');
+
+  // Route platform-level async errors through Talker. Must return true to
+  // signal the error was handled (suppresses the default crash behaviour).
+  // Same overwrite logic as FlutterError.onError above.
+  PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+    talker.handle(error, stack, '[PlatformDispatcher]');
+    return true;
+  };
+
   await runZonedGuarded(
     () async {
-      final binding = WidgetsFlutterBinding.ensureInitialized();
       FlutterNativeSplash.preserve(widgetsBinding: binding);
 
       LocaleSettings.useDeviceLocale();
 
       PersistenceServiceImpl.instance = await SharedPreferences.getInstance();
 
-      final talker = Talker(
-        settings: TalkerSettings(enabled: config.enableLogging),
-      );
       Bloc.observer = AppBlocObserver(talker: talker);
       talker.info('Booting ${config.appName} — $config');
 
@@ -59,6 +99,17 @@ void main() async {
       final deviceId = await DeviceIdentityService(
         store: AppSettingsDeviceIdentityStore(AppSettingsDao(database)),
       ).getOrCreateDeviceId();
+
+      // Tag every Sentry event with stable per-device and per-build context.
+      // deviceId is a random UUID generated once per install — not PII.
+      if (config.hasSentryDsn) {
+        Sentry.configureScope((scope) {
+          scope.setTag('flavor', config.flavor.name);
+          scope.setTag('bootstrap_mode', config.bootstrapMode.name);
+          scope.setTag('tier', config.tierName);
+          scope.setUser(SentryUser(id: deviceId.value));
+        });
+      }
 
       if (config.bootstrapMode.isHybrid) {
         talker.info(
@@ -84,8 +135,10 @@ void main() async {
         ),
       );
     },
-    (error, stackTrace) async {
-      log('[ZonedGuarded] $error$stackTrace');
+    (Object error, StackTrace stackTrace) {
+      // All uncaught zone errors route through Talker so they reach
+      // SentryTalkerObserver — the same path as every other error.
+      talker.handle(error, stackTrace, '[ZonedGuarded] Uncaught error');
     },
   );
 }
