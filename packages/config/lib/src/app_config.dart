@@ -31,6 +31,7 @@ class AppConfig {
     required this.enableLogging,
     required this.enableInspector,
     this.sumUpAffiliateKey = '',
+    this.sentryDsn = '',
   });
 
   /// The build flavor.
@@ -69,6 +70,9 @@ class AppConfig {
   /// Affiliate key for the SumUp Reader SDK. Empty means unconfigured.
   final String sumUpAffiliateKey;
 
+  /// Sentry DSN for crash reporting. Empty disables crash reporting.
+  final String sentryDsn;
+
   /// Builds the config from the compile-time environment.
   ///
   /// Defaults are deliberately offline-and-safe so that launching without any
@@ -97,6 +101,7 @@ class AppConfig {
     const sumUpAffiliateKey = String.fromEnvironment(
       ConfigKeys.sumUpAffiliateKey,
     );
+    const sentryDsn = String.fromEnvironment(ConfigKeys.sentryDsn);
 
     return AppConfig(
       flavor: AppFlavor.fromName(flavorName),
@@ -109,6 +114,7 @@ class AppConfig {
       enableLogging: enableLogging,
       enableInspector: enableInspector,
       sumUpAffiliateKey: sumUpAffiliateKey,
+      sentryDsn: sentryDsn,
     );
   }
 
@@ -126,6 +132,8 @@ class AppConfig {
 
   bool get hasSumUpAffiliateKey => sumUpAffiliateKey.trim().isNotEmpty;
 
+  bool get hasSentryDsn => sentryDsn.trim().isNotEmpty;
+
   AppConfig copyWith({
     AppFlavor? flavor,
     String? appName,
@@ -137,6 +145,7 @@ class AppConfig {
     bool? enableLogging,
     bool? enableInspector,
     String? sumUpAffiliateKey,
+    String? sentryDsn,
   }) {
     return AppConfig(
       flavor: flavor ?? this.flavor,
@@ -149,6 +158,7 @@ class AppConfig {
       enableLogging: enableLogging ?? this.enableLogging,
       enableInspector: enableInspector ?? this.enableInspector,
       sumUpAffiliateKey: sumUpAffiliateKey ?? this.sumUpAffiliateKey,
+      sentryDsn: sentryDsn ?? this.sentryDsn,
     );
   }
 
@@ -160,6 +170,7 @@ class AppConfig {
       'publicMenuApiBaseUrl: ${publicMenuApiBaseUrl.isEmpty ? '<none>' : publicMenuApiBaseUrl}, '
       'wsBaseUrl: ${wsBaseUrl.isEmpty ? '<none>' : wsBaseUrl}, '
       'sumUp: ${hasSumUpAffiliateKey ? '<configured>' : '<none>'}, '
+      'sentry: ${hasSentryDsn ? '<configured>' : '<none>'}, '
       'enableLogging: $enableLogging, enableInspector: $enableInspector)';
 
   @override
@@ -176,7 +187,8 @@ class AppConfig {
           tierName == other.tierName &&
           enableLogging == other.enableLogging &&
           enableInspector == other.enableInspector &&
-          sumUpAffiliateKey == other.sumUpAffiliateKey;
+          sumUpAffiliateKey == other.sumUpAffiliateKey &&
+          sentryDsn == other.sentryDsn;
 
   @override
   int get hashCode => Object.hash(
@@ -190,5 +202,6 @@ class AppConfig {
     enableLogging,
     enableInspector,
     sumUpAffiliateKey,
+    sentryDsn,
   );
 }

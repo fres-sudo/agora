@@ -38,4 +38,7 @@ abstract final class ConfigKeys {
 
   /// SumUp Reader SDK affiliate key. Empty disables card payments.
   static const String sumUpAffiliateKey = 'SUMUP_AFFILIATE_KEY';
+
+  /// Sentry DSN for crash reporting. Empty disables crash reporting.
+  static const String sentryDsn = 'SENTRY_DSN';
 }
